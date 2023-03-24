@@ -14,9 +14,7 @@
   .mdc-list-item__primary-text {
     /* font-family: Roboto, "Helvetica Neue", sans-serif; */
     font-size: 14px !important;
-    ;
     font-weight: 400 !important;
-    ;
   }
 }
 
@@ -28,9 +26,7 @@
   .mdc-list-item__primary-text {
     /* font-family: Roboto, "Helvetica Neue", sans-serif; */
     font-size: 14px !important;
-    ;
     font-weight: 400 !important;
-    ;
   }
 }
 .mat-mdc-button-touch-target {
@@ -39,6 +35,6 @@
 
 
 
-body[pattern=handle][cursor=none]{
+body[pattern=gamepad][cursor=none]{
   cursor: none !important;
 }

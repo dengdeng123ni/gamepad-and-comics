@@ -25,7 +25,7 @@ export class GamepadControllerService {
   ) {
 
     this.GamepadInput.down().subscribe((x: string) => {
-      document.body.setAttribute("pattern", "handle")
+      document.body.setAttribute("pattern", "gamepad")
       this.device(x);
     })
     this.GamepadInput.up().subscribe((x: string) => {

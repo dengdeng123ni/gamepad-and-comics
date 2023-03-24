@@ -1,7 +1,7 @@
 // router=list
 // router=detail
 // router=reader
-body[pattern=handle][locked_region='[region=software_information]']{
+body[pattern=gamepad][locked_region='[region=software_information]']{
   [region=software_information][select=true]{
     position: relative;
     &::after {
@@ -16,7 +16,7 @@ body[pattern=handle][locked_region='[region=software_information]']{
     }
   }
 }
-body[pattern=handle][locked_region=all]{
+body[pattern=gamepad][locked_region=all]{
   [region=list_mode_item][select=true],
   [region=list_toolabr_item][select=true],
   [region=list_menu_item][select=true],
@@ -35,7 +35,7 @@ body[pattern=handle][locked_region=all]{
     }
   }
 }
-body[pattern=handle][locked_region='[region=upload_select]']{
+body[pattern=gamepad][locked_region='[region=upload_select]']{
   [region=upload_select][select=true]{
     position: relative;
     &::after {
@@ -50,7 +50,7 @@ body[pattern=handle][locked_region='[region=upload_select]']{
     }
   }
 }
-body[pattern=handle][locked_region='[region=language_setting]']{
+body[pattern=gamepad][locked_region='[region=language_setting]']{
   [region=language_setting][select=true]{
     position: relative;
     &::after {
@@ -66,7 +66,7 @@ body[pattern=handle][locked_region='[region=language_setting]']{
   }
 }
 
-body[pattern=handle][locked_region='[region=handel_toolabr_left],[region=handel_toolabr_right],[region=handel_toolabr_center],[region=handel_toolabr_menu]']{
+body[pattern=gamepad][locked_region='[region=handel_toolabr_left],[region=handel_toolabr_right],[region=handel_toolabr_center],[region=handel_toolabr_menu]']{
   [region=handel_toolabr_left][select=true],
   [region=handel_toolabr_right][select=true]
   {
@@ -85,7 +85,7 @@ body[pattern=handle][locked_region='[region=handel_toolabr_left],[region=handel_
 
 }
 
-body[pattern=handle][locked_region='[region=list_upload_list],[region=list_upload_list_item]']{
+body[pattern=gamepad][locked_region='[region=list_upload_list],[region=list_upload_list_item]']{
   [region=list_upload_list][select=true],
   [region=list_upload_list_item][select=true]
   {
@@ -102,7 +102,7 @@ body[pattern=handle][locked_region='[region=list_upload_list],[region=list_uploa
     }
   }
 }
-body[pattern=handle][locked_region='[region=section]']{
+body[pattern=gamepad][locked_region='[region=section]']{
   [region=section][select=true]
   {
     position: relative;
@@ -118,7 +118,7 @@ body[pattern=handle][locked_region='[region=section]']{
     }
   }
 }
-body[pattern=handle][locked_region='[region=thumbnail_sidebar_bottom]']{
+body[pattern=gamepad][locked_region='[region=thumbnail_sidebar_bottom]']{
   [region=thumbnail_sidebar_bottom][select=true]
   {
     position: relative;
@@ -134,7 +134,7 @@ body[pattern=handle][locked_region='[region=thumbnail_sidebar_bottom]']{
     }
   }
 }
-body[pattern=handle][locked_region='[region=thumbnail_sidebar_bottom]']{
+body[pattern=gamepad][locked_region='[region=thumbnail_sidebar_bottom]']{
   [region=thumbnail_sidebar_bottom][select=true]
   {
     position: relative;
@@ -150,7 +150,7 @@ body[pattern=handle][locked_region='[region=thumbnail_sidebar_bottom]']{
     }
   }
 }
-body[pattern=handle][locked_region='[region=mode]']{
+body[pattern=gamepad][locked_region='[region=mode]']{
   [region=mode][select=true]
   {
     position: relative;
@@ -166,7 +166,7 @@ body[pattern=handle][locked_region='[region=mode]']{
     }
   }
 }
-body[pattern=handle][locked_region='[region=thumbnail_list]']{
+body[pattern=gamepad][locked_region='[region=thumbnail_list]']{
   [region=thumbnail_list][select=true]
   {
     position: relative;
@@ -182,7 +182,7 @@ body[pattern=handle][locked_region='[region=thumbnail_list]']{
     }
   }
 }
-body[pattern=handle][locked_region='[region=reader_settings]']{
+body[pattern=gamepad][locked_region='[region=reader_settings]']{
   [region=reader_settings][select=true]
   {
     position: relative;
@@ -198,13 +198,13 @@ body[pattern=handle][locked_region='[region=reader_settings]']{
     }
   }
 }
-body[pattern=handle][locked_region='[region=thumbnail_bottom]']{
+body[pattern=gamepad][locked_region='[region=thumbnail_bottom]']{
   [region=thumbnail_bottom][select=true]
   {
     filter: brightness(0.5);
   }
 }
-body[pattern=handle][locked_region='[region=reader_section]']{
+body[pattern=gamepad][locked_region='[region=reader_section]']{
   [region=reader_section][select=true]
   {
     position: relative;
@@ -220,7 +220,7 @@ body[pattern=handle][locked_region='[region=reader_section]']{
     }
   }
 }
-body[pattern=handle][locked_region='[region=thumbnail_sidebar_left]']{
+body[pattern=gamepad][locked_region='[region=thumbnail_sidebar_left]']{
   [region=thumbnail_sidebar_left][select=true]
   {
     position: relative;
@@ -236,7 +236,7 @@ body[pattern=handle][locked_region='[region=thumbnail_sidebar_left]']{
     }
   }
 }
-body[pattern=handle][locked_region=all]{
+body[pattern=gamepad][locked_region=all]{
 
   [region=section_item][select=true],
   [region=continue][select=true],
@@ -259,7 +259,7 @@ body[pattern=handle][locked_region=all]{
 
   }
 }
-body[pattern=handle][locked_region='[region=content_menu_submenu],[region=content_menu]']{
+body[pattern=gamepad][locked_region='[region=content_menu_submenu],[region=content_menu]']{
   [region=content_menu_submenu][select=true],
   [region=content_menu][select=true] {
 
@@ -279,7 +279,7 @@ body[pattern=handle][locked_region='[region=content_menu_submenu],[region=conten
   }
 }
 
-body[pattern=handle][locked_region='[region=detail_export_settings_page],[region=detail_export_settings],[region=detail_export_settings_file_type]']{
+body[pattern=gamepad][locked_region='[region=detail_export_settings_page],[region=detail_export_settings],[region=detail_export_settings_file_type]']{
   [region=detail_export_settings][select=true] {
     position: relative;
     &::after {
@@ -324,7 +324,7 @@ body[pattern=handle][locked_region='[region=detail_export_settings_page],[region
     }
   }
 }
-body[pattern=handle][locked_region='[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]']{
+body[pattern=gamepad][locked_region='[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]']{
   [region=reader_navbar_bar_top_item][select=true]{
     position: relative;
 
