@@ -53,8 +53,8 @@ export class CurrentListService {
     list.forEach(x => {
       x.subTitle = x.chapter.title
     });
-    this.list = list;
 
+    this.list = list;
   }
   async delete(id) {
     let chapterIds = [];
