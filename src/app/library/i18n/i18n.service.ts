@@ -12,14 +12,16 @@ export class I18nService {
     //   obj[i] = this.config[x];
     // })
     // console.log(obj);
-    // Object.keys(this.local).forEach((x, i) => {
+    // this.languages.forEach((x, j) => {
     //   let obj={}
     //   Object.keys(this.config).forEach((s,i)=>{
-    //      obj[s]=this.local[x][i]
+    //      obj[s]=this.aaa[j][i]
     //   })
+    //   console.log(obj);
+
     //   setTimeout(()=>{
     //     this.download(`${x}.json`,JSON.stringify(obj))
-    //   },i*500)
+    //   },j*500)
     // })
     this.init();
   }
@@ -110,6 +112,10 @@ export class I18nService {
     "last_page":"最后一页",
     "rotation":"旋转",
   }
+
+  // languages = ["en", "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
+  // aaa=[]
+
   // download(filename, text) {
   //   var element = document.createElement('a');
   //   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
