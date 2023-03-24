@@ -406,7 +406,45 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
       };
     })
   }
+  imageRotation() {
+    const node: any = document.querySelector(".swiper-slide-active")
+    const rotate = node.getAttribute("rotate");
+    const nodes: any = document.querySelectorAll(".swiper-slide-active img")
+    if(nodes.length==1){
+      const scale = (nodes[0].height / nodes[0].width)
+      if (rotate == "90") {
+        node.style = `transform: rotate(180deg) scale(1);`;
+        node.setAttribute("rotate", "180")
+      } else if (rotate == "180") {
+        node.style = `transform: rotate(270deg) scale(${scale});`;
+        node.setAttribute("rotate", "270")
+      }
+      else if (rotate == "270") {
+        node.style = "";
+        node.setAttribute("rotate", "")
+      }else {
+        node.style = `transform: rotate(90deg) scale(${scale});`;
+        node.setAttribute("rotate", "90")
+      }
+    }else if(nodes.length==2){
+      const scale = ((nodes[0].height+nodes[1].height)/2 / (nodes[0].width+nodes[1].width))
+      if (rotate == "90") {
+        node.style = `transform: rotate(180deg) scale(1);`;
+        node.setAttribute("rotate", "180")
+      } else if (rotate == "180") {
+        node.style = `transform: rotate(270deg) scale(${scale});`;
+        node.setAttribute("rotate", "270")
+      }
+      else if (rotate == "270") {
+        node.style = "";
+        node.setAttribute("rotate", "")
+      }else {
+        node.style = `transform: rotate(90deg) scale(${scale});`;
+        node.setAttribute("rotate", "90")
+      }
+    }
 
+  }
 
 
 

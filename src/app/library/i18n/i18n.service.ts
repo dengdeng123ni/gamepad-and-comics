@@ -108,6 +108,7 @@ export class I18nService {
     "last_chapter":"最后一章",
     "first_page":"第一页",
     "last_page":"最后一页",
+    "rotation":"旋转",
   }
   // download(filename, text) {
   //   var element = document.createElement('a');

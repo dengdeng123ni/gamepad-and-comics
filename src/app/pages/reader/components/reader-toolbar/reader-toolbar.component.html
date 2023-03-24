@@ -20,7 +20,12 @@
     </div>
   </div>
   <div class="flex flex-col bottom">
-    <div class="flex flex-col item h-full" id="reader_toolbar_page">
+    <div class="flex flex-col item h-full">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.rotation" tabIndex="-1" mat-icon-button class="icon" (click)="imageRotation()" [disabled]="config.mode==1||config.mode==4?false:true">
+        <mat-icon>screen_rotation</mat-icon>
+      </button>
+    </div>
+    <div class="flex flex-col item h-full mt-5" id="reader_toolbar_page">
       <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.insert_blank_page" tabIndex="-1" mat-icon-button class="icon" (click)="insertPage()" [disabled]="config.mode==1||config.mode==4?false:true">
         <mat-icon>insert_page_break</mat-icon>
       </button>

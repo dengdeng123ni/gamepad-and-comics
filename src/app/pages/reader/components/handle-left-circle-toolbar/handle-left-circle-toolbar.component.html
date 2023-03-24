@@ -79,14 +79,20 @@
       <mat-icon *ngIf="config.mode==4">looks_4</mat-icon>
     </button>
     <mat-divider></mat-divider>
+    <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.rotation"
+     mat-icon-button class="icon" (click)="imageRotation()"
+     [disabled]="config.mode==1||config.mode==4?false:true" [attr.region]="'handel_toolabr_left'">
+      <mat-icon>screen_rotation</mat-icon>
+    </button>
+    <mat-divider></mat-divider>
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.insert_blank_page" class="icon" (click)="insertPage()"
-      [attr.region]="'handel_toolabr_left'">
+      [attr.region]="'handel_toolabr_left'" [disabled]="config.mode==1||config.mode==4?false:true">
       <mat-icon>insert_page_break</mat-icon>
     </button>
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.delete" class="icon" [attr._id]="'handel_toolabr_left_delete'"
-      (click)="openDeleteMenu($event)" [attr.region]="'handel_toolabr_left'">
+      (click)="openDeleteMenu($event)" [attr.region]="'handel_toolabr_left'" [disabled]="config.mode==1||config.mode==4?false:true">
       <mat-icon>delete</mat-icon>
     </button>
     <mat-divider></mat-divider>
