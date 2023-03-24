@@ -1,8 +1,17 @@
 // router=list
 // router=detail
 // router=reader
-body[pattern=gamepad][locked_region='[region=software_information]']{
-  [region=software_information][select=true]{
+body[pattern=gamepad][locked_region=all]{
+  [region=section_item][select=true],
+  [region=continue][select=true],
+  [region=detail_toolabr_item][select=true],
+  [region=back][select=true],
+  [region=handel_toolabr_menu][select=true],
+  [region=list_mode_item][select=true],
+  [region=list_toolabr_item][select=true],
+  [region=list_menu_item][select=true],
+  [region=detail_toolabr_item][select=true]
+  {
     position: relative;
     &::after {
       content: "";
@@ -16,12 +25,8 @@ body[pattern=gamepad][locked_region='[region=software_information]']{
     }
   }
 }
-body[pattern=gamepad][locked_region=all]{
-  [region=list_mode_item][select=true],
-  [region=list_toolabr_item][select=true],
-  [region=list_menu_item][select=true],
-  [region=detail_toolabr_item][select=true]
-  {
+body[pattern=gamepad][locked_region='[region=software_information]']{
+  [region=software_information][select=true]{
     position: relative;
     &::after {
       content: "";
@@ -65,7 +70,6 @@ body[pattern=gamepad][locked_region='[region=language_setting]']{
     }
   }
 }
-
 body[pattern=gamepad][locked_region='[region=handel_toolabr_left],[region=handel_toolabr_right],[region=handel_toolabr_center],[region=handel_toolabr_menu]']{
   [region=handel_toolabr_left][select=true],
   [region=handel_toolabr_right][select=true]
@@ -84,7 +88,6 @@ body[pattern=gamepad][locked_region='[region=handel_toolabr_left],[region=handel
   }
 
 }
-
 body[pattern=gamepad][locked_region='[region=list_upload_list],[region=list_upload_list_item]']{
   [region=list_upload_list][select=true],
   [region=list_upload_list_item][select=true]
@@ -236,29 +239,6 @@ body[pattern=gamepad][locked_region='[region=thumbnail_sidebar_left]']{
     }
   }
 }
-body[pattern=gamepad][locked_region=all]{
-
-  [region=section_item][select=true],
-  [region=continue][select=true],
-  [region=detail_toolabr_item][select=true],
-  [region=back][select=true],
-  [region=handel_toolabr_menu][select=true] {
-
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
-    }
-
-  }
-}
 body[pattern=gamepad][locked_region='[region=content_menu_submenu],[region=content_menu]']{
   [region=content_menu_submenu][select=true],
   [region=content_menu][select=true] {
@@ -278,7 +258,6 @@ body[pattern=gamepad][locked_region='[region=content_menu_submenu],[region=conte
 
   }
 }
-
 body[pattern=gamepad][locked_region='[region=detail_export_settings_page],[region=detail_export_settings],[region=detail_export_settings_file_type]']{
   [region=detail_export_settings][select=true] {
     position: relative;
