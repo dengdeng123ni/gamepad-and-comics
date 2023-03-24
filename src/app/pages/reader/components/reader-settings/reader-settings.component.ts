@@ -107,6 +107,7 @@ export class ReaderSettingsComponent {
   }
 
   ngOnDestroy(){
+     this.config.save();
      this.current.readerNavbarBar$.next(false)
   }
 }
