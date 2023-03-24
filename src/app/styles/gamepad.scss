@@ -1,6 +1,3 @@
-// router=list
-// router=detail
-// router=reader
 body[pattern=gamepad][locked_region=all]{
   [region=section_item][select=true],
   [region=continue][select=true],
@@ -348,7 +345,6 @@ body[pattern=gamepad][locked_region='[region=reader_navbar_bar_top_item],[region
   }
 }
 
-// ,detail_export_settings,
 @keyframes slidein {
   from {
     width: 0%;

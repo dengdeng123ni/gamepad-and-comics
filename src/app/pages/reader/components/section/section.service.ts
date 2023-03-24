@@ -23,9 +23,6 @@ export class SectionService {
       "B": () => this.close(),
     })
 
-    GamepadEvent.registerAreaEvent("section_tab", {
-      "B": () => this.close(),
-    })
   }
   open() {
     if (this.opened == false) {

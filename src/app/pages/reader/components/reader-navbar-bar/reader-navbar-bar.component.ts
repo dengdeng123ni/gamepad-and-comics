@@ -41,6 +41,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     public i18n:I18nService
 
   ) {
+
     GamepadEvent.registerAreaEvent("reader_navbar_bar_top_item", {
       "B": () => this.close(),
       RIGHT_ANALOG_PRESS: () => {
@@ -121,8 +122,14 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.readerSection.open({ x, y })
   }
   openSettings($event) {
+    // readerSettings.open_bottom_sheet({});
+    if(window.innerWidth<=960){
+      this.close();
+      this.readerSettings.open_bottom_sheet({});
+      return
+    }
     let { x, y, width, height } = $event.target.getBoundingClientRect();
-    x = x - (436 / 2) + (width / 2);
+    x = x - (540 / 2) + (width / 2);
     y = (window.innerHeight) - (y - (height / 4));
     this.readerSettings.open({
       position: {

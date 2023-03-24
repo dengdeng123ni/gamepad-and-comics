@@ -1,44 +1,70 @@
-.list{
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 436px;
-  width: 436px;
-  justify-content: space-between;
-  min-height: 96px;
+.list {
+
+  min-width: 540px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   padding: 12px;
-  .item{
+  // width: 100%;
+  min-height: 96px;
+  .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 200px;
+    // width: 200px;
     height: 36px;
 
-    .left{
+    .left {
       opacity: 0.34;
     }
-    .right{
-        display: flex;
-      .button{
+
+    .right {
+      display: flex;
+
+      .button {
         margin: 8px;
         cursor: pointer;
       }
     }
   }
-  @media screen and (max-width: 480px) {
-    min-height: 144px;
+
+  @media screen and (min-width: 0px) and (max-width: 479px) {
+    display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
-    justify-content: normal;
-    .item{
-        min-width: 100%;
+    min-height: 144px;
+    width: 100%;
+    padding: 0;
+    // flex-direction: column;
+    // justify-content: normal;
+
+    .item {
+      min-width: 100%;
     }
+  }
+
+  @media screen and (min-width: 480px) and (max-width: 960px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 72px;
+    padding: 0;
+    width: 100%;
+    // flex-direction: column;
+    // justify-content: normal;
+
+    .item {
+      min-width: 100%;
+    }
+  }
 }
+@media screen and (min-width: 960px) {
+
 }
+
 :host ::ng-deep {
-  .mdc-button__label{
+  .mdc-button__label {
     display: flex;
     justify-content: space-between;
     width: 100%;
     align-items: center;
   }
 }
-
