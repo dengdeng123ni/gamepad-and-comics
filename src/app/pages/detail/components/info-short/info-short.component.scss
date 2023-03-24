@@ -1,0 +1,109 @@
+.warp {
+  width: 100%;
+  background: #303030;
+  border-radius: 4px;
+  padding: 0;
+  .toolabr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    height: 40px;
+  }
+
+  // margin: 24px;
+  .img {
+    /* max-height: 200px; */
+    margin-right: 12px;
+    /* height: 280px; */
+    // min-width: 105px;
+    width: 200px;
+    min-width: 140px;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+  }
+
+  .info {
+    position: relative;
+
+    .title {
+      font-size: 24px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .author {
+      margin-bottom: 12px;
+      color: rgba(255, 255, 255, .34);
+    }
+
+    .intro {
+      color: rgba(255, 255, 255, .56);
+      overflow: auto;
+    }
+
+    .button {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
+}
+
+@media screen and (min-width: 961px){
+  .warp{
+    min-width: 0px;
+    display: none;
+    width: 0;
+  }
+}
+
+:host ::ng-deep {
+  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+    border-radius: 4px !important;
+  }
+
+  .mat-mdc-icon-button .mat-mdc-button-touch-target {
+    width: 40px;
+    height: 40px;
+  }
+
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    height: 30px;
+    background: #3c3c3c;
+    padding: 0 12px;
+    justify-content: end;
+  }
+
+
+}
+.continue{
+  height: 40px;
+}
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 4px !important;
+  // margin-top: 4px;
+
+  .mat-icon {
+    height: 22px;
+    width: 22px;
+    font-size: 22px;
+    overflow: hidden;
+    border-radius: 4px !important;
+  }
+
+  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+    border-radius: 4px !important;
+  }
+}

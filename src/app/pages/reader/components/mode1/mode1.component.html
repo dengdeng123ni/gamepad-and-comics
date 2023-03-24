@@ -1,0 +1,7 @@
+
+<div id="mode1" class="overflow-hidden" [attr.region]="'reader_mode_1'">
+  <div class="warp">
+    <swiper  #swiper [config]="swiperConfig"  (slidePrevTransitionEnd)="slidePrevTransitionEnd($event)" (slideNextTransitionEnd)="slideNextTransitionEnd($event)" (slideChange)="slideChange($event)">
+    </swiper>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.mat-drawer-container{
+  background:#424242;
+}
+.mat-drawer{
+  border: 0;
+}
+
+:host ::ng-deep {
+  .mat-drawer-content{
+    display: flex;
+    overflow: hidden;
+  }
+  app-section{
+    height: calc(100% - 52px);
+  }
+  @media screen and (min-width: 0px) and (max-width: 960px) {
+    app-section{
+      height: calc(100% - 56px);
+    }
+  }
+  app-detail-side{
+    height: 100%;
+    padding: 2.5vh 0;
+  }
+}

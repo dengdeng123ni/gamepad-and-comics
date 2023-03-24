@@ -1,0 +1,18 @@
+<div class="list warp" id="thumbnail_bottom" (mouseleave)="leave($event)">
+  <div *ngFor="let n of images;let index=index" class="item"
+  [id]="n.id"
+  [attr._id]="'thumbnail_bottom_'+index"
+  [attr.region]="'thumbnail_bottom'"
+  [attr.select]="index==chapter_index?true:false"
+  (click)="on($event,index)" (mouseleave)="leave($event)"  (mouseenter)="enter($event.target,n)"
+  >
+    <img [src]="n.thumbnail" class="img" />
+  </div>
+</div>
+<div class="thumbnail_image"  id="thumbnail_image" [style]="{
+  top:top,
+  left:left
+}">
+  <img  [src]="img" alt="">
+</div>
+<!-- filter: brightness(0.5); -->

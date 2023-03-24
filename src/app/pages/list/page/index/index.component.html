@@ -1,0 +1,14 @@
+<!-- <app-toolbar></app-toolbar> -->
+<mat-drawer-container class="w-full h-full" autosize>
+  <app-list-menu></app-list-menu>
+  <div class="mian" >
+    <div class="top">
+      <div class="content required">
+        <app-list-mode1></app-list-mode1>
+      </div>
+      <div class="side" *ngIf="!config.edit">
+        <app-list-side></app-list-side>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>

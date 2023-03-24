@@ -1,0 +1,33 @@
+<div class="upload_list_contanier">
+ <div class="close">
+  <button mat-icon-button  (click)="close()" [attr.region]="'list_upload_list'">
+    <mat-icon>closec</mat-icon>
+  </button>
+ </div>
+  <div class="head">
+    <div class="title">
+      {{i18n.config.comics_to_be_uploaded}}
+    </div>
+    <div class="toolbar">
+      <mat-checkbox [color]="'primary'" [attr.type]="'checkbox'" style="padding-right:10px"  [attr.region]="'list_upload_list'" [(ngModel)]="compress">{{i18n.config.compress_images}}</mat-checkbox>
+      <mat-checkbox [color]="'primary'" [attr.type]="'checkbox'" style="padding-right:10px"  [attr.region]="'list_upload_list'" [(ngModel)]="all" (change)="updateAll()">{{i18n.config.select_all}}</mat-checkbox>
+      <button mat-button color="primary" style="margin-left: 10px;height: 40px;" (click)="add()"  [attr.region]="'list_upload_list'" [attr.select]="true" cdkFocusInitial>{{i18n.config.add_to}}</button>
+    </div>
+  </div>
+  <div class="grid" id="list">
+    <button class="item" mat-button *ngFor="let n of list;let index=index" [attr.region]="'list_upload_list_item'" (click)="n.select=!n.select">
+      <div class="img">
+        <img loading="lazy" loading="lazy" class="w-full" [src]="n.cover.src" [alt]="n?.title">
+        <div class="mezzanine"></div>
+      </div>
+      <div class="name">{{n.title}}</div>
+      <mat-checkbox [color]="'primary'" style="position: absolute;right: 0px;top: 0px;pointer-events: none;" [(ngModel)]="n.select"></mat-checkbox>
+      <!-- <div class="progress">{{n.subTitle}}</div> -->
+    </button>
+  </div>
+
+</div>
+<div class="progress" *ngIf="progress">
+  <mat-progress-bar mode="buffer" style="width: 50vw;"></mat-progress-bar>
+</div>
+

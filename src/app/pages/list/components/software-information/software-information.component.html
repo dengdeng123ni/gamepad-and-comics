@@ -1,0 +1,20 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>{{i18n.config.handle_and_comics}}</mat-card-title>
+    <mat-card-subtitle>
+      <a style="padding: 0; height: auto;" [attr.region]="'software_information'" mat-button href="https://github.com/wait123you" target="_blank">wait123you</a>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="width: 240px;display: flex;justify-content: space-between;align-items: baseline;">
+      <p style="opacity: 0.56;margin-top: 4px">{{i18n.config.sponsored_author}}</p>
+      <div style="display: flex; height: 24px;">
+        <a  [attr.region]="'software_information'" [attr.select]="true" cdkFocusInitial href="https://store.steampowered.com/app/2070500/Gamepad_and_Comics/" target="_blank" mat-button style="padding: 5px; width: 36px; min-width: fit-content;">
+          <img style="filter: invert(1);height: 22px;margin: 0 2px;" [src]="image1" alt="">
+        </a>
+        <button [attr.region]="'software_information'" (click)="open_ZHIFUBAO_qrcode()" mat-button style="padding: 5px; width: 36px; min-width: fit-content;"><img style="filter: invert(1);height: 22px;margin: 0 2px;" [src]="image2" alt=""></button>
+        <button [attr.region]="'software_information'" (click)="open_WEIXIN_qrcode()" mat-button style="padding: 5px; width: 36px; min-width: fit-content;"><img style="filter: invert(1);height: 22px;margin: 0 2px;" [src]="image3" alt=""></button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

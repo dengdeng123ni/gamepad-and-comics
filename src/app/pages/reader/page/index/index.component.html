@@ -1,0 +1,11 @@
+<mat-drawer-container class="w-full h-full overflow-hidden" autosize>
+  <mat-drawer [opened]="left.opened" mode="side" style="min-width: 192px;" id="scroll">
+    <app-sidebar-left *ngIf="left.opened"></app-sidebar-left>
+  </mat-drawer>
+  <app-mode1 (click)="on($event)" *ngIf="config.mode==1"></app-mode1>
+  <app-mode2 (click)="on($event)" *ngIf="config.mode==2"></app-mode2>
+  <app-mode3 (click)="on($event)" *ngIf="config.mode==3"></app-mode3>
+  <app-mode4 (click)="on($event)" *ngIf="config.mode==4"></app-mode4>
+  <app-reader-toolbar></app-reader-toolbar>
+  <app-reader-navbar-bar></app-reader-navbar-bar>
+</mat-drawer-container>

@@ -1,0 +1,42 @@
+<div class="warp">
+
+  <div class="list">
+    <div class="item">
+      <mat-button-toggle-group style="    width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;" [value]="type">
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" value="PDF" (click)="type='PDF'">PDF</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" value="PPT" (click)="type='PPT'">PPT</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" value="EPUB" (click)="type='EPUB'" [disabled]="true">EPUB</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" value="ZIP" (click)="type='ZIP'">ZIP</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <mat-divider style="margin: 4px 0;"></mat-divider>
+    <div class="item">
+      <mat-chip-listbox >
+        <mat-chip-option [attr.type]="'chip'" (selectionChange)="change('one')" [selectable]="page!='one'"  [attr.region]="'detail_export_settings_page'">单页</mat-chip-option>
+        <mat-chip-option [attr.type]="'chip'" (selectionChange)="change('double')" [selectable]="page!='double'" selected [attr.region]="'detail_export_settings_page'">双页</mat-chip-option>
+      </mat-chip-listbox>
+      <button mat-mini-fab style="    height: 32px;
+      width: 32px;" (click)="on($event)" [attr.region]="'detail_export_settings_page'" [attr.select]="true">
+        <mat-icon style="zoom: 0.8;">file_download</mat-icon>
+      </button>
+    </div>
+    <mat-divider style="margin-top: 8px;" *ngIf="page=='double'"></mat-divider>
+    <div class="item" *ngIf="page=='double'">
+      <div class="name">页面顺序</div>
+      <div class="options">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="pageOrder">
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'detail_export_settings'" [value]="true">普通</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'detail_export_settings'" [value]="false">日漫</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="item" *ngIf="page=='double'">
+      <div class="name">第一页封面</div>
+      <div class="options">
+        <mat-slide-toggle [attr.type]="'slide'" [attr.region]="'detail_export_settings'" [(ngModel)]="isFirstPageCover"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+</div>

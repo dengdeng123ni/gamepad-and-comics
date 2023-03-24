@@ -1,0 +1,51 @@
+<!-- <div class="title">
+  全部漫画
+</div> -->
+
+<div class="list_mode1" [attr.edit]="config.edit">
+  <div class="list_edit" *ngIf="config.edit" >
+    <div class="left">
+      <span>
+        {{i18n.config.chosen}}({{selectedList.length}})
+      </span>
+      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.select_all" (click)="selectAll()" [attr.region]="'list_toolabr_item'"
+        [attr.select]="true" class="icon ml-1">
+        <mat-icon>done_all</mat-icon>
+      </button>
+      <mat-divider [vertical]="true" style="height: 15px;width: 1px;margin: 0 4px;"></mat-divider>
+      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        matTooltip="Github Pages" [disabled]="selectedList.length==0" [attr.region]="'list_toolabr_item'"
+        (click)="exportZip(selectedList)" class="icon">
+        <mat-icon>code</mat-icon>
+      </button>
+      <mat-divider [vertical]="true" style="height: 15px;width: 1px;margin: 0 4px;"></mat-divider>
+      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.delete" [disabled]="selectedList.length==0" [attr.region]="'list_toolabr_item'"
+        (click)="selectedDetele()" class="icon">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div class="right">
+      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.cancel_edit" [attr.region]="'list_toolabr_item'" (click)="closeEdit()"
+        class="icon">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="grid" id="list" (click)="close()">
+    <button class="item" mat-button *ngFor="let n of current.list;let index=index"
+      [attr._id]="'list_mode_item_'+n.id" [attr.region]="'list_mode_item'"
+      [attr.select]="n.id==config.view.id" [attr.content_menu_key]="'item'" [attr.content_menu_value]="n.id"
+      [attr.multiple]="n.selected" (click)="on($event,n)">
+      <div class="img">
+        <img loading="lazy" loading="lazy" class="w-full" [src]="n.cover.src" [alt]="n?.title">
+        <div class="mezzanine"></div>
+      </div>
+      <div class="name">{{n.title}}</div>
+      <div class="progress">{{n.subTitle}}</div>
+      <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="config.edit" [(ngModel)]="n.selected"></mat-checkbox>
+    </button>
+  </div>
+</div>

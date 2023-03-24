@@ -1,0 +1,60 @@
+<mat-accordion ngClass="accordion">
+  <mat-expansion-panel hideToggle [expanded]="expanded" (click)="expanded=true"  (mouseleave)="expanded=false" >
+    <mat-expansion-panel-header ngClass="panel">
+      <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.toolbar" mat-icon-button style="width: 30px; height: 30px;padding: 0;" class="button">
+        <mat-icon class="icon">expand_more</mat-icon>
+      </button>
+    </mat-expansion-panel-header>
+    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.all_chapters" mat-icon-button class="icon" (click)="section.open()">
+      <mat-icon>subject</mat-icon>
+    </button>
+    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="left.isToggle()" style="transform: rotate(180deg);">
+      <mat-icon>view_sidebar</mat-icon>
+    </button>
+    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="slideBottom.isToggle()" style="transform: rotate(90deg) scale(1.2) rotateY(36deg);">
+      <mat-icon>view_sidebar</mat-icon>
+    </button>
+    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="thumbnail.open()">
+      <mat-icon>view_comfy</mat-icon>
+    </button>
+    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="thumbnailBottom.isToggle()">
+      <mat-icon>minimize</mat-icon>
+    </button>
+    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_mode" mat-icon-button class="icon" (click)="on($event)">
+      <mat-icon>chrome_reader_mode</mat-icon>
+    </button>
+    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.settings" mat-icon-button class="icon" (click)="openSettings($event)">
+      <mat-icon>settings</mat-icon>
+    </button>
+    <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.export_pdf" tabIndex="-1" mat-icon-button class="icon" (click)="downloadFile('PDF')">
+      <mat-icon>picture_as_pdf</mat-icon>
+    </button>
+    <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.export_ppt" tabIndex="-1" mat-icon-button class="icon create_pdf" (click)="downloadFile('PPT')">
+      <mat-icon>local_parking</mat-icon>
+    </button>
+    <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.export_image" tabIndex="-1" mat-icon-button class="icon" (click)="mergeImages()">
+      <mat-icon>image</mat-icon>
+    </button>
+
+    <!--
+    <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" mat-icon-button class="icon">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" mat-icon-button class="icon">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" mat-icon-button class="icon">
+      <mat-icon>chevron_right</mat-icon>
+    </button> -->
+    <!-- <div class="item" *ngFor="let n of toolbar.list" (click)="n.value()">
+      <mat-icon class="icon" *ngIf="n.icon" [svgIcon]="n.key">{{n.key}}</mat-icon>
+      <mat-icon class="icon" *ngIf="!n.icon">{{n.key}}</mat-icon>
+    </div> -->
+    <!-- <div class="item" tabIndex="1"  class="icon settings_applications">
+        <mat-icon class="icon">archive</mat-icon>
+      </div>
+    <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" mat-icon-button class="icon settings_applications">
+      <mat-icon>settings_applications</mat-icon>
+    </button> -->
+  </mat-expansion-panel>
+</mat-accordion>

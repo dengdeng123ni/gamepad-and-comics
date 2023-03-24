@@ -1,0 +1,53 @@
+<div class="list">
+  <button class="item" mat-button (click)="modeChange()" [attr.select]="true" [attr.region]="'reader_settings'" >
+    <div class="left">
+      {{i18n.config.reading_mode}}
+    </div>
+    <div class="right">
+      <div class="button" *ngIf="config.mode==1">{{i18n.config.double_page}}</div>
+      <div class="button" *ngIf="config.mode==2">{{i18n.config.up_and_down}}</div>
+      <div class="button" *ngIf="config.mode==3">{{i18n.config.left_and_right}}</div>
+      <div class="button" *ngIf="config.mode==4">{{i18n.config.single_page}}</div>
+    </div>
+  </button>
+  <button class="item" mat-button *ngIf="config.mode==1||config.mode==6" (click)="isPageTurnDirection()" [attr.region]="'reader_settings'">
+    <div class="left">
+      {{i18n.config.turning_direction}}
+    </div>
+    <div class="right">
+      <div class="button" *ngIf="config.mode1.isPageTurnDirection==true&&config.mode1.slidingDirection=='horizontal'">{{i18n.config.from_left_to_right}}</div>
+      <div class="button" *ngIf="config.mode1.isPageTurnDirection==false&&config.mode1.slidingDirection=='horizontal'">{{i18n.config.from_right_to_left}}</div>
+      <div class="button" *ngIf="config.mode1.isPageTurnDirection==true&&config.mode1.slidingDirection=='vertical'">{{i18n.config.from_top_to_bottom}}</div>
+      <!-- <div class="button" *ngIf="config.mode1.isPageTurnDirection==false&&config.mode1.slidingDirection=='vertical'">从下往上</div> -->
+    </div>
+  </button>
+  <button class="item" mat-button *ngIf="config.mode==1||config.mode==6" (click)="pageOrder()" [attr.region]="'reader_settings'">
+    <div class="left">
+      {{i18n.config.page_order}}
+    </div>
+    <div class="right">
+      <div class="button" *ngIf="config.mode1.pageOrder==true">{{i18n.config.ordinary}}</div>
+      <div class="button" *ngIf="config.mode1.pageOrder==false">{{i18n.config.japanese_manga}}</div>
+    </div>
+  </button>
+  <button class="item" mat-button *ngIf="config.mode==3" (click)="isPageTurnDirection3()" [attr.region]="'reader_settings'">
+    <div class="left">
+      {{i18n.config.sliding_direction}}
+    </div>
+    <div class="right">
+      <div class="button" *ngIf="config.mode3.isPageTurnDirection==true">{{i18n.config.from_left_to_right}}</div>
+      <div class="button" *ngIf="config.mode3.isPageTurnDirection==false">{{i18n.config.from_right_to_left}}</div>
+    </div>
+  </button>
+  <button class="item" mat-button *ngIf="config.mode==4||config.mode==7" (click)="isPageTurnDirection4()" [attr.region]="'reader_settings'">
+    <div class="left">
+      {{i18n.config.turning_direction}}
+    </div>
+    <div class="right">
+      <div class="button" *ngIf="config.mode4.isPageTurnDirection==true&&config.mode4.slidingDirection=='horizontal'">{{i18n.config.from_left_to_right}}</div>
+      <div class="button" *ngIf="config.mode4.isPageTurnDirection==false&&config.mode4.slidingDirection=='horizontal'">{{i18n.config.from_right_to_left}}</div>
+      <div class="button" *ngIf="config.mode4.isPageTurnDirection==true&&config.mode4.slidingDirection=='vertical'">{{i18n.config.from_top_to_bottom}}</div>
+    </div>
+  </button>
+
+</div>

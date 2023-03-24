@@ -1,0 +1,383 @@
+// router=list
+// router=detail
+// router=reader
+body[pattern=handle][locked_region='[region=software_information]']{
+  [region=software_information][select=true]{
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region=all]{
+  [region=list_mode_item][select=true],
+  [region=list_toolabr_item][select=true],
+  [region=list_menu_item][select=true],
+  [region=detail_toolabr_item][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=upload_select]']{
+  [region=upload_select][select=true]{
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=language_setting]']{
+  [region=language_setting][select=true]{
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+
+body[pattern=handle][locked_region='[region=handel_toolabr_left],[region=handel_toolabr_right],[region=handel_toolabr_center],[region=handel_toolabr_menu]']{
+  [region=handel_toolabr_left][select=true],
+  [region=handel_toolabr_right][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+
+}
+
+body[pattern=handle][locked_region='[region=list_upload_list],[region=list_upload_list_item]']{
+  [region=list_upload_list][select=true],
+  [region=list_upload_list_item][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=section]']{
+  [region=section][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=thumbnail_sidebar_bottom]']{
+  [region=thumbnail_sidebar_bottom][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=thumbnail_sidebar_bottom]']{
+  [region=thumbnail_sidebar_bottom][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=mode]']{
+  [region=mode][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=thumbnail_list]']{
+  [region=thumbnail_list][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=reader_settings]']{
+  [region=reader_settings][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=thumbnail_bottom]']{
+  [region=thumbnail_bottom][select=true]
+  {
+    filter: brightness(0.5);
+  }
+}
+body[pattern=handle][locked_region='[region=reader_section]']{
+  [region=reader_section][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=thumbnail_sidebar_left]']{
+  [region=thumbnail_sidebar_left][select=true]
+  {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region=all]{
+
+  [region=section_item][select=true],
+  [region=continue][select=true],
+  [region=detail_toolabr_item][select=true],
+  [region=back][select=true],
+  [region=handel_toolabr_menu][select=true] {
+
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+
+  }
+}
+body[pattern=handle][locked_region='[region=content_menu_submenu],[region=content_menu]']{
+  [region=content_menu_submenu][select=true],
+  [region=content_menu][select=true] {
+
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+
+  }
+}
+
+body[pattern=handle][locked_region='[region=detail_export_settings_page],[region=detail_export_settings],[region=detail_export_settings_file_type]']{
+  [region=detail_export_settings][select=true] {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      left: 0;
+      background: rgba(255, 255, 255, 0.3411764706);
+      bottom: -70%;
+      animation: slidein 2s infinite;
+      animation-direction: alternate;
+    }
+  }
+  [region=detail_export_settings_page][select=true] {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.3411764706);
+      bottom: -20%;
+      animation:slidein 2s infinite;
+      animation-direction:alternate;
+      // animation-iteration-count: infinite
+    }
+  }
+  [region=detail_export_settings_file_type][select=true] {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+body[pattern=handle][locked_region='[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]']{
+  [region=reader_navbar_bar_top_item][select=true]{
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 110%;
+      height: 100%;
+      left: -5%;
+      border: 2px solid rgba(255, 255, 255, 0.3411764706);
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+  [region=reader_navbar_bar_buttom_item][_id=reader_navbar_bar_buttom_item_progress][select=true]{
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 106%;
+      height: 100%;
+      left: -2.5%;
+      border: 2px solid rgba(255, 255, 255, 0.3411764706);
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+  [region=reader_navbar_bar_buttom_item][select=true]{
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 50%;
+      top: 0;
+    }
+  }
+}
+
+// ,detail_export_settings,
+@keyframes slidein {
+  from {
+    width: 0%;
+    margin: 0 50%;
+  }
+
+  to {
+    width: 100%;
+    margin: 0%;
+  }
+}

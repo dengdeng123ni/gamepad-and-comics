@@ -1,0 +1,12 @@
+<div class="list warp" id="thumbnail_bottom" (mouseleave)="leave($event)">
+  <div *ngFor="let n of images;let index=index" class="item" (touchmove)="enter($event,n)" (click)="on($event,index)"  (mousemove)="enter($event,n)"
+  >
+    <img loading="lazy" [src]="n.thumbnail" class="img" />
+  </div>
+</div>
+<div class="thumbnail_image" *ngIf="img" id="thumbnail_image" [style]="{
+  top:top,
+  left:left
+}">
+  <img [src]="img" alt="">
+</div>

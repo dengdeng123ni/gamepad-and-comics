@@ -1,0 +1,45 @@
+<mat-button-toggle-group>
+  <!-- <mat-button-toggle
+    (click)="change('chapter')"
+    [attr._id]="'upload_chapter'"
+    [attr.select]="true"
+    [attr.default]="true"
+    [attr.region]="'upload_select'"
+    [attr.handle_movable_region]="{} | json"
+    value="chapter" class="button">
+        章
+    </mat-button-toggle>
+    <mat-button-toggle
+    (click)="change('roll')"
+    [attr._id]="'upload_roll'"
+    [attr.select]="false"
+    [attr.default]="false"
+    [attr.region]="'upload_select'"
+    [attr.handle_movable_region]="{} | json"
+    value="roll" class="button">
+        卷
+    </mat-button-toggle>
+    <mat-button-toggle
+    (click)="change('roll_external')"
+    [attr._id]="'upload_roll_extra_episode'"
+    [attr.select]="false"
+    [attr.default]="false"
+    [attr.region]="'upload_select'"
+    [attr.handle_movable_region]="{} | json"
+    value="roll_external" class="button">
+        卷/外番
+    </mat-button-toggle> -->
+  <mat-button-toggle (click)="change('image')" [attr.region]="'upload_select'" [attr.select]="true" class="button">
+    {{i18n.config.images}}
+  </mat-button-toggle>
+  <mat-button-toggle (click)="change('pdfToImage')" [attr.region]="'upload_select'" class="button">
+    PDF
+  </mat-button-toggle>
+  <mat-button-toggle (click)="change('zip')" [attr.region]="'upload_select'" class="button">
+    ZIP
+  </mat-button-toggle>
+  <mat-button-toggle *ngIf="github_json.length!=0" (click)="change('github')" [attr.region]="'upload_select'" class="button">
+    Github
+  </mat-button-toggle>
+  <app-upload></app-upload>
+</mat-button-toggle-group>

@@ -1,0 +1,77 @@
+import { Injectable } from '@angular/core';
+
+interface GamepadEvents {
+  UP?: Function;
+  RIGHT?: Function;
+  DOWN?: Function;
+  LEFT?: Function;
+  LEFT_ANALOG_PRESS?: Function;
+  RIGHT_ANALOG_PRESS?: Function;
+  A?: Function;
+  B?: Function;
+  X?: Function;
+  Y?: Function;
+  LEFT_TRIGGER?: Function;
+  LEFT_BUMPER?: Function;
+  RIGHT_TRIGGER?: Function;
+  RIGHT_BUMPER?: Function;
+  SELECT?: Function;
+  START?: Function;
+  SPECIAL?: Function;
+}
+
+interface HoverEvents {
+  ENTER: Function;
+  LEAVE: Function;
+}
+
+interface Config {
+
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GamepadEventService {
+  public areaEvents: Record<string, GamepadEvents> = {};
+  public areaEventsY: Record<string, GamepadEvents> = {};
+  public globalEvents: GamepadEvents = {};
+  public globalEventsY: GamepadEvents = {};
+  public hoverEvents: Record<string, HoverEvents> = {};
+
+  public configs: Record<string, Config> = {};
+
+  constructor() { }
+
+  // Register Y, area event as the first trigger
+  registerAreaEventY(key: string, gamepad: GamepadEvents): void {
+    if (this.areaEventsY[key]) this.areaEventsY[key] = { ...this.areaEventsY[key], ...gamepad };
+    else this.areaEventsY[key] = gamepad;
+  }
+
+  // Register area event as the second trigger
+  registerAreaEvent(key: string, gamepad: GamepadEvents): void {
+    if (this.areaEvents[key]) this.areaEvents[key] = { ...this.areaEvents[key], ...gamepad };
+    else this.areaEvents[key] = gamepad;
+  }
+
+  // Register Y, global event as the third trigger
+  registerGlobalEventY(gamepad: GamepadEvents): void {
+    this.globalEventsY = { ...this.globalEventsY, ...gamepad };
+  }
+
+  // Register global event as the fourth trigger
+  registerGlobalEvent(gamepad: GamepadEvents): void {
+    this.globalEvents = { ...this.globalEvents, ...gamepad };
+  }
+
+  // Register hover event
+  registerHoverEvent(key: string, hover: HoverEvents): void {
+    this.hoverEvents[key] = hover;
+  }
+
+  registerConfig(key: string, config: Config): void {
+    this.configs[key] = config;
+  }
+
+}

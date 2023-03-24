@@ -1,0 +1,102 @@
+.panel{
+  padding: 0;
+  background: transparent !important;
+  height: 30px;
+
+
+  .icon{
+    transition: all 0.3s ease-out ;
+    transform: rotate(0deg);
+  }
+}
+.button{
+  border-radius: 0;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+  border-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+  }
+
+}
+.settings_applications{
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+.item {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 2;
+    // width: 30px !important;
+    // min-width: 30px !important;
+    // height: 100% !important;
+    // margin: 0 !important;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    transition: transform 0.1s ease-in-out;
+    transform: scale(1);
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+  }
+  &:focus{
+    // width: 30px;
+    // height: 30px;
+    // margin: 2px;
+  }
+}
+:host ::ng-deep {
+  .mat-content.mat-content-hide-toggle{
+    margin: 0;
+  }
+  .accordion{
+
+    .mat-expansion-panel{
+      background: transparent !important;
+      width: 30px !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .mat-expansion-panel-content{
+
+    }
+    .mat-expansion-panel-body{
+      padding: 0 !important;
+    }
+    .mat-expanded{
+      .panel{
+        .icon{
+          transform: rotate(180deg);
+        }
+
+
+      }
+
+    }
+  }
+
+}

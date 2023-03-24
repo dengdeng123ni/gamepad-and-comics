@@ -1,0 +1,27 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  transform: scale(1);
+  justify-content: top;
+  /* align-items: center; */
+  margin: 0 auto;
+  height: 100vh;
+  transition: all 0.3s;
+  overflow: auto;
+
+  img {
+    width: 50%;
+    min-width: 960px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 960px) {
+  .list {
+    img {
+      width: 100%;
+      min-width: 100%
+    }
+  }
+}

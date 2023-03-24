@@ -1,0 +1,18 @@
+<div class="list opacity-0" id="thumbnail_sidebar_bottom">
+    <button mat-button *ngFor="let n of list;let index=index" (click)="on(index)"
+        class="item"
+        tabIndex="1"
+        [attr._id]="'thumbnail_sidebar_bottom_'+index"
+        [attr.select]="index==chapter_index?true:false"
+        [attr.region]="'thumbnail_sidebar_bottom'"
+        [attr.content_menu_key]="'thumbnail_sidebar_bottom'"
+        [attr.content_menu_value]="n.id"
+        [class]="index==chapter_index?'select':''"
+        >
+        <div class="img" >
+            <!-- [height]="i.height" [width]="i.width" -->
+            <img loading="lazy" [src]="n.src" [alt]="index" />
+        </div>
+        <div class="index" ><div class="name">{{index+1}}</div></div>
+    </button>
+</div>

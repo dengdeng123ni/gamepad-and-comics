@@ -1,0 +1,8 @@
+<div class="warp" *ngIf="width<=960">
+  <div class="toolabr">
+    <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.back" class="icon" (click)="back()" [attr.region]="'continue'"> <mat-icon>chevron_left</mat-icon></button>
+    <button class="continue" mat-button (click)="continue($event)" [disabled]="comics.chapters.length==0" [attr.region]="'continue'" [attr.select]="true" [attr.default]="true">{{i18n.config.continue}} </button>
+    <!-- {{comics.chapter.title}} -->
+  </div>
+</div>
+

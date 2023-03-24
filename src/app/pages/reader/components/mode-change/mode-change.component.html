@@ -1,0 +1,80 @@
+<!-- transform: scale(0.8); -->
+<div class="warp mode_change">
+  <div>
+    <button mat-button class="mode_1 flex items-center justify-center flex-col item" [attr._id]="'mode_1'"
+      [attr.select]="config.mode==1" [attr.default]="config.mode==1" [attr.region]="'mode'"
+       (click)="mode.change(1)">
+      <div class="box _box">
+        <div class="left">
+
+        </div>
+        <div class="right">
+        </div>
+      </div>
+    </button>
+    <div [class]="config.mode==1?'select':''" class=" text-xs px-1.5 text-center rounded my-2 _text">1</div>
+  </div>
+  <div>
+    <button mat-button class="mode_2 flex items-center justify-center flex-col item" [attr._id]="'mode_2'"
+    [attr.select]="config.mode==2" [attr.default]="config.mode==2" [attr.region]="'mode'"
+   (click)="mode.change(2)">
+    <div class="box4 _box">
+      <div class="content">
+
+      </div>
+      <div class="content" style="min-height: 63px;">
+
+      </div>
+      <div class="content">
+
+      </div>
+    </div>
+
+  </button>
+   <div [class]="config.mode==2?'select':''" class=" text-xs px-1.5 text-center rounded my-2 _text"  >2</div>
+  </div>
+
+    <div>
+      <button mat-button class="mode_3 flex items-center justify-center flex-col item" [attr._id]="'mode_3'"
+      [attr.select]="config.mode==3||config.mode==5" [attr.default]="config.mode==3||config.mode==5"
+      [attr.region]="'mode'"
+      (click)="mode.change((config.mode==3||config.mode==5)?config.mode:3)">
+      <div class="box3 _box">
+        <div class="content">
+
+        </div>
+        <div class="content" style="    min-width: 100px;">
+
+        </div>
+        <div class="content" style="    min-width: 100px;">
+
+        </div>
+        <div class="content">
+
+        </div>
+      </div>
+
+    </button>
+     <div [class]="config.mode==3?'select':''" class=" text-xs px-1.5 text-center rounded my-2 _text"  >3</div>
+    </div>
+
+
+  <div>
+    <button mat-button class="mode_4 flex items-center justify-center flex-col item" [attr._id]="'mode_4'"
+    [attr.select]="config.mode==4" [attr.default]="config.mode==4" [attr.region]="'mode'"
+   (click)="mode.change(4)">
+    <div class="box2 _box">
+      <div class="content">
+
+      </div>
+    </div>
+
+  </button>
+   <div [class]="config.mode==4?'select':''" class=" text-xs px-1.5 text-center rounded my-2 _text"  >4</div>
+  </div>
+
+</div>
+<!-- display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.8rem;
+    zoom: 1.3; -->

@@ -1,0 +1,85 @@
+.list {
+  @apply mx-auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  .item {
+     width: 222px;
+      margin: 0.25rem;
+      display: flex;
+      padding: 0.5rem 1rem;
+      user-select: none;
+      min-height: 0;
+      height: auto;
+      justify-content: start;
+      .img {
+          min-height: 120px;
+          min-width: 75px;
+          overflow: hidden;
+          display: flex;
+
+          img {
+              width: 75px;
+              object-fit: contain;
+          }
+      }
+  }
+
+  .info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 6px 16px;
+      width: 100%;
+
+      .name {
+          @apply text-sm;
+          margin-bottom: 2px;
+          color: rgba(255, 255, 255, .87);
+          text-align: left;
+      }
+
+      .bottom {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+
+          .progress {
+              @apply text-xs;
+              color: rgba(255, 255, 255, .34);
+          }
+
+          .date {
+              @apply text-xs;
+              color: rgba(255, 255, 255, .34);
+          }
+      }
+  }
+
+
+
+}
+@media screen and (max-width: 480px) {
+    .list{
+        .item{
+            width: 50%;
+            margin: 0.25rem 0rem;
+            display: flex;
+            padding: 0.5rem 1rem;
+            user-select: none;
+        }
+    }
+}
+// background: rgba(255, 255, 255, 0.1);
+// border-top-left-radius: 4px;
+// border-top-right-radius: 4px;
+
+
+:host ::ng-deep {
+  .mdc-button__label{
+    display: flex;
+  }
+}

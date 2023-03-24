@@ -1,0 +1,23 @@
+<div class="h-full w-full" (click)="Thumbnail.close()">
+    <div class="list opacity-0" id="thumbnail_list" >
+        <button mat-button *ngFor="let n of list;let index=index" (click)="on(index);"
+            class="item"
+            [attr._id]="'thumbnail_list_'+chapter_index"
+            [attr.select]="chapter_index==index?true:false"
+            [attr.region]="'thumbnail_list'"
+            [attr.content_menu_key]="'thumbnail_list'"
+            [attr.content_menu_value]="n.id"
+            [class]="chapter_index==index?'select':''"
+            >
+            <div class="img">
+                <img loading="lazy" loading="lazy" [src]="n.src" [alt]="index" />
+            </div>
+            <div class="index">
+               <div class="name">
+                {{index+1}}
+               </div>
+            </div>
+        </button>
+    </div>
+</div>
+

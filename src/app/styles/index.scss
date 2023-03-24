@@ -1,0 +1,44 @@
+@import "./theme.scss";
+@import "./dialog.scss";
+@import "./snack_bar.scss";
+@import "./sheet.scss";
+@import "./handle.scss";
+
+
+
+.mat-mdc-menu-item {
+  height: 30px !important;
+  line-height: 30px !important;
+  min-height: 30px !important;
+
+  .mdc-list-item__primary-text {
+    /* font-family: Roboto, "Helvetica Neue", sans-serif; */
+    font-size: 14px !important;
+    ;
+    font-weight: 400 !important;
+    ;
+  }
+}
+
+.menu_item {
+  height: 30px !important;
+  line-height: 30px !important;
+  min-height: 30px !important;
+
+  .mdc-list-item__primary-text {
+    /* font-family: Roboto, "Helvetica Neue", sans-serif; */
+    font-size: 14px !important;
+    ;
+    font-weight: 400 !important;
+    ;
+  }
+}
+.mat-mdc-button-touch-target {
+  height: 100% !important;
+}
+
+
+
+body[pattern=handle][cursor=none]{
+  cursor: none !important;
+}

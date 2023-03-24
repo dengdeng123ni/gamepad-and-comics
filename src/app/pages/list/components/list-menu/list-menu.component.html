@@ -1,0 +1,50 @@
+<div class="list">
+  <div class="title" id="collect_first">{{i18n.config.comics}}</div>
+  <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="'true'"
+    (click)="on($event,'all')">
+    <mat-icon class="icon">photo_library</mat-icon>
+    <div class="name">
+      {{i18n.config.all}}
+    </div>
+  </button>
+  <!-- <button mat-button class="item" [attr.region]="'comics_item'"  (click)="on($event,'all')">
+    <mat-icon class="icon">menu_book</mat-icon>
+    <div class="name">
+      阅读中
+    </div>
+  </button>
+  <button mat-button class="item" [attr.region]="'comics_item'" (click)="on($event,'all')">
+    <mat-icon class="icon">check_circle</mat-icon>
+    <div class="name">
+      已读完
+    </div>
+  </button>
+  <button mat-button class="item" [attr.region]="'comics_item'" (click)="on($event,'all')">
+    <mat-icon class="icon">picture_as_pdf</mat-icon>
+    <div class="name">
+      PDF
+    </div>
+  </button> -->
+  <!-- <div class="title">
+    我的收藏
+  </div> -->
+  <!-- <div class="item"
+
+    tabIndex="1"
+    *ngFor="let n of collect.list;let index=index;"
+    (click)="onChange(n)">
+    <mat-icon class="icon">subject</mat-icon>
+    <div class="name truncate" *ngIf="!n.edit">
+        {{n.name}}
+    </div>
+    <div style="margin-left: 8px;" *ngIf="n.edit">
+        <input [(ngModel)]="n.name" (blur)="save()" [id]="'input_'+n.id" class="input" matInput>
+    </div>
+</div> -->
+  <!-- <div class="item" >
+    <mat-icon class="icon" style="margin-right: 8px;">add</mat-icon>
+    <div class="name">
+      新建收藏
+    </div>
+  </div> -->
+</div>

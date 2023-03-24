@@ -1,0 +1,18 @@
+.warp{
+  display: flex;
+  flex-direction: column;
+  background: #303030;
+  border-radius: 4px;
+  overflow: auto;
+  height: -moz-fit-content;
+  height: fit-content;
+  height: 40px;
+  width: calc(100vw - 224px - 36px - 48px);
+  padding: 0;
+  margin-top: 2.5vh;
+  padding: 0.8rem;
+
+  .title{
+    font-size: 16px;
+  }
+}

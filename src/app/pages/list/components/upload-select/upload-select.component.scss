@@ -1,0 +1,21 @@
+
+
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 40px;
+  }
+
+  .example-margin {
+    margin: 0 10px;
+  }
+
+  :host ::ng-deep {
+    .button{
+        .mat-button-toggle-label-content{
+            line-height: 36px !important;
+        }
+      }
+  }
+  // document.querySelector(`[src="file:///Users/zhiangzeng/Library/Mobile Documents/com~apple~CloudDocs/Documents/多层漫画/BIOMEGA生化禁区/第04卷/117.png"]`).style.opacity="0.7";

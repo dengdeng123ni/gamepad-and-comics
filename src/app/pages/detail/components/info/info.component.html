@@ -1,0 +1,16 @@
+<div class="warp" *ngIf="width>960">
+  <div class="toolabr">
+    <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.back" class="icon" (click)="back()" [attr.region]="'back'"> <mat-icon>chevron_left</mat-icon></button>
+    <button mat-button  (click)="continue($event)" [disabled]="comics.chapters.length==0" [attr.region]="'continue'" [attr.select]="true" [attr.default]="true">{{i18n.config.continue}}</button>
+    <!-- matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="comics.chapter.title"  -->
+  </div>
+  <div class="img" (click)="continue($event)" >
+    <img loading="lazy" [src]="comics.cover.src" alt="">
+  </div>
+  <div class="info">
+    <div class="title">{{comics.title}}</div>
+    <!-- <div class="author">藤本树,集英社</div>
+    <div class="intro">被骗得负债累累，过着贫困生活的少年电次，与链锯恶魔波奇塔一起做恶魔猎人勉强活了下去。最底层的生活，因为一次残忍的背叛全都改变了！！让恶魔寄宿在自己的身体去狩猎恶魔，新时代黑暗英雄故事，开幕！！
+    </div> -->
+  </div>
+</div>

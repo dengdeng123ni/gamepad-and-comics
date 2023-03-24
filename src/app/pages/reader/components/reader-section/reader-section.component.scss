@@ -1,0 +1,27 @@
+.warp{
+  width: 280px;
+  height: 100%;
+    overflow: hidden;
+}
+.list{
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+  max-height: 60vh;
+  .item{
+    height: 42px;
+    justify-content: left;
+    padding-left: 18px;
+    min-height: 42px;
+  }
+}
+
+.title{
+  height: 48px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-left: 12px;
+    font-size: 18px;
+}

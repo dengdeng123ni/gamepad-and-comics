@@ -1,0 +1,22 @@
+.warp{
+  margin: 12px;
+  width: 280px;
+  .title{
+    font-size: 22px;
+  }
+  .author{
+
+  }
+  .item{
+width: 100%;
+display: flex;
+span{
+  display: flex;
+  width: 100px;
+  text-align: right;
+}
+  }
+  div{
+    padding: 4px;
+  }
+}

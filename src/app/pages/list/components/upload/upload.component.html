@@ -1,0 +1,30 @@
+<div class=" hidden opacity-0">
+  <nz-upload [nzBeforeUpload]="beforeUploadImage" id="update_file_image" nzDirectory
+    nzFileType="image/png,image/jpg,image/jpeg,image/gif,image/bmp,image/webp" nzAccept=".jpg,.png,.bmp,.jpeg,.psd,.webp"
+    nzMultiple>
+  </nz-upload>
+</div>
+<div class=" hidden opacity-0">
+  <nz-upload [nzBeforeUpload]="beforeUploadZip" nzFileType="application/zip" id="update_file_zip" nzAccept=".zip"
+    nzMultiple>
+  </nz-upload>
+</div>
+<div class=" hidden opacity-0">
+  <nz-upload [nzBeforeUpload]="beforeUploadPdf" nzFileType="application/pdf" id="update_file_pdf" nzAccept=".pdf"
+    nzMultiple>
+  </nz-upload>
+</div>
+
+<!-- <div class=" hidden opacity-0">
+    <nz-upload [nzBeforeUpload]="beforeUpload6" id="update_text" nzAccept=".json"  nzMultiple>
+    </nz-upload>
+</div>
+<div class=" hidden opacity-0">
+  <nz-upload [nzBeforeUpload]="beforeUpload7" id="update_texts" nzAccept=".json"  nzMultiple>
+  </nz-upload>
+</div>
+<div class=" hidden opacity-0">
+    <nz-upload [nzBeforeUpload]="beforeUpload2" id="update_file_pdfToImage"
+        nzFileType="application/pdf" nzAccept=".pdf">
+    </nz-upload>
+</div> -->

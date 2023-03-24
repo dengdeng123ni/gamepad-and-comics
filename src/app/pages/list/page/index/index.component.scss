@@ -1,0 +1,62 @@
+// #424242
+// #303030
+
+.mat-drawer-container {
+  background: #424242;
+}
+
+.mat-drawer {
+  border: 0;
+}
+
+.content {
+  // background: #303030;
+  width: 100%;
+  transition: all 0.3s;
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+  margin-right: 10px;
+  // transition: all 0.3s;
+  // transform-origin: ;
+
+}
+
+
+.mian {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.side {
+  background: #303030;
+  min-width: 36px;
+  width: 36px;
+  height: 100%;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.top {
+  height: 95%;
+  width: 100%;
+  margin: 2.5vh 0;
+  display: flex;
+  justify-content: center;
+}
+
+:host ::ng-deep {
+  .mat-drawer-content {
+    display: flex;
+    overflow: hidden;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 720px) {
+  .content {
+    margin-left: 10px;
+  }
+}
