@@ -25,7 +25,7 @@ export class InfoComponent {
     chapters:[{}]
   };
 
-  isFirst=false;
+  isFirst=true;
   width=window.innerWidth;
 
 

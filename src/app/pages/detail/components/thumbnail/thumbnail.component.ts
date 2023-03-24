@@ -127,8 +127,6 @@ export class ThumbnailComponent {
     })
   }
   async enter($event, data) {
-    console.log(event);
-
     this.enter$.next({ $event, data })
   }
   leave($event) {
@@ -142,7 +140,6 @@ export class ThumbnailComponent {
     this.enter$.unsubscribe();
   }
   one(e){
-console.log(e);
 
   }
 }

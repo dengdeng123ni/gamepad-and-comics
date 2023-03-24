@@ -27,7 +27,8 @@
   <div class="warp" (click)="close()">
     <div class="title">{{i18n.config.chapter_list}}
 
-      <span style="font-size: 0.75rem; line-height: 1rem; color: rgba(255, 255, 255, 0.34); text-align: left;">{{current.comics.chapter.title}}</span>
+      <!-- [style]="n.id==id?'background:rgba(255, 255, 255, .1);':''" -->
+      <span style="font-size: 0.75rem; line-height: 1rem; color: rgba(255, 255, 255, 0.34); text-align: left;">{{title}}</span>
     </div>
     <div class="list">
       <button class="item" (click)="on($event,n)"

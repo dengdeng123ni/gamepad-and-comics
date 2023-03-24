@@ -24,7 +24,7 @@ export class InfoShortComponent {
     chapters:[{}]
   };
 
-  isFirst=false;
+  isFirst=true;
 
   width=window.innerWidth
 

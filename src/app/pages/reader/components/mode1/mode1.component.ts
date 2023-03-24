@@ -96,7 +96,6 @@ export class Mode1Component {
       }
     })
     const { id, index } = this.current.comics.chapter;
-    console.log(this.current.comics.chapter);
 
     const { chapters } = this.current.comics;
     const chapter = chapters.find(x => x.id == id);
@@ -212,8 +211,6 @@ export class Mode1Component {
 
   }
   async change(index) {
-    console.log(index);
-
     if (Number.isNaN(index)) index = 0;
     this.index = index;
     if (this.index < 0) this.index = 0;

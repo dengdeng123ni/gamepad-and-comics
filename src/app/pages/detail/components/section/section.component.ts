@@ -28,6 +28,9 @@ export class SectionComponent {
   selectedList = [];
   afterInit$ = null;
   onDownloadClick$ = null;
+
+  id=null;
+
   edit$ = null;
   title = "";
   constructor(
@@ -92,6 +95,7 @@ export class SectionComponent {
     this.afterInit$ = this.current.afterInit().subscribe((comics: any) => {
       this.chapters = this.current.comics.chapters;
       this.title = this.current.comics.chapter.title;
+      this.id=this.current.comics.chapter.id;
       setTimeout(() => {
         const node = document.getElementById(`section_item_${this.current.comics.chapter.id}`)
         node.scrollIntoView({ block: "center", inline: "center" })

@@ -137,7 +137,6 @@ export class Mode2Component {
   ngAfterViewInit() {
     document.getElementById("mode2").classList.add("opacity-0");
     setTimeout(() => {
-      console.log(this.index);
 
       this.init(this.images[this.index].id)
     }, 100)
