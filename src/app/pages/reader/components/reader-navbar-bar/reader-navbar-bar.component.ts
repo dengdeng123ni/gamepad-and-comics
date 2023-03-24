@@ -115,6 +115,11 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.current.switch$.next("");
   }
   readerSectionOpen($event) {
+    if(window.innerWidth<=480){
+      this.close();
+      this.readerSection.open_bottom_sheet();
+      return
+    }
     let { x, y, width, height } = $event.target.getBoundingClientRect();
     x = x - (280 / 2) + (width / 2);
     y = (window.innerHeight) - (y - (height / 4));
@@ -125,7 +130,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     // readerSettings.open_bottom_sheet({});
     if(window.innerWidth<=960){
       this.close();
-      this.readerSettings.open_bottom_sheet({});
+      this.readerSettings.open_bottom_sheet();
       return
     }
     let { x, y, width, height } = $event.target.getBoundingClientRect();

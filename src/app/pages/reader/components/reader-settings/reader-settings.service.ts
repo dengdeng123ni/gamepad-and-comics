@@ -37,12 +37,12 @@ export class ReaderSettingsService {
     this._dialog.closeAll();
   }
 
-  open_bottom_sheet(config:MatBottomSheetConfig) {
+  open_bottom_sheet() {
     if (this.opened == false) {
       // const images = this.current.images.list;
       // this.list=Object.keys(images).map(x=>({id:x,total:images[x].length,image:images[x][0].image}))
       if (this.opened == false) {
-        const sheetRef = this._sheet.open(ReaderSettingsComponent,config);
+        const sheetRef = this._sheet.open(ReaderSettingsComponent,{});
         document.body.setAttribute("locked_region", "[region=reader_settings]")
         sheetRef.afterDismissed().subscribe(() => {
           if (document.body.getAttribute("locked_region") == "[region=reader_settings]" && this.opened) document.body.setAttribute("locked_region", "all")
@@ -51,11 +51,6 @@ export class ReaderSettingsService {
       }
       this.opened = true;
     }
-  }
-
-  isToggle_bottom_sheet = () => {
-    if (this.opened) this.close()
-    else this.open();
   }
 
   close_bottom_sheet() {

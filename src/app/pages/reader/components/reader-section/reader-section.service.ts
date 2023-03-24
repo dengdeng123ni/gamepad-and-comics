@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { GamepadEventService } from 'src/app/library/public-api';
 import { HandleLeftCircleToolbarService } from '../handle-left-circle-toolbar/handle-left-circle-toolbar.service';
@@ -12,6 +13,7 @@ export class ReaderSectionService {
   constructor(
     public _dialog: MatDialog,
     public GamepadEvent: GamepadEventService,
+    public _sheet:MatBottomSheet,
     public HandleLeftCircleToolbar:HandleLeftCircleToolbarService,
 
   ) {
@@ -54,5 +56,25 @@ export class ReaderSectionService {
   // }
   close() {
     this._dialog.closeAll();
+  }
+  open_bottom_sheet() {
+    if (this.opened == false) {
+      if (this.opened == false) {
+        const sheetRef = this._sheet.open(ReaderSectionComponent,{
+          autoFocus:false,
+          panelClass: "_reader_section_sheet",
+        });
+        document.body.setAttribute("locked_region", "[region=reader_section]")
+        sheetRef.afterDismissed().subscribe(() => {
+          if (document.body.getAttribute("locked_region") == "[region=reader_section]" && this.opened) document.body.setAttribute("locked_region", "all")
+          this.opened = false;
+        });
+      }
+      this.opened = true;
+    }
+  }
+
+  close_bottom_sheet() {
+    this._sheet.dismiss();
   }
 }
