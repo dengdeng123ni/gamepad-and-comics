@@ -20,6 +20,9 @@
     <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="thumbnailBottom.isToggle()">
       <mat-icon>minimize</mat-icon>
     </button>
+    <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_time" tabIndex="-1" mat-icon-button class="icon" (click)="readTime.open()">
+      <mat-icon>schedule</mat-icon>
+    </button>
     <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_mode" mat-icon-button class="icon" (click)="on($event)">
       <mat-icon>chrome_reader_mode</mat-icon>
     </button>
@@ -35,7 +38,6 @@
     <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.export_image" tabIndex="-1" mat-icon-button class="icon" (click)="mergeImages()">
       <mat-icon>image</mat-icon>
     </button>
-
     <!--
     <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" mat-icon-button class="icon">
       <mat-icon>chevron_right</mat-icon>

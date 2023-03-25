@@ -262,7 +262,7 @@ export class Mode4Component {
     const nodes = document.querySelectorAll(`[currentimage]`);
     if (!nodes.length) return
     const update = (id, startTime, endTime) => {
-      this.current.imageReadingTime$.next({ id: new Date().getTime(), imageId: id, chapterId: chapterId, comicsId: comicsId, startTime: startTime, endTime: endTime })
+      this.current.imageReadingTime$.next({ imageId: id, chapterId: chapterId, comicsId: comicsId, startTime: startTime, endTime: endTime })
     }
     let ids = [];
     const chapterId = this.current.comics.chapter.id;
@@ -278,6 +278,7 @@ export class Mode4Component {
             observer.unobserve(container);
             endTime = new Date().getTime();
             if (ids.length == 1) {
+              ids = ids.map(x => parseInt(x)).sort((a, b) => a - b);
               update(ids[0], startTime, endTime);
             }
             if (ids.length == 2) {

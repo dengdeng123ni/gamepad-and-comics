@@ -196,7 +196,7 @@ export class Mode2Component {
   }
   end(id, index) {
     const update = (imageId,chapterId,comicsId, startTime, endTime) => {
-      this.current.imageReadingTime$.next({ id: new Date().getTime(), imageId: id, chapterId: chapterId, comicsId: comicsId, startTime: startTime, endTime: endTime })
+      this.current.imageReadingTime$.next({imageId: id, chapterId: chapterId, comicsId: comicsId, startTime: startTime, endTime: endTime })
     }
     const index1 = this.list.findIndex(x => x.id == id)
     if (index1 > -1) {

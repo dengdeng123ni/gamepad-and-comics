@@ -112,8 +112,8 @@ export class I18nService {
     "last_page":"最后一页",
     "rotation":"旋转",
     "merge_page":"合页",
-    "separate_page":"分页"
-
+    "separate_page":"分页",
+    "reading_time":"阅读时间"
   }
 
   // languages = ["en", "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];

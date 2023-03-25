@@ -10,6 +10,7 @@ import { SlideBottomService } from '../slide-bottom/slide-bottom.service';
 import { ThumbnailBottomService } from '../thumbnail-bottom/thumbnail-bottom.service';
 import { ThumbnailService } from '../thumbnail-list/thumbnail.service';
 import { saveAs } from 'file-saver';
+import { ReadTimeService } from '../read-time/read-time.service';
 @Component({
   selector: 'app-popup-toolbar',
   templateUrl: './popup-toolbar.component.html',
@@ -29,6 +30,7 @@ export class PopupToolbarComponent implements OnInit {
     public current: CurrentReaderService,
     public config:ConfigReaderService,
     public download:DownloadService,
+    public readTime:ReadTimeService
   ) { }
   expanded = false;
   ngOnInit(): void {

@@ -22,6 +22,7 @@ import { Mode3Component } from './components/mode3/mode3.component';
 import { Mode4Component } from './components/mode4/mode4.component';
 import { HandleLeftCircleToolbarComponent } from './components/handle-left-circle-toolbar/handle-left-circle-toolbar.component';
 import { ReaderSettingsComponent } from './components/reader-settings/reader-settings.component';
+import { ReadTimeComponent } from './components/read-time/read-time.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ReaderSettingsComponent } from './components/reader-settings/reader-set
     Mode3Component,
     Mode4Component,
     HandleLeftCircleToolbarComponent,
-    ReaderSettingsComponent
+    ReaderSettingsComponent,
+    ReadTimeComponent
   ],
   imports: [
     CommonModule,

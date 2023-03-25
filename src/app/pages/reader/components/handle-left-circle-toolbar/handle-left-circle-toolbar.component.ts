@@ -147,7 +147,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     let node = (document.getElementById(`reader_toolbar_menu_1`) as any);
     node.style.top = `${p.y}px`;
     node.style.left = `${p.x + p.width + 4}px`;
-    const nodes = document.querySelectorAll(".swiper-slide-active img")
+    const nodes = document.querySelectorAll("[currentimage]")
     const images = (this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id)).images;
     for (let i = 0; i < nodes.length; i++) {
       const node: any = nodes[i];

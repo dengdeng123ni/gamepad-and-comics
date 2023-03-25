@@ -39,7 +39,7 @@ interface Chapter {
 }
 
 interface ImageReadingTime {
-  id: number;
+  id?: number;
   imageId: number;
   chapterId: number;
   comicsId: number;
@@ -90,7 +90,13 @@ export class CurrentReaderService {
     })
     this.imageReadingTime$.subscribe(x => {
       if ((x.endTime - x.startTime) > 2000) {
-        this.db.update('image_state', x).subscribe()
+        setTimeout(() => {
+          if ((x.endTime - x.startTime) < 120000) {
+            x.endTime = x.startTime + 30000 + (30000 * Math.random());
+          }
+          const id = new Date().getTime();
+          this.db.update('image_state', { id: id, ...x }).subscribe()
+        }, 300 * Math.random())
       }
     })
 
@@ -193,6 +199,7 @@ export class CurrentReaderService {
   }
   async init(id) {
     id = parseInt(id);
+
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
       this.comics = { ...x[0], ...x[1] };
       if (this.comics.chapter.index === undefined) this.comics.chapter.index = 0;
