@@ -107,7 +107,7 @@ export class I18nService {
     "compress_images":"压缩图片",
     "add_to":"添加",
     "first_chapter":"第一章",
-    "last_chapter":"最后一章",
+    "last_chapter":"最终章",
     "first_page":"第一页",
     "last_page":"最后一页",
     "rotation":"旋转",
