@@ -294,6 +294,9 @@ export class Mode1Component {
           if (change.intersectionRatio == 0) {
             observer.unobserve(container);
             endTime = new Date().getTime();
+            if (ids.length == 1) {
+              update(ids[0], startTime, endTime);
+            }
             if (ids.length == 2) {
               ids = ids.map(x => parseInt(x)).sort((a, b) => a - b);
               const middleTime = startTime + (Math.trunc((endTime - startTime) / 2))

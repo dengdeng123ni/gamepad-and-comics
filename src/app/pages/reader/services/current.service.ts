@@ -195,7 +195,7 @@ export class CurrentReaderService {
     id = parseInt(id);
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
       this.comics = { ...x[0], ...x[1] };
-      if(this.comics.chapter.index===undefined) this.comics.chapter.index=0;
+      if (this.comics.chapter.index === undefined) this.comics.chapter.index = 0;
       this.mode$.next(this.comics.mode)
       // this.insert(id, this.comics.chapters[0].id, this.comics.chapters[0].images[0].id)
     })
@@ -286,7 +286,7 @@ export class CurrentReaderService {
     const state = { chapter: { id: chapter.id, index: chapter.index, title: chapter.title, total: chapter.total }, lastReadTime: new Date().getTime(), id: this.comics.id, images: this.comics.images, mode: this.comics.mode, };
     this.db.update('state', state).subscribe()
   }
-  async insertPage(id: number, chaptersId: number, imageId: number, direction = "before") {
+  async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {
     const loadImage = (src): Promise<any> => {
       return new Promise((r, j) => {
         var img = new Image();
@@ -328,31 +328,51 @@ export class CurrentReaderService {
       var blob = new Blob([arr], { type: contentType });
       return blob
     };
-    // const uploadImage = async (src): Promise<{ id: number, src: string }> => {
-    //   const dataURL = await getImageBase64(src)
-    //   const blob = base64ToBlob(dataURL);
-    //   const formData = new FormData();
-    //   formData.append('file', blob);
-    //   const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-    //   return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}` }
-    // }
-    const uploadImage = async (href): Promise<{ id: number, src: string }> => {
-      const dataURL = await getImageBase64(href)
+    const uploadImage = async (src): Promise<{ id: number, src: string }> => {
+      const dataURL = await getImageBase64(src)
       const blob = base64ToBlob(dataURL);
-      const id=new Date().getTime();
-      const src = URL.createObjectURL(blob);
-      const imageSrc = `${window.location.origin}/image/${id}`;
-      const request = new Request(imageSrc);
-      const response = await fetch(src)
-      const cache = await caches.open('image');
-      await cache.put(request, response);
-      URL.revokeObjectURL(src)
-      return { id:id , src:imageSrc }
+      const formData = new FormData();
+      formData.append('file', blob);
+      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
+      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}` }
     }
 
+    const uploadImageData = async (dataURL): Promise<{ id: number, src: string }> => {
+      const blob = base64ToBlob(dataURL);
+      const formData = new FormData();
+      formData.append('file', blob);
+      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
+      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}` }
+    }
+    // const uploadImage = async (href): Promise<{ id: number, src: string }> => {
+    //   const dataURL = await getImageBase64(href)
+    //   const blob = base64ToBlob(dataURL);
+    //   const id = new Date().getTime();
+    //   const src = URL.createObjectURL(blob);
+    //   const imageSrc = `${window.location.origin}/image/${id}`;
+    //   const request = new Request(imageSrc);
+    //   const response = await fetch(src)
+    //   const cache = await caches.open('image');
+    //   await cache.put(request, response);
+    //   URL.revokeObjectURL(src)
+    //   return { id: id, src: imageSrc }
+    // }
 
-    const update = (comics) => {
-      this.db.update('comics', comics).subscribe()
+    // const uploadImageData = async (dataURL): Promise<{ id: number, src: string }> => {
+    //   const blob = base64ToBlob(dataURL);
+    //   const id = new Date().getTime();
+    //   const src = URL.createObjectURL(blob);
+    //   const imageSrc = `${window.location.origin}/image/${id}`;
+    //   const request = new Request(imageSrc);
+    //   const response = await fetch(src)
+    //   const cache = await caches.open('image');
+    //   await cache.put(request, response);
+    //   URL.revokeObjectURL(src)
+    //   return { id: id, src: imageSrc }
+    // }
+
+    const update = async (comics) => {
+      await firstValueFrom(this.db.update('comics', comics))
     }
 
     const updatePageData = async () => {
@@ -361,34 +381,36 @@ export class CurrentReaderService {
       const imageIndex = this.comics.chapters[index].images.findIndex(c => c.id == imageId);
       const src = this.comics.chapters[index].images[imageIndex].src;
       if (src) {
-        obj = await uploadImage(src);
+        if (imageData) {
+          obj = await uploadImageData(imageData)
+        } else {
+          obj = await uploadImage(src)
+        }
         if (direction == "before") this.comics.chapters[index].images.splice(imageIndex, 0, obj);
         else this.comics.chapters[index].images.splice(imageIndex + 1, 0, obj);
-
       }
       return obj
     }
+
     const obj = await updatePageData();
-    this.pageChange(this.comics.chapter.index);
-    this.db.getByKey('comics', id).subscribe(async (x: any) => {
-      const index = x.chapters.findIndex(c => c.id == chaptersId);
-      const imageIndex = x.chapters[index].images.findIndex(c => c.id == imageId);
-      const src = x.chapters[index].images[imageIndex].src;
-      if (src) {
-        if (direction == "before") x.chapters[index].images.splice(imageIndex, 0, obj);
-        else x.chapters[index].images.splice(imageIndex + 1, 0, obj);
-      }
-      update(x)
-    })
+    const x: any = await firstValueFrom(this.db.getByKey('comics', comicsId))
+    const index = x.chapters.findIndex(c => c.id == chaptersId);
+    const imageIndex = x.chapters[index].images.findIndex(c => c.id == imageId);
+    const src = x.chapters[index].images[imageIndex].src;
+    if (src) {
+      if (direction == "before") x.chapters[index].images.splice(imageIndex, 0, obj);
+      else x.chapters[index].images.splice(imageIndex + 1, 0, obj);
+    }
+    await update(x)
   }
-  async deletePage(id: number, chaptersId: number, imageId: number) {
+  async deletePage(comicsId: number, chaptersId: number, imageId: number) {
     const updatePageData = () => {
       const index = this.comics.chapters.findIndex(c => c.id == chaptersId);
       const imageIndex = this.comics.chapters[index].images.findIndex(c => c.id == imageId);
       this.comics.chapters[index].images.splice(imageIndex, 1);
     }
-    const update = (comics) => {
-      this.db.update('comics', comics).subscribe()
+    const update = async (comics) => {
+      await firstValueFrom(this.db.update('comics', comics))
     }
     const detaleCacheImage = async (ids) => {
       const cache = await caches.open('image');
@@ -398,14 +420,12 @@ export class CurrentReaderService {
       }
     }
     updatePageData();
-    this.pageChange(this.comics.chapter.index);
-    this.db.getByKey('comics', id).subscribe(async (x: any) => {
-      const index = x.chapters.findIndex(c => c.id == chaptersId);
-      const imageIndex = x.chapters[index].images.findIndex(c => c.id == imageId);
-      x.chapters[index].images.splice(imageIndex, 1);
-      detaleCacheImage([imageId]);
-      update(x)
-    })
+    const x: any = await firstValueFrom(this.db.getByKey('comics', comicsId))
+    const index = x.chapters.findIndex(c => c.id == chaptersId);
+    const imageIndex = x.chapters[index].images.findIndex(c => c.id == imageId);
+    x.chapters[index].images.splice(imageIndex, 1);
+    detaleCacheImage([imageId]);
+    await update(x)
   }
 
 }

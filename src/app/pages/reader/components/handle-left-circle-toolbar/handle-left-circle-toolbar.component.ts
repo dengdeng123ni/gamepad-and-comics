@@ -184,20 +184,22 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     const node = document.getElementById(id);
     if (node) node.style.opacity = "1";
   }
-  deleteImage(imageId) {
+  async deleteImage(imageId) {
     const id = this.current.comics.id
     const chapterId = this.current.comics.chapter.id;
-    this.current.deletePage(id, chapterId, imageId);
+    await this.current.deletePage(id, chapterId, imageId);
+    this.current.pageChange(this.current.comics.chapter.index)
   }
   onListMenuItemClick(id) {
     this.current.chapterChange(id);
   }
-  insertPage() {
+  async insertPage() {
     const id = this.current.comics.id
     const chapterId = this.current.comics.chapter.id;
     const images = this.current.comics.chapters.find(x => x.id == chapterId).images;
     const imagesId = images[this.current.comics.chapter.index].id;
-    this.current.insertPage(id, chapterId, imagesId)
+    await this.current.insertPage(id, chapterId, imagesId)
+    this.current.pageChange(this.current.comics.chapter.index)
   }
   cursorChange() {
     if (document.body.getAttribute("cursor") == "none") {
