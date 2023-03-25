@@ -69,7 +69,8 @@ body[pattern=gamepad][locked_region='[region=language_setting]']{
 }
 body[pattern=gamepad][locked_region='[region=handel_toolabr_left],[region=handel_toolabr_right],[region=handel_toolabr_center],[region=handel_toolabr_menu]']{
   [region=handel_toolabr_left][select=true],
-  [region=handel_toolabr_right][select=true]
+  [region=handel_toolabr_right][select=true],
+  [region=handel_toolabr_menu][select=true]
   {
     position: relative;
     &::after {

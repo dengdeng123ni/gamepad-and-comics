@@ -26,5 +26,20 @@
         .value {
         }
     }
+    @media screen and (min-width: 480px) and (max-width: 720px) {
+      width: 70vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media screen and (min-width: 0px) and (max-width: 480px) {
+      width: 60vw;
+      display: grid;
+      grid-template-columns:  1fr;
+      .item{
+        width: 100%;
+        min-width: auto;
+      }
+    }
 }
+
 
