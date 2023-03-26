@@ -71,6 +71,9 @@ export class SectionComponent {
           const ids = selectedList.map(x => x.id)
           this.current.delete(ids)
         } else if (e.id == "export") {
+          const ids = selectedList.map(x => x.id)
+          ids.forEach(id=>{ let obj = this.chapters.find(s => s.id == id); obj.selected = true; })
+
           const node = document.getElementById("menu_content");
           let { x, y, width, height } = node.getBoundingClientRect();
           if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
@@ -128,6 +131,7 @@ export class SectionComponent {
 
       this.loading.close();
 
+      this.chapters.forEach(x => x.selected = false)
     })
 
     this.edit$ = this.current.edit().subscribe(x => {

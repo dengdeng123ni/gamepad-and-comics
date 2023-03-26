@@ -19,9 +19,9 @@
     <div class="item">
       <mat-chip-listbox>
         <mat-chip-option [attr.type]="'chip'" (selectionChange)="change('one')" [selectable]="page!='one'"
-          *ngIf="type!='EPUB'" [attr.region]="'detail_export_settings_page'">{{i18n.config.double_page}}</mat-chip-option>
+          *ngIf="type!='EPUB'" [attr.region]="'detail_export_settings_page'">{{i18n.config.single_page}}</mat-chip-option>
         <mat-chip-option id="page_double" [attr.type]="'chip'" (selectionChange)="change('double')"
-          [selectable]="page!='double'" selected [attr.region]="'detail_export_settings_page'">{{i18n.config.single_page}}</mat-chip-option>
+          [selectable]="page!='double'" selected [attr.region]="'detail_export_settings_page'">{{i18n.config.double_page}}</mat-chip-option>
       </mat-chip-listbox>
       <button mat-mini-fab style="    height: 32px;
       width: 32px;" (click)="on($event)" [attr.region]="'detail_export_settings_page'" [attr.select]="true">
