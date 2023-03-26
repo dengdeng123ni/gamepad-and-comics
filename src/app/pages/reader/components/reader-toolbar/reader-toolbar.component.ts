@@ -17,7 +17,6 @@ export class ReaderToolbarComponent {
     public current: CurrentReaderService,
     public config: ConfigReaderService,
     public download: DownloadService,
-
     public i18n: I18nService
   ) {
 

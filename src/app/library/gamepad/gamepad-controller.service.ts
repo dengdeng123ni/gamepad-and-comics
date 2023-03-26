@@ -112,22 +112,22 @@ export class GamepadControllerService {
   }
   setMoveTargetPrevious() {
     const node = this.getCurrentNode();
-    const region=node.getAttribute("region");
+    const region = node.getAttribute("region");
     let nodePrevious = node.previousElementSibling;
-    if (!nodePrevious||nodePrevious&&!nodePrevious.getAttribute("region")) {
-      const firstNode=document.querySelectorAll(`[region=${region}]`)[0]
-      if(node.isSameNode(firstNode)) return
-      const { node:leftNode } = this.getMoveTarget("LEFT");
-      const { node:upNode } = this.getMoveTarget("UP");
-      if(!node.isSameNode(leftNode)&&leftNode.getAttribute("region") == region){
-        nodePrevious=leftNode;
-      }else if(!node.isSameNode(upNode)&&upNode.getAttribute("region") == region){
-        nodePrevious=upNode;
-      }else{
+    if (!nodePrevious || nodePrevious && !nodePrevious.getAttribute("region")) {
+      const firstNode = document.querySelectorAll(`[region=${region}]`)[0]
+      if (node.isSameNode(firstNode)) return
+      const { node: leftNode } = this.getMoveTarget("LEFT");
+      const { node: upNode } = this.getMoveTarget("UP");
+      if (!node.isSameNode(leftNode) && leftNode.getAttribute("region") == region) {
+        nodePrevious = leftNode;
+      } else if (!node.isSameNode(upNode) && upNode.getAttribute("region") == region) {
+        nodePrevious = upNode;
+      } else {
         return
       }
     }
-    if(!nodePrevious) return
+    if (!nodePrevious) return
     if (!nodePrevious.getAttribute("region") == region) return
     this.delSelectTarget();
     this.current = this.getCurrentObj(nodePrevious);
@@ -137,23 +137,23 @@ export class GamepadControllerService {
   }
   setMoveTargetNext() {
     const node = this.getCurrentNode();
-    const region=node.getAttribute("region");
+    const region = node.getAttribute("region");
     let nodeNext = node.nextElementSibling;
-    if (!nodeNext||nodeNext&&!nodeNext.getAttribute("region")) {
-      const nodes=document.querySelectorAll(`[region=${region}]`)
-      const lastNode=nodes[nodes.length-1]
-      if(node.isSameNode(lastNode)) return
-      const { node:rightNode } = this.getMoveTarget("RIGHT");
-      const { node:downNode } = this.getMoveTarget("DOWN");
-      if(!node.isSameNode(rightNode)&&rightNode.getAttribute("region") == region){
-         nodeNext=rightNode;
-      }else if(!node.isSameNode(downNode)&&downNode.getAttribute("region") == region){
-         nodeNext=downNode;
-      }else{
+    if (!nodeNext || nodeNext && !nodeNext.getAttribute("region")) {
+      const nodes = document.querySelectorAll(`[region=${region}]`)
+      const lastNode = nodes[nodes.length - 1]
+      if (node.isSameNode(lastNode)) return
+      const { node: rightNode } = this.getMoveTarget("RIGHT");
+      const { node: downNode } = this.getMoveTarget("DOWN");
+      if (!node.isSameNode(rightNode) && rightNode.getAttribute("region") == region) {
+        nodeNext = rightNode;
+      } else if (!node.isSameNode(downNode) && downNode.getAttribute("region") == region) {
+        nodeNext = downNode;
+      } else {
         return
       }
     }
-    if(!nodeNext) return
+    if (!nodeNext) return
     if (!nodeNext.getAttribute("region") == region) return
     this.delSelectTarget();
     this.current = this.getCurrentObj(nodeNext);
@@ -163,9 +163,9 @@ export class GamepadControllerService {
   }
   setMoveTargetFirst() {
     const node = this.getCurrentNode();
-    const region=node.getAttribute("region");
-    const nodes=document.querySelectorAll(`[region=${region}]`)
-    const nodeFirst=nodes[0]
+    const region = node.getAttribute("region");
+    const nodes = document.querySelectorAll(`[region=${region}]`)
+    const nodeFirst = nodes[0]
     if (!nodeFirst) return
     if (!nodeFirst.getAttribute("region") == node.getAttribute("region")) return
     this.delSelectTarget();
@@ -176,9 +176,9 @@ export class GamepadControllerService {
   }
   setMoveTargetLast() {
     const node = this.getCurrentNode();
-    const region=node.getAttribute("region");
-    const nodes=document.querySelectorAll(`[region=${region}]`)
-    const nodeLast=nodes[nodes.length-1]
+    const region = node.getAttribute("region");
+    const nodes = document.querySelectorAll(`[region=${region}]`)
+    const nodeLast = nodes[nodes.length - 1]
     if (!nodeLast) return
     if (!nodeLast.getAttribute("region") == node.getAttribute("region")) return
     this.delSelectTarget();
@@ -216,6 +216,7 @@ export class GamepadControllerService {
     this.current = this.list.find(x => x.select == true);
     if (!this.current) this.current = this.list.find(x => x.start == true);
     if (!this.current) this.current = this.list[0];
+    // if (!this.current) { document.body.setAttribute("locked_region", "all"); this.getNodes(); this.getCurrentTarget(); }
   }
   getMoveTarget(direction) {
     const current = this.current;
@@ -276,13 +277,13 @@ export class GamepadControllerService {
     const observe = new MutationObserver((mutations) => {
       const { target } = mutations[0];
       if (node.getAttribute("select") === "true") {
-        if(!this.current||this.current&&!this.current.region) return
+        if (!this.current || this.current && !this.current.region) return
         if (!isHovering && this.GamepadEvent.hoverEvents[this.current.region]?.ENTER) {
           this.GamepadEvent.hoverEvents[this.current.region].ENTER(target);
           isHovering = true;
         }
       } else {
-        if(!this.current||this.current&&!this.current.region) return
+        if (!this.current || this.current && !this.current.region) return
         if (isHovering && this.GamepadEvent.hoverEvents[this.current.region]?.LEAVE) {
           this.GamepadEvent.hoverEvents[this.current.region].LEAVE(target);
           isHovering = false;
