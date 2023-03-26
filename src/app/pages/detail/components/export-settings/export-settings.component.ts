@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { I18nService } from 'src/app/library/public-api';
 import { CurrentDetailService } from '../../services/current.service';
 import { ExportSettingsService } from './export-settings.service';
 
@@ -10,7 +11,8 @@ import { ExportSettingsService } from './export-settings.service';
 export class ExportSettingsComponent {
   constructor(
     public exportSettings: ExportSettingsService,
-    public current: CurrentDetailService
+    public current: CurrentDetailService,
+    public i18n:I18nService,
   ) { }
   pageOrder = false;
   isFirstPageCover = false;
@@ -19,7 +21,10 @@ export class ExportSettingsComponent {
   change(e) {
     this.page = e;
   }
-
+  onEpub(){
+    const node:any=document.querySelector("#page_double");
+    node.querySelector("button").click();
+  }
   on($event) {
     if (this.page == "double") {
       this.current.onDownloadClick$.next({
