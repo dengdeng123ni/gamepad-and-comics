@@ -15,7 +15,7 @@ import { UploadSelectService } from '../upload-select/upload-select.service';
 })
 export class HandleLeftCircleToolbarComponent implements OnInit {
   index = 1;
-  isfullscreen = false;
+  isfullscreen =!!document.fullscreenElement;
   menuObj = {
     list: [],
     type: "delete"

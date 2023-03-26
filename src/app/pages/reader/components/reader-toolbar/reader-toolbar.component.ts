@@ -10,7 +10,8 @@ import { CurrentReaderService } from '../../services/current.service';
   styleUrls: ['./reader-toolbar.component.scss']
 })
 export class ReaderToolbarComponent {
-  isfullscreen = false;
+  isfullscreen =!!document.fullscreenElement;
+
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
     public current: CurrentReaderService,
@@ -36,17 +37,15 @@ export class ReaderToolbarComponent {
     this.current.page$.next(e)
   }
   isFullChange(e) {
-    this.isfullscreen = !this.isfullscreen;
-    if (e == "window") {
+    this.isfullscreen = !this.isfullscreen
+    if (document.fullscreenElement) {
       if (document.exitFullscreen) {
         document.exitFullscreen();
       }
-    }
-    if (e == "full_screen") {
+    }else{
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
       }
-
     }
   }
   firstPageCoverChange() {

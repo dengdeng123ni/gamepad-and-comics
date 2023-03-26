@@ -15,9 +15,11 @@ export class ReadTimeComponent {
     public current: CurrentReaderService
   ) {
     this.db.getAll('image_state').subscribe((x: any) => {
-      const list = x.filter(x => x.comicsId == this.current.comics.id);
+      const list = x.filter(x => x.comicsId == this.current.comics.id && x.endTime && x.startTime);
       let millisecond = 0;
       list.forEach(x => {
+        console.log(x.endTime,x.startTime);
+
         millisecond = millisecond + (x.endTime - x.startTime);
       })
       let chapters = {};

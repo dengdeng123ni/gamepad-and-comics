@@ -269,7 +269,7 @@ export class Mode4Component {
     const comicsId = this.current.comics.id;
     nodes.forEach(x => ids.push(x.getAttribute('id')))
     let endTime = null;
-    let startTime = null;
+    let startTime = new Date().getTime();
     var observer = new IntersectionObserver(
       function (changes) {
         changes.forEach(function (change: any) {

@@ -19,17 +19,17 @@ import { saveAs } from 'file-saver';
 })
 export class HandleLeftCircleToolbarComponent implements OnInit {
   index = 1;
-  isfullscreen = false;
+  isfullscreen =!!document.fullscreenElement;
   menuObj = {
     list: [],
     type: "delete"
   }
-  deleteMenuItemId=null;
+  deleteMenuItemId = null;
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
     public HandleLeftCircleToolbar: HandleLeftCircleToolbarService,
     public GamepadController: GamepadControllerService,
-    public GamepadEvent:GamepadEventService,
+    public GamepadEvent: GamepadEventService,
     public config: ConfigReaderService,
     public current: CurrentReaderService,
     public thumbnail: ThumbnailService,
@@ -39,14 +39,14 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     public section: SectionService,
     public thumbnailBottom: ThumbnailBottomService,
     public readerSettings: ReaderSettingsService,
-    public download:DownloadService,
-    public i18n:I18nService
+    public download: DownloadService,
+    public i18n: I18nService
   ) {
     this.GamepadEvent.registerAreaEvent("handel_toolabr_menu", {
-      B:()=>{
+      B: () => {
         this.menu.closeMenu();
         this.GamepadController.setCurrentTargetId("handel_toolabr_left_delete")
-        if(this.deleteMenuItemId) this.mouseoutDeleteMenu(this.deleteMenuItemId);
+        if (this.deleteMenuItemId) this.mouseoutDeleteMenu(this.deleteMenuItemId);
       },
       "UP": () => {
         this.GamepadController.setCurrentRegionTarget("UP");
@@ -60,33 +60,33 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
       "RIGHT": () => {
         this.GamepadController.setCurrentRegionTarget("RIGHT");
       },
-      A:()=>{
+      A: () => {
         this.GamepadController.leftKey();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.GamepadController.setCurrentTargetId("handel_toolabr_left_delete")
-        },50)
+        }, 50)
       },
       RIGHT_BUMPER: () => {
 
       },
-      LEFT_BUMPER:() => {
+      LEFT_BUMPER: () => {
       },
-      LEFT_TRIGGER:() => {
+      LEFT_TRIGGER: () => {
       },
-      RIGHT_TRIGGER:() => {
+      RIGHT_TRIGGER: () => {
       }
     })
 
     GamepadEvent.registerHoverEvent("handel_toolabr_menu", {
       ENTER: e => {
-        const id=parseInt(e.getAttribute("id"))
+        const id = parseInt(e.getAttribute("id"))
         this.mouseoverDeleteMenu(id);
-        this.deleteMenuItemId=id;
+        this.deleteMenuItemId = id;
       },
       LEAVE: e => {
-        const id=parseInt(e.getAttribute("id"))
+        const id = parseInt(e.getAttribute("id"))
         this.mouseoutDeleteMenu(id);
-        this.deleteMenuItemId=null;
+        this.deleteMenuItemId = null;
       }
     })
   }
@@ -227,9 +227,9 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   }
   // -------------
 
-  downloadFile(type="PDF"){
-    const selectedList=this.current.comics.chapters.filter(x=>x.id==this.current.comics.chapter.id)
-    const page = this.config.mode==1?'double':'one';
+  downloadFile(type = "PDF") {
+    const selectedList = this.current.comics.chapters.filter(x => x.id == this.current.comics.chapter.id)
+    const page = this.config.mode == 1 ? 'double' : 'one';
     const isFirstPageCover = this.config.mode1.isFirstPageCover;
     const pageOrder = this.config.mode1.pageOrder;
     if (type == "PDF") {
@@ -249,10 +249,10 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     const nodes: any = document.querySelectorAll(".swiper-slide-active img")
     if (nodes.length == 1) {
       const image1 = new Image();
-      const req=await fetch(nodes[0].src);
-      const blob= await req.blob();
+      const req = await fetch(nodes[0].src);
+      const blob = await req.blob();
       let name = `${this.current.comics.title}_${this.current.comics.chapter.title}_${this.current.comics.chapter.index}`;
-      saveAs(blob,name);
+      saveAs(blob, name);
     } else if (nodes.length == 2) {
       const image1 = await this.createImage(nodes[0].src);
       const image2 = await this.createImage(nodes[1].src);
@@ -272,7 +272,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
       a.dispatchEvent(event); // 触发a的单击事件
     } else {
       if (this.config.mode == 3) {
-        const list=(this.current.comics.chapters.find(x=>x.id==this.current.comics.chapter.id)).images
+        const list = (this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id)).images
         let arr = [];
         for (let i = 0; i < list.length; i++) {
           const x = list[i];
@@ -311,7 +311,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
         a.href = dataURL; // 将生成的URL设置为a.href属性
         a.dispatchEvent(event); // 触发a的单击事件
       } else if (this.config.mode == 5) {
-       const list=(this.current.comics.chapters.find(x=>x.id==this.current.comics.chapter.id)).images
+        const list = (this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id)).images
         let arr = [];
         for (let i = 0; i < list.length; i++) {
           const x = list[i];
@@ -350,7 +350,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
         a.href = dataURL; // 将生成的URL设置为a.href属性
         a.dispatchEvent(event); // 触发a的单击事件
       } else if (this.config.mode == 2) {
-        const list=(this.current.comics.chapters.find(x=>x.id==this.current.comics.chapter.id)).images
+        const list = (this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id)).images
         let arr = [];
         for (let i = 0; i < list.length; i++) {
           const x = list[i];
@@ -412,7 +412,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     const node: any = document.querySelector(".swiper-slide-active")
     const rotate = node.getAttribute("rotate");
     const nodes: any = document.querySelectorAll(".swiper-slide-active img")
-    if(nodes.length==1){
+    if (nodes.length == 1) {
       const scale = (nodes[0].height / nodes[0].width)
       if (rotate == "90") {
         node.style = `transform: rotate(180deg) scale(1);`;
@@ -424,12 +424,12 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
       else if (rotate == "270") {
         node.style = "";
         node.setAttribute("rotate", "")
-      }else {
+      } else {
         node.style = `transform: rotate(90deg) scale(${scale});`;
         node.setAttribute("rotate", "90")
       }
-    }else if(nodes.length==2){
-      const scale = ((nodes[0].height+nodes[1].height)/2 / (nodes[0].width+nodes[1].width))
+    } else if (nodes.length == 2) {
+      const scale = ((nodes[0].height + nodes[1].height) / 2 / (nodes[0].width + nodes[1].width))
       if (rotate == "90") {
         node.style = `transform: rotate(180deg) scale(1);`;
         node.setAttribute("rotate", "180")
@@ -440,7 +440,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
       else if (rotate == "270") {
         node.style = "";
         node.setAttribute("rotate", "")
-      }else {
+      } else {
         node.style = `transform: rotate(90deg) scale(${scale});`;
         node.setAttribute("rotate", "90")
       }

@@ -286,7 +286,7 @@ export class Mode1Component {
     const comicsId = this.current.comics.id;
     nodes.forEach(x => ids.push(x.getAttribute('id')))
     let endTime = null;
-    let startTime = null;
+    let startTime = new Date().getTime();
     var observer = new IntersectionObserver(
       function (changes) {
         changes.forEach(function (change: any) {
@@ -304,9 +304,6 @@ export class Mode1Component {
               update(ids[0], startTime, middleTime);
               update(ids[1], middleTime, endTime);
             }
-          }
-          if (change.intersectionRatio == 1) {
-            startTime = new Date().getTime()
           }
         });
       }
