@@ -4,6 +4,7 @@ import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { PptService } from './ppt.service';
 import { ZipService } from './zip.service';
+import { EpubService } from './epub.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +13,8 @@ export class DownloadService {
   constructor(
     public pdfService: PdfService,
     public pptService: PptService,
-    public zipService: ZipService
+    public zipService: ZipService,
+    public epubService:EpubService
   ) { }
   async pdf({ name, chapters = [], pageOrder = false, isFirstPageCover = false, page }) {
     let arr = [];
@@ -106,5 +108,19 @@ export class DownloadService {
         saveAs(content, name);
       })
     }
+  }
+  async epub({ name, chapters = [], pageOrder = false, isFirstPageCover = false, page }) {
+    let arr = [];
+    for (let i = 0; i < chapters.length; i++) {
+      const x = chapters[i];
+      const blob = await this.epubService.createEpub(x.images.map(x => x.src), { pageOrder, isFirstPageCover, page })
+      arr.push({ path: x.title, blob: blob })
+    }
+    arr.forEach(x => {
+      const path = `${name}_${x.path}.epub`;
+      saveAs(x.blob, path);
+    })
+    return
+
   }
 }

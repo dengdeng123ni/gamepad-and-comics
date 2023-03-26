@@ -1,0 +1,91 @@
+.chapters {
+  display: grid;
+  // width: 70vw;
+  grid-template-columns: 1fr;
+  // height: 50vh;
+  grid-gap: 1rem;
+  padding: 1rem;
+  overflow: auto;
+  // height: 100vh;
+  height: 50vh;
+  .item {
+    display: flex;
+    height: fit-content;
+    .info {
+      margin-left: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .name {
+        opacity: 0.87;
+      }
+
+      .reading-time {
+        opacity: 0.34;
+      }
+    }
+
+    img {
+      width: 125px;
+      max-width: 125px;
+      min-width: 125px;
+      height: 75px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+  }
+}
+
+.warp {
+  display: flex;
+  max-height: 50vh;
+
+  .cover {
+    padding: 16px;
+
+    img {
+      width: 150px;
+    }
+
+    .title {
+      font-size: 16px;
+      margin-top: 16px;
+      opacity: 0.87;
+    }
+
+    .reading-time {
+      opacity: 0.34;
+    }
+  }
+
+}
+
+.images {
+
+  display: flex;
+  width: 360px;
+  flex-direction: column;
+
+  .item {
+    display: flex;
+
+    .info {
+      margin: 0 12px;
+      display: flex;
+      /* justify-content: space-between; */
+      width: 100%;
+
+      .reading-time {
+        opacity: 0.34;
+      }
+    }
+
+  }
+
+  img {
+    width: 90px;
+    height: fit-content;
+    border-radius: 2px;
+  }
+}

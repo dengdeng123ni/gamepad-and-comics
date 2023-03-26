@@ -92,7 +92,7 @@ export class CurrentReaderService {
       if ((x.endTime - x.startTime) > 2000) {
         setTimeout(() => {
           if ((x.endTime - x.startTime) < 120000) {
-            x.endTime = x.startTime + 30000 + (30000 * Math.random());
+            x.endTime = x.startTime + 15000 + (15000 * Math.random());
           }
           const id = new Date().getTime();
           this.db.update('image_state', { id: id, ...x }).subscribe()

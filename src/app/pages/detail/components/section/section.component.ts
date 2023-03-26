@@ -120,6 +120,12 @@ export class SectionComponent {
         if (page == "one") await this.download.zip({ name: this.current.comics.title, chapters: this.selectedList, page })
         else await this.download.zip({ name: this.current.comics.title, isFirstPageCover, pageOrder, chapters: this.selectedList, page });
       }
+
+      if (type == "EPUB") {
+        if (page == "one") await this.download.epub({ name: this.current.comics.title, chapters: this.selectedList, page })
+        else await this.download.epub({ name: this.current.comics.title, isFirstPageCover, pageOrder, chapters: this.selectedList, page });
+      }
+
       this.loading.close();
 
     })

@@ -1,13 +1,24 @@
 <div class="warp">
   <div class="cover">
-    <img [src]="">
-    <div class="title"></div>
+    <img [src]="current.comics.cover.src">
+    <div class="title">{{current.comics.title}}</div>
+    <div class="reading-time">{{cover.minutes}} 分钟</div>
   </div>
-  <div>
-    <div class="info">
-
+  <div class="chapters">
+    <div class="item" *ngFor="let item of chapters;let index=index">
+      <img [src]="item.images[0].src" alt="">
+      <div class="info">
+        <div class="name">{{item.title}}</div>
+        <div class="reading-time">{{item.minutes}} 分钟</div>
+      </div>
     </div>
-    <div class="chapters"></div>
   </div>
-
+  <!-- <div class="images">
+    <div class="item" *ngFor="let item of chapters[0].images;let index=index">
+      <img [src]="item.src" alt="">
+      <div class="info">
+        <div class="reading-time">0 秒</div>
+      </div>
+    </div>
+  </div> -->
 </div>
