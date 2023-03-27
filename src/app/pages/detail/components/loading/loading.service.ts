@@ -22,7 +22,7 @@ export class LoadingService {
       });
       document.body.setAttribute("locked_region","[region=loading]")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[locked_region=loading]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="[region=loading]") document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;
