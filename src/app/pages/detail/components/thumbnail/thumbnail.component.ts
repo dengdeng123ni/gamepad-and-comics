@@ -17,7 +17,8 @@ export class ThumbnailComponent {
   enter$ = new Subject<{ $event: PointerEvent, data: any }>();
   afterInit$ = null;
 
-  constructor(public current: CurrentDetailService,
+  constructor(
+    public current: CurrentDetailService,
     private zone: NgZone,
   ) {
     this.init();

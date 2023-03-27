@@ -65,6 +65,7 @@ export class CurrentListService {
       for (let i = 0; i < ids.length; i++) {
         const id = ids[i];
         const res = await cache.delete(`${window.location.origin}/image/${id}`)
+        const res2 = await cache.delete(`${window.location.origin}/image/small/${id}`)
       }
     }
     const detaleCacheChapter = async (ids) => {

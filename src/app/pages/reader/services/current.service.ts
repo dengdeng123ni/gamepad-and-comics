@@ -203,7 +203,7 @@ export class CurrentReaderService {
   async init(id) {
     id = parseInt(id);
 
-    this.isLeave=false;
+    this.isLeave = false;
 
 
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
@@ -223,7 +223,7 @@ export class CurrentReaderService {
   }
   close() {
     if (this.comics.chapter.index != 0) this.db.update('chapter_state', this.comics.chapter).subscribe()
-    this.isLeave=true;
+    this.isLeave = true;
   }
   chapterChange(id: number) {
     this.chapterBefore$.next(this.comics.chapter);
@@ -350,23 +350,23 @@ export class CurrentReaderService {
       var blob = new Blob([arr], { type: contentType });
       return blob
     };
-    const uploadImage = async (src): Promise<{ id: number, src: string }> => {
+    const uploadImage = async (src): Promise<{ id: number, src: string, small: string }> => {
       const dataURL = await getImageBase64(src)
       const blob = base64ToBlob(dataURL);
       const formData = new FormData();
       formData.append('file', blob);
       const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}` }
+      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
     }
 
-    const uploadImageData = async (dataURL): Promise<{ id: number, src: string }> => {
+    const uploadImageData = async (dataURL): Promise<{ id: number, src: string, small: string }> => {
       const blob = base64ToBlob(dataURL);
       const formData = new FormData();
       formData.append('file', blob);
       const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}` }
+      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
     }
-    // const uploadImage = async (href): Promise<{ id: number, src: string }> => {
+    // const uploadImage = async (href): Promise<{ id: number, src: string,small:string }> => {
     //   const dataURL = await getImageBase64(href)
     //   const blob = base64ToBlob(dataURL);
     //   const id = new Date().getTime();
@@ -377,10 +377,10 @@ export class CurrentReaderService {
     //   const cache = await caches.open('image');
     //   await cache.put(request, response);
     //   URL.revokeObjectURL(src)
-    //   return { id: id, src: imageSrc }
+    //   return { id: id, src: imageSrc,small:imageSrc }
     // }
 
-    // const uploadImageData = async (dataURL): Promise<{ id: number, src: string }> => {
+    // const uploadImageData = async (dataURL): Promise<{ id: number, src: string ,small:string}> => {
     //   const blob = base64ToBlob(dataURL);
     //   const id = new Date().getTime();
     //   const src = URL.createObjectURL(blob);
@@ -390,7 +390,7 @@ export class CurrentReaderService {
     //   const cache = await caches.open('image');
     //   await cache.put(request, response);
     //   URL.revokeObjectURL(src)
-    //   return { id: id, src: imageSrc }
+    //   return { id: id, src: imageSrc,small:imageSrc }
     // }
 
     const update = async (comics) => {
@@ -411,7 +411,7 @@ export class CurrentReaderService {
         if (direction == "before") this.comics.chapters[index].images.splice(imageIndex, 0, obj);
         else this.comics.chapters[index].images.splice(imageIndex + 1, 0, obj);
       }
-      return obj
+      return { id: obj.id, src: obj.src }
     }
 
     const obj = await updatePageData();
@@ -439,6 +439,7 @@ export class CurrentReaderService {
       for (let i = 0; i < ids.length; i++) {
         const id = ids[i];
         const res = await cache.delete(`${window.location.origin}/image/${id}`)
+        const res2 = await cache.delete(`${window.location.origin}/image/small/${id}`)
       }
     }
     updatePageData();
@@ -450,8 +451,10 @@ export class CurrentReaderService {
     await update(x)
   }
   async createSmailImage(id) {
+
     const chapters = this.comics.chapters;
     const chaptersIndex = chapters.findIndex(x => x.id == this.comics.chapter.id);
+
     // const createSmailImageImage = async (href, id) => {
     //   const req = await fetch(href);
     //   const blob = await req.blob();
@@ -479,7 +482,7 @@ export class CurrentReaderService {
     for (let i = chaptersIndex; i <= chaptersIndex; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
-        if (!comics.chapters[i].images[j].small&&!this.isLeave) {
+        if (!comics.chapters[i].images[j].small && !this.isLeave) {
           comics.chapters[i].images[j].small = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id);
           await firstValueFrom(this.db.update('comics', comics))
         }
@@ -488,7 +491,7 @@ export class CurrentReaderService {
     for (let i = 0; i < comics.chapters.length; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
-        if (!comics.chapters[i].images[j].small&&!this.isLeave) {
+        if (!comics.chapters[i].images[j].small && !this.isLeave) {
           comics.chapters[i].images[j].small = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id);
           await firstValueFrom(this.db.update('comics', comics))
         }
