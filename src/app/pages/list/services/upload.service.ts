@@ -374,6 +374,7 @@ export class UploadService {
   //   return arr
   // }
   async add(comics, state, isCompress = false) {
+    comics.cover =(await this.getImages([comics.chapters[0].images[0]], true))[0];
     for (let index = 0; index < comics.chapters.length; index++) {
       const time = new Date().getTime();
       comics.chapters[index].id = time;
@@ -381,7 +382,6 @@ export class UploadService {
       comics.chapters[index].images = await this.getImages(comics.chapters[index].images, isCompress)
     }
     state.chapter.id = comics.chapters[0].id;
-    comics.cover = await this.getImages(comics.chapters[0].images[0].src, true);
     const res = await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
     return res
   }

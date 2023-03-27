@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { compressAccurately } from 'image-conversion';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom, forkJoin, Subject } from 'rxjs';
 interface Comics {
@@ -28,6 +29,7 @@ interface Chapters {
   images: Array<{
     id: number;
     src: string;
+    small?: string;
   }>
   title: string
 }
@@ -52,6 +54,7 @@ interface ImageReadingTime {
 })
 export class CurrentReaderService {
   comics: Comics = null;
+  isLeave: boolean = false;
   constructor(
     private db: NgxIndexedDBService,
     private http: HttpClient,
@@ -200,15 +203,27 @@ export class CurrentReaderService {
   async init(id) {
     id = parseInt(id);
 
+    this.isLeave=false;
+
+
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
       this.comics = { ...x[0], ...x[1] };
+
+      this.comics.chapters.forEach(c => {
+        c.images.forEach((j, i) => {
+          if (!c.images[i].small) c.images[i].small = c.images[i].src
+        })
+      })
+
       if (this.comics.chapter.index === undefined) this.comics.chapter.index = 0;
       this.mode$.next(this.comics.mode)
+      setTimeout(() => { this.createSmailImage(id) }, 1000)
       // this.insert(id, this.comics.chapters[0].id, this.comics.chapters[0].images[0].id)
     })
   }
   close() {
     if (this.comics.chapter.index != 0) this.db.update('chapter_state', this.comics.chapter).subscribe()
+    this.isLeave=true;
   }
   chapterChange(id: number) {
     this.chapterBefore$.next(this.comics.chapter);
@@ -434,5 +449,50 @@ export class CurrentReaderService {
     detaleCacheImage([imageId]);
     await update(x)
   }
+  async createSmailImage(id) {
+    const chapters = this.comics.chapters;
+    const chaptersIndex = chapters.findIndex(x => x.id == this.comics.chapter.id);
+    // const createSmailImageImage = async (href, id) => {
+    //   const req = await fetch(href);
+    //   const blob = await req.blob();
+    //   const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
+    //   const src = URL.createObjectURL(thumbnailBlob);
+    //   const imageSrc = `${window.location.origin}/image/small/${id}`;
+    //   const request = new Request(imageSrc);
+    //   const response = await fetch(src)
+    //   const cache = await caches.open('image');
+    //   await cache.put(request, response);
+    //   URL.revokeObjectURL(src)
+    //   return imageSrc
+    // }
 
+    const createSmailImage = async (href, id) => {
+      const req = await fetch(href);
+      const blob = await req.blob();
+      const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
+      const formData = new FormData();
+      formData.append('file', thumbnailBlob);
+      const idc = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
+      return `http://localhost:7899/image/${idc}`
+    }
+    const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
+    for (let i = chaptersIndex; i <= chaptersIndex; i++) {
+      const x = comics.chapters[i];
+      for (let j = 0; j < x.images.length; j++) {
+        if (!comics.chapters[i].images[j].small&&!this.isLeave) {
+          comics.chapters[i].images[j].small = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id);
+          await firstValueFrom(this.db.update('comics', comics))
+        }
+      }
+    }
+    for (let i = 0; i < comics.chapters.length; i++) {
+      const x = comics.chapters[i];
+      for (let j = 0; j < x.images.length; j++) {
+        if (!comics.chapters[i].images[j].small&&!this.isLeave) {
+          comics.chapters[i].images[j].small = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id);
+          await firstValueFrom(this.db.update('comics', comics))
+        }
+      }
+    }
+  }
 }

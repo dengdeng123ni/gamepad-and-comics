@@ -10,7 +10,7 @@
         [style]="n.id==current.comics.chapter.id?'background: rgba(255, 255, 255, .1);color:#c2185b;border-radius: 4px;':null"
         (click)="on(n.id)">
         <div class="img">
-            <img loading="lazy" loading="lazy" class="w-full" [src]="n?.images[0]?.src" [alt]="n?.id">
+            <img loading="lazy" loading="lazy" class="w-full" [src]="n?.images[0]?.small" [alt]="n?.id">
         </div>
         <div class="info">
             <div class="name">{{n.title}}
