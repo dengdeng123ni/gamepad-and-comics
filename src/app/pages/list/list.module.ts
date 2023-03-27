@@ -37,7 +37,8 @@ import { SponsorQrcodeComponent } from './components/sponsor-qrcode/sponsor-qrco
     LanguageSettingsComponent,
     SoftwareInformationComponent,
     HandleLeftCircleToolbarComponent,
-    SponsorQrcodeComponent
+    SponsorQrcodeComponent,
+
   ],
   imports: [
     CommonModule,

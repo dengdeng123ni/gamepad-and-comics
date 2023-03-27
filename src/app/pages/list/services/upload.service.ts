@@ -313,7 +313,8 @@ export class UploadService {
       // const id = new Date().getTime();
       const index = files.findIndex(x => x['name'] == name);
       let blob = null;
-      if (500000 < files[index].size && isCompress) {
+      if (600000 < files[index].size && isCompress) {
+
         blob = await compressAccurately(files[index] as any, 350);
       } else {
         blob = files[index]

@@ -23,6 +23,7 @@ import { Mode4Component } from './components/mode4/mode4.component';
 import { HandleLeftCircleToolbarComponent } from './components/handle-left-circle-toolbar/handle-left-circle-toolbar.component';
 import { ReaderSettingsComponent } from './components/reader-settings/reader-settings.component';
 import { ReadTimeComponent } from './components/read-time/read-time.component';
+import { GamepadThumbnailComponent } from './components/gamepad-thumbnail/gamepad-thumbnail.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ReadTimeComponent } from './components/read-time/read-time.component';
     Mode4Component,
     HandleLeftCircleToolbarComponent,
     ReaderSettingsComponent,
-    ReadTimeComponent
+    ReadTimeComponent,
+    GamepadThumbnailComponent
   ],
   imports: [
     CommonModule,
