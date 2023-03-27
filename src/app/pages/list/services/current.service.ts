@@ -86,6 +86,7 @@ export class CurrentListService {
     //   }
     // }
     this.db.getByKey('comics', id).subscribe((x: any) => {
+      imageIds.push(x.cover.id)
       chapterIds = x.chapters.map(x => x.id);
       x.chapters.forEach(x => x.images.forEach(c => imageIds.push(c.id)));
       detaleCacheImage(imageIds);

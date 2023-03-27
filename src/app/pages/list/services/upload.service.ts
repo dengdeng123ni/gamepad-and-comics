@@ -303,7 +303,7 @@ export class UploadService {
     });
     return result.map(x => x.name)
   }
-  getImages = async (files: Array<NzUploadFile>,isCompress=false) => {
+  getImages = async (files: Array<NzUploadFile>, isCompress = false) => {
     const names = files.map(x => x['name']);
     const sortNames = this.fileNameSort(names);
     let arr: Array<any> = [];
@@ -312,15 +312,15 @@ export class UploadService {
       const name = sortNames[i];
       // const id = new Date().getTime();
       const index = files.findIndex(x => x['name'] == name);
-      let blob=null;
-      if(500000<files[index].size&&isCompress){
-        blob =await compressAccurately(files[index] as any,350);
-      }else{
-        blob=files[index]
+      let blob = null;
+      if (500000 < files[index].size && isCompress) {
+        blob = await compressAccurately(files[index] as any, 350);
+      } else {
+        blob = files[index]
       }
       const formData = new FormData();
       formData.append('file', blob);
-      const id=await firstValueFrom(this.http.post("http://localhost:7899/image/upload",formData))
+      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
       // const id = "";
       // const src = URL.createObjectURL(files[index] as any);
       // const imageSrc = `${window.location.origin}/image/${id}`;
@@ -380,7 +380,7 @@ export class UploadService {
       comics.chapters[index].images = await this.getImages(comics.chapters[index].images, isCompress)
     }
     state.chapter.id = comics.chapters[0].id;
-    comics.cover = comics.chapters[0].images[0];
+    comics.cover = await this.getImages(comics.chapters[0].images[0].src, true);
     const res = await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
     return res
   }

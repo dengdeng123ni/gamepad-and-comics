@@ -57,13 +57,14 @@ export class CurrentDetailService {
   public afterInit() {
     return this.afterInit$
   }
+
   public onDownloadClick() {
     return this.onDownloadClick$
   }
+
   public edit() {
     return this.edit$
   }
-
 
   async init(id) {
     id = parseInt(id);
@@ -112,7 +113,6 @@ export class CurrentDetailService {
       })
     }
   }
-
 
   async delete(chapterIds: Array<number>) {
     const update_state = (chapter) => {
