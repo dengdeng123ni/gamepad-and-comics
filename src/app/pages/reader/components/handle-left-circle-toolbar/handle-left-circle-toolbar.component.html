@@ -71,8 +71,7 @@
         radio_button_checked</mat-icon>
     </button>
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-      [matTooltip]="i18n.config.reading_mode" class="icon" (click)="modeChange()"
-      [attr.region]="'handel_toolabr_left'">
+      [matTooltip]="i18n.config.reading_mode" class="icon" (click)="modeChange()" [attr.region]="'handel_toolabr_left'">
       <mat-icon *ngIf="config.mode==1">looks_one</mat-icon>
       <mat-icon *ngIf="config.mode==2">looks_two</mat-icon>
       <mat-icon *ngIf="config.mode==3||config.mode==5">looks_3</mat-icon>
@@ -80,8 +79,8 @@
     </button>
     <mat-divider></mat-divider>
     <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.rotation"
-     mat-icon-button class="icon" (click)="imageRotation()"
-     [disabled]="config.mode==1||config.mode==4?false:true" [attr.region]="'handel_toolabr_left'">
+      mat-icon-button class="icon" (click)="imageRotation()" [disabled]="config.mode==1||config.mode==4?false:true"
+      [attr.region]="'handel_toolabr_left'">
       <mat-icon>screen_rotation</mat-icon>
     </button>
     <mat-divider></mat-divider>
@@ -90,9 +89,20 @@
       [attr.region]="'handel_toolabr_left'" [disabled]="config.mode==1||config.mode==4?false:true">
       <mat-icon>insert_page_break</mat-icon>
     </button>
+    <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.separate_page" [attr.region]="'handel_toolabr_left'" mat-icon-button class="icon"
+      (click)="separatePage()" [disabled]="config.mode==1?false:true">
+      <mat-icon>call_split</mat-icon>
+    </button>
+    <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.merge_page" [attr.region]="'handel_toolabr_left'" mat-icon-button class="icon"
+      (click)="mergePage()" [disabled]="config.mode==1?false:true">
+      <mat-icon>merge</mat-icon>
+    </button>
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.delete" class="icon" [attr._id]="'handel_toolabr_left_delete'"
-      (click)="openDeleteMenu($event)" [attr.region]="'handel_toolabr_left'" [disabled]="config.mode==1||config.mode==4?false:true">
+      (click)="openDeleteMenu($event)" [attr.region]="'handel_toolabr_left'"
+      [disabled]="config.mode==1||config.mode==4?false:true">
       <mat-icon>delete</mat-icon>
     </button>
     <mat-divider></mat-divider>
@@ -115,20 +125,19 @@
   <div class="list handle_reader_circle_toolbar_right">
     <button cdkFocusInitial matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.full_screen" mat-icon-button class="icon"
-      (click)="isfullscreen?isFullChange('window'):isFullChange('full_screen')"
-      [attr.region]="'handel_toolabr_right'" [attr._id]="'handel_toolabr_right_1'">
+      (click)="isfullscreen?isFullChange('window'):isFullChange('full_screen')" [attr.region]="'handel_toolabr_right'"
+      [attr._id]="'handel_toolabr_right_1'">
       <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
       <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
     </button>
     <button mat-icon-button class="icon" matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-      [matTooltip]="i18n.config.hide_cursor" (click)="cursorChange();"
-      [attr.region]="'handel_toolabr_right'">
+      [matTooltip]="i18n.config.hide_cursor" (click)="cursorChange();" [attr.region]="'handel_toolabr_right'">
       <mat-icon>play_disabled</mat-icon>
     </button>
     <button mat-icon-button class="icon" matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-    [matTooltip]="i18n.config.close_the_handle" (click)="handelClose();HandleLeftCircleToolbar.close()"
-    [attr.region]="'handel_toolabr_right'">
-    <mat-icon>videogame_asset_off</mat-icon>
+      [matTooltip]="i18n.config.close_the_handle" (click)="handelClose();HandleLeftCircleToolbar.close()"
+      [attr.region]="'handel_toolabr_right'">
+      <mat-icon>videogame_asset_off</mat-icon>
     </button>
   </div>
   <!-- <div class="name">全屏</div> -->
@@ -138,10 +147,9 @@
 <mat-menu #menu="matMenu">
   <ng-template matMenuContent let-name="data" let-type="type">
     <div *ngIf="type=='delete'">
-      <button *ngFor="let item of name;let index=index" [id]="item.id"
-        [attr._id]="'handel_toolabr_menu_'+(index+1)" [attr.region]="'handel_toolabr_menu'" mat-menu-item
-        class="menu_item" (mouseover)="mouseoverDeleteMenu(item.id)" (mouseout)="mouseoutDeleteMenu(item.id)"
-        (click)="deleteImage(item.id)">
+      <button *ngFor="let item of name;let index=index" [id]="item.id" [attr._id]="'handel_toolabr_menu_'+(index+1)"
+        [attr.region]="'handel_toolabr_menu'" mat-menu-item class="menu_item" (mouseover)="mouseoverDeleteMenu(item.id)"
+        (mouseout)="mouseoutDeleteMenu(item.id)" (click)="deleteImage(item.id)">
         {{item.name}}
       </button>
     </div>
