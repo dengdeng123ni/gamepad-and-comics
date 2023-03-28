@@ -137,10 +137,7 @@ export class GamepadThumbnailComponent {
       list[index].index =index;
 
     }
-    console.log(list);
-
     this.list = list;
-
     this.index = this.current.comics.chapter.index;
   }
   ngAfterViewInit() {
