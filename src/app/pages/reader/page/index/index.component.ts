@@ -2,6 +2,7 @@ import { Component, HostListener, NgZone } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
 import { ContextMenuEventService, GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
+import { GamepadThumbnailService } from '../../components/gamepad-thumbnail/gamepad-thumbnail.service';
 import { HandleLeftCircleToolbarService } from '../../components/handle-left-circle-toolbar/handle-left-circle-toolbar.service';
 import { ModeChangeService } from '../../components/mode-change/mode-change.service';
 import { ReaderNavbarBarService } from '../../components/reader-navbar-bar/reader-navbar-bar.service';
@@ -40,6 +41,7 @@ export class IndexReaderComponent {
       public GamepadEvent: GamepadEventService,
       public ContextMenuEvent: ContextMenuEventService,
       public ReaderNavbarBar: ReaderNavbarBarService,
+      public gamepadThumbnail:GamepadThumbnailService,
       public prompt:PromptService
     ) {
 
@@ -55,7 +57,18 @@ export class IndexReaderComponent {
         this.HandleLeftCircleToolbar.isToggle();
       },
     })
-
+    GamepadEvent.registerAreaEventY("reader_mode_1", {
+      "LEFT": () => this.gamepadThumbnail.open(),
+    })
+    GamepadEvent.registerAreaEventY("reader_mode_2", {
+      "LEFT": () => this.gamepadThumbnail.open(),
+    })
+    GamepadEvent.registerAreaEventY("reader_mode_3", {
+      "LEFT": () => this.gamepadThumbnail.open(),
+    })
+    GamepadEvent.registerAreaEventY("reader_mode_4", {
+      "LEFT": () => this.gamepadThumbnail.open(),
+    })
     const names = ["thumbnail_sidebar_bottom", "thumbnail_sidebar_left", "thumbnail_list"]
     names.forEach(name => {
       ContextMenuEvent.register(name, {
