@@ -256,6 +256,25 @@ body[pattern=gamepad][locked_region='[region=content_menu_submenu],[region=conte
 
   }
 }
+body[pattern=gamepad][locked_region='[region=double_page_thumbnail]']{
+  [region=double_page_thumbnail][select=true] {
+
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+
+  }
+}
+
 body[pattern=gamepad][locked_region='[region=detail_export_settings_page],[region=detail_export_settings],[region=detail_export_settings_file_type]']{
   [region=detail_export_settings][select=true] {
     position: relative;

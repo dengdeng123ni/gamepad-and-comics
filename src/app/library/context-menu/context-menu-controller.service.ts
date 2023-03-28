@@ -20,14 +20,15 @@ export class ContextMenuControllerService {
   public openContextMenu(node: HTMLElement, x: number, y: number): void {
     this.currentNode = node;
     const key = node.getAttribute('content_menu_key');
-    const eventObj = this.contextMenuEvent.sendEvent[key];
+    let eventObj = this.contextMenuEvent.sendEvent[key];
     if (!eventObj) {
       return;
     }
     this.currentNode.setAttribute('content_menu_select', 'true');
-    const value = eventObj.callback ? eventObj.callback(node) : node.getAttribute('content_menu_value');
+    const value = node.getAttribute('content_menu_value');
     this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? '';
     (document.querySelector('body') as HTMLElement).setAttribute('locked_region', '[region=content_menu_submenu],[region=content_menu]');
+    if(eventObj.callback) eventObj.context=eventObj.callback(node,eventObj.context)
     this.contextMenu.open(eventObj.context, { x, y, key: key, value: value ?? null });
   }
 
@@ -52,11 +53,12 @@ export class ContextMenuControllerService {
         const node = e.path[i];
         if (node.getAttribute && node.getAttribute('content_menu_key')) {
           const key = node.getAttribute('content_menu_key');
-          const eventObj = this.contextMenuEvent.sendEvent[key];
           if(this.contextMenuEvent.openEvent[key]) this.contextMenuEvent.openEvent[key](node);
           this.currentNode = node;
           this.currentNode.setAttribute('content_menu_select', 'true');
-          const value = eventObj.callback ? eventObj.callback(node) : node.getAttribute('content_menu_value');
+          const value = node.getAttribute('content_menu_value');
+          let eventObj = this.contextMenuEvent.sendEvent[key];
+          if(eventObj.callback) eventObj.context=eventObj.callback(node,eventObj.context)
           this.contextMenu.open(eventObj.context, { x: e.clientX, y: e.clientY, key: key, value: value ?? null });
           break;
         }

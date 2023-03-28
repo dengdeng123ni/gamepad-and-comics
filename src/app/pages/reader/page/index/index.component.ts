@@ -2,6 +2,7 @@ import { Component, HostListener, NgZone } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
 import { ContextMenuEventService, GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
+import { DoublePageThumbnailService } from '../../components/double-page-thumbnail/double-page-thumbnail.service';
 import { GamepadThumbnailService } from '../../components/gamepad-thumbnail/gamepad-thumbnail.service';
 import { HandleLeftCircleToolbarService } from '../../components/handle-left-circle-toolbar/handle-left-circle-toolbar.service';
 import { ModeChangeService } from '../../components/mode-change/mode-change.service';
@@ -42,6 +43,7 @@ export class IndexReaderComponent {
       public ContextMenuEvent: ContextMenuEventService,
       public ReaderNavbarBar: ReaderNavbarBarService,
       public gamepadThumbnail:GamepadThumbnailService,
+      public doublePageThumbnail:DoublePageThumbnailService,
       public prompt:PromptService
     ) {
 
@@ -59,6 +61,7 @@ export class IndexReaderComponent {
     })
     GamepadEvent.registerAreaEventY("reader_mode_1", {
       "LEFT": () => this.gamepadThumbnail.open(),
+      "RIGHT": () => this.doublePageThumbnail.open(),
     })
     GamepadEvent.registerAreaEventY("reader_mode_2", {
       "LEFT": () => this.gamepadThumbnail.open(),
@@ -78,10 +81,10 @@ export class IndexReaderComponent {
             this.current.deletePage(this.current.comics.id, this.current.comics.chapter.id, id)
           }else if(e.id=="insertPageBefore"){
             const id = parseInt(e.value);
-            this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id,"before")
+            this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id,"","before")
           }else if(e.id=="insertPageAfter"){
             const id = parseInt(e.value);
-            this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id,"after")
+            this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id,"","after")
           }
         },
         menu: [
