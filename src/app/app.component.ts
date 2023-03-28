@@ -28,7 +28,7 @@ export class AppComponent {
   async separateImage(src) {
    const req= await fetch(src);
    const blob=await req.blob();
-   const image=await compressAccurately(blob,{ size: 30, accuracy: 0.9, width: 200, orientation:1, scale: 0.5, })
+   const image=await compressAccurately(blob,{ size: 50, accuracy: 0.9, width: 200, orientation:1, scale: 0.5, })
    console.log(URL.createObjectURL(image));
 
     // return [blob1, blob2]

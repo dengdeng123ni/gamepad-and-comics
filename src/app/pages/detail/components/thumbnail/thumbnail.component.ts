@@ -27,7 +27,7 @@ export class ThumbnailComponent {
     })
     this.enter$.pipe(throttleTime(50)).subscribe(x => {
       const { $event, data } = x;
-      const image = data.src
+      const image = data.small;
       this.img = image;
       const img = new Image();
       img.src = image;

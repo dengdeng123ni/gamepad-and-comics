@@ -137,7 +137,7 @@ export class ThumbnailBottomComponent {
     })
   }
   async enter(node, data) {
-    const image = data.src;
+    const image = data.small;
     this.img = image;
     const img = new Image();
     img.src = image;
