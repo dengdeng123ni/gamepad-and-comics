@@ -6,7 +6,7 @@
   [attr.select]="index==chapter_index?true:false"
   (click)="on($event,index)" (mouseleave)="leave($event)"  (mouseenter)="enter($event.target,n)"
   >
-    <img [src]="n.thumbnail" class="img" />
+    <img  [src]="n.thumbnail" class="img" />
   </div>
 </div>
 <div class="thumbnail_image"  id="thumbnail_image" [style]="{

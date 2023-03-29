@@ -8,60 +8,24 @@ export class ImagesService {
   constructor() {
 
   }
-
-  createImage = (src) => {
-    if (!src) {
-      return {
-        width: 0,
-        height: 0
-      }
+  getPageDouble = async (
+    list: Array<{ id: number, src: string, width: number, height: number }>,
+    option: { isFirstPageCover: boolean, pageOrder: boolean }
+  ) => {
+    let images=[];
+    if(option.pageOrder){
+      images= await this.getPageDoubleNormal(list,option.isFirstPageCover);
+    }else{
+      images= await this.getPageDoubleReverse(list,option.isFirstPageCover);
     }
-
-    return new Promise((r, j) => {
-      var img = new Image();
-      img.src = src;
-      img.onload = function () {
-        r(img)
-        j(img)
-      };
-    })
+    return images
   }
-  compressImage = async (src) => {
-    if (!src) {
-      return {
-        width: 0,
-        height: 0
-      }
-    }
-    const image1 = await this.createImage(src) as any;
-    let canvas = document.createElement('canvas');
-    canvas.width = image1.width;
-    canvas.height = image1.height;
-    if (canvas.width > canvas.height) {
-      canvas.width = 2480;
-      canvas.height = 2480 * (image1.height / image1.width);
-    } else {
-      canvas.width = 1240;
-      canvas.height = 1240 * (image1.height / image1.width);
-    }
-    let context = canvas.getContext('2d');
-    context.rect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image1, 0, 0, canvas.width, canvas.height);
-    let dataURL = canvas.toDataURL("image/jpeg");
-    return new Promise((r, j) => {
-      var img = new Image();
-      img.src = dataURL;
-      img.onload = function () {
-        r(img)
-        j(img)
-      };
-    })
-  }
-  pageDouble_reverse = async (list, isFirstPageCover) => {
+  getPageDoubleReverse = async (list: Array<{ id: number, src: string, width: number, height: number }>, isFirstPageCover: boolean) => {
+    const images = await this.getImagesWH(list)
     let arr = [];
-    for (let i = 0; i < list.length;) {
-      const img: any = await this.createImage(list[i]);
-      const img1: any = await this.createImage(list[i + 1]);
+    for (let i = 0; i < images.length;) {
+      const img = images[i];
+      const img1 = images[i + 1];
       if (img.height > img.width && img1.height > img1.width) {
         if (i == 0 && isFirstPageCover == true) {
           arr.push({
@@ -72,10 +36,11 @@ export class ImagesService {
             images: [{
               x: 0,
               y: 0,
+              id: img.id,
               img: img.src,
               width: img.width,
               height: img.height,
-              index:i+1
+              index: i + 1
             }]
           })
           i++;
@@ -88,17 +53,19 @@ export class ImagesService {
             images: [{
               x: 0,
               y: 0,
+              id: img1.id,
               img: img1.src,
               width: img1.width,
               height: ((img.height + img1.height) / 2),
-              index:i+2
+              index: i + 2
             }, {
               x: img1.width,
               y: 0,
+              id: img.id,
               img: img.src,
               width: img.width,
               height: ((img.height + img1.height) / 2),
-              index:i+1
+              index: i + 1
             }]
           })
           i++;
@@ -113,10 +80,11 @@ export class ImagesService {
           images: [{
             x: 0,
             y: 0,
+            id: img.id,
             img: img.src,
             width: img.width,
             height: img.height,
-            index:i+1
+            index: i + 1
           }]
         })
         i++;
@@ -128,10 +96,11 @@ export class ImagesService {
           images: [{
             x: 0,
             y: 0,
+            id: img1.id,
             img: img1.src,
             width: img1.width,
             height: img1.height,
-            index:i+1
+            index: i + 1
           }]
         })
         i++;
@@ -144,10 +113,11 @@ export class ImagesService {
           images: [{
             x: 0,
             y: 0,
+            id: img.id,
             img: img.src,
             width: img.width,
             height: img.height,
-            index:i+1
+            index: i + 1
           }]
         })
         i++;
@@ -159,10 +129,11 @@ export class ImagesService {
           images: [{
             x: 0,
             y: 0,
+            id: img1.id,
             img: img1.src,
             width: img1.width,
             height: img1.height,
-            index:i+1
+            index: i + 1
           }]
         })
         i++;
@@ -177,10 +148,11 @@ export class ImagesService {
               images: [{
                 x: 0,
                 y: 0,
+                id: img.id,
                 img: img.src,
                 width: img.width,
                 height: img.height,
-                index:i+1
+                index: i + 1
               }]
             })
             i++;
@@ -193,10 +165,11 @@ export class ImagesService {
               images: [{
                 x: img.width,
                 y: 0,
+                id: img.id,
                 img: img.src,
                 width: img.width,
                 height: img.height,
-                index:i+1
+                index: i + 1
               }]
             })
             i++;
@@ -210,10 +183,11 @@ export class ImagesService {
             images: [{
               x: 0,
               y: 0,
+              id: img.id,
               img: img.src,
               width: img.width,
               height: img.height,
-              index:i+1
+              index: i + 1
             }]
           })
           i++;
@@ -222,11 +196,12 @@ export class ImagesService {
     }
     return arr
   }
-  pageDouble = async (list, isFirstPageCover) => {
+  getPageDoubleNormal = async (list: Array<{ id: number, src: string, width: number, height: number }>, isFirstPageCover: boolean) => {
+    const images = await this.getImagesWH(list)
     let arr = [];
-    for (let i = 0; i < list.length;) {
-      const img: any = await this.createImage(list[i]);
-      const img1: any = await this.createImage(list[i + 1]);
+    for (let i = 0; i < images.length;) {
+      const img = images[i];
+      const img1 = images[i + 1];
       if (img.height > img.width && img1.height > img1.width) {
         if (i == 0 && isFirstPageCover == true) {
           arr.push({
@@ -238,6 +213,7 @@ export class ImagesService {
               x: img.width,
               y: 0,
               img: img.src,
+              id: img.id,
               width: img.width,
               height: img.height
             }]
@@ -253,12 +229,14 @@ export class ImagesService {
               x: 0,
               y: 0,
               img: img.src,
+              id: img.id,
               width: img.width,
               height: ((img.height + img1.height) / 2)
             }, {
               x: img.width,
               y: 0,
               img: img1.src,
+              id: img1.id,
               width: img1.width,
               height: ((img.height + img1.height) / 2)
             }]
@@ -276,6 +254,7 @@ export class ImagesService {
             x: 0,
             y: 0,
             img: img.src,
+            id: img.id,
             width: img.width,
             height: img.height
           }]
@@ -289,6 +268,7 @@ export class ImagesService {
           images: [{
             x: 0,
             y: 0,
+            id: img1.id,
             img: img1.src,
             width: img1.width,
             height: img1.height
@@ -304,6 +284,7 @@ export class ImagesService {
           images: [{
             x: img.width,
             y: 0,
+            id: img.id,
             img: img.src,
             width: img.width,
             height: img.height
@@ -318,6 +299,7 @@ export class ImagesService {
           images: [{
             x: 0,
             y: 0,
+            id: img1.id,
             img: img1.src,
             width: img1.width,
             height: img1.height
@@ -335,6 +317,7 @@ export class ImagesService {
               images: [{
                 x: 0,
                 y: 0,
+                id: img.id,
                 img: img.src,
                 width: img.width,
                 height: img.height
@@ -350,6 +333,7 @@ export class ImagesService {
               images: [{
                 x: 0,
                 y: 0,
+                id: img.id,
                 img: img.src,
                 width: img.width,
                 height: img.height
@@ -366,6 +350,7 @@ export class ImagesService {
             images: [{
               x: 0,
               y: 0,
+              id: img.id,
               img: img.src,
               width: img.width,
               height: img.height
@@ -376,5 +361,26 @@ export class ImagesService {
       }
     }
     return arr
+  }
+  getImagesWH = async (list: Array<{ id: number, src: string, width: number, height: number }>) => {
+    for (let i = 0; i < list.length; i++) {
+      const x = list[i];
+      if (x.width == 0 && x.height == 0) {
+        const img = await this.loadImage(x.src)
+        x.width = img.width;
+        x.height = img.height;
+      }
+    }
+    return list
+  }
+  loadImage = async (src): Promise<HTMLImageElement> => {
+    return new Promise((r, j) => {
+      var img = new Image();
+      img.src = src;
+      img.onload = function () {
+        r(img)
+        j(img)
+      };
+    })
   }
 }

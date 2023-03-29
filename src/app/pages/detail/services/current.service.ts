@@ -30,7 +30,7 @@ interface Chapters {
   images: Array<{
     id: number;
     src: string;
-    thumbnail?:string
+    thumbnail?: string
   }>
   title: string
 }
@@ -41,7 +41,7 @@ export class CurrentDetailService {
   comics: Comics = null;
   constructor(
     private db: NgxIndexedDBService,
-    public http:HttpClient,
+    public http: HttpClient,
     public router: Router
   ) {
 
@@ -78,7 +78,9 @@ export class CurrentDetailService {
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
       const comics = { ...x[0], ...x[1] };
       comics.chapters.forEach(c => {
-        if (!c.images[0].small) c.images[0].small = c.images[0].src
+        if (!c.images[0].small) c.images[0].small = c.images[0].src;
+        if (!c.images[0].width) c.images[0].width = 0;
+        if (!c.images[0].height) c.images[0].height = 0;
       })
       this.comics = comics;
       this.afterInit$.next(this.comics);
@@ -182,7 +184,18 @@ export class CurrentDetailService {
   }
 
   async createSmailImage(id) {
-    // const createSmailImageImage = async (href, id) => {
+    const loadImage = async (src): Promise<HTMLImageElement> => {
+      return new Promise((r, j) => {
+        var img = new Image();
+        img.src = src;
+        img.onload = function () {
+          r(img)
+          j(img)
+        };
+      })
+    }
+
+    // const createSmailImage = async (href, id) => {
     //   const req = await fetch(href);
     //   const blob = await req.blob();
     //   const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
@@ -193,23 +206,27 @@ export class CurrentDetailService {
     //   const cache = await caches.open('image');
     //   await cache.put(request, response);
     //   URL.revokeObjectURL(src)
-    //   return imageSrc
+    //   return { small:imageSrc, width:img.width, height:img.height }
     // }
 
     const createSmailImage = async (href, id) => {
+      const img = await loadImage(href);
       const req = await fetch(href);
       const blob = await req.blob();
       const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
       const formData = new FormData();
       formData.append('file', thumbnailBlob);
       const idc = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return `http://localhost:7899/image/${idc}`
+      return { small: `http://localhost:7899/image/${idc}`, width: img.width, height: img.height }
     }
-    const comics:any = await firstValueFrom(this.db.getByKey('comics', id))
+    const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
     for (let i = 0; i < comics.chapters.length; i++) {
       const x = comics.chapters[i].images[0];
       if (!x.small) {
-        comics.chapters[i].images[0].small = await createSmailImage(x.src, x.id);
+        const res = await createSmailImage(x.src, x.id);
+        comics.chapters[i].images[0].small = res.small;
+        comics.chapters[i].images[0].width = res.width;
+        comics.chapters[i].images[0].height = res.height;
         await firstValueFrom(this.db.update('comics', comics))
       }
     }

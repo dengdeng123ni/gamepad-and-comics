@@ -30,6 +30,8 @@ interface Chapters {
     id: number;
     src: string;
     small?: string;
+    height?: number,
+    width?: number
   }>
   title: string
 }
@@ -211,7 +213,9 @@ export class CurrentReaderService {
 
       this.comics.chapters.forEach(c => {
         c.images.forEach((j, i) => {
-          if (!c.images[i].small) c.images[i].small = c.images[i].src
+          if (!c.images[i].small) c.images[i].small = c.images[i].src;
+          if (!c.images[i].width) c.images[i].width = 0;
+          if (!c.images[i].height) c.images[i].height = 0;
         })
       })
 
@@ -451,11 +455,20 @@ export class CurrentReaderService {
     await update(x)
   }
   async createSmailImage(id) {
-
+    const loadImage = async (src): Promise<HTMLImageElement> => {
+      return new Promise((r, j) => {
+        var img = new Image();
+        img.src = src;
+        img.onload = function () {
+          r(img)
+          j(img)
+        };
+      })
+    }
     const chapters = this.comics.chapters;
     const chaptersIndex = chapters.findIndex(x => x.id == this.comics.chapter.id);
 
-    // const createSmailImageImage = async (href, id) => {
+    // const createSmailImage = async (href, id) => {
     //   const req = await fetch(href);
     //   const blob = await req.blob();
     //   const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
@@ -466,24 +479,35 @@ export class CurrentReaderService {
     //   const cache = await caches.open('image');
     //   await cache.put(request, response);
     //   URL.revokeObjectURL(src)
-    //   return imageSrc
+    //   return { small:imageSrc, width:img.width, height:img.height }
     // }
 
     const createSmailImage = async (href, id) => {
+      const img = await loadImage(href);
       const req = await fetch(href);
       const blob = await req.blob();
       const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
       const formData = new FormData();
       formData.append('file', thumbnailBlob);
       const idc = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return `http://localhost:7899/image/${idc}`
+      return { small: `http://localhost:7899/image/${idc}`, width: img.width, height: img.height }
     }
     const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
     for (let i = chaptersIndex; i <= chaptersIndex; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
         if (!comics.chapters[i].images[j].small && !this.isLeave) {
-          comics.chapters[i].images[j].small = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id);
+          const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
+
+          this.comics.chapters[i].images[j].small = res.small;
+          this.comics.chapters[i].images[j].width = res.width;
+          this.comics.chapters[i].images[j].height = res.height;
+
+          comics.chapters[i].images[j].small = res.small;
+          comics.chapters[i].images[j].width = res.width;
+          comics.chapters[i].images[j].height = res.height;
+
+
           await firstValueFrom(this.db.update('comics', comics))
         }
       }
@@ -492,7 +516,15 @@ export class CurrentReaderService {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
         if (!comics.chapters[i].images[j].small && !this.isLeave) {
-          comics.chapters[i].images[j].small = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id);
+          const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
+
+          this.comics.chapters[i].images[j].small = res.small;
+          this.comics.chapters[i].images[j].width = res.width;
+          this.comics.chapters[i].images[j].height = res.height;
+
+          comics.chapters[i].images[j].small = res.small;
+          comics.chapters[i].images[j].width = res.width;
+          comics.chapters[i].images[j].height = res.height;
           await firstValueFrom(this.db.update('comics', comics))
         }
       }

@@ -22,13 +22,11 @@ export class DoublePageThumbnailComponent {
     public config: ConfigReaderService,
     public general: GeneralService
   ) {
-    this.init(this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images.map(x => x.small))
+    this.init()
 
     ContextMenuEvent.register('double_page_thumbnail', {
       send: ($event, data) => {
         let index_arr = [];
-        console.log($event);
-
         $event.querySelectorAll(".index").forEach(node => {
           index_arr.push(parseInt(node.textContent))
         })
@@ -58,7 +56,7 @@ export class DoublePageThumbnailComponent {
           const obj = this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images[index]
           const id = obj.id;
           this.current.deletePage(this.current.comics.id, this.current.comics.chapter.id, id).then(() => {
-            this.init(this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images.map(x => x.small))
+            this.init()
           })
         } else if (e.id == "merge_page") {
           const node = document.querySelector(`[content_menu_value='${e.value}']`)
@@ -69,7 +67,7 @@ export class DoublePageThumbnailComponent {
           const obj = this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images[index_arr[0]]
           const obj2 = this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images[index_arr[1]]
           this.general.mergePage({ id: obj.id, src: obj.src, src2: obj2.src, id2: obj2.id, }).then(() => {
-            this.init(this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images.map(x => x.small))
+            this.init()
           })
         } else if (e.id == "separate_page") {
           const node = document.querySelector(`[content_menu_value='${e.value}']`)
@@ -80,7 +78,7 @@ export class DoublePageThumbnailComponent {
           index_arr.sort();
           const obj = this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images[index_arr[0]]
           this.general.separatePage({ id: obj.id, src: obj.src }).then(() => {
-            this.init(this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images.map(x => x.small))
+            this.init()
           })
         } else if (e.id == "insertPageBefore" || e.id == "insertPageAfter") {
           const node = document.querySelector(`[content_menu_value='${e.value}']`)
@@ -93,7 +91,7 @@ export class DoublePageThumbnailComponent {
           const id = obj.id;
           this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id, "", e.id == "insertPageBefore" ? "before" : "after")
             .then(() => {
-              this.init(this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images.map(x => x.small))
+              this.init()
             })
         }
       },
@@ -113,14 +111,19 @@ export class DoublePageThumbnailComponent {
     })
   }
 
-  async init(list) {
-    const double_list = await this.images.pageDouble_reverse(list, this.config.mode1.isFirstPageCover);
-    console.log(this.current.comics.chapter.index);
+  async init() {
 
+    const list=this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images.map(x => ({
+      id:x.id,
+      width:x.width,
+      height:x.height,
+      src:x.small
+    }))
+
+    const double_list = await this.images.getPageDouble(list, { isFirstPageCover:this.config.mode1.isFirstPageCover, pageOrder:false });
     double_list.forEach(x => {
       x.images.forEach(c => {
        if(!x.select) x.select = (c.index - 1) == this.current.comics.chapter.index;
-
       })
     })
     this.zone.run(() => {

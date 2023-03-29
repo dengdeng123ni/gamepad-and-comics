@@ -4,18 +4,18 @@
   <button mat-button
   class="item"
   tabIndex="1"
-  *ngFor="let i of list;let index=index"
+  *ngFor="let n of list;let index=index"
  [attr._id]="'thumbnail_sidebar_left_'+index"
  [attr.select]="index==chapter_index?true:false"
  [attr.region]="'thumbnail_sidebar_left'"
  [attr.content_menu_key]="'thumbnail_sidebar_left'"
- [attr.content_menu_value]="i.id"
+ [attr.content_menu_value]="n.id"
  (click)="old_index = index;on(index);"
  [class]="index==chapter_index?'select':''"
  >
      <div class="img">
         <!-- [height]="i.height" [width]="i.width"   -->
-         <img loading="lazy" [src]="i.small" [alt]="index" />
+         <img [width]="n.width" [height]="n.height" loading="lazy" [src]="n.small" [alt]="index" />
      </div>
      <div class="index"><div class="name">{{index+1}}</div></div>
  </button>
