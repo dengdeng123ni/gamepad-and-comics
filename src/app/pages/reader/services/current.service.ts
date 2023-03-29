@@ -19,9 +19,9 @@ interface Comics {
   title: string;
   origin: string;
   mode: number;
-  lastReadTime: number,
-  chapters: Array<Chapters>,
-  images: Array<any>
+  lastReadTime: number;
+  chapters: Array<Chapters>;
+  images: Array<any>;
 }
 interface Chapters {
   id: number;
@@ -30,8 +30,8 @@ interface Chapters {
     id: number;
     src: string;
     small?: string;
-    height?: number,
-    width?: number
+    height?: number;
+    width?: number;
   }>
   title: string
 }
@@ -496,37 +496,39 @@ export class CurrentReaderService {
     for (let i = chaptersIndex; i <= chaptersIndex; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
-        if (!comics.chapters[i].images[j].small && !this.isLeave) {
-          const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
-
-          this.comics.chapters[i].images[j].small = res.small;
-          this.comics.chapters[i].images[j].width = res.width;
-          this.comics.chapters[i].images[j].height = res.height;
-
-          comics.chapters[i].images[j].small = res.small;
-          comics.chapters[i].images[j].width = res.width;
-          comics.chapters[i].images[j].height = res.height;
+        if (comics.chapters[i].images[j].width||comics.chapters[i].images[j].height) continue
+        if (!!comics.chapters[i].images[j].small && this.isLeave) continue
 
 
-          await firstValueFrom(this.db.update('comics', comics))
-        }
+        const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
+
+        this.comics.chapters[i].images[j].small = res.small;
+        this.comics.chapters[i].images[j].width = res.width;
+        this.comics.chapters[i].images[j].height = res.height;
+
+        comics.chapters[i].images[j].small = res.small;
+        comics.chapters[i].images[j].width = res.width;
+        comics.chapters[i].images[j].height = res.height;
+
+        await firstValueFrom(this.db.update('comics', comics))
+
       }
     }
     for (let i = 0; i < comics.chapters.length; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
-        if (!comics.chapters[i].images[j].small && !this.isLeave) {
-          const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
+        if (comics.chapters[i].images[j].width||comics.chapters[i].images[j].height) continue
+        if (!!comics.chapters[i].images[j].small && this.isLeave) continue
+        const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 
-          this.comics.chapters[i].images[j].small = res.small;
-          this.comics.chapters[i].images[j].width = res.width;
-          this.comics.chapters[i].images[j].height = res.height;
+        this.comics.chapters[i].images[j].small = res.small;
+        this.comics.chapters[i].images[j].width = res.width;
+        this.comics.chapters[i].images[j].height = res.height;
 
-          comics.chapters[i].images[j].small = res.small;
-          comics.chapters[i].images[j].width = res.width;
-          comics.chapters[i].images[j].height = res.height;
-          await firstValueFrom(this.db.update('comics', comics))
-        }
+        comics.chapters[i].images[j].small = res.small;
+        comics.chapters[i].images[j].width = res.width;
+        comics.chapters[i].images[j].height = res.height;
+        await firstValueFrom(this.db.update('comics', comics))
       }
     }
   }

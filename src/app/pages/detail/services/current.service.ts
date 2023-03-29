@@ -30,6 +30,9 @@ interface Chapters {
   images: Array<{
     id: number;
     src: string;
+    small?: string;
+    height?: number;
+    width?: number;
     thumbnail?: string
   }>
   title: string
@@ -39,6 +42,7 @@ interface Chapters {
 })
 export class CurrentDetailService {
   comics: Comics = null;
+  isLeave=false;
   constructor(
     private db: NgxIndexedDBService,
     public http: HttpClient,
@@ -72,7 +76,7 @@ export class CurrentDetailService {
 
   async init(id) {
     id = parseInt(id);
-
+    this.isLeave=true;
     setTimeout(() => { this.createSmailImage(id) }, 1000)
 
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
@@ -183,6 +187,10 @@ export class CurrentDetailService {
 
   }
 
+
+  close(){
+    this.isLeave=false;
+  }
   async createSmailImage(id) {
     const loadImage = async (src): Promise<HTMLImageElement> => {
       return new Promise((r, j) => {
@@ -222,14 +230,35 @@ export class CurrentDetailService {
     const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
     for (let i = 0; i < comics.chapters.length; i++) {
       const x = comics.chapters[i].images[0];
-      if (!x.small) {
+      if (!x.small && this.isLeave) {
         const res = await createSmailImage(x.src, x.id);
+
+        this.comics.chapters[i].images[0].small = res.small;
+        this.comics.chapters[i].images[0].width = res.width;
+        this.comics.chapters[i].images[0].height = res.height;
+
         comics.chapters[i].images[0].small = res.small;
         comics.chapters[i].images[0].width = res.width;
         comics.chapters[i].images[0].height = res.height;
         await firstValueFrom(this.db.update('comics', comics))
       }
     }
+    for (let i = 0; i < comics.chapters.length; i++) {
+      const x = comics.chapters[i];
+      for (let j = 0; j < x.images.length; j++) {
+        if (comics.chapters[i].images[j].width||comics.chapters[i].images[j].height) continue
+        if (!!comics.chapters[i].images[j].small && this.isLeave) continue
+        const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 
+        this.comics.chapters[i].images[j].small = res.small;
+        this.comics.chapters[i].images[j].width = res.width;
+        this.comics.chapters[i].images[j].height = res.height;
+
+        comics.chapters[i].images[j].small = res.small;
+        comics.chapters[i].images[j].width = res.width;
+        comics.chapters[i].images[j].height = res.height;
+        await firstValueFrom(this.db.update('comics', comics))
+      }
+    }
   }
 }

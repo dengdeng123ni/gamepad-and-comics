@@ -63,16 +63,17 @@
 <div *ngIf="current.comics" class="flex flex-col absolute h-full justify-between top-0 right-0 bottom-0 reader_toolbar_right">
   <div class="flex flex-col top">
     <div class="flex flex-col item h-full">
+      <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" tabIndex="-1"
+        mat-icon-button (click)="doublePageThumbnail.open()" class="icon filter_image_list">
+        <mat-icon>grid_view</mat-icon>
+      </button>
       <app-popup-toolbar></app-popup-toolbar>
     </div>
   </div>
   <div class="flex flex-col bottom">
-    <div class="flex flex-col item bottom3">
-      <!-- <button tabIndex="-1" [attr.content_menu_key]="'filter_image_list'" [attr.content_menu_value]="'filter_image_list'"
-        mat-icon-button (click)="imageFilterChange()" class="icon filter_image_list">
-        <mat-icon>settings_brightness</mat-icon>
-      </button> -->
-    </div>
+    <!-- <div class="flex flex-col item bottom3">
+
+    </div> -->
     <!-- [attr.content_menu_key]="'create_ppt'"
       [attr.content_menu_value]="'create_ppt'" (click)="createPptOne()"
       [disabled]="current.mode==1||current.mode==4?false:true" -->

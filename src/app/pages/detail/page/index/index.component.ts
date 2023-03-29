@@ -28,4 +28,7 @@ export class IndexDetailComponent {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
   }
+  ngOnDestroy() {
+    this.current.close();
+  }
 }
