@@ -382,10 +382,11 @@ export class UploadService {
       comics.chapters[index].images = await this.getImages(comics.chapters[index].images, isCompress)
     }
     state.chapter.id = comics.chapters[0].id;
+    state.isFirstPageCover = false;
+    state.pageOrder = false;
     const res = await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
     return res
   }
-
   async addGithubPages(comics, state, isCompress = false) {
     // for (let index = 0; index < comics.chapters.length; index++) {
     //   const time=new Date().getTime();

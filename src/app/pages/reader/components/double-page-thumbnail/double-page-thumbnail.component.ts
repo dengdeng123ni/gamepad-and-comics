@@ -150,7 +150,7 @@ export class DoublePageThumbnailComponent {
       src: x.small
     }))
 
-    const double_list = await this.images.getPageDouble(list, { isFirstPageCover: this.config.mode1.isFirstPageCover, pageOrder: this.config.mode1.pageOrder });
+    const double_list = await this.images.getPageDouble(list, { isFirstPageCover: this.current.comics.isFirstPageCover, pageOrder: this.current.comics.pageOrder });
     double_list.forEach(x => {
       x.images.forEach(c => {
         if (!x.select) x.select = (c.index - 1) == index;
@@ -196,7 +196,7 @@ export class DoublePageThumbnailComponent {
       const index = data.images[0].index;
       this.current.chapterPageChange(this.chapterId, index - 1);
     } else {
-      if (this.config.mode1.pageOrder) {
+      if (this.current.comics.pageOrder) {
         const index = data.images[0].index;
         this.current.chapterPageChange(this.chapterId, index - 1);
       } else {

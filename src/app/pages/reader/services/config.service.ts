@@ -12,9 +12,7 @@ export class ConfigReaderService {
   // order true 正序 反序 普通模式 日漫模式
   // horizontal vertical
   mode1 = {
-    isFirstPageCover: true,
     isPageTurnDirection: true,
-    pageOrder: false,
     slidingDirection: "vertical",
   }
   mode2 = {

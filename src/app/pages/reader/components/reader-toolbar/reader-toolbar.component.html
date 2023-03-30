@@ -6,9 +6,9 @@
       </button>
       <!-- <mat-divider></mat-divider> -->
       <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.first_page_cover" tabIndex="-1" mat-icon-button class="icon" [disabled]="config.mode!=1" (click)="firstPageCoverChange()">
-        <mat-icon *ngIf="!config.mode1.isFirstPageCover">
+        <mat-icon *ngIf="!current.comics.isFirstPageCover">
           radio_button_unchecked</mat-icon>
-        <mat-icon *ngIf="config.mode1.isFirstPageCover">
+        <mat-icon *ngIf="current.comics.isFirstPageCover">
           radio_button_checked</mat-icon>
       </button>
       <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_mode" tabIndex="-1" mat-icon-button class="icon" (click)="modeChange()">

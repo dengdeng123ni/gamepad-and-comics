@@ -1,6 +1,6 @@
 
 <div class="warp  opacity-0" id="double_page_thumbnail" (click)="close()">
-  <div class="list" [attr.page_order]="config.mode1.pageOrder">
+  <div class="list" [attr.page_order]="this.current.comics.pageOrder">
     <button mat-button *ngFor="let n of list;let index=index" class="item" [attr.region]="'double_page_thumbnail'"
       [attr.select]="n.select" (click)="onClickItem($event,n)"
       [attr.content_menu_key]="'double_page_thumbnail'"

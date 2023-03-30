@@ -65,9 +65,9 @@
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.first_page_cover" class="icon" (click)="firstPageCoverChange()"
       [attr._id]="'handel_toolabr_left_1'" [attr.region]="'handel_toolabr_left'">
-      <mat-icon *ngIf="!config.mode1.isFirstPageCover">
+      <mat-icon *ngIf="!current.comics.isFirstPageCover">
         radio_button_unchecked</mat-icon>
-      <mat-icon *ngIf="config.mode1.isFirstPageCover">
+      <mat-icon *ngIf="current.comics.isFirstPageCover">
         radio_button_checked</mat-icon>
     </button>
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"

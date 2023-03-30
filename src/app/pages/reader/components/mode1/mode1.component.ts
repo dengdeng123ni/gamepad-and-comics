@@ -223,7 +223,7 @@ export class Mode1Component {
     let next = "";
     let current = "";
 
-    if (this.config.mode1.pageOrder) {
+    if (this.current.comics.pageOrder) {
       // 普通模式
       if (res.previous.primary.start) previous = previous + `<img style="opacity: 0;"  src="${res.previous.primary.image.src}" />`;
       if (res.previous.secondary.image.src) previous = previous + `<img previousimage id="${res.previous.secondary.image.id}" src="${res.previous.secondary.image.src}" />`;
@@ -364,7 +364,7 @@ export class Mode1Component {
       const obj = await this.isWideImage(images[index], images[index + 1]);
       const total = images.length;
 
-      if (this.config.mode1.isFirstPageCover == true && index == 0) {
+      if (this.current.comics.isFirstPageCover == true && index == 0) {
         obj.secondary.image = "";
       }
       if (obj.primary.width > obj.primary.height || obj.secondary.width > obj.secondary.height) {
@@ -481,16 +481,16 @@ export class Mode1Component {
 
     if (this.isPageFirst) {
       this.isPageFirst = false;
-      if (this.config.mode1.isFirstPageCover == true && index == 0) {
+      if (this.current.comics.isFirstPageCover == true && index == 0) {
         obj.secondary.image = "";
         steps = 1;
       }
     } else {
-      if (index == 0 && !this.isSwitch && this.config.mode1.isFirstPageCover == true) {
+      if (index == 0 && !this.isSwitch && this.current.comics.isFirstPageCover == true) {
         obj.secondary.image = "";
         steps = 1;
       }
-      if (index == 0 && this.isSwitch && this.config.mode1.isFirstPageCover == false) {
+      if (index == 0 && this.isSwitch && this.current.comics.isFirstPageCover == false) {
         obj.secondary.image = "";
         steps = 1;
       }

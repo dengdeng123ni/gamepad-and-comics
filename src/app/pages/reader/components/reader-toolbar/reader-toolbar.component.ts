@@ -54,12 +54,11 @@ export class ReaderToolbarComponent {
     }
   }
   firstPageCoverChange() {
-    this.config.mode1.isFirstPageCover = !this.config.mode1.isFirstPageCover;
+    this.current.comics.isFirstPageCover = !this.current.comics.isFirstPageCover;
     if (this.current.comics.chapter.index == 0) {
       this.changeSpreadMatch();
       this.changeSpreadMatch();
     }
-    this.config.save();
   }
 
   openDeleteMenu = ($event) => {

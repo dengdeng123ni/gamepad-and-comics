@@ -22,7 +22,8 @@ interface Comics {
   origin: string;
   mode: number;
   chapters: Array<Chapters>,
-  images: Array<any>
+  isFirstPageCover:boolean;
+  pageOrder:boolean;
 }
 interface Chapters {
   id: number;
@@ -105,6 +106,8 @@ export class CurrentDetailService {
         lastReadTime: new Date().getTime(),
         id: this.comics.id,
         mode: this.comics.mode,
+        isFirstPageCover:this.comics.isFirstPageCover,
+        pageOrder:this.comics.pageOrder
       }
       this.db.update('state', state).subscribe(() => this.router.navigate(['/reader', this.comics.id]))
     } else {
@@ -118,6 +121,8 @@ export class CurrentDetailService {
         lastReadTime: new Date().getTime(),
         id: this.comics.id,
         mode: this.comics.mode,
+        isFirstPageCover:this.comics.isFirstPageCover,
+        pageOrder:this.comics.pageOrder
       }
       this.db.update('state', state).subscribe(() => this.router.navigate(['/reader', this.comics.id]))
       this.db.getByID('chapter_state', chapter.id).subscribe((x: any) => {
@@ -144,6 +149,8 @@ export class CurrentDetailService {
         lastReadTime: new Date().getTime(),
         id: this.comics.id,
         mode: this.comics.mode,
+        isFirstPageCover:this.comics.isFirstPageCover,
+        pageOrder:this.comics.pageOrder
       }
       this.db.getByID('chapter_state', chapter.id).subscribe((x: any) => {
         if (x) {

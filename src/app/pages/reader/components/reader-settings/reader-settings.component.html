@@ -26,8 +26,8 @@
       {{i18n.config.page_order}}
     </div>
     <div class="right">
-      <div class="button" *ngIf="config.mode1.pageOrder==true">{{i18n.config.ordinary}}</div>
-      <div class="button" *ngIf="config.mode1.pageOrder==false">{{i18n.config.japanese_manga}}</div>
+      <div class="button" *ngIf="current.comics.pageOrder==true">{{i18n.config.ordinary}}</div>
+      <div class="button" *ngIf="current.comics.pageOrder==false">{{i18n.config.japanese_manga}}</div>
     </div>
   </button>
   <button class="item" mat-button *ngIf="config.mode==3" (click)="isPageTurnDirection3()" [attr.region]="'reader_settings'">

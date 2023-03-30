@@ -59,7 +59,7 @@ export class ReaderSettingsComponent {
 
   }
   pageOrder(){
-    this.config.mode1.pageOrder=!this.config.mode1.pageOrder;
+    this.current.comics.pageOrder=!this.current.comics.pageOrder;
     this.current.pageChange(this.current.comics.chapter.index)
   }
   isPageTurnDirection3(){

@@ -12,6 +12,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ExportSettingsComponent } from './components/export-settings/export-settings.component';
 import { HandleLeftCircleToolbarComponent } from './components/handle-left-circle-toolbar/handle-left-circle-toolbar.component';
 import { InfoShortComponent } from './components/info-short/info-short.component';
+import { DetailSettingsComponent } from './components/detail-settings/detail-settings.component';
 
 
 
@@ -26,7 +27,8 @@ import { InfoShortComponent } from './components/info-short/info-short.component
     LoadingComponent,
     ExportSettingsComponent,
     HandleLeftCircleToolbarComponent,
-    InfoShortComponent
+    InfoShortComponent,
+    DetailSettingsComponent
   ],
   imports: [
     CommonModule,

@@ -130,7 +130,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     }
   }
   firstPageCoverChange() {
-    this.config.mode1.isFirstPageCover = !this.config.mode1.isFirstPageCover;
+    this.current.comics.isFirstPageCover = !this.current.comics.isFirstPageCover;
     if (this.current.comics.chapter.index == 0) {
       this.changeSpreadMatch();
       this.changeSpreadMatch();
@@ -232,8 +232,8 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   downloadFile(type = "PDF") {
     const selectedList = this.current.comics.chapters.filter(x => x.id == this.current.comics.chapter.id)
     const page = this.config.mode == 1 ? 'double' : 'one';
-    const isFirstPageCover = this.config.mode1.isFirstPageCover;
-    const pageOrder = this.config.mode1.pageOrder;
+    const isFirstPageCover = this.current.comics.isFirstPageCover;
+    const pageOrder = this.current.comics.pageOrder;
     if (type == "PDF") {
       if (page == "one") this.download.pdf({ name: this.current.comics.title, chapters: selectedList, page })
       else this.download.pdf({ name: this.current.comics.title, isFirstPageCover, pageOrder, chapters: selectedList, page });
