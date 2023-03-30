@@ -1,0 +1,11 @@
+
+<div class="warp flex justify-center items-center w-full h-full" >
+  <div class="list" id="gamepad_thumbnail" [attr.region]="'gamepad_thumbnail'" [attr.select]="true">
+    <div *ngFor="let n of list;let index=index" class="item" [style]="{top:n.top+'px',left:n.left+'px',height:n.height+'px',transform:'rotate('+n.angle+'deg)'}">
+      <img [src]="n.small" [alt]="index" [attr._id]="'gamepad_thumbnail_'+n.id" [attr.select]="index_==index" [style]="{'border-radius':n.borderRadius+'px'}">
+    </div>
+    <div class=" flex justify-center items-center w-full h-full">
+      <img class="" [src]="list[index_]?.small" style="    max-width: 50%; border-radius: 2px; width: 50%; max-height: 50%; object-fit: contain;">
+    </div>
+  </div>
+</div>

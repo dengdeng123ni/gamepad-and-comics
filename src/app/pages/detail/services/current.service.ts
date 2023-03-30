@@ -52,7 +52,7 @@ export class CurrentDetailService {
 
     this.onThumbnailItemClick$.subscribe(x => {
       const { event$, data } = x;
-      this.update_state(data, data.index);
+      this.router_reader_page(data, data.index);
     })
   }
 
@@ -93,8 +93,15 @@ export class CurrentDetailService {
     })
 
   }
-
-  update_state(chapter, index?) {
+  update_state(chapter, index) {
+    if (Number.isNaN(index)) index = 0;
+    const state = { chapter:
+       { id: chapter.id, index: chapter.index, title: chapter.title, total: chapter.total },
+        lastReadTime: new Date().getTime(), id: this.comics.id,
+          mode: this.comics.mode,isFirstPageCover:this.comics.isFirstPageCover,pageOrder:this.comics.pageOrder };
+    this.db.update('state', state).subscribe()
+  }
+  router_reader_page(chapter, index?) {
     if (index) {
       const state = {
         chapter: {
@@ -136,7 +143,9 @@ export class CurrentDetailService {
       })
     }
   }
+  chapterPageChange(chapterId:number,index:number){
 
+  }
   async deleteChapter(chapterIds: Array<number>) {
     const update_state = (chapter) => {
       let state = {
@@ -196,6 +205,7 @@ export class CurrentDetailService {
 
 
   close(){
+    this.update_state(this.comics.chapter,this.comics.chapter.index);
     this.isLeave=false;
   }
 

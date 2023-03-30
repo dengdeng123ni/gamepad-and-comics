@@ -1,1 +1,23 @@
-<p>detail-settings works!</p>
+<div class="warp">
+
+  <div class="list">
+    <div class="item">
+      <div class="name">{{i18n.config.page_order}}</div>
+      <div class="options">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="!!current.comics.pageOrder">
+          <mat-radio-button [attr.select]="true" [attr.type]="'radio'" [attr.region]="'detail_settings'"
+            [value]="true">{{i18n.config.ordinary}}</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'detail_settings'"
+            [value]="false">{{i18n.config.japanese_manga}}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="item">
+      <div class="name">{{i18n.config.first_page_cover}}</div>
+      <div class="options">
+        <mat-slide-toggle [attr.type]="'slide'" [attr.region]="'detail_settings'"
+          [(ngModel)]="!!current.comics.isFirstPageCover"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+</div>

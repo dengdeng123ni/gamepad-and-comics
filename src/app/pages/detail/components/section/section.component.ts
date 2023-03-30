@@ -170,7 +170,7 @@ export class SectionComponent {
       obj.selected = !obj.selected;
     }
     if (this._ctrl) return
-    this.current.update_state(data);
+    this.current.router_reader_page(data);
   }
   close() {
     if (this.config.edit) return

@@ -13,6 +13,8 @@ import { ExportSettingsComponent } from './components/export-settings/export-set
 import { HandleLeftCircleToolbarComponent } from './components/handle-left-circle-toolbar/handle-left-circle-toolbar.component';
 import { InfoShortComponent } from './components/info-short/info-short.component';
 import { DetailSettingsComponent } from './components/detail-settings/detail-settings.component';
+import { DoublePageThumbnailComponent } from './components/double-page-thumbnail/double-page-thumbnail.component';
+import { GamepadThumbnailComponent } from './components/gamepad-thumbnail/gamepad-thumbnail.component';
 
 
 
@@ -28,7 +30,9 @@ import { DetailSettingsComponent } from './components/detail-settings/detail-set
     ExportSettingsComponent,
     HandleLeftCircleToolbarComponent,
     InfoShortComponent,
-    DetailSettingsComponent
+    DetailSettingsComponent,
+    DoublePageThumbnailComponent,
+    GamepadThumbnailComponent
   ],
   imports: [
     CommonModule,

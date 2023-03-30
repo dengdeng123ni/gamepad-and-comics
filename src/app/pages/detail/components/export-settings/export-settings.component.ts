@@ -13,7 +13,10 @@ export class ExportSettingsComponent {
     public exportSettings: ExportSettingsService,
     public current: CurrentDetailService,
     public i18n:I18nService,
-  ) { }
+  ) {
+    this.pageOrder=this.current.comics.pageOrder;
+    this.isFirstPageCover=this.current.comics.isFirstPageCover;
+  }
   pageOrder = false;
   isFirstPageCover = false;
   page = "double"; //  double one

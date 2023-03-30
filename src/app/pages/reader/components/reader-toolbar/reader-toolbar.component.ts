@@ -58,7 +58,10 @@ export class ReaderToolbarComponent {
     if (this.current.comics.chapter.index == 0) {
       this.changeSpreadMatch();
       this.changeSpreadMatch();
+    }else{
+      this.current.update_state(this.current.comics.chapter,this.current.comics.chapter.index)
     }
+
   }
 
   openDeleteMenu = ($event) => {

@@ -107,7 +107,9 @@ export class ReaderSettingsComponent {
   }
 
   ngOnDestroy(){
+    this.current.update_state(this.current.comics.chapter,this.current.comics.chapter.index)
      this.config.save();
      this.current.readerNavbarBar$.next(false)
+
   }
 }
