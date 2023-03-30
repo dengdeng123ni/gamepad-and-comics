@@ -64,7 +64,7 @@
 
 :host ::ng-deep {
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
-    border-radius: 4px !important;
+    border-radius: 4px;
   }
 
   .mat-mdc-icon-button .mat-mdc-button-touch-target {
@@ -92,7 +92,7 @@
   width: 40px;
   height: 40px;
   padding: 0;
-  border-radius: 4px !important;
+  border-radius: 4px;
   // margin-top: 4px;
 
   .mat-icon {
@@ -100,10 +100,10 @@
     width: 22px;
     font-size: 22px;
     overflow: hidden;
-    border-radius: 4px !important;
+    border-radius: 4px;
   }
 
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
-    border-radius: 4px !important;
+    border-radius: 4px;
   }
 }

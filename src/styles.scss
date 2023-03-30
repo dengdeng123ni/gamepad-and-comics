@@ -29,4 +29,21 @@ body {
 }
 
 
+body[angle=none]{
+  div,
+  img,
+  button,
+  span,
+  mat-chip-option,
+  mat-button-toggle-group
+  {
+    &::after{
+      border-radius: 0 !important;
+    }
+    &::before{
+      border-radius: 0 !important;
+    }
+    border-radius: 0 !important;
+  }
+}
 

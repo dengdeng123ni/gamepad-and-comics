@@ -20,6 +20,7 @@ import { SoftwareInformationComponent } from './components/software-information/
 import { HandleLeftCircleToolbarComponent } from './components/handle-left-circle-toolbar/handle-left-circle-toolbar.component';
 import { SponsorQrcodeComponent } from './components/sponsor-qrcode/sponsor-qrcode.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { GlobalSettingsComponent } from './components/global-settings/global-settings.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     SoftwareInformationComponent,
     HandleLeftCircleToolbarComponent,
     SponsorQrcodeComponent,
-    LoadingComponent
+    LoadingComponent,
+    GlobalSettingsComponent
 
   ],
   imports: [
