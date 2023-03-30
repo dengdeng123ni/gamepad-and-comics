@@ -20,7 +20,7 @@ import { GeneralService } from '../../services/general.service';
 })
 export class HandleLeftCircleToolbarComponent implements OnInit {
   index = 1;
-  isfullscreen =!!document.fullscreenElement;
+  isfullscreen = !!document.fullscreenElement;
   menuObj = {
     list: [],
     type: "delete"
@@ -41,7 +41,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     public thumbnailBottom: ThumbnailBottomService,
     public readerSettings: ReaderSettingsService,
     public download: DownloadService,
-    public general:GeneralService,
+    public general: GeneralService,
     public i18n: I18nService
   ) {
     this.GamepadEvent.registerAreaEvent("handel_toolabr_menu", {
@@ -102,7 +102,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     else this.current.mode$.next(1)
   }
   close() {
-
+    this.HandleLeftCircleToolbar.close()
   }
 
   back() {
@@ -126,8 +126,8 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
       }
-
     }
+    this.close();
   }
   firstPageCoverChange() {
     this.current.comics.isFirstPageCover = !this.current.comics.isFirstPageCover;
@@ -209,6 +209,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     } else {
       document.body.setAttribute("cursor", "none")
     }
+    this.close();
   }
   handelClose() {
     document.body.setAttribute("pattern", "")
@@ -451,20 +452,18 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   }
   async separatePage() {
     const nodes: any = document.querySelectorAll("[currentimage]")
-    if(nodes.length==1)
-    {
+    if (nodes.length == 1) {
       const image1Id = parseInt(nodes[0].getAttribute("id"));
-      this.general.separatePage({ id:image1Id, src:nodes[0].src })
+      this.general.separatePage({ id: image1Id, src: nodes[0].src })
       this.current.pageChange(this.current.comics.chapter.index)
     }
   }
   async mergePage() {
     const nodes: any = document.querySelectorAll("[currentimage]")
-    if(nodes.length==2)
-    {
+    if (nodes.length == 2) {
       const image1Id = parseInt(nodes[0].getAttribute("id"));
       const image2Id = parseInt(nodes[1].getAttribute("id"));
-      this.general.mergePage({ id:image1Id, src:nodes[0].src,id2:image2Id,src2:nodes[1].src })
+      this.general.mergePage({ id: image1Id, src: nodes[0].src, id2: image2Id, src2: nodes[1].src })
       this.current.pageChange(this.current.comics.chapter.index)
     }
   }

@@ -72,7 +72,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   }
 
   close() {
-
+    this.HandleLeftCircleToolbar.close()
   }
   uploadSelectOpen($event) {
     const node = ($event.target as HTMLElement);
@@ -102,6 +102,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
       }
 
     }
+    this.close();
   }
 
   cursorChange() {
@@ -110,6 +111,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     } else {
       document.body.setAttribute("cursor", "none")
     }
+    this.close();
   }
   handelClose() {
     document.body.setAttribute("pattern", "")
