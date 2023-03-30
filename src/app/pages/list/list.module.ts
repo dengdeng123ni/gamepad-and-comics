@@ -19,6 +19,7 @@ import { LanguageSettingsComponent } from './components/language-settings/langua
 import { SoftwareInformationComponent } from './components/software-information/software-information.component';
 import { HandleLeftCircleToolbarComponent } from './components/handle-left-circle-toolbar/handle-left-circle-toolbar.component';
 import { SponsorQrcodeComponent } from './components/sponsor-qrcode/sponsor-qrcode.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { SponsorQrcodeComponent } from './components/sponsor-qrcode/sponsor-qrco
     SoftwareInformationComponent,
     HandleLeftCircleToolbarComponent,
     SponsorQrcodeComponent,
+    LoadingComponent
 
   ],
   imports: [

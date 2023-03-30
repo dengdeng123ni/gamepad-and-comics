@@ -3,6 +3,7 @@ import { DomSanitizer, Title } from '@angular/platform-browser';
 import { GamepadControllerService, GamepadEventService, I18nService } from 'src/app/library/public-api';
 import { CurrentListService } from '../../services/current.service';
 import { UploadService } from '../../services/upload.service';
+import { LoadingService } from '../loading/loading.service';
 import { UploadSelectService } from '../upload-select/upload-select.service';
 import { UploadListService } from './upload-list.service';
 
@@ -27,6 +28,7 @@ export class UploadListComponent {
     public i18n: I18nService,
     public GamepadEvent: GamepadEventService,
     public GamepadController: GamepadControllerService,
+    public loading:LoadingService
   ) {
     this.list = upload.list.map(x => ({
       id: x.comics.id,
@@ -64,7 +66,7 @@ export class UploadListComponent {
   }
   async add() {
     const list = this.list.filter(x => x.select);
-    this.progress = true;
+    this.loading.open();
     for (let i = 0; i < list.length; i++) {
       const x = list[i];
       const id = x.id;
@@ -96,7 +98,7 @@ export class UploadListComponent {
   }
 
   close() {
-    this.progress = false;
+    this.loading.close();
     this.upload.list = [];
     this.uploadList.close();
     this.uploadSelect.close();

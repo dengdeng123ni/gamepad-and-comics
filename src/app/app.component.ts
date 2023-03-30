@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ContextMenuControllerService, GamepadControllerService, GamepadEventService } from './library/public-api';
-import {compressAccurately} from 'image-conversion';
+import { compressAccurately } from 'image-conversion';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,8 +9,8 @@ import {compressAccurately} from 'image-conversion';
 export class AppComponent {
   constructor(
     public GamepadController: GamepadControllerService,
-    public GamepadEvent:GamepadEventService,
-    public ContextMenuController:ContextMenuControllerService
+    public GamepadEvent: GamepadEventService,
+    public ContextMenuController: ContextMenuControllerService
   ) {
     this.GamepadEvent.registerAreaEvent("content_menu_submenu", {
       "B": () => {
@@ -26,10 +26,10 @@ export class AppComponent {
 
   }
   async separateImage(src) {
-   const req= await fetch(src);
-   const blob=await req.blob();
-   const image=await compressAccurately(blob,{ size: 50, accuracy: 0.9, width: 200, orientation:1, scale: 0.5, })
-   console.log(URL.createObjectURL(image));
+    const req = await fetch(src);
+    const blob = await req.blob();
+    const image = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
+    console.log(URL.createObjectURL(image));
 
     // return [blob1, blob2]
   }

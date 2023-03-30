@@ -13,6 +13,7 @@ export class UploadListService {
   constructor(
     public _dialog: MatDialog,
     public GamepadEvent: GamepadEventService,
+
     ) {
 
       // this.GamepadEvent.registerAreaEvent("upload_list", {
