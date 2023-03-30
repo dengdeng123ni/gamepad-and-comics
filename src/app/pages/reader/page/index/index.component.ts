@@ -74,15 +74,27 @@ export class IndexReaderComponent {
         id:this.current.comics.chapter.id,
         index:this.current.comics.chapter.index
       }),
+      "RIGHT": () => this.doublePageThumbnail.open({
+        id:this.current.comics.chapter.id,
+        index:this.current.comics.chapter.index
+      }),
     })
     GamepadEvent.registerAreaEventY("reader_mode_3", {
       "LEFT": () => this.gamepadThumbnail.open({
         id:this.current.comics.chapter.id,
         index:this.current.comics.chapter.index
       }),
+      "RIGHT": () => this.doublePageThumbnail.open({
+        id:this.current.comics.chapter.id,
+        index:this.current.comics.chapter.index
+      }),
     })
     GamepadEvent.registerAreaEventY("reader_mode_4", {
       "LEFT": () => this.gamepadThumbnail.open({
+        id:this.current.comics.chapter.id,
+        index:this.current.comics.chapter.index
+      }),
+      "RIGHT": () => this.doublePageThumbnail.open({
         id:this.current.comics.chapter.id,
         index:this.current.comics.chapter.index
       }),
