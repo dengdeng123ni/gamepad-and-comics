@@ -35,7 +35,8 @@ body[angle=none]{
   button,
   span,
   mat-chip-option,
-  mat-button-toggle-group
+  mat-button-toggle-group,
+  mat-button-toggle
   {
     &::after{
       border-radius: 0 !important;
