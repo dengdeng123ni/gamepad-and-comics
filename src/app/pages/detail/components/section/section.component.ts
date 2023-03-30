@@ -56,7 +56,12 @@ export class SectionComponent {
     })
     GamepadEvent.registerAreaEvent("section_item", {
       B: () => {
-        this.router.navigate(['/'])
+        if(config.edit){
+          this.closeEdit();
+        }else{
+          this.router.navigate(['/'])
+        }
+
       }
     })
     ContextMenuEvent.register('section_item', {
@@ -150,7 +155,9 @@ export class SectionComponent {
 
     this.edit$ = this.current.edit().subscribe(x => {
       if (x) {
-
+        setTimeout(()=>{
+          GamepadController.setCurrentTargetId('select_all')
+        })
       } else {
         this.close()
       }

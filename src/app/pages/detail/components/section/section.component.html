@@ -4,7 +4,7 @@
       <span>
         {{i18n.config.chosen}}({{selectedList.length}})
       </span>
-      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.select_all" (click)="selectAll()" [attr.select]="true" [attr.region]="'detail_toolabr_item'" class="icon ml-1">
+      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.select_all" (click)="selectAll()" [attr.select]="true" [attr.region]="'detail_toolabr_item'" [attr._id]="'select_all'" class="icon ml-1">
         <mat-icon>done_all</mat-icon>
       </button>
       <mat-divider  [vertical]="true" style="height: 15px;width: 1px;margin: 0 4px;"></mat-divider>

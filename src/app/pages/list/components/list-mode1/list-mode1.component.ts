@@ -41,6 +41,11 @@ export class ListMode1Component {
         this.closeEdit();
       }
     })
+    GamepadEvent.registerAreaEvent("list_mode_item", {
+      B: () => {
+      if(config.edit)  this.closeEdit();
+      }
+    })
     GamepadEvent.registerHoverEvent(KEY, {
       ENTER: () => {
       },
@@ -57,6 +62,7 @@ export class ListMode1Component {
           selectedList = this.current.list.filter(x => x.id == id);
         }
         if (e.id == "delete") {
+          GamepadController.setMoveTargetPrevious();
           selectedList.forEach(x => this.current.delete(x.id))
         } else if (e.id == "github_pages") {
           this.exportZip(selectedList);
@@ -69,7 +75,9 @@ export class ListMode1Component {
     })
     this.edit$ = this.current.edit().subscribe(x => {
       if (x) {
-
+        setTimeout(()=>{
+          GamepadController.setCurrentTargetId('select_all')
+        })
       } else {
         this.close();
       }

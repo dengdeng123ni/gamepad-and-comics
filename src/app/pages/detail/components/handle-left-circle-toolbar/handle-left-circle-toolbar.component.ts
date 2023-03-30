@@ -5,6 +5,7 @@ import { HandleLeftCircleToolbarService } from './handle-left-circle-toolbar.ser
 import { saveAs } from 'file-saver';
 import { ConfigDetailService } from '../../services/config.service';
 import { CurrentDetailService } from '../../services/current.service';
+import { DetailSettingsService } from '../detail-settings/detail-settings.service';
 @Component({
   selector: 'app-handle-left-circle-toolbar',
   templateUrl: './handle-left-circle-toolbar.component.html',
@@ -25,6 +26,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     public GamepadEvent:GamepadEventService,
     public config: ConfigDetailService,
     public current: CurrentDetailService,
+    public detailSettings:DetailSettingsService,
     public i18n:I18nService
   ) {
     this.GamepadEvent.registerAreaEvent("handel_toolabr_menu", {
@@ -105,7 +107,15 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   handelClose() {
     document.body.setAttribute("pattern", "")
   }
+  openSettings() {
+    // readerSettings.open_bottom_sheet({});
 
+    this.detailSettings.open({
+      delayFocusTrap: false,
+      panelClass: "reader_settings_buttom",
+      backdropClass: "reader_settings_buttom_backdrop",
+    })
+  }
 
 
 
