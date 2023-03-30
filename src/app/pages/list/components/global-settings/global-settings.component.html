@@ -1,1 +1,23 @@
-<p>global-settings works!</p>
+<div class="warp">
+
+  <div class="list">
+    <div class="item">
+      <div class="name">{{i18n.config.style}}</div>
+      <div class="options">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="config.isRightAngle" (change)="change()">
+          <mat-radio-button  [attr.type]="'radio'" [attr.region]="'global_settings'"
+            [value]="true">{{i18n.config.right_angle}}</mat-radio-button>
+          <mat-radio-button [attr.select]="true" [attr.type]="'radio'" [attr.region]="'global_settings'"
+            [value]="false">{{i18n.config.rounded_corners}}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <!-- <div class="item">
+      <div class="name">{{i18n.config.first_page_cover}}</div>
+      <div class="options">
+        <mat-slide-toggle [attr.type]="'slide'" [attr.region]="'detail_settings'"
+          [(ngModel)]="!!false"></mat-slide-toggle>
+      </div>
+    </div> -->
+  </div>
+</div>

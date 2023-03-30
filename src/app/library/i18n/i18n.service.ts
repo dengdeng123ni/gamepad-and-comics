@@ -49,6 +49,9 @@ export class I18nService {
         this.translate.use('en')
       }
     }
+    if(localStorage.getItem("angle")=="none"){
+      document.body.setAttribute("angle","none")
+    }
   }
   //
   // 英语 俄语 中文 德语 葡萄牙语 法语 西班牙語 日语 韩语 意大利语 土耳其语 匈牙利语
@@ -113,7 +116,10 @@ export class I18nService {
     "rotation":"旋转",
     "merge_page":"合页",
     "separate_page":"分页",
-    "reading_time":"阅读时间"
+    "reading_time":"阅读时间",
+    "style":"风格",
+    "right_angle":"直角",
+    "rounded_corners":"圆角"
   }
 
   // languages = ["en", "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];

@@ -58,5 +58,8 @@
   "rotation":"旋转",
   "merge_page":"合页",
   "separate_page":"分页",
-  "reading_time":"阅读时间"
+  "reading_time":"阅读时间",
+  "style":"风格",
+  "right_angle":"直角",
+  "rounded_corners":"圆角"
 }

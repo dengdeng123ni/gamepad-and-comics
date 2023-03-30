@@ -21,8 +21,8 @@ interface Comics {
   mode: number;
   lastReadTime: number;
   chapters: Array<Chapters>;
-  isFirstPageCover:boolean;
-  pageOrder:boolean;
+  isFirstPageCover: boolean;
+  pageOrder: boolean;
 }
 interface Chapters {
   id: number;
@@ -257,11 +257,9 @@ export class CurrentReaderService {
     }
   }
   pageChange(index: number) {
-    if (0 <= index && index < this.comics.chapter.total) {
-      this.pageBefore$.next(index);
-      this.page$.next(index);
-      this.pageAfter$.next(index);
-    }
+    this.pageBefore$.next(index);
+    this.page$.next(index);
+    this.pageAfter$.next(index);
   }
 
   previousLast() {
@@ -319,10 +317,12 @@ export class CurrentReaderService {
   }
   update_state(chapter, index) {
     if (Number.isNaN(index)) index = 0;
-    const state = { chapter:
-       { id: chapter.id, index: chapter.index, title: chapter.title, total: chapter.total },
-        lastReadTime: new Date().getTime(), id: this.comics.id,
-          mode: this.comics.mode,isFirstPageCover:this.comics.isFirstPageCover,pageOrder:this.comics.pageOrder };
+    const state = {
+      chapter:
+        { id: chapter.id, index: chapter.index, title: chapter.title, total: chapter.total },
+      lastReadTime: new Date().getTime(), id: this.comics.id,
+      mode: this.comics.mode, isFirstPageCover: this.comics.isFirstPageCover, pageOrder: this.comics.pageOrder
+    };
     this.db.update('state', state).subscribe()
   }
   async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {

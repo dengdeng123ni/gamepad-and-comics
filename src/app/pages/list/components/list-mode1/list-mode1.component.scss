@@ -12,7 +12,7 @@
   overflow: auto;
   // height: 100%;
   overflow: auto;
-
+// zoom: 0.9;
   // height: inherit;
 
   .item {
@@ -65,6 +65,7 @@
     color: rgba(255, 255, 255, .87);
     width: 100%;
     text-align: left;
+    // zoom: 1.1;
   }
 
   .progress {
@@ -75,6 +76,7 @@
     white-space: nowrap;
     width: 100%;
     text-align: left;
+    // zoom: 1.1;
   }
 
   [multiple=true],
@@ -88,6 +90,7 @@
     right: 0px;
     top: 0px;
     pointer-events: none;
+    // zoom: 1.1;
   }
 }
 

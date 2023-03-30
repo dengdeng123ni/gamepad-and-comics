@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { I18nService } from 'src/app/library/public-api';
 import { ConfigListService } from '../../services/config.service';
 import { CurrentListService } from '../../services/current.service';
+import { GlobalSettingsService } from '../global-settings/global-settings.service';
 import { LanguageSettingsService } from '../language-settings/language-settings.service';
 import { SoftwareInformationService } from '../software-information/software-information.service';
 import { UploadSelectService } from '../upload-select/upload-select.service';
@@ -22,6 +23,7 @@ export class ListSideComponent {
       public i18n:I18nService,
       public LanguageSettings:LanguageSettingsService,
       public SoftwareInformation:SoftwareInformationService,
+      public globalSettings:GlobalSettingsService
     ) {
 
   }
@@ -49,5 +51,19 @@ export class ListSideComponent {
       panelClass:"reader_settings_right",
       backdropClass:"reader_settings_right_backdrop",
      })
+  }
+  openGlobalSettings($event){
+    let { x, y, width, height } = $event.target.getBoundingClientRect();
+    x = window.innerWidth-x;
+    y = (window.innerHeight) - y-height;
+    this.globalSettings.open({
+      position: {
+        bottom: `${y}px`,
+        right: `${x}px`
+      },
+      delayFocusTrap: false,
+      panelClass: "reader_settings_buttom",
+      backdropClass: "reader_settings_buttom_backdrop",
+    })
   }
 }

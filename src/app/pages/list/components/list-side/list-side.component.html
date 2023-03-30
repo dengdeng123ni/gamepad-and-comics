@@ -4,8 +4,8 @@
   </button> -->
   <div class="top">
     <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-      [matTooltip]="i18n.config.edit" [attr._id]="'list_side_edit'" [attr.region]="'list_toolabr_item'"
-      class="icon" (click)="editIsToggle($event)">
+      [matTooltip]="i18n.config.edit" [attr._id]="'list_side_edit'" [attr.region]="'list_toolabr_item'" class="icon"
+      (click)="editIsToggle($event)">
       <mat-icon>edit_note</mat-icon>
     </button>
     <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
@@ -16,14 +16,17 @@
   </div>
   <div class="buttom">
     <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-      [matTooltip]="'Language'" [attr.region]="'list_toolabr_item'" class="icon"
-      (click)="LanguageSettings.open()">
+      [matTooltip]="'Language'" [attr.region]="'list_toolabr_item'" class="icon" (click)="LanguageSettings.open()">
       <mat-icon>g_translate</mat-icon>
     </button>
     <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.about_the_software" [attr.region]="'list_toolabr_item'" class="icon"
       (click)="openSoftwareInformation($event)">
       <mat-icon>help</mat-icon>
+    </button>
+    <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.settings" [attr.region]="'list_toolabr_item'" class="icon" (click)="openGlobalSettings($event)">
+      <mat-icon>settings_applications</mat-icon>
     </button>
   </div>
   <!-- <button mat-icon-button class="icon" (click)="on($event,'sort')">
