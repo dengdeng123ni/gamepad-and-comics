@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
 import { GlobalSettingsComponent } from './global-settings.component';
 
 @Injectable({
@@ -7,7 +8,27 @@ import { GlobalSettingsComponent } from './global-settings.component';
 })
 export class GlobalSettingsService {
   opened=false;
-  constructor(public _dialog:MatDialog) { }
+  constructor(public _dialog:MatDialog,
+    public GamepadEvent:GamepadEventService,
+    public GamepadController:GamepadControllerService
+
+    ) {
+      GamepadEvent.registerAreaEvent("global_settings", {
+        "B": () => this.close(),
+        "A":()=>{
+          const node = GamepadController.getCurrentNode();
+          const type = node.getAttribute("type")
+          if (type=='chip' || type=='slide') {
+            node.querySelector("button").click();
+          }else if(type=='radio'){
+            node.querySelector("input").click();
+          } else {
+            GamepadController.leftKey();
+          }
+        }
+      })
+    }
+
   open(config?:MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(GlobalSettingsComponent,config);
