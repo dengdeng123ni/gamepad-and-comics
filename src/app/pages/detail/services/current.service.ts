@@ -102,6 +102,7 @@ export class CurrentDetailService {
     this.db.update('state', state).subscribe()
   }
   router_reader_page(chapter, index?) {
+
     if (index) {
       const state = {
         chapter: {
@@ -206,7 +207,6 @@ export class CurrentDetailService {
 
 
   close(){
-    this.update_state(this.comics.chapter,this.comics.chapter.index);
     this.isLeave=false;
   }
 

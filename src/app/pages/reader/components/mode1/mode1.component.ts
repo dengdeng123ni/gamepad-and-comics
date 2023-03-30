@@ -312,7 +312,8 @@ export class Mode1Component {
     observer.observe(node);
   }
   next() {
-    const index = this.index + this.steps;
+    const nodes = document.querySelectorAll(`[currentimage]`);
+    const index = this.index + nodes.length;
     if (index >= this.total) {
       this.current.nextFirst();
       return
@@ -322,6 +323,7 @@ export class Mode1Component {
   async previous() {
     let images = this.images;
     let index = this.index;
+
     if (index >= 2) {
       let a = await this.loadImage(images[index - 1].src);
       let c = await this.loadImage(images[index - 2].src);
@@ -338,6 +340,7 @@ export class Mode1Component {
       this.current.previousLast();
       return
     }
+
 
     index = index - this.steps;
     this.current.pageChange(index);

@@ -179,8 +179,9 @@ export class HandleLeftCircleToolbarService {
   opened: boolean = false;
   region = "";
   open() {
-    if (this.opened == false) {
+if (this.opened == false) {
       this.init();
+      this.current=8;
       this.opened = true;
       const dialogRef = this._dialog.open(HandleLeftCircleToolbarComponent, {
         panelClass: "handle_reader_circle_toolbar"

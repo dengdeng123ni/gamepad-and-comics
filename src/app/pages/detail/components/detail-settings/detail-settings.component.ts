@@ -14,4 +14,8 @@ export class DetailSettingsComponent {
     ) {
 
   }
+  ngOnDestroy(){
+
+    this.current.update_state(this.current.comics.chapter,this.current.comics.chapter.index);
+  }
 }

@@ -102,7 +102,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     else this.current.mode$.next(1)
   }
   close() {
-    this.HandleLeftCircleToolbar.close()
+    //
   }
 
   back() {
@@ -127,7 +127,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
         document.documentElement.requestFullscreen();
       }
     }
-    this.close();
+    this.HandleLeftCircleToolbar.close()
   }
   firstPageCoverChange() {
     this.current.comics.isFirstPageCover = !this.current.comics.isFirstPageCover;
@@ -209,7 +209,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     } else {
       document.body.setAttribute("cursor", "none")
     }
-    this.close();
+    this.HandleLeftCircleToolbar.close();
   }
   handelClose() {
     document.body.setAttribute("pattern", "")

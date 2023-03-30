@@ -19,7 +19,6 @@ export class ReadTimeComponent {
       let millisecond = 0;
       list.forEach(x => {
         console.log(x.endTime,x.startTime);
-
         millisecond = millisecond + (x.endTime - x.startTime);
       })
       let chapters = {};

@@ -73,7 +73,6 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   }
 
   close() {
-    this.HandleLeftCircleToolbar.close()
   }
 
   back() {
@@ -92,7 +91,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
         document.documentElement.requestFullscreen();
       }
     }
-    this.close();
+    this.HandleLeftCircleToolbar.close();
   }
 
   cursorChange() {
@@ -101,7 +100,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     } else {
       document.body.setAttribute("cursor", "none")
     }
-    this.close();
+    this.HandleLeftCircleToolbar.close();
   }
   handelClose() {
     document.body.setAttribute("pattern", "")
