@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GamepadEventService } from 'src/app/library/public-api';
 import { DoublePageThumbnailComponent } from './double-page-thumbnail.component';
-
+interface DialogData {
+  id: number;
+  index:number
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -14,13 +17,15 @@ export class DoublePageThumbnailService {
     ) {
       this.GamepadEvent.registerAreaEvent("double_page_thumbnail", {
         "B": () => this.close(),
+
       })
      }
-  open() {
+  open(data:DialogData) {
     if (this.opened == false) {
       this.opened = true;
       const dialogRef = this._dialog.open(DoublePageThumbnailComponent, {
-        panelClass: "_double_page_thumbnail"
+        panelClass: "_double_page_thumbnail",
+        data:data
       });
       document.body.setAttribute("locked_region", "[region=double_page_thumbnail]")
       dialogRef.afterClosed().subscribe(result => {
@@ -31,7 +36,6 @@ export class DoublePageThumbnailService {
   }
   isToggle = () => {
     if (this.opened) this.close()
-    else this.open();
   }
   close() {
     this._dialog.closeAll();

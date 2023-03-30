@@ -64,7 +64,10 @@
   <div class="flex flex-col top">
     <div class="flex flex-col item h-full">
       <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" tabIndex="-1"
-        mat-icon-button (click)="doublePageThumbnail.open()" class="icon filter_image_list">
+        mat-icon-button (click)="doublePageThumbnail.open({
+          id:current.comics.chapter.id,
+          index:current.comics.chapter.index
+        })" class="icon filter_image_list">
         <mat-icon>grid_view</mat-icon>
       </button>
       <app-popup-toolbar></app-popup-toolbar>

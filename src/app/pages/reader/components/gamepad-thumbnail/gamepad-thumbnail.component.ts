@@ -1,8 +1,13 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, Inject, NgZone } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
 import { CurrentReaderService } from '../../services/current.service';
+import { GeneralService } from '../../services/general.service';
 import { GamepadThumbnailService } from './gamepad-thumbnail.service';
-
+interface DialogData {
+  id: number;
+  index: number
+}
 @Component({
   selector: 'app-gamepad-thumbnail',
   templateUrl: './gamepad-thumbnail.component.html',
@@ -10,35 +15,39 @@ import { GamepadThumbnailService } from './gamepad-thumbnail.service';
 })
 export class GamepadThumbnailComponent {
   list = [];
-  index = 0;
+  index_ = 0;
   width = 0;
-  chapter$=null;
+
+
+  chapterId = null;
   constructor(
     public current: CurrentReaderService,
     public GamepadEvent: GamepadEventService,
     public GamepadController: GamepadControllerService,
-    public GamepadThumbnail:GamepadThumbnailService,
+    public GamepadThumbnail: GamepadThumbnailService,
+    public general: GeneralService,
     private zone: NgZone,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
 
   ) {
     GamepadEvent.registerAreaEvent('gamepad_thumbnail', {
-      UP:()=>{
+      UP: () => {
         this.move("UP")
       },
-      LEFT:()=>{
+      LEFT: () => {
         this.move("LEFT")
       },
-      RIGHT:()=>{
+      RIGHT: () => {
         this.move("RIGHT")
       },
-      DOWN:()=>{
+      DOWN: () => {
         this.move("DOWN")
       },
       X: () => {
 
       },
       A: () => {
-        this.current.pageChange(this.index);
+        this.current.chapterPageChange(this.chapterId, this.index_);
         this.GamepadThumbnail.close();
       },
       B: () => {
@@ -51,33 +60,46 @@ export class GamepadThumbnailComponent {
         this.next();
       },
       RIGHT_ANALOG_PRESS: () => {
+
+
       },
       LEFT_TRIGGER: () => {
-        this.current.previous();
+        this.previousChapter();
       },
       RIGHT_TRIGGER: () => {
-        this.current.next();
+        this.nextChapter();
       }
-    })
-    this.chapter$ = this.current.chapter().subscribe(async x => {
-      this.init(this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images)
     })
   }
   ngOnDestroy() {
-    this.chapter$.unsubscribe();
+  }
+  async previousChapter() {
+    const id = this.general.getPreviousChapterId(this.chapterId);
+    const index = await this.general.getChapterIndex(id);
+    this.zone.run(() => {
+      this.init(id, index);
+    })
+  }
+  async nextChapter() {
+    const id = this.general.getNextChapterId(this.chapterId);
+    const index = await this.general.getChapterIndex(id);
+    this.zone.run(() => {
+      this.init(id, index);
+    })
+
   }
   move(e) {
     let state = this.GamepadController.getHandelState();
-    state[e]=true;
+    state[e] = true;
     if (state.LEFT_ANALOG_LEFT || state.LEFT_ANALOG_UP || state.LEFT_ANALOG_RIGHT || state.LEFT_ANALOG_DOWN) {
-      const angle=this.GamepadController.getAngle(state.LEFT_ANALOG_HORIZONTAL_AXIS,state.LEFT_ANALOG_VERTICAL_AXIS)
+      const angle = this.GamepadController.getAngle(state.LEFT_ANALOG_HORIZONTAL_AXIS, state.LEFT_ANALOG_VERTICAL_AXIS)
       this.zone.run(() => {
-        this.index = (this.list.filter(x => (x.angle+90) < angle)).length-1;
+        this.index_ = (this.list.filter(x => (x.angle + 90) < angle)).length - 1;
       })
     } else if (state.RIGHT_ANALOG_LEFT || state.RIGHT_ANALOG_UP || state.RIGHT_ANALOG_RIGHT || state.RIGHT_ANALOG_DOWN) {
-      const angle=this.GamepadController.getAngle(state.RIGHT_ANALOG_HORIZONTAL_AXIS,state.RIGHT_ANALOG_VERTICAL_AXIS)
+      const angle = this.GamepadController.getAngle(state.RIGHT_ANALOG_HORIZONTAL_AXIS, state.RIGHT_ANALOG_VERTICAL_AXIS)
       this.zone.run(() => {
-        this.index = (this.list.filter(x => (x.angle+90) < angle)).length-1;
+        this.index_ = (this.list.filter(x => (x.angle + 90) < angle)).length - 1;
       })
     } else if (state.DPAD_DOWN || state.DPAD_LEFT || state.DPAD_RIGHT || state.DPAD_UP) {
       if (state.DPAD_DOWN && !state.DPAD_LEFT && !state.DPAD_RIGHT && !state.DPAD_UP) this.next()
@@ -86,25 +108,27 @@ export class GamepadThumbnailComponent {
       else if (!state.DPAD_DOWN && !state.DPAD_LEFT && !state.DPAD_RIGHT && state.DPAD_UP) this.previous();
     }
   }
-  next(){
+  next() {
     this.zone.run(() => {
-      this.index++;
-      if(this.index==this.list.length){
-        this.index=0
+      this.index_++;
+      if (this.index_ == this.list.length) {
+        this.index_ = 0
       }
     })
 
-
   }
-  previous(){
+  previous() {
     this.zone.run(() => {
-      this.index--;
-      if(this.index==-1){
-        this.index=this.list.length-1
+      this.index_--;
+      if (this.index_ == -1) {
+        this.index_ = this.list.length - 1
       }
     })
   }
-  init(list) {
+  init(id: number, index: number) {
+
+    this.chapterId = id;
+    let list = JSON.parse(JSON.stringify(this.current.comics.chapters.find(x => x.id == id).images))
     let { innerWidth, innerHeight } = window;
     this.width = innerHeight * 0.8;
     let width = innerHeight * 0.8;
@@ -119,7 +143,6 @@ export class GamepadThumbnailComponent {
     const aaa = 360 / list.length;
     for (let index = 0; index < list.length; index++) {
       const angle = aaa * index - 90;
-
       // 将角度转换为弧度
       const angleRadians = angle * (Math.PI / 180);
       // 计算点的极坐标
@@ -133,14 +156,17 @@ export class GamepadThumbnailComponent {
       list[index].top = top;
       list[index].angle = angle;
       list[index].height = item_height * 0.75;
-      list[index].border_radius = item_height > 30 ? 2 : 0;
-      list[index].index =index;
+      list[index].borderRadius = item_height > 30 ? 2 : 0;
+      list[index].index = index;
 
     }
     this.list = list;
-    this.index = this.current.comics.chapter.index;
+      this.index_ = index;
+
   }
   ngAfterViewInit() {
-    this.init(this.current.comics.chapters.find(x => x.id == this.current.comics.chapter.id).images)
+    setTimeout(()=>{
+      this.init(this.data.id, this.data.index);
+    })
   }
 }

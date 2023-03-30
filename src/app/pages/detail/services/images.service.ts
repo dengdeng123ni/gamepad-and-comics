@@ -398,17 +398,4 @@ export class ImagesService {
       img.onerror = () => j(img);
     })
   }
-  async loadImages(list: Array<string>) {
-    let arr = [];
-    for (let i = 0; i < list.length; i++) {
-      const x = list[i];
-      try {
-        const img = await this.loadImage(x);
-        arr.push(img)
-      } catch (error) {
-        arr.push(null)
-      }
-    }
-    return arr
-  }
 }

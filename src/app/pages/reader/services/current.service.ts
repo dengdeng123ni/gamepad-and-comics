@@ -207,7 +207,6 @@ export class CurrentReaderService {
 
     this.isLeave = false;
 
-
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
       this.comics = { ...x[0], ...x[1] };
 
@@ -244,6 +243,16 @@ export class CurrentReaderService {
           this.chapter$.next(chapter);
         }
       })
+    }
+  }
+  chapterPageChange(chapterId, index) {
+    this.chapterBefore$.next(this.comics.chapter);
+    const chapters = this.comics.chapters;
+    const chaptersIndex = chapters.findIndex(x => x.id == chapterId);
+    const chapter = chapters[chaptersIndex];
+    if (chapter) {
+      this.comics.chapter = { id: chapter.id, title: chapter.title, index: index, total: chapter.images.length };
+      this.chapter$.next(chapter);
     }
   }
   pageChange(index: number) {
@@ -313,7 +322,7 @@ export class CurrentReaderService {
     this.db.update('state', state).subscribe()
   }
   async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {
-    const loadImage = (src): Promise<any> => {
+    const loadImage = (src): Promise<HTMLImageElement> => {
       return new Promise((r, j) => {
         var img = new Image();
         img.setAttribute('crossorigin', 'anonymous');
@@ -354,21 +363,23 @@ export class CurrentReaderService {
       var blob = new Blob([arr], { type: contentType });
       return blob
     };
-    const uploadImage = async (src): Promise<{ id: number, src: string, small: string }> => {
+    const uploadImage = async (src): Promise<{ id: number, width: number, height: number, src: string, small: string }> => {
       const dataURL = await getImageBase64(src)
+      const image = await loadImage(dataURL)
       const blob = base64ToBlob(dataURL);
       const formData = new FormData();
       formData.append('file', blob);
       const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
+      return { id: new Date().getTime(), width: image.width, height: image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
     }
 
-    const uploadImageData = async (dataURL): Promise<{ id: number, src: string, small: string }> => {
+    const uploadImageData = async (dataURL): Promise<{ id: number, width: number, height: number, src: string, small: string }> => {
+      const image = await loadImage(dataURL)
       const blob = base64ToBlob(dataURL);
       const formData = new FormData();
       formData.append('file', blob);
       const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
+      return { id: new Date().getTime(), width: image.width, height: image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
     }
     // const uploadImage = async (href): Promise<{ id: number, src: string,small:string }> => {
     //   const dataURL = await getImageBase64(href)
@@ -496,7 +507,7 @@ export class CurrentReaderService {
     for (let i = chaptersIndex; i <= chaptersIndex; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
-        if (comics.chapters[i].images[j].width||comics.chapters[i].images[j].height) continue
+        if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
         if (!!comics.chapters[i].images[j].small && this.isLeave) continue
 
 
@@ -517,7 +528,7 @@ export class CurrentReaderService {
     for (let i = 0; i < comics.chapters.length; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
-        if (comics.chapters[i].images[j].width||comics.chapters[i].images[j].height) continue
+        if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
         if (!!comics.chapters[i].images[j].small && this.isLeave) continue
         const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 

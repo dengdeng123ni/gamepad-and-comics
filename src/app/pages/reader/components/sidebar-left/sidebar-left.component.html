@@ -3,7 +3,6 @@
 
   <button mat-button
   class="item"
-  tabIndex="1"
   *ngFor="let n of list;let index=index"
  [attr._id]="'thumbnail_sidebar_left_'+index"
  [attr.select]="index==chapter_index?true:false"

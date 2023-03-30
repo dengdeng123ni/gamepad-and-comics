@@ -69,7 +69,7 @@ export class SectionComponent {
         }
         if (e.id == "delete") {
           const ids = selectedList.map(x => x.id)
-          this.current.delete(ids)
+          this.current.deleteChapter(ids)
         } else if (e.id == "export") {
           const ids = selectedList.map(x => x.id)
           ids.forEach(id=>{ let obj = this.chapters.find(s => s.id == id); obj.selected = true; })
@@ -187,7 +187,7 @@ export class SectionComponent {
   }
   selectedDetele() {
     const ids = this.selectedList.map(x => x.id)
-    this.current.delete(ids)
+    this.current.deleteChapter(ids)
   }
   openDownload($event) {
     let { x, y, width, height } = $event.target.getBoundingClientRect();

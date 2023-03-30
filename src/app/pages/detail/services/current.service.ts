@@ -132,7 +132,7 @@ export class CurrentDetailService {
     }
   }
 
-  async delete(chapterIds: Array<number>) {
+  async deleteChapter(chapterIds: Array<number>) {
     const update_state = (chapter) => {
       let state = {
         chapter: {
@@ -190,6 +190,151 @@ export class CurrentDetailService {
 
   close(){
     this.isLeave=false;
+  }
+
+  async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {
+    const loadImage = (src): Promise<HTMLImageElement> => {
+      return new Promise((r, j) => {
+        var img = new Image();
+        img.setAttribute('crossorigin', 'anonymous');
+        img.src = src;
+        img.onload = () => r(img)
+        img.onerror = () => j({ width: 0, height: 0 });
+      })
+    }
+    const getImageBase64 = async (src) => {
+      const image1 = await loadImage(src);
+      let canvas = document.createElement('canvas');
+      canvas.width = image1.width;
+      canvas.height = image1.height;
+      let context = canvas.getContext('2d');
+      context.drawImage(image1, 0, 0, image1.width, canvas.height);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < imageData.data.length; i += 4) {
+        imageData.data[i] = 255;
+        imageData.data[i + 1] = 255;
+        imageData.data[i + 2] = 255;
+        imageData.data[i + 3] = 255;
+      }
+      context.putImageData(imageData, 0, 0);
+      context.rect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = '#fff';
+      let dataURL = canvas.toDataURL("image/png", 0.1);
+      return dataURL
+    }
+    const base64ToBlob = (data) => {
+      var parts = data.split(';base64,'),
+        contentType = parts[0].split(':')[1],
+        raw = window.atob(parts[1]),
+        length = raw.length,
+        arr = new Uint8Array(length);
+      for (var i = 0; i < length; i++) {
+        arr[i] = raw.charCodeAt(i);
+      }
+      var blob = new Blob([arr], { type: contentType });
+      return blob
+    };
+    const uploadImage = async (src): Promise<{ id: number,width:number,height:number, src: string, small: string }> => {
+      const dataURL = await getImageBase64(src)
+      const image= await loadImage(dataURL)
+      const blob = base64ToBlob(dataURL);
+      const formData = new FormData();
+      formData.append('file', blob);
+      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
+      return { id: new Date().getTime(),width:image.width,height:image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
+    }
+
+    const uploadImageData = async (dataURL): Promise<{  id: number,width:number,height:number, src: string, small: string }> => {
+      const image= await loadImage(dataURL)
+      const blob = base64ToBlob(dataURL);
+      const formData = new FormData();
+      formData.append('file', blob);
+      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
+      return { id: new Date().getTime(),width:image.width,height:image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
+    }
+    // const uploadImage = async (href): Promise<{ id: number, src: string,small:string }> => {
+    //   const dataURL = await getImageBase64(href)
+    //   const blob = base64ToBlob(dataURL);
+    //   const id = new Date().getTime();
+    //   const src = URL.createObjectURL(blob);
+    //   const imageSrc = `${window.location.origin}/image/${id}`;
+    //   const request = new Request(imageSrc);
+    //   const response = await fetch(src)
+    //   const cache = await caches.open('image');
+    //   await cache.put(request, response);
+    //   URL.revokeObjectURL(src)
+    //   return { id: id, src: imageSrc,small:imageSrc }
+    // }
+
+    // const uploadImageData = async (dataURL): Promise<{ id: number, src: string ,small:string}> => {
+    //   const blob = base64ToBlob(dataURL);
+    //   const id = new Date().getTime();
+    //   const src = URL.createObjectURL(blob);
+    //   const imageSrc = `${window.location.origin}/image/${id}`;
+    //   const request = new Request(imageSrc);
+    //   const response = await fetch(src)
+    //   const cache = await caches.open('image');
+    //   await cache.put(request, response);
+    //   URL.revokeObjectURL(src)
+    //   return { id: id, src: imageSrc,small:imageSrc }
+    // }
+
+    const update = async (comics) => {
+      await firstValueFrom(this.db.update('comics', comics))
+    }
+
+    const updatePageData = async () => {
+      let obj = null;
+      const index = this.comics.chapters.findIndex(c => c.id == chaptersId);
+      const imageIndex = this.comics.chapters[index].images.findIndex(c => c.id == imageId);
+      const src = this.comics.chapters[index].images[imageIndex].src;
+      if (src) {
+        if (imageData) {
+          obj = await uploadImageData(imageData)
+        } else {
+          obj = await uploadImage(src)
+        }
+        if (direction == "before") this.comics.chapters[index].images.splice(imageIndex, 0, obj);
+        else this.comics.chapters[index].images.splice(imageIndex + 1, 0, obj);
+      }
+      return { id: obj.id, src: obj.src }
+    }
+
+    const obj = await updatePageData();
+    const x: any = await firstValueFrom(this.db.getByKey('comics', comicsId))
+    const index = x.chapters.findIndex(c => c.id == chaptersId);
+    const imageIndex = x.chapters[index].images.findIndex(c => c.id == imageId);
+    const src = x.chapters[index].images[imageIndex].src;
+    if (src) {
+      if (direction == "before") x.chapters[index].images.splice(imageIndex, 0, obj);
+      else x.chapters[index].images.splice(imageIndex + 1, 0, obj);
+    }
+    await update(x)
+  }
+  async deletePage(comicsId: number, chaptersId: number, imageId: number) {
+    const updatePageData = () => {
+      const index = this.comics.chapters.findIndex(c => c.id == chaptersId);
+      const imageIndex = this.comics.chapters[index].images.findIndex(c => c.id == imageId);
+      this.comics.chapters[index].images.splice(imageIndex, 1);
+    }
+    const update = async (comics) => {
+      await firstValueFrom(this.db.update('comics', comics))
+    }
+    const detaleCacheImage = async (ids) => {
+      const cache = await caches.open('image');
+      for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        const res = await cache.delete(`${window.location.origin}/image/${id}`)
+        const res2 = await cache.delete(`${window.location.origin}/image/small/${id}`)
+      }
+    }
+    updatePageData();
+    const x: any = await firstValueFrom(this.db.getByKey('comics', comicsId))
+    const index = x.chapters.findIndex(c => c.id == chaptersId);
+    const imageIndex = x.chapters[index].images.findIndex(c => c.id == imageId);
+    x.chapters[index].images.splice(imageIndex, 1);
+    detaleCacheImage([imageId]);
+    await update(x)
   }
   async createSmailImage(id) {
     const loadImage = async (src): Promise<HTMLImageElement> => {

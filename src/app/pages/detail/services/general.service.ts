@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { firstValueFrom } from 'rxjs';
-import { CurrentReaderService } from './current.service';
+import { CurrentDetailService } from './current.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeneralService {
 
-  constructor(public current: CurrentReaderService, private db: NgxIndexedDBService,) {
+  constructor(public current: CurrentDetailService) {
 
   }
 
@@ -71,34 +69,24 @@ export class GeneralService {
       };
     })
   }
-
-  getPreviousChapterId(id: number) {
+  previousChapterId(id: number) {
     const chapters = this.current.comics.chapters;
     const chaptersIndex = chapters.findIndex(x => x.id == id);
     const chapter = chapters[chaptersIndex - 1];
     if (chapter) {
       return chapter.id
     } else {
-      return id
+      return null
     }
   }
-  getNextChapterId(id: number) {
+  nextChapterId(id: number) {
     const chapters = this.current.comics.chapters;
     const chaptersIndex = chapters.findIndex(x => x.id == id);
     const chapter = chapters[chaptersIndex + 1];
     if (chapter) {
       return chapter.id
     } else {
-      return id
+      return null
     }
   }
-  async getChapterIndex(id) {
-    const x: any = await firstValueFrom(this.db.getByID('chapter_state', id))
-    if (x) {
-      return x.index
-    } else {
-      return 0
-    }
-  }
-
 }

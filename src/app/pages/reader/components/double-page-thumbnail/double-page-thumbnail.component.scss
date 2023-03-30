@@ -7,6 +7,21 @@
   overflow: auto;
   transition: all 0.3s;
 }
+.list[page_order=true]{
+  direction: ltr;
+  .double{
+    direction: ltr;
+  }
+  .single[page=l]{
+    direction: rtl;
+  }
+  .single[page=p]{
+    direction: ltr;
+  }
+  .single[page=p][first=true]{
+     direction: rtl;
+  }
+}
 
 .item {
 
@@ -63,7 +78,10 @@
 
 }
 
-
+.warp{
+  width: 100%;
+  height: 100%;
+}
 @media screen and (min-width: 0px) and (max-width: 480px) {
   .list {
     grid-template-columns: 1fr 1fr;

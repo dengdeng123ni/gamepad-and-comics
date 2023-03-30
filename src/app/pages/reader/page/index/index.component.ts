@@ -60,17 +60,32 @@ export class IndexReaderComponent {
       },
     })
     GamepadEvent.registerAreaEventY("reader_mode_1", {
-      "LEFT": () => this.gamepadThumbnail.open(),
-      "RIGHT": () => this.doublePageThumbnail.open(),
+      "LEFT": () => this.gamepadThumbnail.open({
+        id:this.current.comics.chapter.id,
+        index:this.current.comics.chapter.index
+      }),
+      "RIGHT": () => this.doublePageThumbnail.open({
+        id:this.current.comics.chapter.id,
+        index:this.current.comics.chapter.index
+      }),
     })
     GamepadEvent.registerAreaEventY("reader_mode_2", {
-      "LEFT": () => this.gamepadThumbnail.open(),
+      "LEFT": () => this.gamepadThumbnail.open({
+        id:this.current.comics.chapter.id,
+        index:this.current.comics.chapter.index
+      }),
     })
     GamepadEvent.registerAreaEventY("reader_mode_3", {
-      "LEFT": () => this.gamepadThumbnail.open(),
+      "LEFT": () => this.gamepadThumbnail.open({
+        id:this.current.comics.chapter.id,
+        index:this.current.comics.chapter.index
+      }),
     })
     GamepadEvent.registerAreaEventY("reader_mode_4", {
-      "LEFT": () => this.gamepadThumbnail.open(),
+      "LEFT": () => this.gamepadThumbnail.open({
+        id:this.current.comics.chapter.id,
+        index:this.current.comics.chapter.index
+      }),
     })
     const names = ["thumbnail_sidebar_bottom", "thumbnail_sidebar_left", "thumbnail_list"]
     names.forEach(name => {
