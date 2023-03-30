@@ -62,7 +62,6 @@ export class ListMode1Component {
           selectedList = this.current.list.filter(x => x.id == id);
         }
         if (e.id == "delete") {
-          GamepadController.setMoveTargetPrevious();
           selectedList.forEach(x => this.current.delete(x.id))
         } else if (e.id == "github_pages") {
           this.exportZip(selectedList);
