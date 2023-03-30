@@ -32,7 +32,7 @@
     </div>
     <div class="list">
       <button class="item" (click)="on($event,n)"
-      [id]="'section_item_'+n.id"
+      [id]="n.id"
       [attr._id]="'section_item_'+n.id"
       [attr.region]="'section_item'"
       [attr.multiple]="n.selected"

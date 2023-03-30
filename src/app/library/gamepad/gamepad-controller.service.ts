@@ -98,15 +98,15 @@ export class GamepadControllerService {
     const region = this.current.region;
     if (this.Y) {
       if (this.GamepadEvent.areaEventsY[region]?.[input]) {
-        this.GamepadEvent.areaEventsY[region][input]();
+        this.GamepadEvent.areaEventsY[region][input](this.nodes[this.current.index]);
       } else if (this.GamepadEvent.globalEventsY[input]) {
-        this.GamepadEvent.globalEventsY[input]();
+        this.GamepadEvent.globalEventsY[input](this.nodes[this.current.index]);
       }
     } else {
       if (this.GamepadEvent.areaEvents[region]?.[input]) {
-        this.GamepadEvent.areaEvents[region][input]();
+        this.GamepadEvent.areaEvents[region][input](this.nodes[this.current.index]);
       } else if (this.GamepadEvent.globalEvents[input]) {
-        this.GamepadEvent.globalEvents[input]();
+        this.GamepadEvent.globalEvents[input](this.nodes[this.current.index]);
       }
     }
   }

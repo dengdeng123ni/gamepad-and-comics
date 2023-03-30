@@ -7,6 +7,7 @@ import { GamepadThumbnailService } from '../../components/gamepad-thumbnail/game
 import { HandleLeftCircleToolbarService } from '../../components/handle-left-circle-toolbar/handle-left-circle-toolbar.service';
 import { ConfigDetailService } from '../../services/config.service';
 import { CurrentDetailService } from '../../services/current.service';
+import { GeneralService } from '../../services/general.service';
 
 @Component({
   selector: 'app-info-index',
@@ -17,28 +18,37 @@ export class IndexDetailComponent {
   constructor
     (
       public current: CurrentDetailService,
-      public config:ConfigDetailService,
+      public config: ConfigDetailService,
       private route: ActivatedRoute,
-      public GamepadEvent:GamepadEventService,
-      public HandleLeftCircleToolbar:HandleLeftCircleToolbarService,
-      public gamepadThumbnail:GamepadThumbnailService,
-      public doublePageThumbnail:DoublePageThumbnailService
+      public GamepadEvent: GamepadEventService,
+      public HandleLeftCircleToolbar: HandleLeftCircleToolbarService,
+      public gamepadThumbnail: GamepadThumbnailService,
+      public doublePageThumbnail: DoublePageThumbnailService,
+      public general: GeneralService
     ) {
-      GamepadEvent.registerGlobalEvent({
-        "LEFT_ANALOG_PRESS": () => {
-          this.HandleLeftCircleToolbar.isToggle();
-        },
-      })
-      GamepadEvent.registerAreaEventY("section_item", {
-        "LEFT": () => this.gamepadThumbnail.open({
-          id:this.current.comics.chapter.id,
-          index:this.current.comics.chapter.index
-        }),
-        "RIGHT": () => this.doublePageThumbnail.open({
-          id:this.current.comics.chapter.id,
-          index:this.current.comics.chapter.index
-        }),
-      })
+    GamepadEvent.registerGlobalEvent({
+      "LEFT_ANALOG_PRESS": () => {
+        this.HandleLeftCircleToolbar.isToggle();
+      },
+    })
+    GamepadEvent.registerAreaEventY("section_item", {
+      "LEFT": async $event => {
+        const id = parseInt($event.getAttribute("id"))
+        const index = await this.general.getChapterIndex(id);
+        this.gamepadThumbnail.open({
+          id: id,
+          index: index
+        })
+      },
+      "RIGHT": async $event => {
+        const id = parseInt($event.getAttribute("id"))
+        const index = await this.general.getChapterIndex(id);
+        this.doublePageThumbnail.open({
+          id: id,
+          index: index
+        })
+      },
+    })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
   }

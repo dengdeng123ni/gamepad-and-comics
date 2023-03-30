@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ContextMenuEventService, DownloadService, GamepadControllerService, GamepadEventService, I18nService } from 'src/app/library/public-api';
 import { ConfigDetailService } from '../../services/config.service';
 import { CurrentDetailService } from '../../services/current.service';
+import { GeneralService } from '../../services/general.service';
+import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { LoadingService } from '../loading/loading.service';
 
@@ -29,7 +31,7 @@ export class SectionComponent {
   afterInit$ = null;
   onDownloadClick$ = null;
 
-  id=null;
+  id = null;
 
   edit$ = null;
   title = "";
@@ -42,7 +44,9 @@ export class SectionComponent {
     public ContextMenuEvent: ContextMenuEventService,
     public download: DownloadService,
     public loading: LoadingService,
-    public i18n:I18nService,
+    public i18n: I18nService,
+    public general:GeneralService,
+    public doublePageThumbnail:DoublePageThumbnailService,
     public router: Router
   ) {
     GamepadEvent.registerAreaEvent("detail_toolabr_item", {
@@ -59,7 +63,7 @@ export class SectionComponent {
       close: e => {
 
       },
-      on: e => {
+      on: async e => {
         let selectedList = [];
         if (this.selectedList.length) {
           selectedList = this.selectedList;
@@ -70,9 +74,18 @@ export class SectionComponent {
         if (e.id == "delete") {
           const ids = selectedList.map(x => x.id)
           this.current.deleteChapter(ids)
-        } else if (e.id == "export") {
+        }else  if (e.id == "thumbnail") {
+      const id=parseInt(e.value);
+      const index = await this.general.getChapterIndex(id);
+      this.doublePageThumbnail.open({
+        id: id,
+        index: index
+      })
+
+        }
+        else if (e.id == "export") {
           const ids = selectedList.map(x => x.id)
-          ids.forEach(id=>{ let obj = this.chapters.find(s => s.id == id); obj.selected = true; })
+          ids.forEach(id => { let obj = this.chapters.find(s => s.id == id); obj.selected = true; })
 
           const node = document.getElementById("menu_content");
           let { x, y, width, height } = node.getBoundingClientRect();
@@ -90,6 +103,7 @@ export class SectionComponent {
         }
       },
       menu: [
+        { name: "thumbnail", id: "thumbnail" },
         { name: "export", id: "export" },
         { name: "delete", id: "delete" },
       ]
@@ -98,9 +112,9 @@ export class SectionComponent {
     this.afterInit$ = this.current.afterInit().subscribe((comics: any) => {
       this.chapters = this.current.comics.chapters;
       this.title = this.current.comics.chapter.title;
-      this.id=this.current.comics.chapter.id;
+      this.id = this.current.comics.chapter.id;
       setTimeout(() => {
-        const node = document.getElementById(`section_item_${this.current.comics.chapter.id}`)
+        const node = document.getElementById(`${this.current.comics.chapter.id}`)
         node.scrollIntoView({ block: "center", inline: "center" })
       })
     })

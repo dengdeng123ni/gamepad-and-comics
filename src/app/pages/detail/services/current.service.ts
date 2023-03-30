@@ -144,7 +144,8 @@ export class CurrentDetailService {
     }
   }
   chapterPageChange(chapterId:number,index:number){
-
+     const chapter=this.comics.chapters.find(x=>x.id==chapterId);
+     this.router_reader_page(chapter,index)
   }
   async deleteChapter(chapterIds: Array<number>) {
     const update_state = (chapter) => {
