@@ -68,7 +68,7 @@ export class ListMode1Component {
         }
       },
       menu: [
-        { name: "Github Pages", id: "github_pages" },
+        // { name: "Github Pages", id: "github_pages" },
         { name: "delete", id: "delete" },
       ]
     })
