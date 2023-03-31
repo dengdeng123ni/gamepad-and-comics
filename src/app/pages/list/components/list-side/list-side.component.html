@@ -13,6 +13,10 @@
       (click)="uploadSelectOpen($event)">
       <mat-icon>add</mat-icon>
     </button>
+    <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+    [matTooltip]="i18n.config.settings" [attr.region]="'list_toolabr_item'" class="icon" (click)="openListSettings($event)">
+    <mat-icon>settings</mat-icon>
+  </button>
   </div>
   <div class="buttom">
     <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"

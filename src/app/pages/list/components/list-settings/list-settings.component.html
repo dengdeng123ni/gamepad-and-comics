@@ -1,1 +1,48 @@
-<p>list-settings works!</p>
+<div class="warp">
+  <div class="list">
+    <div class="item">
+      <mat-button-toggle-group style="width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;" [value]="config.page.comics_item_size">
+        <mat-button-toggle [attr.select]="true" [attr.region]="'list_settings'" value="large"
+          (click)="config.page.comics_item_size='large'">{{i18n.config.large}}</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'list_settings'" value="middle"
+          (click)="config.page.comics_item_size='middle'">{{i18n.config.middle}}</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'list_settings'" value="small"
+          (click)="config.page.comics_item_size='small'">{{i18n.config.small}}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <!-- <mat-divider style="margin: 4px 0;"></mat-divider>
+    <div class="item">
+      <mat-chip-listbox>
+        <mat-chip-option [attr.type]="'chip'" (selectionChange)="change('one')" [selectable]="page!='one'"
+          *ngIf="type!='EPUB'" [attr.region]="'detail_export_settings_page'">{{i18n.config.single_page}}</mat-chip-option>
+        <mat-chip-option id="page_double" [attr.type]="'chip'" (selectionChange)="change('double')"
+          [selectable]="page!='double'" selected [attr.region]="'detail_export_settings_page'">{{i18n.config.double_page}}</mat-chip-option>
+      </mat-chip-listbox>
+      <button mat-mini-fab style="    height: 32px;
+      width: 32px;margin-left: 10px;" (click)="on($event)" [attr.region]="'detail_export_settings_page'" [attr.select]="true">
+        <mat-icon style="zoom: 0.8;">file_download</mat-icon>
+      </button>
+    </div>
+    <mat-divider style="margin-top: 8px;" *ngIf="page=='double'"></mat-divider>
+    <div class="item" *ngIf="page=='double'">
+      <div class="name">{{i18n.config.page_order}}</div>
+      <div class="options">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="pageOrder">
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'detail_export_settings'"
+            [value]="true">{{i18n.config.ordinary}}</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'detail_export_settings'"
+            [value]="false">{{i18n.config.japanese_manga}}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="item" *ngIf="page=='double'&&type!='EPUB'">
+      <div class="name">{{i18n.config.first_page_cover}}</div>
+      <div class="options">
+        <mat-slide-toggle [attr.type]="'slide'" [attr.region]="'detail_export_settings'"
+          [(ngModel)]="isFirstPageCover"></mat-slide-toggle>
+      </div>
+    </div> -->
+  </div>
+</div>

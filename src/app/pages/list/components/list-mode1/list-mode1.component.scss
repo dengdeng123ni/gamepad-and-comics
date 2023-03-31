@@ -12,8 +12,36 @@
   overflow: auto;
   // height: 100%;
   overflow: auto;
-// zoom: 0.9;
+  // zoom: 0.9;
   // height: inherit;
+
+  &[size=large] {}
+
+  &[size=small] {
+    zoom: 0.8;
+
+    .progress,
+    .name {
+      zoom: 1.1;
+    }
+
+    .item::after {
+      zoom: 1.25;
+    }
+  }
+
+  &[size=middle] {
+    zoom: 0.9;
+
+    .progress,
+    .name {
+      zoom: 1.1;
+    }
+
+    .item::after {
+      zoom: 1.25;
+    }
+  }
 
   .item {
     @apply flex flex-col flex-wrap p-4 h-auto;

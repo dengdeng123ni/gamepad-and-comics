@@ -8,6 +8,8 @@ import { saveAs } from 'file-saver';
 import { LanguageSettingsService } from '../language-settings/language-settings.service';
 import { SoftwareInformationService } from '../software-information/software-information.service';
 import { UploadSelectService } from '../upload-select/upload-select.service';
+import { GlobalSettingsService } from '../global-settings/global-settings.service';
+import { ListSettingsService } from '../list-settings/list-settings.service';
 @Component({
   selector: 'app-handle-left-circle-toolbar',
   templateUrl: './handle-left-circle-toolbar.component.html',
@@ -31,7 +33,9 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     public uploadSelect: UploadSelectService,
     public i18n: I18nService,
     public LanguageSettings: LanguageSettingsService,
-    public SoftwareInformation: SoftwareInformationService
+    public SoftwareInformation: SoftwareInformationService,
+    public globalSettings:GlobalSettingsService,
+    public listSettings:ListSettingsService
   ) {
     this.GamepadEvent.registerAreaEvent("handel_toolabr_menu", {
       B: () => {
@@ -115,5 +119,21 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   handelClose() {
     document.body.setAttribute("pattern", "")
   }
-
+  openGlobalSettings($event){
+    let { x, y, width, height } = $event.target.getBoundingClientRect();
+    x = window.innerWidth-x;
+    y = (window.innerHeight) - y-height;
+    this.globalSettings.open({
+      delayFocusTrap: false,
+      panelClass: "reader_settings_buttom",
+      backdropClass: "reader_settings_buttom_backdrop",
+    })
+  }
+  openListSettings($event){
+    this.listSettings.open({
+      delayFocusTrap: false,
+      panelClass: "reader_settings_buttom",
+      backdropClass: "reader_settings_buttom_backdrop",
+    })
+  }
 }

@@ -4,6 +4,7 @@ import { ConfigListService } from '../../services/config.service';
 import { CurrentListService } from '../../services/current.service';
 import { GlobalSettingsService } from '../global-settings/global-settings.service';
 import { LanguageSettingsService } from '../language-settings/language-settings.service';
+import { ListSettingsService } from '../list-settings/list-settings.service';
 import { SoftwareInformationService } from '../software-information/software-information.service';
 import { UploadSelectService } from '../upload-select/upload-select.service';
 
@@ -23,7 +24,8 @@ export class ListSideComponent {
       public i18n:I18nService,
       public LanguageSettings:LanguageSettingsService,
       public SoftwareInformation:SoftwareInformationService,
-      public globalSettings:GlobalSettingsService
+      public globalSettings:GlobalSettingsService,
+      public listSettings:ListSettingsService
     ) {
 
   }
@@ -59,6 +61,20 @@ export class ListSideComponent {
     this.globalSettings.open({
       position: {
         bottom: `${y}px`,
+        right: `${x}px`
+      },
+      delayFocusTrap: false,
+      panelClass: "reader_settings_buttom",
+      backdropClass: "reader_settings_buttom_backdrop",
+    })
+  }
+  openListSettings($event){
+    let { x, y, width, height } = $event.target.getBoundingClientRect();
+    x = window.innerWidth-x;
+    // y = (window.innerHeight) - y-height;
+    this.listSettings.open({
+      position: {
+        top: `${y}px`,
         right: `${x}px`
       },
       delayFocusTrap: false,

@@ -33,24 +33,25 @@ export class I18nService {
     let browserLang = this.translate.getBrowserLang();
     let language = localStorage.getItem("language");
     let index = languages.findIndex(x => x == language)
+    if(language=="zh") return
     if (index > -1) {
       this.translate.use(languages[index]).subscribe(c => {
         this.config = c;
-        document.title=c.handle_and_comics;
+        document.title = c.handle_and_comics;
       });
     } else {
       let index = languages.findIndex(x => x == browserLang)
       if (index > -1) {
         this.translate.use(browserLang).subscribe(c => {
           this.config = c;
-          document.title=c.handle_and_comics;
+          document.title = c.handle_and_comics;
         });
       } else {
         this.translate.use('en')
       }
     }
-    if(localStorage.getItem("angle")=="none"){
-      document.body.setAttribute("angle","none")
+    if (localStorage.getItem("angle") == "none") {
+      document.body.setAttribute("angle", "none")
     }
   }
   //
@@ -105,21 +106,24 @@ export class I18nService {
     "insert_page": "插页",
     "before": "前",
     "after": "后",
-    "images":"图片",
-    "comics_to_be_uploaded":"待上传漫画",
-    "compress_images":"压缩图片",
-    "add_to":"添加",
-    "first_chapter":"第一章",
-    "last_chapter":"最终章",
-    "first_page":"第一页",
-    "last_page":"最后一页",
-    "rotation":"旋转",
-    "merge_page":"合页",
-    "separate_page":"分页",
-    "reading_time":"阅读时间",
-    "style":"风格",
-    "right_angle":"直角",
-    "rounded_corners":"圆角"
+    "images": "图片",
+    "comics_to_be_uploaded": "待上传漫画",
+    "compress_images": "压缩图片",
+    "add_to": "添加",
+    "first_chapter": "第一章",
+    "last_chapter": "最终章",
+    "first_page": "第一页",
+    "last_page": "最后一页",
+    "rotation": "旋转",
+    "merge_page": "合页",
+    "separate_page": "分页",
+    "reading_time": "阅读时间",
+    "style": "风格",
+    "right_angle": "直角",
+    "rounded_corners": "圆角",
+    "large": "大",
+    "small": "小",
+    "middle": "中"
   }
 
   // languages = ["en", "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];

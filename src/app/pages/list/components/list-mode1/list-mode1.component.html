@@ -2,7 +2,7 @@
   全部漫画
 </div> -->
 
-<div class="list_mode1" [attr.edit]="config.edit">
+<div class="list_mode1" [attr.edit]="config.edit" >
   <div class="list_edit" *ngIf="config.edit" >
     <div class="left">
       <span>
@@ -34,7 +34,7 @@
       </button>
     </div>
   </div>
-  <div class="grid" id="list" (click)="close()">
+  <div class="grid" id="list" (click)="close()" [attr.size]="config.page.comics_item_size">
     <button class="item" mat-button *ngFor="let n of current.list;let index=index"
       [attr._id]="'list_mode_item_'+n.id" [attr.region]="'list_mode_item'"
       [attr.select]="n.id==config.view.id" [attr.content_menu_key]="'item'" [attr.content_menu_value]="n.id"

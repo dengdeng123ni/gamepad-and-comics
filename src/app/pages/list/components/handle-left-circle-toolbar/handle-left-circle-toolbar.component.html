@@ -29,6 +29,11 @@
         [attr.region]="'handel_toolabr_center'" (click)="uploadSelectOpen($event)">
         <mat-icon>add</mat-icon>
       </button>
+      <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.settings" class="icon icon-3" [attr._id]="'handel_toolabr_center_6'"
+        [attr.region]="'handel_toolabr_center'" (click)="openListSettings($event)">
+        <mat-icon>settings</mat-icon>
+      </button>
     </div>
   </div>
   <div class="list handle_reader_circle_toolbar_left">
@@ -42,6 +47,11 @@
       [matTooltip]="i18n.config.export_image" class="icon" (click)="SoftwareInformation.open()"
       [attr.region]="'handel_toolabr_left'">
       <mat-icon>help</mat-icon>
+    </button>
+    <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.settings" class="icon" (click)="openGlobalSettings($event)"
+      [attr.region]="'handel_toolabr_left'">
+      <mat-icon>settings_applications</mat-icon>
     </button>
   </div>
   <div class="list handle_reader_circle_toolbar_right">
