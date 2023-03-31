@@ -62,9 +62,13 @@ export class EpubService {
       pageOrder = false
     }) {
     const { width, height } = await this.getImageAllWH(list);
-    this.book.pageSize[0] = width;
-    this.book.pageSize[1] = height;
-
+    if (width < height) {
+      this.book.pageSize[0] = width;
+      this.book.pageSize[1] = height;
+    } else {
+      this.book.pageSize[0] = width / 2;
+      this.book.pageSize[1] = height;
+    }
     let arr = [];
 
     if (pageOrder) arr = await this.pageDouble(list, isFirstPageCover)
