@@ -150,10 +150,6 @@ export class Mode3Component {
   }
   async init(id) {
     const container = document.getElementById("mode3")
-    for (let i = 0; i < this.images.length; i++) {
-      const x = this.images[i];
-      await this.loadImage(x.src)
-    }
     let list = [];
     const node = document.getElementById(id);
     node.scrollIntoView(true)

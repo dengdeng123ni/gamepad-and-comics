@@ -17,7 +17,7 @@
   <div class="grid" id="list">
     <button class="item" mat-button *ngFor="let n of list;let index=index" [attr.region]="'list_upload_list_item'" (click)="n.select=!n.select">
       <div class="img">
-        <img loading="lazy" loading="lazy" class="w-full" [src]="n.cover.src" [alt]="n?.title">
+        <img loading="lazy" class="w-full" [src]="n.cover.src" [alt]="n?.title">
         <div class="mezzanine"></div>
       </div>
       <div class="name">{{n.title}}</div>

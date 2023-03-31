@@ -36,7 +36,8 @@ body[angle=none]{
   span,
   mat-chip-option,
   mat-button-toggle-group,
-  mat-button-toggle
+  mat-button-toggle,
+  mat-slider
   {
     &::after{
       border-radius: 0 !important;

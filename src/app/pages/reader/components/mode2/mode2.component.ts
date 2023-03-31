@@ -159,10 +159,7 @@ export class Mode2Component {
     container.classList.remove("opacity-0");
     const node = document.getElementById(id);
     node.scrollIntoView(true)
-    for (let i = 0; i < this.images.length; i++) {
-      const x = this.images[i];
-      await this.loadImage(x.src)
-    }
+
     let list = [];
 
 
