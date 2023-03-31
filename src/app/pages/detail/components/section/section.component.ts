@@ -149,7 +149,6 @@ export class SectionComponent {
       }
 
       this.loading.close();
-
       this.chapters.forEach(x => x.selected = false)
     })
 

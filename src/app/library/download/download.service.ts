@@ -14,9 +14,19 @@ export class DownloadService {
     public pdfService: PdfService,
     public pptService: PptService,
     public zipService: ZipService,
-    public epubService:EpubService
+    public epubService: EpubService
   ) { }
-  async pdf({ name, chapters = [], pageOrder = false, isFirstPageCover = false, page }) {
+  async pdf({ name, chapters = [], pageOrder = false, isFirstPageCover = false, page, isMultipleDownloads = true }) {
+    if(isMultipleDownloads){
+      for (let i = 0; i < chapters.length; i++) {
+        const x = chapters[i];
+        const blob = await this.pdfService.createPdf(x.images.map(x => x.src), { pageOrder, isFirstPageCover, page })
+        const srcs = blob.type.split("/");
+        const path = `${name}_${x.title}.${srcs.at(-1)}`;
+        saveAs(blob, path);
+      }
+      return
+    }
     let arr = [];
     for (let i = 0; i < chapters.length; i++) {
       const x = chapters[i];
@@ -42,7 +52,16 @@ export class DownloadService {
       saveAs(content, name);
     })
   }
-  async ppt({ name, chapters = [], pageOrder = false, isFirstPageCover = false, page }) {
+  async ppt({ name, chapters = [], pageOrder = false, isFirstPageCover = false, page, isMultipleDownloads = true }) {
+    if(isMultipleDownloads){
+      for (let i = 0; i < chapters.length; i++) {
+        const x = chapters[i];
+        const blob = await this.pptService.createPpt(x.images.map(x => x.src), { pageOrder, isFirstPageCover, page })
+        const path = `${name}_${x.title}.pptx}`;
+        saveAs(blob, path);
+      }
+      return
+    }
     let arr = [];
     for (let i = 0; i < chapters.length; i++) {
       const x = chapters[i];
@@ -66,7 +85,7 @@ export class DownloadService {
       saveAs(content, name);
     })
   }
-  async zip({ name, chapters = [], pageOrder = false, isFirstPageCover = false, page }) {
+  async zip({ name, chapters = [], pageOrder = false, isFirstPageCover = false, page , isMultipleDownloads = true}) {
     if (chapters.length == 1) {
       let arr = [];
       for (let i = 0; i < chapters.length; i++) {
@@ -87,7 +106,7 @@ export class DownloadService {
       zip.generateAsync({ type: "blob" }).then(function (content) {
         saveAs(content, `${name}_${chapters[0].title}`);
       })
-    }else{
+    } else {
       let arr = [];
       for (let i = 0; i < chapters.length; i++) {
         const x = chapters[i];
