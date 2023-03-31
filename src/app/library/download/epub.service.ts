@@ -61,7 +61,9 @@ export class EpubService {
       page = "double",
       pageOrder = false
     }) {
-
+    const { width, height } = await this.getImageAllWH(list);
+    this.book.pageSize[0] = width;
+    this.book.pageSize[1] = height;
 
     let arr = [];
 
@@ -127,13 +129,11 @@ export class EpubService {
 
       // images.push(blob);
     }
-
     for (let i = 0; i < this.blobs.length; i++) {
-
       this.book.pages.push({
         index: i,
         sticky: 'auto',
-        blank: false
+        blank: false,
       })
     }
     const blob = await this.generateBook();
@@ -141,10 +141,33 @@ export class EpubService {
     this.book.pages = [];
     return blob
   }
+  async getImageAllWH(list) {
+    let width_s = [];
+    let height_s = []
+    for (let i = 0; i < list.length; i++) {
+      const img: any = await this.createImage(list[i]);
+      width_s.push(img.width)
+      height_s.push(img.height)
+    }
+    return { width: this.median(width_s), height: this.median(height_s) }
+  }
+  median(nums) {
+    nums.sort(function (a, b) {
+      return a - b;
+    });
+
+    var middle = Math.floor(nums.length / 2);
+
+    if (nums.length % 2 === 0) {
+      return (nums[middle - 1] + nums[middle]) / 2;
+    } else {
+      return nums[middle];
+    }
+  }
   createCover() {
     let canvas4 = document.createElement('canvas');
-    canvas4.width = 1250;
-    canvas4.height = 1765;
+    canvas4.width = this.book.pageSize[0];
+    canvas4.height = this.book.pageSize[1];
     let context4 = canvas4.getContext('2d');
     context4.rect(0, 0, canvas4.width, canvas4.height);
     let dataURL1 = canvas4.toDataURL("image/png");
@@ -170,22 +193,22 @@ export class EpubService {
 
     const image2: any = await this.createImage(dataURL1);
     let canvas3 = document.createElement('canvas');
-    canvas3.width = 1250;
-    canvas3.height = 1765;
+    canvas3.width = this.book.pageSize[0];
+    canvas3.height = this.book.pageSize[1];
     let context3 = canvas3.getContext('2d');
-    const height = 1250 * (image2.height / image2.width)
+    const height = this.book.pageSize[0] * (image2.height / image2.width)
     context3.rect(0, 0, canvas1.width, canvas1.height);
-    context3.drawImage(image2, 0, (1765 - height) / 2, 1250, height);
+    context3.drawImage(image2, 0, (this.book.pageSize[1] - height) / 2, this.book.pageSize[0], height);
 
 
     const image3: any = await this.createImage(dataURL2);
     let canvas4 = document.createElement('canvas');
-    canvas4.width = 1250;
-    canvas4.height = 1765;
+    canvas4.width = this.book.pageSize[0];
+    canvas4.height = this.book.pageSize[1];
     let context4 = canvas4.getContext('2d');
-    const height2 = 1250 * (image3.height / image3.width)
+    const height2 = this.book.pageSize[0] * (image3.height / image3.width)
     context4.rect(0, 0, canvas4.width, canvas4.height);
-    context4.drawImage(image3, 0, (1765 - height2) / 2, 1250, height2);
+    context4.drawImage(image3, 0, (this.book.pageSize[1] - height2) / 2, this.book.pageSize[0], height2);
 
     let dataURL3 = canvas3.toDataURL("image/png");
     let dataURL4 = canvas4.toDataURL("image/png");
@@ -392,11 +415,11 @@ export class EpubService {
     canvas.width = image1.width;
     canvas.height = image1.height;
     if (canvas.width > canvas.height) {
-      canvas.width = 2500;
-      canvas.height = 2500 * (image1.height / image1.width);
+      canvas.width = this.book.pageSize[0] * 2;
+      canvas.height = this.book.pageSize[0] * 2 * (image1.height / image1.width);
     } else {
-      canvas.width = 1250;
-      canvas.height = 1250 * (image1.height / image1.width);
+      canvas.width = this.book.pageSize[0];
+      canvas.height = this.book.pageSize[0] * (image1.height / image1.width);
     }
     let context = canvas.getContext('2d');
     context.rect(0, 0, canvas.width, canvas.height);

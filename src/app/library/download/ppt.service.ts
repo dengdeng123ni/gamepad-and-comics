@@ -215,7 +215,7 @@ export class PptService {
       let context = canvas.getContext('2d');
       context.rect(0, 0, canvas.width, canvas.height);
       context.drawImage(image1, 0, 0, image1.width, canvas.height);
-      let dataURL = canvas.toDataURL("image/png", 0.5);
+      let dataURL = canvas.toDataURL("image/jpeg", 0.5);
       return { width: canvas.width, height: canvas.height, dataURL: dataURL }
     } else if (arr.length == 2 && arr[0] && !arr[1]) {
       const image1 = await this.createImage(arr[0]);
@@ -225,7 +225,7 @@ export class PptService {
       let context = canvas.getContext('2d');
       context.rect(0, 0, canvas.width, canvas.height);
       context.drawImage(image1, 0, 0, image1.width, canvas.height);
-      let dataURL = canvas.toDataURL("image/png", 0.5);
+      let dataURL = canvas.toDataURL("image/jpeg", 0.5);
       return { width: canvas.width, height: canvas.height, dataURL: dataURL }
     } else if (arr.length == 2) {
       const image1 = await this.createImage(arr[0]);
@@ -237,7 +237,7 @@ export class PptService {
       context.rect(0, 0, canvas.width, canvas.height);
       context.drawImage(image1, 0, 0, image1.width, canvas.height);
       context.drawImage(image2, image1.width, 0, image2.width, canvas.height);
-      let dataURL = canvas.toDataURL("image/png", 0.5);
+      let dataURL = canvas.toDataURL("image/jpeg", 0.5);
       return { width: canvas.width, height: canvas.height, dataURL: dataURL }
     } else {
       return null

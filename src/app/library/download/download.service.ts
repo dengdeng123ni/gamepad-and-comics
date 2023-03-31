@@ -57,7 +57,7 @@ export class DownloadService {
       for (let i = 0; i < chapters.length; i++) {
         const x = chapters[i];
         const blob = await this.pptService.createPpt(x.images.map(x => x.src), { pageOrder, isFirstPageCover, page })
-        const path = `${name}_${x.title}.pptx}`;
+        const path = `${name}_${x.title}.pptx`;
         saveAs(blob, path);
       }
       return

@@ -17,7 +17,7 @@ export class ConfigListService {
   }
 
   page={
-    comics_item_size:"large"
+    comics_item_size:"middle" // large
   }
   init(){
     const comics_item_size=localStorage.getItem("comics_item_size")

@@ -33,7 +33,7 @@ export class I18nService {
     let browserLang = this.translate.getBrowserLang();
     let language = localStorage.getItem("language");
     let index = languages.findIndex(x => x == language)
-    if(language=="zh") return
+    // if(language=="zh") return
     if (index > -1) {
       this.translate.use(languages[index]).subscribe(c => {
         this.config = c;
