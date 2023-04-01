@@ -128,7 +128,7 @@ export class I18nService {
     "no": "否",
   }
 
-  // languages = ["en", "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
+  // languages = [ "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
   // aaa=[]
 
   // download(filename, text) {
