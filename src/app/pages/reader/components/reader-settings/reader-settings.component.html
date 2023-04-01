@@ -30,6 +30,15 @@
       <div class="button" *ngIf="current.comics.pageOrder==false">{{i18n.config.japanese_manga}}</div>
     </div>
   </button>
+  <button class="item" mat-button *ngIf="config.mode==1||config.mode==6" (click)="firstPageCoverChange()" [attr.region]="'reader_settings'">
+    <div class="left">
+      {{i18n.config.first_page_cover}}
+    </div>
+    <div class="right">
+      <div class="button" *ngIf="current.comics.isFirstPageCover==true">{{i18n.config.yes}}</div>
+      <div class="button" *ngIf="current.comics.isFirstPageCover==false">{{i18n.config.no}}</div>
+    </div>
+  </button>
   <button class="item" mat-button *ngIf="config.mode==3" (click)="isPageTurnDirection3()" [attr.region]="'reader_settings'">
     <div class="left">
       {{i18n.config.sliding_direction}}

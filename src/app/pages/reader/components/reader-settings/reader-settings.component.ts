@@ -23,6 +23,19 @@ export class ReaderSettingsComponent {
     this.config.mode1.slidingDirection == 'horizontal' ? this.config.mode1.slidingDirection = 'vertical' : this.config.mode1.slidingDirection = 'horizontal'
 
   }
+  changeSpreadMatch() {
+    this.current.switch$.next("");
+  }
+  firstPageCoverChange() {
+    this.current.comics.isFirstPageCover = !this.current.comics.isFirstPageCover;
+    if (this.current.comics.chapter.index == 0) {
+      this.changeSpreadMatch();
+      this.changeSpreadMatch();
+    }else{
+      this.current.update_state(this.current.comics.chapter,this.current.comics.chapter.index)
+    }
+
+  }
   isPageTurnDirection(){
     if(this.config.mode1.slidingDirection == 'horizontal'&&this.config.mode1.isPageTurnDirection){
       this.config.mode1.isPageTurnDirection=false;

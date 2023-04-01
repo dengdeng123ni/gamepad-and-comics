@@ -123,7 +123,9 @@ export class I18nService {
     "rounded_corners": "圆角",
     "large": "大",
     "small": "小",
-    "middle": "中"
+    "middle": "中",
+    "yes": "是",
+    "no": "否",
   }
 
   // languages = ["en", "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
