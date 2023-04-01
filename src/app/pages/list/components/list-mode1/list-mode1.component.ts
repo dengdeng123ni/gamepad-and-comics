@@ -104,7 +104,7 @@ export class ListMode1Component {
         })
       })
     })
-    this.zip.create(arr)
+    this.zip.images(arr)
   }
   ngOnInit(): void {
 

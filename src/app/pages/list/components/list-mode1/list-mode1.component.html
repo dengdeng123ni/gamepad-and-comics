@@ -15,9 +15,9 @@
       </button>
       <mat-divider [vertical]="true" style="height: 15px;width: 1px;margin: 0 4px;"></mat-divider>
       <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-        matTooltip="Github Pages" [disabled]="selectedList.length==0" [attr.region]="'list_toolabr_item'"
+        [matTooltip]="i18n.config.export" [disabled]="selectedList.length==0" [attr.region]="'list_toolabr_item'"
         (click)="exportZip(selectedList)" class="icon">
-        <mat-icon>code</mat-icon>
+        <mat-icon>download</mat-icon>
       </button>
       <mat-divider [vertical]="true" style="height: 15px;width: 1px;margin: 0 4px;"></mat-divider>
       <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay"

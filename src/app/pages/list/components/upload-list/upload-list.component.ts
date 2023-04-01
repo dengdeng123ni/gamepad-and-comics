@@ -37,7 +37,7 @@ export class UploadListComponent {
     }))
     this.list.forEach(x => {
       if (x.cover["upload_type"] == "github_pages") {
-        x.cover = { src: `/assets/${x.cover["relativePath"]}` };
+        x.cover = { src: `${location.href}assets/${x.cover["relativePath"]}` };
         x.upload_type = "github_pages";
       } else {
         x.cover = { src: this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(x.cover)) }
@@ -76,7 +76,7 @@ export class UploadListComponent {
           const c = obj.comics.chapters[j];
           for (let p = 0; p < c.images.length; p++) {
             const l = obj.comics.chapters[j].images[p];
-            const req = await fetch(`/assets/${l["relativePath"]}`);
+            const req = await fetch(location.href+`assets/${l["relativePath"]}`);
             const blob = await req.blob();
             obj.comics.chapters[j].images[p] = new File([blob], l["name"], { type: blob.type });
           }

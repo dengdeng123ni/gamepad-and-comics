@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { I18nService } from 'src/app/library/public-api';
 import { ConfigListService } from '../../services/config.service';
 import { CurrentListService } from '../../services/current.service';
+import { ZipService } from '../../services/zip.service';
 import { GlobalSettingsService } from '../global-settings/global-settings.service';
 import { LanguageSettingsService } from '../language-settings/language-settings.service';
 import { ListSettingsService } from '../list-settings/list-settings.service';
@@ -25,7 +26,8 @@ export class ListSideComponent {
       public LanguageSettings:LanguageSettingsService,
       public SoftwareInformation:SoftwareInformationService,
       public globalSettings:GlobalSettingsService,
-      public listSettings:ListSettingsService
+      public listSettings:ListSettingsService,
+      public zip: ZipService,
     ) {
 
   }
@@ -81,5 +83,8 @@ export class ListSideComponent {
       panelClass: "reader_settings_buttom",
       backdropClass: "reader_settings_buttom_backdrop",
     })
+  }
+  exportZipDist(){
+    this.zip.dist();
   }
 }

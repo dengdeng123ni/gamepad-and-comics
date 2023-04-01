@@ -20,12 +20,12 @@
         </div>
       </div>
       <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-        [matTooltip]="i18n.config.all_chapters" class="icon icon-1" [attr._id]="'handel_toolabr_center_8'"
+        [matTooltip]="i18n.config.edit" class="icon icon-1" [attr._id]="'handel_toolabr_center_8'"
         [attr.region]="'handel_toolabr_center'" [attr.select]="true" (click)="editIsToggle($event)">
         <mat-icon>edit_note</mat-icon>
       </button>
       <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-        [matTooltip]="i18n.config.thumbnail" class="icon icon-2" [attr._id]="'handel_toolabr_center_7'"
+        [matTooltip]="i18n.config.upload" class="icon icon-2" [attr._id]="'handel_toolabr_center_7'"
         [attr.region]="'handel_toolabr_center'" (click)="uploadSelectOpen($event)">
         <mat-icon>add</mat-icon>
       </button>
@@ -39,12 +39,12 @@
   <div class="list handle_reader_circle_toolbar_left">
 
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-      [matTooltip]="i18n.config.export_ppt" class="icon create_pdf" (click)="LanguageSettings.open()"
+      [matTooltip]="'Language'" class="icon create_pdf" (click)="LanguageSettings.open()"
       [attr.region]="'handel_toolabr_left'" [attr._id]="'handel_toolabr_left_1'">
       <mat-icon>g_translate</mat-icon>
     </button>
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-      [matTooltip]="i18n.config.export_image" class="icon" (click)="SoftwareInformation.open()"
+      [matTooltip]="i18n.config.about_the_software" class="icon" (click)="SoftwareInformation.open()"
       [attr.region]="'handel_toolabr_left'">
       <mat-icon>help</mat-icon>
     </button>

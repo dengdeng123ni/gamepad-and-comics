@@ -216,7 +216,7 @@ export class GamepadControllerService {
     this.current = this.list.find(x => x.select == true);
     if (!this.current) this.current = this.list.find(x => x.start == true);
     if (!this.current) this.current = this.list[0];
-    // if (!this.current) { document.body.setAttribute("locked_region", "all"); this.getNodes(); this.getCurrentTarget(); }
+    if (!this.current) { document.body.setAttribute("locked_region", "all"); this.getNodes(); this.getCurrentTarget(); }
   }
   getMoveTarget(direction) {
     const current = this.current;

@@ -9,7 +9,7 @@ import { UploadSelectService } from './upload-select.service';
   styleUrls: ['./upload-select.component.scss']
 })
 export class UploadSelectComponent implements OnInit {
-  github_json=[];
+  github_json=[""];
   constructor(
     public uploadSelect: UploadSelectService,
     public i18n:I18nService,
@@ -39,6 +39,7 @@ export class UploadSelectComponent implements OnInit {
         f["upload_type"] = `github_pages`;
         arr.push(f);
       }
+
       this.upload.zip(arr);
     }
     // this.uploadSelect.close();
@@ -56,10 +57,13 @@ export class UploadSelectComponent implements OnInit {
 
   async init() {
     try {
-      const req = await fetch('/assets/images/index.json');
-      if(req.ok) return
+      const req = await fetch(location.href+'assets/images/index.json');
+      if(!req.ok) return
       const json = await req.json();
-      this.github_json=json;
+      if(json.v2){
+        this.github_json=json.v2;
+      }
+
     } catch (error) {
 
     }
