@@ -1,6 +1,6 @@
 <mat-drawer-container class="w-full h-full" autosize>
   <app-info></app-info>
-  <div class="flex flex-col h-full justify-between" style="padding: 2.5vh 0; ">
+  <div class="flex flex-col h-full justify-between" style="padding: 2.5vh 0; " [attr.edit]="config.edit">
     <app-section></app-section>
     <app-thumbnail *ngIf="!config.edit"></app-thumbnail>
   </div>
