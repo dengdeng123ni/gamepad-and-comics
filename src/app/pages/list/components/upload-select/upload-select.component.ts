@@ -9,7 +9,7 @@ import { UploadSelectService } from './upload-select.service';
   styleUrls: ['./upload-select.component.scss']
 })
 export class UploadSelectComponent implements OnInit {
-  github_json=[""];
+  github_json=[];
   constructor(
     public uploadSelect: UploadSelectService,
     public i18n:I18nService,
