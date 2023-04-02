@@ -14,6 +14,7 @@ import { SectionService } from '../section/section.service';
 })
 export class ReaderToolbarComponent {
   isfullscreen =!!document.fullscreenElement;
+  isMobile = (navigator as any).userAgentData.mobile;
 
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
