@@ -81,19 +81,24 @@ export class GamepadControllerService {
 
   private GamepadEventBefore$ = new Subject();
   private GamepadEventAfter$ = new Subject();
+  private EegionBefore$ = new Subject();
   private nodes = [];
   private list = [];
 
   current = null;
   pause = false;
 
+  isGamepadExplanation=false;
+
   // document.visibilityState
 
   device(input: string) {
+
+
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
     this.getCurrentTarget();
-    this.GamepadEventBefore$.next({ input: input, region: this.current.region });
+    this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
 
     const region = this.current.region;
     if (this.Y) {
@@ -109,6 +114,7 @@ export class GamepadControllerService {
         this.GamepadEvent.globalEvents[input](this.nodes[this.current.index]);
       }
     }
+    this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
   }
   setMoveTargetPrevious() {
     const node = this.getCurrentNode();
@@ -200,6 +206,7 @@ export class GamepadControllerService {
     } else if (region) {
       this.nodes = document.querySelectorAll(region);
     }
+    this.EegionBefore$.next(region)
     let list = [];
     let index = 0;
     for (let node of this.nodes) {
@@ -210,7 +217,13 @@ export class GamepadControllerService {
     this.list = list;
 
   }
-  getCurrentNode = () => this.nodes[this.current.index];
+  getCurrentNode = () => {
+    let current = null;
+    current = this.list.find(x => x.select == true);
+    if (!current) current = this.list.find(x => x.start == true);
+    if (!current) current = this.list[0];
+    return this.nodes[current.index]
+  };
   getCurrentTarget() {
 
     this.current = this.list.find(x => x.select == true);
@@ -218,6 +231,7 @@ export class GamepadControllerService {
     if (!this.current) this.current = this.list[0];
     if (!this.current) { document.body.setAttribute("locked_region", "all"); this.getNodes(); this.getCurrentTarget(); }
   }
+
   getMoveTarget(direction) {
     const current = this.current;
     const filters = {
@@ -330,6 +344,8 @@ export class GamepadControllerService {
   GamepadEventBefore = () => this.GamepadEventBefore$
 
   GamepadEventAfter = () => this.GamepadEventAfter$
+
+  EegionBefore = () => this.EegionBefore$
 
   leftKey = () => {
     this.nodes[this.current.index].click()

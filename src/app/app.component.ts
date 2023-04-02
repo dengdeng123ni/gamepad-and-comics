@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ContextMenuControllerService, GamepadControllerService, GamepadEventService } from './library/public-api';
 import { compressAccurately } from 'image-conversion';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

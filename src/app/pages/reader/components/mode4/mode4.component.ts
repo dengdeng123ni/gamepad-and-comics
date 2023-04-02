@@ -74,7 +74,7 @@ export class Mode4Component {
         this.zoomSize <= 1 ? this.next() : this.down("DPAD_RIGHT");
       },
       X: () => {
-        this.current.switch$.next("");
+        this.current.previousPage$.next(true);
       },
       A: () => {
         this.current.nextPage$.next(true);

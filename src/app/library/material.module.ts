@@ -148,6 +148,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     ScrollingModule,
 
     NzUploadModule
+  ],
+  declarations: [
   ]
 })
 export class MaterialModule {
