@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { I18nService } from 'src/app/library/public-api';
+import { GamepadControllerService, I18nService } from 'src/app/library/public-api';
 import { ConfigListService } from '../../services/config.service';
 import { CurrentListService } from '../../services/current.service';
 import { ZipService } from '../../services/zip.service';
@@ -20,14 +20,15 @@ export class ListSideComponent {
   constructor
     (
       public current: CurrentListService,
-      public config:ConfigListService,
+      public config: ConfigListService,
       public uploadSelect: UploadSelectService,
-      public i18n:I18nService,
-      public LanguageSettings:LanguageSettingsService,
-      public SoftwareInformation:SoftwareInformationService,
-      public globalSettings:GlobalSettingsService,
-      public listSettings:ListSettingsService,
+      public i18n: I18nService,
+      public LanguageSettings: LanguageSettingsService,
+      public SoftwareInformation: SoftwareInformationService,
+      public globalSettings: GlobalSettingsService,
+      public listSettings: ListSettingsService,
       public zip: ZipService,
+      public GamepadController: GamepadControllerService
     ) {
 
   }
@@ -39,27 +40,27 @@ export class ListSideComponent {
     const y = (position.y + (position.height / 2)) - (openTargetHeight / 2);
     this.uploadSelect.open({ x, y });
   }
-  editIsToggle($event){
-    this.config.edit=!this.config.edit;
+  editIsToggle($event) {
+    this.config.edit = !this.config.edit;
     this.current.edit$.next(this.config.edit);
   }
-  openSoftwareInformation($event){
+  openSoftwareInformation($event) {
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
     const openTargetHeight = 36;
     const x = window.innerWidth - (position.x - 15);
-    const y = window.innerHeight -position.y -position.height;
-     this.SoftwareInformation.open({
-      position:{ bottom:`${y}px`, right:`${x}px` },
-      delayFocusTrap:false,
-      panelClass:"reader_settings_right",
-      backdropClass:"reader_settings_right_backdrop",
-     })
+    const y = window.innerHeight - position.y - position.height;
+    this.SoftwareInformation.open({
+      position: { bottom: `${y}px`, right: `${x}px` },
+      delayFocusTrap: false,
+      panelClass: "reader_settings_right",
+      backdropClass: "reader_settings_right_backdrop",
+    })
   }
-  openGlobalSettings($event){
+  openGlobalSettings($event) {
     let { x, y, width, height } = $event.target.getBoundingClientRect();
-    x = window.innerWidth-x;
-    y = (window.innerHeight) - y-height;
+    x = window.innerWidth - x;
+    y = (window.innerHeight) - y - height;
     this.globalSettings.open({
       position: {
         bottom: `${y}px`,
@@ -70,9 +71,9 @@ export class ListSideComponent {
       backdropClass: "reader_settings_buttom_backdrop",
     })
   }
-  openListSettings($event){
+  openListSettings($event) {
     let { x, y, width, height } = $event.target.getBoundingClientRect();
-    x = window.innerWidth-x;
+    x = window.innerWidth - x;
     // y = (window.innerHeight) - y-height;
     this.listSettings.open({
       position: {
@@ -84,7 +85,10 @@ export class ListSideComponent {
       backdropClass: "reader_settings_buttom_backdrop",
     })
   }
-  exportZipDist(){
+  exportZipDist() {
     this.zip.dist();
+  }
+  openGamepadExplanation() {
+    this.GamepadController.isGamepadExplanationComponent = !this.GamepadController.isGamepadExplanationComponent;
   }
 }

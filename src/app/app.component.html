@@ -1,3 +1,3 @@
 <router-outlet></router-outlet>
 <lib-context-menu></lib-context-menu>
-<app-gamepad-explanation></app-gamepad-explanation>
+<app-gamepad-explanation *ngIf="GamepadController.isGamepadExplanationComponent"></app-gamepad-explanation>

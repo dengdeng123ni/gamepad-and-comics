@@ -138,7 +138,6 @@ export class HandleLeftCircleToolbarService {
       this.record(this.current);
       const node:any=document.querySelector(".inner-select");
       node.style=`transform:rotate(${45*this.current}deg);`
-      //
       // this.GamepadController.setCurrentTargetId("handle_left_circle_toolbar_" + this.current)
 
     } else if (state.RIGHT_ANALOG_LEFT || state.RIGHT_ANALOG_UP || state.RIGHT_ANALOG_RIGHT || state.RIGHT_ANALOG_DOWN) {
@@ -154,6 +153,7 @@ export class HandleLeftCircleToolbarService {
       this.record(this.current);
       const node:any=document.querySelector(".inner-select");
       node.style=`transform:rotate(${45*this.current}deg);`
+      // this.GamepadController.setCurrentTargetId("handle_left_circle_toolbar_" + this.current)
     } else if (state.DPAD_DOWN || state.DPAD_LEFT || state.DPAD_RIGHT || state.DPAD_UP) {
       if (state.DPAD_DOWN && !state.DPAD_LEFT && !state.DPAD_RIGHT && !state.DPAD_UP) this.next()
       else if (!state.DPAD_DOWN && state.DPAD_LEFT && !state.DPAD_RIGHT && !state.DPAD_UP) this.previous();

@@ -65,6 +65,9 @@ export class GamepadControllerService {
       RIGHT_BUMPER: () => {
         this.setMoveTargetNext();
       },
+      START:()=>{
+        this.isGamepadExplanationComponent=!this.isGamepadExplanationComponent;
+      }
     })
 
     this.GamepadEvent.registerGlobalEventY({
@@ -88,7 +91,7 @@ export class GamepadControllerService {
   current = null;
   pause = false;
 
-  isGamepadExplanation=false;
+  isGamepadExplanationComponent=false;
 
   // document.visibilityState
 

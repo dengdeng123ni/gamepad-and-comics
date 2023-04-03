@@ -131,8 +131,12 @@ export class GamepadExplanationComponent {
       RIGHT_BUMPER: "下一页",
       LEFT_TRIGGER: "第一页",
       RIGHT_TRIGGER: "最后一页",
+      RIGHT_ANALOG_PRESS: "工具栏",
     }
+
+
   };
+
   EegionBefore$ = null;
   GamepadEventAfter$ = null;
   constructor(
@@ -277,7 +281,7 @@ export class GamepadExplanationComponent {
     LEFT_BUMPER: "移动到上一个",
     RIGHT_BUMPER: "移动到下一个",
     SELECT: "",
-    START: "",
+    START: "手柄按键说明",
     SPECIAL: "",
     UP_Y: "",
     RIGHT_Y: "",
