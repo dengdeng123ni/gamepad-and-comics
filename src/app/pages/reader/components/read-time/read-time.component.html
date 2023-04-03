@@ -1,17 +1,18 @@
-<div class="warp">
+<div class="warp opacity-0" id="reading_time">
   <div class="cover">
     <img [src]="current.comics.cover.src">
     <div class="title">{{current.comics.title}}</div>
     <div class="reading-time">{{cover.minutes}} 分钟</div>
   </div>
   <div class="chapters">
-    <div class="item" *ngFor="let item of chapters;let index=index">
+    <button mat-button class="item" [attr.select]="item.id==current.comics.chapter.id" [attr.region]="'reading_time'"
+      [id]="item.id" *ngFor="let item of chapters;let index=index" (click)="close()">
       <img [src]="item.images[0].small" alt="">
       <div class="info">
         <div class="name">{{item.title}}</div>
         <div class="reading-time">{{item.minutes}} 分钟</div>
       </div>
-    </div>
+    </button>
   </div>
   <!-- <div class="images">
     <div class="item" *ngFor="let item of chapters[0].images;let index=index">

@@ -17,9 +17,11 @@ export class ReadTimeService {
       "B": () => this.close(),
     })
   }
-  open(config?:MatDialogConfig) {
+  open() {
     if (this.opened == false) {
-      const dialogRef = this._dialog.open(ReadTimeComponent,config);
+      const dialogRef = this._dialog.open(ReadTimeComponent,{
+        panelClass:"_reading_time"
+      });
       document.body.setAttribute("locked_region","[region=reading_time]")
       dialogRef.afterClosed().subscribe(() => {
         if(document.body.getAttribute("locked_region")=="[region=reading_time]"&&this.opened) document.body.setAttribute("locked_region","all")

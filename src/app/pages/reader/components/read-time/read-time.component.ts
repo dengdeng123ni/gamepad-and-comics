@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { CurrentReaderService } from '../../services/current.service';
+import { ReadTimeService } from './read-time.service';
 
 @Component({
   selector: 'app-read-time',
@@ -14,6 +15,7 @@ export class ReadTimeComponent {
   };
   constructor(
     public db: NgxIndexedDBService,
+    public readTime:ReadTimeService,
     public current: CurrentReaderService
   ) {
     this.db.getAll('image_state').subscribe((x: any) => {
@@ -37,7 +39,6 @@ export class ReadTimeComponent {
           if ((x.endTime - x.startTime) > 2000 && x.startTime && x.endTime && (x.endTime - x.startTime) < 120000) {
           millisecond = millisecond + (x.endTime - x.startTime);
           }else{
-            console.log((x.endTime - x.startTime));
 
           }
         })
@@ -60,4 +61,16 @@ export class ReadTimeComponent {
 
     })
   }
+  ngAfterViewInit() {
+    setTimeout(()=>{
+      let node = document.getElementById(`${this.current.comics.chapter.id}`);
+      node.focus();
+      document.getElementById("reading_time").classList.remove("opacity-0");
+    node.scrollIntoView({ block: "center", inline: "center" })
+    },300)
+  }
+  close(){
+this.readTime.close();
+  }
+
 }

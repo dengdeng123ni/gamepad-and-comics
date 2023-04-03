@@ -291,6 +291,22 @@ body[pattern=gamepad][locked_region='[region=detail_settings]']{
     }
   }
 }
+body[pattern=gamepad][locked_region='[region=reading_time]']{
+  [region=reading_time][select=true] {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+    }
+  }
+}
+
 body[pattern=gamepad][locked_region='[region=global_settings]']{
   [region=global_settings][select=true] {
     position: relative;
