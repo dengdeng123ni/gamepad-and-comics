@@ -1,13 +1,28 @@
+.list_mode1 {
+  position: relative;
+  width: calc(100vw - 200px - 36px - 20px);
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #303030;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.list_mode1[edit=true] {
+  width: calc(100vw - 200px - 8px);
+}
+
 .grid {
   @apply mx-auto overflow-auto;
   grid-template-columns: repeat(auto-fill, calc(162px + 2rem));
   justify-content: space-between;
   grid-gap: 0.4rem 0;
   padding: 0.8rem;
-  height: 100%;
+  height: fit-content;
   width: 100%;
-  background: #303030;
-  border-radius: 4px;
+
   grid-template-rows: min-content;
   overflow: auto;
   // height: 100%;
@@ -18,28 +33,22 @@
   &[size=large] {}
 
   &[size=small] {
-    zoom: 0.8;
-
-    .progress,
-    .name {
-      zoom: 1.1;
-    }
-
-    .item::after {
-      zoom: 1.25;
+    grid-template-columns: repeat(auto-fill, calc(130px + 1.6rem));
+    .item {
+      padding: 0.8rem;
+      .img {
+        height: 192px;
+      }
     }
   }
 
   &[size=middle] {
-    zoom: 0.9;
-
-    .progress,
-    .name {
-      zoom: 1.1;
-    }
-
-    .item::after {
-      zoom: 1.25;
+    grid-template-columns: repeat(auto-fill, calc(144px + 1.8rem));
+    .item {
+      padding: 0.9rem;
+      .img {
+        height: 216px;
+      }
     }
   }
 
@@ -207,19 +216,6 @@
   border-radius: 4px;
 }
 
-.list_mode1 {
-  position: relative;
-  width: calc(100vw - 200px - 36px - 20px);
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s;
-}
-
-.list_mode1[edit=true] {
-  width: calc(100vw - 200px - 8px);
-}
 
 @media screen and (min-width: 0px) and (max-width: 720px) {
   .list_mode1[edit=true] {
