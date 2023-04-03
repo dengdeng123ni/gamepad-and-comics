@@ -96,8 +96,6 @@ export class GamepadControllerService {
   // document.visibilityState
 
   device(input: string) {
-
-
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
     this.getCurrentTarget();
@@ -117,6 +115,7 @@ export class GamepadControllerService {
         this.GamepadEvent.globalEvents[input](this.nodes[this.current.index]);
       }
     }
+    if(!this.current) return
     this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
   }
   setMoveTargetPrevious() {
