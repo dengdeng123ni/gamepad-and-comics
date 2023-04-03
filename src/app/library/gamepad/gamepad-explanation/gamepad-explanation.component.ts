@@ -21,6 +21,12 @@ export class GamepadExplanationComponent {
     list_toolabr_item: {
       B: ""
     },
+    list_mode_item: {
+      B: ""
+    },
+    list_menu_item: {
+      B: ""
+    },
     reader_mode_1: {
       LEFT_ANALOG: "切换页",
       RIGHT_ANALOG: "切换页",
