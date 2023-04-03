@@ -9,7 +9,9 @@ import { CurrentReaderService } from '../../services/current.service';
 })
 export class ReadTimeComponent {
   chapters = [];
-  cover=null;
+  cover:any={
+
+  };
   constructor(
     public db: NgxIndexedDBService,
     public current: CurrentReaderService
@@ -18,8 +20,13 @@ export class ReadTimeComponent {
       const list = x.filter(x => x.comicsId == this.current.comics.id && x.endTime && x.startTime);
       let millisecond = 0;
       list.forEach(x => {
-        // console.log(x.endTime,x.startTime);
-        millisecond = millisecond + (x.endTime - x.startTime);
+        if ((x.endTime - x.startTime) > 2000 && x.startTime && x.endTime && (x.endTime - x.startTime) < 120000) {
+          millisecond = millisecond + (x.endTime - x.startTime);
+        }else{
+          console.log((x.endTime - x.startTime));
+
+        }
+
       })
       let chapters = {};
 
@@ -27,7 +34,12 @@ export class ReadTimeComponent {
         const readingTimes = list.filter(c => c.chapterId == x.id)
         let millisecond = 0;
         readingTimes.forEach(x => {
+          if ((x.endTime - x.startTime) > 2000 && x.startTime && x.endTime && (x.endTime - x.startTime) < 120000) {
           millisecond = millisecond + (x.endTime - x.startTime);
+          }else{
+            console.log((x.endTime - x.startTime));
+
+          }
         })
         const minutes = Math.ceil(millisecond / (1000 * 60));
         const hours = millisecond / (1000 * 60 * 60);

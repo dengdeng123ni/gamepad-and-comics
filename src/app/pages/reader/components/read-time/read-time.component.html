@@ -6,7 +6,7 @@
   </div>
   <div class="chapters">
     <div class="item" *ngFor="let item of chapters;let index=index">
-      <img [src]="item.images[0].src" alt="">
+      <img [src]="item.images[0].small" alt="">
       <div class="info">
         <div class="name">{{item.title}}</div>
         <div class="reading-time">{{item.minutes}} 分钟</div>
