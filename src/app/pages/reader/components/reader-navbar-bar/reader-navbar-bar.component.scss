@@ -16,7 +16,8 @@
 
 .top{
   width: 100vw;
-  height: 50px;
+  height: 6.5vh;
+  min-height: 44px;
   background: rgba(0, 0, 0, .8);
   transform: translateY(-100%);
   opacity: 0;
@@ -25,7 +26,8 @@
 }
 .bottom{
   width: 100vw;
-  height: 70px;
+  height: 8.5vh;
+  min-height: 56px;
   background: rgba(0, 0, 0, .8);
   opacity: 0;
   transform: translateY(100%);
