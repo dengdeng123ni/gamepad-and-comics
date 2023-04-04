@@ -25,6 +25,9 @@ import { ReaderSettingsComponent } from './components/reader-settings/reader-set
 import { ReadTimeComponent } from './components/read-time/read-time.component';
 import { GamepadThumbnailComponent } from './components/gamepad-thumbnail/gamepad-thumbnail.component';
 import { DoublePageThumbnailComponent } from './components/double-page-thumbnail/double-page-thumbnail.component';
+import { Mode5Component } from './components/mode5/mode5.component';
+import { Mode6Component } from './components/mode6/mode6.component';
+import { Mode7Component } from './components/mode7/mode7.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { DoublePageThumbnailComponent } from './components/double-page-thumbnail
     ReaderSettingsComponent,
     ReadTimeComponent,
     GamepadThumbnailComponent,
-    DoublePageThumbnailComponent
+    DoublePageThumbnailComponent,
+    Mode5Component,
+    Mode6Component,
+    Mode7Component
   ],
   imports: [
     CommonModule,
