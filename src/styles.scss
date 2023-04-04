@@ -28,6 +28,7 @@ body {
 }
 
 body[angle="none"] {
+
   div,
   img,
   button,
@@ -41,37 +42,46 @@ body[angle="none"] {
     &::after {
       border-radius: 0 !important;
     }
+
     &::before {
       border-radius: 0 !important;
     }
+
     border-radius: 0 !important;
   }
 }
+
 // body {
 //   ::-webkit-scrollbar {
-//     height: 16px;
-//     width: 16px;
-// }
-// /* 两个滚动条交接处 -- x轴和y轴 */
-// ::-webkit-scrollbar-corner {
-//     background-color: transparent;
-// }
+//     height: 12px;
+//     width: 12px;
+//   }
 
-// /* 滚动条滑块 */
-// ::-webkit-scrollbar-thumb {
+//   ::-webkit-scrollbar:hover {
+//     background: rgba(255, 255, 255, .1);
+//     // border: 1px solid rgba(255, 255, 255, .2);
+
+//   }
+//   /* 两个滚动条交接处 -- x轴和y轴 */
+//   ::-webkit-scrollbar-corner {
+//     background-color: transparent;
+//   }
+
+//   /* 滚动条滑块 */
+//   ::-webkit-scrollbar-thumb {
 //     // border-radius: 10px;
 //     // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
 //     background: #686868;
-// }
 
-// /* 滚动条轨道 */
-// ::-webkit-scrollbar-track {
+//   }
+
+//   /* 滚动条轨道 */
+//   ::-webkit-scrollbar-track {
 //     // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
 //     // border-radius: 10px;
 //     // background: #353535;
-// }
+//   }
 
-// /* 滚动条两端按钮 */
-// ::-webkit-scrollbar-button {
-// }
+//   /* 滚动条两端按钮 */
+//   ::-webkit-scrollbar-button {}
 // }
