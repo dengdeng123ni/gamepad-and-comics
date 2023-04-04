@@ -45,13 +45,14 @@ export class ContextMenuControllerService {
     };
 
     window.addEventListener('contextmenu', (e: any) => {
-      e.preventDefault();
+
       if (!e.path) {
         e.path = getPath(e.target);
       }
       for (let i = 0; i < e.path.length; i++) {
         const node = e.path[i];
         if (node.getAttribute && node.getAttribute('content_menu_key')) {
+          e.preventDefault();
           const key = node.getAttribute('content_menu_key');
           if(this.contextMenuEvent.openEvent[key]) this.contextMenuEvent.openEvent[key](node);
           this.currentNode = node;

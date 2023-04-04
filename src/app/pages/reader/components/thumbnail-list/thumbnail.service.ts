@@ -19,7 +19,7 @@ export class ThumbnailService {
   open() {
     if (this.opened == false) {
       if (this.opened == false) {
-        const dialogRef = this._sheet.open(ThumbnailListComponent, { panelClass: "_thumbnail_list", hasBackdrop: false, data: { index: 4 } });
+        const dialogRef = this._sheet.open(ThumbnailListComponent, { panelClass: "_thumbnail_list",  data: { index: 4 } });
         document.body.setAttribute("locked_region", "[region=thumbnail_list]")
         dialogRef.afterDismissed().subscribe(() => {
           if (document.body.getAttribute("locked_region") == "[region=thumbnail_list]" && this.opened) document.body.setAttribute("locked_region", "all")
