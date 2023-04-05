@@ -25,7 +25,6 @@ export class ReadTimeComponent {
         if ((x.endTime - x.startTime) > 2000 && x.startTime && x.endTime && (x.endTime - x.startTime) < 120000) {
           millisecond = millisecond + (x.endTime - x.startTime);
         }else{
-          console.log((x.endTime - x.startTime));
 
         }
 

@@ -1,4 +1,4 @@
-const log = (message, type = 'log') => {
+const log2 = (message, type = 'log') => {
   if (type === 'error') {
     if (console && typeof console.error === 'function') { console.error(message); }
   } else {
@@ -6,7 +6,7 @@ const log = (message, type = 'log') => {
   }
 };
 
-const error = message => log(message, 'error');
+const error = message => log2(message, 'error');
 
 const isGamepadSupported = () =>
   (navigator.getGamepads && typeof navigator.getGamepads === 'function') ||
@@ -15,4 +15,4 @@ const isGamepadSupported = () =>
 
 const emptyEvents = () => ({ action: () => {}, after: () => {}, before: () => {} });
 
-export { isGamepadSupported, log, error, emptyEvents };
+export { isGamepadSupported, log2, error, emptyEvents };

@@ -1,4 +1,4 @@
-import { log, error, isGamepadSupported } from './tools';
+import { log2, error, isGamepadSupported } from './tools';
 import { MESSAGES } from './constants';
 import gamepad from './gamepad';
 declare const window: any;
@@ -63,7 +63,7 @@ const gameControl = {
     window.addEventListener('gamepadconnected', (e: GamepadEvent) => {
       const win = (window as any);
       const egp = e.gamepad || (e as any).detail.gamepad;
-      log(MESSAGES.ON);
+      log2(MESSAGES.ON);
       if (!win.gamepads) { win.gamepads = {}; }
       if (egp) {
         if (!win.gamepads[egp.index]) {
@@ -79,7 +79,7 @@ const gameControl = {
     window.addEventListener('gamepaddisconnected', (e: GamepadEvent) => {
       const win = (window as any);
       const egp = e.gamepad || (e as any).detail.gamepad;
-      log(MESSAGES.OFF);
+      log2(MESSAGES.OFF);
       if (egp) {
         delete win.gamepads[egp.index];
         delete this.gamepads[egp.index];

@@ -44,8 +44,6 @@ export class OnePageThumbnailComponent {
     this.list = list;
   }
   change() {
-    console.log(this.page);
-
     this.init();
   }
   on(n, c) {
@@ -84,7 +82,6 @@ export class OnePageThumbnailComponent {
     this.selectedList = selectedList
   }
   async selectedDetele() {
-    console.log(this.selectedList);
     for (let i = 0; i < this.selectedList.length; i++) {
       const x = this.selectedList[i];
       await this.current.deletePage(this.current.comics.id, x.chapterId, x.id)

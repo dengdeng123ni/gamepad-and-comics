@@ -62,8 +62,6 @@ export class Mode5Component {
     })
     this.zone.run(() => {
       this.double_list = double_list;
-      console.log(this.list);
-
       this.complete()
       setTimeout(() => this.complete(), 150)
     })
@@ -122,8 +120,6 @@ export class Mode5Component {
 
   start(id, index) {
     if(index=="NaN") return
-    console.log(index);
-
     this.list.push({ id: id, index: index, startTime: new Date().getTime() })
     this.current.comics.chapter.index = index;
     this.current.update_state(this.current.comics.chapter, index);
