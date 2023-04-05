@@ -38,7 +38,7 @@
       mat-button
         *ngFor="let n of chapters">
         <div class="flex w-full">
-          <img loading="lazy" [src]="n.images[0].small"  alt="">
+          <img loading="lazy" [src]="n.images[0]?.small"  alt="">
           <div class="info">
             <div class="name">{{n.title}}</div>
           </div>

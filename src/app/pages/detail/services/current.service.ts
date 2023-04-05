@@ -22,8 +22,8 @@ interface Comics {
   origin: string;
   mode: number;
   chapters: Array<Chapters>,
-  isFirstPageCover:boolean;
-  pageOrder:boolean;
+  isFirstPageCover: boolean;
+  pageOrder: boolean;
 }
 interface Chapters {
   id: number;
@@ -43,7 +43,7 @@ interface Chapters {
 })
 export class CurrentDetailService {
   comics: Comics = null;
-  isLeave=false;
+  isLeave = false;
   constructor(
     private db: NgxIndexedDBService,
     public http: HttpClient,
@@ -77,15 +77,17 @@ export class CurrentDetailService {
 
   async init(id) {
     id = parseInt(id);
-    this.isLeave=true;
+    this.isLeave = true;
     setTimeout(() => { this.createSmailImage(id) }, 1000)
 
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
       const comics = { ...x[0], ...x[1] };
       comics.chapters.forEach(c => {
-        if (!c.images[0].small) c.images[0].small = c.images[0].src;
-        if (!c.images[0].width) c.images[0].width = 0;
-        if (!c.images[0].height) c.images[0].height = 0;
+        c.images.forEach((j, i) => {
+          if (!c.images[i].small) c.images[i].small = c.images[i].src;
+          if (!c.images[i].width) c.images[i].width = 0;
+          if (!c.images[i].height) c.images[i].height = 0;
+        })
       })
       this.comics = comics;
       this.afterInit$.next(this.comics);
@@ -95,10 +97,12 @@ export class CurrentDetailService {
   }
   update_state(chapter, index) {
     if (Number.isNaN(index)) index = 0;
-    const state = { chapter:
-       { id: chapter.id, index: chapter.index, title: chapter.title, total: chapter.total },
-        lastReadTime: new Date().getTime(), id: this.comics.id,
-          mode: this.comics.mode,isFirstPageCover:this.comics.isFirstPageCover,pageOrder:this.comics.pageOrder };
+    const state = {
+      chapter:
+        { id: chapter.id, index: chapter.index, title: chapter.title, total: chapter.total },
+      lastReadTime: new Date().getTime(), id: this.comics.id,
+      mode: this.comics.mode, isFirstPageCover: this.comics.isFirstPageCover, pageOrder: this.comics.pageOrder
+    };
     this.db.update('state', state).subscribe()
   }
   router_reader_page(chapter, index?) {
@@ -114,8 +118,8 @@ export class CurrentDetailService {
         lastReadTime: new Date().getTime(),
         id: this.comics.id,
         mode: this.comics.mode,
-        isFirstPageCover:this.comics.isFirstPageCover,
-        pageOrder:this.comics.pageOrder
+        isFirstPageCover: this.comics.isFirstPageCover,
+        pageOrder: this.comics.pageOrder
       }
       this.db.update('state', state).subscribe(() => this.router.navigate(['/reader', this.comics.id]))
     } else {
@@ -129,8 +133,8 @@ export class CurrentDetailService {
         lastReadTime: new Date().getTime(),
         id: this.comics.id,
         mode: this.comics.mode,
-        isFirstPageCover:this.comics.isFirstPageCover,
-        pageOrder:this.comics.pageOrder
+        isFirstPageCover: this.comics.isFirstPageCover,
+        pageOrder: this.comics.pageOrder
       }
       this.db.update('state', state).subscribe(() => this.router.navigate(['/reader', this.comics.id]))
       this.db.getByID('chapter_state', chapter.id).subscribe((x: any) => {
@@ -144,9 +148,9 @@ export class CurrentDetailService {
       })
     }
   }
-  chapterPageChange(chapterId:number,index:number){
-     const chapter=this.comics.chapters.find(x=>x.id==chapterId);
-     this.router_reader_page(chapter,index)
+  chapterPageChange(chapterId: number, index: number) {
+    const chapter = this.comics.chapters.find(x => x.id == chapterId);
+    this.router_reader_page(chapter, index)
   }
   async deleteChapter(chapterIds: Array<number>) {
     const update_state = (chapter) => {
@@ -160,8 +164,8 @@ export class CurrentDetailService {
         lastReadTime: new Date().getTime(),
         id: this.comics.id,
         mode: this.comics.mode,
-        isFirstPageCover:this.comics.isFirstPageCover,
-        pageOrder:this.comics.pageOrder
+        isFirstPageCover: this.comics.isFirstPageCover,
+        pageOrder: this.comics.pageOrder
       }
       this.db.getByID('chapter_state', chapter.id).subscribe((x: any) => {
         if (x) {
@@ -190,24 +194,23 @@ export class CurrentDetailService {
       }
     }
     const id = this.comics.id;
-    this.db.getByKey('comics', id).subscribe((comics: Comics) => {
-      const chapterIdDeletes = comics.chapters.filter(x => chapterIds.includes(x.id))
-      chapterIdDeletes.forEach(x => x.images.forEach(c => imageIds.push(c.id)));
-      comics.chapters = comics.chapters.filter(x => !chapterIds.includes(x.id))
-      if (comics.chapters[0]) update_state(comics.chapters[0])
-      detaleCacheImage(imageIds);
-      detaleCacheChapter(chapterIds);
-      this.db.update('comics', comics).subscribe(() => {
-        this.init(comics.id);
-      })
-    })
+    const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
+    const chapterIdDeletes = comics.chapters.filter(x => chapterIds.includes(x.id))
+    chapterIdDeletes.forEach(x => x.images.forEach(c => imageIds.push(c.id)));
+    comics.chapters = comics.chapters.filter(x => !chapterIds.includes(x.id))
+    this.comics.chapters = this.comics.chapters.filter(x => !chapterIds.includes(x.id))
+    if (comics.chapters[0]) update_state(comics.chapters[0])
+    detaleCacheImage(imageIds);
+    detaleCacheChapter(chapterIds);
+    await firstValueFrom(this.db.update('comics', comics))
+    this.init(comics.id);
     // this.comics.id;
 
   }
 
 
-  close(){
-    this.isLeave=false;
+  close() {
+    this.isLeave = false;
   }
 
   async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {
@@ -252,23 +255,23 @@ export class CurrentDetailService {
       var blob = new Blob([arr], { type: contentType });
       return blob
     };
-    const uploadImage = async (src): Promise<{ id: number,width:number,height:number, src: string, small: string }> => {
+    const uploadImage = async (src): Promise<{ id: number, width: number, height: number, src: string, small: string }> => {
       const dataURL = await getImageBase64(src)
-      const image= await loadImage(dataURL)
+      const image = await loadImage(dataURL)
       const blob = base64ToBlob(dataURL);
       const formData = new FormData();
       formData.append('file', blob);
       const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(),width:image.width,height:image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
+      return { id: new Date().getTime(), width: image.width, height: image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
     }
 
-    const uploadImageData = async (dataURL): Promise<{  id: number,width:number,height:number, src: string, small: string }> => {
-      const image= await loadImage(dataURL)
+    const uploadImageData = async (dataURL): Promise<{ id: number, width: number, height: number, src: string, small: string }> => {
+      const image = await loadImage(dataURL)
       const blob = base64ToBlob(dataURL);
       const formData = new FormData();
       formData.append('file', blob);
       const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(),width:image.width,height:image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
+      return { id: new Date().getTime(), width: image.width, height: image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
     }
 
     // const uploadImage = async (href): Promise<{  id: number,width:number,height:number, src: string, small: string }> => {
@@ -356,6 +359,7 @@ export class CurrentDetailService {
     x.chapters[index].images.splice(imageIndex, 1);
     detaleCacheImage([imageId]);
     await update(x)
+    if (x.chapters[index].images.length == 0) await this.deleteChapter([x.chapters[index].id])
   }
   async createSmailImage(id) {
     const loadImage = async (src): Promise<HTMLImageElement> => {
@@ -394,38 +398,38 @@ export class CurrentDetailService {
       const idc = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
       return { small: `http://localhost:7899/image/${idc}`, width: img.width, height: img.height }
     }
-    const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
-    for (let i = 0; i < comics.chapters.length; i++) {
-      const x = comics.chapters[i].images[0];
-      if (!x.small && this.isLeave) {
-        const res = await createSmailImage(x.src, x.id);
+    // const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
+    // for (let i = 0; i < comics.chapters.length; i++) {
+    //   const x = comics.chapters[i].images[0];
+    //   if (!x.small && this.isLeave) {
+    //     const res = await createSmailImage(x.src, x.id);
 
-        this.comics.chapters[i].images[0].small = res.small;
-        this.comics.chapters[i].images[0].width = res.width;
-        this.comics.chapters[i].images[0].height = res.height;
+    //     this.comics.chapters[i].images[0].small = res.small;
+    //     this.comics.chapters[i].images[0].width = res.width;
+    //     this.comics.chapters[i].images[0].height = res.height;
 
-        comics.chapters[i].images[0].small = res.small;
-        comics.chapters[i].images[0].width = res.width;
-        comics.chapters[i].images[0].height = res.height;
-        await firstValueFrom(this.db.update('comics', comics))
-      }
-    }
-    for (let i = 0; i < comics.chapters.length; i++) {
-      const x = comics.chapters[i];
-      for (let j = 0; j < x.images.length; j++) {
-        if (comics.chapters[i].images[j].width||comics.chapters[i].images[j].height) continue
-        if (!!comics.chapters[i].images[j].small && this.isLeave) continue
-        const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
+    //     comics.chapters[i].images[0].small = res.small;
+    //     comics.chapters[i].images[0].width = res.width;
+    //     comics.chapters[i].images[0].height = res.height;
+    //     await firstValueFrom(this.db.update('comics', comics))
+    //   }
+    // }
+    // for (let i = 0; i < comics.chapters.length; i++) {
+    //   const x = comics.chapters[i];
+    //   for (let j = 0; j < x.images.length; j++) {
+    //     if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
+    //     if (!!comics.chapters[i].images[j].small && this.isLeave) continue
+    //     const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 
-        this.comics.chapters[i].images[j].small = res.small;
-        this.comics.chapters[i].images[j].width = res.width;
-        this.comics.chapters[i].images[j].height = res.height;
+    //     this.comics.chapters[i].images[j].small = res.small;
+    //     this.comics.chapters[i].images[j].width = res.width;
+    //     this.comics.chapters[i].images[j].height = res.height;
 
-        comics.chapters[i].images[j].small = res.small;
-        comics.chapters[i].images[j].width = res.width;
-        comics.chapters[i].images[j].height = res.height;
-        await firstValueFrom(this.db.update('comics', comics))
-      }
-    }
+    //     comics.chapters[i].images[j].small = res.small;
+    //     comics.chapters[i].images[j].width = res.width;
+    //     comics.chapters[i].images[j].height = res.height;
+    //     await firstValueFrom(this.db.update('comics', comics))
+    //   }
+    // }
   }
 }

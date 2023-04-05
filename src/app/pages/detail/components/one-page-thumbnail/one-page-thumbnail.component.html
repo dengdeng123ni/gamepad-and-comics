@@ -44,7 +44,7 @@
     </div>
     <div class="images">
       <button mat-button class="img" [attr.region]="'one_page_thumbnail_item'" *ngFor="let c of n.images;let cindex=index" (click)="on(index,cindex)">
-        <img [src]="c.small" alt="">
+        <img [src]="c.small">
         <mat-checkbox class="checkbox" [color]="'primary'" [(ngModel)]="c.selected"></mat-checkbox>
       </button>
     </div>
