@@ -1,30 +1,51 @@
 <div class="toolbar">
   <div class="left">
-    <mat-button-toggle-group name="fontStyle">
-      <mat-button-toggle value="bold">前</mat-button-toggle>
-      <mat-button-toggle value="italic">后</mat-button-toggle>
+    <mat-button-toggle-group name="fontStyle" [value]="page.direction">
+      <mat-button-toggle value="before" [attr.region]="'one_page_thumbnail_toolabr'" (click)="page.direction='before';change()">前</mat-button-toggle>
+      <mat-button-toggle value="after" [attr.region]="'one_page_thumbnail_toolabr'" (click)="page.direction='after';change()">后</mat-button-toggle>
     </mat-button-toggle-group>
-    <mat-radio-group>
-      <mat-radio-button value="1">1</mat-radio-button>
-      <mat-radio-button value="2">2</mat-radio-button>
-      <mat-radio-button value="3">3</mat-radio-button>
+
+    <mat-divider  [vertical]="true" style="    height: 22px;
+    width: 1px;
+    margin: 5px"></mat-divider>
+    <mat-radio-group [(ngModel)]="page.quantity" (change)="change()" >
+      <mat-radio-button   [attr.region]="'one_page_thumbnail_toolabr'" [attr.type]="'radio'" [value]="1">1</mat-radio-button>
+      <mat-radio-button   [attr.region]="'one_page_thumbnail_toolabr'" [attr.type]="'radio'" [value]="2">2</mat-radio-button>
+      <mat-radio-button   [attr.region]="'one_page_thumbnail_toolabr'" [attr.type]="'radio'" [value]="3">3</mat-radio-button>
     </mat-radio-group>
+
+    <mat-divider  [vertical]="true" style="    height: 22px;
+    width: 1px;
+    margin: 5px"></mat-divider>
+    <button mat-icon-button matTooltipPosition="below" [attr.select]="true"   [attr.region]="'one_page_thumbnail_toolabr'" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.select_all" (click)="selectAll()"  [attr._id]="'select_all'" class="icon ml-1">
+      <mat-icon>done_all</mat-icon>
+    </button>
+    <mat-divider  [vertical]="true" style="    height: 22px;
+    width: 1px;
+    margin: 5px"></mat-divider>
+    <button mat-icon-button matTooltipPosition="below"   [attr.region]="'one_page_thumbnail_toolabr'" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" [disabled]="selectedList.length==0?true:false" (click)="selectedDetele()" class="icon">
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
 
   <div class="right">
-    <button class="icon" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+    <button class="icon" [attr.region]="'one_page_thumbnail_toolabr'" (click)="close()" mat-icon-button>
       <mat-icon>close</mat-icon>
     </button>
   </div>
 </div>
-<div class="list">
+
+
+
+<div class="list" [attr.columns]="page.quantity">
   <div class="item" *ngFor="let n of list;let index=index">
     <div class="title">
       {{n.chapter.title}}
     </div>
-    <div class="images" >
-      <button mat-button class="img" *ngFor="let c of n.images">
+    <div class="images">
+      <button mat-button class="img" [attr.region]="'one_page_thumbnail_item'" *ngFor="let c of n.images;let cindex=index" (click)="on(index,cindex)">
         <img [src]="c.small" alt="">
+        <mat-checkbox class="checkbox" [color]="'primary'" [(ngModel)]="c.selected"></mat-checkbox>
       </button>
     </div>
   </div>

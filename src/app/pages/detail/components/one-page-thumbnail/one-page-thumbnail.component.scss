@@ -4,6 +4,13 @@
     .img{
       height: fit-content;
     padding: 8px;
+    position: relative;
+    .checkbox {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      pointer-events: none;
+    }
       img{
         width: 100px;
         height: 140px;
@@ -15,10 +22,19 @@
 .list{
   display: grid;
   width: 100vw;
-  grid-template-columns: repeat(auto-fill, 130px);
+  grid-template-columns: repeat(auto-fill, 360px);
   gap: 1rem;
   padding: 1rem;
   justify-content: space-between;
+}
+.list[columns='1']{
+  grid-template-columns: repeat(auto-fill, 130px);
+}
+.list[columns='2']{
+  grid-template-columns: repeat(auto-fill, 250px);
+}
+.list[columns='3']{
+  grid-template-columns: repeat(auto-fill, 360px);
 }
 .toolbar{
   background: #303030;
@@ -52,7 +68,7 @@
     justify-content: end;
   }
   .mat-mdc-radio-group{
-    margin-left: 16px;
+    // margin-left: 16px;
   }
   .mat-mdc-radio-button .mdc-radio{
     padding: 6px;
@@ -81,4 +97,7 @@
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
     border-radius: 4px;
   }
+}
+.left{
+  display: flex;
 }

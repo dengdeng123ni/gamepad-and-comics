@@ -2,7 +2,11 @@
   <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.edit" [attr._id]="'list_side_edit'" [attr.region]="'detail_toolabr_item'" class="icon" (click)="editIsToggle()">
     <mat-icon>edit_note</mat-icon>
   </button>
-  <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.settings" [attr._id]="'list_side_edit'" [attr.region]="'detail_toolabr_item'" class="icon" (click)="openSettings($event)">
+  <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.settings" [attr.region]="'detail_toolabr_item'" class="icon" (click)="openSettings($event)">
     <mat-icon>settings</mat-icon>
+  </button>
+
+  <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.select_all" [attr.region]="'detail_toolabr_item'" class="icon" (click)="onePageThumbnail.open()">
+    <mat-icon>crop_original</mat-icon>
   </button>
 </div>

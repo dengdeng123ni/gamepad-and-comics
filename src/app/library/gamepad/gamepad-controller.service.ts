@@ -261,6 +261,28 @@ export class GamepadControllerService {
       current: this.list[i], node: this.nodes[i]
     }
   }
+  getMoveTargetOther(direction) {
+    const current = this.current;
+    let shortests =[];
+    if (shortests.length == 0) {
+      const filters = {
+        "UP": (x) => x.position.y < current.position.y && x.region != current.region,
+        "DOWN": (x) => x.position.y > current.position.y && x.region != current.region,
+        "LEFT": (x) => x.position.x < current.position.x && x.region != current.region,
+        "RIGHT": (x) => x.position.x > current.position.x && x.region != current.region,
+      }
+      shortests = this.list.filter(x => filters[direction](x));
+    }
+    const nearest = shortests.reduce((closest, x) => {
+      const dist = Math.hypot(current.position.x - x.position.x, current.position.y - x.position.y);
+      return dist < closest.dist ? { node: x, dist: dist } : closest;
+    }, { node: null, dist: Infinity }).node;
+    const i = nearest ? nearest.index : current.index; //如果没有找到最近的节点，则使用最近的索引或当前索引
+    return {
+      current: this.list[i], node: this.nodes[i]
+    }
+  }
+
   delSelectTarget() {
     // this.nod
     // document.querySelectorAll("[select=true]").forEach(element => {
@@ -286,7 +308,14 @@ export class GamepadControllerService {
       this.scrollToElement(node, (direction as any));
     }
   }
-
+  setOtherRegionTarget(direction: string) {
+    const { current, node } = this.getMoveTargetOther(direction);
+    this.delSelectTarget();
+    this.current = current;
+    this.setupHoverObserver(node)
+    node.setAttribute("select", "true");
+    this.scrollToElement(node, (direction as any));
+  }
   setupHoverObserver(node) {
     const config = { attributes: true, childList: false, characterData: false, subtree: false };
     let isHovering = false;
