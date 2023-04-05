@@ -367,51 +367,35 @@ export class CurrentReaderService {
       var blob = new Blob([arr], { type: contentType });
       return blob
     };
-    const uploadImage = async (src): Promise<{ id: number, width: number, height: number, src: string, small: string }> => {
-      const dataURL = await getImageBase64(src)
-      const image = await loadImage(dataURL)
-      const blob = base64ToBlob(dataURL);
-      const formData = new FormData();
-      formData.append('file', blob);
-      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(), width: image.width, height: image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
-    }
-    const uploadImageData = async (dataURL): Promise<{ id: number, width: number, height: number, src: string, small: string }> => {
-      const image = await loadImage(dataURL)
-      const blob = base64ToBlob(dataURL);
-      const formData = new FormData();
-      formData.append('file', blob);
-      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(), width: image.width, height: image.height, src: `http://localhost:7899/image/${id}`, small: `http://localhost:7899/image/${id}` }
-    }
-    // const uploadImage = async (href): Promise<{  id: number,width:number,height:number, src: string, small: string }> => {
-    //   const dataURL = await getImageBase64(href)
-    //   const image= await loadImage(dataURL)
-    //   const blob = base64ToBlob(dataURL);
-    //   const id = new Date().getTime();
-    //   const src = URL.createObjectURL(blob);
-    //   const imageSrc = `${window.location.origin}/image/${id}`;
-    //   const request = new Request(imageSrc);
-    //   const response = await fetch(src)
-    //   const cache = await caches.open('image');
-    //   await cache.put(request, response);
-    //   URL.revokeObjectURL(src)
-    //   return { id: id, src: imageSrc,small:imageSrc,width:image.width,height:image.height, }
-    // }
 
-    // const uploadImageData = async (dataURL): Promise<{  id: number,width:number,height:number, src: string, small: string }> => {
-    //   const image= await loadImage(dataURL)
-    //   const blob = base64ToBlob(dataURL);
-    //   const id = new Date().getTime();
-    //   const src = URL.createObjectURL(blob);
-    //   const imageSrc = `${window.location.origin}/image/${id}`;
-    //   const request = new Request(imageSrc);
-    //   const response = await fetch(src)
-    //   const cache = await caches.open('image');
-    //   await cache.put(request, response);
-    //   URL.revokeObjectURL(src)
-    //   return { id: id, src: imageSrc,small:imageSrc,width:image.width,height:image.height, }
-    // }
+    const uploadImage = async (href): Promise<{  id: number,width:number,height:number, src: string, small: string }> => {
+      const dataURL = await getImageBase64(href)
+      const image= await loadImage(dataURL)
+      const blob = base64ToBlob(dataURL);
+      const id = new Date().getTime();
+      const src = URL.createObjectURL(blob);
+      const imageSrc = `${window.location.origin}/image/${id}`;
+      const request = new Request(imageSrc);
+      const response = await fetch(src)
+      const cache = await caches.open('image');
+      await cache.put(request, response);
+      URL.revokeObjectURL(src)
+      return { id: id, src: imageSrc,small:imageSrc,width:image.width,height:image.height, }
+    }
+
+    const uploadImageData = async (dataURL): Promise<{  id: number,width:number,height:number, src: string, small: string }> => {
+      const image= await loadImage(dataURL)
+      const blob = base64ToBlob(dataURL);
+      const id = new Date().getTime();
+      const src = URL.createObjectURL(blob);
+      const imageSrc = `${window.location.origin}/image/${id}`;
+      const request = new Request(imageSrc);
+      const response = await fetch(src)
+      const cache = await caches.open('image');
+      await cache.put(request, response);
+      URL.revokeObjectURL(src)
+      return { id: id, src: imageSrc,small:imageSrc,width:image.width,height:image.height, }
+    }
 
     const update = async (comics) => {
       await firstValueFrom(this.db.update('comics', comics))
@@ -484,31 +468,21 @@ export class CurrentReaderService {
     const chapters = this.comics.chapters;
     const chaptersIndex = chapters.findIndex(x => x.id == this.comics.chapter.id);
 
-    // const createSmailImage = async (href, id) => {
-    //   const img = await loadImage(href);
-    //   const req = await fetch(href);
-    //   const blob = await req.blob();
-    //   const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
-    //   const src = URL.createObjectURL(thumbnailBlob);
-    //   const imageSrc = `${window.location.origin}/image/small/${id}`;
-    //   const request = new Request(imageSrc);
-    //   const response = await fetch(src)
-    //   const cache = await caches.open('image');
-    //   await cache.put(request, response);
-    //   URL.revokeObjectURL(src)
-    //   return { small:imageSrc, width:img.width, height:img.height }
-    // }
-
     const createSmailImage = async (href, id) => {
       const img = await loadImage(href);
       const req = await fetch(href);
       const blob = await req.blob();
       const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
-      const formData = new FormData();
-      formData.append('file', thumbnailBlob);
-      const idc = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { small: `http://localhost:7899/image/${idc}`, width: img.width, height: img.height }
+      const src = URL.createObjectURL(thumbnailBlob);
+      const imageSrc = `${window.location.origin}/image/small/${id}`;
+      const request = new Request(imageSrc);
+      const response = await fetch(src)
+      const cache = await caches.open('image');
+      await cache.put(request, response);
+      URL.revokeObjectURL(src)
+      return { small:imageSrc, width:img.width, height:img.height }
     }
+
     const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
     for (let i = chaptersIndex; i <= chaptersIndex; i++) {
       const x = comics.chapters[i];
