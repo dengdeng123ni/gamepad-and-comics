@@ -513,9 +513,10 @@ export class CurrentReaderService {
     for (let i = chaptersIndex; i <= chaptersIndex; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
-        if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
-        if (!!comics.chapters[i].images[j].small && this.isLeave) continue
 
+        if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
+        if (!!comics.chapters[i].images[j].small) continue
+        if(this.isLeave) return
 
         const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 
@@ -534,8 +535,10 @@ export class CurrentReaderService {
     for (let i = 0; i < comics.chapters.length; i++) {
       const x = comics.chapters[i];
       for (let j = 0; j < x.images.length; j++) {
+
         if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
-        if (!!comics.chapters[i].images[j].small && this.isLeave) continue
+        if (!!comics.chapters[i].images[j].small) continue
+        if(this.isLeave) return
         const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 
         this.comics.chapters[i].images[j].small = res.small;
