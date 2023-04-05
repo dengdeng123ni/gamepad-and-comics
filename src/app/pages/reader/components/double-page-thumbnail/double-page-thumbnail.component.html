@@ -22,10 +22,6 @@
           <img [src]="n.images[0].img" [width]="n.images[0].width" loading="lazy" [height]="n.images[0].height"  *ngIf="n.images[0]">
           <div class="index">{{n.images[0].index}}</div>
         </div>
-        <div class="img" *ngIf="n.images[0].width<n.images[0].height?true:false">
-          <img [src]="n.images[0].img" [width]="n.images[0].width" loading="lazy" [height]="n.images[0].height"  *ngIf="n.images[0]">
-          <div class="index">{{n.images[0].index}}</div>
-        </div>
       </div>
     </button>
   </div>

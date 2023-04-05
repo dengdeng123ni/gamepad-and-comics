@@ -53,9 +53,9 @@ export class IndexDetailComponent {
     })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
-    setTimeout(()=>{
-      onePageThumbnail.open();
-    },1500)
+    // setTimeout(()=>{
+    //   onePageThumbnail.open();
+    // },1500)
   }
   ngOnDestroy() {
     this.current.close();

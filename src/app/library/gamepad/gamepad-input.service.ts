@@ -61,7 +61,7 @@ export class GamepadInputService {
           this.isDown = null;
           this.isPress = null;
         }
-      }, 50);
+      }, 20);
     });
 
     this.Gamepad.connect().subscribe(() => {
@@ -132,38 +132,38 @@ export class GamepadInputService {
       this.Gamepad.after('button16').subscribe(() => { this.up$.next("CENTER") });
 
 
-      // this.Gamepad.on('up0').pipe(bufferCount(10)).subscribe(() => { this.press$.next("LEFT_ANALOG_UP") });
-      // this.Gamepad.on('down0').pipe(bufferCount(10)).subscribe(() => { this.press$.next("LEFT_ANALOG_DOWN") });
-      // this.Gamepad.on('right0').pipe(bufferCount(10)).subscribe(() => { this.press$.next("LEFT_ANALOG_RIGHT") });
-      // this.Gamepad.on('left0').pipe(bufferCount(10)).subscribe(() => { this.press$.next("LEFT_ANALOG_LEFT") });
+      // this.Gamepad.on('up0').pipe(bufferCount(2)).subscribe(() => { this.press$.next("LEFT_ANALOG_UP") });
+      // this.Gamepad.on('down0').pipe(bufferCount(2)).subscribe(() => { this.press$.next("LEFT_ANALOG_DOWN") });
+      // this.Gamepad.on('right0').pipe(bufferCount(2)).subscribe(() => { this.press$.next("LEFT_ANALOG_RIGHT") });
+      // this.Gamepad.on('left0').pipe(bufferCount(2)).subscribe(() => { this.press$.next("LEFT_ANALOG_LEFT") });
 
-      // this.Gamepad.on('up1').pipe(bufferCount(10)).subscribe(() => { this.press$.next("RIGHT_ANALOG_UP") });
-      // this.Gamepad.on('down1').pipe(bufferCount(10)).subscribe(() => { this.press$.next("RIGHT_ANALOG_UP") });
-      // this.Gamepad.on('right1').pipe(bufferCount(10)).subscribe(() => { this.press$.next("RIGHT_ANALOG_UP") });
-      // this.Gamepad.on('left1').pipe(bufferCount(10)).subscribe(() => { this.press$.next("RIGHT_ANALOG_UP") });
+      // this.Gamepad.on('up1').pipe(bufferCount(2)).subscribe(() => { this.press$.next("RIGHT_ANALOG_UP") });
+      // this.Gamepad.on('down1').pipe(bufferCount(2)).subscribe(() => { this.press$.next("RIGHT_ANALOG_UP") });
+      // this.Gamepad.on('right1').pipe(bufferCount(2)).subscribe(() => { this.press$.next("RIGHT_ANALOG_UP") });
+      // this.Gamepad.on('left1').pipe(bufferCount(2)).subscribe(() => { this.press$.next("RIGHT_ANALOG_UP") });
 
-      this.Gamepad.on('button0').pipe(bufferCount(10)).subscribe(() => { this.press$.next("A") });
-      this.Gamepad.on('button1').pipe(bufferCount(10)).subscribe(() => { this.press$.next("B") });
-      this.Gamepad.on('button2').pipe(bufferCount(10)).subscribe(() => { this.press$.next("X") });
-      this.Gamepad.on('button3').pipe(bufferCount(10)).subscribe(() => { this.press$.next("Y") });
+      this.Gamepad.on('button0').pipe(bufferCount(2)).subscribe(() => { this.press$.next("A") });
+      this.Gamepad.on('button1').pipe(bufferCount(2)).subscribe(() => { this.press$.next("B") });
+      this.Gamepad.on('button2').pipe(bufferCount(2)).subscribe(() => { this.press$.next("X") });
+      this.Gamepad.on('button3').pipe(bufferCount(2)).subscribe(() => { this.press$.next("Y") });
 
-      this.Gamepad.on('button4').pipe(bufferCount(10)).subscribe(() => { this.press$.next("LEFT_TRIGGER") });
-      this.Gamepad.on('button5').pipe(bufferCount(10)).subscribe(() => { this.press$.next("RIGHT_TRIGGER") });
-      this.Gamepad.on('button6').pipe(bufferCount(10)).subscribe(() => { this.press$.next("LEFT_BUMPER") });
-      this.Gamepad.on('button7').pipe(bufferCount(10)).subscribe(() => { this.press$.next("RIGHT_BUMPER") });
+      this.Gamepad.on('button4').pipe(bufferCount(2)).subscribe(() => { this.press$.next("LEFT_TRIGGER") });
+      this.Gamepad.on('button5').pipe(bufferCount(2)).subscribe(() => { this.press$.next("RIGHT_TRIGGER") });
+      this.Gamepad.on('button6').pipe(bufferCount(2)).subscribe(() => { this.press$.next("LEFT_BUMPER") });
+      this.Gamepad.on('button7').pipe(bufferCount(2)).subscribe(() => { this.press$.next("RIGHT_BUMPER") });
 
-      this.Gamepad.on('button8').pipe(bufferCount(10)).subscribe(() => { this.press$.next("SELECT") });
-      this.Gamepad.on('button9').pipe(bufferCount(10)).subscribe(() => { this.press$.next("START") });
+      this.Gamepad.on('button8').pipe(bufferCount(2)).subscribe(() => { this.press$.next("SELECT") });
+      this.Gamepad.on('button9').pipe(bufferCount(2)).subscribe(() => { this.press$.next("START") });
 
-      this.Gamepad.on('button10').pipe(bufferCount(10)).subscribe(() => { this.press$.next("LEFT_ANALOG_PRESS") });
-      this.Gamepad.on('button11').pipe(bufferCount(10)).subscribe(() => { this.press$.next("RIGHT_ANALOG_PRESS") });
+      this.Gamepad.on('button10').pipe(bufferCount(2)).subscribe(() => { this.press$.next("LEFT_ANALOG_PRESS") });
+      this.Gamepad.on('button11').pipe(bufferCount(2)).subscribe(() => { this.press$.next("RIGHT_ANALOG_PRESS") });
 
-      // this.Gamepad.on('button12').pipe(bufferCount(10)).subscribe(() => { this.press$.next("DPAD_UP") });
-      // this.Gamepad.on('button13').pipe(bufferCount(10)).subscribe(() => { this.press$.next("DPAD_DOWN") });
-      // this.Gamepad.on('button14').pipe(bufferCount(10)).subscribe(() => { this.press$.next("DPAD_LEFT") });
-      // this.Gamepad.on('button15').pipe(bufferCount(10)).subscribe(() => { this.press$.next("DPAD_RIGHT") });
+      // this.Gamepad.on('button12').pipe(bufferCount(2)).subscribe(() => { this.press$.next("DPAD_UP") });
+      // this.Gamepad.on('button13').pipe(bufferCount(2)).subscribe(() => { this.press$.next("DPAD_DOWN") });
+      // this.Gamepad.on('button14').pipe(bufferCount(2)).subscribe(() => { this.press$.next("DPAD_LEFT") });
+      // this.Gamepad.on('button15').pipe(bufferCount(2)).subscribe(() => { this.press$.next("DPAD_RIGHT") });
 
-      this.Gamepad.on('button16').pipe(bufferCount(10)).subscribe(() => { this.press$.next("CENTER") });
+      this.Gamepad.on('button16').pipe(bufferCount(2)).subscribe(() => { this.press$.next("CENTER") });
 
     });
   }
