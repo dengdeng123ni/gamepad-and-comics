@@ -199,10 +199,10 @@ export class Mode1Component {
   isWaitNext = false;
   isMobile = false;
   swiperConfig: SwiperOptions = {
-    // mousewheel: {
-    //   thresholdDelta: 50,
-    //   forceToAxis: false,
-    // },
+    mousewheel: {
+      thresholdDelta: 50,
+      forceToAxis: false,
+    },
     direction: this.config.mode1.slidingDirection == "vertical" ? "vertical" : "horizontal",
     scrollbar: { draggable: true },
   };

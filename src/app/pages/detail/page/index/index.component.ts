@@ -8,6 +8,7 @@ import { HandleLeftCircleToolbarService } from '../../components/handle-left-cir
 import { ConfigDetailService } from '../../services/config.service';
 import { CurrentDetailService } from '../../services/current.service';
 import { GeneralService } from '../../services/general.service';
+import { OnePageThumbnailService } from '../../components/one-page-thumbnail/one-page-thumbnail.service';
 
 @Component({
   selector: 'app-info-index',
@@ -24,6 +25,7 @@ export class IndexDetailComponent {
       public HandleLeftCircleToolbar: HandleLeftCircleToolbarService,
       public gamepadThumbnail: GamepadThumbnailService,
       public doublePageThumbnail: DoublePageThumbnailService,
+      public onePageThumbnail:OnePageThumbnailService,
       public general: GeneralService
     ) {
     GamepadEvent.registerGlobalEvent({
@@ -51,6 +53,9 @@ export class IndexDetailComponent {
     })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
+    setTimeout(()=>{
+      onePageThumbnail.open();
+    },1500)
   }
   ngOnDestroy() {
     this.current.close();

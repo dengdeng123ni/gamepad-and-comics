@@ -89,11 +89,12 @@ export class ReaderToolbarComponent {
     const node_reader_toolbar: any = document.querySelector("#reader_toolbar_section")
     node_reader_toolbar.style.opacity = 1;
     this.menuObj.list = [];
+    this.menuObj.list = this.current.comics.chapters;
     const p = $event.target.getBoundingClientRect();
     let node = (document.getElementById(`reader_toolbar_menu`) as any);
-    node.style.top = `${p.bottom}px`;
+    node.style.top = `${this.menuObj.list.length<3?p.top:p.bottom}px`;
     node.style.left = `${p.x + p.width + 4}px`;
-    this.menuObj.list = this.current.comics.chapters;
+
     setTimeout(() => this.menu.openMenu(), 0)
   }
   closeMenu() {

@@ -1,0 +1,31 @@
+<div class="toolbar">
+  <div class="left">
+    <mat-button-toggle-group name="fontStyle">
+      <mat-button-toggle value="bold">前</mat-button-toggle>
+      <mat-button-toggle value="italic">后</mat-button-toggle>
+    </mat-button-toggle-group>
+    <mat-radio-group>
+      <mat-radio-button value="1">1</mat-radio-button>
+      <mat-radio-button value="2">2</mat-radio-button>
+      <mat-radio-button value="3">3</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div class="right">
+    <button class="icon" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="list">
+  <div class="item" *ngFor="let n of list;let index=index">
+    <div class="title">
+      {{n.chapter.title}}
+    </div>
+    <div class="images" >
+      <button mat-button class="img" *ngFor="let c of n.images">
+        <img [src]="c.small" alt="">
+      </button>
+    </div>
+  </div>
+</div>

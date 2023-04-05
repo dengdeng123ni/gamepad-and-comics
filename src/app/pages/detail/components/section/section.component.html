@@ -11,6 +11,9 @@
       <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.export" [attr.region]="'detail_toolabr_item'" [disabled]="selectedList.length==0?true:false" (click)="openDownload($event)" class="icon">
         <mat-icon>download</mat-icon>
       </button>
+      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.select_all" (click)="selectAll()" [attr.select]="true" [attr.region]="'detail_toolabr_item'" [attr._id]="'select_all'" class="icon ml-1">
+        <mat-icon>crop_original</mat-icon>
+      </button>
       <mat-divider  [vertical]="true" style="height: 15px;width: 1px;margin: 0 4px;"></mat-divider>
       <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" [attr.region]="'detail_toolabr_item'" [disabled]="selectedList.length==0?true:false" (click)="selectedDetele()" class="icon">
         <mat-icon>delete</mat-icon>

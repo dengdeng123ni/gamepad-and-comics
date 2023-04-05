@@ -39,20 +39,22 @@
 
   &[size=small] {
     grid-template-columns: repeat(auto-fill, calc(130px + 1.6rem));
+    padding: 0.4rem;
     .item {
       padding: 0.8rem;
       .img {
-        height: 192px;
+        height: 184px;
       }
     }
   }
 
   &[size=middle] {
     grid-template-columns: repeat(auto-fill, calc(144px + 1.8rem));
+    padding: 0.6rem;
     .item {
       padding: 0.9rem;
       .img {
-        height: 216px;
+        height: 204px;
       }
     }
   }
@@ -67,7 +69,7 @@
 
     .img {
       width: 100%;
-      height: 240px;
+      height: 236px;
       display: flex;
       align-items: end;
       overflow: hidden;
