@@ -126,6 +126,7 @@ export class I18nService {
     "middle": "中",
     "yes": "是",
     "no": "否",
+    "close":"关闭"
   }
 
   // languages = [ "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];

@@ -1,4 +1,7 @@
 .item{
+  .title{
+    @apply truncate
+  }
   .images{
     display: flex;
     .img{

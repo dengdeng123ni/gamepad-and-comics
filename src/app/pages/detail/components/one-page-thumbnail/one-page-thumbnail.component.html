@@ -1,8 +1,8 @@
 <div class="toolbar">
   <div class="left">
     <mat-button-toggle-group name="fontStyle" [value]="page.direction">
-      <mat-button-toggle value="before" [attr.region]="'one_page_thumbnail_toolabr'" (click)="page.direction='before';change()">前</mat-button-toggle>
-      <mat-button-toggle value="after" [attr.region]="'one_page_thumbnail_toolabr'" (click)="page.direction='after';change()">后</mat-button-toggle>
+      <mat-button-toggle value="before" [attr.region]="'one_page_thumbnail_toolabr'" (click)="page.direction='before';change()">{{i18n.config.before}}</mat-button-toggle>
+      <mat-button-toggle value="after" [attr.region]="'one_page_thumbnail_toolabr'" (click)="page.direction='after';change()">{{i18n.config.after}}</mat-button-toggle>
     </mat-button-toggle-group>
 
     <mat-divider  [vertical]="true" style="    height: 22px;
@@ -29,7 +29,7 @@
   </div>
 
   <div class="right">
-    <button class="icon" [attr.region]="'one_page_thumbnail_toolabr'" (click)="close()" mat-icon-button>
+    <button class="icon"  matTooltipPosition="below"  [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.close" [attr.region]="'one_page_thumbnail_toolabr'" (click)="close()" mat-icon-button>
       <mat-icon>close</mat-icon>
     </button>
   </div>

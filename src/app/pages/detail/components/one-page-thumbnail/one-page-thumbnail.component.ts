@@ -12,7 +12,7 @@ import { OnePageThumbnailService } from './one-page-thumbnail.service';
 export class OnePageThumbnailComponent {
   page = {
     direction: "after",//after
-    quantity: 1
+    quantity: 3
   };
   list = [];
   constructor(
