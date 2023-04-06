@@ -30,7 +30,7 @@ export class GlobalSettingsComponent {
   }
 
   soundChange() {
-    if (this.GamepadSound.opened) {
+    if (!this.GamepadSound.opened) {
       localStorage.setItem('sound', "close")
     } else {
       localStorage.setItem('sound', "open")

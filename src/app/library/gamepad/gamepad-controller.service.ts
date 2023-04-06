@@ -79,6 +79,9 @@ export class GamepadControllerService {
         this.setMoveTargetLast();
       },
     })
+    this.GamepadEventBefore$.subscribe((x:any)=>{
+      this.GamepadSound.device(x.input, x.node, x.region,x.index)
+    })
   }
 
   Y = false;
@@ -101,8 +104,8 @@ export class GamepadControllerService {
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
     this.getCurrentTarget();
-    this.GamepadSound.device(input, this.nodes[this.current.index], this.current.region,this.current.index)
-    this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
+
+    this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region,index:this.current.index });
     const region = this.current.region;
     if (this.Y) {
       if (this.GamepadEvent.areaEventsY[region]?.[input]) {

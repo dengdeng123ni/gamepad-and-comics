@@ -61,7 +61,7 @@ export class GamepadInputService {
           this.isDown = null;
           this.isPress = null;
         }
-      }, 20);
+      }, 50);
     });
 
     this.Gamepad.connect().subscribe(() => {
