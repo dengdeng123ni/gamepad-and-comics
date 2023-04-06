@@ -4,6 +4,7 @@ import { ContextMenuControllerService } from '../context-menu/context-menu-contr
 import { GamepadEventService } from './gamepad-event.service';
 import { GamepadInputService } from './gamepad-input.service';
 import { Subject } from 'rxjs';
+import { GamepadSoundService } from './gamepad-sound.service';
 declare const document: any;
 // Define an enum to hold the possible directions
 // Define a type for the options object passed to scrollIntoView
@@ -16,36 +17,14 @@ type ScrollOptions = {
   providedIn: 'root'
 })
 export class GamepadControllerService {
-  async loadSound(url) {
-    var audio = new Audio();
-    audio.src = url;
-    audio.load();
-    audio.play();
-    // 检查音效是否正在播放
-if(!audio.paused) {
-  console.log("音效正在播放");
-} else {
-  console.log("音效已经停止播放");
-}
-    // return audio;
-  }
+
   constructor(
     public GamepadInput: GamepadInputService,
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
+    public GamepadSound: GamepadSoundService,
     private router: Router
   ) {
-    window.addEventListener('click',e => {
-      console.log(e);
-
-      var sound = this.loadSound("/assets/sound/nintendo_switch/tick.wav");
-   })
-   window.addEventListener('contextmenu',e => {
-    console.log(e);
-
-    var sound = this.loadSound("/assets/sound/nintendo_switch/select.wav");
- })
-
     this.GamepadInput.down().subscribe((x: string) => {
       document.body.setAttribute("pattern", "gamepad")
       this.device(x);
@@ -87,8 +66,8 @@ if(!audio.paused) {
       RIGHT_BUMPER: () => {
         this.setMoveTargetNext();
       },
-      START:()=>{
-        this.isGamepadExplanationComponent=!this.isGamepadExplanationComponent;
+      START: () => {
+        this.isGamepadExplanationComponent = !this.isGamepadExplanationComponent;
       }
     })
 
@@ -113,7 +92,8 @@ if(!audio.paused) {
   current = null;
   pause = false;
 
-  isGamepadExplanationComponent=false;
+  isGamepadExplanationComponent = false;
+
 
   // document.visibilityState
 
@@ -121,8 +101,8 @@ if(!audio.paused) {
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
     this.getCurrentTarget();
+    this.GamepadSound.device(input, this.nodes[this.current.index], this.current.region,this.current.index)
     this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
-
     const region = this.current.region;
     if (this.Y) {
       if (this.GamepadEvent.areaEventsY[region]?.[input]) {
@@ -137,7 +117,7 @@ if(!audio.paused) {
         this.GamepadEvent.globalEvents[input](this.nodes[this.current.index]);
       }
     }
-    if(!this.current) return
+    if (!this.current) return
     this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
   }
   setMoveTargetPrevious() {
@@ -285,7 +265,7 @@ if(!audio.paused) {
   }
   getMoveTargetOther(direction) {
     const current = this.current;
-    let shortests =[];
+    let shortests = [];
     if (shortests.length == 0) {
       const filters = {
         "UP": (x) => x.position.y < current.position.y && x.region != current.region,

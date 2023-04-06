@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { I18nService } from 'src/app/library/public-api';
+import { GamepadSoundService, I18nService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-global-settings',
@@ -10,7 +10,10 @@ export class GlobalSettingsComponent {
   config = {
     isRightAngle: false
   }
-  constructor(public i18n: I18nService,) {
+  constructor(
+    public i18n: I18nService,
+    public GamepadSound:GamepadSoundService
+    ) {
     if (localStorage.getItem('angle') == "none") {
       this.config.isRightAngle = true;
     }
@@ -23,6 +26,14 @@ export class GlobalSettingsComponent {
     } else {
       document.body.setAttribute("angle", "")
       localStorage.removeItem('angle')
+    }
+  }
+
+  soundChange() {
+    if (this.GamepadSound.opened) {
+      localStorage.setItem('sound', "close")
+    } else {
+      localStorage.setItem('sound', "open")
     }
   }
 }

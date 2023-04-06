@@ -10,6 +10,7 @@ export * from './gamepad/gamepad-explanation/gamepad-explanation.component';
 export * from './gamepad/gamepad-controller.service';
 export * from './gamepad/gamepad-event.service';
 export * from './gamepad/gamepad-input.service';
+export * from './gamepad/gamepad-sound.service';
 
 export * from './cache/cache.service';
 export * from './download/download.service';
