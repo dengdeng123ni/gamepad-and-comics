@@ -179,7 +179,6 @@ export class SectionComponent {
     this.selectedList = this.chapters.filter(x => x.selected == true)
   }
   on($event, data) {
-    $event.stopPropagation();
     if (this.config.edit) {
       let obj = this.chapters.find(s => s.id == data.id);
       obj.selected = !obj.selected;
@@ -194,6 +193,7 @@ export class SectionComponent {
   }
   close() {
     if (this.config.edit) return
+    if (this._ctrl) return
     this.chapters.forEach(x => x.selected = false)
   }
   selectAll() {

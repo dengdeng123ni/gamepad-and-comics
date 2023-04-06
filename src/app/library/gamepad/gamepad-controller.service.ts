@@ -16,13 +16,35 @@ type ScrollOptions = {
   providedIn: 'root'
 })
 export class GamepadControllerService {
-
+  async loadSound(url) {
+    var audio = new Audio();
+    audio.src = url;
+    audio.load();
+    audio.play();
+    // 检查音效是否正在播放
+if(!audio.paused) {
+  console.log("音效正在播放");
+} else {
+  console.log("音效已经停止播放");
+}
+    // return audio;
+  }
   constructor(
     public GamepadInput: GamepadInputService,
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
     private router: Router
   ) {
+    window.addEventListener('click',e => {
+      console.log(e);
+
+      var sound = this.loadSound("/assets/sound/nintendo_switch/tick.wav");
+   })
+   window.addEventListener('contextmenu',e => {
+    console.log(e);
+
+    var sound = this.loadSound("/assets/sound/nintendo_switch/select.wav");
+ })
 
     this.GamepadInput.down().subscribe((x: string) => {
       document.body.setAttribute("pattern", "gamepad")

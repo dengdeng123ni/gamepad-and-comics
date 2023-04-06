@@ -131,7 +131,6 @@ export class ListMode1Component {
     this.selectedList = this.current.list.filter(x => x.selected == true)
   }
   on($event, x) {
-    $event.stopPropagation();
     if (this.config.edit) {
       let obj = this.current.list.find(s => s.id == x.id);
       obj.selected = !obj.selected;
@@ -147,6 +146,7 @@ export class ListMode1Component {
   }
   close() {
     if (this.config.edit) return
+    if (this._ctrl) return
     this.current.list.forEach(x => x.selected = false)
   }
   selectAll() {
