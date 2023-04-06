@@ -37,6 +37,12 @@ export class GamepadEventService {
   public areaEventsY: Record<string, GamepadEvents> = {};
   public globalEvents: GamepadEvents = {};
   public globalEventsY: GamepadEvents = {};
+
+  public areaSoundEvents: Record<string, GamepadEvents> = {};
+  public areaSoundEventsY: Record<string, GamepadEvents> = {};
+  public globalSoundEvents: GamepadEvents = {};
+  public globalSoundEventsY: GamepadEvents = {};
+
   public hoverEvents: Record<string, HoverEvents> = {};
 
   public configs: Record<string, Config> = {};
@@ -63,6 +69,29 @@ export class GamepadEventService {
   // Register global event as the fourth trigger
   registerGlobalEvent(gamepad: GamepadEvents): void {
     this.globalEvents = { ...this.globalEvents, ...gamepad };
+  }
+
+
+  // Register Y, area event as the first trigger
+  registerAreaSoundEventY(key: string, gamepad: GamepadEvents): void {
+    if (this.areaSoundEventsY[key]) this.areaSoundEventsY[key] = { ...this.areaSoundEventsY[key], ...gamepad };
+    else this.areaSoundEventsY[key] = gamepad;
+  }
+
+  // Register area event as the second trigger
+  registerAreaSoundEvent(key: string, gamepad: GamepadEvents): void {
+    if (this.areaSoundEvents[key]) this.areaSoundEvents[key] = { ...this.areaSoundEvents[key], ...gamepad };
+    else this.areaSoundEvents[key] = gamepad;
+  }
+
+  // Register Y, global event as the third trigger
+  registerGlobalSoundEventY(gamepad: GamepadEvents): void {
+    this.globalSoundEventsY = { ...this.globalSoundEventsY, ...gamepad };
+  }
+
+  // Register global event as the fourth trigger
+  registerGlobalSoundEvent(gamepad: GamepadEvents): void {
+    this.globalSoundEvents = { ...this.globalSoundEvents, ...gamepad };
   }
 
   // Register hover event
