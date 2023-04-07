@@ -7,40 +7,39 @@ export class GamepadSoundService {
   async loadSound(url) {
     if(!this.opened) return
     var audio = new Audio();
-    audio.src = url;
+    const name=location.hostname=="localhost"?"":"gamepad-and-comics/";
+    audio.src = `${location.origin}/${name}${url}`;
     audio.load();
     audio.play();
   }
   opened=true;
   constructor() {
     window.addEventListener('click', e => {
-      var sound = this.loadSound("/assets/sound/nintendo_switch/tick.wav");
+      var sound = this.loadSound("assets/sound/nintendo_switch/tick.wav");
     })
     window.addEventListener('contextmenu', e => {
-      var sound = this.loadSound("/assets/sound/nintendo_switch/select.wav");
+      var sound = this.loadSound("assets/sound/nintendo_switch/select.wav");
     })
-    console.log(localStorage.getItem('sound'));
-
     if(localStorage.getItem('sound')=="close") this.opened=false;
   }
   obj = {
-    UP: () => this.loadSound("/assets/sound/nintendo_switch/klick.wav"),
-    RIGHT: () => this.loadSound("/assets/sound/nintendo_switch/klick.wav"),
-    DOWN: () => this.loadSound("/assets/sound/nintendo_switch/klick.wav"),
-    LEFT: () => this.loadSound("/assets/sound/nintendo_switch/klick.wav"),
-    LEFT_ANALOG_PRESS: () => this.loadSound("/assets/sound/nintendo_switch/popup+runtitle.wav"),
-    RIGHT_ANALOG_PRESS: () => this.loadSound("/assets/sound/nintendo_switch/popup+runtitle.wav"),
-    A: () => this.loadSound("/assets/sound/nintendo_switch/tick.wav"),
-    B: () => this.loadSound("/assets/sound/nintendo_switch/enter & back.wav"),
-    X: () => this.loadSound("/assets/sound/nintendo_switch/select.wav"),
-    // Y: () => this.loadSound("/assets/sound/nintendo_switch/klick.wav"),
-    LEFT_TRIGGER: () => this.loadSound("/assets/sound/nintendo_switch/border.wav"),
-    LEFT_BUMPER: () => this.loadSound("/assets/sound/nintendo_switch/turnoff.wav"),
-    RIGHT_TRIGGER: () => this.loadSound("/assets/sound/nintendo_switch/border.wav"),
-    RIGHT_BUMPER: () => this.loadSound("/assets/sound/nintendo_switch/turnon.wav"),
-    SELECT: () => this.loadSound("/assets/sound/nintendo_switch/klick.wav"),
-    START: () => this.loadSound("/assets/sound/nintendo_switch/klick.wav"),
-    SPECIAL: () => this.loadSound("/assets/sound/nintendo_switch/klick.wav"),
+    UP: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    RIGHT: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    DOWN: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    LEFT: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    LEFT_ANALOG_PRESS: () => this.loadSound("assets/sound/nintendo_switch/popup+runtitle.wav"),
+    RIGHT_ANALOG_PRESS: () => this.loadSound("assets/sound/nintendo_switch/popup+runtitle.wav"),
+    A: () => this.loadSound("assets/sound/nintendo_switch/tick.wav"),
+    B: () => this.loadSound("assets/sound/nintendo_switch/enter & back.wav"),
+    X: () => this.loadSound("assets/sound/nintendo_switch/select.wav"),
+    // Y: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    LEFT_TRIGGER: () => this.loadSound("assets/sound/nintendo_switch/border.wav"),
+    LEFT_BUMPER: () => this.loadSound("assets/sound/nintendo_switch/turnoff.wav"),
+    RIGHT_TRIGGER: () => this.loadSound("assets/sound/nintendo_switch/border.wav"),
+    RIGHT_BUMPER: () => this.loadSound("assets/sound/nintendo_switch/turnon.wav"),
+    SELECT: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    START: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    SPECIAL: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
   }
   index = -1;
   device(input: string, node: HTMLElement, region: string, index: number) {

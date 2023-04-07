@@ -86,7 +86,8 @@ export class ListSideComponent {
     })
   }
   exportZipDist() {
-    this.zip.dist();
+    // https://github.com/wait123you/gamepad-and-comics
+    // this.zip.dist();
   }
   openGamepadExplanation() {
     this.GamepadController.isGamepadExplanationComponent = !this.GamepadController.isGamepadExplanationComponent;
