@@ -315,30 +315,62 @@ export class UploadService {
     }
     return arr
   }
-  getImages = async (files: Array<NzUploadFile>, isCompress) => {
+  // getImages = async (files: Array<NzUploadFile>, isCompress) => {
+  //   const names = files.map(x => x['name']);
+  //   const sortNames = this.fileNameSort(names);
+  //   let arr: Array<any> = [];
+  //   const cache = await caches.open('image');
+  //   for (let i = 0; i < sortNames.length;) {
+  //     const name = sortNames[i];
+  //     const id = new Date().getTime();
+  //     const index = files.findIndex(x => x['name'] == name);
+  //     let blob = null;
+  //     if (500000 < files[index].size && isCompress) {
+  //       blob = await compressAccurately(files[index] as any, 350);
+  //     } else {
+  //       blob = files[index]
+  //     }
+  //     const src = URL.createObjectURL(blob);
+  //     const imageSrc = `${window.location.origin}/image/${id}`;
+  //     const request = new Request(imageSrc);
+  //     const response = await fetch(src)
+  //     await cache.put(request, response);
+  //     URL.revokeObjectURL(src)
+  //     arr.push({ id: id, src: imageSrc });
+  //     i++
+  //   }
+  //   return arr
+  // }
+  getImages = async (files: Array<NzUploadFile>, isCompress = false) => {
     const names = files.map(x => x['name']);
     const sortNames = this.fileNameSort(names);
     let arr: Array<any> = [];
     const cache = await caches.open('image');
     for (let i = 0; i < sortNames.length;) {
       const name = sortNames[i];
-      const id = new Date().getTime();
+      // const id = new Date().getTime();
       const index = files.findIndex(x => x['name'] == name);
       let blob = null;
-      if (500000 < files[index].size && isCompress) {
+      if (600000 < files[index].size && isCompress) {
+
         blob = await compressAccurately(files[index] as any, 350);
       } else {
         blob = files[index]
       }
-      const src = URL.createObjectURL(blob);
-      const imageSrc = `${window.location.origin}/image/${id}`;
-      const request = new Request(imageSrc);
-      const response = await fetch(src)
-      await cache.put(request, response);
-      URL.revokeObjectURL(src)
-      arr.push({ id: id, src: imageSrc });
+      const formData = new FormData();
+      formData.append('file', blob);
+      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
+      // const id = "";
+      // const src = URL.createObjectURL(files[index] as any);
+      // const imageSrc = `${window.location.origin}/image/${id}`;
+      // const request = new Request(imageSrc);
+      // const response = await fetch(src)
+      // await cache.put(request, response);
+      // URL.revokeObjectURL(src)
+      arr.push({ id: new Date().getTime(), src: `http://localhost:7899/image/${id}` });
       i++
     }
+
     return arr
   }
   async add(comics, state, isCompress = false) {
