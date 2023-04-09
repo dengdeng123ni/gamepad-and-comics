@@ -7,7 +7,8 @@ export class GamepadSoundService {
   async loadSound(url) {
     if(!this.opened) return
     var audio = new Audio();
-    const name=location.hostname=="localhost"?"":"gamepad-and-comics/";
+    const name=location.href.split("gamepad-and-comics").length==2?"gamepad-and-comics/":"";
+    fetch(`${location.origin}/${name}${url}`);
     audio.src = `${location.origin}/${name}${url}`;
     audio.load();
     audio.play();
