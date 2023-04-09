@@ -10,66 +10,70 @@ import { ReadTimeService } from './read-time.service';
 })
 export class ReadTimeComponent {
   chapters = [];
-  cover:any={
+  cover: any = {
 
   };
   constructor(
     public db: NgxIndexedDBService,
-    public readTime:ReadTimeService,
+    public readTime: ReadTimeService,
     public current: CurrentReaderService
   ) {
     this.db.getAll('image_state').subscribe((x: any) => {
-      const list = x.filter(x => x.comicsId == this.current.comics.id && x.endTime && x.startTime);
+      const list = x.filter(x => x.comicsId == this.current.comics.id && x.endTime && x.startTime && (x.endTime - x.startTime) > 2000 &&  (x.endTime - x.startTime) < 120000);
       let millisecond = 0;
       list.forEach(x => {
-        if ((x.endTime - x.startTime) > 2000 && x.startTime && x.endTime && (x.endTime - x.startTime) < 120000) {
-          millisecond = millisecond + (x.endTime - x.startTime);
-        }else{
-
-        }
+        millisecond = millisecond + (x.endTime - x.startTime);
 
       })
       let chapters = {};
 
-      this.current.comics.chapters.forEach(x => {
-        const readingTimes = list.filter(c => c.chapterId == x.id)
+      this.current.comics.chapters.forEach((b,i)=> {
+        const readingTimes = list.filter(c => c.chapterId == b.id)
         let millisecond = 0;
+        b.images.forEach((c:any)=>{
+          c.readingTimes=readingTimes.filter(x=> x.imageId==c.id);
+          c.millisecond=0;
+          c.readingTimes.forEach(x => {
+            c.millisecond = c.millisecond + (x.endTime - x.startTime);
+          })
+          c.millisecond=Math.ceil(c.millisecond / (1000 ));
+        })
         readingTimes.forEach(x => {
-          if ((x.endTime - x.startTime) > 2000 && x.startTime && x.endTime && (x.endTime - x.startTime) < 120000) {
           millisecond = millisecond + (x.endTime - x.startTime);
-          }else{
-
-          }
         })
         const minutes = Math.ceil(millisecond / (1000 * 60));
+
         const hours = millisecond / (1000 * 60 * 60);
-        chapters[x.id] = {
-          ...x,
-          ...list.filter(c => c.chapterId == x.id),
+
+
+        chapters[b.id] = {
+          ...b,
           readingTimes,
           minutes,
           hours,
           millisecond
         }
+
       })
 
+
       this.chapters = Object.keys(chapters).map(x => chapters[x]);
-      this.cover=this.current.comics.cover;
-      this.cover.minutes = Math.ceil( millisecond / (1000 * 60));
+      this.cover = this.current.comics.cover;
+      this.cover.minutes = Math.ceil(millisecond / (1000 * 60));
       this.cover.hours = millisecond / (1000 * 60 * 60);
 
     })
   }
   ngAfterViewInit() {
-    setTimeout(()=>{
+    setTimeout(() => {
       let node = document.getElementById(`${this.current.comics.chapter.id}`);
       node.focus();
       document.getElementById("reading_time").classList.remove("opacity-0");
-    node.scrollIntoView({ block: "center", inline: "center" })
-    },300)
+      node.scrollIntoView({ block: "center", inline: "center" })
+    }, 300)
   }
-  close(){
-this.readTime.close();
+  close() {
+    this.readTime.close();
   }
 
 }

@@ -15,11 +15,12 @@
     </button>
   </div>
   <!-- <div class="images">
-    <div class="item" *ngFor="let item of chapters[0].images;let index=index">
+    <div class="item" *ngFor="let item of chapters[4].images;let index=index">
       <img [src]="item.src" alt="">
-      <div class="info">
-        <div class="reading-time">0 秒</div>
-      </div>
+      {{item.millisecond}} 秒
+      <mat-chip-listbox class="info">
+        <mat-chip-option class="reading-time" *ngFor="let n of item.readingTimes ">{{n.startTime | date:'MM-dd HH:mm:ss'}}-{{n.endTime |date:'mm:ss'}}</mat-chip-option>
+      </mat-chip-listbox>
     </div>
   </div> -->
 </div>
