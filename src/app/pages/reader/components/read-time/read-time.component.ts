@@ -13,6 +13,8 @@ export class ReadTimeComponent {
   cover: any = {
 
   };
+  left=false;
+  index=0;
   constructor(
     public db: NgxIndexedDBService,
     public readTime: ReadTimeService,
@@ -34,6 +36,7 @@ export class ReadTimeComponent {
           c.readingTimes=readingTimes.filter(x=> x.imageId==c.id);
           c.millisecond=0;
           c.readingTimes.forEach(x => {
+            x.millisecond=Math.ceil((x.endTime - x.startTime) / (1000 ));
             c.millisecond = c.millisecond + (x.endTime - x.startTime);
           })
           c.millisecond=Math.ceil(c.millisecond / (1000 ));
@@ -75,5 +78,11 @@ export class ReadTimeComponent {
   close() {
     this.readTime.close();
   }
-
+  open(index){
+    this.left=true;
+    this.index=index;
+  }
+  closedStart(){
+    this.left=false;
+  }
 }
