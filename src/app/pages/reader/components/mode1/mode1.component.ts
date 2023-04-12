@@ -162,9 +162,9 @@ export class Mode1Component {
     this.swiper.swiperRef.appendSlide
       (`
      <div class="swiper-slide">
-      <div style="width: 100%;height:100%;"  content_menu_key="reader" content_menu_value="reader"></div>
+      <div style="width: 100%;height:100%;"  ></div>
        ${src}
-      <div style="width: 100%;height:100%;"  content_menu_key="reader" content_menu_value="reader"></div>
+      <div style="width: 100%;height:100%;"  ></div>
      </div>
     `)
   }

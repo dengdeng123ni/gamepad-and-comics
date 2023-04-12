@@ -24,6 +24,9 @@
   min-height: 30px !important;
 
   .mdc-list-item__primary-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap !important;
     /* font-family: Roboto, "Helvetica Neue", sans-serif; */
     font-size: 14px;
     font-weight: 400 !important;
