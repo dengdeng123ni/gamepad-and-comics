@@ -97,9 +97,6 @@ export class GamepadControllerService {
 
   isGamepadExplanationComponent = false;
 
-
-  // document.visibilityState
-
   device(input: string) {
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
