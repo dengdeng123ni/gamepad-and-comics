@@ -128,7 +128,8 @@ export class I18nService {
     "no": "否",
     "close":"关闭",
     "sound":"音效",
-    "open":"打开"
+    "open":"打开",
+    "automatic_page_turning":"自动翻页"
   }
 
   // languages = [ "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];

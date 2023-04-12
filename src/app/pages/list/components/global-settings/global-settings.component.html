@@ -4,7 +4,7 @@
     <div class="item">
       <div class="name">{{i18n.config.style}}</div>
       <div class="options">
-        <mat-radio-group aria-label="Select an option" [(ngModel)]="config.isRightAngle" (change)="change()">
+        <mat-radio-group [(ngModel)]="config.isRightAngle" (change)="change()">
           <mat-radio-button  [attr.type]="'radio'" [attr.region]="'global_settings'"
             [value]="true">{{i18n.config.right_angle}}</mat-radio-button>
           <mat-radio-button [attr.select]="true" [attr.type]="'radio'" [attr.region]="'global_settings'"
@@ -15,7 +15,7 @@
     <div class="item">
       <div class="name">{{i18n.config.sound}}</div>
       <div class="options">
-        <mat-radio-group aria-label="Select an option" [(ngModel)]="GamepadSound.opened" (change)="soundChange()">
+        <mat-radio-group [(ngModel)]="GamepadSound.opened" (change)="soundChange()">
           <mat-radio-button  [attr.type]="'radio'" [attr.region]="'global_settings'"
             [value]="true">{{i18n.config.open}}</mat-radio-button>
           <mat-radio-button [attr.type]="'radio'" [attr.region]="'global_settings'"

@@ -16,6 +16,7 @@ import { ThumbnailService } from '../../components/thumbnail-list/thumbnail.serv
 import { ConfigReaderService } from '../../services/config.service';
 import { CurrentReaderService } from '../../services/current.service';
 import { PromptService } from '../../services/prompt.service';
+import { ReaderAutoService } from '../../components/reader-auto/reader-auto.service';
 
 @Component({
   selector: 'app-reader-index',
@@ -44,6 +45,7 @@ export class IndexReaderComponent {
       public ReaderNavbarBar: ReaderNavbarBarService,
       public gamepadThumbnail:GamepadThumbnailService,
       public doublePageThumbnail:DoublePageThumbnailService,
+      public readerAuto:ReaderAutoService,
       public prompt:PromptService
     ) {
 

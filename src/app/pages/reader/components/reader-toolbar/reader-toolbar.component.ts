@@ -6,6 +6,7 @@ import { CurrentReaderService } from '../../services/current.service';
 import { GeneralService } from '../../services/general.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { SectionService } from '../section/section.service';
+import { ReaderAutoService } from '../reader-auto/reader-auto.service';
 
 @Component({
   selector: 'app-reader-toolbar',
@@ -24,7 +25,8 @@ export class ReaderToolbarComponent {
     public i18n: I18nService,
     public general:GeneralService,
     public section:SectionService,
-    public doublePageThumbnail:DoublePageThumbnailService
+    public doublePageThumbnail:DoublePageThumbnailService,
+    public readerAuto:ReaderAutoService,
   ) {
 
   }

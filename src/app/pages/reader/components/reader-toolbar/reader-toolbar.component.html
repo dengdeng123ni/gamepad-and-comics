@@ -73,11 +73,14 @@
       <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.all_chapters" mat-icon-button class="icon" (click)="section.open()">
         <mat-icon>subject</mat-icon>
       </button>
+      <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.automatic_page_turning" mat-icon-button class="icon" (click)="readerAuto.isToggle()">
+        <mat-icon>auto_stories</mat-icon>
+      </button>
       <app-popup-toolbar></app-popup-toolbar>
     </div>
   </div>
   <div class="flex flex-col bottom">
-    <!-- <div class="flex flex-col item bottom3">
+    <!-- <div class="flex flex-col item ">
 
     </div> -->
     <!-- [attr.content_menu_key]="'create_ppt'"

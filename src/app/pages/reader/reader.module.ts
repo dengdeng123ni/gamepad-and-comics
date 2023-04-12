@@ -28,6 +28,7 @@ import { DoublePageThumbnailComponent } from './components/double-page-thumbnail
 import { Mode5Component } from './components/mode5/mode5.component';
 import { Mode6Component } from './components/mode6/mode6.component';
 import { Mode7Component } from './components/mode7/mode7.component';
+import { ReaderAutoComponent } from './components/reader-auto/reader-auto.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { Mode7Component } from './components/mode7/mode7.component';
     DoublePageThumbnailComponent,
     Mode5Component,
     Mode6Component,
-    Mode7Component
+    Mode7Component,
+    ReaderAutoComponent
   ],
   imports: [
     CommonModule,

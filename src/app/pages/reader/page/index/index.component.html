@@ -6,6 +6,7 @@
   <app-mode2 (click)="on($event)" *ngIf="config.mode==2"></app-mode2>
   <app-mode3 (click)="on($event)" *ngIf="config.mode==3"></app-mode3>
   <app-mode4 (click)="on($event)" *ngIf="config.mode==4"></app-mode4>
+  <app-reader-auto *ngIf="readerAuto.opened"></app-reader-auto>
   <app-reader-toolbar></app-reader-toolbar>
   <app-reader-navbar-bar></app-reader-navbar-bar>
 </mat-drawer-container>
