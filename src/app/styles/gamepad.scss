@@ -274,7 +274,6 @@ body[pattern=gamepad][locked_region='[region=double_page_thumbnail]']{
 
   }
 }
-
 body[pattern=gamepad][locked_region='[region=detail_settings]']{
   [region=detail_settings][select=true] {
     position: relative;
@@ -306,7 +305,6 @@ body[pattern=gamepad][locked_region='[region=reading_time]']{
     }
   }
 }
-
 body[pattern=gamepad][locked_region='[region=global_settings]']{
   [region=global_settings][select=true] {
     position: relative;

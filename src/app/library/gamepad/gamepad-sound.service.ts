@@ -39,12 +39,12 @@ export class GamepadSoundService {
     RIGHT_TRIGGER: () => this.loadSound("assets/sound/nintendo_switch/border.wav"),
     RIGHT_BUMPER: () => this.loadSound("assets/sound/nintendo_switch/turnon.wav"),
     SELECT: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
-    START: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    START: () => this.loadSound("assets/sound/nintendo_switch/bing.wav"),
     SPECIAL: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
   }
   index = -1;
   device(input: string, node: HTMLElement, region: string, index: number) {
-    if (index == this.index && (input == "UP" || input == "RIGHT" || input == "DOWN" || input == "LEFT")) {
+    if (index == this.index && (input == "UP" || input == "RIGHT" || input == "DOWN" || input == "LEFT" )) {
       if ("reader_mode_1" == region) this.obj[input]();
       if ("reader_mode_2" == region) this.obj[input]();
       if ("reader_mode_3" == region) this.obj[input]();
