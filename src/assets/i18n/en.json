@@ -67,5 +67,8 @@
   "middle": "Middle",
   "yes": "Yes",
   "no": "No",
-  "close":"Close"
+  "close":"Close",
+  "sound":"Sound",
+  "open":"Open",
+  "automatic_page_turning":"Automatic Page Turning"
 }

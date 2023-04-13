@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ReaderAutoService {
 
-  opened =true;
+  opened =false;
   constructor(
     ) {
 
