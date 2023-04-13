@@ -29,6 +29,16 @@
       [attr.region]="'handel_toolabr_center'" (click)="openSettings()">
       <mat-icon>settings</mat-icon>
     </button>
+    <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.images" class="icon icon-3" [attr._id]="'handel_toolabr_center_6'"
+      [attr.region]="'handel_toolabr_center'" (click)="onePageThumbnail.open()">
+      <mat-icon>crop_original</mat-icon>
+    </button>
+    <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.reset_reading_progress" class="icon icon-4" [attr._id]="'handel_toolabr_center_5'"
+      [attr.region]="'handel_toolabr_center'" (click)="resetReadingProgress.open()">
+      <mat-icon>restart_alt</mat-icon>
+    </button>
     </div>
   </div>
   <!-- <div class="list handle_reader_circle_toolbar_left">

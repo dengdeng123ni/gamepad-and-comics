@@ -320,7 +320,6 @@ body[pattern=gamepad][locked_region='[region=reset_reading_progress]']{
     }
   }
 }
-
 body[pattern=gamepad][locked_region='[region=global_settings]']{
   [region=global_settings][select=true] {
     position: relative;
@@ -337,7 +336,6 @@ body[pattern=gamepad][locked_region='[region=global_settings]']{
     }
   }
 }
-
 body[pattern=gamepad][locked_region='[region=list_settings]']{
 
   [region=list_settings][select=true] {
@@ -411,7 +409,7 @@ body[pattern=gamepad][locked_region='[region=one_page_thumbnail_toolabr],[region
       height: 100%;
       left: 0;
       border: 2px solid #ffffff57;
-      border-radius: 50%;
+      border-radius: 4px;
       top: 0;
     }
   }
@@ -425,7 +423,7 @@ body[pattern=gamepad][locked_region='[region=one_page_thumbnail_toolabr],[region
       height: 100%;
       left: 0;
       border: 2px solid #ffffff57;
-      border-radius: 50%;
+      border-radius: 4px;
       top: 0;
     }
   }
@@ -437,7 +435,7 @@ body[pattern=gamepad][locked_region='[region=one_page_thumbnail_toolabr],[region
     height: 165%;
     left: 0;
     border: 2px solid rgba(255, 255, 255, 0.3411764706);
-    border-radius: 50%;
+    border-radius: 4px;
     top: -25%;
     }
   }

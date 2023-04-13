@@ -8,6 +8,7 @@
       height: fit-content;
     padding: 8px;
     position: relative;
+
     .checkbox {
       position: absolute;
       left: 0px;
@@ -17,6 +18,7 @@
       img{
         width: 100px;
         height: 140px;
+        border-radius: 2px;
         object-fit: cover;
       }
     }

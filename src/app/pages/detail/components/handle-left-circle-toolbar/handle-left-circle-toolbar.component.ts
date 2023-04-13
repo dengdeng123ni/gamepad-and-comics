@@ -6,6 +6,8 @@ import { saveAs } from 'file-saver';
 import { ConfigDetailService } from '../../services/config.service';
 import { CurrentDetailService } from '../../services/current.service';
 import { DetailSettingsService } from '../detail-settings/detail-settings.service';
+import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
+import { OnePageThumbnailService } from '../one-page-thumbnail/one-page-thumbnail.service';
 @Component({
   selector: 'app-handle-left-circle-toolbar',
   templateUrl: './handle-left-circle-toolbar.component.html',
@@ -27,7 +29,9 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     public config: ConfigDetailService,
     public current: CurrentDetailService,
     public detailSettings:DetailSettingsService,
-    public i18n:I18nService
+    public i18n:I18nService,
+    public onePageThumbnail:OnePageThumbnailService,
+    public resetReadingProgress:ResetReadingProgressService
   ) {
     this.GamepadEvent.registerAreaEvent("handel_toolabr_menu", {
       B:()=>{
