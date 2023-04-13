@@ -27,7 +27,7 @@ export class LanguageSettingsComponent implements OnInit {
     localStorage.setItem("language",language)
     this.translate.use(language).subscribe(c => {
       this.i18n.config = c;
-      document.title=c.handle_and_comics;
+      document.title=c.gamepad_and_comics;
     });;
     this.anguageSettings.close();
   }

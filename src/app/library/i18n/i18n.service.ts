@@ -37,14 +37,14 @@ export class I18nService {
     if (index > -1) {
       this.translate.use(languages[index]).subscribe(c => {
         this.config = c;
-        document.title = c.handle_and_comics;
+        document.title = c.gamepad_and_comics;
       });
     } else {
       let index = languages.findIndex(x => x == browserLang)
       if (index > -1) {
         this.translate.use(browserLang).subscribe(c => {
           this.config = c;
-          document.title = c.handle_and_comics;
+          document.title = c.gamepad_and_comics;
         });
       } else {
         this.translate.use('en')
@@ -99,9 +99,9 @@ export class I18nService {
     "single_page": "单页",
     "hide_cursor": "隐藏游标",
     "show_cursor": "显示游标",
-    "close_the_handle": "关闭手柄",
+    "close_the_gamepad": "关闭手柄",
     "sliding_direction": "滑动方向",
-    "handle_and_comics": "手柄与漫画",
+    "gamepad_and_comics": "手柄与漫画",
     "sponsored_author": "赞助作者",
     "insert_page": "插页",
     "before": "前",
