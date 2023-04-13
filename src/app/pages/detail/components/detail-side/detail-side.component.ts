@@ -4,6 +4,7 @@ import { ConfigDetailService } from '../../services/config.service';
 import { CurrentDetailService } from '../../services/current.service';
 import { DetailSettingsService } from '../detail-settings/detail-settings.service';
 import { OnePageThumbnailService } from '../one-page-thumbnail/one-page-thumbnail.service';
+import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
 
 @Component({
   selector: 'app-detail-side',
@@ -16,7 +17,8 @@ export class DetailSideComponent {
     public current: CurrentDetailService,
     public i18n:I18nService,
     public onePageThumbnail:OnePageThumbnailService,
-    public detailSettings:DetailSettingsService
+    public detailSettings:DetailSettingsService,
+    public resetReadingProgress:ResetReadingProgressService
   ) {
 
 

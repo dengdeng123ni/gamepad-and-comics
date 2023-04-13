@@ -28,6 +28,7 @@ export class IndexDetailComponent {
       public onePageThumbnail:OnePageThumbnailService,
       public general: GeneralService
     ) {
+
     GamepadEvent.registerGlobalEvent({
       "LEFT_ANALOG_PRESS": () => {
         this.HandleLeftCircleToolbar.isToggle();

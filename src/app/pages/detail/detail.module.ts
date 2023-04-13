@@ -16,6 +16,7 @@ import { DetailSettingsComponent } from './components/detail-settings/detail-set
 import { DoublePageThumbnailComponent } from './components/double-page-thumbnail/double-page-thumbnail.component';
 import { GamepadThumbnailComponent } from './components/gamepad-thumbnail/gamepad-thumbnail.component';
 import { OnePageThumbnailComponent } from './components/one-page-thumbnail/one-page-thumbnail.component';
+import { ResetReadingProgressComponent } from './components/reset-reading-progress/reset-reading-progress.component';
 
 
 
@@ -34,7 +35,8 @@ import { OnePageThumbnailComponent } from './components/one-page-thumbnail/one-p
     DetailSettingsComponent,
     DoublePageThumbnailComponent,
     GamepadThumbnailComponent,
-    OnePageThumbnailComponent
+    OnePageThumbnailComponent,
+    ResetReadingProgressComponent
   ],
   imports: [
     CommonModule,

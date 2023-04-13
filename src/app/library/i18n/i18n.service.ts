@@ -129,7 +129,9 @@ export class I18nService {
     "close":"关闭",
     "sound":"音效",
     "open":"打开",
-    "automatic_page_turning":"自动翻页"
+    "automatic_page_turning":"自动翻页",
+    "reset_reading_progress":"重置阅读进度",
+    "reset":"重置",
   }
 
   // languages = [ "ru", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];

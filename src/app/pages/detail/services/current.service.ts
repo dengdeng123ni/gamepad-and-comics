@@ -79,20 +79,17 @@ export class CurrentDetailService {
     id = parseInt(id);
     this.isLeave = true;
     setTimeout(() => { this.createSmailImage(id) }, 1000)
-
-    forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
-      const comics = { ...x[0], ...x[1] };
-      comics.chapters.forEach(c => {
-        c.images.forEach((j, i) => {
-          if (!c.images[i].small) c.images[i].small = c.images[i].src;
-          if (!c.images[i].width) c.images[i].width = 0;
-          if (!c.images[i].height) c.images[i].height = 0;
-        })
+    const x:any = await firstValueFrom(forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]));
+    const comics = { ...x[0], ...x[1] };
+    comics.chapters.forEach(c => {
+      c.images.forEach((j, i) => {
+        if (!c.images[i].small) c.images[i].small = c.images[i].src;
+        if (!c.images[i].width) c.images[i].width = 0;
+        if (!c.images[i].height) c.images[i].height = 0;
       })
-      this.comics = comics;
-      this.afterInit$.next(this.comics);
-
     })
+    this.comics = comics;
+    this.afterInit$.next(this.comics);
 
   }
   update_state(chapter, index) {
@@ -429,5 +426,18 @@ export class CurrentDetailService {
     //     await firstValueFrom(this.db.update('comics', comics))
     //   }
     // }
+  }
+
+  async resetReadingProgress(id) {
+    const comics: Comics = await firstValueFrom(this.db.getByKey('comics', id))
+    for (let index = 0; index < comics.chapters.length; index++) {
+      const x = comics.chapters[index];
+      if (index == 0 && x) {
+        let state: Comics = await firstValueFrom(this.db.getByKey('state', id))
+        state.chapter = { id: x.id, title: x.title, index: 0, total: x.images.length };
+        await firstValueFrom(this.db.update('state', state))
+      }
+      await firstValueFrom(this.db.update('chapter_state', { id: x.id, title: x.title, index: 0, total: x.images.length }))
+    }
   }
 }
