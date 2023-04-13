@@ -29,6 +29,7 @@ import { Mode5Component } from './components/mode5/mode5.component';
 import { Mode6Component } from './components/mode6/mode6.component';
 import { Mode7Component } from './components/mode7/mode7.component';
 import { ReaderAutoComponent } from './components/reader-auto/reader-auto.component';
+import { ReaderAutoSettingsComponent } from './components/reader-auto-settings/reader-auto-settings.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ReaderAutoComponent } from './components/reader-auto/reader-auto.compon
     Mode5Component,
     Mode6Component,
     Mode7Component,
-    ReaderAutoComponent
+    ReaderAutoComponent,
+    ReaderAutoSettingsComponent
   ],
   imports: [
     CommonModule,
