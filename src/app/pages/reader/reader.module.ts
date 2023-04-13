@@ -30,6 +30,7 @@ import { Mode6Component } from './components/mode6/mode6.component';
 import { Mode7Component } from './components/mode7/mode7.component';
 import { ReaderAutoComponent } from './components/reader-auto/reader-auto.component';
 import { ReaderAutoSettingsComponent } from './components/reader-auto-settings/reader-auto-settings.component';
+import { TestPopupsComponent } from './components/test-popups/test-popups.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ReaderAutoSettingsComponent } from './components/reader-auto-settings/r
     Mode6Component,
     Mode7Component,
     ReaderAutoComponent,
-    ReaderAutoSettingsComponent
+    ReaderAutoSettingsComponent,
+    TestPopupsComponent
   ],
   imports: [
     CommonModule,
