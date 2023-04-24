@@ -10,8 +10,10 @@ import { SquareThumbnailService } from './square-thumbnail.service';
 export class SquareThumbnailComponent {
 
   chapters = [];
+  images=[];
   id = null;
   height = (window.innerWidth - (4 * ((Math.floor(((window.innerWidth - 4) / 132))) - 1))) / Math.floor(((window.innerWidth - 4) / 132));
+  // height = (window.innerWidth - (2 * ((Math.floor(((window.innerWidth - 2) / 66))) - 1))) / Math.floor(((window.innerWidth - 2) / 66));
 
 
   constructor(
@@ -19,6 +21,11 @@ export class SquareThumbnailComponent {
     public squareThumbnail:SquareThumbnailService
     ) {
     this.chapters = current.comics.chapters;
+    current.comics.chapters.forEach(c=>{
+      c.images.forEach((x,i)=>{
+        this.images.push({chapterId:c.id,index:i,...x})
+      })
+    })
     const index = this.current.comics.chapters.findIndex(x => x.id == this.current.comics.chapter.id);
     this.id = current.comics.chapters[index].images[this.current.comics.chapter.index].id;
   }

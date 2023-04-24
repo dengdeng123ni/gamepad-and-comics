@@ -6,8 +6,15 @@
         <div class="img" *ngFor="let c of n.images;let index=index" (click)="on(n.id,index)" [id]="'square_thumbnail_'+c.id" [attr._id]="c.id"  [attr.region]="'square_thumbnail'"  [attr.select]="id==c.id">
           <img  [src]="c.small" loading="lazy" [style]="{'height': height+'px','width': height+'px'}" alt="">
         </div>
-
       </div>
     </div>
   </div>
 </div>
+<!-- <div class="warp2" (click)="close()">
+  <div class="images">
+    <div class="img" *ngFor="let c of images;let index=index" (click)="on(c.chapterId,c.index)"
+      [id]="'square_thumbnail_'+c.id" [attr._id]="c.id" [attr.region]="'square_thumbnail'" [attr.select]="id==c.id">
+      <img [src]="c.small" loading="lazy" [style]="{'height': height+'px','width': height+'px'}" alt="">
+    </div>
+  </div>
+</div> -->
