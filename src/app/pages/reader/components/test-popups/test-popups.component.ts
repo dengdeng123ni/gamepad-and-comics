@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./test-popups.component.scss']
 })
 export class TestPopupsComponent {
+  constructor() {
 
+  }
 }

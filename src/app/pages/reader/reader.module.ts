@@ -31,6 +31,7 @@ import { Mode7Component } from './components/mode7/mode7.component';
 import { ReaderAutoComponent } from './components/reader-auto/reader-auto.component';
 import { ReaderAutoSettingsComponent } from './components/reader-auto-settings/reader-auto-settings.component';
 import { TestPopupsComponent } from './components/test-popups/test-popups.component';
+import { SquareThumbnailComponent } from './components/square-thumbnail/square-thumbnail.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { TestPopupsComponent } from './components/test-popups/test-popups.compon
     Mode7Component,
     ReaderAutoComponent,
     ReaderAutoSettingsComponent,
-    TestPopupsComponent
+    TestPopupsComponent,
+    SquareThumbnailComponent
   ],
   imports: [
     CommonModule,

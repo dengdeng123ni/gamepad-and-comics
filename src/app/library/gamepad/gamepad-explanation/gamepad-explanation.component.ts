@@ -12,6 +12,7 @@ import { GamepadEventService } from '../gamepad-event.service';
 export class GamepadExplanationComponent {
   events = {
     section_item: {
+
       RIGHT_Y: "缩略图",
       LEFT_Y: "缩略图",
     },
@@ -43,6 +44,7 @@ export class GamepadExplanationComponent {
       RIGHT_BUMPER_Y: "放大200%",
       LEFT_TRIGGER: "上一章",
       RIGHT_TRIGGER: "下一章",
+      UP_Y: "缩略图",
       RIGHT_Y: "缩略图",
       LEFT_Y: "缩略图",
     },
@@ -62,6 +64,7 @@ export class GamepadExplanationComponent {
       RIGHT_BUMPER_Y: "",
       LEFT_TRIGGER: "上一章",
       RIGHT_TRIGGER: "下一章",
+      UP_Y: "缩略图",
       RIGHT_Y: "缩略图",
       LEFT_Y: "缩略图",
     },
@@ -81,6 +84,7 @@ export class GamepadExplanationComponent {
       RIGHT_BUMPER_Y: "",
       LEFT_TRIGGER: "上一章",
       RIGHT_TRIGGER: "下一章",
+      UP_Y: "缩略图",
       RIGHT_Y: "缩略图",
       LEFT_Y: "缩略图",
     },
@@ -100,6 +104,7 @@ export class GamepadExplanationComponent {
       RIGHT_BUMPER_Y: "放大200%",
       LEFT_TRIGGER: "上一章",
       RIGHT_TRIGGER: "下一章",
+      UP_Y: "缩略图",
       RIGHT_Y: "缩略图",
       LEFT_Y: "缩略图",
     },

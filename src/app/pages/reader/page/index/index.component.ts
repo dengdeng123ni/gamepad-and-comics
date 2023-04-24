@@ -17,6 +17,7 @@ import { ConfigReaderService } from '../../services/config.service';
 import { CurrentReaderService } from '../../services/current.service';
 import { PromptService } from '../../services/prompt.service';
 import { ReaderAutoService } from '../../components/reader-auto/reader-auto.service';
+import { SquareThumbnailService } from '../../components/square-thumbnail/square-thumbnail.service';
 
 @Component({
   selector: 'app-reader-index',
@@ -44,6 +45,7 @@ export class IndexReaderComponent {
       public ContextMenuEvent: ContextMenuEventService,
       public ReaderNavbarBar: ReaderNavbarBarService,
       public gamepadThumbnail:GamepadThumbnailService,
+      public squareThumbnail:SquareThumbnailService,
       public doublePageThumbnail:DoublePageThumbnailService,
       public readerAuto:ReaderAutoService,
       public prompt:PromptService
@@ -66,12 +68,15 @@ export class IndexReaderComponent {
         id:this.current.comics.chapter.id,
         index:this.current.comics.chapter.index
       }),
+      "UP": () => this.squareThumbnail.open(),
       "RIGHT": () => this.doublePageThumbnail.open({
         id:this.current.comics.chapter.id,
         index:this.current.comics.chapter.index
       }),
     })
     GamepadEvent.registerAreaEventY("reader_mode_2", {
+
+      "UP": () => this.squareThumbnail.open(),
       "LEFT": () => this.gamepadThumbnail.open({
         id:this.current.comics.chapter.id,
         index:this.current.comics.chapter.index
@@ -82,6 +87,8 @@ export class IndexReaderComponent {
       }),
     })
     GamepadEvent.registerAreaEventY("reader_mode_3", {
+
+      "UP": () => this.squareThumbnail.open(),
       "LEFT": () => this.gamepadThumbnail.open({
         id:this.current.comics.chapter.id,
         index:this.current.comics.chapter.index
@@ -92,6 +99,8 @@ export class IndexReaderComponent {
       }),
     })
     GamepadEvent.registerAreaEventY("reader_mode_4", {
+
+      "UP": () => this.squareThumbnail.open(),
       "LEFT": () => this.gamepadThumbnail.open({
         id:this.current.comics.chapter.id,
         index:this.current.comics.chapter.index

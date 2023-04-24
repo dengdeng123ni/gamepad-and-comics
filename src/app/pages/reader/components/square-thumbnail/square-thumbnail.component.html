@@ -1,0 +1,13 @@
+<div class="warp" (click)="close()">
+  <div class="list">
+    <div class="item" *ngFor="let n of chapters">
+      <div class="title">{{n.title}}</div>
+      <div class="images" >
+        <div class="img" *ngFor="let c of n.images;let index=index" (click)="on(n.id,index)" [id]="'square_thumbnail_'+c.id" [attr._id]="c.id"  [attr.region]="'square_thumbnail'"  [attr.select]="id==c.id">
+          <img  [src]="c.small" loading="lazy" [style]="{'height': height+'px','width': height+'px'}" alt="">
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
