@@ -30,7 +30,7 @@ export class SectionService {
       // this.list=Object.keys(images).map(x=>({id:x,total:images[x].length,image:images[x][0].image}))
       if (this.opened == false) {
         const sheetRef = this._sheet.open(SectionComponent,{
-          panelClass:"section"
+          panelClass:"_section"
         });
         document.body.setAttribute("locked_region", "[region=section]")
         sheetRef.afterDismissed().subscribe(() => {
