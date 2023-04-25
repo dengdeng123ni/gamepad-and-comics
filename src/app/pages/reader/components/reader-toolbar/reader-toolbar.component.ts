@@ -6,7 +6,6 @@ import { CurrentReaderService } from '../../services/current.service';
 import { GeneralService } from '../../services/general.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { SectionService } from '../section/section.service';
-import { ReaderAutoService } from '../reader-auto/reader-auto.service';
 import { SquareThumbnailService } from '../square-thumbnail/square-thumbnail.service';
 
 @Component({
@@ -27,7 +26,6 @@ export class ReaderToolbarComponent {
     public general:GeneralService,
     public section:SectionService,
     public doublePageThumbnail:DoublePageThumbnailService,
-    public readerAuto:ReaderAutoService,
     public SquareThumbnail:SquareThumbnailService
   ) {
 

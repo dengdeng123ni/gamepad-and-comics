@@ -11,6 +11,7 @@ import { ThumbnailBottomService } from '../thumbnail-bottom/thumbnail-bottom.ser
 import { ThumbnailService } from '../thumbnail-list/thumbnail.service';
 import { saveAs } from 'file-saver';
 import { ReadTimeService } from '../read-time/read-time.service';
+import { ReaderAutoService } from '../reader-auto/reader-auto.service';
 @Component({
   selector: 'app-popup-toolbar',
   templateUrl: './popup-toolbar.component.html',
@@ -30,7 +31,8 @@ export class PopupToolbarComponent implements OnInit {
     public current: CurrentReaderService,
     public config:ConfigReaderService,
     public download:DownloadService,
-    public readTime:ReadTimeService
+    public readTime:ReadTimeService,
+    public readerAuto:ReaderAutoService,
   ) { }
   expanded = false;
   ngOnInit(): void {

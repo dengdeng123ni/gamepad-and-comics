@@ -747,7 +747,10 @@ export class Mode1Component {
       transX = Math.max(Math.min(moveX, outerWidth - innerWidth * (multiple + 1) / 2 - innerLeft), -innerLeft + innerWidth * (multiple - 1) / 2)
       transY = Math.max(Math.min(moveY, outerHeight - innerHeight * (multiple + 1) / 2 - innerTop), -innerTop + innerHeight * (multiple - 1) / 2)
     }
+    // console.log(transX,transY,multiple);
+
     return { transX, transY }
   }
+
 
 }
