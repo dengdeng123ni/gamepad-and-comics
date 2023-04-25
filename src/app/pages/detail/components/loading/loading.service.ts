@@ -53,17 +53,20 @@ export class LoadingService {
   }
 
   opened: boolean = false;
-
+  handleRegion=null;
+  dialogRef=null;
   open() {
     if (this.opened == false) {
-      const dialogRef = this._dialog.open(LoadingComponent,{
+      this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? 'all';
+      this.dialogRef = this._dialog.open(LoadingComponent,{
         panelClass:"_loading",
         backdropClass:"_loading_backdrop",
         disableClose:true
       });
       document.body.setAttribute("locked_region","[region=loading]")
-      dialogRef.afterClosed().subscribe(() => {
+      this.dialogRef.afterClosed().subscribe(() => {
         if(document.body.getAttribute("locked_region")=="[region=loading]") document.body.setAttribute("locked_region","all")
+        document.querySelector('body').setAttribute('locked_region', this.handleRegion);
         this.opened = false;
       });
       this.opened=true;
@@ -74,7 +77,7 @@ export class LoadingService {
     else this.open();
   }
   close() {
-    this._dialog.closeAll();
+    this.dialogRef.close();
   }
 
 }

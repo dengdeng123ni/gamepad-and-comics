@@ -12,7 +12,8 @@ export class OnePageThumbnailService {
   constructor(
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService,
-    public GamepadController:GamepadControllerService
+    public GamepadController:GamepadControllerService,
+
     ) {
       this.GamepadEvent.registerAreaEvent("one_page_thumbnail_toolabr", {
         "B": () => this.close(),

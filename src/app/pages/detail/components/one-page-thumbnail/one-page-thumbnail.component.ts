@@ -3,6 +3,7 @@ import { ContextMenuEventService, GamepadEventService, I18nService } from 'src/a
 import { CurrentDetailService } from '../../services/current.service';
 import { GeneralService } from '../../services/general.service';
 import { OnePageThumbnailService } from './one-page-thumbnail.service';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'app-one-page-thumbnail',
@@ -21,7 +22,8 @@ export class OnePageThumbnailComponent {
     public GamepadEvent: GamepadEventService,
     public general: GeneralService,
     public onePageThumbnail: OnePageThumbnailService,
-    public i18n: I18nService
+    public i18n: I18nService,
+    public loading:LoadingService
   ) {
     this.init();
   }
@@ -82,12 +84,13 @@ export class OnePageThumbnailComponent {
     this.selectedList = selectedList
   }
   async selectedDetele() {
+    if(this.selectedList.length>20) this.loading.open();
     for (let i = 0; i < this.selectedList.length; i++) {
       const x = this.selectedList[i];
       await this.current.deletePage(this.current.comics.id, x.chapterId, x.id)
-
     }
     this.init()
+    if(this.selectedList.length>20) this.loading.close();
     // await this.current.deletePagea()
   }
   selectedList = [];
