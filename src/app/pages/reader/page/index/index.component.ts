@@ -110,7 +110,7 @@ export class IndexReaderComponent {
         index:this.current.comics.chapter.index
       }),
     })
-    const names = ["thumbnail_sidebar_bottom", "thumbnail_sidebar_left", "thumbnail_list"]
+    const names = ["thumbnail_sidebar_bottom", "thumbnail_sidebar_left", "thumbnail_list","square_thumbnail"]
     names.forEach(name => {
       ContextMenuEvent.register(name, {
         on: e => {

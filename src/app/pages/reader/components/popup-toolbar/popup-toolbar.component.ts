@@ -40,7 +40,7 @@ export class PopupToolbarComponent implements OnInit {
     const position = node.getBoundingClientRect();
     const openTargetHeight = 36;
     const x = window.innerWidth - (position.x - 15);
-    const y = (position.y + (position.height / 2)) - (openTargetHeight / 2);
+    const y =( window.innerHeight-512)/2;
     // this.uploadSelect.open({ x, y });
     this.ModeChange.open({ top:`${y}px`, right:`${x}px` })
   }
