@@ -1,7 +1,7 @@
 <div style="position: fixed; z-index: 1; " [attr.position]="config.reader_auto.position">
   <div class="warp">
     <mat-spinner [diameter]="24" [value]="progress" mode="determinate"></mat-spinner>
-    <button mat-icon-button class="icon" (click)="change()">
+    <button mat-icon-button class="icon" (mousedown)="mousedown()" (mousemove)="mousemove()" (mouseup)="mouseup()">
       <mat-icon *ngIf="!isPause">pause</mat-icon>
       <mat-icon *ngIf="isPause">play_arrow</mat-icon>
     </button>

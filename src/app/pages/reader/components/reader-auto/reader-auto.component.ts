@@ -24,9 +24,10 @@ export class ReaderAutoComponent {
 
   constructor(
     public current: CurrentReaderService,
-    public config:ConfigReaderService
-    ) {
-    this.duration=this.config.reader_auto.value;
+    public readerAuto:ReaderAutoService,
+    public config: ConfigReaderService
+  ) {
+    this.duration = this.config.reader_auto.value;
     this.isExist = true;
     this.cycle();
     this.page$ = this.current.page().subscribe(() => {
@@ -68,5 +69,30 @@ export class ReaderAutoComponent {
   ngOnDestroy() {
     this.isExist = false;
     this.page$.unsubscribe();
+  }
+  // 定义一个定时器变量
+  timer = null;
+
+  // 定义一个锁变量
+  lock = true;
+  mousedown() {
+    this.timer = setTimeout(()=>{
+      this.readerAuto.close();
+      this.lock = false;
+    }, 1000);
+  }
+  mouseup() {
+    clearTimeout(this.timer);
+    // 如果锁变量为true，表示没有触发长按事件，可以执行单击事件的逻辑
+    if (this.lock) {
+      // 执行单击事件的逻辑，比如跳转到另一个页面
+      this.change()
+    }
+    // 将锁变量设为true，表示可以重新触发单击或长按事件
+    this.lock = true;
+  }
+  mousemove(){
+    clearTimeout(this.timer);
+    this.lock = true;
   }
 }
