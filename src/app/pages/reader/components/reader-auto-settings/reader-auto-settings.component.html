@@ -1,1 +1,27 @@
-<p>reader-auto-settings works!</p>
+<div class="warp">
+
+  <div class="list">
+    <div class="item">
+      <mat-button-toggle-group style="    width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;" [value]="config.reader_auto.position">
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" (click)="config.reader_auto.position='RIGHT_UP'" value="RIGHT_UP">左上</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" (click)="config.reader_auto.position='RIGHT_DOWN'" value="RIGHT_DOWN">左下</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" (click)="config.reader_auto.position='LEFT_UP'" value="LEFT_UP">右上</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" (click)="config.reader_auto.position='LEFT_DOWN'" value="LEFT_DOWN">右下</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="item">
+      <mat-slider [min]="10" [max]="80" [step]="1" style="width: 100%;">
+        <input matSliderThumb [(ngModel)]="config.reader_auto.value">
+      </mat-slider>
+      <span>{{config.reader_auto.value}}</span>
+    </div>
+    <div class="item">
+      <div style="width: 100%; display: flex; justify-content: end;">
+        <button mat-button (click)="close()">关闭</button>
+        <button mat-button color="primary" cdkFocusInitial (click)="on()">打开</button>
+      </div>
+    </div>
+  </div>
+</div>

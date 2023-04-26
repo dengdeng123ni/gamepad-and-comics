@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ReaderAutoService } from './reader-auto.service';
 import { CurrentReaderService } from '../../services/current.service';
+import { ConfigReaderService } from '../../services/config.service';
 
 @Component({
   selector: 'app-reader-auto',
@@ -11,7 +12,7 @@ export class ReaderAutoComponent {
 
   time = 0;
 
-  duration = 40;
+  duration = 0;
 
   progress = 0;
 
@@ -21,7 +22,11 @@ export class ReaderAutoComponent {
 
   page$ = null;
 
-  constructor(public current: CurrentReaderService) {
+  constructor(
+    public current: CurrentReaderService,
+    public config:ConfigReaderService
+    ) {
+    this.duration=this.config.reader_auto.value;
     this.isExist = true;
     this.cycle();
     this.page$ = this.current.page().subscribe(() => {

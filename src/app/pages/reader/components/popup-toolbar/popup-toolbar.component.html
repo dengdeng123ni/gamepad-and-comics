@@ -17,7 +17,7 @@
     <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="thumbnailBottom.isToggle()">
       <mat-icon>minimize</mat-icon>
     </button>
-    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.automatic_page_turning" mat-icon-button class="icon" (click)="readerAuto.isToggle()">
+    <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.automatic_page_turning" mat-icon-button class="icon" (click)="openReaderAutoSettings($event)">
       <mat-icon>auto_stories</mat-icon>
     </button>
     <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_time" tabIndex="-1" mat-icon-button class="icon" (click)="readTime.open()">

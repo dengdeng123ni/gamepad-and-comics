@@ -26,6 +26,10 @@ export class ConfigReaderService {
     slidingDirection: "vertical"
   }
 
+  reader_auto={
+    position:"LEFT_DOWN",
+    value:40
+  }
   save() {
     const obj = {
       mode1: this.mode1,

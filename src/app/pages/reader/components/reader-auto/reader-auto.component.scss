@@ -23,16 +23,37 @@
   }
 }
 
-.warp{
+.warp {
   position: relative;
 }
 
 :host ::ng-deep {
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
-    border-radius:25%;
+    border-radius: 25%;
   }
+
   .mat-mdc-icon-button .mat-mdc-button-touch-target {
     width: 24px;
     height: 24px;
   }
+}
+
+[position=LEFT_DOWN] {
+  bottom: 10px;
+  right: 40px;
+}
+
+[position=LEFT_UP] {
+  top: 10px;
+  right: 40px;
+}
+
+[position=RIGHT_DOWN] {
+  bottom: 10px;
+  left: 40px;
+}
+
+[position=RIGHT_UP] {
+  top: 10px;
+  left: 40px;
 }

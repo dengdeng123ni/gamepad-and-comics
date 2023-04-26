@@ -12,6 +12,7 @@ import { ThumbnailService } from '../thumbnail-list/thumbnail.service';
 import { saveAs } from 'file-saver';
 import { ReadTimeService } from '../read-time/read-time.service';
 import { ReaderAutoService } from '../reader-auto/reader-auto.service';
+import { ReaderAutoSettingsService } from '../reader-auto-settings/reader-auto-settings.service';
 @Component({
   selector: 'app-popup-toolbar',
   templateUrl: './popup-toolbar.component.html',
@@ -33,9 +34,29 @@ export class PopupToolbarComponent implements OnInit {
     public download:DownloadService,
     public readTime:ReadTimeService,
     public readerAuto:ReaderAutoService,
+    public readerAutoSettings:ReaderAutoSettingsService
   ) { }
   expanded = false;
   ngOnInit(): void {
+  }
+  openReaderAutoSettings($event) {
+    if(this.readerAuto.opened){
+     this.readerAuto.close();
+     return
+    }
+    // readerSettings.open_bottom_sheet({});
+    let { x, y, width, height } = $event.target.getBoundingClientRect();
+    x = window.innerWidth-x+8;
+    y = (window.innerHeight) - (y+height/2) -54;
+    this.readerAutoSettings.open({
+      position: {
+        bottom: `${y}px`,
+        right: `${x}px`
+      },
+      delayFocusTrap: false,
+      panelClass: "reader_settings_buttom",
+      backdropClass: "reader_settings_buttom_backdrop",
+    })
   }
   on($event) {
     const node = ($event.target as HTMLElement);
