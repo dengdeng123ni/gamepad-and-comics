@@ -85,6 +85,22 @@ export class EpubService {
       //   let bolb = this.createCover();
       //   this.blobs.push(bolb)
       // }
+
+      // if (index == 0){
+      //   var img = await this.createImage(x.images[0].img) as any;
+      //   let canvas = document.createElement('canvas');
+      //   canvas.width = x.page.width;
+      //   canvas.height = x.page.height;
+      //   let context = canvas.getContext('2d');
+      //   context.rect(0, 0, canvas.width, canvas.height);
+      //   context.fillStyle = "rgb(255,255,255)";
+      //   context.fillRect(0, 0, canvas.width, canvas.height);
+      //   context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
+      //   let dataURL = canvas.toDataURL("image/jpeg");
+      //   let blob=this.base64ToBlob(dataURL,'jpeg');
+      //   this.blobs.push(blob)
+      // }
+
       if (x.images.length == 1) {
         var img = await this.createImage(x.images[0].img) as any;
         let canvas = document.createElement('canvas');
