@@ -71,8 +71,8 @@ export class EpubService {
     }
     let arr = [];
 
-    if (pageOrder) arr = await this.pageDouble(list, isFirstPageCover)
-    else arr = await this.pageDouble_reverse(list, isFirstPageCover)
+    if (pageOrder) arr = await this.pageDouble(list, false)
+    else arr = await this.pageDouble_reverse(list, false)
 
     if (pageOrder) {
       this.book.pageDirection = 'left'
@@ -81,10 +81,10 @@ export class EpubService {
     }
     for (let index = 0; index < arr.length; index++) {
       const x = arr[index];
-      if (index == 0 && x.images.length == 1) {
-        let bolb = this.createCover();
-        this.blobs.push(bolb)
-      }
+      // if (index == 0 && x.images.length == 2) {
+      //   let bolb = this.createCover();
+      //   this.blobs.push(bolb)
+      // }
       if (x.images.length == 1) {
         var img = await this.createImage(x.images[0].img) as any;
         let canvas = document.createElement('canvas');
