@@ -18,6 +18,7 @@ import { CurrentReaderService } from '../../services/current.service';
 import { PromptService } from '../../services/prompt.service';
 import { ReaderAutoService } from '../../components/reader-auto/reader-auto.service';
 import { SquareThumbnailService } from '../../components/square-thumbnail/square-thumbnail.service';
+import { ChapterHistoryService } from '../../components/chapter-history/chapter-history.service';
 
 @Component({
   selector: 'app-reader-index',
@@ -48,9 +49,12 @@ export class IndexReaderComponent {
       public squareThumbnail:SquareThumbnailService,
       public doublePageThumbnail:DoublePageThumbnailService,
       public readerAuto:ReaderAutoService,
-      public prompt:PromptService
+      public prompt:PromptService,
+      public chapterHistory:ChapterHistoryService
     ) {
-
+    setTimeout(()=>{
+      this.chapterHistory.open();
+    },2000)
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
     this.current.mode$.subscribe(x => {

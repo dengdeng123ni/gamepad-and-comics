@@ -32,6 +32,7 @@ import { ReaderAutoComponent } from './components/reader-auto/reader-auto.compon
 import { ReaderAutoSettingsComponent } from './components/reader-auto-settings/reader-auto-settings.component';
 import { TestPopupsComponent } from './components/test-popups/test-popups.component';
 import { SquareThumbnailComponent } from './components/square-thumbnail/square-thumbnail.component';
+import { ChapterHistoryComponent } from './components/chapter-history/chapter-history.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { SquareThumbnailComponent } from './components/square-thumbnail/square-t
     ReaderAutoComponent,
     ReaderAutoSettingsComponent,
     TestPopupsComponent,
-    SquareThumbnailComponent
+    SquareThumbnailComponent,
+    ChapterHistoryComponent
   ],
   imports: [
     CommonModule,

@@ -101,6 +101,8 @@ export class CurrentReaderService {
             x.endTime = x.startTime + 15000 + (15000 * Math.random());
           }
           const id = new Date().getTime();
+          x.startTime=Math.ceil(x.startTime);
+          x.endTime=Math.ceil(x.endTime);
           this.db.update('image_state', { id: id, ...x }).subscribe()
         }, 300 * Math.random())
       }
