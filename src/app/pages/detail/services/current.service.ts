@@ -92,7 +92,7 @@ export class CurrentDetailService {
     this.comics = comics;
     this.afterInit$.next(this.comics);
 
-    setTimeout(() => { this.getChapterLastReadingDate(); }, 800)
+    setTimeout(() => { this.getChapterLastReadingDate(); }, 0)
   }
   update_state(chapter, index) {
     if (Number.isNaN(index)) index = 0;
