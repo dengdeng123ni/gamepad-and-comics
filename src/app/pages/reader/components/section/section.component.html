@@ -13,12 +13,13 @@
             <img loading="lazy" class="w-full" [src]="n?.images[0]?.small" [alt]="n?.id">
         </div>
         <div class="info">
-            <div class="name">{{n.title}}
+            <div class="name" [attr.read]="!!n.lastReadTime" [attr.current]="n.id==current.comics.chapter.id">{{n.title}}
             </div>
             <div class="bottom">
                 <!-- <div class="progress">{{n.total}}</div> -->
-                <!-- <div class="date">{{n.LastTime | date:'yyyy-MM-dd'}}</div>  -->
+                <!-- <div class="date">{{n.lastReadTime | date:'yyyy-MM-dd'}}</div> -->
             </div>
         </div>
     </button>
 </div>
+<!-- #c2185b -->

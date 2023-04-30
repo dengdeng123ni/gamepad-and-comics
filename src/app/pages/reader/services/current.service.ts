@@ -58,6 +58,7 @@ interface ImageReadingTime {
 })
 export class CurrentReaderService {
   comics: Comics = null;
+  imageStates=[];
   isLeave: boolean = false;
   constructor(
     private db: NgxIndexedDBService,
@@ -599,5 +600,8 @@ export class CurrentReaderService {
       //返回排序后的数组
       return result;
     }
+  }
+  updateChapterLastReadingDate(){
+
   }
 }

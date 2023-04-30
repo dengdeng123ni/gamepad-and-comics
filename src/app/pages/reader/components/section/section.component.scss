@@ -43,6 +43,13 @@
           color: rgba(255, 255, 255, .87);
           text-align: left;
       }
+      .name[read=true]{
+        color: rgba(255, 255, 255, .34);
+      }
+
+      .name[current=true]{
+        color: #c2185b;
+      }
 
       .bottom {
           display: flex;
@@ -58,6 +65,7 @@
               @apply text-xs;
               color: rgba(255, 255, 255, .34);
           }
+
       }
   }
   @media screen and (min-width: 2100px) and (max-width: 3000px) {
