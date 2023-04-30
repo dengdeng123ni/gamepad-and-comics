@@ -24,10 +24,10 @@
   </div>
   <app-info-short *ngIf="!config.edit"></app-info-short>
   <div class="warp" (click)="close()">
-    <div class="title">{{i18n.config.chapter_list}}
-      <!-- <span style="font-size: 0.75rem; line-height: 1rem; color: rgba(255, 255, 255, 0.34); text-align: left;">{{title}}</span> -->
+    <div class="title">{{i18n.config.all_chapters}}({{chapters.length}})
+       <!-- <span style="font-size: 0.75rem; line-height: 1rem; color: rgba(255, 255, 255, 0.34); text-align: left;">{{title}}</span> -->
     </div>
-    <div class="list">
+    <div class="list" [attr.mode]="'list'" *ngIf="config.mode=='list'">
       <button class="item" (click)="on($event,n)"
       [id]="n.id"
       [attr._id]="'section_item_'+n.id"
@@ -44,6 +44,21 @@
           </div>
         </div>
         <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="config.edit" [(ngModel)]="n.selected"></mat-checkbox>
+      </button>
+    </div>
+    <div class="abbreviated" [attr.mode]="'abbreviated'" *ngIf="config.mode=='abbreviated'">
+      <button class="item" (click)="on($event,n)"
+      [id]="n.id"
+      [attr._id]="'section_item_'+n.id"
+      [attr.region]="'section_item'"
+      [attr.multiple]="n.selected"
+      [attr.content_menu_key]="'section_item'"
+      [attr.content_menu_value]="n.id"
+      mat-button
+        *ngFor="let n of chapters;let index=index">
+        <span [attr.read]="!!n.lastReadTime" [attr.current]="n.id==current.comics.chapter.id">
+          {{index+1}}
+        </span>
       </button>
     </div>
   </div>

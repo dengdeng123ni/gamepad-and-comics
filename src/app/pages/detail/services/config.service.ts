@@ -5,5 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class ConfigDetailService {
   edit=false;
+  mode="list";
   constructor() { }
 }

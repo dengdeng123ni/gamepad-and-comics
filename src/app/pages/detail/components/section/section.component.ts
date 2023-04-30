@@ -25,6 +25,7 @@ export class SectionComponent {
     if (event.key == "Meta") this._ctrl = false;
     if (event.key == "Control") this._ctrl = false;
   }
+  // abbreviated list
   _ctrl = false;
   chapters = [];
   selectedList = [];
@@ -32,7 +33,8 @@ export class SectionComponent {
   onDownloadClick$ = null;
 
   id = null;
-
+  //
+  // grid_view
   edit$ = null;
   title = "";
   constructor(

@@ -129,7 +129,20 @@ img::before {
 
 
 
+.abbreviated{
+  .item{
+    span{
+      color: rgba(255, 255, 255, .87);
+    }
+    span[read=true]{
+      color: rgba(255, 255, 255, .34);
+    }
 
+    span[current=true]{
+      color: #c2185b;
+    }
+  }
+}
 
 
 
