@@ -7,7 +7,6 @@
         [attr.region]="'section'"
         [attr.handle_movable_region]="{} | json"
         [id]="'section_'+n.id"
-        [style]="n.id==current.comics.chapter.id?'background: rgba(255, 255, 255, .1);color:#c2185b;border-radius: 4px;':null"
         (click)="on(n.id)">
         <div class="img">
             <img loading="lazy" class="w-full" [src]="n?.images[0]?.small" [alt]="n?.id">
@@ -23,3 +22,5 @@
     </button>
 </div>
 <!-- #c2185b -->
+
+<!-- [style]="n.id==current.comics.chapter.id?'background: rgba(255, 255, 255, .1);color:#c2185b;border-radius: 4px;':null" -->

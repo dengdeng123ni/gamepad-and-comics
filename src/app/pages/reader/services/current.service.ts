@@ -226,7 +226,7 @@ export class CurrentReaderService {
       if (this.comics.chapter.index === undefined) this.comics.chapter.index = 0;
       this.mode$.next(this.comics.mode)
       setTimeout(() => { this.createSmailImage(id) }, 1000)
-      setTimeout(() => { this.getChapterLastReadingDate(); }, 1000)
+      setTimeout(() => { this.getChapterLastReadingDate(); }, 800)
       // this.insert(id, this.comics.chapters[0].id, this.comics.chapters[0].images[0].id)
     })
   }
