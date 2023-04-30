@@ -441,6 +441,12 @@ export class CurrentDetailService {
       }
       await firstValueFrom(this.db.update('chapter_state', { id: x.id, title: x.title, index: 0, total: x.images.length }))
     }
+    const c:any=await firstValueFrom(this.db.getAll('image_state'))
+    const list = c.filter(x => x.comicsId == id);
+    for (let i = 0; i < list.length; i++) {
+      const x = c[i];
+      await firstValueFrom(this.db.deleteByKey("image_state",x.id))
+    }
   }
   getChapterLastReadingDate() {
     this.db.getAll('image_state').subscribe((x: any) => {
