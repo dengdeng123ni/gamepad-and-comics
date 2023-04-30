@@ -9,7 +9,7 @@ import { ReadTimeService } from '../read-time/read-time.service';
   styleUrls: ['./chapter-history.component.scss']
 })
 export class ChapterHistoryComponent {
-
+  list=[];
   constructor(
     public db: NgxIndexedDBService,
     public readTime: ReadTimeService,
@@ -17,15 +17,19 @@ export class ChapterHistoryComponent {
   ) {
     this.db.getAll('image_state').subscribe((x: any) => {
       const list = x.filter(x => x.comicsId == this.current.comics.id);
-      const filter_list=this.sortAndRemoveDuplicates(list)
-      console.log(filter_list);
-
-
+      const filter_list=this.duplicates(list)
+      const chapterIds = this.current.comics.chapters.filter(x => x.id);
+      this.current.comics.chapters.forEach(x=>{
+        const index=filter_list.findIndex(s=>x.id==s.chapterId);
+        if(index>-1){
+          x.lastReadTime=x.id;
+        }
+      })
     });
 
   }
 
-  sortAndRemoveDuplicates(arr) {
+  duplicates(arr) {
     //使用Map数据结构，去除数组中id相同的元素，保留date较大的那个
     let map = new Map();
     for (let item of arr) {
@@ -53,7 +57,7 @@ export class ChapterHistoryComponent {
       result.push(value);
     }
     //按照date从大到小进行排序
-    result.sort((a, b) => b.date - a.date);
+    // result.sort((a, b) => b.date - a.date);
     //返回排序后的数组
     return result;
   }

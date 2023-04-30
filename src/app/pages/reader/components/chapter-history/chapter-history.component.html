@@ -1,1 +1,23 @@
-<p>chapter-history works!</p>
+<div class="list" id="section">
+  <button mat-button class="item"
+      *ngFor="let n of list;let index=index"
+      [attr._id]="'section_'+n.id"
+      [attr.select]="n.id==current.comics.chapter.id"
+      [attr.default]="n.id==current.comics.chapter.id"
+      [attr.region]="'section'"
+      [attr.handle_movable_region]="{} | json"
+      [id]="'section_'+n.id"
+      [style]="n.id==current.comics.chapter.id?'background: rgba(255, 255, 255, .1);color:#c2185b;border-radius: 4px;':null">
+      <div class="img">
+          <img loading="lazy" class="w-full" [src]="n?.images[0]?.small" [alt]="n?.id">
+      </div>
+      <div class="info">
+          <div class="name">{{n.title}}
+          </div>
+          <div class="bottom">
+              <!-- <div class="progress">{{n.title}}</div> -->
+              <div class="date">{{n.lastReadTime | date:'yyyy-MM-dd'}}</div>
+          </div>
+      </div>
+  </button>
+</div>

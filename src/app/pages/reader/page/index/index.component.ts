@@ -52,9 +52,6 @@ export class IndexReaderComponent {
       public prompt:PromptService,
       public chapterHistory:ChapterHistoryService
     ) {
-    setTimeout(()=>{
-      this.chapterHistory.open();
-    },2000)
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
     this.current.mode$.subscribe(x => {
