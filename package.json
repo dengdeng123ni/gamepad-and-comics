@@ -8,7 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "ghpages":"ng deploy --base-href=/gamepad-and-comics/",
+    "ghpages": "ng deploy --base-href=/gamepad-and-comics/",
     "hserve": "ng build && http-server -p 8075 -c-1 dist",
     "dserve": "http-server -p 8075 -c-1 dist"
   },
@@ -31,6 +31,7 @@
     "image-conversion": "^2.1.1",
     "jspdf": "2.5.1",
     "jszip": "^3.10.1",
+    "material-icons": "^1.13.6",
     "ng-zorro-antd": "^15.0.3",
     "ngx-indexed-db": "^16.0.0",
     "pdfjs-dist": "2.16.105",
