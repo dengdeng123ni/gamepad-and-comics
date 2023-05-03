@@ -13,6 +13,7 @@ import { ThumbnailService } from '../thumbnail-list/thumbnail.service';
 import { HandleLeftCircleToolbarService } from './handle-left-circle-toolbar.service';
 import { saveAs } from 'file-saver';
 import { GeneralService } from '../../services/general.service';
+import { ReadTimeService } from '../read-time/read-time.service';
 @Component({
   selector: 'app-handle-left-circle-toolbar',
   templateUrl: './handle-left-circle-toolbar.component.html',
@@ -40,6 +41,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     public section: SectionService,
     public thumbnailBottom: ThumbnailBottomService,
     public readerSettings: ReaderSettingsService,
+    public readTime:ReadTimeService,
     public download: DownloadService,
     public general: GeneralService,
     public i18n: I18nService

@@ -45,12 +45,12 @@ export class IndexReaderComponent {
       public GamepadEvent: GamepadEventService,
       public ContextMenuEvent: ContextMenuEventService,
       public ReaderNavbarBar: ReaderNavbarBarService,
-      public gamepadThumbnail:GamepadThumbnailService,
-      public squareThumbnail:SquareThumbnailService,
-      public doublePageThumbnail:DoublePageThumbnailService,
-      public readerAuto:ReaderAutoService,
-      public prompt:PromptService,
-      public chapterHistory:ChapterHistoryService
+      public gamepadThumbnail: GamepadThumbnailService,
+      public squareThumbnail: SquareThumbnailService,
+      public doublePageThumbnail: DoublePageThumbnailService,
+      public readerAuto: ReaderAutoService,
+      public prompt: PromptService,
+      public chapterHistory: ChapterHistoryService
     ) {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
@@ -64,66 +64,36 @@ export class IndexReaderComponent {
         this.HandleLeftCircleToolbar.isToggle();
       },
     })
-    GamepadEvent.registerAreaEventY("reader_mode_1", {
-      "LEFT": () => this.gamepadThumbnail.open({
-        id:this.current.comics.chapter.id,
-        index:this.current.comics.chapter.index
-      }),
-      "UP": () => this.squareThumbnail.open(),
-      "RIGHT": () => this.doublePageThumbnail.open({
-        id:this.current.comics.chapter.id,
-        index:this.current.comics.chapter.index
-      }),
-    })
-    GamepadEvent.registerAreaEventY("reader_mode_2", {
 
-      "UP": () => this.squareThumbnail.open(),
-      "LEFT": () => this.gamepadThumbnail.open({
-        id:this.current.comics.chapter.id,
-        index:this.current.comics.chapter.index
-      }),
-      "RIGHT": () => this.doublePageThumbnail.open({
-        id:this.current.comics.chapter.id,
-        index:this.current.comics.chapter.index
-      }),
+    const reader_mode_names = ["reader_mode_1", "reader_mode_2", "reader_mode_3", "reader_mode_4"]
+    reader_mode_names.forEach(name => {
+      GamepadEvent.registerAreaEventY(name, {
+        "LEFT": () => this.thumbnail.isToggle(),
+        "UP": () => this.squareThumbnail.open(),
+        "DOWN": () => this.section.isToggle(),
+        "RIGHT": () => this.doublePageThumbnail.open({
+          id: this.current.comics.chapter.id,
+          index: this.current.comics.chapter.index
+        }),
+      })
     })
-    GamepadEvent.registerAreaEventY("reader_mode_3", {
-
-      "UP": () => this.squareThumbnail.open(),
-      "LEFT": () => this.gamepadThumbnail.open({
-        id:this.current.comics.chapter.id,
-        index:this.current.comics.chapter.index
-      }),
-      "RIGHT": () => this.doublePageThumbnail.open({
-        id:this.current.comics.chapter.id,
-        index:this.current.comics.chapter.index
-      }),
-    })
-    GamepadEvent.registerAreaEventY("reader_mode_4", {
-
-      "UP": () => this.squareThumbnail.open(),
-      "LEFT": () => this.gamepadThumbnail.open({
-        id:this.current.comics.chapter.id,
-        index:this.current.comics.chapter.index
-      }),
-      "RIGHT": () => this.doublePageThumbnail.open({
-        id:this.current.comics.chapter.id,
-        index:this.current.comics.chapter.index
-      }),
-    })
-    const names = ["thumbnail_sidebar_bottom", "thumbnail_sidebar_left", "thumbnail_list","square_thumbnail"]
+    // this.gamepadThumbnail.open({
+    //   id: this.current.comics.chapter.id,
+    //   index: this.current.comics.chapter.index
+    // })
+    const names = ["thumbnail_sidebar_bottom", "thumbnail_sidebar_left", "thumbnail_list", "square_thumbnail"]
     names.forEach(name => {
       ContextMenuEvent.register(name, {
         on: e => {
           if (e.id == "delete") {
             const id = parseInt(e.value);
             this.current.deletePage(this.current.comics.id, this.current.comics.chapter.id, id)
-          }else if(e.id=="insertPageBefore"){
+          } else if (e.id == "insertPageBefore") {
             const id = parseInt(e.value);
-            this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id,"","before")
-          }else if(e.id=="insertPageAfter"){
+            this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id, "", "before")
+          } else if (e.id == "insertPageAfter") {
             const id = parseInt(e.value);
-            this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id,"","after")
+            this.current.insertPage(this.current.comics.id, this.current.comics.chapter.id, id, "", "after")
           }
         },
         menu: [

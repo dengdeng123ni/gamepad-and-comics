@@ -1,17 +1,21 @@
 <div *ngIf="current.comics" class="flex flex-col absolute h-full justify-between top-0 reader_toolbar_left">
   <div class="flex flex-col top">
     <div class="flex flex-col item h-full">
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.back" tabIndex="-1" mat-icon-button class="icon" (click)="back()">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.back"
+        tabIndex="-1" mat-icon-button class="icon" (click)="back()">
         <mat-icon>keyboard_return</mat-icon>
       </button>
       <!-- <mat-divider></mat-divider> -->
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.first_page_cover" tabIndex="-1" mat-icon-button class="icon" [disabled]="config.mode!=1" (click)="firstPageCoverChange()">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.first_page_cover" tabIndex="-1" mat-icon-button class="icon"
+        [disabled]="config.mode!=1" (click)="firstPageCoverChange()">
         <mat-icon *ngIf="!current.comics.isFirstPageCover">
           radio_button_unchecked</mat-icon>
         <mat-icon *ngIf="current.comics.isFirstPageCover">
           radio_button_checked</mat-icon>
       </button>
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_mode" tabIndex="-1" mat-icon-button class="icon" (click)="modeChange()">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.reading_mode" tabIndex="-1" mat-icon-button class="icon" (click)="modeChange()">
         <mat-icon *ngIf="config.mode==1">looks_one</mat-icon>
         <mat-icon *ngIf="config.mode==2">looks_two</mat-icon>
         <mat-icon *ngIf="config.mode==3||config.mode==5">looks_3</mat-icon>
@@ -21,37 +25,54 @@
   </div>
   <div class="flex flex-col bottom">
     <div class="flex flex-col item h-full">
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.rotation" tabIndex="-1" mat-icon-button class="icon" (click)="imageRotation()" [disabled]="config.mode==1||config.mode==4?false:true">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.rotation" tabIndex="-1" mat-icon-button class="icon" (click)="imageRotation()"
+        [disabled]="config.mode==1||config.mode==4?false:true">
         <mat-icon>screen_rotation</mat-icon>
       </button>
     </div>
     <div class="flex flex-col item h-full mt-5" id="reader_toolbar_page" *ngIf="!isMobile">
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.separate_page" tabIndex="-1" mat-icon-button class="icon" (click)="separatePage()" [disabled]="config.mode==1?false:true">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.separate_page" tabIndex="-1" mat-icon-button class="icon" (click)="separatePage()"
+        [disabled]="config.mode==1?false:true">
         <mat-icon>call_split</mat-icon>
       </button>
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.merge_page" tabIndex="-1" mat-icon-button class="icon" (click)="mergePage()" [disabled]="config.mode==1?false:true">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.merge_page" tabIndex="-1" mat-icon-button class="icon" (click)="mergePage()"
+        [disabled]="config.mode==1?false:true">
         <mat-icon>merge</mat-icon>
       </button>
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.insert_blank_page" tabIndex="-1" mat-icon-button class="icon" (click)="insertPage()" [disabled]="config.mode==1?false:true">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.insert_blank_page" tabIndex="-1" mat-icon-button class="icon" (click)="insertPage()"
+        [disabled]="config.mode==1?false:true">
         <mat-icon>insert_page_break</mat-icon>
       </button>
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" tabIndex="-1" mat-icon-button [disabled]="config.mode==1||config.mode==4?false:true"
-        class="icon delete" (click)="openDeleteMenu($event)">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete"
+        tabIndex="-1" mat-icon-button [disabled]="config.mode==1||config.mode==4?false:true" class="icon delete"
+        (click)="openDeleteMenu($event)">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
     <div class="flex flex-col item h-full mt-5" id="reader_toolbar_section">
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.all_chapters" tabIndex="-1" mat-icon-button (click)="openList($event)" class="icon subject">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.all_chapters" tabIndex="-1" mat-icon-button (click)="openList($event)"
+        class="icon subject">
         <mat-icon>subject</mat-icon>
       </button>
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.change_page_matching+'(C)'" tabIndex="-1" mat-icon-button class="icon" [disabled]="config.mode==1||config.mode==3||config.mode==5?false:true"
-        (click)="changeSpreadMatch()">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.change_page_matching+'(C)'" tabIndex="-1" mat-icon-button class="icon"
+        [disabled]="config.mode==1||config.mode==3||config.mode==5?false:true" (click)="changeSpreadMatch()">
         <mat-icon>swap_horiz</mat-icon>
       </button>
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.previous_chapter" tabIndex="-1" mat-icon-button class="icon" [disabled]="current.comics.chapter.id==current.comics.chapters[0].id" (click)="current.previous()">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.previous_chapter" tabIndex="-1" mat-icon-button class="icon"
+        [disabled]="current.comics.chapter.id==current.comics.chapters[0].id" (click)="current.previous()">
         <mat-icon>chevron_left</mat-icon>
       </button>
-      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.next_chapter" tabIndex="-1" mat-icon-button class="icon" [disabled]="current.comics.chapter.id==current.comics.chapters[current.comics.chapters.length-1].id" (click)="current.next()">
+      <button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.next_chapter" tabIndex="-1" mat-icon-button class="icon"
+        [disabled]="current.comics.chapter.id==current.comics.chapters[current.comics.chapters.length-1].id"
+        (click)="current.next()">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
@@ -60,20 +81,23 @@
     </mat-slider> -->
   </div>
 </div>
-<div *ngIf="current.comics" class="flex flex-col absolute h-full justify-between top-0 right-0 bottom-0 reader_toolbar_right">
+<div *ngIf="current.comics"
+  class="flex flex-col absolute h-full justify-between top-0 right-0 bottom-0 reader_toolbar_right">
   <div class="flex flex-col top">
     <div class="flex flex-col item h-full">
-      <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.all_chapters" mat-icon-button class="icon" (click)="section.open()">
+      <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.all_chapters" mat-icon-button class="icon" (click)="section.open()">
         <mat-icon>subject</mat-icon>
       </button>
-      <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" tabIndex="-1"
-        mat-icon-button (click)="doublePageThumbnail.open({
+      <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.thumbnail" tabIndex="-1" mat-icon-button (click)="doublePageThumbnail.open({
           id:current.comics.chapter.id,
           index:current.comics.chapter.index
         })" class="icon filter_image_list">
         <mat-icon>grid_view</mat-icon>
       </button>
-      <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="SquareThumbnail.open()">
+      <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="SquareThumbnail.open()">
         <mat-icon>view_module</mat-icon>
       </button>
       <app-popup-toolbar></app-popup-toolbar>
@@ -90,7 +114,9 @@
 
     </div> -->
     <div class="flex flex-col item mt-5 bottom">
-      <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.full_screen" tabIndex="-1" mat-icon-button class="icon" (click)="isfullscreen?isFullChange('window'):isFullChange('full_screen')">
+      <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.full_screen" tabIndex="-1" mat-icon-button class="icon"
+        (click)="isfullscreen?isFullChange('window'):isFullChange('full_screen')">
         <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
         <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
       </button>
@@ -102,13 +128,14 @@
 <mat-menu #menu="matMenu">
   <ng-template matMenuContent let-name="data" let-type="type">
     <div *ngIf="type=='delete'">
-      <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item" (mouseover)="mouseoverDeleteMenu(item.id)"
-        (mouseout)="mouseoutDeleteMenu(item.id)" (click)="delete(item.id)">
+      <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
+        (mouseover)="mouseoverDeleteMenu(item.id)" (mouseout)="mouseoutDeleteMenu(item.id)" (click)="delete(item.id)">
         {{item.name}}
       </button>
     </div>
     <div *ngIf="type=='list'" style="max-height: 40vh;">
-      <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item" (click)="onListMenuItemClick(item.id)">
+      <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
+        (click)="onListMenuItemClick(item.id)">
         {{item.title}}
       </button>
     </div>
