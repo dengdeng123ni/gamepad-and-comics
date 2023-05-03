@@ -9,7 +9,7 @@ export class TestPopupsComponent {
   constructor() {
 
   }
-  panelOpenState = false;
+
   ngAfterViewInit() {
     // const maskStyle = computed(() => {
     //   return {

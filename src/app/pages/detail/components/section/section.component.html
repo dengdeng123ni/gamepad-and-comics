@@ -54,6 +54,7 @@
       [attr.multiple]="n.selected"
       [attr.content_menu_key]="'section_item'"
       [attr.content_menu_value]="n.id"
+      matTooltipPosition="above" [matTooltipShowDelay]="1500" [matTooltip]="n.title"
       mat-button
         *ngFor="let n of chapters;let index=index">
         <span [attr.read]="!!n.lastReadTime" [attr.current]="n.id==current.comics.chapter.id">

@@ -1,0 +1,67 @@
+body{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+
+.date-panel {
+  position: relative;
+  user-select: none;
+  overflow: hidden;
+  width: 350px;
+  color: #fff;
+  background-image: url('http://localhost:7899/image/1682431166303');
+  background-position:center;
+  .cell-list {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    .cell-item {
+      width: 14.286%;
+      // background-color: #000;
+      &:hover {
+        position: relative;
+        z-index: 1;
+      }
+      span {
+        z-index: 1;
+        position: relative;
+      }
+    }
+  }
+  .week-list {
+    .cell-item {
+      line-height: 24px;
+      padding: 5px 0;
+    }
+  }
+
+  .date-list {
+    .cell-item {
+      padding: 2px;
+      .date-cell {
+        height: 42px;
+        border: 2px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .mask {
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;    background-image: radial-gradient(rgba(0, 0, 0, 0), #000 80px);
+  }
+}
