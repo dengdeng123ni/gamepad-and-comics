@@ -24,6 +24,8 @@ export class SidebarLeftService {
         this.HandleLeftCircleToolbar.isToggle();
       },
     })
+
+    this.GamepadEvent.registerConfig("thumbnail_sidebar_left", { region: ["thumbnail_sidebar_left"] })
   }
 
   opened=false;
@@ -35,10 +37,10 @@ export class SidebarLeftService {
   open() {
     this.opened = true;
     this.afterClosed$.next(true);
-    document.body.setAttribute("locked_region", "[region=thumbnail_sidebar_left]")
+    document.body.setAttribute("locked_region", "thumbnail_sidebar_left")
   }
   close() {
-    if(document.body.getAttribute("locked_region")=="[region=thumbnail_sidebar_left]"&&this.opened) document.body.setAttribute("locked_region","all")
+    if(document.body.getAttribute("locked_region")=="thumbnail_sidebar_left"&&this.opened) document.body.setAttribute("locked_region","all")
     this.opened = false;
   }
   isToggle = () => {

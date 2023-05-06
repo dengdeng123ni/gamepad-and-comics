@@ -9,23 +9,24 @@ import { LanguageSettingsComponent } from './language-settings.component';
 export class LanguageSettingsService {
 
   constructor(
-    public _dialog:MatDialog,
+    public _dialog: MatDialog,
     public GamepadEvent: GamepadEventService,
-    ) {
-      this.GamepadEvent.registerAreaEvent("language_setting", {
-        "B": () => this.close(),
-      })
-     }
-  opened=false;
+  ) {
+    this.GamepadEvent.registerConfig("language_settings", { region: ["language_setting"] })
+    this.GamepadEvent.registerAreaEvent("language_setting", {
+      "B": () => this.close(),
+    })
+  }
+  opened = false;
   open() {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(LanguageSettingsComponent, {
         panelClass: "settings",
-        autoFocus:false
+        autoFocus: false
       });
-      document.body.setAttribute("locked_region", `[region=language_setting]`)
+      document.body.setAttribute("locked_region", `language_settings`)
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region")=="[region=language_setting]" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "language_settings" && this.opened) document.body.setAttribute("locked_region", "all")
         this.opened = false;
       });
       this.opened = true;

@@ -27,7 +27,7 @@ export class ContextMenuControllerService {
     this.currentNode.setAttribute('content_menu_select', 'true');
     const value = node.getAttribute('content_menu_value');
     this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? '';
-    (document.querySelector('body') as HTMLElement).setAttribute('locked_region', '[region=content_menu_submenu],[region=content_menu]');
+    (document.querySelector('body') as HTMLElement).setAttribute('locked_region', 'content_menu');
     if(eventObj.callback) eventObj.context=eventObj.callback(node,eventObj.context)
     this.contextMenu.open(eventObj.context, { x, y, key: key, value: value ?? null });
   }
@@ -74,7 +74,7 @@ export class ContextMenuControllerService {
 
     this.contextMenu.beforeClosed().subscribe((command: any) => {
       this.currentNode.setAttribute('content_menu_select', 'false');
-      if(document.querySelector('body').getAttribute('locked_region')=="[region=content_menu_submenu],[region=content_menu]") document.querySelector('body').setAttribute('locked_region', this.handleRegion);
+      if(document.querySelector('body').getAttribute('locked_region')=="content_menu") document.querySelector('body').setAttribute('locked_region', this.handleRegion);
       if (command.key) {
         if(this.contextMenuEvent.closeEvent[command.key]) this.contextMenuEvent.closeEvent[command.key](command);
       }

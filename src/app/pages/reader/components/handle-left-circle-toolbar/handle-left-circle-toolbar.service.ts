@@ -17,7 +17,7 @@ export class HandleLeftCircleToolbarService {
     public GamepadController: GamepadControllerService,
     public GamepadInput: GamepadInputService,
   ) {
-
+    this.GamepadEvent.registerConfig("gamepad_left_circle_toolbar", { region: ["handel_toolabr_left","handel_toolabr_right","handel_toolabr_center","handel_toolabr_menu"] })
   }
 
   init(){
@@ -188,9 +188,9 @@ if (this.opened == false) {
         panelClass: "handle_reader_circle_toolbar"
       });
       this.region = document.body.getAttribute("locked_region") ?? "";
-      document.body.setAttribute("locked_region", "[region=handel_toolabr_left],[region=handel_toolabr_right],[region=handel_toolabr_center],[region=handel_toolabr_menu]")
+      document.body.setAttribute("locked_region", "gamepad_left_circle_toolbar")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "[region=handel_toolabr_left],[region=handel_toolabr_right],[region=handel_toolabr_center],[region=handel_toolabr_menu]" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "all")
       });
     }
   }
@@ -201,7 +201,7 @@ if (this.opened == false) {
   close() {
     this.up$.unsubscribe();
     document.body.setAttribute("locked_region", this.region)
-    if (document.body.getAttribute("locked_region") == "[region=handel_toolabr_left],[region=handel_toolabr_right],[region=handel_toolabr_center],[region=handel_toolabr_menu]" && this.opened) document.body.setAttribute("locked_region", "all")
+    if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "all")
     this._dialog.closeAll();
     this.opened = false;
     //

@@ -24,6 +24,8 @@ export class ReaderNavbarBarService {
         this.close();
       }
     })
+
+    this.GamepadEvent.registerConfig("reader_navbar_bar", { region: ["reader_navbar_bar_top_item","reader_navbar_bar_buttom_item"] })
   }
   change$ = new Subject();
   change() {
@@ -33,7 +35,7 @@ export class ReaderNavbarBarService {
     if (this.opened == false) {
       this.opened = true;
       this.change$.next(true)
-      document.body.setAttribute("locked_region", "[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]")
+      document.body.setAttribute("locked_region", "reader_navbar_bar")
     }
   }
 
@@ -46,7 +48,7 @@ export class ReaderNavbarBarService {
     if (this.opened == true) {
       this.opened = false;
       this.change$.next(false)
-      if (document.body.getAttribute("locked_region") == "[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]") document.body.setAttribute("locked_region", "all")
+      if (document.body.getAttribute("locked_region") == "reader_navbar_bar") document.body.setAttribute("locked_region", "all")
 
     }
   }

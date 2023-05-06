@@ -13,6 +13,7 @@ export class ThumbnailBottomService {
     public GamepadEvent:GamepadEventService
   ) {
 
+    this.GamepadEvent.registerConfig("thumbnail_bottom", { region: ["thumbnail_bottom"] })
   }
 
   opened: boolean = false;
@@ -21,9 +22,9 @@ export class ThumbnailBottomService {
     if (this.opened == false) {
       if (this.opened == false) {
         const sheetRef = this._sheet.open(ThumbnailBottomComponent, {backdropClass:"sheet_bg_transparent", panelClass: "_thumbnail_bottom"});
-        document.body.setAttribute("locked_region", "[region=thumbnail_bottom]")
+        document.body.setAttribute("locked_region", "thumbnail_bottom")
         sheetRef.afterDismissed().subscribe(() => {
-          if(document.body.getAttribute("locked_region")=="[region=thumbnail_bottom]"&&this.opened) document.body.setAttribute("locked_region","all")
+          if(document.body.getAttribute("locked_region")=="thumbnail_bottom"&&this.opened) document.body.setAttribute("locked_region","all")
           this.opened = false;
         });
       }

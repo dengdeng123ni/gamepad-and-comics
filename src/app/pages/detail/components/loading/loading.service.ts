@@ -50,6 +50,7 @@ export class LoadingService {
       START:()=>{},
       SPECIAL:()=>{},
     })
+    GamepadEvent.registerConfig("loading", { region: ["loading"] })
   }
 
   opened: boolean = false;
@@ -63,9 +64,9 @@ export class LoadingService {
         backdropClass:"_loading_backdrop",
         disableClose:true
       });
-      document.body.setAttribute("locked_region","[region=loading]")
+      document.body.setAttribute("locked_region","loading")
       this.dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=loading]") document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="loading") document.body.setAttribute("locked_region","all")
         document.querySelector('body').setAttribute('locked_region', this.handleRegion);
         this.opened = false;
       });

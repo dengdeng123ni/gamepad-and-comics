@@ -16,6 +16,7 @@ export class UploadSelectService {
       this.GamepadEvent.registerAreaEvent("upload_select", {
         "B": () => this.close(),
       })
+      GamepadEvent.registerConfig("upload_select", { region: ["upload_select"] })
       // this.open();
   }
 
@@ -32,9 +33,9 @@ export class UploadSelectService {
         panelClass:"upload_select",
         backdropClass:"upload_select_backdrop",
       });
-      document.body.setAttribute("locked_region","[region=upload_select]")
+      document.body.setAttribute("locked_region","upload_select")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=upload_select]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="upload_select"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;

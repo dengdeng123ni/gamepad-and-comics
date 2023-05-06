@@ -20,14 +20,16 @@ export class ReaderSectionService {
     GamepadEvent.registerAreaEvent("reader_section", {
       B: () => {
         this.close();
-        document.body.setAttribute("locked_region","[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]")
+        document.body.setAttribute("locked_region","reader_navbar_bar")
       },
       LEFT_ANALOG_PRESS: () => {
         this.close();
-        document.body.setAttribute("locked_region","[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]")
+        document.body.setAttribute("locked_region","reader_navbar_bar")
         this.HandleLeftCircleToolbar.isToggle();
       },
     })
+
+    this.GamepadEvent.registerConfig("reader_section", { region: ["reader_section"] })
   }
   public opened: boolean = false;
   open({ x, y }) {
@@ -42,9 +44,9 @@ export class ReaderSectionService {
         panelClass: "upload_select",
         backdropClass: "upload_select_backdrop",
       });
-      document.body.setAttribute("locked_region", "[region=reader_section]")
+      document.body.setAttribute("locked_region", "reader_section")
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region") == "[region=reader_section]" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region", "all")
         this.opened = false;
       });
       this.opened = true;
@@ -64,9 +66,9 @@ export class ReaderSectionService {
           autoFocus:false,
           panelClass: "_reader_section_sheet",
         });
-        document.body.setAttribute("locked_region", "[region=reader_section]")
+        document.body.setAttribute("locked_region", "reader_section")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "[region=reader_section]" && this.opened) document.body.setAttribute("locked_region", "all")
+          if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region", "all")
           this.opened = false;
         });
       }

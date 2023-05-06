@@ -17,13 +17,15 @@ export class ReaderSettingsService {
     GamepadEvent.registerAreaEvent("reader_settings", {
       "B": () => this.close(),
     })
+
+    this.GamepadEvent.registerConfig("reader_settings", { region: ["locked_region"] })
   }
   open(config?:MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(ReaderSettingsComponent,config);
-      document.body.setAttribute("locked_region","[region=reader_settings]")
+      document.body.setAttribute("locked_region","reader_settings")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=reader_settings]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="reader_settings"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;
@@ -43,9 +45,9 @@ export class ReaderSettingsService {
       // this.list=Object.keys(images).map(x=>({id:x,total:images[x].length,image:images[x][0].image}))
       if (this.opened == false) {
         const sheetRef = this._sheet.open(ReaderSettingsComponent,{});
-        document.body.setAttribute("locked_region", "[region=reader_settings]")
+        document.body.setAttribute("locked_region", "reader_settings")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "[region=reader_settings]" && this.opened) document.body.setAttribute("locked_region", "all")
+          if (document.body.getAttribute("locked_region") == "reader_settings" && this.opened) document.body.setAttribute("locked_region", "all")
           this.opened = false;
         });
       }

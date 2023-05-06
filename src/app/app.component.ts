@@ -24,6 +24,7 @@ export class AppComponent {
         this.ContextMenuController.close();
       }
     })
+    GamepadEvent.registerConfig("content_menu",{region:["content_menu","content_menu_submenu"]})
     this.getPlatform();
 
   }

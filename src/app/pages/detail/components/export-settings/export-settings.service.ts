@@ -46,13 +46,14 @@ export class ExportSettingsService {
     this.GamepadEvent.registerAreaEvent("detail_export_settings_file_type", {
       "B": () => this.close(),
     })
+    GamepadEvent.registerConfig("export_settings", { region: ["detail_export_settings_page","detail_export_settings","detail_export_settings_file_type"] })
   }
   open(config?:MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(ExportSettingsComponent,config);
-      document.body.setAttribute("locked_region","[region=detail_export_settings_page],[region=detail_export_settings],[region=detail_export_settings_file_type]")
+      document.body.setAttribute("locked_region","export_settings")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=detail_export_settings_page],[region=detail_export_settings],[region=detail_export_settings_file_type]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="export_settings"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;

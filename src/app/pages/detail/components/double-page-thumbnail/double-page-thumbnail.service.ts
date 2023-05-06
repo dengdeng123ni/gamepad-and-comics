@@ -17,8 +17,9 @@ export class DoublePageThumbnailService {
     ) {
       this.GamepadEvent.registerAreaEvent("double_page_thumbnail", {
         "B": () => this.close(),
-
       })
+
+    this.GamepadEvent.registerConfig("double_page_thumbnail", { region: ["double_page_thumbnail"] })
      }
   open(data:DialogData) {
     if (this.opened == false) {
@@ -27,9 +28,9 @@ export class DoublePageThumbnailService {
         panelClass: "_double_page_thumbnail",
         data:data
       });
-      document.body.setAttribute("locked_region", "[region=double_page_thumbnail]")
+      document.body.setAttribute("locked_region", "double_page_thumbnail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "[region=double_page_thumbnail]" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "double_page_thumbnail" && this.opened) document.body.setAttribute("locked_region", "all")
         this.opened = false;
       });
     }

@@ -18,6 +18,7 @@ export class ModeChangeService {
       this.GamepadEvent.registerAreaEvent("mode", {
         "B": () => this.close(),
       })
+      GamepadEvent.registerConfig("mode", { region: ["mode"] })
   }
   opened: boolean = false;
   change(mode: number) {
@@ -32,9 +33,9 @@ export class ModeChangeService {
         delayFocusTrap:false,
         panelClass: panelClass
       });
-      document.body.setAttribute("locked_region","[region=mode]")
+      document.body.setAttribute("locked_region","mode")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=mode]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="mode"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;

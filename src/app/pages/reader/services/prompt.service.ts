@@ -14,27 +14,27 @@ export class PromptService {
     public i18n: I18nService
   ) {
     current.chapterNext$.subscribe(x => {
-      if (document.body.getAttribute('locked_region') == "[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]") return
+      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
       this.chapterPrompt(x.title)
     })
     current.chapterPrevious$.subscribe(x => {
-      if (document.body.getAttribute('locked_region') == "[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]") return
+      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
       this.chapterPrompt(x.title)
     })
     current.pageLastAfter$.subscribe(() => {
-      if (document.body.getAttribute('locked_region') == "[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]") return
+      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
       this.endPrompt();
     })
     current.pageFirstBefore$.subscribe(() => {
-      if (document.body.getAttribute('locked_region') == "[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]") return
+      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
       this.firstPrompt();
     })
     current.chapterFirstBefore$.subscribe(() => {
-      if (document.body.getAttribute('locked_region') == "[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]") return
+      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
       this._snackBar.open(i18n.config.first_chapter, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
     })
     current.chapterLastAfter$.subscribe(() => {
-      if (document.body.getAttribute('locked_region') == "[region=reader_navbar_bar_top_item],[region=reader_navbar_bar_buttom_item]") return
+      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
       this._snackBar.open(i18n.config.last_chapter, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
     })
   }

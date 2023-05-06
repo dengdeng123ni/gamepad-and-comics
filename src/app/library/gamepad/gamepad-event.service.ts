@@ -26,8 +26,8 @@ interface HoverEvents {
 }
 
 interface Config {
-  name:string,
   region:Array<string>,
+  queryStr?:string
 }
 
 @Injectable({
@@ -101,6 +101,9 @@ export class GamepadEventService {
   }
 
   registerConfig(key: string, config: Config): void {
+    const list=config.region;
+    const str=list.map(x=>`[region=${x}]`).toString();
+    config.queryStr=str;
     this.configs[key] = config;
   }
 

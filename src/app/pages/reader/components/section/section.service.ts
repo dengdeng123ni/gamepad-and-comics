@@ -23,6 +23,7 @@ export class SectionService {
       "B": () => this.close(),
     })
 
+    this.GamepadEvent.registerConfig("section", { region: ["section"] })
   }
   open() {
     if (this.opened == false) {
@@ -32,9 +33,9 @@ export class SectionService {
         const sheetRef = this._sheet.open(SectionComponent,{
           panelClass:"_section"
         });
-        document.body.setAttribute("locked_region", "[region=section]")
+        document.body.setAttribute("locked_region", "section")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "[region=section]" && this.opened) document.body.setAttribute("locked_region", "all")
+          if (document.body.getAttribute("locked_region") == "section" && this.opened) document.body.setAttribute("locked_region", "all")
           this.opened = false;
         });
       }

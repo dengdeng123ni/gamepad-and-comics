@@ -27,14 +27,15 @@ export class GlobalSettingsService {
           }
         }
       })
+      GamepadEvent.registerConfig("global_settings", { region: ["global_settings"] })
     }
 
   open(config?:MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(GlobalSettingsComponent,config);
-      document.body.setAttribute("locked_region","[region=global_settings]")
+      document.body.setAttribute("locked_region","global_settings")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=global_settings]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="global_settings"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;

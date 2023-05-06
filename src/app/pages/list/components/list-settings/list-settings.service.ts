@@ -29,14 +29,15 @@ export class ListSettingsService {
           }
         }
       })
+      GamepadEvent.registerConfig("list_settings", { region: ["list_settings"] })
     }
 
   open(config?:MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(ListSettingsComponent,config);
-      document.body.setAttribute("locked_region","[region=list_settings]")
+      document.body.setAttribute("locked_region","list_settings")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=list_settings]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="list_settings"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;

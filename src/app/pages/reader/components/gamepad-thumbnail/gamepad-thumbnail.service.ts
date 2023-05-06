@@ -18,9 +18,9 @@ export class GamepadThumbnailService {
         panelClass: "_gamepad_thumbnail",
         data:data
       });
-      document.body.setAttribute("locked_region", "[region=gamepad_thumbnail]")
+      document.body.setAttribute("locked_region", "gamepad_thumbnail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "[region=gamepad_thumbnail]" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "gamepad_thumbnail" && this.opened) document.body.setAttribute("locked_region", "all")
         this.opened = false;
       });
     }

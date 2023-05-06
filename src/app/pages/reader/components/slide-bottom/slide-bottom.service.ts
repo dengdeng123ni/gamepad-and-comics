@@ -14,15 +14,17 @@ export class SlideBottomService {
     this.GamepadEvent.registerAreaEvent("thumbnail_sidebar_bottom", {
       "B": () => this.close(),
     })
+
+    this.GamepadEvent.registerConfig("thumbnail_sidebar_bottom", { region: ["thumbnail_sidebar_bottom"] })
   }
   opened: boolean = false;
   open() {
     if (this.opened == false) {
       if (this.opened == false) {
         const sheetRef = this._sheet.open(SlideBottomComponent, {backdropClass:"sheet_bg_transparent",panelClass: "_side_bottom"});
-        document.body.setAttribute("locked_region", "[region=thumbnail_sidebar_bottom]")
+        document.body.setAttribute("locked_region", "thumbnail_sidebar_bottom")
         sheetRef.afterDismissed().subscribe(() => {
-          if(document.body.getAttribute("locked_region")=="[region=thumbnail_sidebar_bottom]"&&this.opened) document.body.setAttribute("locked_region","all")
+          if(document.body.getAttribute("locked_region")=="thumbnail_sidebar_bottom"&&this.opened) document.body.setAttribute("locked_region","all")
           this.opened = false;
         });
       }

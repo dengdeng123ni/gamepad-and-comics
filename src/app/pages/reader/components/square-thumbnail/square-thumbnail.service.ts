@@ -16,6 +16,8 @@ export class SquareThumbnailService {
         "B": () => this.close(),
 
       })
+
+    this.GamepadEvent.registerConfig("square_thumbnail", { region: ["square_thumbnail"] })
      }
   open() {
     if (this.opened == false) {
@@ -23,9 +25,9 @@ export class SquareThumbnailService {
       const dialogRef = this._dialog.open(SquareThumbnailComponent, {
         panelClass: "_square_thumbnail"
       });
-      document.body.setAttribute("locked_region", "[region=square_thumbnail]")
+      document.body.setAttribute("locked_region", "square_thumbnail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "[region=square_thumbnail]" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "square_thumbnail" && this.opened) document.body.setAttribute("locked_region", "all")
         this.opened = false;
       });
     }

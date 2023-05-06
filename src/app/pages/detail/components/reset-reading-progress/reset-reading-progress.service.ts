@@ -14,6 +14,7 @@ export class ResetReadingProgressService {
     this.GamepadEvent.registerAreaEvent("reset_reading_progress", {
       "B": () => this.close(),
     })
+    GamepadEvent.registerConfig("reset_reading_progress", { region: ["reset_reading_progress"] })
   }
 
   open() {
@@ -21,9 +22,9 @@ export class ResetReadingProgressService {
       const dialogRef = this._dialog.open(ResetReadingProgressComponent, {
         width: '250px'
       });
-      document.body.setAttribute("locked_region","[region=reset_reading_progress]")
+      document.body.setAttribute("locked_region","reset_reading_progress")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=reset_reading_progress]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="reset_reading_progress"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;

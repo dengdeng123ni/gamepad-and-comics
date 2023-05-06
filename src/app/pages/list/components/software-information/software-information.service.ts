@@ -14,14 +14,15 @@ export class SoftwareInformationService {
       this.GamepadEvent.registerAreaEvent("software_information", {
         "B": () => this.close(),
       })
+      GamepadEvent.registerConfig("software_information",{region:["software_information"]})
    }
   opened=false;
   open(config?:MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(SoftwareInformationComponent, config);
-      document.body.setAttribute("locked_region", `[region=software_information]`)
+      document.body.setAttribute("locked_region", "software_information")
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region")=="[region=software_information]" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region")=="software_information" && this.opened) document.body.setAttribute("locked_region", "all")
         this.opened = false;
       });
       this.opened = true;

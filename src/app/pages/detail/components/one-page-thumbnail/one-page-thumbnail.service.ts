@@ -35,6 +35,8 @@ export class OnePageThumbnailService {
         "B": () => this.close(),
 
       })
+
+     this.GamepadEvent.registerConfig("one_page_thumbnail", { region: ["one_page_thumbnail_toolabr","one_page_thumbnail_item"] })
      }
   open() {
     if (this.opened == false) {
@@ -42,9 +44,9 @@ export class OnePageThumbnailService {
       const dialogRef = this._dialog.open(OnePageThumbnailComponent, {
         panelClass: "_one_page_thumbnail"
       });
-      document.body.setAttribute("locked_region", "[region=one_page_thumbnail_toolabr],[region=one_page_thumbnail_item]")
+      document.body.setAttribute("locked_region", "one_page_thumbnail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "[region=one_page_thumbnail_toolabr],[region=one_page_thumbnail_item]" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "one_page_thumbnail" && this.opened) document.body.setAttribute("locked_region", "all")
         this.opened = false;
       });
     }

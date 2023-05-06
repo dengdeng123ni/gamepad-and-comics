@@ -13,6 +13,8 @@ export class ThumbnailService {
     this.GamepadEvent.registerAreaEvent("thumbnail_list", {
       "B": () => this.close(),
     })
+
+    this.GamepadEvent.registerConfig("thumbnail_list", { region: ["thumbnail_list"] })
   }
   opened: boolean = false;
   scrollTop = 0;
@@ -20,9 +22,9 @@ export class ThumbnailService {
     if (this.opened == false) {
       if (this.opened == false) {
         const dialogRef = this._sheet.open(ThumbnailListComponent, { panelClass: "_thumbnail_list",  data: { index: 4 } });
-        document.body.setAttribute("locked_region", "[region=thumbnail_list]")
+        document.body.setAttribute("locked_region", "thumbnail_list")
         dialogRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "[region=thumbnail_list]" && this.opened) document.body.setAttribute("locked_region", "all")
+          if (document.body.getAttribute("locked_region") == "thumbnail_list" && this.opened) document.body.setAttribute("locked_region", "all")
           this.opened = false;
         });
       }

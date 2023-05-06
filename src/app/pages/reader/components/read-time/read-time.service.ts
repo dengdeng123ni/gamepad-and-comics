@@ -16,15 +16,16 @@ export class ReadTimeService {
     GamepadEvent.registerAreaEvent("reading_time", {
       "B": () => this.close(),
     })
+    GamepadEvent.registerConfig("reading_time", { region: ["reading_time"] })
   }
   open() {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(ReadTimeComponent,{
         panelClass:"_reading_time"
       });
-      document.body.setAttribute("locked_region","[region=reading_time]")
+      document.body.setAttribute("locked_region","reading_time")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=reading_time]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="reading_time"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;

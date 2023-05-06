@@ -20,6 +20,7 @@ export class UploadListService {
       //   "B": () => this.close(),
       // })
       // this.open();
+      GamepadEvent.registerConfig("upload_list", { region: ["list_upload_list","list_upload_list_item"] })
   }
 
   opened: boolean = false;
@@ -30,9 +31,9 @@ export class UploadListService {
         panelClass:"upload_list",
         backdropClass:"upload_list_backdrop",
       });
-      document.body.setAttribute("locked_region","[region=list_upload_list],[region=list_upload_list_item]")
+      document.body.setAttribute("locked_region","upload_list")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="[region=list_upload_list],[region=list_upload_list_item]"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="upload_list"&&this.opened) document.body.setAttribute("locked_region","all")
         this.opened = false;
       });
       this.opened=true;

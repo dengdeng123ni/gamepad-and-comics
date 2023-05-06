@@ -39,7 +39,7 @@ export class GamepadControllerService {
     });
     let config = {
       attributes: true, //目标节点的属性变化
-      childList: true, //目标节点的子节点的新增和删除
+      childList: false, //目标节点的子节点的新增和删除
       characterData: false, //如果目标节点为characterData节点(一种抽象接口,具体可以为文本节点,注释节点,以及处理指令节点)时,也要观察该节点的文本内容是否发生变化
       subtree: true, //目标节点所有后代节点的attributes、childList、characterData变化
     };
@@ -208,7 +208,7 @@ export class GamepadControllerService {
       if (!region) document.body.setAttribute("locked_region", "all");
       this.nodes = document.querySelectorAll("[region]");
     } else if (region) {
-      this.nodes = document.querySelectorAll(region);
+      this.nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
     }
     this.EegionBefore$.next(region)
     let list = [];
