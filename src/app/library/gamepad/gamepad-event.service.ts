@@ -26,7 +26,8 @@ interface HoverEvents {
 }
 
 interface Config {
-
+  name:string,
+  region:Array<string>,
 }
 
 @Injectable({
@@ -102,5 +103,6 @@ export class GamepadEventService {
   registerConfig(key: string, config: Config): void {
     this.configs[key] = config;
   }
+
 
 }
