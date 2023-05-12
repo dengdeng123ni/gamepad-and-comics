@@ -68,10 +68,10 @@ export class AppComponent {
       console.log(x);
 
     })
-    recognition$.pipe(debounceTime(600)).subscribe(x=>{
-      console.log(x);
+    // recognition$.pipe(debounceTime(100)).subscribe(x=>{
+    //   console.log(x);
 
-    })
+    // })
 
 
   }

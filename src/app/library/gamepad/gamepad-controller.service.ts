@@ -210,7 +210,20 @@ export class GamepadControllerService {
     return { id: node.getAttribute("_id"), index: 0, select: node.getAttribute("select") == "true", start: node.getAttribute("select") == "true", region: node.getAttribute("region"), position }
   }
   oldRegion=null;
+  init(){
+    const nodes=document.querySelectorAll("[region]");
+    let list=[];
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+     const region= node.getAttribute("region");
+     list.push(region)
+
+    }
+    console.log(...new Set(list));
+
+  }
   getNodes() {
+    this.init();
     const region = document.body.getAttribute("locked_region");
 
     if (region == "all" || !region) {

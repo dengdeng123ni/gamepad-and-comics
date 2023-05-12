@@ -26,4 +26,7 @@ export class RegisterService {
   )
   {
   }
+  // list_menu_item list_mode_item list_toolabr_item
+  // back continue detail_toolabr_item section_item
+  // reader_mode_1 reader_mode_2 reader_mode_3 reader_mode_4
 }
