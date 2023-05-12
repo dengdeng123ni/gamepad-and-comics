@@ -30,6 +30,16 @@ interface Config {
   queryStr?:string
 }
 
+interface VoiceConfig{
+  events:{
+    open?:Function,
+    close?:Function
+  },
+  keywords:Array<string>
+  key:string,
+  page:string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,6 +57,8 @@ export class GamepadEventService {
   public hoverEvents: Record<string, HoverEvents> = {};
 
   public configs: Record<string, Config> = {};
+
+  public voiceEvents: Record<string, any> = {};
 
   constructor() { }
 
@@ -107,5 +119,12 @@ export class GamepadEventService {
     this.configs[key] = config;
   }
 
+  registerVoice(config:VoiceConfig){
+    if(! this.voiceEvents[config.page]) this.voiceEvents[config.page]={};
+    this.voiceEvents[config.page][config.key] = {
+       keywords:config.keywords,
+       events:config.events
+    };
+  }
 
 }

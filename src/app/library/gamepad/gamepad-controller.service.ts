@@ -5,6 +5,7 @@ import { GamepadEventService } from './gamepad-event.service';
 import { GamepadInputService } from './gamepad-input.service';
 import { Subject } from 'rxjs';
 import { GamepadSoundService } from './gamepad-sound.service';
+import { GamepadVoiceService } from './gamepad-voice.service';
 declare const document: any;
 // Define an enum to hold the possible directions
 // Define a type for the options object passed to scrollIntoView
@@ -23,6 +24,7 @@ export class GamepadControllerService {
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
     public GamepadSound: GamepadSoundService,
+    public GamepadVoice:GamepadVoiceService,
     private router: Router
   ) {
     this.GamepadInput.down().subscribe((x: string) => {
@@ -81,6 +83,11 @@ export class GamepadControllerService {
     })
     this.GamepadEventBefore$.subscribe((x:any)=>{
       this.GamepadSound.device(x.input, x.node, x.region,x.index)
+    })
+
+    this.EegionBefore$.subscribe(x=>{
+       console.log(x);
+
     })
   }
 
@@ -202,15 +209,20 @@ export class GamepadControllerService {
     const position = node.getBoundingClientRect();
     return { id: node.getAttribute("_id"), index: 0, select: node.getAttribute("select") == "true", start: node.getAttribute("select") == "true", region: node.getAttribute("region"), position }
   }
+  oldRegion=null;
   getNodes() {
     const region = document.body.getAttribute("locked_region");
+
     if (region == "all" || !region) {
       if (!region) document.body.setAttribute("locked_region", "all");
       this.nodes = document.querySelectorAll("[region]");
     } else if (region) {
       this.nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
     }
-    this.EegionBefore$.next(region)
+    if(this.oldRegion!=region){
+       this.oldRegion=region;
+       this.EegionBefore$.next(region)
+    }
     let list = [];
     let index = 0;
     for (let node of this.nodes) {

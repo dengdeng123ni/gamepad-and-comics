@@ -83,7 +83,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     const openTargetHeight = 36;
     const x = window.innerWidth - (position.x - 15);
     const y = (position.y + (position.height / 2)) - (openTargetHeight / 2);
-    this.uploadSelect.open({ x, y });
+    this.uploadSelect.open();
   }
   editIsToggle($event){
     this.config.edit=!this.config.edit;

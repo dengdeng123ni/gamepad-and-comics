@@ -38,7 +38,8 @@
     <div class="grid" id="list"  [attr.size]="config.page.comics_item_size">
       <button class="item" mat-button *ngFor="let n of current.list;let index=index"
         [attr._id]="'list_mode_item_'+n.id" [attr.region]="'list_mode_item'"
-        [attr.select]="n.id==config.view.id" [attr.content_menu_key]="'item'" [attr.content_menu_value]="n.id"
+        [attr.select]="n.id==config.view.id" [matTooltipShowDelay]="3000"
+        [matTooltip]="n.title" [attr.content_menu_key]="'item'" [attr.content_menu_value]="n.id"
         [attr.multiple]="n.selected" (click)="on($event,n)">
         <div class="img">
           <img loading="lazy" class="w-full" [src]="n.cover.src" [alt]="n?.title">

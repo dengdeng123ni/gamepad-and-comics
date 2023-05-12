@@ -158,4 +158,6 @@ export class ThumbnailBottomComponent {
   ngOnDestroy(){
     document.querySelector("#thumbnail_image").remove();
   }
+
+
 }

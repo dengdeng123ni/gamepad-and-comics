@@ -38,7 +38,14 @@ export class ListSideComponent {
     const openTargetHeight = 36;
     const x = window.innerWidth - (position.x - 15);
     const y = (position.y + (position.height / 2)) - (openTargetHeight / 2);
-    this.uploadSelect.open({ x, y });
+    this.uploadSelect.open({
+      position:{
+        top:`${y}px`,
+        right:`${x}px`
+      },
+      panelClass:"upload_select",
+      backdropClass:"upload_select_backdrop",
+    });
   }
   editIsToggle($event) {
     this.config.edit = !this.config.edit;

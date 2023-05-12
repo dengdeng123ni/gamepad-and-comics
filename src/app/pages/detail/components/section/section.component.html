@@ -35,6 +35,8 @@
       [attr.multiple]="n.selected"
       [attr.content_menu_key]="'section_item'"
       [attr.content_menu_value]="n.id"
+      [matTooltipShowDelay]="5000"
+      [matTooltip]="n.title"
       mat-button
         *ngFor="let n of chapters">
         <div class="flex w-full">

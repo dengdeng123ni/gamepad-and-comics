@@ -22,17 +22,10 @@ export class UploadSelectService {
 
   opened: boolean = false;
 
-  open({x,y}) {
+  open(config?) {
     if (this.opened == false) {
       const isToolbar=document.body.getAttribute('isfullscreen')=='false'&&document.body.getAttribute('toolbar')=='default'||document.body.getAttribute('toolbar')=='fixed';
-      const dialogRef = this._dialog.open(UploadSelectComponent,{
-        position:{
-          top:`${y}px`,
-          right:`${x}px`
-        },
-        panelClass:"upload_select",
-        backdropClass:"upload_select_backdrop",
-      });
+      const dialogRef = this._dialog.open(UploadSelectComponent,config);
       document.body.setAttribute("locked_region","upload_select")
       dialogRef.afterClosed().subscribe(() => {
         if(document.body.getAttribute("locked_region")=="upload_select"&&this.opened) document.body.setAttribute("locked_region","all")
