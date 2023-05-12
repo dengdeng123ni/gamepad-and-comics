@@ -48,7 +48,7 @@ export class SidebarLeftComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
+  crea
   ngAfterViewInit(){
     this.change(this.chapter_index)
   }
