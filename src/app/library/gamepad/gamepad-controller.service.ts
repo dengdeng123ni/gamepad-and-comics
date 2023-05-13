@@ -86,7 +86,7 @@ export class GamepadControllerService {
     })
 
     this.EegionBefore$.subscribe(x => {
-      console.log(x);
+      // console.log(x);
 
     })
   }
@@ -217,6 +217,7 @@ export class GamepadControllerService {
       this.setDefaultRegion();
       return
     }
+
     this.nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
     if (this.oldRegion != region) {
       this.oldRegion = region;

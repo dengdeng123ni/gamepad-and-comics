@@ -30,6 +30,7 @@ export class IndexDetailComponent {
     ) {
 
     GamepadEvent.registerConfig("detail", { region: ["back","continue","detail_toolabr_item","section_item"] })
+    document.body.setAttribute("locked_region","detail")
     GamepadEvent.registerGlobalEvent({
       "LEFT_ANALOG_PRESS": () => {
         this.HandleLeftCircleToolbar.isToggle();

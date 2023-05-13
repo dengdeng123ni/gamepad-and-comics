@@ -54,6 +54,7 @@ export class IndexReaderComponent {
     ) {
 
     GamepadEvent.registerConfig("reader", { region: ["reader_mode_1","reader_mode_2","reader_mode_3","reader_mode_4"] })
+    document.body.setAttribute("locked_region","reader")
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
     this.current.mode$.subscribe(x => {

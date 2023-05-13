@@ -102,7 +102,6 @@ export class GamepadVoiceService {
     const action = this.fuzzyQuery(Object.keys(this.actions).map(x => this.actions[x]), _str)[0];
     var reg = new RegExp(action, "i");
     const newStr = _str.replace(reg, "");
-    console.log(newStr);
 
     if (!action || action && !action.length) {
       const gamepad = this.fuzzyQuery(Object.keys(this.gamepad).map(x => this.gamepad[x]), _str)[0];

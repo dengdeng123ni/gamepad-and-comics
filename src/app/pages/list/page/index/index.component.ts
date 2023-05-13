@@ -25,6 +25,7 @@ export class IndexListComponent {
   ) {
 
     GamepadEvent.registerConfig("list", { region: ["list_menu_item","list_mode_item","list_toolabr_item"] })
+    document.body.setAttribute("locked_region","list")
     // let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     // id$.subscribe(x =>{
     //   console.log(x);
