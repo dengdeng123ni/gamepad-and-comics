@@ -1,6 +1,7 @@
 body[pattern=gamepad][locked_region=list],
 body[pattern=gamepad][locked_region=detail],
-body[pattern=gamepad][locked_region=reader]{
+body[pattern=gamepad][locked_region=reader] {
+
   [region=section_item][select=true],
   [region=continue][select=true],
   [region=detail_toolabr_item][select=true],
@@ -9,276 +10,187 @@ body[pattern=gamepad][locked_region=reader]{
   [region=list_mode_item][select=true],
   [region=list_toolabr_item][select=true],
   [region=list_menu_item][select=true],
-  [region=detail_toolabr_item][select=true]
-  {
+  [region=detail_toolabr_item][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=software_information]{
-  [region=software_information][select=true]{
+
+body[pattern=gamepad][locked_region=software_information] {
+  [region=software_information][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=upload_select]{
-  [region=upload_select][select=true]{
+
+body[pattern=gamepad][locked_region=upload_select] {
+  [region=upload_select][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=language_settings]{
-  [region=language_setting][select=true]{
+
+body[pattern=gamepad][locked_region=language_settings] {
+  [region=language_setting][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=gamepad_left_circle_toolbar]{
+
+body[pattern=gamepad][locked_region=gamepad_left_circle_toolbar] {
+
   [region=handel_toolabr_left][select=true],
   [region=handel_toolabr_right][select=true],
-  [region=handel_toolabr_menu][select=true]
-  {
+  [region=handel_toolabr_menu][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 
 }
-body[pattern=gamepad][locked_region=upload_list]{
+
+body[pattern=gamepad][locked_region=upload_list] {
+
   [region=list_upload_list][select=true],
-  [region=list_upload_list_item][select=true]
-  {
+  [region=list_upload_list_item][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=section]{
-  [region=section][select=true]
-  {
+
+body[pattern=gamepad][locked_region=section] {
+  [region=section][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=thumbnail_sidebar_bottom]{
-  [region=thumbnail_sidebar_bottom][select=true]
-  {
+
+body[pattern=gamepad][locked_region=thumbnail_sidebar_bottom] {
+  [region=thumbnail_sidebar_bottom][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=thumbnail_sidebar_bottom]{
-  [region=thumbnail_sidebar_bottom][select=true]
-  {
+
+body[pattern=gamepad][locked_region=thumbnail_sidebar_bottom] {
+  [region=thumbnail_sidebar_bottom][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=mode]{
-  [region=mode][select=true]
-  {
+
+body[pattern=gamepad][locked_region=mode] {
+  [region=mode][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=thumbnail_list]{
-  [region=thumbnail_list][select=true]
-  {
+
+body[pattern=gamepad][locked_region=thumbnail_list] {
+  [region=thumbnail_list][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=reader_settings]{
-  [region=reader_settings][select=true]
-  {
+
+body[pattern=gamepad][locked_region=reader_settings] {
+  [region=reader_settings][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=thumbnail_bottom]{
-  [region=thumbnail_bottom][select=true]
-  {
+
+body[pattern=gamepad][locked_region=thumbnail_bottom] {
+  [region=thumbnail_bottom][select=true] {
     filter: brightness(0.5);
   }
 }
-body[pattern=gamepad][locked_region=reader_section]{
-  [region=reader_section][select=true]
-  {
+
+body[pattern=gamepad][locked_region=reader_section] {
+  [region=reader_section][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=thumbnail_sidebar_left]{
-  [region=thumbnail_sidebar_left][select=true]
-  {
+
+body[pattern=gamepad][locked_region=thumbnail_sidebar_left] {
+  [region=thumbnail_sidebar_left][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=content_menu]{
+
+body[pattern=gamepad][locked_region=content_menu] {
+
   [region=content_menu_submenu][select=true],
   [region=content_menu][select=true] {
 
     position: relative;
 
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
 
   }
 }
-body[pattern=gamepad][locked_region=double_page_thumbnail]{
- [region=double_page_thumbnail][select=true] {
+
+body[pattern=gamepad][locked_region=double_page_thumbnail] {
+  [region=double_page_thumbnail][select=true] {
 
     position: relative;
 
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
 
   }
 }
-body[pattern=gamepad][locked_region=detail_settings]{
+
+body[pattern=gamepad][locked_region=detail_settings] {
   [region=detail_settings][select=true] {
     position: relative;
+
     &::after {
       content: "";
       position: absolute;
@@ -292,39 +204,31 @@ body[pattern=gamepad][locked_region=detail_settings]{
     }
   }
 }
-body[pattern=gamepad][locked_region=reading_time]{
+
+body[pattern=gamepad][locked_region=reading_time] {
   [region=reading_time][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=reset_reading_progress]{
+
+body[pattern=gamepad][locked_region=reset_reading_progress] {
   [region=reset_reading_progress][select=true] {
     position: relative;
+
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=global_settings]{
+
+body[pattern=gamepad][locked_region=global_settings] {
   [region=global_settings][select=true] {
     position: relative;
+
     &::after {
       content: "";
       position: absolute;
@@ -338,27 +242,23 @@ body[pattern=gamepad][locked_region=global_settings]{
     }
   }
 }
-body[pattern=gamepad][locked_region=list_settings]{
+
+body[pattern=gamepad][locked_region=list_settings] {
 
   [region=list_settings][select=true] {
     position: relative;
 
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region=square_thumbnail]{
+
+body[pattern=gamepad][locked_region=square_thumbnail] {
 
   [region=square_thumbnail][select=true] {
     position: relative;
+
     &::after {
       content: "";
       position: absolute;
@@ -373,9 +273,10 @@ body[pattern=gamepad][locked_region=square_thumbnail]{
   }
 }
 
-body[pattern=gamepad][locked_region=export_settings]{
+body[pattern=gamepad][locked_region=export_settings] {
   [region=detail_export_settings][select=true] {
     position: relative;
+
     &::after {
       content: "";
       position: absolute;
@@ -388,6 +289,7 @@ body[pattern=gamepad][locked_region=export_settings]{
       animation-direction: alternate;
     }
   }
+
   [region=detail_export_settings_page][select=true] {
     position: relative;
 
@@ -398,71 +300,55 @@ body[pattern=gamepad][locked_region=export_settings]{
       height: 2px;
       background: rgba(255, 255, 255, 0.3411764706);
       bottom: -20%;
-      animation:slidein 2s infinite;
-      animation-direction:alternate;
+      animation: slidein 2s infinite;
+      animation-direction: alternate;
       // animation-iteration-count: infinite
     }
   }
+
   [region=detail_export_settings_file_type][select=true] {
     position: relative;
 
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
 }
-body[pattern=gamepad][locked_region='one_page_thumbnail']{
-  [region=one_page_thumbnail_toolabr][select=true]{
+
+body[pattern=gamepad][locked_region='one_page_thumbnail'] {
+  [region=one_page_thumbnail_toolabr][select=true] {
     position: relative;
 
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
-  [region=one_page_thumbnail_item][select=true]{
+
+  [region=one_page_thumbnail_item][select=true] {
     position: relative;
 
     &::after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      border: 2px solid #ffffff57;
-      border-radius: 4px;
-      top: 0;
+      @extend .default_frame;
     }
   }
-  [region=one_page_thumbnail_toolabr][select=true][type=radio]{
+
+  [region=one_page_thumbnail_toolabr][select=true][type=radio] {
     &::after {
-    content: "";
-    position: absolute;
-    width: 110%;
-    height: 165%;
-    left: 0;
-    border: 2px solid rgba(255, 255, 255, 0.3411764706);
-    border-radius: 4px;
-    top: -25%;
+      content: "";
+      position: absolute;
+      width: 110%;
+      height: 165%;
+      left: 0;
+      border: 2px solid rgba(255, 255, 255, 0.3411764706);
+      border-radius: 4px;
+      top: -25%;
     }
   }
 
 }
-body[pattern=gamepad][locked_region=reader_navbar_bar]{
-  [region=reader_navbar_bar_top_item][select=true]{
+
+body[pattern=gamepad][locked_region=reader_navbar_bar] {
+  [region=reader_navbar_bar_top_item][select=true] {
     position: relative;
 
     &::after {
@@ -476,7 +362,8 @@ body[pattern=gamepad][locked_region=reader_navbar_bar]{
       top: 0;
     }
   }
-  [region=reader_navbar_bar_buttom_item][_id=reader_navbar_bar_buttom_item_progress][select=true]{
+
+  [region=reader_navbar_bar_buttom_item][_id=reader_navbar_bar_buttom_item_progress][select=true] {
     position: relative;
 
     &::after {
@@ -490,7 +377,8 @@ body[pattern=gamepad][locked_region=reader_navbar_bar]{
       top: 0;
     }
   }
-  [region=reader_navbar_bar_buttom_item][select=true]{
+
+  [region=reader_navbar_bar_buttom_item][select=true] {
     position: relative;
 
     &::after {
@@ -516,4 +404,15 @@ body[pattern=gamepad][locked_region=reader_navbar_bar]{
     width: 100%;
     margin: 0%;
   }
+}
+
+.default_frame {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  border: 2px solid #ffffff57;
+  border-radius: 4px;
+  top: 0;
 }
