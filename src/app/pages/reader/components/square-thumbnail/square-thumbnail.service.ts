@@ -27,7 +27,7 @@ export class SquareThumbnailService {
       });
       document.body.setAttribute("locked_region", "square_thumbnail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "square_thumbnail" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "square_thumbnail" && this.opened) document.body.setAttribute("locked_region", "reader")
         this.opened = false;
       });
     }

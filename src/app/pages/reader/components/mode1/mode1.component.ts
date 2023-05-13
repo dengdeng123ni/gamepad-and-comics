@@ -25,7 +25,7 @@ export class Mode1Component {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
-    if (document.body.getAttribute("locked_region") != "all") return
+    if (document.body.getAttribute("locked_region") != "reader") return
     if (event.key == "c") this.current.switch$.next("");
     if (event.code == "ArrowUp") this.previous()
     if (event.code == "ArrowDown") this.next()

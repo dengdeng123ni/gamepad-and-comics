@@ -24,7 +24,7 @@ export class GamepadControllerService {
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
     public GamepadSound: GamepadSoundService,
-    public GamepadVoice:GamepadVoiceService,
+    public GamepadVoice: GamepadVoiceService,
     private router: Router
   ) {
     this.GamepadInput.down().subscribe((x: string) => {
@@ -81,12 +81,12 @@ export class GamepadControllerService {
         this.setMoveTargetLast();
       },
     })
-    this.GamepadEventBefore$.subscribe((x:any)=>{
-      this.GamepadSound.device(x.input, x.node, x.region,x.index)
+    this.GamepadEventBefore$.subscribe((x: any) => {
+      this.GamepadSound.device(x.input, x.node, x.region, x.index)
     })
 
-    this.EegionBefore$.subscribe(x=>{
-       console.log(x);
+    this.EegionBefore$.subscribe(x => {
+      console.log(x);
 
     })
   }
@@ -109,7 +109,7 @@ export class GamepadControllerService {
     if (input === "Y") this.Y = true;
     this.getCurrentTarget();
 
-    this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region,index:this.current.index });
+    this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
     const region = this.current.region;
     if (this.Y) {
       if (this.GamepadEvent.areaEventsY[region]?.[input]) {
@@ -209,32 +209,18 @@ export class GamepadControllerService {
     const position = node.getBoundingClientRect();
     return { id: node.getAttribute("_id"), index: 0, select: node.getAttribute("select") == "true", start: node.getAttribute("select") == "true", region: node.getAttribute("region"), position }
   }
-  oldRegion=null;
-  init(){
-    const nodes=document.querySelectorAll("[region]");
-    let list=[];
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
-     const region= node.getAttribute("region");
-     list.push(region)
+  oldRegion = null;
 
-    }
-    console.log(...new Set(list));
-
-  }
   getNodes() {
-    this.init();
     const region = document.body.getAttribute("locked_region");
-
-    if (region == "all" || !region) {
-      if (!region) document.body.setAttribute("locked_region", "all");
-      this.nodes = document.querySelectorAll("[region]");
-    } else if (region) {
-      this.nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
+    if(!region) {
+      this.setDefaultRegion();
+      return
     }
-    if(this.oldRegion!=region){
-       this.oldRegion=region;
-       this.EegionBefore$.next(region)
+    this.nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
+    if (this.oldRegion != region) {
+      this.oldRegion = region;
+      this.EegionBefore$.next(region)
     }
     let list = [];
     let index = 0;
@@ -244,8 +230,28 @@ export class GamepadControllerService {
       index++;
     }
     this.list = list;
-
   }
+
+  setDefaultRegion() {
+    const router = document.body.getAttribute("router");
+    if (router) {
+      document.body.setAttribute("locked_region", router);
+    } else {
+      if (this.router.url.split("/")[1] == "") {
+        document.body.setAttribute("router", "list")
+        document.body.setAttribute("locked_region", "list")
+      }
+      if (this.router.url.split("/")[1] == "reader") {
+        document.body.setAttribute("router", "reader")
+        document.body.setAttribute("locked_region", "list")
+      }
+      if (this.router.url.split("/")[1] == "detail") {
+        document.body.setAttribute("router", "detail")
+        document.body.setAttribute("locked_region", "list")
+      }
+    }
+  }
+
   getCurrentNode = () => {
     let current = null;
     current = this.list.find(x => x.select == true);
@@ -258,7 +264,7 @@ export class GamepadControllerService {
     this.current = this.list.find(x => x.select == true);
     if (!this.current) this.current = this.list.find(x => x.start == true);
     if (!this.current) this.current = this.list[0];
-    if (!this.current) { document.body.setAttribute("locked_region", "all"); this.getNodes(); this.getCurrentTarget(); }
+    if (!this.current) { this.setDefaultRegion(); this.getNodes(); this.getCurrentTarget(); }
   }
 
   getMoveTarget(direction) {

@@ -25,7 +25,7 @@ export class ReaderSettingsService {
       const dialogRef = this._dialog.open(ReaderSettingsComponent,config);
       document.body.setAttribute("locked_region","reader_settings")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="reader_settings"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="reader_settings"&&this.opened) document.body.setAttribute("locked_region","reader")
         this.opened = false;
       });
       this.opened=true;
@@ -47,7 +47,7 @@ export class ReaderSettingsService {
         const sheetRef = this._sheet.open(ReaderSettingsComponent,{});
         document.body.setAttribute("locked_region", "reader_settings")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "reader_settings" && this.opened) document.body.setAttribute("locked_region", "all")
+          if (document.body.getAttribute("locked_region") == "reader_settings" && this.opened) document.body.setAttribute("locked_region", "reader")
           this.opened = false;
         });
       }

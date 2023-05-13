@@ -34,7 +34,7 @@ export class ReaderAutoSettingsService {
       const dialogRef = this._dialog.open(ReaderAutoSettingsComponent,config);
       document.body.setAttribute("locked_region","detail_settings")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="detail_settings"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="detail_settings"&&this.opened) document.body.setAttribute("locked_region","reader")
         this.opened = false;
       });
       this.opened=true;

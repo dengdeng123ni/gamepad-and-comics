@@ -66,7 +66,7 @@ export class LoadingService {
       });
       document.body.setAttribute("locked_region","loading")
       this.dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="loading") document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="loading") document.body.setAttribute("locked_region","detail")
         document.querySelector('body').setAttribute('locked_region', this.handleRegion);
         this.opened = false;
       });

@@ -24,7 +24,7 @@ export class Mode4Component {
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
-    if (document.body.getAttribute("locked_region") != "all") return
+    if (document.body.getAttribute("locked_region") != "reader") return
     if (event.code == "ArrowUp") this.previous()
     if (event.code == "ArrowDown") this.next()
     if (event.code == "ArrowRight") this.next()

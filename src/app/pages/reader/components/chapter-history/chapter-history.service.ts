@@ -25,7 +25,7 @@ export class ChapterHistoryService {
       });
       document.body.setAttribute("locked_region","reading_time")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="reading_time"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="reading_time"&&this.opened) document.body.setAttribute("locked_region","reader")
         this.opened = false;
       });
       this.opened=true;

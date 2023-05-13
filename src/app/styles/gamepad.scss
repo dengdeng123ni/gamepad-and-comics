@@ -1,4 +1,6 @@
-body[pattern=gamepad][locked_region=all]{
+body[pattern=gamepad][locked_region=list],
+body[pattern=gamepad][locked_region=detail],
+body[pattern=gamepad][locked_region=reader]{
   [region=section_item][select=true],
   [region=continue][select=true],
   [region=detail_toolabr_item][select=true],

@@ -33,7 +33,7 @@ export class UploadListService {
       });
       document.body.setAttribute("locked_region","upload_list")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="upload_list"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="upload_list"&&this.opened) document.body.setAttribute("locked_region","list")
         this.opened = false;
       });
       this.opened=true;

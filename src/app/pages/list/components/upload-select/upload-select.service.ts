@@ -28,7 +28,7 @@ export class UploadSelectService {
       const dialogRef = this._dialog.open(UploadSelectComponent,config);
       document.body.setAttribute("locked_region","upload_select")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="upload_select"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="upload_select"&&this.opened) document.body.setAttribute("locked_region","list")
         this.opened = false;
       });
       this.opened=true;

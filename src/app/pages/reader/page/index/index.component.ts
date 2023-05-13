@@ -52,6 +52,8 @@ export class IndexReaderComponent {
       public prompt: PromptService,
       public chapterHistory: ChapterHistoryService
     ) {
+
+    GamepadEvent.registerConfig("reader", { region: ["reader_mode_1","reader_mode_2","reader_mode_3","reader_mode_4"] })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))
     this.current.mode$.subscribe(x => {

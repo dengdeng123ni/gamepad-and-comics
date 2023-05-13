@@ -30,7 +30,7 @@ export class DoublePageThumbnailService {
       });
       document.body.setAttribute("locked_region", "double_page_thumbnail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "double_page_thumbnail" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "double_page_thumbnail" && this.opened) document.body.setAttribute("locked_region", "detail")
         this.opened = false;
       });
     }

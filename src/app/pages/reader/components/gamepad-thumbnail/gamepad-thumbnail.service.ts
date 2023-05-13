@@ -20,7 +20,7 @@ export class GamepadThumbnailService {
       });
       document.body.setAttribute("locked_region", "gamepad_thumbnail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "gamepad_thumbnail" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "gamepad_thumbnail" && this.opened) document.body.setAttribute("locked_region", "reader")
         this.opened = false;
       });
     }

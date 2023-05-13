@@ -27,7 +27,7 @@ export class SponsorQrcodeService {
       });
       document.body.setAttribute("locked_region", `sponsor_qrcode`)
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region")=="sponsor_qrcode" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region")=="sponsor_qrcode" && this.opened) document.body.setAttribute("locked_region", "list")
         this.opened = false;
       });
       this.opened = true;

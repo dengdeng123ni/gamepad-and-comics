@@ -40,7 +40,7 @@ export class SidebarLeftService {
     document.body.setAttribute("locked_region", "thumbnail_sidebar_left")
   }
   close() {
-    if(document.body.getAttribute("locked_region")=="thumbnail_sidebar_left"&&this.opened) document.body.setAttribute("locked_region","all")
+    if(document.body.getAttribute("locked_region")=="thumbnail_sidebar_left"&&this.opened) document.body.setAttribute("locked_region","reader")
     this.opened = false;
   }
   isToggle = () => {

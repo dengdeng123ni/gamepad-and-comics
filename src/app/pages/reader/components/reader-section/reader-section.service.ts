@@ -46,7 +46,7 @@ export class ReaderSectionService {
       });
       document.body.setAttribute("locked_region", "reader_section")
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region", "reader")
         this.opened = false;
       });
       this.opened = true;
@@ -68,7 +68,7 @@ export class ReaderSectionService {
         });
         document.body.setAttribute("locked_region", "reader_section")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region", "all")
+          if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region", "reader")
           this.opened = false;
         });
       }

@@ -24,7 +24,7 @@ export class ThumbnailBottomService {
         const sheetRef = this._sheet.open(ThumbnailBottomComponent, {backdropClass:"sheet_bg_transparent", panelClass: "_thumbnail_bottom"});
         document.body.setAttribute("locked_region", "thumbnail_bottom")
         sheetRef.afterDismissed().subscribe(() => {
-          if(document.body.getAttribute("locked_region")=="thumbnail_bottom"&&this.opened) document.body.setAttribute("locked_region","all")
+          if(document.body.getAttribute("locked_region")=="thumbnail_bottom"&&this.opened) document.body.setAttribute("locked_region","reader")
           this.opened = false;
         });
       }

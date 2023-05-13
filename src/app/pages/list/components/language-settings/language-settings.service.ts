@@ -26,7 +26,7 @@ export class LanguageSettingsService {
       });
       document.body.setAttribute("locked_region", `language_settings`)
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region") == "language_settings" && this.opened) document.body.setAttribute("locked_region", "all")
+        if (document.body.getAttribute("locked_region") == "language_settings" && this.opened) document.body.setAttribute("locked_region", "list")
         this.opened = false;
       });
       this.opened = true;

@@ -60,7 +60,7 @@ export class ReaderAutoComponent {
       if (!this.isExist) return
       this.cycle();
       if (this.isPause) return
-      if (document.body.getAttribute("locked_region") != "all") return
+      if (document.body.getAttribute("locked_region") != "reader") return
       this.time++;
       this.progress = (Math.round(this.time / this.duration * 10000) / 100.00);
       if (this.progress == 100) this.end()

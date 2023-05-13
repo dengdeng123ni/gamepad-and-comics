@@ -34,7 +34,7 @@ export class DetailSettingsService {
       const dialogRef = this._dialog.open(DetailSettingsComponent,config);
       document.body.setAttribute("locked_region","detail_settings")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="detail_settings"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="detail_settings"&&this.opened) document.body.setAttribute("locked_region","detail")
         this.opened = false;
       });
       this.opened=true;

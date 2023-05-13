@@ -24,7 +24,7 @@ export class ResetReadingProgressService {
       });
       document.body.setAttribute("locked_region","reset_reading_progress")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="reset_reading_progress"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="reset_reading_progress"&&this.opened) document.body.setAttribute("locked_region","detail")
         this.opened = false;
       });
       this.opened=true;

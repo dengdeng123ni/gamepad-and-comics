@@ -24,7 +24,7 @@ export class SlideBottomService {
         const sheetRef = this._sheet.open(SlideBottomComponent, {backdropClass:"sheet_bg_transparent",panelClass: "_side_bottom"});
         document.body.setAttribute("locked_region", "thumbnail_sidebar_bottom")
         sheetRef.afterDismissed().subscribe(() => {
-          if(document.body.getAttribute("locked_region")=="thumbnail_sidebar_bottom"&&this.opened) document.body.setAttribute("locked_region","all")
+          if(document.body.getAttribute("locked_region")=="thumbnail_sidebar_bottom"&&this.opened) document.body.setAttribute("locked_region","reader")
           this.opened = false;
         });
       }

@@ -35,7 +35,7 @@ export class SectionService {
         });
         document.body.setAttribute("locked_region", "section")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "section" && this.opened) document.body.setAttribute("locked_region", "all")
+          if (document.body.getAttribute("locked_region") == "section" && this.opened) document.body.setAttribute("locked_region", "reader")
           this.opened = false;
         });
       }

@@ -35,7 +35,7 @@ export class GlobalSettingsService {
       const dialogRef = this._dialog.open(GlobalSettingsComponent,config);
       document.body.setAttribute("locked_region","global_settings")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="global_settings"&&this.opened) document.body.setAttribute("locked_region","all")
+        if(document.body.getAttribute("locked_region")=="global_settings"&&this.opened) document.body.setAttribute("locked_region","list")
         this.opened = false;
       });
       this.opened=true;
