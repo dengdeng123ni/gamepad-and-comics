@@ -12,22 +12,9 @@ export class PdfService {
     page = "double",
     pageOrder = false
   }) {
-    const createImage = (src) => {
-      if (!src) {
-        return {
-          width: 0,
-          height: 0
-        }
-      }
-      return new Promise((r, j) => {
-        var img = new Image();
-        img.setAttribute('crossorigin', 'anonymous');
-        img.src = src;
-        img.onload = function () {
-          r(img)
-          j(img)
-        };
-      })
+    const createImage = async (imageUrl) => {
+      if (!imageUrl) return { width: 0, height: 0 }
+      return await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
     }
     const compressImage = async (src) => {
       if (!src) {

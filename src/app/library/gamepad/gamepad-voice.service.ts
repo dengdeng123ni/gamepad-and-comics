@@ -39,7 +39,7 @@ export class GamepadVoiceService {
 
     // 动作 目标
     setTimeout(() => {
-      this.init("上一章");
+      // this.init("上一章");
       // this.init("打开短篇集")
 
     }, 1000)

@@ -54,24 +54,8 @@ export class GeneralService {
     await this.current.deletePage(comicsId, chapterId, image1Id);
     await this.current.deletePage(comicsId, chapterId, image2Id);
   }
-  createImage(src): any {
-    if (!src) {
-      return {
-        width: 0,
-        height: 0
-      }
-    }
-    return new Promise((r, j) => {
-      var img = new Image();
-      img.setAttribute('crossorigin', 'anonymous');
-      img.src = src;
-      img.onload = function () {
-        r(img)
-        j(img)
-      };
-    })
-  }
 
+  createImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
   getPreviousChapterId(id: number) {
     const chapters = this.current.comics.chapters;
     const chaptersIndex = chapters.findIndex(x => x.id == id);

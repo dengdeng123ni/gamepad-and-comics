@@ -331,15 +331,7 @@ export class CurrentReaderService {
     this.db.update('state', state).subscribe()
   }
   async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {
-    const loadImage = (src): Promise<HTMLImageElement> => {
-      return new Promise((r, j) => {
-        var img = new Image();
-        img.setAttribute('crossorigin', 'anonymous');
-        img.src = src;
-        img.onload = () => r(img)
-        img.onerror = () => j({ width: 0, height: 0 });
-      })
-    }
+    const loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
     const getImageBase64 = async (src) => {
       const image1 = await loadImage(src);
       let canvas = document.createElement('canvas');
@@ -476,16 +468,7 @@ export class CurrentReaderService {
     await update(x)
   }
   async createSmailImage(id) {
-    const loadImage = async (src): Promise<HTMLImageElement> => {
-      return new Promise((r, j) => {
-        var img = new Image();
-        img.src = src;
-        img.onload = function () {
-          r(img)
-          j(img)
-        };
-      })
-    }
+    const loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
     const chapters = this.comics.chapters;
     const chaptersIndex = chapters.findIndex(x => x.id == this.comics.chapter.id);
 
@@ -504,9 +487,9 @@ export class CurrentReaderService {
     //   return { small:imageSrc, width:img.width, height:img.height }
     // }
     const createSmailImage = async (href, id) => {
-      const img = await loadImage(href);
       const req = await fetch(href);
       const blob = await req.blob();
+      const img = await createImageBitmap(blob)
       const thumbnailBlob = await compressAccurately(blob, { size: 50, accuracy: 0.9, width: 200, orientation: 1, scale: 0.5, })
       const formData = new FormData();
       formData.append('file', thumbnailBlob);

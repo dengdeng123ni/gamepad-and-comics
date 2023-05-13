@@ -390,14 +390,7 @@ export class ImagesService {
     }
     return list
   }
-  loadImage = async (src): Promise<HTMLImageElement> => {
-    return new Promise((r, j) => {
-      var img = new Image();
-      img.src = src;
-      img.onload = () => r(img);
-      img.onerror = () => j(img);
-    })
-  }
+  loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
   async loadImages(list: Array<string>) {
     let arr = [];
     for (let i = 0; i < list.length; i++) {

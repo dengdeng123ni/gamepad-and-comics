@@ -243,21 +243,7 @@ export class PptService {
       return null
     }
   }
-  createImage(src): any {
-    if (!src) {
-      return {
-        width: 0,
-        height: 0
-      }
-    }
-    return new Promise((r, j) => {
-      var img = new Image();
-      img.setAttribute('crossorigin', 'anonymous');
-      img.src = src;
-      img.onload = function () {
-        r(img)
-        j(img)
-      };
-    })
+  createImage = async (imageUrl) => {
+    return await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
   }
 }

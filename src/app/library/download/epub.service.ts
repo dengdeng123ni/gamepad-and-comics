@@ -764,22 +764,10 @@ export class EpubService {
     }
     return arr
   }
-  createImage = (src) => {
-    return new Promise((r, j) => {
-      if (!src) {
-        j({
-          width: 0,
-          height: 0
-        })
-      }
-      var img = new Image();
-      img.setAttribute('crossorigin', 'anonymous');
-      img.src = src;
-      img.onload = function () {
-        r(img)
-        j(img)
-      };
-    })
+
+  createImage = async (imageUrl) => {
+    if (!imageUrl) return { width: 0, height: 0 }
+    return await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
   }
 
 }

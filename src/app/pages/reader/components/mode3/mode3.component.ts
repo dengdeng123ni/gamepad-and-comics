@@ -136,18 +136,7 @@ export class Mode3Component {
     this.init(this.images[this.index].id)
   }
 
-  loadImage = (url: string) => {
-    return new Promise<any>((resolve, reject) => {
-      if (url) {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.onerror = () => reject({ width: 0, height: 0 });
-        img.src = url;
-      } else {
-        resolve({ width: 0, height: 0 });
-      }
-    });
-  }
+  loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
   async init(id) {
     const container = document.getElementById("mode3")
     let list = [];

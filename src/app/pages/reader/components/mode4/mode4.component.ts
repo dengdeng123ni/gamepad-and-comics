@@ -394,18 +394,7 @@ export class Mode4Component {
     return res.previous
   }
 
-  loadImage = (url: string) => {
-    return new Promise<any>((resolve, reject) => {
-      if (url) {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.onerror = () => reject({ width: 0, height: 0 });
-        img.src = url;
-      } else {
-        resolve({ width: 0, height: 0 });
-      }
-    });
-  }
+  loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
 
   isWideImage = async (primary: any, secondary: any) => {
     try {

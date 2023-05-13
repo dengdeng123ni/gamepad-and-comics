@@ -18,23 +18,7 @@ export class ImportPdfService {
 
     return new Promise((r, j) => {
 
-      const createImage = (src) => {
-        if (!src) {
-          return {
-            width: 0,
-            height: 0
-          }
-        }
-        return new Promise((r, j) => {
-          var img = new Image();
-          img.setAttribute('crossorigin', 'anonymous');
-          img.src = src;
-          img.onload = function () {
-            r(img)
-            j(img)
-          };
-        })
-      }
+      const createImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
       const compressImage = async (src) => {
         if (!src) {
           return {

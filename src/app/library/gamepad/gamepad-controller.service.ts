@@ -258,6 +258,7 @@ export class GamepadControllerService {
     current = this.list.find(x => x.select == true);
     if (!current) current = this.list.find(x => x.start == true);
     if (!current) current = this.list[0];
+   if(!current) return
     return this.nodes[current.index]
   };
   getCurrentTarget() {

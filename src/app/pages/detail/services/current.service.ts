@@ -213,14 +213,8 @@ export class CurrentDetailService {
   }
 
   async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {
-    const loadImage = (src): Promise<HTMLImageElement> => {
-      return new Promise((r, j) => {
-        var img = new Image();
-        img.setAttribute('crossorigin', 'anonymous');
-        img.src = src;
-        img.onload = () => r(img)
-        img.onerror = () => j({ width: 0, height: 0 });
-      })
+    const loadImage = async (imageUrl) => {
+      return await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
     }
     const getImageBase64 = async (src) => {
       const image1 = await loadImage(src);
@@ -359,16 +353,7 @@ export class CurrentDetailService {
     if (x.chapters[index].images.length == 0) await this.deleteChapter([x.chapters[index].id])
   }
   async createSmailImage(id) {
-    const loadImage = async (src): Promise<HTMLImageElement> => {
-      return new Promise((r, j) => {
-        var img = new Image();
-        img.src = src;
-        img.onload = function () {
-          r(img)
-          j(img)
-        };
-      })
-    }
+    const loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
 
     // const createSmailImage = async (href, id) => {
     //   const img = await loadImage(href);
