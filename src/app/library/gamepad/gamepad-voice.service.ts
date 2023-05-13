@@ -10,6 +10,8 @@ export class GamepadVoiceService {
     open: "打开",
     click: "点击",
     close: "关闭",
+    exit:"退出",
+    full:"全屏"
   }
   gamepad = {
     UP: '上',
@@ -34,17 +36,17 @@ export class GamepadVoiceService {
     public GamepadEvent: GamepadEventService,
     public GamepadInput: GamepadInputService
   ) {
-    const res = this.fuzzyQuery(['打开', '点击'], '打开设置');
     // open click
 
     // 动作 目标
     setTimeout(() => {
-      // this.init("上一章");
-      // this.init("打开短篇集")
+      // this.init("下一页");
+      // this.init("短篇集")
 
-    }, 1000)
+    }, 2000)
 
     setTimeout(() => {
+      // this.init("下一页");
       // this.init("关闭");
       // this.init("点击第11话")
     }, 2000)
@@ -97,21 +99,40 @@ export class GamepadVoiceService {
     return z / s * 2;
   }
   init(_str: string) {
-    const router = document.body.getAttribute("router");
-
+    const region = document.body.getAttribute("locked_region");
+    const str = this.GamepadEvent.configs[region].region.map(x => `[region=${x}][ng-reflect-message]`).toString();
+    const nodes = document.querySelectorAll(str)
     const action = this.fuzzyQuery(Object.keys(this.actions).map(x => this.actions[x]), _str)[0];
     var reg = new RegExp(action, "i");
     const newStr = _str.replace(reg, "");
 
     if (!action || action && !action.length) {
-      const gamepad = this.fuzzyQuery(Object.keys(this.gamepad).map(x => this.gamepad[x]), _str)[0];
-      console.log(gamepad);
+      let list = [];
+      Object.keys(this.GamepadEvent.voiceEvents).forEach(x => {
+        Object.keys(this.GamepadEvent.voiceEvents[x]).forEach(c => {
+          this.GamepadEvent.voiceEvents[x][c].keywords.forEach(f => {
+            list.push({ keyword: f, event: this.GamepadEvent.voiceEvents[x][c].event, region: x, key: c })
+          })
+        })
+      })
+      for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        const similarity = this.strSimilarity2Percent(_str, item.keyword.replace(/ /g, ""))
+        list[i].index=i;
+        list[i].similarity=similarity;
+      }
+      list.sort((a, b) => b.similarity - a.similarity)
+      if (list[0]&&list[0].similarity != 0) {
+        list[0].event();
+        return
+      }
 
-      if(gamepad){
+      const gamepad = this.fuzzyQuery(Object.keys(this.gamepad).map(x => this.gamepad[x]), _str)[0];
+
+      if (gamepad) {
         const gamepadKey = Object.keys(this.gamepad).filter(x => this.gamepad[x] == gamepad)[0];
         this.GamepadInput.down$.next(gamepadKey)
-      }else{
-        const nodes = document.querySelectorAll("[ng-reflect-message]")
+      } else {
         let list = [];
         for (let i = 0; i < nodes.length; i++) {
           const node = nodes[i];
@@ -124,19 +145,14 @@ export class GamepadVoiceService {
           })
         }
         list.sort((a, b) => b.similarity - a.similarity)
-        console.log(list);
-
-        if (list[0].similarity < 0.5) return
+        if (!list[0]||list[0]&&list[0].similarity < 0.01) return
         const node = nodes[list[0].index];
-        console.log(node);
-
         (node as any).click();
       }
     }
     else {
       const actionKey = Object.keys(this.actions).filter(x => this.actions[x] == action)[0];
       if (actionKey == 'open') {
-        const nodes = document.querySelectorAll("[ng-reflect-message]")
         let list = [];
         for (let i = 0; i < nodes.length; i++) {
           const node = nodes[i];
@@ -156,7 +172,6 @@ export class GamepadVoiceService {
         (node as any).click();
       };
       if (actionKey == 'click') {
-        const nodes = document.querySelectorAll("[ng-reflect-message]")
         let list = [];
         for (let i = 0; i < nodes.length; i++) {
           const node = nodes[i];
@@ -178,8 +193,20 @@ export class GamepadVoiceService {
         const node = nodes[list[0].index];
         (node as any).click();
       };
-      if (actionKey == "close") {
+      if (actionKey == "close" ||actionKey == "exit") {
         this.close();
+      };
+      if (actionKey == "full") {
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        }
+        if (!document.fullscreenElement) {
+          if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+          }
+        }
       };
     }
 

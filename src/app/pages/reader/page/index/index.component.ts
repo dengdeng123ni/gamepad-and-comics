@@ -1,5 +1,5 @@
 import { Component, HostListener, NgZone } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { ContextMenuEventService, GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
 import { DoublePageThumbnailService } from '../../components/double-page-thumbnail/double-page-thumbnail.service';
@@ -19,6 +19,7 @@ import { PromptService } from '../../services/prompt.service';
 import { ReaderAutoService } from '../../components/reader-auto/reader-auto.service';
 import { SquareThumbnailService } from '../../components/square-thumbnail/square-thumbnail.service';
 import { ChapterHistoryService } from '../../components/chapter-history/chapter-history.service';
+import { RegisterService } from '../../services/register.service';
 
 @Component({
   selector: 'app-reader-index',
@@ -33,6 +34,7 @@ export class IndexReaderComponent {
       public config: ConfigReaderService,
       private zone: NgZone,
       private route: ActivatedRoute,
+      public router:Router,
       public thumbnail: ThumbnailService,
       public slideBottom: SlideBottomService,
       public left: SidebarLeftService,
@@ -50,10 +52,28 @@ export class IndexReaderComponent {
       public doublePageThumbnail: DoublePageThumbnailService,
       public readerAuto: ReaderAutoService,
       public prompt: PromptService,
-      public chapterHistory: ChapterHistoryService
+      public chapterHistory: ChapterHistoryService,
+      public register:RegisterService
     ) {
 
     GamepadEvent.registerConfig("reader", { region: ["reader_mode_1","reader_mode_2","reader_mode_3","reader_mode_4"] })
+
+    GamepadEvent.registerVoice({ region:"reader", key:"back_index", keywords:["返回首页"], event:()=> router.navigate(['/'])})
+
+    GamepadEvent.registerVoice({ region:"reader", key:"back_index", keywords:["设置"], event:()=> readerSettings.open()})
+
+    GamepadEvent.registerVoice({ region:"reader", key:"previous_page", keywords:["上一页"], event:()=>current.previousPage$.next(true)})
+    GamepadEvent.registerVoice({ region:"reader", key:"next_page", keywords:["下一页"], event:()=>current.nextPage$.next(true)})
+
+    GamepadEvent.registerVoice({ region:"reader", key:"previous_seciton", keywords:["上一章"], event:()=>current.previous()})
+    GamepadEvent.registerVoice({ region:"reader", key:"next_section", keywords:["下一章"], event:()=> current.next()})
+
+
+    GamepadEvent.registerVoice({ region:"reader", key:"all_section", keywords:["全部章节"], event:()=>section.open()})
+    GamepadEvent.registerVoice({ region:"reader", key:"double_page_thumbnail", keywords:["缩略图"], event:()=>doublePageThumbnail.open({ id: this.current.comics.chapter.id, index: this.current.comics.chapter.index }) })
+
+
+
     document.body.setAttribute("locked_region","reader")
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     id$.subscribe(x => this.current.init(x))

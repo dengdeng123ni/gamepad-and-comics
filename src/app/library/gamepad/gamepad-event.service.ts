@@ -31,13 +31,10 @@ interface Config {
 }
 
 interface VoiceConfig{
-  events:{
-    open?:Function,
-    close?:Function
-  },
+  event:Function,
   keywords:Array<string>
   key:string,
-  page:string
+  region:string
 }
 
 @Injectable({
@@ -120,10 +117,10 @@ export class GamepadEventService {
   }
 
   registerVoice(config:VoiceConfig){
-    if(! this.voiceEvents[config.page]) this.voiceEvents[config.page]={};
-    this.voiceEvents[config.page][config.key] = {
+    if(! this.voiceEvents[config.region]) this.voiceEvents[config.region]={};
+    this.voiceEvents[config.region][config.key] = {
        keywords:config.keywords,
-       events:config.events
+       event:config.event
     };
   }
 

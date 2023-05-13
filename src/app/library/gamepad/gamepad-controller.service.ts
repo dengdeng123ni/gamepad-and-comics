@@ -27,6 +27,14 @@ export class GamepadControllerService {
     public GamepadVoice: GamepadVoiceService,
     private router: Router
   ) {
+    // let timer = null;
+    // document.addEventListener("mousemove", () => {
+    //   clearTimeout(timer);
+    //   document.body.style.cursor = "default";
+    //   timer = setTimeout(() => {
+    //     document.body.style.cursor = "none";
+    //   }, 3000);
+    // });
     this.GamepadInput.down().subscribe((x: string) => {
       document.body.setAttribute("pattern", "gamepad")
       this.device(x);

@@ -15,8 +15,9 @@ export class AppComponent {
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
-    public router:Router
+    public router: Router
   ) {
+
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         if (event.url.split("/")[1] == "") {
@@ -47,7 +48,7 @@ export class AppComponent {
       // var utterance = new SpeechSynthesisUtterance("Now!");
       // speechSynthesis.speak(utterance);
     }, 1000)
-    const recognition$=new Subject();
+    const recognition$ = new Subject();
     const recognition = new webkitSpeechRecognition();
     console.log(recognition);
 
@@ -64,7 +65,7 @@ export class AppComponent {
     recognition.onend = (event) => {
 
     };
-    recognition$.subscribe(x=>{
+    recognition$.subscribe(x => {
       console.log(x);
 
     })
@@ -118,5 +119,6 @@ export class AppComponent {
       type: mime
     });
   }
+
 }
 

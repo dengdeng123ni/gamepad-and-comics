@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { DownloadService, I18nService } from 'src/app/library/public-api';
+import { DownloadService, GamepadEventService, I18nService } from 'src/app/library/public-api';
 import { ConfigReaderService } from '../../services/config.service';
 import { CurrentReaderService } from '../../services/current.service';
 import { GeneralService } from '../../services/general.service';
@@ -14,7 +14,7 @@ import { SquareThumbnailService } from '../square-thumbnail/square-thumbnail.ser
   styleUrls: ['./reader-toolbar.component.scss']
 })
 export class ReaderToolbarComponent {
-  isfullscreen =!!document.fullscreenElement;
+  isfullscreen = !!document.fullscreenElement;
   isMobile = (navigator as any).userAgentData.mobile;
 
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
@@ -23,12 +23,23 @@ export class ReaderToolbarComponent {
     public config: ConfigReaderService,
     public download: DownloadService,
     public i18n: I18nService,
-    public general:GeneralService,
-    public section:SectionService,
-    public doublePageThumbnail:DoublePageThumbnailService,
-    public SquareThumbnail:SquareThumbnailService
+    public general: GeneralService,
+    public section: SectionService,
+    public doublePageThumbnail: DoublePageThumbnailService,
+    public SquareThumbnail: SquareThumbnailService,
+    public GamepadEvent: GamepadEventService
   ) {
 
+    GamepadEvent.registerVoice({ region: "reader", key: "back", keywords: ["返回"], event: () => this.back() })
+    GamepadEvent.registerVoice({ region: "reader", key: "first_page_cover", keywords: ["第一页封面"], event: () => this.firstPageCoverChange() })
+    GamepadEvent.registerVoice({ region: "reader", key: "reader_mode", keywords: ["阅读模式"], event: () => this.modeChange() })
+
+    GamepadEvent.registerVoice({ region: "reader", key: "rotation", keywords: ["旋转"], event: () => this.imageRotation() })
+    GamepadEvent.registerVoice({ region: "reader", key: "separate_page", keywords: ["分页"], event: () => this.separatePage() })
+    GamepadEvent.registerVoice({ region: "reader", key: "merge_page", keywords: ["合页"], event: () => this.mergePage() })
+    GamepadEvent.registerVoice({ region: "reader", key: "insert_page", keywords: ["插页"], event: () => this.insertPage() })
+    // GamepadEvent.registerVoice({ region: "reader", key: "back", keywords: ["删除"], event: () => this.back() })
+    GamepadEvent.registerVoice({ region: "reader", key: "change_spread_match", keywords: ["更改跨页匹配"], event: () => this.changeSpreadMatch() })
   }
   menuObj = {
     list: [],
@@ -50,7 +61,7 @@ export class ReaderToolbarComponent {
       if (document.exitFullscreen) {
         document.exitFullscreen();
       }
-    }else{
+    } else {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
       }
@@ -61,8 +72,8 @@ export class ReaderToolbarComponent {
     if (this.current.comics.chapter.index == 0) {
       this.changeSpreadMatch();
       this.changeSpreadMatch();
-    }else{
-      this.current.update_state(this.current.comics.chapter,this.current.comics.chapter.index)
+    } else {
+      this.current.update_state(this.current.comics.chapter, this.current.comics.chapter.index)
     }
 
   }
@@ -94,7 +105,7 @@ export class ReaderToolbarComponent {
     this.menuObj.list = this.current.comics.chapters;
     const p = $event.target.getBoundingClientRect();
     let node = (document.getElementById(`reader_toolbar_menu`) as any);
-    node.style.top = `${this.menuObj.list.length<3?p.top:p.bottom}px`;
+    node.style.top = `${this.menuObj.list.length < 3 ? p.top : p.bottom}px`;
     node.style.left = `${p.x + p.width + 4}px`;
 
     setTimeout(() => this.menu.openMenu(), 0)
@@ -183,22 +194,20 @@ export class ReaderToolbarComponent {
   }
   async separatePage() {
     const nodes: any = document.querySelectorAll("[currentimage]")
-    if(nodes.length==1)
-    {
+    if (nodes.length == 1) {
       const image1Id = parseInt(nodes[0].getAttribute("id"));
-      this.general.separatePage({ id:image1Id, src:nodes[0].src })
+      this.general.separatePage({ id: image1Id, src: nodes[0].src })
       this.current.pageChange(this.current.comics.chapter.index)
     }
   }
   async mergePage() {
     const nodes: any = document.querySelectorAll("[currentimage]")
-    if(nodes.length==2)
-    {
+    if (nodes.length == 2) {
       const image1Id = parseInt(nodes[0].getAttribute("id"));
       const image2Id = parseInt(nodes[1].getAttribute("id"));
-      this.general.mergePage({ id:image1Id, src:nodes[0].src,id2:image2Id,src2:nodes[1].src })
+      this.general.mergePage({ id: image1Id, src: nodes[0].src, id2: image2Id, src2: nodes[1].src })
       this.current.pageChange(this.current.comics.chapter.index)
     }
   }
-  createImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
+  createImage = async (imageUrl): Promise<ImageBitmap> => await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
 }
