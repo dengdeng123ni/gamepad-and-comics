@@ -69,6 +69,13 @@ export class AppComponent {
       console.log(x);
 
     })
+    const aa=["你好","你好设置","你好设置玩家","你好设置玩家,游戏","你好设置玩家,游戏继续","你好设置玩家,游戏继续吗"];
+    for (let i = 0; i < aa.length; i++) {
+      setTimeout(()=>{
+        this.text = aa[i];
+      },300*i)
+
+    }
     // recognition$.pipe(debounceTime(100)).subscribe(x=>{
     //   console.log(x);
 
@@ -76,6 +83,7 @@ export class AppComponent {
 
 
   }
+  text="你"
   getPlatform() {
     const ua = navigator.userAgent.toLowerCase();
     const platform: any = {};

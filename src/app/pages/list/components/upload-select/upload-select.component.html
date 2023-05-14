@@ -29,16 +29,20 @@
     value="roll_external" class="button">
         卷/外番
     </mat-button-toggle> -->
-  <mat-button-toggle (click)="change('image')" [attr.region]="'upload_select'" [attr.select]="true" class="button">
+  <mat-button-toggle [matTooltipShowDelay]="3000"
+  [matTooltip]="i18n.config.images"  (click)="change('image')" [attr.region]="'upload_select'" [attr.select]="true" class="button">
     {{i18n.config.images}}
   </mat-button-toggle>
-  <mat-button-toggle (click)="change('pdfToImage')" [attr.region]="'upload_select'" class="button">
+  <mat-button-toggle [matTooltipShowDelay]="3000"
+  [matTooltip]="'PDF'" (click)="change('pdfToImage')" [attr.region]="'upload_select'" class="button">
     PDF
   </mat-button-toggle>
-  <mat-button-toggle (click)="change('zip')" [attr.region]="'upload_select'" class="button">
+  <mat-button-toggle [matTooltipShowDelay]="3000"
+  [matTooltip]="'ZIP'"  (click)="change('zip')" [attr.region]="'upload_select'" class="button">
     ZIP
   </mat-button-toggle>
-  <mat-button-toggle *ngIf="github_json.length!=0" (click)="change('github')" [attr.region]="'upload_select'" class="button">
+  <mat-button-toggle [matTooltipShowDelay]="3000"
+  [matTooltip]="'Github'" *ngIf="github_json.length!=0" (click)="change('github')" [attr.region]="'upload_select'" class="button">
     Github
   </mat-button-toggle>
   <app-upload></app-upload>

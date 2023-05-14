@@ -33,7 +33,8 @@
 
 .detail_section[edit=true] {
   height: 100%;
-  width: calc(100vw - 224px - 36px);
+  width: calc(100vw - 24px);
+  margin-left: 12px;
 
   .warp {
     // height: calc(100% - 5vh - 12px - 40px)

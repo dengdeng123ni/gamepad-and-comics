@@ -73,6 +73,7 @@ export class InfoComponent {
       },
 
     })
+    if( this.current.comics) this.comics = this.current.comics
     this.current.afterInit$.subscribe((comics:any) => {
       this.comics = this.current.comics
     })

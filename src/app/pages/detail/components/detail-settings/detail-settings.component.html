@@ -5,9 +5,11 @@
       <div class="name">{{i18n.config.page_order}}</div>
       <div class="options">
         <mat-radio-group [(ngModel)]="!!current.comics.pageOrder">
-          <mat-radio-button  [attr.type]="'radio'" [attr.region]="'detail_settings'"
+          <mat-radio-button [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.ordinary" [attr.type]="'radio'" [attr.region]="'detail_settings'"
             [value]="true">{{i18n.config.ordinary}}</mat-radio-button>
-          <mat-radio-button [attr.select]="true" [attr.type]="'radio'" [attr.region]="'detail_settings'"
+          <mat-radio-button [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.japanese_manga" [attr.select]="true" [attr.type]="'radio'" [attr.region]="'detail_settings'"
             [value]="false">{{i18n.config.japanese_manga}}</mat-radio-button>
         </mat-radio-group>
       </div>
@@ -15,7 +17,8 @@
     <div class="item">
       <div class="name">{{i18n.config.first_page_cover}}</div>
       <div class="options">
-        <mat-slide-toggle [attr.type]="'slide'" [attr.region]="'detail_settings'"
+        <mat-slide-toggle [matTooltipShowDelay]="3000"
+        [matTooltip]="i18n.config.first_page_cover"  [attr.type]="'slide'" [attr.region]="'detail_settings'"
           [(ngModel)]="!!current.comics.isFirstPageCover"></mat-slide-toggle>
       </div>
     </div>

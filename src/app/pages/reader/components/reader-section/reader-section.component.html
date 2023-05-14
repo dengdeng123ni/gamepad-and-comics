@@ -3,7 +3,8 @@
     {{i18n.config.chapter_list}}({{current.comics.chapters.length}})
   </div>
   <div class="list">
-    <button [id]="'_'+n.id" (click)="on($event,n)" class="item" [attr.select]="n.id==current.comics.chapter.id" [attr.region]="'reader_section'" *ngFor="let n of current.comics.chapters;let index=index" mat-button  >
+    <button [matTooltipShowDelay]="3000"
+    [matTooltip]="n.title" [id]="'_'+n.id" (click)="on($event,n)" class="item" [attr.select]="n.id==current.comics.chapter.id" [attr.region]="'reader_section'" *ngFor="let n of current.comics.chapters;let index=index" mat-button  >
       <span [attr.read]="!!n.lastReadTime" [attr.current]="n.id==current.comics.chapter.id">
         {{n.title}}
       </span>

@@ -3,6 +3,8 @@
   {{i18n.config.reset_reading_progress}}?
 </div>
 <div mat-dialog-actions style="    justify-content: end;">
-  <button mat-button mat-dialog-close [attr.region]="'reset_reading_progress'" (click)="close()">{{i18n.config.no}}</button>
-  <button mat-button mat-dialog-close cdkFocusInitial [attr.region]="'reset_reading_progress'" [attr.select]="true" (click)="on()">{{i18n.config.yes}}</button>
+  <button mat-button mat-dialog-close [attr.region]="'reset_reading_progress'" [matTooltipShowDelay]="3000"
+  [matTooltip]="i18n.config.no" (click)="close()">{{i18n.config.no}}</button>
+  <button mat-button mat-dialog-close cdkFocusInitial [attr.region]="'reset_reading_progress'" [matTooltipShowDelay]="3000"
+  [matTooltip]="i18n.config.yes" [attr.select]="true" (click)="on()">{{i18n.config.yes}}</button>
 </div>

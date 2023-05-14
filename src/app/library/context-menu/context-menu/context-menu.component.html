@@ -14,6 +14,8 @@
             *ngIf="item.submenu"
             [matMenuTriggerFor]="submenu"
             [matMenuTriggerData]="{data:item.submenu}"
+            [matTooltipShowDelay]="10000"
+            [matTooltip]="item.text ? item.name :item.name | translate"
             >
                 {{item.text ? item.name :item.name | translate}}
             </button>
@@ -24,6 +26,8 @@
             [attr.region]="'content_menu'"
             [attr.handle_movable_region]="{} | json"
             (click)="contextMenu.afterClosed$.next(item.arg)"
+            [matTooltipShowDelay]="10000"
+            [matTooltip]="item.text ? item.name :item.name | translate"
             mat-menu-item *ngIf="!item.submenu">
               {{item.text ? item.name :item.name | translate}}
             </button>
@@ -40,6 +44,8 @@
             [attr.region]="'content_menu_submenu'"
             [attr.handle_movable_region]="{'left':'content_menu','right':'content_menu'} | json"
             (click)="contextMenu.afterClosed$.next(item.arg)"
+            [matTooltipShowDelay]="10000"
+            [matTooltip]="item.text ? item.name :item.name | translate"
             >
               {{item.text ? item.name :item.name | translate}}
             </button>
@@ -57,6 +63,8 @@
             *ngIf="item.submenu"
             [matMenuTriggerFor]="children"
             [matMenuTriggerData]="{data:item.submenu}"
+            [matTooltipShowDelay]="10000"
+            [matTooltip]="item.text ? item.name :item.name | translate"
             >
                 {{item.text ? item.name :item.name | translate}}
             </button>
@@ -67,6 +75,8 @@
             [attr.region]="'content_menu_submenu'"
             [attr.handle_movable_region]="{'left':'content_menu','right':'content_menu'} | json"
             (click)="contextMenu.afterClosed$.next(item.arg)"
+            [matTooltipShowDelay]="10000"
+            [matTooltip]="item.text ? item.name :item.name | translate"
             mat-menu-item *ngIf="!item.submenu">
               {{item.text ? item.name :item.name | translate}}
             </button>
@@ -82,6 +92,8 @@
         [attr.region]="'content_menu_children'"
         [attr.handle_movable_region]="{'left':'content_menu_submenu','right':'content_menu_submenu'} | json"
         (click)="contextMenu.afterClosed$.next(item.arg)"
+        [matTooltipShowDelay]="10000"
+        [matTooltip]="item.text ? item.name :item.name | translate"
         mat-menu-item
         >
         {{item.text ? item.name :item.name | translate}}

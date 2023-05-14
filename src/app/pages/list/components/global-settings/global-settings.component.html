@@ -5,9 +5,11 @@
       <div class="name">{{i18n.config.style}}</div>
       <div class="options">
         <mat-radio-group [(ngModel)]="config.isRightAngle" (change)="change()">
-          <mat-radio-button  [attr.type]="'radio'" [attr.region]="'global_settings'"
+          <mat-radio-button [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.right_angle" [attr.type]="'radio'" [attr.region]="'global_settings'"
             [value]="true">{{i18n.config.right_angle}}</mat-radio-button>
-          <mat-radio-button [attr.select]="true" [attr.type]="'radio'" [attr.region]="'global_settings'"
+          <mat-radio-button [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.rounded_corners" [attr.select]="true" [attr.type]="'radio'" [attr.region]="'global_settings'"
             [value]="false">{{i18n.config.rounded_corners}}</mat-radio-button>
         </mat-radio-group>
       </div>
@@ -16,9 +18,11 @@
       <div class="name">{{i18n.config.sound}}</div>
       <div class="options">
         <mat-radio-group [(ngModel)]="GamepadSound.opened" (change)="soundChange()">
-          <mat-radio-button  [attr.type]="'radio'" [attr.region]="'global_settings'"
+          <mat-radio-button [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.open"  [attr.type]="'radio'" [attr.region]="'global_settings'"
             [value]="true">{{i18n.config.open}}</mat-radio-button>
-          <mat-radio-button [attr.type]="'radio'" [attr.region]="'global_settings'"
+          <mat-radio-button [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.close" [attr.type]="'radio'" [attr.region]="'global_settings'"
             [value]="false">{{i18n.config.close}}</mat-radio-button>
         </mat-radio-group>
       </div>

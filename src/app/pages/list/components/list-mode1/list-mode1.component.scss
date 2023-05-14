@@ -1,6 +1,6 @@
 .list_mode1 {
   position: relative;
-  width: calc(100vw - 200px - 36px - 20px);
+  width: calc(100vw - 200px - 36px - 24px);
   height: 100%;
   overflow: hidden;
   display: flex;
@@ -16,7 +16,8 @@
 }
 
 .list_mode1[edit=true] {
-  width: calc(100vw - 200px - 8px);
+  width: calc(100vw - 24px);
+  margin-left: 12px;
 }
 
 .grid {
