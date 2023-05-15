@@ -7,6 +7,7 @@ export * from './context-menu/context-menu-event.service';
 export * from './context-menu/context-menu/context-menu.component';
 
 export * from './gamepad/gamepad-explanation/gamepad-explanation.component';
+export * from './gamepad/gamepad-vioce/gamepad-vioce.component';
 export * from './gamepad/gamepad-controller.service';
 export * from './gamepad/gamepad-event.service';
 export * from './gamepad/gamepad-input.service';

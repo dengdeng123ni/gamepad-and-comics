@@ -11,7 +11,7 @@ import { dbConfig } from './configs/db.config';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ContextMenuComponent, GamepadExplanationComponent } from './library/public-api';
+import { ContextMenuComponent, GamepadExplanationComponent, GamepadVioceComponent } from './library/public-api';
 import { ReaderModule } from './pages/reader/reader.module';
 import { DetailModule } from './pages/detail/detail.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -21,6 +21,7 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
   declarations: [
     ContextMenuComponent,
     GamepadExplanationComponent,
+    GamepadVioceComponent,
     AppComponent
   ],
   imports: [

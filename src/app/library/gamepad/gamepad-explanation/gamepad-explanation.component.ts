@@ -154,13 +154,14 @@ export class GamepadExplanationComponent {
 
   EegionBefore$ = null;
   GamepadEventAfter$ = null;
+  router$=null;
   constructor(
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,
     public router: Router,
     private _snackBar: MatSnackBar,
   ) {
-    this.router.events.subscribe((event) => {
+    this.router$=this.router.events.subscribe((event) => {
       // NavigationEnd,NavigationCancel,NavigationError,RoutesRecognized
       if (event instanceof NavigationEnd) {
         setTimeout(() => {
@@ -238,6 +239,7 @@ export class GamepadExplanationComponent {
   ngOnDestroy() {
     this.EegionBefore$.unsubscribe();
     this.GamepadEventAfter$.unsubscribe();
+    this.router$.unsubscribe();
   }
   message = ""
   gamepad = {
