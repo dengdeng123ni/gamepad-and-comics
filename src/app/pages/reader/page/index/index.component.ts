@@ -58,15 +58,15 @@ export class IndexReaderComponent {
 
     GamepadEvent.registerConfig("reader", { region: ["reader_mode_1","reader_mode_2","reader_mode_3","reader_mode_4"] })
 
-    GamepadEvent.registerVoice({ region:"reader", key:"back_index", keywords:["返回首页"], event:()=> router.navigate(['/'])})
+    GamepadEvent.registerVoice({ region:"reader", key:"back_index", keywords:["首页"], event:()=> router.navigate(['/'])})
 
-    GamepadEvent.registerVoice({ region:"reader", key:"back_index", keywords:["设置"], event:()=> readerSettings.open()})
+    GamepadEvent.registerVoice({ region:"reader", key:"settings", keywords:["设置"], event:()=> readerSettings.open()})
 
-    GamepadEvent.registerVoice({ region:"reader", key:"previous_page", keywords:["上一页"], event:()=>current.previousPage$.next(true)})
     GamepadEvent.registerVoice({ region:"reader", key:"next_page", keywords:["下一页"], event:()=>current.nextPage$.next(true)})
+    GamepadEvent.registerVoice({ region:"reader", key:"previous_page", keywords:["上一页"], event:()=>current.previousPage$.next(true)})
 
-    GamepadEvent.registerVoice({ region:"reader", key:"previous_seciton", keywords:["上一章"], event:()=>current.previous()})
-    GamepadEvent.registerVoice({ region:"reader", key:"next_section", keywords:["下一章"], event:()=> current.next()})
+    GamepadEvent.registerVoice({ region:"reader", key:"next_section", keywords:["下一章","下一话"], event:()=> current.next()})
+    GamepadEvent.registerVoice({ region:"reader", key:"previous_seciton", keywords:["上一章","上一话"], event:()=>current.previous()})
 
 
     GamepadEvent.registerVoice({ region:"reader", key:"all_section", keywords:["全部章节"], event:()=>section.open()})

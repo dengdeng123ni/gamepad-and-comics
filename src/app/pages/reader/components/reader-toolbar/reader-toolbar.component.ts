@@ -30,7 +30,7 @@ export class ReaderToolbarComponent {
     public GamepadEvent: GamepadEventService
   ) {
 
-    GamepadEvent.registerVoice({ region: "reader", key: "back", keywords: ["返回"], event: () => this.back() })
+    // GamepadEvent.registerVoice({ region: "reader", key: "back", keywords: ["返回"], event: () => this.back() })
     GamepadEvent.registerVoice({ region: "reader", key: "first_page_cover", keywords: ["第一页封面"], event: () => this.firstPageCoverChange() })
     GamepadEvent.registerVoice({ region: "reader", key: "reader_mode", keywords: ["阅读模式"], event: () => this.modeChange() })
 

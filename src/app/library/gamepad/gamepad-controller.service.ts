@@ -35,6 +35,7 @@ export class GamepadControllerService {
     //     document.body.style.cursor = "none";
     //   }, 3000);
     // });
+
     this.GamepadInput.down().subscribe((x: string) => {
       document.body.setAttribute("pattern", "gamepad")
       this.device(x);
@@ -111,6 +112,7 @@ export class GamepadControllerService {
   pause = false;
 
   isGamepadExplanationComponent = false;
+  isVoiceComponet=false;
 
   device(input: string) {
     if (document.visibilityState === "hidden" || this.pause) return;
