@@ -35,7 +35,7 @@
     </div>
   </div>
   <div class="content" (click)="close()">
-    <div class="grid" id="list"  [attr.size]="config.page.comics_item_size">
+    <div class="grid" id="list"  [attr.size]="config.page.comics_item_size" [attr.type]="'list'">
       <button class="item" mat-button *ngFor="let n of current.list;let index=index"
         [attr._id]="'list_mode_item_'+n.id" [attr.region]="'list_mode_item'"
         [attr.select]="n.id==config.view.id" [matTooltipShowDelay]="3000"

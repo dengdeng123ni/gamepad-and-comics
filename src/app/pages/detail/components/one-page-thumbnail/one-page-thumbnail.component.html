@@ -37,7 +37,7 @@
 
 
 
-<div class="list" [attr.columns]="page.quantity">
+<div class="list" [attr.columns]="page.quantity" [attr.type]="'list'">
   <div class="item" *ngFor="let n of list;let index=index">
     <div class="title">
       {{n.chapter.title}}

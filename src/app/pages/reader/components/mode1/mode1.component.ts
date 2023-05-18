@@ -211,6 +211,7 @@ export class Mode1Component {
 
   }
   async change(index) {
+
     if (Number.isNaN(index)) index = 0;
     this.index = index;
     if (this.index < 0) this.index = 0;

@@ -42,8 +42,37 @@ export class AppComponent {
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     this.getPlatform();
-  }
 
+
+
+
+  }
+  ngAfterViewInit() {
+    // var video = document.querySelector("video");
+    // video.setAttribute('playsinline', '');
+    // video.setAttribute('autoplay', '');
+    // video.setAttribute('muted', '');
+    // video.style.width = '200px';
+    // video.style.height = '200px';
+    // var constraints = {
+    //   audio: false,
+    //   video: {
+    //     facingMode: "user"
+    //   }
+    // };
+    // navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
+    //   video.srcObject = stream;
+    // });
+    const button = document.querySelector("button")
+    button.addEventListener('pointerup', function (event) {
+      (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
+        .then(device => {
+          console.log(device);
+
+         })
+        .catch(error => { console.error(error); });
+    });
+  }
   getPlatform() {
     const ua = navigator.userAgent.toLowerCase();
     const platform: any = {};

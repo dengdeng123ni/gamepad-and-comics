@@ -70,11 +70,13 @@ export class CurrentReaderService {
       this.update_state(this.comics.chapter, x);
     })
     this.on$.subscribe(event$ => {
+
       const { x, y } = event$;
       const { innerWidth, innerHeight } = window;
       if (x > (innerWidth * 0.33) && x < (innerWidth * 0.66) && y > (innerHeight * 0.33) && y < (innerHeight * 0.66)) {
         this.readerNavbarBar$.next(true)
       } else {
+
         if (this.comics.mode == 1 || this.comics.mode == 4 || this.comics.mode == 2) {
           if (x < (innerWidth / 2)) this.previousPage$.next(event$)
           else this.nextPage$.next(event$)

@@ -99,4 +99,7 @@ export class ListSideComponent {
   openGamepadExplanation() {
     this.GamepadController.isGamepadExplanationComponent = !this.GamepadController.isGamepadExplanationComponent;
   }
+  openVoiceComponet() {
+    this.GamepadController.isVoiceComponet = !this.GamepadController.isVoiceComponet;
+  }
 }

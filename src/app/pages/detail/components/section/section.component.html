@@ -27,7 +27,7 @@
     <div class="title">{{i18n.config.all_chapters}}({{chapters.length}})
        <!-- <span style="font-size: 0.75rem; line-height: 1rem; color: rgba(255, 255, 255, 0.34); text-align: left;">{{title}}</span> -->
     </div>
-    <div class="list" [attr.mode]="'list'" *ngIf="config.mode=='list'">
+    <div class="list" [attr.mode]="'list'" *ngIf="config.mode=='list'" [attr.type]="'list'">
       <button class="item" (click)="on($event,n)"
       [id]="n.id"
       [attr._id]="'section_item_'+n.id"

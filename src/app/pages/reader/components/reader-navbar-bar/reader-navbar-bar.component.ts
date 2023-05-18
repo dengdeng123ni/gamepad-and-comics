@@ -76,7 +76,7 @@ export class ReaderNavbarBarComponent implements OnInit {
           if (!this.opened)
           {
             this.zIndex = -1;
-            this.GamepadController.device("DOWN")
+            // this.GamepadController.device("DOWN")
           }
         }, 300)
       }

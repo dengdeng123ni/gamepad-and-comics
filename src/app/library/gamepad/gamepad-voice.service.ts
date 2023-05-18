@@ -11,7 +11,9 @@ export class GamepadVoiceService {
     click: "点击",
     close: "关闭",
     exit:"退出",
-    full:"全屏"
+    full:"全屏",
+    "scroll_down":"向下滚动",
+    "scroll_up":"向上滚动",
   }
   gamepad = {
     UP: '上',
@@ -36,29 +38,9 @@ export class GamepadVoiceService {
     public GamepadEvent: GamepadEventService,
     public GamepadInput: GamepadInputService
   ) {
-    // open click
-
-    // 动作 目标
-    setTimeout(() => {
-      // this.init("下一页");
-      // this.init("短篇集")
-
-    }, 2000)
-
-    setTimeout(() => {
-      // this.init("下一页");
-      // this.init("关闭");
-      // this.init("点击第11话")
-    }, 2000)
-    // setTimeout(() => {
-    //   // this.init("关闭");
-    //   this.init("右")
-    // }, 3000)
-    // setTimeout(() => {
-    //   // this.init("关闭");
-    //   this.init("点击")
-    // }, 4000)
-
+    setTimeout(()=>{
+      // this.init("向下滚动")
+    },6000)
   }
 
   fuzzyQuery(list, keyWord) {
@@ -109,6 +91,7 @@ export class GamepadVoiceService {
     if (!action || action && !action.length) {
       let list = [];
       Object.keys(this.GamepadEvent.voiceEvents).forEach(x => {
+        if(region!=x) return
         Object.keys(this.GamepadEvent.voiceEvents[x]).forEach(c => {
           this.GamepadEvent.voiceEvents[x][c].keywords.forEach(f => {
             list.push({ keyword: f, event: this.GamepadEvent.voiceEvents[x][c].event, region: x, key: c })
@@ -208,6 +191,38 @@ export class GamepadVoiceService {
           }
         }
       };
+      if (actionKey == "scroll_down") {
+        const scrollToTop = () =>{
+          const node=document.querySelector(`[locked_region=${region}] [type=list]`);
+          var hScrollTop = node.scrollTop;
+          var hScrollHeight = node.scrollHeight;
+          var height = 1;
+          if((height+hScrollTop)>=hScrollHeight){//滚动条已经到了容器底部
+            node.scrollTop=0;
+          }else{
+            var h = hScrollTop + height;
+            node.scrollTop=h;
+            window.requestAnimationFrame(scrollToTop)
+          }
+        }
+        scrollToTop();
+      }
+      if (actionKey == "scroll_up") {
+        const scrollToTop = () =>{
+          const node=document.querySelector(`[locked_region=${region}] [type=list]`);
+          var hScrollTop = node.scrollTop;
+          var hScrollHeight = node.scrollHeight;
+          var height = 1;
+          if((height+hScrollTop)<=0){//滚动条已经到了容器底部
+            node.scrollTop=0;
+          }else{
+            var h = hScrollTop - height;
+            node.scrollTop=h;
+            window.requestAnimationFrame(scrollToTop)
+          }
+        }
+        scrollToTop();
+      }
     }
 
 

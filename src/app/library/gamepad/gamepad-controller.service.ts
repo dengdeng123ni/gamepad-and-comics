@@ -143,6 +143,8 @@ export class GamepadControllerService {
     let nodePrevious = node.previousElementSibling;
     if (!nodePrevious || nodePrevious && !nodePrevious.getAttribute("region")) {
       const firstNode = document.querySelectorAll(`[region=${region}]`)[0]
+
+
       if (node.isSameNode(firstNode)) return
       const { node: leftNode } = this.getMoveTarget("LEFT");
       const { node: upNode } = this.getMoveTarget("UP");
@@ -229,6 +231,7 @@ export class GamepadControllerService {
     }
 
     this.nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
+
     if (this.oldRegion != region) {
       this.oldRegion = region;
       this.EegionBefore$.next(region)

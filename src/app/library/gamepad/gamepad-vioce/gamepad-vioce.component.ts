@@ -17,9 +17,6 @@ export class GamepadVioceComponent {
 
 
   constructor(public gamepadvioce:GamepadVoiceService) {
-
-
-    console.log(this.speechRecognition);
     // 配置设置以使每次识别都返回连续结果
     this.speechRecognition.continuous = true;
     this.speechRecognition.lang = window.navigator.language || 'en-US';
@@ -42,6 +39,7 @@ export class GamepadVioceComponent {
         this.text = "";
       }, 300)
     })
+
   }
   ngOnDestroy() {
     this.speechRecognition.onend = (event) => {}

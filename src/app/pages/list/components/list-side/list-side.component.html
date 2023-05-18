@@ -20,6 +20,11 @@
     </button>
   </div>
   <div class="buttom">
+    <button mat-icon-button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay" matTooltip="语音控制"
+      [attr.region]="'list_toolabr_item'" (click)="openVoiceComponet()" class="icon">
+      <mat-icon>mic</mat-icon>
+    </button>
+    <!-- face -->
     <a href="https://github.com/wait123you/gamepad-and-comics" target="_blank" mat-icon-button matTooltipPosition="left"
       [matTooltipShowDelay]="i18n.tooltipShowDelay" matTooltip="Code" [attr.region]="'list_toolabr_item'" class="icon">
       <mat-icon>code</mat-icon>
