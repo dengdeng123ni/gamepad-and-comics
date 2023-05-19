@@ -144,6 +144,21 @@ export class ListMode1Component {
     this.router.navigate(['/detail', x.id])
     this.config.view.id = x.id;
   }
+  on_keep_watching($event, x) {
+    $event.stopPropagation();
+    if (this.config.edit) {
+      let obj = this.current.list.find(s => s.id == x.id);
+      obj.selected = !obj.selected;
+    }
+    if (this.config.edit) return
+    if (this._ctrl) {
+      let obj = this.current.list.find(s => s.id == x.id);
+      obj.selected = !obj.selected;
+    }
+    if (this._ctrl) return
+    this.current.continue(x.id);
+    this.config.view.id = x.id;
+  }
   close() {
     if (this.config.edit) return
     if (this._ctrl) return

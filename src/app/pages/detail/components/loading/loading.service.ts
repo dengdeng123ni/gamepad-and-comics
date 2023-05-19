@@ -78,7 +78,7 @@ export class LoadingService {
     else this.open();
   }
   close() {
-    this.dialogRef.close();
+    if (this.opened) this.dialogRef.close();
   }
 
 }

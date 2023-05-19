@@ -45,8 +45,8 @@
           <img loading="lazy" class="w-full" [src]="n.cover.src" [alt]="n?.title">
           <div class="mezzanine"></div>
         </div>
-        <div class="name">{{n.title}}</div>
-        <div class="progress">{{n.subTitle}}</div>
+        <div class="name" (click)="on_keep_watching($event,n)">{{n.title}}</div>
+        <div class="progress" (click)="on_keep_watching($event,n)">{{n.subTitle}}</div>
         <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="config.edit" [(ngModel)]="n.selected"></mat-checkbox>
       </button>
     </div>

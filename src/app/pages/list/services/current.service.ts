@@ -92,10 +92,12 @@ export class CurrentListService {
       x.chapters.forEach(x => x.images.forEach(c => imageIds.push(c.id)));
       detaleCacheImage(imageIds);
       detaleCacheChapter(chapterIds)
-      forkJoin([this.db.delete('comics',id), this.db.delete('state',id)]).subscribe(()=> this.getComicsInfoAll())
+      forkJoin([this.db.delete('comics', id), this.db.delete('state', id)]).subscribe(() => this.getComicsInfoAll())
     })
 
   }
-
+  continue(id: number | string) {
+    this.router.navigate(['/reader', id])
+  }
 
 }
