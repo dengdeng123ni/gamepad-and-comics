@@ -1,0 +1,38 @@
+.icon {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+:host ::ng-deep {
+  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+    border-radius: 0;
+  }
+
+  .mat-mdc-icon-button .mat-mdc-button-touch-target {
+    width: 30px;
+    height: 30px;
+  }
+
+}
+.warp{
+  display: flex;
+  // grid-template-columns: 1fr 1fr;
+  // zoom: 1.2;
+}

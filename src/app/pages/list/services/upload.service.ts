@@ -353,7 +353,7 @@ export class UploadService {
       let blob = null;
       if (600000 < files[index].size && isCompress) {
 
-        blob = await compressAccurately(files[index] as any, 350);
+        blob = await compressAccurately(blob, { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
       } else {
         blob = files[index]
       }

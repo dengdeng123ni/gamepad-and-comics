@@ -63,15 +63,15 @@ export class AppComponent {
     // navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
     //   video.srcObject = stream;
     // });
-    const button = document.querySelector("button")
-    button.addEventListener('pointerup', function (event) {
-      (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
-        .then(device => {
-          console.log(device);
+    // const button = document.querySelector("button")
+    // button.addEventListener('pointerup', function (event) {
+    //   (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
+    //     .then(device => {
+    //       console.log(device);
 
-         })
-        .catch(error => { console.error(error); });
-    });
+    //      })
+    //     .catch(error => { console.error(error); });
+    // });
   }
   getPlatform() {
     const ua = navigator.userAgent.toLowerCase();

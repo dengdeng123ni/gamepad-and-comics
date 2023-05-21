@@ -90,17 +90,28 @@
         <mat-icon>subject</mat-icon>
       </button>
       <button matTooltipPosition="left" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-        [matTooltip]="i18n.config.thumbnail" tabIndex="-1" mat-icon-button (click)="doublePageThumbnail.open({
-          id:current.comics.chapter.id,
-          index:current.comics.chapter.index
-        })" class="icon filter_image_list">
+        [matTooltip]="i18n.config.thumbnail" tabIndex="-1" mat-icon-button (click)="doublePageThumbnail.open({id:current.comics.chapter.id,index:current.comics.chapter.index})" class="icon filter_image_list">
         <mat-icon>grid_view</mat-icon>
       </button>
       <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.all_chapters" mat-icon-button class="icon" (click)="OpenThumbnailSelect($event)">
+        <mat-icon>filter</mat-icon>
+      </button>
+      <!-- <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.all_chapters" mat-icon-button class="icon" (click)="OpenThumbnailSelect($event)">
+        <mat-icon>file_download</mat-icon>
+      </button> -->
+      <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.all_chapters" mat-icon-button class="icon" (click)="OpenToolSelect($event)">
+        <mat-icon>home_repair_service</mat-icon>
+      </button>
+
+
+      <!-- <button matTooltipPosition="left" tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay"
         [matTooltip]="i18n.config.thumbnail" mat-icon-button class="icon" (click)="SquareThumbnail.open()">
         <mat-icon>view_module</mat-icon>
-      </button>
-      <app-popup-toolbar></app-popup-toolbar>
+      </button> -->
+      <!-- <app-popup-toolbar></app-popup-toolbar> -->
     </div>
   </div>
   <div class="flex flex-col bottom">

@@ -1,0 +1,14 @@
+<div class="warp">
+  <button  tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.automatic_page_turning" mat-icon-button class="icon" (click)="close();openReaderAutoSettings($event)">
+    <mat-icon>auto_stories</mat-icon>
+  </button>
+  <button  [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_time" tabIndex="-1" mat-icon-button class="icon" (click)="close();readTime.open()">
+    <mat-icon>schedule</mat-icon>
+  </button>
+  <button  tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_mode" mat-icon-button class="icon" (click)="close();on($event)">
+    <mat-icon>chrome_reader_mode</mat-icon>
+  </button>
+  <button  tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.settings" mat-icon-button class="icon" (click)="close();openSettings($event)">
+    <mat-icon>settings</mat-icon>
+  </button>
+</div>

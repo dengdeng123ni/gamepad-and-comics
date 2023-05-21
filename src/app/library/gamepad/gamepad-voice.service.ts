@@ -12,6 +12,7 @@ export class GamepadVoiceService {
     close: "关闭",
     exit:"退出",
     full:"全屏",
+
     "scroll_down":"向下滚动",
     "scroll_up":"向上滚动",
   }

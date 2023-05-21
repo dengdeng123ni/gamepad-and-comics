@@ -20,6 +20,7 @@ import { ReaderAutoService } from '../../components/reader-auto/reader-auto.serv
 import { SquareThumbnailService } from '../../components/square-thumbnail/square-thumbnail.service';
 import { ChapterHistoryService } from '../../components/chapter-history/chapter-history.service';
 import { RegisterService } from '../../services/register.service';
+import { ThumbnailSelectService } from '../../components/thumbnail-select/thumbnail-select.service';
 
 @Component({
   selector: 'app-reader-index',
@@ -53,6 +54,7 @@ export class IndexReaderComponent {
       public readerAuto: ReaderAutoService,
       public prompt: PromptService,
       public chapterHistory: ChapterHistoryService,
+      public thumbnailSelect:ThumbnailSelectService,
       public register:RegisterService
     ) {
 

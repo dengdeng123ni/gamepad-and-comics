@@ -1,0 +1,15 @@
+<div class="warp" >
+  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" style="transform: rotate(180deg);" (click)="close();left.isToggle()">
+    <mat-icon>view_sidebar</mat-icon>
+  </button>
+  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+    style="transform: rotate(90deg) scale(1.2) rotateY(36deg);" (click)="close();slideBottom.isToggle()">
+    <mat-icon>view_sidebar</mat-icon>
+  </button>
+  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="close();thumbnail.open()">
+    <mat-icon>view_comfy</mat-icon>
+  </button>
+  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="close();SquareThumbnail.open()">
+    <mat-icon>view_module</mat-icon>
+  </button>
+</div>

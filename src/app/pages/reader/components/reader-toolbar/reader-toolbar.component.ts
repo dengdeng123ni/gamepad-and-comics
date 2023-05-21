@@ -6,7 +6,8 @@ import { CurrentReaderService } from '../../services/current.service';
 import { GeneralService } from '../../services/general.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { SectionService } from '../section/section.service';
-import { SquareThumbnailService } from '../square-thumbnail/square-thumbnail.service';
+import { ThumbnailSelectService } from '../thumbnail-select/thumbnail-select.service';
+import { ToolSelectService } from '../tool-select/tool-select.service';
 
 @Component({
   selector: 'app-reader-toolbar',
@@ -26,10 +27,11 @@ export class ReaderToolbarComponent {
     public general: GeneralService,
     public section: SectionService,
     public doublePageThumbnail: DoublePageThumbnailService,
-    public SquareThumbnail: SquareThumbnailService,
+    public thumbnailSelect:ThumbnailSelectService,
+    public toolSelect:ToolSelectService,
     public GamepadEvent: GamepadEventService
   ) {
-
+    // toolSelect.open();
     // GamepadEvent.registerVoice({ region: "reader", key: "back", keywords: ["返回"], event: () => this.back() })
     GamepadEvent.registerVoice({ region: "reader", key: "first_page_cover", keywords: ["第一页封面"], event: () => this.firstPageCoverChange() })
     GamepadEvent.registerVoice({ region: "reader", key: "reader_mode", keywords: ["阅读模式"], event: () => this.modeChange() })
@@ -40,6 +42,32 @@ export class ReaderToolbarComponent {
     GamepadEvent.registerVoice({ region: "reader", key: "insert_page", keywords: ["插页"], event: () => this.insertPage() })
     // GamepadEvent.registerVoice({ region: "reader", key: "back", keywords: ["删除"], event: () => this.back() })
     GamepadEvent.registerVoice({ region: "reader", key: "change_spread_match", keywords: ["更改跨页匹配"], event: () => this.changeSpreadMatch() })
+  }
+  OpenToolSelect($event){
+    const node = ($event.target as HTMLElement);
+    const position = node.getBoundingClientRect();
+    const openTargetHeight = 36;
+    const x = window.innerWidth - (position.x - 15);
+    const y = (position.y + (position.height / 2)) - (openTargetHeight / 2);
+     this.toolSelect.open({
+      position:{ top:`${y}px`, right:`${x}px` },
+      delayFocusTrap:false,
+      panelClass:"reader_settings_right",
+      backdropClass:"reader_settings_right_backdrop",
+     })
+  }
+  OpenThumbnailSelect($event){
+    const node = ($event.target as HTMLElement);
+    const position = node.getBoundingClientRect();
+    const openTargetHeight = 36;
+    const x = window.innerWidth - (position.x - 15);
+    const y = (position.y + (position.height / 2)) - (openTargetHeight / 2);
+     this.thumbnailSelect.open({
+      position:{ top:`${y}px`, right:`${x}px` },
+      delayFocusTrap:false,
+      panelClass:"reader_settings_right",
+      backdropClass:"reader_settings_right_backdrop",
+     })
   }
   menuObj = {
     list: [],

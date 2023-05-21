@@ -33,6 +33,8 @@ import { ReaderAutoSettingsComponent } from './components/reader-auto-settings/r
 import { TestPopupsComponent } from './components/test-popups/test-popups.component';
 import { SquareThumbnailComponent } from './components/square-thumbnail/square-thumbnail.component';
 import { ChapterHistoryComponent } from './components/chapter-history/chapter-history.component';
+import { ThumbnailSelectComponent } from './components/thumbnail-select/thumbnail-select.component';
+import { ToolSelectComponent } from './components/tool-select/tool-select.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { ChapterHistoryComponent } from './components/chapter-history/chapter-hi
     ReaderAutoSettingsComponent,
     TestPopupsComponent,
     SquareThumbnailComponent,
-    ChapterHistoryComponent
+    ChapterHistoryComponent,
+    ThumbnailSelectComponent,
+    ToolSelectComponent
   ],
   imports: [
     CommonModule,
