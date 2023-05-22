@@ -1,4 +1,4 @@
-<div id="handle_reader_circle_toolbar" (click)="close()">
+<div id="gamepad_reader_circle_toolbar" (click)="close()">
   <div class="circularity_toolabr">
     <!-- <div class="outer">
       <div class="outer-wire"></div>
@@ -61,7 +61,7 @@
       </button>
     </div>
   </div>
-  <div class="list handle_reader_circle_toolbar_left">
+  <div class="list gamepad_reader_circle_toolbar_left">
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.first_page_cover" class="icon" (click)="firstPageCoverChange()"
       [attr._id]="'handel_toolabr_left_1'" [attr.region]="'handel_toolabr_left'">
@@ -128,7 +128,7 @@
       <mat-icon>image</mat-icon>
     </button>
   </div>
-  <div class="list handle_reader_circle_toolbar_right">
+  <div class="list gamepad_reader_circle_toolbar_right">
     <button cdkFocusInitial matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.full_screen" mat-icon-button class="icon"
       (click)="isfullscreen?isFullChange('window'):isFullChange('full_screen')" [attr.region]="'handel_toolabr_right'"
@@ -141,7 +141,7 @@
       <mat-icon>play_disabled</mat-icon>
     </button>
     <button mat-icon-button class="icon" matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
-      [matTooltip]="i18n.config.close_the_gamepad" (click)="handelClose();HandleLeftCircleToolbar.close()"
+      [matTooltip]="i18n.config.close_the_gamepad" (click)="handelClose();GamepadLeftCircleToolbar.close()"
       [attr.region]="'handel_toolabr_right'">
       <mat-icon>videogame_asset_off</mat-icon>
     </button>

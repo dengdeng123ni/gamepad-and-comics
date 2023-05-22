@@ -17,10 +17,10 @@ import { UploadListComponent } from './components/upload-list/upload-list.compon
 import { ListEditComponent } from './components/list-edit/list-edit.component';
 import { LanguageSettingsComponent } from './components/language-settings/language-settings.component';
 import { SoftwareInformationComponent } from './components/software-information/software-information.component';
-import { HandleLeftCircleToolbarComponent } from './components/handle-left-circle-toolbar/handle-left-circle-toolbar.component';
 import { SponsorQrcodeComponent } from './components/sponsor-qrcode/sponsor-qrcode.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { GlobalSettingsComponent } from './components/global-settings/global-settings.component';
+import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.component';
 
 
 @NgModule({
@@ -38,10 +38,10 @@ import { GlobalSettingsComponent } from './components/global-settings/global-set
     ListEditComponent,
     LanguageSettingsComponent,
     SoftwareInformationComponent,
-    HandleLeftCircleToolbarComponent,
     SponsorQrcodeComponent,
     LoadingComponent,
-    GlobalSettingsComponent
+    GlobalSettingsComponent,
+    GamepadLeftCircleToolbarComponent
 
   ],
   imports: [

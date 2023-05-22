@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { GamepadEventService } from 'src/app/library/public-api';
 import { CurrentReaderService } from '../../services/current.service';
-import { HandleLeftCircleToolbarService } from '../handle-left-circle-toolbar/handle-left-circle-toolbar.service';
+import { GamepadLeftCircleToolbarService } from '../gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
 
 const STORAGE_KEY = 'reader_left';
 @Injectable({
@@ -15,13 +15,13 @@ export class SidebarLeftService {
   };
   constructor(
     public GamepadEvent: GamepadEventService,
-    public HandleLeftCircleToolbar:HandleLeftCircleToolbarService
+    public GamepadLeftCircleToolbar:GamepadLeftCircleToolbarService
   ) {
     this.GamepadEvent.registerAreaEvent("thumbnail_sidebar_left", {
       "B": () => this.close(),
       "LEFT_ANALOG_PRESS":()=>{
         this.close()
-        this.HandleLeftCircleToolbar.isToggle();
+        this.GamepadLeftCircleToolbar.isToggle();
       },
     })
 

@@ -1,4 +1,4 @@
-.handle_mode_change {
+.gamepad_mode_change {
 
   .mode_change {
     display: grid !important;
@@ -25,7 +25,7 @@
   }
 }
 
-.handle_reader_circle_toolbar {
+.gamepad_reader_circle_toolbar {
   max-width: none !important;
   height: 100%;
 

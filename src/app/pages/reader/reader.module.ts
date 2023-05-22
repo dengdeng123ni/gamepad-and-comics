@@ -20,7 +20,6 @@ import { ThumbnailBottomComponent } from './components/thumbnail-bottom/thumbnai
 import { Mode2Component } from './components/mode2/mode2.component';
 import { Mode3Component } from './components/mode3/mode3.component';
 import { Mode4Component } from './components/mode4/mode4.component';
-import { HandleLeftCircleToolbarComponent } from './components/handle-left-circle-toolbar/handle-left-circle-toolbar.component';
 import { ReaderSettingsComponent } from './components/reader-settings/reader-settings.component';
 import { ReadTimeComponent } from './components/read-time/read-time.component';
 import { GamepadThumbnailComponent } from './components/gamepad-thumbnail/gamepad-thumbnail.component';
@@ -35,6 +34,7 @@ import { SquareThumbnailComponent } from './components/square-thumbnail/square-t
 import { ChapterHistoryComponent } from './components/chapter-history/chapter-history.component';
 import { ThumbnailSelectComponent } from './components/thumbnail-select/thumbnail-select.component';
 import { ToolSelectComponent } from './components/tool-select/tool-select.component';
+import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,6 @@ import { ToolSelectComponent } from './components/tool-select/tool-select.compon
     Mode2Component,
     Mode3Component,
     Mode4Component,
-    HandleLeftCircleToolbarComponent,
     ReaderSettingsComponent,
     ReadTimeComponent,
     GamepadThumbnailComponent,
@@ -68,7 +67,8 @@ import { ToolSelectComponent } from './components/tool-select/tool-select.compon
     SquareThumbnailComponent,
     ChapterHistoryComponent,
     ThumbnailSelectComponent,
-    ToolSelectComponent
+    ToolSelectComponent,
+    GamepadLeftCircleToolbarComponent
   ],
   imports: [
     CommonModule,

@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { GamepadEventService } from 'src/app/library/public-api';
 import { DoublePageThumbnailService } from '../../components/double-page-thumbnail/double-page-thumbnail.service';
 import { GamepadThumbnailService } from '../../components/gamepad-thumbnail/gamepad-thumbnail.service';
-import { HandleLeftCircleToolbarService } from '../../components/handle-left-circle-toolbar/handle-left-circle-toolbar.service';
+import { GamepadLeftCircleToolbarService } from '../../components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
 import { ConfigDetailService } from '../../services/config.service';
 import { CurrentDetailService } from '../../services/current.service';
 import { GeneralService } from '../../services/general.service';
@@ -22,7 +22,7 @@ export class IndexDetailComponent {
       public config: ConfigDetailService,
       private route: ActivatedRoute,
       public GamepadEvent: GamepadEventService,
-      public HandleLeftCircleToolbar: HandleLeftCircleToolbarService,
+      public GamepadLeftCircleToolbar: GamepadLeftCircleToolbarService,
       public gamepadThumbnail: GamepadThumbnailService,
       public doublePageThumbnail: DoublePageThumbnailService,
       public onePageThumbnail:OnePageThumbnailService,
@@ -33,7 +33,7 @@ export class IndexDetailComponent {
     document.body.setAttribute("locked_region","detail")
     GamepadEvent.registerGlobalEvent({
       "LEFT_ANALOG_PRESS": () => {
-        this.HandleLeftCircleToolbar.isToggle();
+        this.GamepadLeftCircleToolbar.isToggle();
       },
     })
     GamepadEvent.registerAreaEventY("section_item", {

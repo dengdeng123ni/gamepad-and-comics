@@ -3,7 +3,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { DownloadService, GamepadControllerService, GamepadEventService, I18nService } from 'src/app/library/public-api';
 import { ConfigListService } from '../../services/config.service';
 import { CurrentListService } from '../../services/current.service';
-import { HandleLeftCircleToolbarService } from './handle-left-circle-toolbar.service';
+import { GamepadLeftCircleToolbarService } from './gamepad-left-circle-toolbar.service';
 import { saveAs } from 'file-saver';
 import { LanguageSettingsService } from '../language-settings/language-settings.service';
 import { SoftwareInformationService } from '../software-information/software-information.service';
@@ -11,11 +11,11 @@ import { UploadSelectService } from '../upload-select/upload-select.service';
 import { GlobalSettingsService } from '../global-settings/global-settings.service';
 import { ListSettingsService } from '../list-settings/list-settings.service';
 @Component({
-  selector: 'app-handle-left-circle-toolbar',
-  templateUrl: './handle-left-circle-toolbar.component.html',
-  styleUrls: ['./handle-left-circle-toolbar.component.scss']
+  selector: 'app-gamepad-left-circle-toolbar',
+  templateUrl: './gamepad-left-circle-toolbar.component.html',
+  styleUrls: ['./gamepad-left-circle-toolbar.component.scss']
 })
-export class HandleLeftCircleToolbarComponent implements OnInit {
+export class GamepadLeftCircleToolbarComponent implements OnInit {
   index = 1;
   isfullscreen =!!document.fullscreenElement;
   menuObj = {
@@ -25,7 +25,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   deleteMenuItemId = null;
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
-    public HandleLeftCircleToolbar: HandleLeftCircleToolbarService,
+    public GamepadLeftCircleToolbar: GamepadLeftCircleToolbarService,
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,
     public config: ConfigListService,
@@ -105,7 +105,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
       }
 
     }
-    this.HandleLeftCircleToolbar.close();
+    this.GamepadLeftCircleToolbar.close();
   }
 
   cursorChange() {
@@ -114,7 +114,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     } else {
       document.body.setAttribute("cursor", "none")
     }
-    this.HandleLeftCircleToolbar.close();
+    this.GamepadLeftCircleToolbar.close();
   }
   handelClose() {
     document.body.setAttribute("pattern", "")

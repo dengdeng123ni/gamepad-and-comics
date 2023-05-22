@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { GamepadEventService } from 'src/app/library/public-api';
-import { HandleLeftCircleToolbarService } from '../handle-left-circle-toolbar/handle-left-circle-toolbar.service';
+import { GamepadLeftCircleToolbarService } from '../gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
 import { ReaderSectionComponent } from './reader-section.component';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class ReaderSectionService {
     public _dialog: MatDialog,
     public GamepadEvent: GamepadEventService,
     public _sheet:MatBottomSheet,
-    public HandleLeftCircleToolbar:HandleLeftCircleToolbarService,
+    public GamepadLeftCircleToolbar:GamepadLeftCircleToolbarService,
 
   ) {
     GamepadEvent.registerAreaEvent("reader_section", {
@@ -25,7 +25,7 @@ export class ReaderSectionService {
       LEFT_ANALOG_PRESS: () => {
         this.close();
         document.body.setAttribute("locked_region","reader_navbar_bar")
-        this.HandleLeftCircleToolbar.isToggle();
+        this.GamepadLeftCircleToolbar.isToggle();
       },
     })
 

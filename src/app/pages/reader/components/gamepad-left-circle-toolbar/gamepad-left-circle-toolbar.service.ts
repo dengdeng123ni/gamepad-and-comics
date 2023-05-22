@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GamepadEventService, GamepadControllerService, GamepadInputService } from 'src/app/library/public-api';
-import { HandleLeftCircleToolbarComponent } from './handle-left-circle-toolbar.component';
+import { GamepadLeftCircleToolbarComponent } from './gamepad-left-circle-toolbar.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HandleLeftCircleToolbarService {
+export class GamepadLeftCircleToolbarService {
   list = [1, 2, 3, 4, 5, 6, 7, 8];
   current: number = 8;
   record_list = [0, 0, 0]
@@ -184,8 +184,8 @@ if (this.opened == false) {
       this.init();
       this.current=8;
       this.opened = true;
-      const dialogRef = this._dialog.open(HandleLeftCircleToolbarComponent, {
-        panelClass: "handle_reader_circle_toolbar"
+      const dialogRef = this._dialog.open(GamepadLeftCircleToolbarComponent, {
+        panelClass: "gamepad_reader_circle_toolbar"
       });
       this.region = document.body.getAttribute("locked_region") ?? "";
       document.body.setAttribute("locked_region", "gamepad_left_circle_toolbar")

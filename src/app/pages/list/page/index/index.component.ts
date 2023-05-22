@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { IndexListService } from './index.service';
 import { ConfigListService } from '../../services/config.service';
 import { CurrentListService } from '../../services/current.service';
-import { HandleLeftCircleToolbarService } from '../../components/handle-left-circle-toolbar/handle-left-circle-toolbar.service';
+import { GamepadLeftCircleToolbarService } from '../../components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
 import { GamepadEventService } from 'src/app/library/public-api';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
@@ -19,7 +19,7 @@ export class IndexListComponent {
     public current: CurrentListService,
     public config: ConfigListService,
     public indexList: IndexListService,
-    public HandleLeftCircleToolbar: HandleLeftCircleToolbarService,
+    public GamepadLeftCircleToolbar: GamepadLeftCircleToolbarService,
     public GamepadEvent: GamepadEventService,
     public route:ActivatedRoute
   ) {
@@ -32,7 +32,7 @@ export class IndexListComponent {
     // })
     GamepadEvent.registerGlobalEvent({
       "LEFT_ANALOG_PRESS": () => {
-        this.HandleLeftCircleToolbar.isToggle();
+        this.GamepadLeftCircleToolbar.isToggle();
       },
     })
     this.current.init();

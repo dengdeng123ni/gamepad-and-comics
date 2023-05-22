@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GamepadEventService, GamepadControllerService, GamepadInputService } from 'src/app/library/public-api';
-import { HandleLeftCircleToolbarComponent } from './handle-left-circle-toolbar.component';
+import { GamepadLeftCircleToolbarComponent } from './gamepad-left-circle-toolbar.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HandleLeftCircleToolbarService {
+export class GamepadLeftCircleToolbarService {
   list = [1, 2, 3, 4, 5, 6, 7, 8];
   current: number = 8;
   record_list = [0, 0, 0]
@@ -138,7 +138,8 @@ export class HandleLeftCircleToolbarService {
       this.record(this.current);
       const node:any=document.querySelector(".inner-select");
       node.style=`transform:rotate(${45*this.current}deg);`
-      this.GamepadController.setCurrentTargetId("handel_toolabr_center_" + this.current)
+
+    this.GamepadController.setCurrentTargetId("handel_toolabr_center_" + this.current)
 
     } else if (state.RIGHT_ANALOG_LEFT || state.RIGHT_ANALOG_UP || state.RIGHT_ANALOG_RIGHT || state.RIGHT_ANALOG_DOWN) {
       let angle = this.GamepadController.getAngle(state.RIGHT_ANALOG_HORIZONTAL_AXIS, state.RIGHT_ANALOG_VERTICAL_AXIS);
@@ -153,7 +154,8 @@ export class HandleLeftCircleToolbarService {
       this.record(this.current);
       const node:any=document.querySelector(".inner-select");
       node.style=`transform:rotate(${45*this.current}deg);`
-      this.GamepadController.setCurrentTargetId("handel_toolabr_center_" + this.current)
+
+    this.GamepadController.setCurrentTargetId("handel_toolabr_center_" + this.current)
     } else if (state.DPAD_DOWN || state.DPAD_LEFT || state.DPAD_RIGHT || state.DPAD_UP) {
       if (state.DPAD_DOWN && !state.DPAD_LEFT && !state.DPAD_RIGHT && !state.DPAD_UP) this.next()
       else if (!state.DPAD_DOWN && state.DPAD_LEFT && !state.DPAD_RIGHT && !state.DPAD_UP) this.previous();
@@ -187,13 +189,13 @@ if (this.opened == false) {
       this.init();
       this.current=8;
       this.opened = true;
-      const dialogRef = this._dialog.open(HandleLeftCircleToolbarComponent, {
-        panelClass: "handle_reader_circle_toolbar"
+      const dialogRef = this._dialog.open(GamepadLeftCircleToolbarComponent, {
+        panelClass: "gamepad_reader_circle_toolbar"
       });
       this.region = document.body.getAttribute("locked_region") ?? "";
       document.body.setAttribute("locked_region", "gamepad_left_circle_toolbar")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "list")
+        if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "detail")
       });
     }
   }
@@ -204,7 +206,7 @@ if (this.opened == false) {
   close() {
     this.up$.unsubscribe();
     document.body.setAttribute("locked_region", this.region)
-    if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "list")
+    if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "detail")
     this._dialog.closeAll();
     this.opened = false;
     //

@@ -10,16 +10,16 @@ import { SidebarLeftService } from '../sidebar-left/sidebar-left.service';
 import { SlideBottomService } from '../slide-bottom/slide-bottom.service';
 import { ThumbnailBottomService } from '../thumbnail-bottom/thumbnail-bottom.service';
 import { ThumbnailService } from '../thumbnail-list/thumbnail.service';
-import { HandleLeftCircleToolbarService } from './handle-left-circle-toolbar.service';
+import { GamepadLeftCircleToolbarService } from './gamepad-left-circle-toolbar.service';
 import { saveAs } from 'file-saver';
 import { GeneralService } from '../../services/general.service';
 import { ReadTimeService } from '../read-time/read-time.service';
 @Component({
-  selector: 'app-handle-left-circle-toolbar',
-  templateUrl: './handle-left-circle-toolbar.component.html',
-  styleUrls: ['./handle-left-circle-toolbar.component.scss']
+  selector: 'app-gamepad-left-circle-toolbar',
+  templateUrl: './gamepad-left-circle-toolbar.component.html',
+  styleUrls: ['./gamepad-left-circle-toolbar.component.scss']
 })
-export class HandleLeftCircleToolbarComponent implements OnInit {
+export class GamepadLeftCircleToolbarComponent implements OnInit {
   index = 1;
   isfullscreen = !!document.fullscreenElement;
   menuObj = {
@@ -29,7 +29,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
   deleteMenuItemId = null;
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
-    public HandleLeftCircleToolbar: HandleLeftCircleToolbarService,
+    public GamepadLeftCircleToolbar: GamepadLeftCircleToolbarService,
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,
     public config: ConfigReaderService,
@@ -129,7 +129,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
         document.documentElement.requestFullscreen();
       }
     }
-    this.HandleLeftCircleToolbar.close()
+    this.GamepadLeftCircleToolbar.close()
   }
   firstPageCoverChange() {
     this.current.comics.isFirstPageCover = !this.current.comics.isFirstPageCover;
@@ -211,7 +211,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     } else {
       document.body.setAttribute("cursor", "none")
     }
-    this.HandleLeftCircleToolbar.close();
+    this.GamepadLeftCircleToolbar.close();
   }
   handelClose() {
     document.body.setAttribute("pattern", "")
@@ -223,7 +223,7 @@ export class HandleLeftCircleToolbarComponent implements OnInit {
     const x = window.innerWidth - (position.x - 15);
     const y = (position.y + (position.height / 2)) - (openTargetHeight / 2);
     // this.uploadSelect.open({ x, y });
-    this.ModeChange.open(null, "handle_mode_change")
+    this.ModeChange.open(null, "gamepad_mode_change")
   }
   openSettings() {
     this.readerSettings.open({

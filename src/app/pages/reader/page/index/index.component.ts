@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { ContextMenuEventService, GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
 import { DoublePageThumbnailService } from '../../components/double-page-thumbnail/double-page-thumbnail.service';
 import { GamepadThumbnailService } from '../../components/gamepad-thumbnail/gamepad-thumbnail.service';
-import { HandleLeftCircleToolbarService } from '../../components/handle-left-circle-toolbar/handle-left-circle-toolbar.service';
+import { GamepadLeftCircleToolbarService } from '../../components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
 import { ModeChangeService } from '../../components/mode-change/mode-change.service';
 import { ReaderNavbarBarService } from '../../components/reader-navbar-bar/reader-navbar-bar.service';
 import { ReaderSettingsService } from '../../components/reader-settings/reader-settings.service';
@@ -42,7 +42,7 @@ export class IndexReaderComponent {
       public ModeChange: ModeChangeService,
       public section: SectionService,
       public thumbnailBottom: ThumbnailBottomService,
-      public HandleLeftCircleToolbar: HandleLeftCircleToolbarService,
+      public GamepadLeftCircleToolbar: GamepadLeftCircleToolbarService,
       public readerSettings: ReaderSettingsService,
       public GamepadController: GamepadControllerService,
       public GamepadEvent: GamepadEventService,
@@ -57,7 +57,7 @@ export class IndexReaderComponent {
       public thumbnailSelect:ThumbnailSelectService,
       public register:RegisterService
     ) {
-
+      GamepadLeftCircleToolbar.open()
     GamepadEvent.registerConfig("reader", { region: ["reader_mode_1","reader_mode_2","reader_mode_3","reader_mode_4"] })
 
     GamepadEvent.registerVoice({ region:"reader", key:"back_index", keywords:["首页"], event:()=> router.navigate(['/'])})
@@ -86,7 +86,7 @@ export class IndexReaderComponent {
     })
     GamepadEvent.registerGlobalEvent({
       "LEFT_ANALOG_PRESS": () => {
-        this.HandleLeftCircleToolbar.isToggle();
+        this.GamepadLeftCircleToolbar.isToggle();
       },
     })
 
@@ -137,7 +137,7 @@ export class IndexReaderComponent {
       })
     })
     // this.readerSettings.open();
-    // this.HandleLeftCircleToolbar.open();
+    // this.GamepadLeftCircleToolbar.open();
   }
   on($event) {
     this.current.on$.next($event)

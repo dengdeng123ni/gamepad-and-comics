@@ -109,7 +109,7 @@
   // }
 }
 
-#handle_reader_circle_toolbar {
+#gamepad_reader_circle_toolbar {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -292,14 +292,14 @@
   border-radius: 4px;
 }
 
-.handle_reader_circle_toolbar_left {
+.gamepad_reader_circle_toolbar_left {
   position: fixed;
 
   top: 10px;
   left: 10px;
 }
 
-.handle_reader_circle_toolbar_right {
+.gamepad_reader_circle_toolbar_right {
   position: fixed;
   bottom: 10px;
   right: 10px;
