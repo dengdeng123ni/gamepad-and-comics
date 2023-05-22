@@ -57,7 +57,6 @@ export class IndexReaderComponent {
       public thumbnailSelect:ThumbnailSelectService,
       public register:RegisterService
     ) {
-      GamepadLeftCircleToolbar.open()
     GamepadEvent.registerConfig("reader", { region: ["reader_mode_1","reader_mode_2","reader_mode_3","reader_mode_4"] })
 
     GamepadEvent.registerVoice({ region:"reader", key:"back_index", keywords:["首页"], event:()=> router.navigate(['/'])})

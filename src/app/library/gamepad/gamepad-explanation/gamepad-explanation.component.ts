@@ -43,11 +43,7 @@ export class GamepadExplanationComponent {
       LEFT_BUMPER_Y: "缩小100%",
       RIGHT_BUMPER_Y: "放大200%",
       LEFT_TRIGGER: "上一章",
-      RIGHT_TRIGGER: "下一章",
-      UP_Y: "缩略图",
-      RIGHT_Y: "缩略图",
-      LEFT_Y: "缩略图",
-      DOWN_Y:"全部章节"
+      RIGHT_TRIGGER: "下一章"
     },
     reader_mode_2: {
       LEFT_ANALOG: "滚动",
@@ -65,10 +61,6 @@ export class GamepadExplanationComponent {
       RIGHT_BUMPER_Y: "",
       LEFT_TRIGGER: "上一章",
       RIGHT_TRIGGER: "下一章",
-      UP_Y: "缩略图",
-      RIGHT_Y: "缩略图",
-      LEFT_Y: "缩略图",
-      DOWN_Y:"全部章节"
     },
     reader_mode_3: {
       LEFT_ANALOG: "滚动",
@@ -86,10 +78,6 @@ export class GamepadExplanationComponent {
       RIGHT_BUMPER_Y: "",
       LEFT_TRIGGER: "上一章",
       RIGHT_TRIGGER: "下一章",
-      UP_Y: "缩略图",
-      RIGHT_Y: "缩略图",
-      LEFT_Y: "缩略图",
-      DOWN_Y:"全部章节"
     },
     reader_mode_4: {
       LEFT_ANALOG: "切换页",
@@ -107,10 +95,6 @@ export class GamepadExplanationComponent {
       RIGHT_BUMPER_Y: "放大200%",
       LEFT_TRIGGER: "上一章",
       RIGHT_TRIGGER: "下一章",
-      UP_Y: "缩略图",
-      RIGHT_Y: "缩略图",
-      LEFT_Y: "缩略图",
-      DOWN_Y:"全部章节"
     },
     handel_toolabr_center: {
       LEFT_ANALOG: "旋转",
