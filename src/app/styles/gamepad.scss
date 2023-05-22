@@ -38,7 +38,25 @@ body[pattern=gamepad][locked_region=upload_select] {
     }
   }
 }
+body[pattern=gamepad][locked_region=thumbnail_select] {
+  [region=thumbnail_select][select=true] {
+    position: relative;
 
+    &::after {
+      @extend .default_frame;
+    }
+  }
+}
+
+body[pattern=gamepad][locked_region=tool_select] {
+  [region=tool_select][select=true] {
+    position: relative;
+
+    &::after {
+      @extend .default_frame;
+    }
+  }
+}
 body[pattern=gamepad][locked_region=language_settings] {
   [region=language_setting][select=true] {
     position: relative;

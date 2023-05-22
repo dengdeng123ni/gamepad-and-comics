@@ -29,6 +29,10 @@ export class ToolSelectComponent {
     public readerAutoSettings:ReaderAutoSettingsService
   ) { }
   on($event) {
+    if(this.toolSelect._bool){
+      this.ModeChange.open(null, "gamepad_mode_change")
+      return
+    }
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
     const openTargetHeight = 36;
@@ -37,7 +41,15 @@ export class ToolSelectComponent {
     // this.uploadSelect.open({ x, y });
     this.ModeChange.open({ top:`${y}px`, right:`${x}px` })
   }
+
   openSettings($event){
+
+    if(this.toolSelect._bool){
+      this.readerSettings.open({
+        panelClass: "reader_settings_center"
+      })
+      return
+    }
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
     const openTargetHeight = 36;
@@ -49,11 +61,16 @@ export class ToolSelectComponent {
       panelClass:"reader_settings_right",
       backdropClass:"reader_settings_right_backdrop",
      })
+
   }
   openReaderAutoSettings($event) {
     if(this.readerAuto.opened){
      this.readerAuto.close();
      return
+    }
+    if(this.toolSelect._bool){
+      this.readerAutoSettings.open()
+      return
     }
     // readerSettings.open_bottom_sheet({});
     let { x, y, width, height } = $event.target.getBoundingClientRect();

@@ -26,6 +26,21 @@
       </button>
       <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
         [matTooltip]="i18n.config.thumbnail" class="icon icon-2" [attr._id]="'handel_toolabr_center_7'"
+        [attr.region]="'handel_toolabr_center'" (click)="doublePageThumbnail.open({id:current.comics.chapter.id,index:current.comics.chapter.index})">
+        <mat-icon>grid_view</mat-icon>
+      </button>
+      <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.thumbnail" class="icon icon-3" [attr._id]="'handel_toolabr_center_6'"
+        [attr.region]="'handel_toolabr_center'" (click)="OpenThumbnailSelect($event)">
+        <mat-icon>filter</mat-icon>
+      </button>
+      <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.thumbnail" class="icon icon-4" [attr._id]="'handel_toolabr_center_5'"
+        [attr.region]="'handel_toolabr_center'" (click)="OpenToolSelect($event)">
+        <mat-icon>home_repair_service</mat-icon>
+      </button>
+      <!-- <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.thumbnail" class="icon icon-2" [attr._id]="'handel_toolabr_center_7'"
         [attr.region]="'handel_toolabr_center'" (click)="left.isToggle()">
         <mat-icon style="transform: rotate(180deg);">view_sidebar</mat-icon>
       </button>
@@ -53,7 +68,7 @@
         [matTooltip]="i18n.config.settings" class="icon icon-7" [attr._id]="'handel_toolabr_center_2'"
         [attr.region]="'handel_toolabr_center'" (click)="openSettings()">
         <mat-icon>settings</mat-icon>
-      </button>
+      </button> -->
       <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
         [matTooltip]="i18n.config.insert_blank_page" class="icon icon-8" [attr._id]="'handel_toolabr_center_1'"
         [attr.region]="'handel_toolabr_center'" (click)="insertPage()">
@@ -105,7 +120,7 @@
       [disabled]="!(config.mode==1||config.mode==4)">
       <mat-icon>delete</mat-icon>
     </button>
-    <mat-divider></mat-divider>
+    <!-- <mat-divider></mat-divider>
     <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
       [matTooltip]="i18n.config.thumbnail" class="icon" (click)="thumbnailBottom.isToggle()"
       [attr.region]="'handel_toolabr_left'">
@@ -126,7 +141,7 @@
       [matTooltip]="i18n.config.export_image" class="icon" (click)="mergeImages()"
       [attr.region]="'handel_toolabr_left'">
       <mat-icon>image</mat-icon>
-    </button>
+    </button> -->
   </div>
   <div class="list gamepad_reader_circle_toolbar_right">
     <button cdkFocusInitial matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"

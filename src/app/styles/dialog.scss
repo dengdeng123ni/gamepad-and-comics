@@ -74,7 +74,8 @@
     box-shadow: none !important;
   }
 }
-._double_page_thumbnail{
+
+._double_page_thumbnail {
   max-width: none;
   width: 100%;
   height: 100%;
@@ -86,7 +87,8 @@
     box-shadow: none !important;
   }
 }
-._square_thumbnail{
+
+._square_thumbnail {
   max-width: none;
   width: 100%;
   height: 100%;
@@ -99,15 +101,26 @@
   }
 }
 
-._reading_time{
+._reading_time {
   max-width: none !important;
   position: static;
   margin-left: 10vw;
   height: 100%;
 }
-._one_page_thumbnail{
+
+._one_page_thumbnail {
   max-width: none;
   width: 100%;
   height: 100%;
   max-width: none !important;
+}
+
+._thumbnail_select ,._tool_select{
+  .warp {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    // grid-gap: 0.8rem;
+    zoom: 1.5;
+    // grid-template-rows: 120px 120px;
+  }
 }

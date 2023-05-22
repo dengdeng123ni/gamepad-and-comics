@@ -18,7 +18,7 @@ export class ReaderSettingsService {
       "B": () => this.close(),
     })
 
-    this.GamepadEvent.registerConfig("reader_settings", { region: ["locked_region"] })
+    this.GamepadEvent.registerConfig("reader_settings", { region: ["reader_settings"] })
   }
   open(config?:MatDialogConfig) {
     if (this.opened == false) {

@@ -14,6 +14,9 @@ import { GamepadLeftCircleToolbarService } from './gamepad-left-circle-toolbar.s
 import { saveAs } from 'file-saver';
 import { GeneralService } from '../../services/general.service';
 import { ReadTimeService } from '../read-time/read-time.service';
+import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
+import { ThumbnailSelectService } from '../thumbnail-select/thumbnail-select.service';
+import { ToolSelectService } from '../tool-select/tool-select.service';
 @Component({
   selector: 'app-gamepad-left-circle-toolbar',
   templateUrl: './gamepad-left-circle-toolbar.component.html',
@@ -43,6 +46,9 @@ export class GamepadLeftCircleToolbarComponent implements OnInit {
     public readerSettings: ReaderSettingsService,
     public readTime:ReadTimeService,
     public download: DownloadService,
+    public doublePageThumbnail: DoublePageThumbnailService,
+    public thumbnailSelect:ThumbnailSelectService,
+    public toolSelect:ToolSelectService,
     public general: GeneralService,
     public i18n: I18nService
   ) {
@@ -94,7 +100,17 @@ export class GamepadLeftCircleToolbarComponent implements OnInit {
       }
     })
   }
-
+  OpenToolSelect($event){
+     this.toolSelect.open({
+      panelClass:"_tool_select",
+      data:true
+     })
+  }
+  OpenThumbnailSelect($event){
+     this.thumbnailSelect.open({
+      panelClass:"_thumbnail_select"
+     })
+  }
   ngOnInit(): void {
   }
 

@@ -9,22 +9,28 @@ import { ToolSelectComponent } from './tool-select.component';
 export class ToolSelectService {
 
   opened = false;
+  _bool=false;
   constructor(
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
     ) {
-    GamepadEvent.registerAreaEvent("reader_settings", {
+    GamepadEvent.registerAreaEvent("tool_select", {
       "B": () => this.close(),
     })
 
-    this.GamepadEvent.registerConfig("reader_settings", { region: ["locked_region"] })
+    this.GamepadEvent.registerConfig("tool_select", { region: ["tool_select"] })
   }
   open(config?:MatDialogConfig) {
+    console.log(config.data);
+
+    if(config.data) this._bool=true;
+    else this._bool=false;
+
     if (this.opened == false) {
       const dialogRef = this._dialog.open(ToolSelectComponent,config);
-      document.body.setAttribute("locked_region","reader_settings")
+      document.body.setAttribute("locked_region","tool_select")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="reader_settings"&&this.opened) document.body.setAttribute("locked_region","reader")
+        if(document.body.getAttribute("locked_region")=="tool_select"&&this.opened) document.body.setAttribute("locked_region","reader")
         this.opened = false;
       });
       this.opened=true;

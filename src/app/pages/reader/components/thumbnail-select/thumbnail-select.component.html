@@ -1,15 +1,15 @@
 <div class="warp" >
-  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" style="transform: rotate(180deg);" (click)="close();left.isToggle()">
+  <button [attr.select]="true" [attr.default]="true" [attr.region]="'thumbnail_select'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" style="transform: rotate(180deg);" (click)="close();left.isToggle()">
     <mat-icon>view_sidebar</mat-icon>
   </button>
-  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
-    style="transform: rotate(90deg) scale(1.2) rotateY(36deg);" (click)="close();slideBottom.isToggle()">
-    <mat-icon>view_sidebar</mat-icon>
+  <button [attr.select]="false" [attr.region]="'thumbnail_select'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+     (click)="close();slideBottom.isToggle()">
+    <mat-icon style="transform: rotate(90deg) scale(1.2) rotateY(36deg);">view_sidebar</mat-icon>
   </button>
-  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="close();thumbnail.open()">
+  <button [attr.select]="false" [attr.region]="'thumbnail_select'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="close();thumbnail.open()">
     <mat-icon>view_comfy</mat-icon>
   </button>
-  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="close();SquareThumbnail.open()">
+  <button [attr.select]="false" [attr.region]="'thumbnail_select'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="close();SquareThumbnail.open()">
     <mat-icon>view_module</mat-icon>
   </button>
 </div>

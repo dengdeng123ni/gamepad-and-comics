@@ -14,18 +14,18 @@ export class ThumbnailSelectService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
     ) {
-    GamepadEvent.registerAreaEvent("reader_settings", {
+    GamepadEvent.registerAreaEvent("thumbnail_select", {
       "B": () => this.close(),
     })
 
-    this.GamepadEvent.registerConfig("reader_settings", { region: ["locked_region"] })
+    this.GamepadEvent.registerConfig("thumbnail_select", { region: ["thumbnail_select"] })
   }
   open(config?:MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(ThumbnailSelectComponent,config);
-      document.body.setAttribute("locked_region","reader_settings")
+      document.body.setAttribute("locked_region","thumbnail_select")
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="reader_settings"&&this.opened) document.body.setAttribute("locked_region","reader")
+        if(document.body.getAttribute("locked_region")=="thumbnail_select"&&this.opened) document.body.setAttribute("locked_region","reader")
         this.opened = false;
       });
       this.opened=true;
