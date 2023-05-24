@@ -12,7 +12,6 @@ import { GamepadEventService } from '../gamepad-event.service';
 export class GamepadExplanationComponent {
   events = {
     section_item: {
-
       RIGHT_Y: "缩略图",
       LEFT_Y: "缩略图",
     },

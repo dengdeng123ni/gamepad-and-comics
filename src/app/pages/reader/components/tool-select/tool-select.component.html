@@ -5,7 +5,7 @@
   <button [attr.select]="false" [attr.region]="'tool_select'" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_time" tabIndex="-1" mat-icon-button class="icon" (click)="close();readTime.open()">
     <mat-icon>schedule</mat-icon>
   </button>
-  <button [attr.select]="false" *ngIf="!toolSelect._bool" [attr.region]="'tool_select'"  tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_mode" mat-icon-button class="icon" (click)="close();on($event)">
+  <button [attr.select]="false" [attr.region]="'tool_select'"  tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.reading_mode" mat-icon-button class="icon" (click)="close();on($event)">
     <mat-icon>chrome_reader_mode</mat-icon>
   </button>
   <button [attr.select]="false" [attr.region]="'tool_select'"  tabIndex="-1" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.settings" mat-icon-button class="icon" (click)="close();openSettings($event)">
