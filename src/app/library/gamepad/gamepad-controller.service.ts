@@ -427,7 +427,17 @@ export class GamepadControllerService {
   EegionBefore = () => this.EegionBefore$
 
   leftKey = () => {
-    this.nodes[this.current.index].click()
+    const node=this.nodes[this.current.index];
+    const type = node.getAttribute("type")
+    if (type=='chip' || type=='slide') {
+      node.querySelector("button").click();
+    }else if(type=='radio'){
+      node.querySelector("input").click();
+    }else if(type=='checkbox'){
+      node.querySelector("[type=checkbox]").click();
+    } else {
+      node.click();
+    }
   }
   rightKey() {
     const index = this.current.index;

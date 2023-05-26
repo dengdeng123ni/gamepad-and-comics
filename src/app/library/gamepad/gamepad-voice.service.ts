@@ -131,7 +131,7 @@ export class GamepadVoiceService {
         list.sort((a, b) => b.similarity - a.similarity)
         if (!list[0]||list[0]&&list[0].similarity < 0.01) return
         const node = nodes[list[0].index];
-        (node as any).click();
+        this.GamepadInput.down$.next("A")
       }
     }
     else {
@@ -153,7 +153,7 @@ export class GamepadVoiceService {
         if (list[0].similarity == 0) return
 
         const node = nodes[list[0].index];
-        (node as any).click();
+        this.GamepadInput.down$.next("A")
       };
       if (actionKey == 'click') {
         let list = [];
@@ -175,7 +175,7 @@ export class GamepadVoiceService {
         }
 
         const node = nodes[list[0].index];
-        (node as any).click();
+        this.GamepadInput.down$.next("A")
       };
       if (actionKey == "close" ||actionKey == "exit") {
         this.close();
