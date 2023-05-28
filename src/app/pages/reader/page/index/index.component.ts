@@ -89,18 +89,18 @@ export class IndexReaderComponent {
       },
     })
 
-    const reader_mode_names = ["reader_mode_1", "reader_mode_2", "reader_mode_3", "reader_mode_4"]
-    reader_mode_names.forEach(name => {
-      GamepadEvent.registerAreaEventY(name, {
-        "LEFT": () => this.thumbnail.isToggle(),
-        "UP": () => this.squareThumbnail.open(),
-        "DOWN": () => this.section.isToggle(),
-        "RIGHT": () => this.doublePageThumbnail.open({
-          id: this.current.comics.chapter.id,
-          index: this.current.comics.chapter.index
-        }),
-      })
-    })
+    // const reader_mode_names = ["reader_mode_1", "reader_mode_2", "reader_mode_3", "reader_mode_4"]
+    // reader_mode_names.forEach(name => {
+    //   GamepadEvent.registerAreaEventY(name, {
+    //     "LEFT": () => this.thumbnail.isToggle(),
+    //     "UP": () => this.squareThumbnail.open(),
+    //     "DOWN": () => this.section.isToggle(),
+    //     "RIGHT": () => this.doublePageThumbnail.open({
+    //       id: this.current.comics.chapter.id,
+    //       index: this.current.comics.chapter.index
+    //     }),
+    //   })
+    // })
     // this.gamepadThumbnail.open({
     //   id: this.current.comics.chapter.id,
     //   index: this.current.comics.chapter.index

@@ -44,7 +44,7 @@ export class GamepadSoundService {
     A: () => this.loadSound("assets/sound/nintendo_switch/tick.wav"),
     B: () => this.loadSound("assets/sound/nintendo_switch/enter & back.wav"),
     X: () => this.loadSound("assets/sound/nintendo_switch/select.wav"),
-    // Y: () => this.loadSound("assets/sound/nintendo_switch/klick.wav"),
+    Y: () => {},
     LEFT_TRIGGER: () => this.loadSound("assets/sound/nintendo_switch/border.wav"),
     LEFT_BUMPER: () => this.loadSoundContinuous("assets/sound/nintendo_switch/turnoff.wav"),
     RIGHT_TRIGGER: () => this.loadSound("assets/sound/nintendo_switch/border.wav"),

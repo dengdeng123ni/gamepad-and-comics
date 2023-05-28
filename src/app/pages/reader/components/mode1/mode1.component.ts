@@ -14,6 +14,10 @@ import { SwiperComponent } from 'swiper/angular';
 import { ConfigReaderService } from '../../services/config.service';
 import { GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
 import { ReaderNavbarBarService } from '../reader-navbar-bar/reader-navbar-bar.service';
+import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
+import { SectionService } from '../section/section.service';
+import { SquareThumbnailService } from '../square-thumbnail/square-thumbnail.service';
+import { ThumbnailService } from '../thumbnail-list/thumbnail.service';
 SwiperCore.use([Manipulation, Navigation, Pagination, Mousewheel, Keyboard, Autoplay]);
 @Component({
   selector: 'app-mode1',
@@ -55,7 +59,11 @@ export class Mode1Component {
     public config: ConfigReaderService,
     public GamepadEvent: GamepadEventService,
     public GamepadController: GamepadControllerService,
-    public ReaderNavbarBar: ReaderNavbarBarService
+    public ReaderNavbarBar: ReaderNavbarBarService,
+    public section: SectionService,
+    public squareThumbnail: SquareThumbnailService,
+    public thumbnail: ThumbnailService,
+    public doublePageThumbnail: DoublePageThumbnailService,
   ) {
     GamepadEvent.registerAreaEventY("reader_mode_1", {
       "LEFT_BUMPER": () => this.zoom(1),
@@ -94,6 +102,42 @@ export class Mode1Component {
       RIGHT_TRIGGER: () => {
         current.next();
       }
+    })
+    GamepadEvent.registerAreaEventY('reader_mode_1', {
+      "LEFT": () => {
+        if (this.zoomSize <= 1) {
+          this.thumbnail.isToggle()
+        } else {
+          this.down2("DPAD_LEFT")
+        }
+      },
+      "UP": () => {
+        if (this.zoomSize <= 1) {
+          this.squareThumbnail.open()
+        } else {
+          this.down2("DPAD_UP");
+        }
+
+      },
+      "DOWN": () => {
+        if (this.zoomSize <= 1) {
+          this.section.isToggle()
+        } else {
+          this.down2("DPAD_DOWN");
+        }
+
+      },
+      "RIGHT": () => {
+        if (this.zoomSize <= 1) {
+          this.doublePageThumbnail.open({
+            id: this.current.comics.chapter.id,
+            index: this.current.comics.chapter.index
+          })
+        } else {
+          this.down2("DPAD_RIGHT");
+        }
+
+      },
     })
     const { id, index } = this.current.comics.chapter;
 
@@ -426,7 +470,7 @@ export class Mode1Component {
       }
     });
   }
-  createImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
+  createImage = async (imageUrl): Promise<ImageBitmap> => await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
 
   isWideImage = async (primary: any, secondary: any) => {
     try {
@@ -539,7 +583,7 @@ export class Mode1Component {
   x
   y
   zoomSize = 1;
-  DELTA = 0.01 // 每次放大/缩小的倍数
+  DELTA = 0.05 // 每次放大/缩小的倍数
   down(e) {
     let current = this.GamepadController.getHandelState();
     current[e] = true;
@@ -575,7 +619,42 @@ export class Mode1Component {
       else if (!current.DPAD_DOWN && current.DPAD_LEFT && !current.DPAD_RIGHT && current.DPAD_UP) this.zoomSize > 1 ? this.move("RIGHT_DOWN") : this.move("LEFT_UP");
       else if (!current.DPAD_DOWN && !current.DPAD_LEFT && current.DPAD_RIGHT && current.DPAD_UP) this.zoomSize > 1 ? this.move("LEFT_DOWN") : this.move("RIGHT_UP");
     }
-
+  }
+  down2(e) {
+    let current = this.GamepadController.getHandelState();
+    current[e] = true;
+    if (current.LEFT_ANALOG_LEFT || current.LEFT_ANALOG_UP || current.LEFT_ANALOG_RIGHT || current.LEFT_ANALOG_DOWN) {
+      let angle = this.getAngle(current.LEFT_ANALOG_HORIZONTAL_AXIS, current.LEFT_ANALOG_VERTICAL_AXIS);
+      if (22.5 >= angle && angle >= 0) this.zoomSize > 1 ? this.move_max("LEFT") : this.move_max("RIGHT");
+      else if (67.5 >= angle && angle >= 22.5) this.zoomSize > 1 ? this.move_max("LEFT_UP") : this.move_max("RIGHT_DOWN");
+      else if (112.5 >= angle && angle >= 67.5) this.zoomSize > 1 ? this.move_max("UP") : this.move_max("DOWN");
+      else if (157.5 >= angle && angle >= 112.5) this.zoomSize > 1 ? this.move_max("RIGHT_UP") : this.move_max("LEFT_DOWN");
+      else if (202.5 >= angle && angle >= 157.5) this.zoomSize > 1 ? this.move_max("RIGHT") : this.move_max("LEFT");
+      else if (247.5 >= angle && angle >= 202.5) this.zoomSize > 1 ? this.move_max("RIGHT_DOWN") : this.move_max("LEFT_UP");
+      else if (292.5 >= angle && angle >= 247.5) this.zoomSize > 1 ? this.move_max("DOWN") : this.move_max("UP");
+      else if (337.5 >= angle && angle >= 292.5) this.zoomSize > 1 ? this.move_max("LEFT_DOWN") : this.move_max("RIGHT_UP");
+      else if (360 >= angle && angle >= 337.5) this.zoomSize > 1 ? this.move_max("LEFT") : this.move_max("RIGHT");
+    } else if (current.RIGHT_ANALOG_LEFT || current.RIGHT_ANALOG_UP || current.RIGHT_ANALOG_RIGHT || current.RIGHT_ANALOG_DOWN) {
+      let angle = this.getAngle(current.RIGHT_ANALOG_HORIZONTAL_AXIS, current.RIGHT_ANALOG_VERTICAL_AXIS);
+      if (22.5 >= angle && angle >= 0) this.zoomSize > 1 ? this.move_max("LEFT") : this.move_max("RIGHT");
+      else if (67.5 >= angle && angle >= 22.5) this.zoomSize > 1 ? this.move_max("LEFT_UP") : this.move_max("RIGHT_DOWN");
+      else if (112.5 >= angle && angle >= 67.5) this.zoomSize > 1 ? this.move_max("UP") : this.move_max("DOWN");
+      else if (157.5 >= angle && angle >= 112.5) this.zoomSize > 1 ? this.move_max("RIGHT_UP") : this.move_max("LEFT_DOWN");
+      else if (202.5 >= angle && angle >= 157.5) this.zoomSize > 1 ? this.move_max("RIGHT") : this.move_max("LEFT");
+      else if (247.5 >= angle && angle >= 202.5) this.zoomSize > 1 ? this.move_max("RIGHT_DOWN") : this.move_max("LEFT_UP");
+      else if (292.5 >= angle && angle >= 247.5) this.zoomSize > 1 ? this.move_max("DOWN") : this.move_max("UP");
+      else if (337.5 >= angle && angle >= 292.5) this.zoomSize > 1 ? this.move_max("LEFT_DOWN") : this.move_max("RIGHT_UP");
+      else if (360 >= angle && angle >= 337.5) this.zoomSize > 1 ? this.move_max("LEFT") : this.move_max("RIGHT");
+    } else if (current.DPAD_DOWN || current.DPAD_LEFT || current.DPAD_RIGHT || current.DPAD_UP) {
+      if (current.DPAD_DOWN && !current.DPAD_LEFT && !current.DPAD_RIGHT && !current.DPAD_UP) this.zoomSize > 1 ? this.move_max("UP") : this.move_max("DOWN");
+      else if (!current.DPAD_DOWN && current.DPAD_LEFT && !current.DPAD_RIGHT && !current.DPAD_UP) this.zoomSize > 1 ? this.move_max("RIGHT") : this.move_max("LEFT");
+      else if (!current.DPAD_DOWN && !current.DPAD_LEFT && current.DPAD_RIGHT && !current.DPAD_UP) this.zoomSize > 1 ? this.move_max("LEFT") : this.move_max("RIGHT");
+      else if (!current.DPAD_DOWN && !current.DPAD_LEFT && !current.DPAD_RIGHT && current.DPAD_UP) this.zoomSize > 1 ? this.move_max("DOWN") : this.move_max("UP");
+      else if (current.DPAD_DOWN && current.DPAD_LEFT && !current.DPAD_RIGHT && !current.DPAD_UP) this.zoomSize > 1 ? this.move_max("RIGHT_UP") : this.move_max("LEFT_DOWN");
+      else if (current.DPAD_DOWN && !current.DPAD_LEFT && current.DPAD_RIGHT && !current.DPAD_UP) this.zoomSize > 1 ? this.move_max("LEFT_UP") : this.move_max("RIGHT_DOWN");
+      else if (!current.DPAD_DOWN && current.DPAD_LEFT && !current.DPAD_RIGHT && current.DPAD_UP) this.zoomSize > 1 ? this.move_max("RIGHT_DOWN") : this.move_max("LEFT_UP");
+      else if (!current.DPAD_DOWN && !current.DPAD_LEFT && current.DPAD_RIGHT && current.DPAD_UP) this.zoomSize > 1 ? this.move_max("LEFT_DOWN") : this.move_max("RIGHT_UP");
+    }
   }
   getAngle = (x, y): number => {
     x = parseFloat(x);
@@ -603,7 +682,7 @@ export class Mode1Component {
     if (move == "UP") {
       for (let i = 1; i < 11; i++) {
         setTimeout(() => {
-          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY - 10 * i, transf.multiple);
+          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY - 20 * i, transf.multiple);
           this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
         }, 15 * i)
       }
@@ -611,7 +690,7 @@ export class Mode1Component {
     if (move == "DOWN") {
       for (let i = 1; i < 11; i++) {
         setTimeout(() => {
-          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY + 10 * i, transf.multiple);
+          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY + 20 * i, transf.multiple);
           this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`;
         }, 15 * i)
       }
@@ -619,7 +698,7 @@ export class Mode1Component {
     if (move == "RIGHT") {
       for (let i = 1; i < 11; i++) {
         setTimeout(() => {
-          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 10 * i, transf.transY, transf.multiple);
+          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 20 * i, transf.transY, transf.multiple);
           this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
         }, 15 * i)
       }
@@ -627,7 +706,7 @@ export class Mode1Component {
     if (move == "LEFT") {
       for (let i = 1; i < 11; i++) {
         setTimeout(() => {
-          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 10 * i, transf.transY, transf.multiple);
+          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 20 * i, transf.transY, transf.multiple);
           this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
         }, 15 * i)
       }
@@ -635,7 +714,7 @@ export class Mode1Component {
     if (move == "RIGHT_UP") {
       for (let i = 1; i < 11; i++) {
         setTimeout(() => {
-          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 10 * i, transf.transY - 10 * i, transf.multiple);
+          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 20 * i, transf.transY - 20 * i, transf.multiple);
           this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
         }, 15 * i)
       }
@@ -643,7 +722,7 @@ export class Mode1Component {
     if (move == "RIGHT_DOWN") {
       for (let i = 1; i < 11; i++) {
         setTimeout(() => {
-          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 10 * i, transf.transY + 10 * i, transf.multiple);
+          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 20 * i, transf.transY + 20 * i, transf.multiple);
           this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
         }, 15 * i)
       }
@@ -651,7 +730,7 @@ export class Mode1Component {
     if (move == "LEFT_UP") {
       for (let i = 1; i < 11; i++) {
         setTimeout(() => {
-          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 10 * i, transf.transY - 10 * i, transf.multiple);
+          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 20 * i, transf.transY - 20 * i, transf.multiple);
           this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
         }, 15 * i)
       }
@@ -659,7 +738,7 @@ export class Mode1Component {
     if (move == "LEFT_DOWN") {
       for (let i = 1; i < 11; i++) {
         setTimeout(() => {
-          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 10 * i, transf.transY + 10 * i, transf.multiple);
+          newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 20 * i, transf.transY + 20 * i, transf.multiple);
           this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
         }, 15 * i)
       }
@@ -669,29 +748,63 @@ export class Mode1Component {
     // if (move == "LEFT") newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 50, transf.transY, transf.multiple)
     // this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
   }
+  move_max = (move) => {
+    // this.isMouseDown = true;
+    let transf = this.getTransform(this.oDiv);
+    let multiple = transf.multiple;
+    let newTransf = null;
+    if (move == "UP") {
+      newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY - 200000, transf.multiple);
+      this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    }
+    if (move == "DOWN") {
+      newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY + 200000, transf.multiple);
+      this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`;
+    }
+    if (move == "RIGHT") {
+      newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 200000, transf.transY, transf.multiple);
+      this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    }
+    if (move == "LEFT") {
+      newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 200000, transf.transY, transf.multiple);
+      this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    }
+    if (move == "RIGHT_UP") {
+      newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 200000, transf.transY - 200000, transf.multiple);
+      this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    }
+    if (move == "RIGHT_DOWN") {
+      newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 200000, transf.transY + 200000, transf.multiple);
+      this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    }
+    if (move == "LEFT_UP") {
+      newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 200000, transf.transY - 200000, transf.multiple);
+      this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    }
+    if (move == "LEFT_DOWN") {
+      newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 200000, transf.transY + 200000, transf.multiple);
+      this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    }
+    // if (move == "DOWN") newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY + 50, transf.multiple)
+    // if (move == "RIGHT") newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX + 50, transf.transY, transf.multiple)
+    // if (move == "LEFT") newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX - 50, transf.transY, transf.multiple)
+    // this.oDiv.style.transform = `matrix(${multiple}, 0, 0, ${multiple}, ${newTransf.transX}, ${newTransf.transY})`
+  }
   // 放大
   zoomIn = () => {
     let transf = this.getTransform(this.oDiv)
-    for (let i = 1; i < 11; i++) {
-      setTimeout(() => {
-        transf.multiple += this.DELTA;
-        let newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY, transf.multiple)
-        this.oDiv.style.transform = `matrix(${transf.multiple}, 0, 0, ${transf.multiple}, ${newTransf.transX}, ${newTransf.transY})`
-        this.zoomSize = transf.multiple;
-      }, 15 * i)
-    }
+    transf.multiple += this.DELTA;
+    let newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY, transf.multiple)
+    this.oDiv.style.transform = `matrix(${transf.multiple}, 0, 0, ${transf.multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    this.zoomSize = transf.multiple;
   }
   // 缩小
   zoomOut = () => {
     let transf = this.getTransform(this.oDiv)
-    for (let i = 1; i < 11; i++) {
-      setTimeout(() => {
-        transf.multiple -= this.DELTA
-        let newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY, transf.multiple)
-        this.oDiv.style.transform = `matrix(${transf.multiple}, 0, 0, ${transf.multiple}, ${newTransf.transX}, ${newTransf.transY})`
-        this.zoomSize = transf.multiple;
-      }, 15 * i)
-    }
+    transf.multiple -= this.DELTA
+    let newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY, transf.multiple)
+    this.oDiv.style.transform = `matrix(${transf.multiple}, 0, 0, ${transf.multiple}, ${newTransf.transX}, ${newTransf.transY})`
+    this.zoomSize = transf.multiple;
 
   }
   // 指定缩放
@@ -704,8 +817,8 @@ export class Mode1Component {
   }
   /**
  * 通过getComputedStyle获取transform矩阵 并用split分割
- * 如 oDiv 的 transform: translate(100, 100);
- * getComputedStyle可以取到"matrix(1, 0, 0, 1, 100, 100)"
+ * 如 oDiv 的 transform: translate(200, 200);
+ * getComputedStyle可以取到"matrix(1, 0, 0, 1, 200, 200)"
  * 当transform属性没有旋转rotate和拉伸skew时
  * metrix的第1, 4, 5, 6个参数为 x方向倍数, y方向倍数, x方向偏移量, y方向偏移量
  * 再分别利用 字符串分割 取到对应参数
