@@ -21,6 +21,7 @@ import { SquareThumbnailService } from '../../components/square-thumbnail/square
 import { ChapterHistoryService } from '../../components/chapter-history/chapter-history.service';
 import { RegisterService } from '../../services/register.service';
 import { ThumbnailSelectService } from '../../components/thumbnail-select/thumbnail-select.service';
+import { MagnifyOverlayService } from '../../components/magnify-overlay/magnify-overlay.service';
 
 @Component({
   selector: 'app-reader-index',
@@ -55,8 +56,10 @@ export class IndexReaderComponent {
       public prompt: PromptService,
       public chapterHistory: ChapterHistoryService,
       public thumbnailSelect:ThumbnailSelectService,
-      public register:RegisterService
+      public register:RegisterService,
+      public magnifyOverlay:MagnifyOverlayService
     ) {
+
     GamepadEvent.registerConfig("reader", { region: ["reader_mode_1","reader_mode_2","reader_mode_3","reader_mode_4"] })
 
     GamepadEvent.registerVoice({ region:"reader", key:"back_index", keywords:["首页"], event:()=> router.navigate(['/'])})

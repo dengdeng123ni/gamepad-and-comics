@@ -18,6 +18,7 @@ import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page
 import { SectionService } from '../section/section.service';
 import { SquareThumbnailService } from '../square-thumbnail/square-thumbnail.service';
 import { ThumbnailService } from '../thumbnail-list/thumbnail.service';
+import { MagnifyOverlayService } from '../magnify-overlay/magnify-overlay.service';
 SwiperCore.use([Manipulation, Navigation, Pagination, Mousewheel, Keyboard, Autoplay]);
 @Component({
   selector: 'app-mode1',
@@ -35,6 +36,12 @@ export class Mode1Component {
     if (event.code == "ArrowDown") this.next()
     if (event.code == "ArrowRight") this.next()
     if (event.code == "ArrowLeft") this.previous()
+    if (event.code == "MetaRight" ||event.code == "MetaLeft") this.magnifyOverlay.open()
+  }
+  @HostListener('window:keyup', ['$event'])
+  handleKeyUp = (event: KeyboardEvent) => {
+    if (document.body.getAttribute("locked_region") != "reader") return
+    if (event.code == "MetaRight" ||event.code == "MetaLeft") this.magnifyOverlay.close()
   }
   images = [];
   index = 0;
@@ -64,6 +71,7 @@ export class Mode1Component {
     public squareThumbnail: SquareThumbnailService,
     public thumbnail: ThumbnailService,
     public doublePageThumbnail: DoublePageThumbnailService,
+    public magnifyOverlay:MagnifyOverlayService
   ) {
     GamepadEvent.registerAreaEventY("reader_mode_1", {
       "LEFT_BUMPER": () => this.zoom(1),

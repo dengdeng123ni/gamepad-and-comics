@@ -35,6 +35,7 @@ import { ChapterHistoryComponent } from './components/chapter-history/chapter-hi
 import { ThumbnailSelectComponent } from './components/thumbnail-select/thumbnail-select.component';
 import { ToolSelectComponent } from './components/tool-select/tool-select.component';
 import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.component';
+import { MagnifyOverlayComponent } from './components/magnify-overlay/magnify-overlay.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-cir
     ChapterHistoryComponent,
     ThumbnailSelectComponent,
     ToolSelectComponent,
-    GamepadLeftCircleToolbarComponent
+    GamepadLeftCircleToolbarComponent,
+    MagnifyOverlayComponent
   ],
   imports: [
     CommonModule,
