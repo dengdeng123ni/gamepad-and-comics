@@ -79,6 +79,11 @@ export class InfoComponent {
     })
 
   }
+  ngAfterViewInit(){
+    //  setTimeout(()=>{
+    //   (document.querySelector("#continue") as any).focus();
+    //  },50)
+  }
   back() {
     this.router.navigate(['/'])
   }

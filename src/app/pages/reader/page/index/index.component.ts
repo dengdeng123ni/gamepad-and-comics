@@ -29,7 +29,11 @@ import { MagnifyOverlayService } from '../../components/magnify-overlay/magnify-
   styleUrls: ['./index.component.scss']
 })
 export class IndexReaderComponent {
-
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown = (event: KeyboardEvent) => {
+    if (document.body.getAttribute("locked_region") != "reader") return
+    if (event.code == "Escape") window.history.back()
+  }
   constructor
     (
       public current: CurrentReaderService,

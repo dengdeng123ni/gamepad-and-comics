@@ -24,7 +24,9 @@ export class MagnifyOverlayService {
       this.opened = true;
       const dialogRef = this._dialog.open(MagnifyOverlayComponent, {
         panelClass: "_magnify_overlay",
-        hasBackdrop:false
+        hasBackdrop:false,
+        enterAnimationDuration:0,
+        exitAnimationDuration:0
       });
       // document.body.setAttribute("locked_region", "square_thumbnail")
       dialogRef.afterClosed().subscribe(result => {

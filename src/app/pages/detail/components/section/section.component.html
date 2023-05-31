@@ -1,66 +1,138 @@
 <div class="detail_section" [attr.edit]="config.edit">
-  <div class="detail_edit" *ngIf="config.edit" >
+  <div class="detail_edit" *ngIf="config.edit">
     <div class="left">
-      <span>
-        {{i18n.config.chosen}}({{selectedList.length}})
-      </span>
-      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.select_all" (click)="selectAll()" [attr.select]="true" [attr.region]="'detail_toolabr_item'" [attr._id]="'select_all'" class="icon ml-1">
+      <span> {{ i18n.config.chosen }}({{ selectedList.length }}) </span>
+      <button
+        mat-icon-button
+        matTooltipPosition="below"
+        [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.select_all"
+        (click)="selectAll()"
+        [attr.select]="true"
+        [attr.region]="'detail_toolabr_item'"
+        [attr._id]="'select_all'"
+        class="icon ml-1"
+      >
         <mat-icon>done_all</mat-icon>
       </button>
-      <mat-divider  [vertical]="true" style="height: 15px;width: 1px;margin: 0 4px;"></mat-divider>
-      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.export" [attr.region]="'detail_toolabr_item'" [disabled]="selectedList.length==0?true:false" (click)="openDownload($event)" class="icon">
+      <mat-divider
+        [vertical]="true"
+        style="height: 15px; width: 1px; margin: 0 4px"
+      ></mat-divider>
+      <button
+        mat-icon-button
+        matTooltipPosition="below"
+        [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.export"
+        [attr.region]="'detail_toolabr_item'"
+        [disabled]="selectedList.length == 0 ? true : false"
+        (click)="openDownload($event)"
+        class="icon"
+      >
         <mat-icon>download</mat-icon>
       </button>
-      <mat-divider  [vertical]="true" style="height: 15px;width: 1px;margin: 0 4px;"></mat-divider>
-      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.delete" [attr.region]="'detail_toolabr_item'" [disabled]="selectedList.length==0?true:false" (click)="selectedDetele()" class="icon">
+      <mat-divider
+        [vertical]="true"
+        style="height: 15px; width: 1px; margin: 0 4px"
+      ></mat-divider>
+      <button
+        mat-icon-button
+        matTooltipPosition="below"
+        [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.delete"
+        [attr.region]="'detail_toolabr_item'"
+        [disabled]="selectedList.length == 0 ? true : false"
+        (click)="selectedDetele()"
+        class="icon"
+      >
         <mat-icon>delete</mat-icon>
       </button>
     </div>
     <div class="right">
-      <button mat-icon-button matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="i18n.config.cancel_edit" [attr.region]="'detail_toolabr_item'" (click)="closeEdit()" class="icon">
+      <button
+        mat-icon-button
+        matTooltipPosition="below"
+        [matTooltipShowDelay]="i18n.tooltipShowDelay"
+        [matTooltip]="i18n.config.cancel_edit"
+        [attr.region]="'detail_toolabr_item'"
+        (click)="closeEdit()"
+        class="icon"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>
   </div>
   <app-info-short *ngIf="!config.edit"></app-info-short>
   <div class="warp" (click)="close()">
-    <div class="title">{{i18n.config.all_chapters}}({{chapters.length}})
-       <!-- <span style="font-size: 0.75rem; line-height: 1rem; color: rgba(255, 255, 255, 0.34); text-align: left;">{{title}}</span> -->
+    <div class="title">
+      {{ i18n.config.all_chapters }}({{ chapters.length }})
+      <!-- <span style="font-size: 0.75rem; line-height: 1rem; color: rgba(255, 255, 255, 0.34); text-align: left;">{{title}}</span> -->
     </div>
-    <div class="list" [attr.mode]="'list'" *ngIf="config.mode=='list'" [attr.type]="'list'">
-      <button class="item" (click)="on($event,n)"
-      [id]="n.id"
-      [attr._id]="'section_item_'+n.id"
-      [attr.region]="'section_item'"
-      [attr.multiple]="n.selected"
-      [attr.content_menu_key]="'section_item'"
-      [attr.content_menu_value]="n.id"
-      [matTooltipShowDelay]="5000"
-      [matTooltip]="n.title"
-      mat-button
-        *ngFor="let n of chapters">
+    <div
+      class="list"
+      [attr.mode]="'list'"
+      *ngIf="config.mode == 'list'"
+      [attr.type]="'list'"
+    >
+      <button
+        class="item"
+        (click)="on($event, n)"
+        [id]="n.id"
+        [attr._id]="'section_item_' + n.id"
+        [attr.region]="'section_item'"
+        [attr.multiple]="n.selected"
+        [attr.content_menu_key]="'section_item'"
+        [attr.content_menu_value]="n.id"
+        [matTooltipShowDelay]="5000"
+        [matTooltip]="n.title"
+        mat-button
+        *ngFor="let n of chapters"
+      >
         <div class="flex w-full">
-          <img loading="lazy" [src]="n.images[0]?.small"  alt="">
+          <img loading="lazy" [src]="n.images[0]?.small" alt="" />
           <div class="info">
-            <div class="name" [attr.read]="!!n.lastReadTime" [attr.current]="n.id==current.comics.chapter.id">{{n.title}}</div>
+            <div
+              class="name"
+              [attr.read]="!!n.lastReadTime"
+              [attr.current]="n.id == current.comics.chapter.id"
+            >
+              {{ n.title }}
+            </div>
           </div>
         </div>
-        <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="config.edit" [(ngModel)]="n.selected"></mat-checkbox>
+        <mat-checkbox
+          class="checkbox"
+          [color]="'primary'"
+          *ngIf="config.edit"
+          [(ngModel)]="n.selected"
+        ></mat-checkbox>
       </button>
     </div>
-    <div class="abbreviated" [attr.mode]="'abbreviated'" *ngIf="config.mode=='abbreviated'">
-      <button class="item" (click)="on($event,n)"
-      [id]="n.id"
-      [attr._id]="'section_item_'+n.id"
-      [attr.region]="'section_item'"
-      [attr.multiple]="n.selected"
-      [attr.content_menu_key]="'section_item'"
-      [attr.content_menu_value]="n.id"
-      matTooltipPosition="above" [matTooltipShowDelay]="1500" [matTooltip]="n.title"
-      mat-button
-        *ngFor="let n of chapters;let index=index">
-        <span [attr.read]="!!n.lastReadTime" [attr.current]="n.id==current.comics.chapter.id">
-          {{index+1}}
+    <div
+      class="abbreviated"
+      [attr.mode]="'abbreviated'"
+      *ngIf="config.mode == 'abbreviated'"
+    >
+      <button
+        class="item"
+        (click)="on($event, n)"
+        [id]="n.id"
+        [attr._id]="'section_item_' + n.id"
+        [attr.region]="'section_item'"
+        [attr.multiple]="n.selected"
+        [attr.content_menu_key]="'section_item'"
+        [attr.content_menu_value]="n.id"
+        matTooltipPosition="above"
+        [matTooltipShowDelay]="1500"
+        [matTooltip]="n.title"
+        mat-button
+        *ngFor="let n of chapters; let index = index"
+      >
+        <span
+          [attr.read]="!!n.lastReadTime"
+          [attr.current]="n.id == current.comics.chapter.id"
+        >
+          {{ index + 1 }}
         </span>
       </button>
     </div>

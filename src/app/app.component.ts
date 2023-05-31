@@ -63,17 +63,17 @@ export class AppComponent {
     // navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
     //   video.srcObject = stream;
     // });
-    const pointerup=async (event)=>{
-      const device =await (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
-      console.log(device);
+//     const pointerup=async (event)=>{
+//       const device =await (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
+//       console.log(device);
 
-      const server= await device.gatt.connect()
-console.log(server);
+//       const server= await device.gatt.connect()
+// console.log(server);
 
 
-    }
-    const button = document.querySelector("button")
-    button.addEventListener('pointerup',pointerup );
+//     }
+//     const button = document.querySelector("button")
+//     button.addEventListener('pointerup',pointerup );
 
   }
   getPlatform() {

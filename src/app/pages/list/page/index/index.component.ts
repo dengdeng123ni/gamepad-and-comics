@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { IndexListService } from './index.service';
 import { ConfigListService } from '../../services/config.service';
 import { CurrentListService } from '../../services/current.service';
@@ -14,6 +14,15 @@ import { map } from 'rxjs';
   styleUrls: ['./index.component.scss']
 })
 export class IndexListComponent {
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown = (event: KeyboardEvent) => {
+    if(event.code=="Enter"){
+      if(document.activeElement==document.body){
+       const nodes=document.querySelectorAll("[region='list_mode_item']");
+       (nodes[Math.trunc(Math.random() * ((nodes.length-1) - 0) + 0)] as any).click();
+      }
+    }
+  }
   constructor(
     private http: HttpClient,
     public current: CurrentListService,

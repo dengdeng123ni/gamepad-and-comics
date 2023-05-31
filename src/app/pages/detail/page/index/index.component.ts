@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, HostListener } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { GamepadEventService } from 'src/app/library/public-api';
 import { DoublePageThumbnailService } from '../../components/double-page-thumbnail/double-page-thumbnail.service';
@@ -16,11 +16,26 @@ import { OnePageThumbnailService } from '../../components/one-page-thumbnail/one
   styleUrls: ['./index.component.scss']
 })
 export class IndexDetailComponent {
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown = (event: KeyboardEvent) => {
+    if (document.body.getAttribute("locked_region") != "detail") return
+    if (event.code == "Escape") window.history.back()
+    console.log(event.code);
+
+    if(event.code=="Enter"){
+      if(document.activeElement==document.body){
+        this.router.navigate(['/reader', this.current.comics.id])
+      }
+    }
+    // if
+    //
+  }
   constructor
     (
       public current: CurrentDetailService,
       public config: ConfigDetailService,
       private route: ActivatedRoute,
+      public router:Router,
       public GamepadEvent: GamepadEventService,
       public GamepadLeftCircleToolbar: GamepadLeftCircleToolbarService,
       public gamepadThumbnail: GamepadThumbnailService,
