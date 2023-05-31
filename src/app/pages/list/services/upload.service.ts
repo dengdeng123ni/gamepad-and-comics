@@ -326,7 +326,7 @@ export class UploadService {
   //     const index = files.findIndex(x => x['name'] == name);
   //     let blob = null;
   //     if (500000 < files[index].size && isCompress) {
-  //       blob = await compressAccurately(files[index] as any, 350);
+  //       blob = await compressAccurately((files[index] as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
   //     } else {
   //       blob = files[index]
   //     }
@@ -352,8 +352,7 @@ export class UploadService {
       const index = files.findIndex(x => x['name'] == name);
       let blob = null;
       if (600000 < files[index].size && isCompress) {
-
-        blob = await compressAccurately(blob, { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
+        blob = await compressAccurately((files[index] as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
       } else {
         blob = files[index]
       }
