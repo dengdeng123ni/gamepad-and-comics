@@ -39,9 +39,8 @@ export class GamepadVoiceService {
     public GamepadEvent: GamepadEventService,
     public GamepadInput: GamepadInputService
   ) {
-    setTimeout(()=>{
-      // this.init("向下滚动")
-    },6000)
+
+
   }
 
   fuzzyQuery(list, keyWord) {
@@ -89,6 +88,7 @@ export class GamepadVoiceService {
     var reg = new RegExp(action, "i");
     const newStr = _str.replace(reg, "");
 
+
     if (!action || action && !action.length) {
       let list = [];
       Object.keys(this.GamepadEvent.voiceEvents).forEach(x => {
@@ -100,8 +100,11 @@ export class GamepadVoiceService {
         })
       })
       for (let i = 0; i < list.length; i++) {
+        console.log(_str);
+
         const item = list[i];
         const similarity = this.strSimilarity2Percent(_str, item.keyword.replace(/ /g, ""))
+
         list[i].index=i;
         list[i].similarity=similarity;
       }
@@ -128,10 +131,12 @@ export class GamepadVoiceService {
             similarity: similarity
           })
         }
+
         list.sort((a, b) => b.similarity - a.similarity)
         if (!list[0]||list[0]&&list[0].similarity < 0.01) return
         const node = nodes[list[0].index];
-        this.GamepadInput.down$.next("A")
+        (node as any).click();
+        // this.GamepadInput.down$.next("A")
       }
     }
     else {
@@ -153,7 +158,7 @@ export class GamepadVoiceService {
         if (list[0].similarity == 0) return
 
         const node = nodes[list[0].index];
-        this.GamepadInput.down$.next("A")
+        (node as any).click();
       };
       if (actionKey == 'click') {
         let list = [];
@@ -175,7 +180,7 @@ export class GamepadVoiceService {
         }
 
         const node = nodes[list[0].index];
-        this.GamepadInput.down$.next("A")
+        (node as any).click();
       };
       if (actionKey == "close" ||actionKey == "exit") {
         this.close();

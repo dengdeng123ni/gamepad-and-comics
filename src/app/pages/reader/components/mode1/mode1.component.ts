@@ -181,6 +181,7 @@ export class Mode1Component {
       this.isSwitch = false;
     })
     this.page$ = this.current.page().subscribe(async (index: number) => {
+      this.zoom(1)
       this.change(index);
     })
     this.switch$ = this.current.switch().subscribe(() => {
