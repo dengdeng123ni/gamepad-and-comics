@@ -318,67 +318,71 @@ export class UploadService {
   // getImages = async (files: Array<NzUploadFile>, isCompress) => {
   //   const names = files.map(x => x['name']);
   //   const sortNames = this.fileNameSort(names);
-  //   let arr: Array<any> = [];
-  //   const cache = await caches.open('image');
-  //   for (let i = 0; i < sortNames.length;) {
-  //     const name = sortNames[i];
-  //     const id = new Date().getTime();
-  //     const index = files.findIndex(x => x['name'] == name);
+  //   const blobToHref = async (file: NzUploadFile) => {
   //     let blob = null;
-  //     if (500000 < files[index].size && isCompress) {
-  //       blob = await compressAccurately((files[index] as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
+  //     if (600000 < file.size && isCompress) {
+  //       blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
   //     } else {
-  //       blob = files[index]
+  //       blob = file
   //     }
+  //     const id = new Date().getTime();
   //     const src = URL.createObjectURL(blob);
   //     const imageSrc = `${window.location.origin}/image/${id}`;
   //     const request = new Request(imageSrc);
   //     const response = await fetch(src)
   //     await cache.put(request, response);
   //     URL.revokeObjectURL(src)
-  //     arr.push({ id: id, src: imageSrc });
+  //     return { id: id, src: imageSrc }
+  //   }
+  //   const cache = await caches.open('image');
+  //   let list = [];
+  //   for (let i = 0; i < sortNames.length;) {
+  //     const name = sortNames[i];
+  //     const index = files.findIndex(x => x['name'] == name);
+  //     list.push(blobToHref(files[index]));
   //     i++
   //   }
-  //   return arr
+  //   const res = await Promise.all(list);
+  //   return res
   // }
   getImages = async (files: Array<NzUploadFile>, isCompress = false) => {
     const names = files.map(x => x['name']);
     const sortNames = this.fileNameSort(names);
-    let arr: Array<any> = [];
-    const cache = await caches.open('image');
-    for (let i = 0; i < sortNames.length;) {
-      const name = sortNames[i];
-      // const id = new Date().getTime();
-      const index = files.findIndex(x => x['name'] == name);
+    const blobToHref = async (file: NzUploadFile) => {
       let blob = null;
-      if (600000 < files[index].size && isCompress) {
-        blob = await compressAccurately((files[index] as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
+      if (600000 < file.size && isCompress) {
+        blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
       } else {
-        blob = files[index]
+        blob = file
       }
       const formData = new FormData();
       formData.append('file', blob);
       const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      // const id = "";
-      // const src = URL.createObjectURL(files[index] as any);
-      // const imageSrc = `${window.location.origin}/image/${id}`;
-      // const request = new Request(imageSrc);
-      // const response = await fetch(src)
-      // await cache.put(request, response);
-      // URL.revokeObjectURL(src)
-      arr.push({ id: new Date().getTime(), src: `http://localhost:7899/image/${id}` });
+      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}` }
+    }
+    const cache = await caches.open('image');
+    let list = [];
+    for (let i = 0; i < sortNames.length;) {
+      const name = sortNames[i];
+      const index = files.findIndex(x => x['name'] == name);
+      list.push(blobToHref(files[index]));
       i++
     }
-
-    return arr
+    const res = await Promise.all(list);
+    return res
   }
   async add(comics, state, isCompress = false) {
-    comics.cover =(await this.getImages([comics.chapters[0].images[0]], true))[0];
+    comics.cover = (await this.getImages([comics.chapters[0].images[0]], true))[0];
+    let list = [];
     for (let index = 0; index < comics.chapters.length; index++) {
       const time = new Date().getTime();
       comics.chapters[index].id = time;
       comics.chapters[index].date = time;
-      comics.chapters[index].images = await this.getImages(comics.chapters[index].images, isCompress)
+      list.push(this.getImages(comics.chapters[index].images, isCompress))
+    }
+    for (let index = 0; index < comics.chapters.length; index++) {
+      const images = await Promise.all(list)
+      comics.chapters[index].images = images[index];
     }
     state.chapter.id = comics.chapters[0].id;
     state.isFirstPageCover = false;
@@ -386,6 +390,7 @@ export class UploadService {
     const res = await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
     return res
   }
+
   async addGithubPages(comics, state, isCompress = false) {
     // for (let index = 0; index < comics.chapters.length; index++) {
     //   const time=new Date().getTime();
