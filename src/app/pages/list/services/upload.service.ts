@@ -315,62 +315,61 @@ export class UploadService {
     }
     return arr
   }
-  // getImages = async (files: Array<NzUploadFile>, isCompress) => {
-  //   const names = files.map(x => x['name']);
-  //   const sortNames = this.fileNameSort(names);
-  //   const blobToHref = async (file: NzUploadFile) => {
-  //     let blob = null;
-  //     if (600000 < file.size && isCompress) {
-  //       blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
-  //     } else {
-  //       blob = file
-  //     }
-  //     const id = new Date().getTime();
-  //     const src = URL.createObjectURL(blob);
-  //     const imageSrc = `${window.location.origin}/image/${id}`;
-  //     const request = new Request(imageSrc);
-  //     const response = await fetch(src)
-  //     await cache.put(request, response);
-  //     URL.revokeObjectURL(src)
-  //     return { id: id, src: imageSrc }
-  //   }
-  //   const cache = await caches.open('image');
-  //   let list = [];
-  //   for (let i = 0; i < sortNames.length;) {
-  //     const name = sortNames[i];
-  //     const index = files.findIndex(x => x['name'] == name);
-  //     list.push(blobToHref(files[index]));
-  //     i++
-  //   }
-  //   const res = await Promise.all(list);
-  //   return res
-  // }
-  getImages = async (files: Array<NzUploadFile>, isCompress = false) => {
+  getImages = async (files: Array<NzUploadFile>, isCompress) => {
     const names = files.map(x => x['name']);
     const sortNames = this.fileNameSort(names);
-    const blobToHref = async (file: NzUploadFile) => {
+    const blobToHref = async (id: string | number, file: NzUploadFile) => {
       let blob = null;
       if (600000 < file.size && isCompress) {
         blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
       } else {
         blob = file
       }
-      const formData = new FormData();
-      formData.append('file', blob);
-      const id = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-      return { id: new Date().getTime(), src: `http://localhost:7899/image/${id}` }
+      const imageSrc = `${window.location.origin}/image/${id}`;
+      const request = new Request(imageSrc);
+      const response = new Response(blob);
+      await cache.put(request, response);
+      return { id: id, src: imageSrc }
     }
     const cache = await caches.open('image');
     let list = [];
+    const id = new Date().getTime();
     for (let i = 0; i < sortNames.length;) {
       const name = sortNames[i];
       const index = files.findIndex(x => x['name'] == name);
-      list.push(blobToHref(files[index]));
+      list.push(blobToHref(id + i, files[index]));
       i++
     }
     const res = await Promise.all(list);
     return res
   }
+  // getImages = async (files: Array<NzUploadFile>, isCompress = false) => {
+  //   const names = files.map(x => x['name']);
+  //   const sortNames = this.fileNameSort(names);
+  //   const blobToHref = async (id: string | number,file: NzUploadFile) => {
+  //     let blob = null;
+  //     if (600000 < file.size && isCompress) {
+  //       blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
+  //     } else {
+  //       blob = file
+  //     }
+  //     const formData = new FormData();
+  //     formData.append('file', blob);
+  //     const res = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
+  //     return { id: id, src: `http://localhost:7899/image/${res}` }
+  //   }
+  //   const cache = await caches.open('image');
+  //   let list = [];
+  //   const id = new Date().getTime();
+  //   for (let i = 0; i < sortNames.length;) {
+  //     const name = sortNames[i];
+  //     const index = files.findIndex(x => x['name'] == name);
+  //     list.push(blobToHref(id + i, files[index]));
+  //     i++
+  //   }
+  //   const res = await Promise.all(list);
+  //   return res
+  // }
   async add(comics, state, isCompress = false) {
     comics.cover = (await this.getImages([comics.chapters[0].images[0]], true))[0];
     let list = [];

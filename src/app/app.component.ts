@@ -3,6 +3,7 @@ import { ContextMenuControllerService, GamepadControllerService, GamepadEventSer
 import { compressAccurately } from 'image-conversion';
 import { NavigationStart, Router } from '@angular/router';
 import { Subject, async, debounceTime } from 'rxjs';
+import { AppWorkerService } from './worker/app-worker.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent {
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
+    public AppWorker:AppWorkerService,
     public router: Router
   ) {
     router.events.subscribe((event) => {
@@ -42,8 +44,6 @@ export class AppComponent {
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     this.getPlatform();
-
-
 
 
   }
