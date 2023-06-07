@@ -24,6 +24,7 @@ import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-cir
 import { AddServerComponent } from './components/add-server/add-server.component';
 import { AddLocalServerPathComponent } from './components/add-local-server-path/add-local-server-path.component';
 import { ToolboxComponent } from './components/toolbox/toolbox.component';
+import { ListMode2Component } from './components/list-mode2/list-mode2.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ToolboxComponent } from './components/toolbox/toolbox.component';
     GamepadLeftCircleToolbarComponent,
     AddServerComponent,
     AddLocalServerPathComponent,
-    ToolboxComponent
+    ToolboxComponent,
+    ListMode2Component
 
   ],
   imports: [
