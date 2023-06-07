@@ -58,7 +58,7 @@ interface ImageReadingTime {
 })
 export class CurrentReaderService {
   comics: Comics = null;
-  imageStates=[];
+  imageStates = [];
   isLeave: boolean = false;
   constructor(
     private db: NgxIndexedDBService,
@@ -333,7 +333,7 @@ export class CurrentReaderService {
     this.db.update('state', state).subscribe()
   }
   async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {
-    const loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
+    const loadImage = async (imageUrl): Promise<ImageBitmap> => await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
     const getImageBase64 = async (src) => {
       const image1 = await loadImage(src);
       let canvas = document.createElement('canvas');
@@ -470,7 +470,7 @@ export class CurrentReaderService {
     await update(x)
   }
   async createSmailImage(id) {
-    const loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
+    const loadImage = async (imageUrl): Promise<ImageBitmap> => await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
     const chapters = this.comics.chapters;
     const chaptersIndex = chapters.findIndex(x => x.id == this.comics.chapter.id);
 
@@ -504,16 +504,16 @@ export class CurrentReaderService {
       for (let j = 0; j < x.images.length; j++) {
 
         if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
-        if (!!comics.chapters[i].images[j].small) continue
+        // if (!!comics.chapters[i].images[j].small) continue
         if (this.isLeave) return
 
         const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 
-        this.comics.chapters[i].images[j].small = res.small;
+        if (!!comics.chapters[i].images[j].small) this.comics.chapters[i].images[j].small = res.small;
         this.comics.chapters[i].images[j].width = res.width;
         this.comics.chapters[i].images[j].height = res.height;
 
-        comics.chapters[i].images[j].small = res.small;
+        if (!!comics.chapters[i].images[j].small) comics.chapters[i].images[j].small = res.small;
         comics.chapters[i].images[j].width = res.width;
         comics.chapters[i].images[j].height = res.height;
 
@@ -526,15 +526,16 @@ export class CurrentReaderService {
       for (let j = 0; j < x.images.length; j++) {
 
         if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
-        if (!!comics.chapters[i].images[j].small) continue
+        // if (!!comics.chapters[i].images[j].small) continue
         if (this.isLeave) return
+
         const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 
-        this.comics.chapters[i].images[j].small = res.small;
+        if (!comics.chapters[i].images[j].small) this.comics.chapters[i].images[j].small = res.small;
         this.comics.chapters[i].images[j].width = res.width;
         this.comics.chapters[i].images[j].height = res.height;
 
-        comics.chapters[i].images[j].small = res.small;
+        if (!comics.chapters[i].images[j].small) comics.chapters[i].images[j].small = res.small;
         comics.chapters[i].images[j].width = res.width;
         comics.chapters[i].images[j].height = res.height;
         await firstValueFrom(this.db.update('comics', comics))
@@ -586,7 +587,7 @@ export class CurrentReaderService {
       return result;
     }
   }
-  updateChapterLastReadingDate(){
+  updateChapterLastReadingDate() {
 
   }
 }

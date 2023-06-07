@@ -57,6 +57,10 @@ export class ThumbnailComponent {
           if (obj) (x as any).thumbnail = obj.thumbnail
         })
         this.images = this.current.comics.chapters[index].images;
+        console.log(this.current.comics.chapters);
+
+        console.log(this.images);
+
         for (let i = 0; i < this.images.length; i++) {
           const x = this.images[i];
           if (this.isClose) return

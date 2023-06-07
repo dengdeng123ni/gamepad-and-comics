@@ -16,8 +16,126 @@ export class UploadService {
     private http: HttpClient
   ) {
 
+
   }
+
+  async subscribe_to_file_directory(files, api, path) {
+    const deepMerge = (obj1, obj2) => {
+      var isPlain1 = isPlainObject(obj1);
+      var isPlain2 = isPlainObject(obj2);
+      //obj1或obj2中只要其中一个不是对象，则按照浅合并的规则进行合并
+      if (!isPlain1 || !isPlain2) return shallowMerge(obj1, obj2);
+      //如果都是对象，则进行每一层级的递归合并
+      let keys = [
+        ...Object.keys(obj2),
+        ...Object.getOwnPropertySymbols(obj2)
+      ]
+      keys.forEach(function (key) {
+        obj1[key] = deepMerge(obj1[key], obj2[key]);//这里递归调用
+      });
+
+      return obj1;
+    }
+    const shallowMerge = (obj1, obj2) => {
+      var isPlain1 = isPlainObject(obj1);
+      var isPlain2 = isPlainObject(obj2);
+      //只要obj1不是对象，那么不管obj2是不是对象，都用obj2直接替换obj1
+      if (!isPlain1) return obj2;
+      //走到这一步时，说明obj1肯定是对象，那如果obj2不是对象，则还是以obj1为主
+      if (!isPlain2) return obj1;
+      //如果上面两个条件都不成立，那说明obj1和obj2肯定都是对象， 则遍历obj2 进行合并
+      let keys = [
+        ...Object.keys(obj2),
+        ...Object.getOwnPropertySymbols(obj2)
+      ]
+      keys.forEach(function (key) {
+        obj1[key] = obj2[key];
+      });
+
+      return obj1;
+    }
+
+    const isPlainObject = (obj) => {
+      var proto, Ctor;
+      if (!obj || Object.prototype.toString.call(obj) !== "[object Object]") {
+        return false;
+      }
+      proto = Object.getPrototypeOf(obj);
+      if (!proto) return true;
+      Ctor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+      return typeof Ctor === "function" && Function.prototype.toString.call(Ctor) === Function.prototype.toString.call(Object);
+    }
+
+    let obj = {
+      chapter: [],
+      chapters: [],
+      roll: [],
+      roll_extra_episode: [],
+    };
+    files.forEach(x => {
+      const paths = x.path.split(".");
+      const type = paths.at(-1);
+      if (!["gif", "png", "jpg ", "jpeg", " bmp", " webp"].includes(type)) return
+      x['relativePath'] = x['path'];
+      x['name'] = x.path.split("/").at(-1);
+      if (x['relativePath'].split("/").length == 2) obj.chapter.push(x)
+      if (x['relativePath'].split("/").length == 3) obj.chapters.push(x)
+      if (x['relativePath'].split("/").length == 4) obj.roll.push(x)
+      if (x['relativePath'].split("/").length == 5) obj.roll_extra_episode.push(x)
+    })
+
+    if (obj.chapter.length) await this.addChapter(obj.chapter)
+    if (obj.chapters.length) await this.addChapters(obj.chapters)
+    if (obj.roll.length) await this.addRoll(obj.roll)
+    if (obj.roll_extra_episode.length) await this.addRollExtraEpisode(obj.roll_extra_episode)
+
+    const time = new Date().getTime();
+    let j = 0;
+    // firstValueFrom(, this.db.getAll('state')]))
+    const comicsAll: any = await firstValueFrom(this.db.getAll('comics'));
+    for (let index = 0; index < this.list.length; index++) {
+      const { comics, state } = this.list[index];
+      const obj = comicsAll.find(x => x.title == comics.title);
+      if (!obj) {
+        for (let index = 0; index < comics.chapters.length; index++) {
+          comics.chapters[index].id = time + j;
+          comics.chapters[index].date = time + j;
+          comics.chapters[index].images = comics.chapters[index].images.map(x => {
+            j++;
+            return { id: time + j, src: `${api}/file/${x.id}`, small: `${api}/file/${x.id}` }
+          })
+          j++;
+        }
+        comics.cover = comics.chapters[0].images[0];
+        state.chapter.id = comics.chapters[0].id;
+        comics.origin = "local_server";
+        comics.local_config = { path: path };
+        state.isFirstPageCover = false;
+        state.pageOrder = false;
+        await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
+      } else {
+        for (let index = 0; index < comics.chapters.length; index++) {
+          delete comics.chapters[index].id;
+          delete comics.chapters[index].date;
+          comics.chapters[index].images = comics.chapters[index].images.map(x => ({ src: `http://localhost:9880/file/${x.id}`, small: `http://localhost:9880/file/${x.id}` }))
+        }
+        comics.cover = comics.chapters[0].images[0];
+        state.chapter.id = comics.chapters[0].id;
+        state.isFirstPageCover = false;
+        state.pageOrder = false;
+        delete comics.id;
+        delete comics.createTime;
+        delete comics.origin;
+        delete comics.size;
+        const newComics = deepMerge(obj, comics);
+        await firstValueFrom(this.db.update('comics', newComics))
+      }
+    }
+    return
+  }
+
   async image(files) {
+
     let obj = {
       chapter: [],
       chapters: [],
@@ -36,7 +154,6 @@ export class UploadService {
     if (obj.chapters.length) await this.addChapters(obj.chapters)
     if (obj.roll.length) await this.addRoll(obj.roll)
     if (obj.roll_extra_episode.length) await this.addRollExtraEpisode(obj.roll_extra_episode)
-
     this.uploadList.open();
   }
   async zip(files) {
@@ -46,6 +163,8 @@ export class UploadService {
       roll: [],
       roll_extra_episode: [],
     };
+
+
     files.forEach(x => {
       if (x['relativePath'].split("/").length == 2) obj.chapter.push(x)
       if (x['relativePath'].split("/").length == 3) obj.chapters.push(x)
@@ -315,48 +434,21 @@ export class UploadService {
     }
     return arr
   }
-  getImages = async (files: Array<NzUploadFile>, isCompress) => {
-    const names = files.map(x => x['name']);
-    const sortNames = this.fileNameSort(names);
-    const blobToHref = async (id: string | number, file: NzUploadFile) => {
-      let blob = null;
-      if (600000 < file.size && isCompress) {
-        blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
-      } else {
-        blob = file
-      }
-      const imageSrc = `${window.location.origin}/image/${id}`;
-      const request = new Request(imageSrc);
-      const response = new Response(blob);
-      await cache.put(request, response);
-      return { id: id, src: imageSrc }
-    }
-    const cache = await caches.open('image');
-    let list = [];
-    const id = new Date().getTime();
-    for (let i = 0; i < sortNames.length;) {
-      const name = sortNames[i];
-      const index = files.findIndex(x => x['name'] == name);
-      list.push(blobToHref(id + i, files[index]));
-      i++
-    }
-    const res = await Promise.all(list);
-    return res
-  }
-  // getImages = async (files: Array<NzUploadFile>, isCompress = false) => {
+  // getImages = async (files: Array<NzUploadFile>, isCompress) => {
   //   const names = files.map(x => x['name']);
   //   const sortNames = this.fileNameSort(names);
-  //   const blobToHref = async (id: string | number,file: NzUploadFile) => {
+  //   const blobToHref = async (id: string | number, file: NzUploadFile) => {
   //     let blob = null;
   //     if (600000 < file.size && isCompress) {
   //       blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
   //     } else {
   //       blob = file
   //     }
-  //     const formData = new FormData();
-  //     formData.append('file', blob);
-  //     const res = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
-  //     return { id: id, src: `http://localhost:7899/image/${res}` }
+  //     const imageSrc = `${window.location.origin}/image/${id}`;
+  //     const request = new Request(imageSrc);
+  //     const response = new Response(blob);
+  //     await cache.put(request, response);
+  //     return { id: id, src: imageSrc }
   //   }
   //   const cache = await caches.open('image');
   //   let list = [];
@@ -370,13 +462,40 @@ export class UploadService {
   //   const res = await Promise.all(list);
   //   return res
   // }
+  getImages = async (files: Array<NzUploadFile>, isCompress = false) => {
+    const names = files.map(x => x['name']);
+    const sortNames = this.fileNameSort(names);
+    const blobToHref = async (id: string | number, file: NzUploadFile) => {
+      let blob = null;
+      if (600000 < file.size && isCompress) {
+        blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
+      } else {
+        blob = file
+      }
+      const formData = new FormData();
+      formData.append('file', blob);
+      const res = await firstValueFrom(this.http.post("http://localhost:7899/image/upload", formData))
+      return { id: id, src: `http://localhost:7899/image/${res}` }
+    }
+    const cache = await caches.open('image');
+    let list = [];
+    const id = new Date().getTime();
+    for (let i = 0; i < sortNames.length;) {
+      const name = sortNames[i];
+      const index = files.findIndex(x => x['name'] == name);
+      list.push(blobToHref(id + i, files[index]));
+      i++
+    }
+    const res = await Promise.all(list);
+    return res
+  }
   async add(comics, state, isCompress = false) {
     comics.cover = (await this.getImages([comics.chapters[0].images[0]], true))[0];
     let list = [];
+    const time = new Date().getTime()
     for (let index = 0; index < comics.chapters.length; index++) {
-      const time = new Date().getTime();
-      comics.chapters[index].id = time;
-      comics.chapters[index].date = time;
+      comics.chapters[index].id = time + index;
+      comics.chapters[index].date = time + index;
       list.push(this.getImages(comics.chapters[index].images, isCompress))
     }
     for (let index = 0; index < comics.chapters.length; index++) {
@@ -402,5 +521,6 @@ export class UploadService {
     // const res= await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
     // return res
   }
+
 
 }

@@ -32,12 +32,29 @@
     font-weight: 400 !important;
   }
 }
+
 .mat-mdc-button-touch-target {
   height: 100% !important;
 }
 
 
 
-body[pattern=gamepad][cursor=none]{
+body[pattern=gamepad][cursor=none] {
   cursor: none !important;
+}
+
+
+body[angle=none] {
+
+  .reader_toolbar_right,
+  .reader_toolbar_left {
+    .icon {
+      transform: scale(1) !important;
+
+      .mat-icon {
+        transform: scale(1) !important;
+      }
+    }
+  }
+
 }

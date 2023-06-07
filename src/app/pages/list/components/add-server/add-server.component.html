@@ -1,0 +1,21 @@
+
+<h1 mat-dialog-title>服务器</h1>
+<div mat-dialog-content style="padding-bottom: 0;">
+  <div class="form">
+    <mat-form-field class="example-full-width">
+      <mat-label>名称</mat-label>
+      <input matInput [(ngModel)]="name">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>地址</mat-label>
+      <input matInput [(ngModel)]="src" required>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions style="    justify-content: end;">
+  <button mat-button mat-dialog-close [attr.region]="'reset_reading_progress'" [matTooltipShowDelay]="3000"
+  [matTooltip]="i18n.config.no" (click)="close()">关闭</button>
+  <button mat-button cdkFocusInitial [attr.region]="'reset_reading_progress'" [matTooltipShowDelay]="3000"
+  [matTooltip]="i18n.config.yes" [attr.select]="true" (click)="on()">添加</button>
+</div>
+<!-- <div class="warp"></div> -->

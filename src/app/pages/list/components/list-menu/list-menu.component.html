@@ -1,12 +1,33 @@
 <div class="list">
-  <div class="title" id="collect_first">{{i18n.config.comics}}</div>
-  <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="'true'"
-    (click)="on($event,'all')">
+  <button mat-button class="title" id="collect_first">{{i18n.config.comics}}</button>
+  <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="'true'" (click)="on($event,'all')">
     <mat-icon class="icon">photo_library</mat-icon>
     <div class="name">
       {{i18n.config.all}}
     </div>
   </button>
+  <!-- <div class="title" id="collect_first" style="margin-top: 12px;">订阅</div>
+  <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="'false'" (click)="on($event,'all')">
+    <mat-icon class="icon">add</mat-icon>
+    <div class="name">
+      新建
+    </div>
+  </button> -->
+  <div *ngFor="let item of config.list_menu_config.server;let index=index">
+    <button mat-button class="title" id="collect_first">{{item.name}}</button>
+    <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="'true'" (click)="on($event,'all')">
+      <mat-icon class="icon">photo_library</mat-icon>
+      <div class="name">
+        {{i18n.config.all}}
+      </div>
+    </button>
+    <!-- <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="'false'" (click)="on($event,'all')">
+      <mat-icon class="icon">add</mat-icon>
+      <div class="name">
+        新建订阅
+      </div>
+    </button> -->
+  </div>
   <!-- <button mat-button class="item" [attr.region]="'comics_item'"  (click)="on($event,'all')">
     <mat-icon class="icon">menu_book</mat-icon>
     <div class="name">
@@ -41,10 +62,4 @@
         <input [(ngModel)]="n.name" (blur)="save()" [id]="'input_'+n.id" class="input" matInput>
     </div>
 </div> -->
-  <!-- <div class="item" >
-    <mat-icon class="icon" style="margin-right: 8px;">add</mat-icon>
-    <div class="name">
-      新建收藏
-    </div>
-  </div> -->
 </div>

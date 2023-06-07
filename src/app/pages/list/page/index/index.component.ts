@@ -7,6 +7,9 @@ import { GamepadLeftCircleToolbarService } from '../../components/gamepad-left-c
 import { GamepadEventService } from 'src/app/library/public-api';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
+import { AddServerService } from '../../components/add-server/add-server.service';
+import { LoadingService } from '../../components/loading/loading.service';
+import { AddLocalServerPathService } from '../../components/add-local-server-path/add-local-server-path.service';
 
 @Component({
   selector: 'app-list-index',
@@ -30,15 +33,19 @@ export class IndexListComponent {
     public indexList: IndexListService,
     public GamepadLeftCircleToolbar: GamepadLeftCircleToolbarService,
     public GamepadEvent: GamepadEventService,
-    public route:ActivatedRoute
+    public AddServer:AddServerService,
+    public route:ActivatedRoute,
+    public load:LoadingService,
+    public AddLocalServerPath:AddLocalServerPathService
   ) {
-
     GamepadEvent.registerConfig("list", { region: ["list_menu_item","list_mode_item","list_toolabr_item"] })
     document.body.setAttribute("locked_region","list")
     // let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
     // id$.subscribe(x =>{
     //   console.log(x);
     // })
+    // console.log(AddLocalServerPath.open());
+
     GamepadEvent.registerGlobalEvent({
       "LEFT_ANALOG_PRESS": () => {
         this.GamepadLeftCircleToolbar.isToggle();

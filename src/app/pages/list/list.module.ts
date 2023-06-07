@@ -21,6 +21,9 @@ import { SponsorQrcodeComponent } from './components/sponsor-qrcode/sponsor-qrco
 import { LoadingComponent } from './components/loading/loading.component';
 import { GlobalSettingsComponent } from './components/global-settings/global-settings.component';
 import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.component';
+import { AddServerComponent } from './components/add-server/add-server.component';
+import { AddLocalServerPathComponent } from './components/add-local-server-path/add-local-server-path.component';
+import { ToolboxComponent } from './components/toolbox/toolbox.component';
 
 
 @NgModule({
@@ -41,7 +44,10 @@ import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-cir
     SponsorQrcodeComponent,
     LoadingComponent,
     GlobalSettingsComponent,
-    GamepadLeftCircleToolbarComponent
+    GamepadLeftCircleToolbarComponent,
+    AddServerComponent,
+    AddLocalServerPathComponent,
+    ToolboxComponent
 
   ],
   imports: [
