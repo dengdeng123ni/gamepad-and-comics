@@ -34,7 +34,7 @@ export class ListMode1Component {
     public zip: ZipService,
     public config: ConfigListService,
     public i18n: I18nService,
-    public router: Router
+    public router: Router,
   ) {
     GamepadEvent.registerAreaEvent("list_toolabr_item", {
       B: () => {

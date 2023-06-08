@@ -19,7 +19,8 @@ interface List {
 export class CurrentListService {
 
   list: Array<any> = [];
-
+  all_list: Array<any> = [];
+  selected = "";
 
   constructor(
     private http: HttpClient,
@@ -41,20 +42,25 @@ export class CurrentListService {
     this.getComicsInfoAll();
   }
   async getComicsInfoAll() {
-    const getImage = async (src) => {
-      const cache = await caches.open('image');
-      const res = await cache.match(src)
-      const blob = await res.blob()
-      const img = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      return img
-    }
     const x: any = await firstValueFrom(forkJoin([this.db.getAll('comics'), this.db.getAll('state')]))
     const list = x[0].map((s, j) => ({ ...s, ...x[1][j] }))
     list.forEach(x => {
       x.subTitle = x.chapter.title
     });
 
+    this.all_list = list;
     this.list = list;
+  }
+  change(id) {
+    if (id == "all") {
+      this.list = this.all_list;
+    } else if (id == "local") {
+      this.list = this.all_list.filter(x => x.origin == "local");
+    } else {
+      this.list = this.all_list.filter(x => x.config.id == id);
+    }
+    console.log(this.list );
+
   }
   async delete(id) {
     let chapterIds = [];

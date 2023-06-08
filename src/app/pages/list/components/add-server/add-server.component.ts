@@ -35,7 +35,8 @@ export class AddServerComponent {
         let name=""
         if(this.name=="") name=this.src;
         else name=this.name;
-        this.config.list_menu_config.server.push({name:name,type:"server",src:this.name});
+        this.config.list_menu_config.server.push({name:name,type:"server",src:this.src,subscriptions:[]});
+
         this.config.save_list_menu_config();
         this.AddServer.close();
       }else{

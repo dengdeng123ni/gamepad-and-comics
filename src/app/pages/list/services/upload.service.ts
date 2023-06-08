@@ -19,7 +19,7 @@ export class UploadService {
 
   }
 
-  async subscribe_to_file_directory(files, api, path) {
+  async subscribe_to_file_directory(files, api, id) {
     const deepMerge = (obj1, obj2) => {
       var isPlain1 = isPlainObject(obj1);
       var isPlain2 = isPlainObject(obj2);
@@ -109,7 +109,7 @@ export class UploadService {
         comics.cover = comics.chapters[0].images[0];
         state.chapter.id = comics.chapters[0].id;
         comics.origin = "local_server";
-        comics.local_config = { path: path };
+        comics.config = { id: id };
         state.isFirstPageCover = false;
         state.pageOrder = false;
         await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
@@ -119,6 +119,8 @@ export class UploadService {
           delete comics.chapters[index].date;
           comics.chapters[index].images = comics.chapters[index].images.map(x => ({ src: `http://localhost:9880/file/${x.id}`, small: `http://localhost:9880/file/${x.id}` }))
         }
+        console.log(comics.chapters);
+
         comics.cover = comics.chapters[0].images[0];
         state.chapter.id = comics.chapters[0].id;
         state.isFirstPageCover = false;

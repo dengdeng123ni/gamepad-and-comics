@@ -44,7 +44,7 @@ export class IndexListComponent {
     // id$.subscribe(x =>{
     //   console.log(x);
     // })
-    // console.log(AddLocalServerPath.open());
+    // console.log(AddServer.open());
 
     GamepadEvent.registerGlobalEvent({
       "LEFT_ANALOG_PRESS": () => {

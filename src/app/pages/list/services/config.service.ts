@@ -21,7 +21,10 @@ export class ConfigListService {
   }
   list_menu_config={
     server:[],
+    select:{}
   }
+
+
   init(){
     const comics_item_size=localStorage.getItem("comics_item_size")
     const list_menu_config=localStorage.getItem("list_menu_config")
