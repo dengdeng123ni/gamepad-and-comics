@@ -20,7 +20,7 @@ export class CurrentListService {
 
   list: Array<any> = [];
   all_list: Array<any> = [];
-  selected = "";
+  selected = "all";
 
   constructor(
     private http: HttpClient,
@@ -42,25 +42,24 @@ export class CurrentListService {
     this.getComicsInfoAll();
   }
   async getComicsInfoAll() {
+    // if(this.all_list.length) return
     const x: any = await firstValueFrom(forkJoin([this.db.getAll('comics'), this.db.getAll('state')]))
     const list = x[0].map((s, j) => ({ ...s, ...x[1][j] }))
     list.forEach(x => {
       x.subTitle = x.chapter.title
     });
-
     this.all_list = list;
-    this.list = list;
+    this.change();
   }
-  change(id) {
-    if (id == "all") {
+  change(id?) {
+    if(id) this.selected=id;
+    if (this.selected == "all") {
       this.list = this.all_list;
-    } else if (id == "local") {
+    } else if (this.selected == "local") {
       this.list = this.all_list.filter(x => x.origin == "local");
     } else {
-      this.list = this.all_list.filter(x => x.config.id == id);
+      this.list = this.all_list.filter(x => x.config.id == this.selected);
     }
-    console.log(this.list );
-
   }
   async delete(id) {
     let chapterIds = [];

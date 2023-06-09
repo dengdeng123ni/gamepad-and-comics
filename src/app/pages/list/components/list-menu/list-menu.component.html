@@ -1,12 +1,12 @@
 <div class="list">
   <button mat-button class="title" id="collect_first" (click)="AddServer.open()">{{i18n.config.comics}}</button>
-  <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="id=='all'" (click)="on($event,'all')">
+  <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="current.selected=='all'" (click)="on($event,'all')">
     <mat-icon class="icon">photo_library</mat-icon>
     <div class="name">
       {{i18n.config.all}}
     </div>
   </button>
-  <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="id=='local'" (click)="on($event,'local')">
+  <button mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="current.selected=='local'" (click)="on($event,'local')">
     <mat-icon class="icon">subject</mat-icon>
     <div class="name">
       本地
@@ -22,7 +22,7 @@
   </button> -->
   <div *ngFor="let item of config.list_menu_config.server;let index=index">
     <button mat-button class="title" id="collect_first" (click)="AddLocalServerPath.open()">{{item.name}}</button>
-    <button *ngFor="let n of item.subscriptions" mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="id==n.id" (click)="on_local_server($event,item.src,n.id)">
+    <button *ngFor="let n of item.subscriptions" mat-button class="item" [attr.region]="'list_menu_item'" [attr.selected]="current.selected==n.id" (click)="on_local_server($event,item.src,n.id)">
       <mat-icon class="icon">share</mat-icon>
       <div class="name">
         {{n.name}}

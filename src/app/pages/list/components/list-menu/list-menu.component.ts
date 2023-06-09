@@ -14,7 +14,6 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./list-menu.component.scss']
 })
 export class ListMenuComponent {
-  id="all";
   constructor(
     public i18n: I18nService,
     public AddServer: AddServerService,
@@ -28,18 +27,16 @@ export class ListMenuComponent {
 
   }
   on(e, id) {
-    this.id=id;
     this.current.change(id);
   }
 
   async on_local_server(e,api, id) {
-    this.id=id;
     this.current.change(id);
-    const files = (await firstValueFrom(
-      this.http.get(`${api}/files/${id}`)
-    ))
-    console.log(files,api,id);
+    // const files = (await firstValueFrom(
+    //   this.http.get(`${api}/files/${id}`)
+    // ))
+    // console.log(files,api,id);
 
-    this.upload.subscribe_to_file_directory(files,api,id);
+    // this.upload.subscribe_to_file_directory(files,api,id);
   }
 }

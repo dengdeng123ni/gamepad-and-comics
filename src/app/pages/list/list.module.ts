@@ -25,6 +25,7 @@ import { AddServerComponent } from './components/add-server/add-server.component
 import { AddLocalServerPathComponent } from './components/add-local-server-path/add-local-server-path.component';
 import { ToolboxComponent } from './components/toolbox/toolbox.component';
 import { ListMode2Component } from './components/list-mode2/list-mode2.component';
+import { SwiperModule } from 'swiper/angular';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { ListMode2Component } from './components/list-mode2/list-mode2.component
     CommonModule,
     ListRoutingModule,
     MaterialModule,
+    SwiperModule,
     TranslateModule
   ]
 })

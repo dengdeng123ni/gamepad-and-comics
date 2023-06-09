@@ -75,7 +75,7 @@ export class UploadService {
     files.forEach(x => {
       const paths = x.path.split(".");
       const type = paths.at(-1);
-      if (!["gif", "png", "jpg ", "jpeg", " bmp", " webp"].includes(type)) return
+      if (!["gif", "png", "jpg", "jpeg", "bmp", "webp"].includes(type)) return
       x['relativePath'] = x['path'];
       x['name'] = x.path.split("/").at(-1);
       if (x['relativePath'].split("/").length == 2) obj.chapter.push(x)
@@ -98,6 +98,8 @@ export class UploadService {
       const obj = comicsAll.find(x => x.title == comics.title);
       if (!obj) {
         for (let index = 0; index < comics.chapters.length; index++) {
+          comics.id=time + j;
+          state.id=time + j;
           comics.chapters[index].id = time + j;
           comics.chapters[index].date = time + j;
           comics.chapters[index].images = comics.chapters[index].images.map(x => {
@@ -112,15 +114,21 @@ export class UploadService {
         comics.config = { id: id };
         state.isFirstPageCover = false;
         state.pageOrder = false;
+        console.log(comics);
+
         await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
       } else {
         for (let index = 0; index < comics.chapters.length; index++) {
           delete comics.chapters[index].id;
           delete comics.chapters[index].date;
-          comics.chapters[index].images = comics.chapters[index].images.map(x => ({ src: `http://localhost:9880/file/${x.id}`, small: `http://localhost:9880/file/${x.id}` }))
-        }
-        console.log(comics.chapters);
+          comics.chapters[index].images = comics.chapters[index].images.map(x => {
+            j++;
+            // console.log(x);/Users/zhiangzeng/iCloud云盘（归档）/Documents/漫画
 
+            return { id: time + j, src: `${api}/file/${x.id}`, small: `${api}/file/${x.id}` }
+          })
+          j++;
+        }
         comics.cover = comics.chapters[0].images[0];
         state.chapter.id = comics.chapters[0].id;
         state.isFirstPageCover = false;
@@ -129,10 +137,13 @@ export class UploadService {
         delete comics.createTime;
         delete comics.origin;
         delete comics.size;
+
         const newComics = deepMerge(obj, comics);
+
         await firstValueFrom(this.db.update('comics', newComics))
       }
     }
+    this.list=[];
     return
   }
 
