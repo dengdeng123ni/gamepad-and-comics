@@ -35,7 +35,17 @@
   </div>
   <div class="content" (click)="close()">
     <div class="page_toolbar" style="display: flex;justify-content: space-between;padding: 1.2rem;padding-bottom: 0;">
-      <input type="text" class="input">
+      <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <input type="text"
+                 matInput>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
       <div class="toolbar" style="display: flex;">
         <button mat-icon-button class="icon_2" (click)="prev()">
           <mat-icon>chevron_left</mat-icon>

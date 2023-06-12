@@ -16,6 +16,7 @@
 .name {
   font-size: 14px;
   user-select: none;
+  color: rgba(255, 255, 255, .87);
 }
 
 .item {
@@ -28,6 +29,7 @@
   width: calc(100% - 20px);
   justify-content: left;
   height: 30px;
+  // color: rgba(255, 255, 255, .87);
 }
 
 .icon {
@@ -36,6 +38,7 @@
   font-size: 18px;
   transition: transform 0.1s ease-in-out;
   transform: scale(1);
+  color: rgba(255, 255, 255, .87);
 }
 
 .item:hover {

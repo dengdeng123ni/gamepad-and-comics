@@ -22,6 +22,9 @@
 #list{
   height: calc(100% - 24px - 1.2rem);
 }
+.icon_2{
+  color: rgba(255, 255, 255, .87);
+}
 .grid {
   @apply mx-auto overflow-auto;
   grid-template-columns: repeat(auto-fill, calc(162px + 2rem));
@@ -164,6 +167,14 @@
 
 
 :host ::ng-deep {
+  .mdc-line-ripple{
+    display: none;
+  }
+  .mat-mdc-form-field-infix{
+    min-height: 32px;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
   .swiper-pagination-bullet-active{
     background: rgba(255, 255, 255, .45) ;
 
@@ -179,6 +190,9 @@
   .mat-mdc-icon-button .mat-mdc-button-touch-target {
     width: 24px;
     height: 24px;
+  }
+  .mdc-text-field{
+    border-radius:4px;
   }
 
   .mat-toolbar-row,
