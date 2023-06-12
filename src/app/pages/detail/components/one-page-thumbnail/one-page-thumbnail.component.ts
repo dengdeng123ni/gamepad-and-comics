@@ -23,7 +23,7 @@ export class OnePageThumbnailComponent {
     public general: GeneralService,
     public onePageThumbnail: OnePageThumbnailService,
     public i18n: I18nService,
-    public loading:LoadingService
+    public loading: LoadingService
   ) {
     this.init();
   }
@@ -72,8 +72,8 @@ export class OnePageThumbnailComponent {
         c.selected = false;
       })
     })
-
   }
+
   ngDoCheck(): void {
     let selectedList = [];
     this.list.forEach(x => {
@@ -85,14 +85,42 @@ export class OnePageThumbnailComponent {
   }
   async selectedDetele() {
     if(this.selectedList.length>20) this.loading.open();
-    for (let i = 0; i < this.selectedList.length; i++) {
-      const x = this.selectedList[i];
-      await this.current.deletePage(this.current.comics.id, x.chapterId, x.id)
-    }
+    await this.current.deletePages(this.current.comics.id,this.selectedList.map(x=>({chaptersId:x.chapterId,imageId:x.id})))
     this.init()
     if(this.selectedList.length>20) this.loading.close();
-    // await this.current.deletePagea()
   }
+//   async selectedRepeatImages() {
+//     let list=[];
+//     for (let index = 0; index < this.list.length; index++) {
+//       for (let index_2 = 0; index_2 < this.list[index].images.length; index_2++) {
+//         const res = await fetch(this.list[index].images[index_2].src)
+//         const blob = await res.blob();
+//         this.list[index].images[index_2].size = blob.size;
+//         list.push(blob.size)
+//       }
+//     };
+// console.log(list,[...new Set(list)]);
+
+//     let selectedList = [];
+//     this.list.forEach(x => {
+//       x.images.forEach(c => {
+//         if (c.selected) selectedList.push({ chapterId: x.chapter.id, ...c })
+//       })
+//     })
+//     console.log(selectedList);
+
+//     let selectedRepeatList = [];
+//     this.list.forEach(x => {
+//       x.images.forEach(c => {
+//         const obj = selectedList.find(s => s.size == c.size)
+//         console.log(obj);
+
+//         if (c.selected || obj) selectedRepeatList.push({ chapterId: x.chapter.id, ...c })
+//       })
+//     })
+//     this.selectedList = selectedRepeatList
+
+//   }
   selectedList = [];
   close() {
     this.onePageThumbnail.close();

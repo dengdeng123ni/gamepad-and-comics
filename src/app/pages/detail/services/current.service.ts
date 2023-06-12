@@ -352,6 +352,37 @@ export class CurrentDetailService {
     await update(x)
     if (x.chapters[index].images.length == 0) await this.deleteChapter([x.chapters[index].id])
   }
+  async deletePages(comicsId: number, list:Array<{chaptersId: number, imageId: number}>) {
+    const updatePageData = (chaptersId,imageId) => {
+      const index = this.comics.chapters.findIndex(c => c.id == chaptersId);
+      const imageIndex = this.comics.chapters[index].images.findIndex(c => c.id == imageId);
+      this.comics.chapters[index].images.splice(imageIndex, 1);
+    }
+    const update = async (comics) => {
+      await firstValueFrom(this.db.update('comics', comics))
+    }
+    const detaleCacheImage = async (ids) => {
+      const cache = await caches.open('image');
+      for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        const res = await cache.delete(`${window.location.origin}/image/${id}`)
+        const res2 = await cache.delete(`${window.location.origin}/image/small/${id}`)
+      }
+    }
+    const x: any = await firstValueFrom(this.db.getByKey('comics', comicsId))
+    let images=[];
+    list.forEach(obj=>{
+      const {chaptersId, imageId}= obj;
+      updatePageData(chaptersId, imageId);
+      const index = x.chapters.findIndex(c => c.id == chaptersId);
+      const imageIndex = x.chapters[index].images.findIndex(c => c.id == imageId);
+      x.chapters[index].images.splice(imageIndex, 1);
+      if (x.chapters[index].images.length == 0) this.deleteChapter([x.chapters[index].id])
+      images.push(imageId)
+    })
+    detaleCacheImage(images);
+    await update(x)
+  }
   async createSmailImage(id) {
     const loadImage = async (imageUrl): Promise<ImageBitmap> =>  await createImageBitmap(await fetch(imageUrl).then((r) => r.blob()))
 

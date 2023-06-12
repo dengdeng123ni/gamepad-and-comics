@@ -19,7 +19,9 @@
   width: calc(100vw - 24px);
   margin-left: 12px;
 }
-
+#list{
+  height: calc(100% - 24px - 1.2rem);
+}
 .grid {
   @apply mx-auto overflow-auto;
   grid-template-columns: repeat(auto-fill, calc(162px + 2rem));
@@ -162,8 +164,13 @@
 
 
 :host ::ng-deep {
+  .swiper-pagination-bullet-active{
+    background: rgba(255, 255, 255, .45) ;
+
+  }
   .swiper-pagination{
     zoom: 1.2;
+    bottom: 5vh;
   }
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
     border-radius: 4px;

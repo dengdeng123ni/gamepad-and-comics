@@ -34,11 +34,24 @@ export class CurrentListService {
 
   public upload$ = new Subject();
   public edit$ = new Subject<boolean>();
+  public init$ = new Subject<void>();
+  public change$ = new Subject<void>();
+  public initAfter$ = new Subject<void>();
   public edit() {
     return this.edit$
   }
 
+  public initAfter() {
+    return this.initAfter$
+  }
+
+  public _change() {
+    return this.change$
+  }
+
   init() {
+    const id=localStorage.getItem("list_menu_selected_id");
+    if(id) this.selected=id;
     this.getComicsInfoAll();
   }
   async getComicsInfoAll() {
@@ -50,16 +63,30 @@ export class CurrentListService {
     });
     this.all_list = list;
     this.change();
+    this.initAfter$.next()
   }
+
   change(id?) {
-    if(id) this.selected=id;
+    if(id) {
+      this.selected=id;
+      localStorage.setItem("list_menu_selected_id",id);
+    }
+
     if (this.selected == "all") {
       this.list = this.all_list;
     } else if (this.selected == "local") {
       this.list = this.all_list.filter(x => x.origin == "local");
     } else {
-      this.list = this.all_list.filter(x => x.config.id == this.selected);
+      this.list = this.all_list.filter(x => x.config?.id == this.selected);
+      if(this.list.length==0){
+        const menu=JSON.parse(localStorage.getItem("list_menu_config"))
+        let list=[];
+        menu.server.forEach(x=>x.subscriptions.forEach(c=>list.push(c)))
+        const obj=list.find(x=>x.id==this.selected);
+        if(!obj) this.change("all");
+      }
     }
+    this.change$.next()
   }
   async delete(id) {
     let chapterIds = [];

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ContextMenuEventService, GamepadControllerService, GamepadEventService, I18nService } from 'src/app/library/public-api';
 import { ConfigListService } from '../../services/config.service';
@@ -7,6 +7,7 @@ import { ZipService } from '../../services/zip.service';
 import { FormControl } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
 import { SwiperOptions } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
 const KEY = "comics_item";
 @Component({
   selector: 'app-list-mode2',
@@ -14,7 +15,7 @@ const KEY = "comics_item";
   styleUrls: ['./list-mode2.component.scss']
 })
 export class ListMode2Component {
-
+  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (event.key == "Meta") this._ctrl = true;
@@ -26,6 +27,10 @@ export class ListMode2Component {
     if (event.key == "Meta") this._ctrl = false;
     if (event.key == "Control") this._ctrl = false;
   }
+  @HostListener('window:resize', ['$event'])
+  resize() {
+    this.getLists();
+  }
   _ctrl = false;
   selectedList = [];
   edit$ = null;
@@ -35,7 +40,6 @@ export class ListMode2Component {
   filteredOptions: Observable<string[]>;
 
 
-  lists=[1,2,3];
   swiperOptions: SwiperOptions = {
     mousewheel: {
       thresholdDelta: 50,
@@ -45,7 +49,7 @@ export class ListMode2Component {
     pagination: {
       clickable: true,
       renderBullet: function (index, className) {
-        return '<span class="' + className + '">' +"</span>";
+        return '<span class="' + className + '">' + "</span>";
       },
     },
   };
@@ -57,6 +61,9 @@ export class ListMode2Component {
 
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
+  lists = [];
+  initAfter$ = null;
+  change$ = null;
   constructor(
     public current: CurrentListService,
     public ContextMenuEvent: ContextMenuEventService,
@@ -74,7 +81,7 @@ export class ListMode2Component {
     })
     GamepadEvent.registerAreaEvent("list_mode_item", {
       B: () => {
-      if(config.edit)  this.closeEdit();
+        if (config.edit) this.closeEdit();
       }
     })
     GamepadEvent.registerHoverEvent(KEY, {
@@ -105,12 +112,18 @@ export class ListMode2Component {
     })
     this.edit$ = this.current.edit().subscribe(x => {
       if (x) {
-        setTimeout(()=>{
+        setTimeout(() => {
           GamepadController.setCurrentTargetId('select_all')
         })
       } else {
         this.close();
       }
+    })
+    this.initAfter$ = this.current.initAfter().subscribe(() => {
+      this.getLists()
+    })
+    this.change$ = this.current._change().subscribe(() => {
+      this.getLists()
     })
   }
   selectedDetele() {
@@ -143,13 +156,39 @@ export class ListMode2Component {
       map(value => this._filter(value || '')),
     );
   }
-  ngAfterViewInit() {
-    const node = document.querySelector("#list");
-    node.scrollTop = this.config.view.scrollTop;
+  list_view_config = {
+    width: 0,
+    height: 0,
+    count: 0,
+    forCount: 0
   }
-
+  ngAfterViewInit() {
+    this.getLists();
+  }
+  getLists() {
+    if (!this.current.list.length) return
+    const node = document.querySelector("#list");
+    let w2 = node.clientWidth / (144 + 1.8 * 16);
+    let h2 = (node.clientHeight / (248 + 0.9 * 16)) + 0.2;
+    if (h2 < 1) h2 = 1;
+    const count = Math.trunc(h2) * Math.trunc(w2);
+    const o = Math.ceil(this.current.list.length / count);
+    this.lists = [];
+    for (let i = 0; i < o; i++) {
+      const e = this.current.list.slice(i * count, (i + 1) * count);
+      this.lists.push(e)
+    }
+  }
+  prev() {
+    this.swiper.swiperRef.slidePrev();
+  }
+  next() {
+    this.swiper.swiperRef.slideNext();
+  }
   ngOnDestroy() {
     this.edit$.unsubscribe();
+    this.initAfter$.unsubscribe();
+    this.change$.unsubscribe();
     this.close();
     const node = document.querySelector("#list");
     this.config.view.scrollTop = node.scrollTop;

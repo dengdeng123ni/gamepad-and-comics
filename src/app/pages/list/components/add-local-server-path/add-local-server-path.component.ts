@@ -19,11 +19,10 @@ export class AddLocalServerPathComponent {
   is_destroy = false;
   api = 'http://localhost:9880';
   constructor(public uplaod: UploadService,
-    public current:CurrentListService,
-    public addLocalServerPath:AddLocalServerPathService,
-     public config: ConfigListService, public http: HttpClient, public _snackBar: MatSnackBar, public loading: LoadingService,) {
+    public current: CurrentListService,
+    public addLocalServerPath: AddLocalServerPathService,
+    public config: ConfigListService, public http: HttpClient, public _snackBar: MatSnackBar, public loading: LoadingService,) {
     this.oldName = this.name;
-
     this.init();
   }
   ngDoCheck() {
@@ -37,8 +36,6 @@ export class AddLocalServerPathComponent {
     const getClipboard = () => {
       setTimeout(async () => {
         const text = await navigator.clipboard.readText();
-        console.log(text);
-
         if (this.isPath(text)) this.name = text;
         else {
           if (!this.is_destroy) getClipboard();
@@ -54,11 +51,13 @@ export class AddLocalServerPathComponent {
   }
   async add(path) {
     this.loading.open();
-    const id = btoa(encodeURI(path));
+    const id = window.btoa(encodeURI(path));
     const name = path.split("/").at("-1");
-    const files = (await firstValueFrom(
+    const files:any = (await firstValueFrom(
       this.http.get(`${this.api}/files/${id}`)
     )) as Array<{ id: string; path: string }>;
+    const size=new Blob([JSON.stringify(files)]).size;
+
     if (files.length == 0) {
       this._snackBar.open("未找到数据", "", {
         duration: 100,
@@ -74,9 +73,13 @@ export class AddLocalServerPathComponent {
       return
     }
     if (this.config.list_menu_config.server[index].subscriptions.find(x => x.id == id)) {
-
+      if(this.config.list_menu_config.server[index].subscriptions.find(x => x.id == id).size==size) {
+        this.loading.close();
+        this.addLocalServerPath.close();
+        return
+      }
     } else {
-      this.config.list_menu_config.server[index].subscriptions.push({ name, id })
+      this.config.list_menu_config.server[index].subscriptions.push({ name,size,id })
     }
     this.config.save_list_menu_config();
     await this.uplaod.subscribe_to_file_directory(files, this.api, id)

@@ -37,19 +37,19 @@
     <div class="page_toolbar" style="display: flex;justify-content: space-between;padding: 1.2rem;padding-bottom: 0;">
       <input type="text" class="input">
       <div class="toolbar" style="display: flex;">
-        <button mat-icon-button class="icon_2">
+        <button mat-icon-button class="icon_2" (click)="prev()">
           <mat-icon>chevron_left</mat-icon>
         </button>
-        <button mat-icon-button class="icon_2">
+        <button mat-icon-button class="icon_2" (click)="next()">
           <mat-icon>chevron_right</mat-icon>
         </button>
       </div>
     </div>
 
-    <swiper #swiper style="height:90% ;" [config]="swiperOptions" (slideChange)="slideChange($event)">
+    <swiper #swiper id="list" [config]="swiperOptions" (slideChange)="slideChange($event)">
       <ng-template swiperSlide *ngFor="let c of lists;let index=index">
-        <div class="grid" id="list" [attr.size]="config.page.comics_item_size" [attr.type]="'list'">
-          <button class="item" mat-button *ngFor="let n of current.list;let index=index"
+        <div class="grid" [attr.size]="config.page.comics_item_size" [attr.type]="'list'">
+          <button class="item" mat-button *ngFor="let n of c;let index=index"
             [attr._id]="'list_mode_item_'+n.id" [attr.region]="'list_mode_item'" [attr.select]="n.id==config.view.id"
             [matTooltipShowDelay]="3000" [matTooltip]="n.title" [attr.content_menu_key]="'item'"
             [attr.content_menu_value]="n.id" [attr.multiple]="n.selected" (click)="on($event,n)">

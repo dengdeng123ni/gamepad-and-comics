@@ -211,6 +211,7 @@ export class Mode1Component {
     this.page$.unsubscribe();
     this.nextPage$.unsubscribe();
     this.previousPage$.unsubscribe();
+
   }
   appendSlide(src) {
     this.swiper.swiperRef.appendSlide

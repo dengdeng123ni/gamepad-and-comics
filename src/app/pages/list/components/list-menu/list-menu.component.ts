@@ -7,6 +7,7 @@ import { CurrentListService } from '../../services/current.service';
 import { UploadService } from '../../services/upload.service';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'app-list-menu',
@@ -21,6 +22,7 @@ export class ListMenuComponent {
     public current: CurrentListService,
     public upload:UploadService,
     public AddLocalServerPath: AddLocalServerPathService,
+    public loading:LoadingService,
     public http:HttpClient
   ) {
 
@@ -32,11 +34,26 @@ export class ListMenuComponent {
 
   async on_local_server(e,api, id) {
     this.current.change(id);
-    // const files = (await firstValueFrom(
-    //   this.http.get(`${api}/files/${id}`)
-    // ))
-    // console.log(files,api,id);
+    setTimeout(async ()=>{
+      const files = (await firstValueFrom(
+        this.http.get(`${api}/files/${id}`)
+      ))
+      const size=new Blob([JSON.stringify(files)]).size;
+      // console.log(files,api,id);
+      const index = this.config.list_menu_config.server.findIndex(x => x.src == api);
+      if (index <= -1) {
+        return
+      }
+      if (this.config.list_menu_config.server[index].subscriptions.find(x => x.id == id)) {
+        if(this.config.list_menu_config.server[index].subscriptions.find(x => x.id == id).size==size) {
 
-    // this.upload.subscribe_to_file_directory(files,api,id);
+          return
+        }else{
+          this.loading.open();
+          await this.upload.subscribe_to_file_directory(files,api,id);
+          this.loading.close();
+        }
+      }
+    },2000)
   }
 }
