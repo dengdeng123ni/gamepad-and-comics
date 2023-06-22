@@ -35,18 +35,18 @@
   </div>
   <div class="content" (click)="close()">
     <div class="page_toolbar" style="display: flex;justify-content: space-between;padding: 1.2rem;padding-bottom: 0;">
-      <form class="example-form">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <input type="text"
-                 matInput>
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </form>
-      <div class="toolbar" style="display: flex;">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <input type="text" matInput [(ngModel)]="keyword">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+        <button *ngIf="keyword" matSuffix mat-icon-button class="input_close" (click)="keyword=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <div class="toolbar" style="display: flex;" *ngIf="lists.length>1">
         <button mat-icon-button class="icon_2" (click)="prev()">
           <mat-icon>chevron_left</mat-icon>
         </button>

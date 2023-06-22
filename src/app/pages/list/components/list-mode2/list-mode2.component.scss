@@ -8,7 +8,8 @@
 
   transition: all 0.3s;
 }
-.content{
+
+.content {
   background: #303030;
   border-radius: 4px;
   width: 100%;
@@ -19,12 +20,15 @@
   width: calc(100vw - 24px);
   margin-left: 12px;
 }
-#list{
+
+#list {
   height: calc(100% - 24px - 1.2rem);
 }
-.icon_2{
+
+.icon_2 {
   color: rgba(255, 255, 255, .87);
 }
+
 .grid {
   @apply mx-auto overflow-auto;
   grid-template-columns: repeat(auto-fill, calc(162px + 2rem));
@@ -45,8 +49,10 @@
   &[size=small] {
     grid-template-columns: repeat(auto-fill, calc(130px + 1.6rem));
     padding: 0.4rem;
+
     .item {
       padding: 0.8rem;
+
       .img {
         height: 184px;
       }
@@ -56,8 +62,10 @@
   &[size=middle] {
     grid-template-columns: repeat(auto-fill, calc(144px + 1.8rem));
     padding: 0.6rem;
+
     .item {
       padding: 0.9rem;
+
       .img {
         height: 204px;
       }
@@ -142,7 +150,8 @@
     // zoom: 1.1;
   }
 }
-.input{
+
+.input {
   background-color: #4a4a4a;
   color: #ffffffde;
   width: 16vw;
@@ -167,22 +176,38 @@
 
 
 :host ::ng-deep {
-  .mdc-line-ripple{
+  .input_close {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+
+    .mat-icon {
+      height: 18px;
+      width: 18px;
+      font-size: 18px;
+    }
+  }
+
+  .mdc-line-ripple {
     display: none;
   }
-  .mat-mdc-form-field-infix{
+
+  .mat-mdc-form-field-infix {
     min-height: 32px;
     padding-top: 4px !important;
     padding-bottom: 4px !important;
   }
-  .swiper-pagination-bullet-active{
-    background: rgba(255, 255, 255, .45) ;
+
+  .swiper-pagination-bullet-active {
+    background: rgba(255, 255, 255, .45);
 
   }
-  .swiper-pagination{
+
+  .swiper-pagination {
     zoom: 1.2;
     bottom: 5vh;
   }
+
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
     border-radius: 4px;
   }
@@ -191,8 +216,9 @@
     width: 24px;
     height: 24px;
   }
-  .mdc-text-field{
-    border-radius:4px;
+
+  .mdc-text-field {
+    border-radius: 4px;
   }
 
   .mat-toolbar-row,
@@ -231,6 +257,7 @@
     border-radius: 4px;
   }
 }
+
 .icon_2 {
   display: flex;
   justify-content: center;

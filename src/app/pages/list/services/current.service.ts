@@ -50,8 +50,8 @@ export class CurrentListService {
   }
 
   init() {
-    const id=localStorage.getItem("list_menu_selected_id");
-    if(id) this.selected=id;
+    const id = localStorage.getItem("list_menu_selected_id");
+    if (id) this.selected = id;
     this.getComicsInfoAll();
   }
   async getComicsInfoAll() {
@@ -66,10 +66,30 @@ export class CurrentListService {
     this.initAfter$.next()
   }
 
+  search(text) {
+    if(!text){
+      this.change(this.selected)
+      return
+    }
+    this.list = this.fuzzyQuery(this.list, text)
+    console.log(this.list);
+
+    this.change$.next()
+  }
+  fuzzyQuery(list, keyWord) {
+    var arr = [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].title.indexOf(keyWord) >= 0) {
+        arr.push(list[i]);
+      }
+    }
+    return arr;
+  }
+
   change(id?) {
-    if(id) {
-      this.selected=id;
-      localStorage.setItem("list_menu_selected_id",id);
+    if (id) {
+      this.selected = id;
+      localStorage.setItem("list_menu_selected_id", id);
     }
 
     if (this.selected == "all") {
@@ -78,12 +98,12 @@ export class CurrentListService {
       this.list = this.all_list.filter(x => x.origin == "local");
     } else {
       this.list = this.all_list.filter(x => x.config?.id == this.selected);
-      if(this.list.length==0){
-        const menu=JSON.parse(localStorage.getItem("list_menu_config"))
-        let list=[];
-        menu.server.forEach(x=>x.subscriptions.forEach(c=>list.push(c)))
-        const obj=list.find(x=>x.id==this.selected);
-        if(!obj) this.change("all");
+      if (this.list.length == 0) {
+        const menu = JSON.parse(localStorage.getItem("list_menu_config"))
+        let list = [];
+        menu.server.forEach(x => x.subscriptions.forEach(c => list.push(c)))
+        const obj = list.find(x => x.id == this.selected);
+        if (!obj) this.change("all");
       }
     }
     this.change$.next()

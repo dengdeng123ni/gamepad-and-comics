@@ -35,10 +35,17 @@ export class ListMode2Component {
   selectedList = [];
   edit$ = null;
 
+  _keyword="";
+  get keyword() { return this._keyword };
+  set keyword(value: string) {
+
+    this.current.search(value);
+    this._keyword = value;
+  }
+
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
-
 
   swiperOptions: SwiperOptions = {
     mousewheel: {
@@ -166,7 +173,10 @@ export class ListMode2Component {
     this.getLists();
   }
   getLists() {
-    if (!this.current.list.length) return
+    if (!this.current.list.length){
+      this.lists=[];
+      return
+    }
     const node = document.querySelector("#list");
     let w2 = node.clientWidth / (144 + 1.8 * 16);
     let h2 = (node.clientHeight / (248 + 0.9 * 16)) + 0.2;
