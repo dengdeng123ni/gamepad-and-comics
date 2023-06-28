@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { I18nService } from 'src/app/library/public-api';
+import { ContextMenuControllerService, ContextMenuEventService, I18nService } from 'src/app/library/public-api';
 import { ConfigListService } from '../../services/config.service';
 import { AddServerService } from '../add-server/add-server.service';
 import { AddLocalServerPathService } from '../add-local-server-path/add-local-server-path.service';
@@ -20,40 +20,116 @@ export class ListMenuComponent {
     public AddServer: AddServerService,
     public config: ConfigListService,
     public current: CurrentListService,
-    public upload:UploadService,
+    public upload: UploadService,
     public AddLocalServerPath: AddLocalServerPathService,
-    public loading:LoadingService,
-    public http:HttpClient
+    public ContextMenuEvent: ContextMenuEventService,
+    public ContextMenuController: ContextMenuControllerService,
+    public loading: LoadingService,
+    public http: HttpClient
   ) {
+    ContextMenuEvent.register('application', {
+      close: e => {
 
+      },
+      on: async e => {
+        if (e.id == "local_server") {
+          this.AddServer.open()
+        }
+
+      },
+      menu: [
+        { name: "本地服务器", id: "local_server" },
+        // { name: "export", id: "export" },
+        // { name: "delete", id: "delete" },
+      ]
+    })
+    ContextMenuEvent.register('local_server', {
+      close: e => {
+
+      },
+      on: async e => {
+        if (e.id == "delete") {
+          const res = e.value.split("_");
+          const indexc = parseInt(res[0]);
+          for (let index = 0; index < this.config.list_menu_config.server[indexc].subscriptions.length; index++) {
+            const n = this.config.list_menu_config.server[indexc].subscriptions[index];
+            const id=n.id;
+            const list=this.current.all_list.filter(x=>x.config.id==id);
+            list.forEach(x=>this.current.delete(x.id))
+          }
+          this.config.list_menu_config.server=this.config.list_menu_config.server.filter((x,i)=>i!=indexc);
+          this.config.save_list_menu_config();
+        }
+      },
+      menu: [
+        { name: "delete", id: "delete" },
+        // { name: "export", id: "export" },
+        // { name: "delete", id: "delete" },
+      ]
+    })
+    ContextMenuEvent.register('local_server_item', {
+      close: e => {
+
+      },
+      on: async e => {
+        if (e.id == "update") {
+
+        }
+        if (e.id == "delete") {
+          const res = e.value.split("_");
+          const index = parseInt(res[0]);
+          const id = res[1];
+          this.config.list_menu_config.server[index].subscriptions=this.config.list_menu_config.server[index].subscriptions.filter(x=>x.id!=id);
+          const list=this.current.all_list.filter(x=>x.config.id==id);
+          list.forEach(x=>this.current.delete(x.id))
+          this.config.save_list_menu_config();
+        }
+      },
+      menu: [
+        // { name: "更新", id: "update" },
+        { name: "delete", id: "delete" },
+        // { name: "delete", id: "delete" },
+      ]
+    })
+    // n.id
+    // local_server_item
+
+  }
+  local_server_item_delete() {
+
+  }
+  openServer($event) {
+    const node: any = document.querySelector("[content_menu_key=application]")
+    const position = node.getBoundingClientRect();
+    this.ContextMenuController.openContextMenu(node, position.left + 5, position.bottom + 5)
 
   }
   on(e, id) {
     this.current.change(id);
   }
 
-  async on_local_server(e,api, id) {
+  async on_local_server(e, api, id) {
     this.current.change(id);
-    setTimeout(async ()=>{
+    setTimeout(async () => {
       const files = (await firstValueFrom(
         this.http.get(`${api}/files/${id}`)
       ))
-      const size=new Blob([JSON.stringify(files)]).size;
+      const size = new Blob([JSON.stringify(files)]).size;
       // console.log(files,api,id);
       const index = this.config.list_menu_config.server.findIndex(x => x.src == api);
       if (index <= -1) {
         return
       }
       if (this.config.list_menu_config.server[index].subscriptions.find(x => x.id == id)) {
-        if(this.config.list_menu_config.server[index].subscriptions.find(x => x.id == id).size==size) {
+        if (this.config.list_menu_config.server[index].subscriptions.find(x => x.id == id).size == size) {
 
           return
-        }else{
+        } else {
           this.loading.open();
-          await this.upload.subscribe_to_file_directory(files,api,id);
+          await this.upload.subscribe_to_file_directory(files, api, id);
           this.loading.close();
         }
       }
-    },2000)
+    }, 2000)
   }
 }

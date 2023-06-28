@@ -58,3 +58,12 @@ body[angle=none] {
   }
 
 }
+[content_menu_key='application'] {
+  &::after {
+    border: 0 !important;
+  }
+
+  &::before {
+    border: 0 !important;
+  }
+}

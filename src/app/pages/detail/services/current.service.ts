@@ -44,7 +44,7 @@ interface Chapters {
 })
 export class CurrentDetailService {
   comics: Comics = null;
-  isLeave = false;
+  is_destroy = false;
   constructor(
     private db: NgxIndexedDBService,
     public http: HttpClient,
@@ -78,7 +78,7 @@ export class CurrentDetailService {
 
   async init(id) {
     id = parseInt(id);
-    this.isLeave = true;
+    this.is_destroy = true;
     setTimeout(() => { this.createSmailImage(id) }, 1000)
     const x:any = await firstValueFrom(forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]));
     const comics = { ...x[0], ...x[1] };
@@ -209,7 +209,7 @@ export class CurrentDetailService {
 
 
   close() {
-    this.isLeave = false;
+    this.is_destroy = false;
   }
 
   async insertPage(comicsId: number, chaptersId: number, imageId: number, imageData = "", direction = "before") {
@@ -414,7 +414,7 @@ export class CurrentDetailService {
     // const comics: any = await firstValueFrom(this.db.getByKey('comics', id))
     // for (let i = 0; i < comics.chapters.length; i++) {
     //   const x = comics.chapters[i].images[0];
-    //   if (!x.small && this.isLeave) {
+    //   if (!x.small && this.is_destroy) {
     //     const res = await createSmailImage(x.src, x.id);
 
     //     this.comics.chapters[i].images[0].small = res.small;
@@ -431,7 +431,7 @@ export class CurrentDetailService {
     //   const x = comics.chapters[i];
     //   for (let j = 0; j < x.images.length; j++) {
     //     if (comics.chapters[i].images[j].width || comics.chapters[i].images[j].height) continue
-    //     if (!!comics.chapters[i].images[j].small && this.isLeave) continue
+    //     if (!!comics.chapters[i].images[j].small && this.is_destroy) continue
     //     const res = await createSmailImage(comics.chapters[i].images[j].src, comics.chapters[i].images[j].id)
 
     //     this.comics.chapters[i].images[j].small = res.small;

@@ -17,5 +17,6 @@ export class ListSettingsComponent {
 
    ngOnDestroy(){
     localStorage.setItem("comics_item_size", this.config.page.comics_item_size)
+    localStorage.setItem("comics_is_page", this.config.page.is_page.toString())
    }
 }

@@ -1,20 +1,33 @@
-<div class="warp">
+<div class="warp" style="width: 236px;">
+  <div class="tilte" style="">
+    设置
+  </div>
   <div class="list">
+    <div class="item" style="margin-top: 5px;">
+      <div class="name">漫画大小</div>
+      <div class="options">
+        <mat-button-toggle-group style="width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;" [value]="config.page.comics_item_size">
+          <mat-button-toggle
+          [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.large" [attr.select]="true" [attr.region]="'list_settings'" value="large"
+            (click)="config.page.comics_item_size='large'">{{i18n.config.large}}</mat-button-toggle>
+          <mat-button-toggle [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.middle" [attr.region]="'list_settings'" value="middle"
+            (click)="config.page.comics_item_size='middle'">{{i18n.config.middle}}</mat-button-toggle>
+          <mat-button-toggle [matTooltipShowDelay]="3000"
+          [matTooltip]="i18n.config.small" [attr.region]="'list_settings'" value="small"
+            (click)="config.page.comics_item_size='small'">{{i18n.config.small}}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
     <div class="item">
-      <mat-button-toggle-group style="width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;" [value]="config.page.comics_item_size">
-        <mat-button-toggle
-        [matTooltipShowDelay]="3000"
-        [matTooltip]="i18n.config.large" [attr.select]="true" [attr.region]="'list_settings'" value="large"
-          (click)="config.page.comics_item_size='large'">{{i18n.config.large}}</mat-button-toggle>
-        <mat-button-toggle [matTooltipShowDelay]="3000"
-        [matTooltip]="i18n.config.middle" [attr.region]="'list_settings'" value="middle"
-          (click)="config.page.comics_item_size='middle'">{{i18n.config.middle}}</mat-button-toggle>
-        <mat-button-toggle [matTooltipShowDelay]="3000"
-        [matTooltip]="i18n.config.small" [attr.region]="'list_settings'" value="small"
-          (click)="config.page.comics_item_size='small'">{{i18n.config.small}}</mat-button-toggle>
-      </mat-button-toggle-group>
+      <div class="name">分页</div>
+      <div class="options">
+        <mat-slide-toggle [(ngModel)]="config.page.is_page">
+      </mat-slide-toggle>
+      </div>
     </div>
     <!-- <mat-divider style="margin: 4px 0;"></mat-divider>
     <div class="item">

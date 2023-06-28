@@ -77,6 +77,7 @@
     width: 100%;
     user-select: none;
     height: fit-content;
+
     // text-align: left;
     // height: min-content;
 
@@ -197,6 +198,9 @@
     padding-top: 4px !important;
     padding-bottom: 4px !important;
   }
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
 
   .swiper-pagination-bullet-active {
     background: rgba(255, 255, 255, .45);
