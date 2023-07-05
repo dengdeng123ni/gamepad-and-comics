@@ -61,6 +61,7 @@ export class ListMenuComponent {
           this.config.list_menu_config.server = this.config.list_menu_config.server.filter((x, i) => i != indexc);
           this.config.save_list_menu_config();
         }
+
       },
       menu: [
         { name: "delete", id: "delete" },
@@ -73,8 +74,15 @@ export class ListMenuComponent {
 
       },
       on: async e => {
-        if (e.id == "update") {
-
+        if(e.id=="update"){
+          const res = e.value.split("_");
+          const index = parseInt(res[0]);
+          const id = res[1];
+          const api=this.config.list_menu_config.server[index].src;
+          this.loading.open();
+          const files = (await firstValueFrom( this.http.get(`${api}/files/${id}`) ))
+          await this.upload.subscribe_to_file_directory(files, api, id);
+          this.loading.close();
         }
         if (e.id == "delete") {
           const res = e.value.split("_");
@@ -87,7 +95,7 @@ export class ListMenuComponent {
         }
       },
       menu: [
-        // { name: "更新", id: "update" },
+        { name: "更新资源", id: "update" },
         { name: "delete", id: "delete" },
         // { name: "delete", id: "delete" },
       ]

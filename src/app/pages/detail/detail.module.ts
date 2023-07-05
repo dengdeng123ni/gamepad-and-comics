@@ -18,6 +18,7 @@ import { OnePageThumbnailComponent } from './components/one-page-thumbnail/one-p
 import { ResetReadingProgressComponent } from './components/reset-reading-progress/reset-reading-progress.component';
 import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.component';
 import { Section2Component } from './components/section2/section2.component';
+import { SwiperModule } from 'swiper/angular';
 
 
 
@@ -43,7 +44,8 @@ import { Section2Component } from './components/section2/section2.component';
   imports: [
     CommonModule,
     DetailRoutingModule,
-    MaterialModule
+    MaterialModule,
+    SwiperModule
   ]
 })
 export class DetailModule { }
