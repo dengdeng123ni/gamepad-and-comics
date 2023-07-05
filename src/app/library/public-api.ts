@@ -16,3 +16,6 @@ export * from './gamepad/gamepad-sound.service';
 export * from './cache/cache.service';
 export * from './download/download.service';
 export * from './i18n/i18n.service';
+
+export * from './i18n/i18n.service';
+export * from './temporary-file/temporary-file.service'

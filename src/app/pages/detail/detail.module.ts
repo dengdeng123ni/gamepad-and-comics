@@ -17,6 +17,7 @@ import { GamepadThumbnailComponent } from './components/gamepad-thumbnail/gamepa
 import { OnePageThumbnailComponent } from './components/one-page-thumbnail/one-page-thumbnail.component';
 import { ResetReadingProgressComponent } from './components/reset-reading-progress/reset-reading-progress.component';
 import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.component';
+import { Section2Component } from './components/section2/section2.component';
 
 
 
@@ -36,7 +37,8 @@ import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-cir
     GamepadThumbnailComponent,
     OnePageThumbnailComponent,
     ResetReadingProgressComponent,
-    GamepadLeftCircleToolbarComponent
+    GamepadLeftCircleToolbarComponent,
+    Section2Component
   ],
   imports: [
     CommonModule,

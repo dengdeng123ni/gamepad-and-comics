@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ContextMenuControllerService, ContextMenuEventService, I18nService } from 'src/app/library/public-api';
+import { ContextMenuControllerService, ContextMenuEventService, I18nService, TemporaryFileService } from 'src/app/library/public-api';
 import { ConfigListService } from '../../services/config.service';
 import { AddServerService } from '../add-server/add-server.service';
 import { AddLocalServerPathService } from '../add-local-server-path/add-local-server-path.service';
@@ -25,6 +25,7 @@ export class ListMenuComponent {
     public ContextMenuEvent: ContextMenuEventService,
     public ContextMenuController: ContextMenuControllerService,
     public loading: LoadingService,
+    public temporaryFile:TemporaryFileService,
     public http: HttpClient
   ) {
     ContextMenuEvent.register('application', {
@@ -53,11 +54,11 @@ export class ListMenuComponent {
           const indexc = parseInt(res[0]);
           for (let index = 0; index < this.config.list_menu_config.server[indexc].subscriptions.length; index++) {
             const n = this.config.list_menu_config.server[indexc].subscriptions[index];
-            const id=n.id;
-            const list=this.current.all_list.filter(x=>x.config.id==id);
-            list.forEach(x=>this.current.delete(x.id))
+            const id = n.id;
+            const list = this.current.all_list.filter(x => x.config.id == id);
+            list.forEach(x => this.current.delete(x.id))
           }
-          this.config.list_menu_config.server=this.config.list_menu_config.server.filter((x,i)=>i!=indexc);
+          this.config.list_menu_config.server = this.config.list_menu_config.server.filter((x, i) => i != indexc);
           this.config.save_list_menu_config();
         }
       },
@@ -79,9 +80,9 @@ export class ListMenuComponent {
           const res = e.value.split("_");
           const index = parseInt(res[0]);
           const id = res[1];
-          this.config.list_menu_config.server[index].subscriptions=this.config.list_menu_config.server[index].subscriptions.filter(x=>x.id!=id);
-          const list=this.current.all_list.filter(x=>x.config.id==id);
-          list.forEach(x=>this.current.delete(x.id))
+          this.config.list_menu_config.server[index].subscriptions = this.config.list_menu_config.server[index].subscriptions.filter(x => x.id != id);
+          const list = this.current.all_list.filter(x => x.config.id == id);
+          list.forEach(x => this.current.delete(x.id))
           this.config.save_list_menu_config();
         }
       },
@@ -91,12 +92,40 @@ export class ListMenuComponent {
         // { name: "delete", id: "delete" },
       ]
     })
+
+
     // n.id
     // local_server_item
 
   }
   local_server_item_delete() {
 
+  }
+  date = new Date().getTime();
+  files_arr = [];
+  async openTemporaryFile() {
+    const out = {};
+    const dirHandle = await (window as any).showDirectoryPicker({ mode: "readwrite" });
+    const id=window.btoa(encodeURI(dirHandle["name"]))
+    await this.handleDirectoryEntry(dirHandle, out, dirHandle["name"]);
+    await this.upload.subscribe_to_temporary_file_directory(this.files_arr,id)
+    this.temporaryFile.files=[...this.temporaryFile.files,...this.files_arr];
+    this.config.temporary.list.push({id,name:dirHandle["name"]})
+    this.current.temporary_file_ids.push(id);
+    await this.current.getComicsInfoAll();
+  }
+  async handleDirectoryEntry(dirHandle, out, path) {
+    for await (const entry of dirHandle.values()) {
+      if (entry.kind === "file") {
+        out[entry.name] = { id: this.date, blob: entry, path: `${path}/${entry.name}`.substring(1) };
+        this.files_arr.push({ id: this.date, blob: entry, path: `${path}/${entry.name}`.substring(1), name: entry.name })
+        this.date++;
+      }
+      if (entry.kind === "directory") {
+        const newOut = out[entry.name] = {};
+        await this.handleDirectoryEntry(entry, newOut, `${path}/${entry.name}`);
+      }
+    }
   }
   openServer($event) {
     const node: any = document.querySelector("[content_menu_key=application]")
@@ -131,5 +160,9 @@ export class ListMenuComponent {
         }
       }
     }, 2000)
+  }
+
+  async on_temporary_file(e,id){
+    this.current.change(id);
   }
 }

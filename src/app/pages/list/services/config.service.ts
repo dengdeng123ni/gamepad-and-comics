@@ -27,7 +27,10 @@ export class ConfigListService {
     select:{}
   }
 
+  temporary={
+    list:[],
 
+  };
   init(){
     const comics_item_size=localStorage.getItem("comics_item_size")
     const comics_is_page=localStorage.getItem("comics_is_page")

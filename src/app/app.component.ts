@@ -15,7 +15,7 @@ export class AppComponent {
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
-    public AppWorker:AppWorkerService,
+    public AppWorker: AppWorkerService,
     public router: Router
   ) {
     router.events.subscribe((event) => {
@@ -46,8 +46,15 @@ export class AppComponent {
     this.getPlatform();
 
 
+    setTimeout(() => {
+      // this.init();
+    }, 2000)
   }
+  files_obj = {};
+  files_arr = [];
+
   async ngAfterViewInit() {
+
     // var video = document.querySelector("video");
     // video.setAttribute('playsinline', '');
     // video.setAttribute('autoplay', '');
@@ -63,17 +70,17 @@ export class AppComponent {
     // navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
     //   video.srcObject = stream;
     // });
-//     const pointerup=async (event)=>{
-//       const device =await (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
-//       console.log(device);
+    //     const pointerup=async (event)=>{
+    //       const device =await (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
+    //       console.log(device);
 
-//       const server= await device.gatt.connect()
-// console.log(server);
+    //       const server= await device.gatt.connect()
+    // console.log(server);
 
 
-//     }
-//     const button = document.querySelector("button")
-//     button.addEventListener('pointerup',pointerup );
+    //     }
+    //     const button = document.querySelector("button")
+    //     button.addEventListener('pointerup',pointerup );
 
   }
   getPlatform() {

@@ -20,8 +20,10 @@ export class CurrentListService {
 
   list: Array<any> = [];
   all_list: Array<any> = [];
+
   selected = "all";
 
+  temporary_file_ids=[];
   constructor(
     private http: HttpClient,
     private db: NgxIndexedDBService,
@@ -55,25 +57,35 @@ export class CurrentListService {
     this.getComicsInfoAll();
   }
   async getComicsInfoAll() {
-    // if(this.all_list.length) return
     const x: any = await firstValueFrom(forkJoin([this.db.getAll('comics'), this.db.getAll('state')]))
-    const list = x[0].map((s, j) => ({ ...s, ...x[1][j] }))
+    let list = x[0].map((s, j) => ({ ...s, ...x[1][j] }))
+    list = list.filter(c => {
+      if (c.origin == "temporary_file") {
+        if (this.temporary_file_ids.includes(c.config.id)) {
+          return true
+        } else {
+          this.delete(c.id)
+          return false
+        }
+      } else {
+        return true
+      }
+    })
     list.forEach(x => {
       x.subTitle = x.chapter.title
     });
+
     this.all_list = list;
     this.change();
     this.initAfter$.next()
   }
 
   search(text) {
-    if(!text){
+    if (!text) {
       this.change(this.selected)
       return
     }
     this.list = this.fuzzyQuery(this.list, text)
-    console.log(this.list);
-
     this.change$.next()
   }
   fuzzyQuery(list, keyWord) {
