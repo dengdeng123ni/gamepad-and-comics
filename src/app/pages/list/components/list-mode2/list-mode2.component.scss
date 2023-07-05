@@ -206,10 +206,19 @@
     background: rgba(255, 255, 255, .45);
 
   }
+  .swiper{
+    overflow: inherit;
+  }
 
   .swiper-pagination {
     zoom: 1.2;
     bottom: 5vh;
+    text-align: right;
+    left: inherit;
+    right: 1rem;
+    top: -17px;
+    width: auto;
+    height: auto;
   }
 
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {

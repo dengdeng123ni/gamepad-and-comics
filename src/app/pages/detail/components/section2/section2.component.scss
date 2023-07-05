@@ -51,8 +51,9 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: space-between;
   grid-gap: 0.8rem;
-  padding: 0rem 0;
+  padding: 0.4rem 0;
   overflow: auto;
+
 
   @media screen and (min-width: 1080px) and (max-width: 1440px) {
     grid-template-columns: 1fr 1fr 1fr;
@@ -175,6 +176,20 @@ img::before {
   .swiper{
     width: 100%;
     height: 100%;
+    overflow: initial;
+  }
+  .swiper-pagination-bullet-active {
+    background: rgba(255, 255, 255, .45);
+
+  }
+  .swiper-pagination {
+    zoom: 1.2;
+    bottom: 1vh;
+    text-align: right;
+    left: inherit;
+    right: 1rem;
+    width: auto;
+    height: auto;
   }
   .mdc-button .mdc-button__label {
     width: 100%;

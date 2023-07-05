@@ -46,14 +46,14 @@
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
-      <div class="toolbar" style="display: flex;" *ngIf="lists.length>1">
+      <!-- <div class="toolbar" style="display: flex;" *ngIf="lists.length>1">
         <button mat-icon-button class="icon_2" (click)="prev()">
           <mat-icon>chevron_left</mat-icon>
         </button>
         <button mat-icon-button class="icon_2" (click)="next()">
           <mat-icon>chevron_right</mat-icon>
         </button>
-      </div>
+      </div> -->
     </div>
 
     <swiper #swiper id="list" [config]="swiperOptions" (slideChange)="slideChange($event)">
