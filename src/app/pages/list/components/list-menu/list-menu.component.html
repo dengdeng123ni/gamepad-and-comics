@@ -31,8 +31,8 @@
   </div>
   <!-- item.is_path_exist -->
   <div>
-    <button mat-button style="margin-top: 12px;" class="title" id="collect_first" [attr.content_menu_key]="'local_server'" [attr.content_menu_value]="0+'_'" (click)="openTemporaryFile()">临时性文件夹</button>
-    <button *ngFor="let n of config.temporary.list;let index=index" mat-button class="item" [attr.content_menu_key]="'local_server_item'" [attr.content_menu_value]="index+'_'+n.id" [attr.region]="'list_menu_item'" [attr.selected]="current.selected==n.id" (click)="on_temporary_file($event,n.id)">
+    <button mat-button style="margin-top: 12px;" class="title" id="collect_first" [attr.content_menu_key]="'temporary_file'" [attr.content_menu_value]="0+'_'" (click)="openTemporaryFile()">临时性文件夹</button>
+    <button *ngFor="let n of config.temporary.list;let index=index" mat-button class="item" [attr.content_menu_key]="'temporary_file_item'" [attr.content_menu_value]="index+'_'+n.id" [attr.region]="'list_menu_item'" [attr.selected]="current.selected==n.id" (click)="on_temporary_file($event,n.id)">
       <mat-icon class="icon">share</mat-icon>
       <div class="name">
         {{n.name}}

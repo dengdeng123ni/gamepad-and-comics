@@ -1284,12 +1284,17 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
 
     onFetch(event) {
       const req = event.request;
-      if (req.url.split("/")[3] == "image") {
+      const type=req.url.split("/")[3];
+      if (type == "image") {
         event.respondWith(this.getCacheImage(req.url))
         return;
       }
+      if (type == "temporary_file") {
+        event.respondWith(this.getTemporaryFile(req.url.split("/")[4]))
+        return;
+      }
 
-      if (req.url.split("/")[3] == "temporary_file") {
+      if (type == "delete_temporary_file") {
         event.respondWith(this.getTemporaryFile(req.url.split("/")[4]))
         return;
       }

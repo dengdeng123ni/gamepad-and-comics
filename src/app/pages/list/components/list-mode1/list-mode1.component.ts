@@ -111,7 +111,7 @@ export class ListMode1Component {
   }
   ngAfterViewInit() {
     const node = document.querySelector("#list");
-    node.scrollTop = this.config.view.scrollTop;
+    if(node) node.scrollTop = this.config.view.scrollTop;
   }
 
   ngOnDestroy() {
