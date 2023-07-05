@@ -191,6 +191,7 @@ export class UploadService {
     let j = 0;
     // firstValueFrom(, this.db.getAll('state')]))
     const comicsAll: any = await firstValueFrom(this.db.getAll('comics'));
+    const stateAll: any = await firstValueFrom(this.db.getAll('state'));
     for (let index = 0; index < this.list.length; index++) {
       const { comics, state } = this.list[index];
       const obj = comicsAll.find(x => x.title == comics.title);
@@ -212,33 +213,33 @@ export class UploadService {
         comics.config = { id: id };
         state.isFirstPageCover = false;
         state.pageOrder = false;
-        console.log(comics);
-
         await firstValueFrom(forkJoin([this.db.update('comics', comics), this.db.update('state', state)]))
       } else {
+        const newState=stateAll.find(x=>x.id==obj.id);
+        const index=obj.chapters.findIndex(c=>c.id==newState.chapter.id)
         for (let index = 0; index < comics.chapters.length; index++) {
-          delete comics.chapters[index].id;
-          delete comics.chapters[index].date;
+          comics.id=time + j;
+          state.id=time + j;
+          comics.chapters[index].id = time + j;
+          comics.chapters[index].date = time + j;
           comics.chapters[index].images = comics.chapters[index].images.map(x => {
             j++;
-            // console.log(x);/Users/zhiangzeng/iCloud云盘（归档）/Documents/漫画
-
             return { id: time + j, src: `${api}/file/${x.id}`, small: `${api}/file/${x.id}` }
           })
           j++;
         }
         comics.cover = comics.chapters[0].images[0];
-        state.chapter.id = comics.chapters[0].id;
+        state.chapter.id = comics.chapters[index].id;
+        state.chapter.title = comics.chapters[index].title;
         state.isFirstPageCover = false;
         state.pageOrder = false;
         delete comics.id;
         delete comics.createTime;
         delete comics.origin;
-        delete comics.size;
 
         const newComics = deepMerge(obj, comics);
-
-        await firstValueFrom(this.db.update('comics', newComics))
+        state.id=newComics.id;
+        await firstValueFrom(forkJoin([this.db.update('comics', newComics), this.db.update('state', state)]))
       }
     }
     this.list=[];

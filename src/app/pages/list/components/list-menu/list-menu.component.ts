@@ -82,6 +82,7 @@ export class ListMenuComponent {
           this.loading.open();
           const files = (await firstValueFrom( this.http.get(`${api}/files/${id}`) ))
           await this.upload.subscribe_to_file_directory(files, api, id);
+          await this.current.getComicsInfoAll();
           this.loading.close();
         }
         if (e.id == "delete") {
