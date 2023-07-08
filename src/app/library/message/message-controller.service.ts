@@ -19,12 +19,9 @@ export class MessageControllerService {
         const data = await this.MessageEvent.ServiceWorkerEvents[type](event);
         navigator.serviceWorker.controller.postMessage(data);
       }
-
     });
 
     window.addEventListener("message", function (event) {
-      console.log(event);
-
       if (event.data.type == "proxy_response") {
         navigator.serviceWorker.controller.postMessage(event.data)
       }
