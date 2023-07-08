@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ContextMenuControllerService, GamepadControllerService, GamepadEventService } from './library/public-api';
+import { ContextMenuControllerService, GamepadControllerService, GamepadEventService, MessageControllerService } from './library/public-api';
 import { compressAccurately } from 'image-conversion';
 import { NavigationStart, Router } from '@angular/router';
 import { Subject, async, debounceTime } from 'rxjs';
@@ -16,6 +16,7 @@ export class AppComponent {
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
     public AppWorker: AppWorkerService,
+    public MessageController:MessageControllerService,
     public router: Router
   ) {
     router.events.subscribe((event) => {
@@ -46,15 +47,9 @@ export class AppComponent {
     this.getPlatform();
 
 
-    setTimeout(() => {
-      // this.init();
-    }, 2000)
   }
-  files_obj = {};
-  files_arr = [];
 
   async ngAfterViewInit() {
-
     // var video = document.querySelector("video");
     // video.setAttribute('playsinline', '');
     // video.setAttribute('autoplay', '');

@@ -737,6 +737,7 @@ ${error.stack}`;
     }
     async handleFetchWithFreshness(req, event, lru) {
       var _a;
+      const okToCacheOpaque = (_a = this.config.cacheOpaqueResponses) != null ? _a : true;
       const [timeoutFetch, networkFetch] = this.networkFetchWithTimeout(req);
       let res;
       try {
@@ -1248,6 +1249,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       this.debugger = new DebugHandler(this, this.adapter);
       this.idle = new IdleScheduler(this.adapter, IDLE_DELAY, MAX_IDLE_DELAY, this.debugger);
       this._data_temporary_files = {};
+      this._data_proxy_response = {};
     }
     getCacheImage = async (src) => {
       const cache = await caches.open('image');
@@ -1277,25 +1279,93 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
           bool = false;
           r(new Response(""))
           j(new Response(""))
-        }, 300)
+        }, 500)
+      })
+    }
+    base64ToBlob(base64Data) {
+      let arr = base64Data.split(','),
+        fileType = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        l = bstr.length,
+        u8Arr = new Uint8Array(l);
+
+      while (l--) {
+        u8Arr[l] = bstr.charCodeAt(l);
+      }
+      return new Blob([u8Arr], {
+        type: fileType
+      });
+    }
+    async readStreamToString(stream) {
+      const reader = stream.getReader();
+      let result = [];
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        result.push(Array.from(value));
+      }
+      console.log(result);
+      return result;
+    }
+    async onProxyRequest(event) {
+
+      let headers = [];
+      event.request.headers.forEach(function (value, name) { headers.push({ value, name }) });
+      const id = event.clientId;
+      await this.broadcast({ type: "proxy_request", id: id, data: { method: event.request.method, body: event.request.body, headers: headers, url: event.request.url } })
+      let bool = true;
+      return new Promise((r, j) => {
+        const getFile = () => {
+          setTimeout(() => {
+
+            if (this._data_proxy_response[id]) {
+              let rsponse = this._data_proxy_response[id].data;
+              const readableStream = new ReadableStream({
+                start(controller) {
+                  for (const data of rsponse.body) {
+                    console.log(Uint8Array.from(data));
+                    controller.enqueue(Uint8Array.from(data));
+                  }
+                  controller.close();
+                },
+              });
+              delete rsponse.body;
+              const headers = new Headers();
+              rsponse.headers.forEach(x => {
+                headers.append(x.name, x.value);
+              })
+              rsponse.headers = headers
+              delete this._data_proxy_response[id]
+              r(new Response(readableStream,rsponse))
+            } else {
+              if (bool) getFile()
+            }
+          }, 0)
+        }
+        getFile()
+        setTimeout(() => {
+          bool = false;
+          r(new Response(""))
+          j(new Response(""))
+        }, 3500)
       })
     }
 
-
     onFetch(event) {
       const req = event.request;
-      const type=req.url.split("/")[3];
-      if (type == "image") {
+      if (req.url.split("/")[3] == "image") {
         event.respondWith(this.getCacheImage(req.url))
         return;
       }
-      if (type == "temporary_file") {
+
+      if (req.url.split("/")[3] == "temporary_file") {
         event.respondWith(this.getTemporaryFile(req.url.split("/")[4]))
         return;
       }
 
-      if (type == "delete_temporary_file") {
-        event.respondWith(this.getTemporaryFile(req.url.split("/")[4]))
+      if (event.request.headers.get("cors")) {
+        event.respondWith(this.onProxyRequest(event))
         return;
       }
       const scopeUrl = this.scope.registration.scope;
@@ -1329,11 +1399,19 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         return;
       }
 
-      const data = event.data;
-      if (data || data.type == "temporary_file") {
+      let data = event.data;
+      if (data && data.type && data.type == "temporary_file") {
         this._data_temporary_files[data.id] = data;
         return;
       }
+      if (data && data.type) console.log(data.type, data.type == "proxy_response");
+      if (data && data.type && data.type == "proxy_response") {
+        console.log(data);
+        console.log(123);
+        this._data_proxy_response[data.id] = data;
+        return;
+      }
+
       if (!data || !data.action) {
         return;
       }
@@ -1438,7 +1516,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       });
     }
     async getLastFocusedMatchingClient(scope2) {
-      const windowClients = await scope2.clients.matchAll({ type: "window" });
+      const windowClients = await scxfope2.clients.matchAll({ type: "window" });
       return windowClients[0];
     }
     async completeOperation(client, promise, nonce) {
