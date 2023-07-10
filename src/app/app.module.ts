@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -47,9 +47,15 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+
+
   ],
+
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA // Added for custom elements support
+  ]
 })
 export class AppModule { }
