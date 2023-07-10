@@ -29,8 +29,8 @@ export class ConfigListService {
 
   temporary={
     list:[],
-
   };
+
   init(){
     const comics_item_size=localStorage.getItem("comics_item_size")
     const comics_is_page=localStorage.getItem("comics_is_page")
@@ -42,7 +42,6 @@ export class ConfigListService {
     if(list_menu_config){
       this.list_menu_config=JSON.parse(list_menu_config) as any;
     }
-
   }
 
   save_list_menu_config(){
