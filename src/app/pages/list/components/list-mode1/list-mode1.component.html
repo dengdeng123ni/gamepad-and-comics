@@ -42,7 +42,7 @@
         [matTooltip]="n.title" [attr.content_menu_key]="'item'" [attr.content_menu_value]="n.id"
         [attr.multiple]="n.selected" (click)="on($event,n)">
         <div class="img">
-          <img loading="lazy" class="w-full" [src]="n.cover.src" [alt]="n?.title">
+          <img class="w-full" [src]="n.cover.src" [alt]="n?.title">
           <div class="mezzanine"></div>
         </div>
         <div class="name" (click)="on_keep_watching($event,n)">{{n.title}}</div>
