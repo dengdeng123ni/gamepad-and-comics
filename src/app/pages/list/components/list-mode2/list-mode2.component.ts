@@ -38,6 +38,7 @@ export class ListMode2Component {
   _keyword="";
   get keyword() { return this._keyword };
   set keyword(value: string) {
+console.log(value);
 
     this.current.search(value);
     this._keyword = value;
@@ -48,6 +49,7 @@ export class ListMode2Component {
   filteredOptions: Observable<string[]>;
 
   swiperOptions: SwiperOptions = {
+    direction: "vertical",
     mousewheel: {
       thresholdDelta: 50,
       forceToAxis: false,
@@ -177,10 +179,11 @@ export class ListMode2Component {
       this.lists=[];
       return
     }
-    const node = document.querySelector("#list");
-    let w2 = node.clientWidth / (144 + 1.8 * 16);
-    let h2 = (node.clientHeight / (248 + 0.9 * 16)) + 0.2;
+    let node = document.querySelector("#list") as any;
+    let w2 = ((node.clientWidth-32) / (144 + 1.8 * 16));
+    let h2 = (node.clientHeight / (248 + 0.9 * 16*2)) + 0.2;
     if (h2 < 1) h2 = 1;
+    node.style.height=`${Math.trunc(h2)*(248 + 0.9 * 16*2)+16}px`;
     const count = Math.trunc(h2) * Math.trunc(w2);
     const o = Math.ceil(this.current.list.length / count);
     this.lists = [];

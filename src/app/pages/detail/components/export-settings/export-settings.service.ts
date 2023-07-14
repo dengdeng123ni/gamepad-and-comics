@@ -15,18 +15,7 @@ export class ExportSettingsService {
     public GamepadController:GamepadControllerService
     ) {
     this.GamepadEvent.registerAreaEvent("detail_export_settings_page", {
-      "B": () => this.close(),
-      "A":()=>{
-        const node = this.GamepadController.getCurrentNode();
-        const type = node.getAttribute("type")
-        if (type=='chip' || type=='slide') {
-          node.querySelector("button").click();
-        }else if(type=='radio'){
-          node.querySelector("input").click();
-        } else {
-          GamepadController.leftKey();
-        }
-      }
+      "B": () => this.close()
     })
     this.GamepadEvent.registerAreaEvent("detail_export_settings", {
       "B": () => this.close(),

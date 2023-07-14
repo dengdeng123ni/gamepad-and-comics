@@ -25,7 +25,7 @@
     <div class="item">
       <div class="name">分页</div>
       <div class="options">
-        <mat-slide-toggle [(ngModel)]="config.page.is_page">
+        <mat-slide-toggle [attr.type]="'slide'" [attr.region]="'list_settings'" [(ngModel)]="config.page.is_page">
       </mat-slide-toggle>
       </div>
     </div>
