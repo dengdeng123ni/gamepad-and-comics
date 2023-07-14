@@ -85,7 +85,7 @@ export class CurrentListService {
       this.change(this.selected)
       return
     }
-    this.list = this.fuzzyQuery(this.list, text)
+    this.list = this.fuzzyQuery(this.all_list, text)
     this.change$.next()
   }
   fuzzyQuery(list, keyWord) {
@@ -118,6 +118,7 @@ export class CurrentListService {
         if (!obj) this.change("all");
       }
     }
+
     this.change$.next()
   }
   async delete(id) {
