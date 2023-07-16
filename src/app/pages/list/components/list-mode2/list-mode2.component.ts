@@ -35,11 +35,9 @@ export class ListMode2Component {
   selectedList = [];
   edit$ = null;
 
-  _keyword="";
+  _keyword = "";
   get keyword() { return this._keyword };
   set keyword(value: string) {
-console.log(value);
-
     this.current.search(value);
     this._keyword = value;
   }
@@ -63,6 +61,9 @@ console.log(value);
     },
   };
   slideChange(swiper) {
+    const index = swiper[0].activeIndex;
+    this.GamepadController.setCurrentTargetId(`_${this.lists[index][0].id}`, false)
+
     // this.activeIndex = swiper[0].activeIndex;
   }
   private _filter(value: string): string[] {
@@ -89,6 +90,26 @@ console.log(value);
       }
     })
     GamepadEvent.registerAreaEvent("list_mode_item", {
+      LEFT_TRIGGER: () => {
+        this.swiper.swiperRef.slidePrev();
+      },
+      RIGHT_TRIGGER: () => {
+        this.swiper.swiperRef.slideNext();
+      },
+      DOWN: () => {
+        const node = this.GamepadController.getCurrentNode();
+        const index = node.getAttribute('index');
+        if (index < this.w2) {
+          this.GamepadController.setCurrentTarget("DOWN")
+        }
+      },
+      UP:()=>{
+        const node = this.GamepadController.getCurrentNode();
+        const index = node.getAttribute('index');
+        if (index > this.w2) {
+          this.GamepadController.setCurrentTarget("UP")
+        }
+      },
       B: () => {
         if (config.edit) this.closeEdit();
       }
@@ -174,17 +195,21 @@ console.log(value);
   ngAfterViewInit() {
     this.getLists();
   }
+  w2 = 0;
+  h2 = 0;
   getLists() {
-    if (!this.current.list.length){
-      this.lists=[];
+    if (!this.current.list.length) {
+      this.lists = [];
       return
     }
     let node = document.querySelector("#list") as any;
-    let w2 = ((node.clientWidth-32) / (144 + 1.8 * 16));
-    let h2 = (node.clientHeight / (248 + 0.9 * 16*2)) + 0.2;
+    let w2 = ((node.clientWidth - 32) / (144 + 1.8 * 16));
+    let h2 = (node.clientHeight / (248 + 0.9 * 16 * 2)) + 0.2;
     if (h2 < 1) h2 = 1;
-    node.style.height=`${Math.trunc(h2)*(248 + 0.9 * 16*2)+16}px`;
+    node.style.height = `${Math.trunc(h2) * (248 + 0.9 * 16 * 2) + 16}px`;
     const count = Math.trunc(h2) * Math.trunc(w2);
+    this.w2 = Math.trunc(w2);
+    this.h2 = Math.trunc(h2);
     const o = Math.ceil(this.current.list.length / count);
     this.lists = [];
     for (let i = 0; i < o; i++) {

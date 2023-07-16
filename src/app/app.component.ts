@@ -48,13 +48,13 @@ export class AppComponent {
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     this.getPlatform();
 
-    const script = this.renderer.createElement('script');
-    script.src = 'http://localhost:3200/assets/js/bilibili-chapter-list.js';
-    script.onload = () => {
-      // 在脚本加载完成后执行的代码
-    };
-    script.type="module"
-    document.body.appendChild(script);
+    // const script = this.renderer.createElement('script');
+    // script.src = 'http://localhost:3200/assets/js/bilibili-chapter-list.js';
+    // script.onload = () => {
+    //   // 在脚本加载完成后执行的代码
+    // };
+    // script.type="module"
+    // document.body.appendChild(script);
   }
 
   async ngAfterViewInit() {

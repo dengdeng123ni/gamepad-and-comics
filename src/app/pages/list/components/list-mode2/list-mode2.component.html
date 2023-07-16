@@ -60,7 +60,7 @@
       <ng-template swiperSlide *ngFor="let c of lists;let index=index">
         <div class="grid" [attr.size]="config.page.comics_item_size" [attr.type]="'list'">
           <button class="item" mat-button *ngFor="let n of c;let index=index"
-            [attr._id]="'list_mode_item_'+n.id" [attr.region]="'list_mode_item'" [attr.select]="n.id==config.view.id"
+            [attr._id]="'_'+n.id" [attr.index]="index" [attr.region]="'list_mode_item'" [attr.select]="n.id==config.view.id"
             [matTooltipShowDelay]="3000" [matTooltip]="n.title" [attr.content_menu_key]="'item'"
             [attr.content_menu_value]="n.id" [attr.multiple]="n.selected" (click)="on($event,n)">
             <div class="img">
