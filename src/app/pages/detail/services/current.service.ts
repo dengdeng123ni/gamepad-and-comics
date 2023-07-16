@@ -90,9 +90,7 @@ export class CurrentDetailService {
       })
     })
     this.comics = comics;
-    this.afterInit$.next(this.comics);
-
-    setTimeout(() => { this.getChapterLastReadingDate(); }, 0)
+    this.getChapterLastReadingDate();
   }
   update_state(chapter, index) {
     if (Number.isNaN(index)) index = 0;
@@ -475,6 +473,7 @@ export class CurrentDetailService {
           x.lastReadTime = x.id;
         }
       })
+      this.afterInit$.next(this.comics);
     });
     const duplicates = (arr) => {
       //使用Map数据结构，去除数组中id相同的元素，保留date较大的那个

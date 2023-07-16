@@ -57,10 +57,10 @@
     </div>
 
     <swiper #swiper id="list" [config]="swiperOptions" (slideChange)="slideChange($event)">
-      <ng-template swiperSlide *ngFor="let c of lists;let index=index">
+      <ng-template swiperSlide *ngFor="let c of data.lists;let index2=index">
         <div class="grid" [attr.size]="config.page.comics_item_size" [attr.type]="'list'">
           <button class="item" mat-button *ngFor="let n of c;let index=index"
-            [attr._id]="'_'+n.id" [attr.index]="index" [attr.region]="'list_mode_item'" [attr.select]="n.id==config.view.id"
+            [attr._id]="'_'+n.id" [attr.index]="index" [attr.region]="index2==activeIndex?'list_mode_item':null" [attr.select]="n.id==config.view.id"
             [matTooltipShowDelay]="3000" [matTooltip]="n.title" [attr.content_menu_key]="'item'"
             [attr.content_menu_value]="n.id" [attr.multiple]="n.selected" (click)="on($event,n)">
             <div class="img">

@@ -7,6 +7,7 @@ import { GeneralService } from '../../services/general.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { LoadingService } from '../loading/loading.service';
+import { DataDetailService } from '../../services/data.service';
 
 @Component({
   selector: 'app-section',
@@ -27,7 +28,6 @@ export class SectionComponent {
   }
   // abbreviated list
   _ctrl = false;
-  chapters = [];
   selectedList = [];
   afterInit$ = null;
   onDownloadClick$ = null;
@@ -39,6 +39,7 @@ export class SectionComponent {
   title = "";
   constructor(
     public current: CurrentDetailService,
+    public data: DataDetailService,
     public config: ConfigDetailService,
     public exportSettings: ExportSettingsService,
     public GamepadEvent: GamepadEventService,
@@ -47,8 +48,8 @@ export class SectionComponent {
     public download: DownloadService,
     public loading: LoadingService,
     public i18n: I18nService,
-    public general:GeneralService,
-    public doublePageThumbnail:DoublePageThumbnailService,
+    public general: GeneralService,
+    public doublePageThumbnail: DoublePageThumbnailService,
     public router: Router
   ) {
     GamepadEvent.registerAreaEvent("detail_toolabr_item", {
@@ -58,9 +59,9 @@ export class SectionComponent {
     })
     GamepadEvent.registerAreaEvent("section_item", {
       B: () => {
-        if(config.edit){
+        if (config.edit) {
           this.closeEdit();
-        }else{
+        } else {
           this.router.navigate(['/'])
         }
 
@@ -81,18 +82,18 @@ export class SectionComponent {
         if (e.id == "delete") {
           const ids = selectedList.map(x => x.id)
           this.current.deleteChapter(ids)
-        }else  if (e.id == "thumbnail") {
-      const id=parseInt(e.value);
-      const index = await this.general.getChapterIndex(id);
-      this.doublePageThumbnail.open({
-        id: id,
-        index: index
-      })
+        } else if (e.id == "thumbnail") {
+          const id = parseInt(e.value);
+          const index = await this.general.getChapterIndex(id);
+          this.doublePageThumbnail.open({
+            id: id,
+            index: index
+          })
 
         }
         else if (e.id == "export") {
           const ids = selectedList.map(x => x.id)
-          ids.forEach(id => { let obj = this.chapters.find(s => s.id == id); obj.selected = true; })
+          ids.forEach(id => { let obj = this.data.chapters.find(s => s.id == id); obj.selected = true; })
 
           const node = document.getElementById("menu_content");
           let { x, y, width, height } = node.getBoundingClientRect();
@@ -117,7 +118,9 @@ export class SectionComponent {
     })
 
     this.afterInit$ = this.current.afterInit().subscribe((comics: any) => {
-      this.chapters = this.current.comics.chapters;
+      this.data.chapters = this.current.comics.chapters;
+      console.log(this.data.chapters);
+
       this.title = this.current.comics.chapter.title;
       this.id = this.current.comics.chapter.id;
       setTimeout(() => {
@@ -151,12 +154,12 @@ export class SectionComponent {
       }
 
       this.loading.close();
-      this.chapters.forEach(x => x.selected = false)
+      this.data.chapters.forEach(x => x.selected = false)
     })
 
     this.edit$ = this.current.edit().subscribe(x => {
       if (x) {
-        setTimeout(()=>{
+        setTimeout(() => {
           GamepadController.setCurrentTargetId('select_all')
         })
       } else {
@@ -178,16 +181,16 @@ export class SectionComponent {
     if (this.config.edit) this.closeEdit();
   }
   ngDoCheck(): void {
-    this.selectedList = this.chapters.filter(x => x.selected == true)
+    this.selectedList = this.data.chapters.filter(x => x.selected == true)
   }
   on($event, data) {
     if (this.config.edit) {
-      let obj = this.chapters.find(s => s.id == data.id);
+      let obj = this.data.chapters.find(s => s.id == data.id);
       obj.selected = !obj.selected;
     }
     if (this.config.edit) return
     if (this._ctrl) {
-      let obj = this.chapters.find(s => s.id == data.id);
+      let obj = this.data.chapters.find(s => s.id == data.id);
       obj.selected = !obj.selected;
     }
     if (this._ctrl) return
@@ -196,15 +199,15 @@ export class SectionComponent {
   close() {
     if (this.config.edit) return
     if (this._ctrl) return
-    this.chapters.forEach(x => x.selected = false)
+    this.data.chapters.forEach(x => x.selected = false)
   }
   selectAll() {
     if (!this._ctrl && !this.config.edit) return
-    const bool = this.chapters.filter(x => x.selected == true).length == this.chapters.length;
+    const bool = this.data.chapters.filter(x => x.selected == true).length == this.data.chapters.length;
     if (bool) {
-      this.chapters.forEach(x => x.selected = false)
+      this.data.chapters.forEach(x => x.selected = false)
     } else {
-      this.chapters.forEach(x => x.selected = true)
+      this.data.chapters.forEach(x => x.selected = true)
     }
   }
   selectedDetele() {

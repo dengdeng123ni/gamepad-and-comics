@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
+import { DataListService } from '../../services/data.service';
 const KEY = "comics_item";
 @Component({
   selector: 'app-list-mode2',
@@ -60,9 +61,12 @@ export class ListMode2Component {
       },
     },
   };
+  activeIndex=0;
   slideChange(swiper) {
-    const index = swiper[0].activeIndex;
-    this.GamepadController.setCurrentTargetId(`_${this.lists[index][0].id}`, false)
+    this.activeIndex = swiper[0].activeIndex;
+   setTimeout(()=>{
+    this.GamepadController.setCurrentTargetId(`_${this.data.lists[this.activeIndex][0].id}`, false)
+   })
 
     // this.activeIndex = swiper[0].activeIndex;
   }
@@ -71,11 +75,11 @@ export class ListMode2Component {
 
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
-  lists = [];
   initAfter$ = null;
   change$ = null;
   constructor(
     public current: CurrentListService,
+    public data:DataListService,
     public ContextMenuEvent: ContextMenuEventService,
     public GamepadEvent: GamepadEventService,
     public GamepadController: GamepadControllerService,
@@ -95,20 +99,6 @@ export class ListMode2Component {
       },
       RIGHT_TRIGGER: () => {
         this.swiper.swiperRef.slideNext();
-      },
-      DOWN: () => {
-        const node = this.GamepadController.getCurrentNode();
-        const index = node.getAttribute('index');
-        if (index < this.w2) {
-          this.GamepadController.setCurrentTarget("DOWN")
-        }
-      },
-      UP:()=>{
-        const node = this.GamepadController.getCurrentNode();
-        const index = node.getAttribute('index');
-        if (index > this.w2) {
-          this.GamepadController.setCurrentTarget("UP")
-        }
       },
       B: () => {
         if (config.edit) this.closeEdit();
@@ -199,7 +189,7 @@ export class ListMode2Component {
   h2 = 0;
   getLists() {
     if (!this.current.list.length) {
-      this.lists = [];
+      this.data.lists = [];
       return
     }
     let node = document.querySelector("#list") as any;
@@ -211,10 +201,10 @@ export class ListMode2Component {
     this.w2 = Math.trunc(w2);
     this.h2 = Math.trunc(h2);
     const o = Math.ceil(this.current.list.length / count);
-    this.lists = [];
+    this.data.lists = [];
     for (let i = 0; i < o; i++) {
       const e = this.current.list.slice(i * count, (i + 1) * count);
-      this.lists.push(e)
+      this.data.lists.push(e)
     }
   }
   prev() {

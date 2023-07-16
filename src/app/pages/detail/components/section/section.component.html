@@ -65,7 +65,7 @@
   <app-info-short *ngIf="!config.edit"></app-info-short>
   <div class="warp" (click)="close()">
     <div class="title">
-      {{ i18n.config.all_chapters }}({{ chapters.length }})
+      {{ i18n.config.all_chapters }}({{ data.chapters.length }})
       <!-- <span style="font-size: 0.75rem; line-height: 1rem; color: rgba(255, 255, 255, 0.34); text-align: left;">{{title}}</span> -->
     </div>
     <div
@@ -86,7 +86,7 @@
         [matTooltipShowDelay]="5000"
         [matTooltip]="n.title"
         mat-button
-        *ngFor="let n of chapters"
+        *ngFor="let n of data.chapters"
       >
         <div class="flex w-full">
           <img loading="lazy" [src]="n.images[0]?.small" alt="" />
@@ -126,7 +126,7 @@
         [matTooltipShowDelay]="1500"
         [matTooltip]="n.title"
         mat-button
-        *ngFor="let n of chapters; let index = index"
+        *ngFor="let n of data.chapters; let index = index"
       >
         <span
           [attr.read]="!!n.lastReadTime"
