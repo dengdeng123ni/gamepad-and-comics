@@ -16,7 +16,7 @@ export class AppComponent {
     public GamepadEvent: GamepadEventService,
     public ContextMenuController: ContextMenuControllerService,
     public AppWorker: AppWorkerService,
-    public MessageController: MessageControllerService,
+    // public MessageController: MessageControllerService,
     public router: Router,
     private renderer: Renderer2,
     private el: ElementRef

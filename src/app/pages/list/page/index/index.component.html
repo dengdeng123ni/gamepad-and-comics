@@ -1,11 +1,22 @@
 <!-- <app-toolbar></app-toolbar> -->
 <mat-drawer-container class="w-full h-full" autosize>
   <app-list-menu *ngIf="!config.edit"></app-list-menu>
-  <div class="mian" >
+  <div class="mian" *ngIf="config.type=='local'">
     <div class="top">
       <div class="content required">
-        <app-list-mode1 *ngIf="!config.page.is_page"></app-list-mode1>
-        <app-list-mode2 *ngIf="config.page.is_page"></app-list-mode2>
+        <!-- <app-list-mode1 *ngIf="!config.page.is_page"></app-list-mode1>
+        <app-list-mode2 *ngIf="config.page.is_page"></app-list-mode2> -->
+        <bilibili-mode1></bilibili-mode1>
+      </div>
+      <div class="side" *ngIf="!config.edit">
+        <app-list-side></app-list-side>
+      </div>
+    </div>
+  </div>
+  <div class="mian" *ngIf="config.type=='bilibili'">
+    <div class="top">
+      <div class="content required">
+        <bilibili-mode1></bilibili-mode1>
       </div>
       <div class="side" *ngIf="!config.edit">
         <app-list-side></app-list-side>

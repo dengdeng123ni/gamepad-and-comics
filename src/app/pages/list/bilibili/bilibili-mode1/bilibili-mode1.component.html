@@ -1,0 +1,19 @@
+<div class="bilibili_mode1" [attr.edit]="config.edit" >
+  <div class="content" (click)="close()">
+    <div class="grid" id="list"  [attr.size]="config.page.comics_item_size" [attr.type]="'list'">
+      <button class="item" mat-button *ngFor="let n of list;let index=index"
+        [attr._id]="'bilibili_mode1_item_'+n.id" [attr.region]="'bilibili_mode1_item'"
+        [attr.select]="n.id==config.view.id" [matTooltipShowDelay]="3000"
+        [matTooltip]="n.title" [attr.content_menu_key]="'item'" [attr.content_menu_value]="n.id"
+        [attr.multiple]="n.selected" (click)="on($event,n)">
+        <div class="img">
+          <img class="w-full" [src]="n.cover.src" [alt]="n?.title">
+          <div class="mezzanine"></div>
+        </div>
+        <div class="name" (click)="on_keep_watching($event,n)">{{n.title}}</div>
+        <div class="progress" (click)="on_keep_watching($event,n)">{{n.subTitle}}</div>
+        <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="config.edit" [(ngModel)]="n.selected"></mat-checkbox>
+      </button>
+    </div>
+  </div>
+</div>

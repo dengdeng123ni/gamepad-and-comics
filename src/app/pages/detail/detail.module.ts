@@ -19,6 +19,9 @@ import { ResetReadingProgressComponent } from './components/reset-reading-progre
 import { GamepadLeftCircleToolbarComponent } from './components/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.component';
 import { Section2Component } from './components/section2/section2.component';
 import { SwiperModule } from 'swiper/angular';
+import { BilibiliDetailComponent } from './page/bilibili-detail/bilibili-detail.component';
+import { BilibiliInfoComponent } from './bilibili/bilibili-info/bilibili-info.component';
+import { BilibiliSectionComponent } from './bilibili/bilibili-section/bilibili-section.component';
 
 
 
@@ -39,7 +42,10 @@ import { SwiperModule } from 'swiper/angular';
     OnePageThumbnailComponent,
     ResetReadingProgressComponent,
     GamepadLeftCircleToolbarComponent,
-    Section2Component
+    Section2Component,
+    BilibiliDetailComponent,
+    BilibiliInfoComponent,
+    BilibiliSectionComponent
   ],
   imports: [
     CommonModule,

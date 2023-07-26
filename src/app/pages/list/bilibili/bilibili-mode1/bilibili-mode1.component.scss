@@ -1,4 +1,4 @@
-.list_mode1 {
+.bilibili_mode1 {
   position: relative;
   width: calc(100vw - 200px - 36px - 24px);
   height: 100%;
@@ -15,7 +15,7 @@
   height: 100%;
 }
 
-.list_mode1[edit=true] {
+.bilibili_mode1[edit=true] {
   width: calc(100vw - 24px);
   margin-left: 12px;
 }
@@ -229,11 +229,11 @@
 
 
 @media screen and (min-width: 0px) and (max-width: 720px) {
-  .list_mode1[edit=true] {
+  .bilibili_mode1[edit=true] {
     width: calc(100vw - 8px);
   }
 
-  .list_mode1 {
+  .bilibili_mode1 {
     width: calc(100vw - 56px - 8px);
   }
 }

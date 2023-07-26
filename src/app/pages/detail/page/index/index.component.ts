@@ -20,7 +20,6 @@ export class IndexDetailComponent {
   handleKeyDown = (event: KeyboardEvent) => {
     if (document.body.getAttribute("locked_region") != "detail") return
     if (event.code == "Escape") window.history.back()
-    console.log(event.code);
 
     if(event.code=="Enter"){
       if(document.activeElement==document.body){

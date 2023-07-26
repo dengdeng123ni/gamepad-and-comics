@@ -21,6 +21,7 @@ export class ConfigListService {
     is_page:false
   }
 
+  type="local"
 
   list_menu_config={
     server:[],

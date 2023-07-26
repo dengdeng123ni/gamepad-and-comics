@@ -26,6 +26,8 @@ import { AddLocalServerPathComponent } from './components/add-local-server-path/
 import { ToolboxComponent } from './components/toolbox/toolbox.component';
 import { ListMode2Component } from './components/list-mode2/list-mode2.component';
 import { SwiperModule } from 'swiper/angular';
+import { BilibiliMode1Component } from './bilibili/bilibili-mode1/bilibili-mode1.component';
+import { BilibiliMode2Component } from './bilibili/bilibili-mode2/bilibili-mode2.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { SwiperModule } from 'swiper/angular';
     AddServerComponent,
     AddLocalServerPathComponent,
     ToolboxComponent,
-    ListMode2Component
+    ListMode2Component,
+    BilibiliMode1Component,
+    BilibiliMode2Component
 
   ],
   imports: [
