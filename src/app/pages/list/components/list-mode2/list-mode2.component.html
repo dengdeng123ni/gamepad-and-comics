@@ -56,7 +56,7 @@
       </div> -->
     </div>
 
-    <swiper #swiper id="list" [config]="swiperOptions" (slideChange)="slideChange($event)">
+    <swiper #swiper id="list" style="visibility: hidden;" [config]="swiperOptions" (slideChange)="slideChange($event)">
       <ng-template swiperSlide *ngFor="let c of data.lists;let index2=index">
         <div class="grid" [attr.size]="config.page.comics_item_size" [attr.type]="'list'">
           <button class="item" mat-button *ngFor="let n of c;let index=index"

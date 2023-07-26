@@ -10,11 +10,11 @@ export class GamepadVoiceService {
     open: "打开",
     click: "点击",
     close: "关闭",
-    exit:"退出",
-    full:"全屏",
+    exit: "退出",
+    full: "全屏",
 
-    "scroll_down":"向下滚动",
-    "scroll_up":"向上滚动",
+    "scroll_down": "向下滚动",
+    "scroll_up": "向上滚动",
   }
   gamepad = {
     UP: '上',
@@ -92,7 +92,7 @@ export class GamepadVoiceService {
     if (!action || action && !action.length) {
       let list = [];
       Object.keys(this.GamepadEvent.voiceEvents).forEach(x => {
-        if(region!=x) return
+        if (region != x) return
         Object.keys(this.GamepadEvent.voiceEvents[x]).forEach(c => {
           this.GamepadEvent.voiceEvents[x][c].keywords.forEach(f => {
             list.push({ keyword: f, event: this.GamepadEvent.voiceEvents[x][c].event, region: x, key: c })
@@ -105,11 +105,11 @@ export class GamepadVoiceService {
         const item = list[i];
         const similarity = this.strSimilarity2Percent(_str, item.keyword.replace(/ /g, ""))
 
-        list[i].index=i;
-        list[i].similarity=similarity;
+        list[i].index = i;
+        list[i].similarity = similarity;
       }
       list.sort((a, b) => b.similarity - a.similarity)
-      if (list[0]&&list[0].similarity != 0) {
+      if (list[0] && list[0].similarity != 0) {
         list[0].event();
         return
       }
@@ -133,10 +133,18 @@ export class GamepadVoiceService {
         }
 
         list.sort((a, b) => b.similarity - a.similarity)
-        if (!list[0]||list[0]&&list[0].similarity < 0.01) return
-        const node = nodes[list[0].index];
-        (node as any).click();
-        // this.GamepadInput.down$.next("A")
+        if (!list[0] || list[0] && list[0].similarity < 0.01) return
+        const node:any = nodes[list[0].index];
+        const type = node.getAttribute("type")
+        if (type == 'chip' || type == 'slide') {
+          node.querySelector("button").click();
+        } else if (type == 'radio') {
+          node.querySelector("input").click();
+        } else if (type == 'checkbox') {
+          node.querySelector("[type=checkbox]").click();
+        } else {
+          node.click();
+        }
       }
     }
     else {
@@ -175,14 +183,26 @@ export class GamepadVoiceService {
         list.sort((a, b) => b.similarity - a.similarity)
         if (list[0].similarity == 0) {
 
-          if (newStr.length < 2) this.GamepadInput.down$.next("A")
+          if (newStr.length < 2) {
+            const node:any = nodes[list[0].index];
+            const type = node.getAttribute("type")
+            if (type == 'chip' || type == 'slide') {
+              node.querySelector("button").click();
+            } else if (type == 'radio') {
+              node.querySelector("input").click();
+            } else if (type == 'checkbox') {
+              node.querySelector("[type=checkbox]").click();
+            } else {
+              node.click();
+            }
+          }
           return
         }
 
         const node = nodes[list[0].index];
         (node as any).click();
       };
-      if (actionKey == "close" ||actionKey == "exit") {
+      if (actionKey == "close" || actionKey == "exit") {
         this.close();
       };
       if (actionKey == "full") {
@@ -198,32 +218,32 @@ export class GamepadVoiceService {
         }
       };
       if (actionKey == "scroll_down") {
-        const scrollToTop = () =>{
-          const node=document.querySelector(`[locked_region=${region}] [type=list]`);
+        const scrollToTop = () => {
+          const node = document.querySelector(`[locked_region=${region}] [type=list]`);
           var hScrollTop = node.scrollTop;
           var hScrollHeight = node.scrollHeight;
           var height = 1;
-          if((height+hScrollTop)>=hScrollHeight){//滚动条已经到了容器底部
-            node.scrollTop=0;
-          }else{
+          if ((height + hScrollTop) >= hScrollHeight) {//滚动条已经到了容器底部
+            node.scrollTop = 0;
+          } else {
             var h = hScrollTop + height;
-            node.scrollTop=h;
+            node.scrollTop = h;
             window.requestAnimationFrame(scrollToTop)
           }
         }
         scrollToTop();
       }
       if (actionKey == "scroll_up") {
-        const scrollToTop = () =>{
-          const node=document.querySelector(`[locked_region=${region}] [type=list]`);
+        const scrollToTop = () => {
+          const node = document.querySelector(`[locked_region=${region}] [type=list]`);
           var hScrollTop = node.scrollTop;
           var hScrollHeight = node.scrollHeight;
           var height = 1;
-          if((height+hScrollTop)<=0){//滚动条已经到了容器底部
-            node.scrollTop=0;
-          }else{
+          if ((height + hScrollTop) <= 0) {//滚动条已经到了容器底部
+            node.scrollTop = 0;
+          } else {
             var h = hScrollTop - height;
-            node.scrollTop=h;
+            node.scrollTop = h;
             window.requestAnimationFrame(scrollToTop)
           }
         }

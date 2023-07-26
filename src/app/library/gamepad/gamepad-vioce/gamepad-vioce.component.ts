@@ -17,6 +17,7 @@ export class GamepadVioceComponent {
 
 
   constructor(public gamepadvioce:GamepadVoiceService) {
+
     // 配置设置以使每次识别都返回连续结果
     this.speechRecognition.continuous = true;
     this.speechRecognition.lang = window.navigator.language || 'en-US';
@@ -25,6 +26,7 @@ export class GamepadVioceComponent {
     this.speechRecognition.start();
     // 正确识别单词或短语时的事件处理程序1
     this.speechRecognition.onresult = (event) => {
+
       this.recognition$.next(event)
     };
     this.speechRecognition.onend = (event) => {
@@ -34,6 +36,7 @@ export class GamepadVioceComponent {
       this.text = x.results[x.results.length - 1][0].transcript;
     })
     this.recognition$.pipe(debounceTime(1000)).subscribe(x => {
+
       this.gamepadvioce.init(this.text)
       setTimeout(() => {
         this.text = "";

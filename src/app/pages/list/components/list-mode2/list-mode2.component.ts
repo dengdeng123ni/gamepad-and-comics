@@ -52,8 +52,10 @@ export class ListMode2Component {
     mousewheel: {
       thresholdDelta: 50,
       forceToAxis: false,
+      thresholdTime:1000,
     },
-    scrollbar: { draggable: true },
+    scrollbar: { draggable: true ,
+      },
     pagination: {
       clickable: true,
       renderBullet: function (index, className) {
@@ -193,9 +195,10 @@ export class ListMode2Component {
       return
     }
     let node = document.querySelector("#list") as any;
-    let w2 = ((node.clientWidth - 32) / (144 + 1.8 * 16));
+    let w2 = ((node.clientWidth - 32) / (144 + 1.8 * 27));
     let h2 = (node.clientHeight / (248 + 0.9 * 16 * 2)) + 0.2;
     if (h2 < 1) h2 = 1;
+    node.style.visibility = 'inherit';
     node.style.height = `${Math.trunc(h2) * (248 + 0.9 * 16 * 2) + 16}px`;
     const count = Math.trunc(h2) * Math.trunc(w2);
     this.w2 = Math.trunc(w2);

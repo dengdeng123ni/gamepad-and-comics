@@ -73,6 +73,7 @@ export class CurrentListService {
     })
     list.forEach(x => {
       x.subTitle = x.chapter.title
+      x.chapters=undefined;
     });
 
     this.all_list = list;
