@@ -1250,6 +1250,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       this.idle = new IdleScheduler(this.adapter, IDLE_DELAY, MAX_IDLE_DELAY, this.debugger);
       this._data_temporary_files = {};
       this._data_proxy_response = {};
+      this.proxy_hostnames = ["manga.bilibili.com"];
     }
     getCacheImage = async (src) => {
       const cache = await caches.open('image');
@@ -1309,7 +1310,6 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       return result;
     }
     async onProxyRequest(event) {
-
       let headers = [];
       event.request.headers.forEach(function (value, name) { headers.push({ value, name }) });
       const id = event.clientId;
@@ -1318,7 +1318,6 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       return new Promise((r, j) => {
         const getFile = () => {
           setTimeout(() => {
-
             if (this._data_proxy_response[id]) {
               let rsponse = this._data_proxy_response[id].data;
               const readableStream = new ReadableStream({
@@ -1337,7 +1336,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
               })
               rsponse.headers = headers
               delete this._data_proxy_response[id]
-              r(new Response(readableStream,rsponse))
+              r(new Response(readableStream, rsponse))
             } else {
               if (bool) getFile()
             }
@@ -1351,22 +1350,49 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         }, 3500)
       })
     }
+    async onWebsiteProxyRequest(event) {
+      const req = event.request;
+      const local_url = new URL(this.adapter.origin);
+      const req_url = new URL(req.url);
+      let headers = {};
+      event.request.headers.forEach(function (value, name) { headers[name] = value })
+      const body = await this.readStreamToString(req.body)
+      const id = event.clientId;
+      await this.broadcast({
+        id: id,
+        type: "website_proxy_request",
+        proxy_request_website_url: req_url.origin,
+        proxy_response_website_hostname: local_url.hostname,
+        http: {
+          url: req.url,
+          option: {
+            "headers": headers,
+            "body": body,
+            "method": req.method,
+            "mode": req.mode
+          }
+        }
+      })
+    }
 
     onFetch(event) {
       const req = event.request;
-      if (req.url.split("/")[3] == "image") {
-        event.respondWith(this.getCacheImage(req.url))
-        return;
-      }
-
-      if (req.url.split("/")[3] == "temporary_file") {
-        event.respondWith(this.getTemporaryFile(req.url.split("/")[4]))
-        return;
-      }
-
-      if (event.request.headers.get("cors")) {
-        event.respondWith(this.onProxyRequest(event))
-        return;
+      const local_url = new URL(this.adapter.origin);
+      const req_url = new URL(req.url);
+      if (local_url.hostname == req_url.hostname) {
+        if (req.url.split("/")[3] == "image") {
+          event.respondWith(this.getCacheImage(req.url))
+          return;
+        }
+        if (req.url.split("/")[3] == "temporary_file") {
+          event.respondWith(this.getTemporaryFile(req.url.split("/")[4]))
+          return;
+        }
+      } else {
+        if (this.proxy_hostnames.includes(req_url.hostname)) {
+          event.respondWith(this.onWebsiteProxyRequest(event))
+          return;
+        }
       }
       const scopeUrl = this.scope.registration.scope;
       const requestUrlObj = this.adapter.parseUrl(req.url, scopeUrl);

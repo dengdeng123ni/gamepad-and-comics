@@ -12,12 +12,18 @@ export class MessageControllerService {
       const data = event.data;
       window.postMessage(data, '*');
     })
+    MessageEvent.service_worker_register('website_proxy_request', event => {
+      const data = event.data;
+      window.postMessage(data, '*');
+    })
     navigator.serviceWorker.addEventListener('message', async (event) => {
       // 处理接收到的消息
       const type = event.data.type;
+      console.log(event);
+
       if (this.MessageEvent.ServiceWorkerEvents[type]) {
         const data = await this.MessageEvent.ServiceWorkerEvents[type](event);
-        navigator.serviceWorker.controller.postMessage(data);
+        if(data) navigator.serviceWorker.controller.postMessage(data);
       }
     });
 
