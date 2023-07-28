@@ -70,7 +70,6 @@ export class CurrentReaderService {
       this.update_state(this.comics.chapter, x);
     })
     this.on$.subscribe(event$ => {
-
       const { x, y } = event$;
       const { innerWidth, innerHeight } = window;
       if (x > (innerWidth * 0.33) && x < (innerWidth * 0.66) && y > (innerHeight * 0.33) && y < (innerHeight * 0.66)) {
@@ -111,7 +110,6 @@ export class CurrentReaderService {
         }, 300 * Math.random())
       }
     })
-
   }
 
   public mode$ = new Subject<number>();
@@ -232,6 +230,9 @@ export class CurrentReaderService {
       setTimeout(() => { this.getChapterLastReadingDate(); }, 800)
       // this.insert(id, this.comics.chapters[0].id, this.comics.chapters[0].images[0].id)
     })
+  }
+  async getChapter(id){
+
   }
   close() {
     if (this.comics.chapter.index != 0) this.db.update('chapter_state', this.comics.chapter).subscribe()
