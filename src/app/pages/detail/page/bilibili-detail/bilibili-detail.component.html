@@ -42,14 +42,15 @@
               [matTooltipShowDelay]="5000"
               [matTooltip]="n.title"
               mat-button
-              *ngFor="let n of comics.chapters"
+              *ngFor="let n of comics.chapters;let index=index"
             >
               <div class="flex w-full">
                 <img loading="lazy" [src]="n.cover" alt="" />
                 <div class="info">
                   <div
                     class="name"
-                    [attr.read]="!!n.lastReadTime"
+                    [attr.read]="!!n.read"
+                    [attr.current]="index==comics.read_order"
                   >
                     {{ n.title }}
                   </div>

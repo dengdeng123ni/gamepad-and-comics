@@ -216,6 +216,7 @@ export class CurrentReaderService {
 
     forkJoin([this.db.getByKey('comics', id), this.db.getByKey('state', id)]).subscribe(async (x: any) => {
       this.comics = { ...x[0], ...x[1] };
+      console.log(this.comics);
 
       this.comics.chapters.forEach(c => {
         c.images.forEach((j, i) => {

@@ -71,6 +71,37 @@
   }
 
 }
+.mat-drawer-container{
+  background:#424242;
+}
+.mat-drawer{
+  border: 0;
+}
+
+
+:host ::ng-deep {
+  .mat-drawer-content{
+    display: flex;
+    overflow: hidden;
+  }
+  app-section{
+    height: calc(100% - 52px);
+  }
+  [edit=true]{
+    app-section{
+      height: 100%;
+    }
+  }
+  @media screen and (min-width: 0px) and (max-width: 960px) {
+    app-section{
+      height: calc(100% - 56px);
+    }
+  }
+  app-detail-side{
+    height: 100%;
+    padding: 2.5vh 0;
+  }
+}
 
 @media screen and (min-width: 0px) and (max-width: 960px) {
   .bilibili_info {
@@ -100,34 +131,36 @@
 
 
 }
-
-.icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border-radius: 4px;
-  margin-top: 4px;
-
-  .mat-icon {
-    height: 22px;
-    width: 22px;
-    font-size: 22px;
-    overflow: hidden;
+.bilibili_info {
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     border-radius: 4px;
-  }
+    margin-top: 4px;
 
-  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
-    border-radius: 4px;
+    .mat-icon {
+      height: 22px;
+      width: 22px;
+      font-size: 22px;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+      border-radius: 4px;
+    }
   }
 }
 
 
 
+
 .detail_section {
-  width: calc(100vw - 224px);
+  width: calc(100vw - 248px);
   transition: all 0.3s;
   position: relative;
 
@@ -144,13 +177,12 @@
   display: flex;
   flex-direction: column;
   border-radius: 4px;
-  overflow: auto;
   padding: 0;
-  // margin: 12px 0;
   background: #303030;
   padding: 0.4rem;
   overflow: auto;
   height: 100%;
+  margin-right: 12px;
 
   .title {
     font-size: 16px;

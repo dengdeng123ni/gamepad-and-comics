@@ -78,22 +78,18 @@ export class BilibiliMode1Component {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.init();
-    }, 3000)
+    this.init();
   }
   async init() {
-    const b: any = await this.getList();
-    // console.log(;);
-
-    const json = await b.json();
-
-    this.list=json.data.map(x => ({ id: x.id, cover: {src:x.vcover}, title: x.title, subTitle: `看到 ${x.last_ep_short_title} 话 / 共 ${x.latest_ep_short_title} 话` }));
-
+    if (document.body.getAttribute("pulg")) {
+      this.getList();
+    } else {
+      setTimeout(() => {
+        this.init();
+      }, 1000)
+    }
   }
   ngAfterViewInit() {
-    const node = document.querySelector("#list");
-    if (node) node.scrollTop = this.config.view.scrollTop;
   }
 
   ngOnDestroy() {
@@ -141,58 +137,34 @@ export class BilibiliMode1Component {
   }
 
   getList() {
-    // this.http.post("https://manga.bilibili.com/twirp/bookshelf.v1.Bookshelf/ListFavorite",{
-    //   page_num:1,
-    //   page_size:100,
-    //   order:1,
-    //   wait_free:0
-    // }).subscribe(x=>{
-    //   console.log(x);
+    this.http.post("https://manga.bilibili.com/twirp/bookshelf.v1.Bookshelf/ListFavorite", {
+      page_num: 1,
+      page_size: 100,
+      order: 1,
+      wait_free: 0
+    }, {
+      headers: {
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "content-type": "application/json;charset=UTF-8",
+      }
+    }).subscribe((x: any) => {
 
-    // })
-
-    return new Promise((r, j) => {
-
-
-      window.addEventListener("message", function (event) {
-        if (event.data.type == "proxy_response") {
-          let rsponse = event.data.data;
-          const readableStream = new ReadableStream({
-            start(controller) {
-              for (const data of rsponse.body) {
-                controller.enqueue(Uint8Array.from(data));
-              }
-              controller.close();
-            },
-          });
-          delete rsponse.body;
-          const headers = new Headers();
-          rsponse.headers.forEach(x => {
-            headers.append(x.name, x.value);
-          })
-          rsponse.headers = headers;
-          // readableStream.json()
-          r(new Response(readableStream, rsponse))
-        }
-      }, false);
-      window.postMessage({
-        type: "website_proxy_request",
-        proxy_request_website_url: "https://manga.bilibili.com/",
-        proxy_response_website_url: "http://localhost:3200/",
-        http: {
-          url: "https://manga.bilibili.com/twirp/bookshelf.v1.Bookshelf/ListFavorite",
-          option: {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": JSON.stringify({ page_num: 1, page_size: 100, order: 1, wait_free: 0 }),
-            "method": "POST"
+      this.list = x.data.map(x => {
+        // const cover=
+        const httpUrlToHttps = (str) => {
+          const url = new URL(str);
+          if (url.protocol == "http:") {
+            return `https://${url.host}${url.pathname}`
+          } else {
+            return str
           }
         }
-      }, '*')
+        return { id: x.id, cover: httpUrlToHttps(x.vcover), title: x.title, subTitle: `看到 ${x.last_ep_short_title} 话 / 共 ${x.latest_ep_short_title} 话` }
+      });
     })
+
+
 
   }
 }

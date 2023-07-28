@@ -1250,7 +1250,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       this.idle = new IdleScheduler(this.adapter, IDLE_DELAY, MAX_IDLE_DELAY, this.debugger);
       this._data_temporary_files = {};
       this._data_proxy_response = {};
-      this.proxy_hostnames = ["manga.bilibili.com"];
+      this.proxy_hostnames = ["manga.bilibili.com", "i0.hdslb.com"];
     }
     getCacheImage = async (src) => {
       const cache = await caches.open('image');
@@ -1303,10 +1303,8 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-
         result.push(Array.from(value));
       }
-      console.log(result);
       return result;
     }
     async onProxyRequest(event) {
@@ -1323,7 +1321,6 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
               const readableStream = new ReadableStream({
                 start(controller) {
                   for (const data of rsponse.body) {
-                    console.log(Uint8Array.from(data));
                     controller.enqueue(Uint8Array.from(data));
                   }
                   controller.close();
@@ -1356,22 +1353,56 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       const req_url = new URL(req.url);
       let headers = {};
       event.request.headers.forEach(function (value, name) { headers[name] = value })
-      const body = await this.readStreamToString(req.body)
-      const id = event.clientId;
+      let body = null;
+      if (req.body) body = await this.readStreamToString(req.body)
+      const id = new Date() + Math.floor(Math.random() * 100000);
       await this.broadcast({
         id: id,
         type: "website_proxy_request",
-        proxy_request_website_url: req_url.origin,
-        proxy_response_website_hostname: local_url.hostname,
+        proxy_request_website_url: "https://manga.bilibili.com/",
+        proxy_response_website_url: "http://localhost:3200/",
         http: {
           url: req.url,
           option: {
             "headers": headers,
             "body": body,
-            "method": req.method,
-            "mode": req.mode
+            "method": req.method
           }
         }
+      })
+      let bool = true;
+      return new Promise((r, j) => {
+        const getFile = () => {
+          setTimeout(() => {
+            if (this._data_proxy_response[id]) {
+              let rsponse = this._data_proxy_response[id].data;
+              const readableStream = new ReadableStream({
+                start(controller) {
+                  for (const data of rsponse.body) {
+                    controller.enqueue(Uint8Array.from(data));
+                  }
+                  controller.close();
+                },
+              });
+              delete rsponse.body;
+              const headers = new Headers();
+              rsponse.headers.forEach(x => {
+                headers.append(x.name, x.value);
+              })
+              rsponse.headers = headers
+              delete this._data_proxy_response[id]
+              r(new Response(readableStream, rsponse))
+            } else {
+              if (bool) getFile()
+            }
+          }, 0)
+        }
+        getFile()
+        setTimeout(() => {
+          bool = false;
+          r(new Response(""))
+          j(new Response(""))
+        }, 30000)
       })
     }
 
@@ -1430,10 +1461,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         this._data_temporary_files[data.id] = data;
         return;
       }
-      if (data && data.type) console.log(data.type, data.type == "proxy_response");
       if (data && data.type && data.type == "proxy_response") {
-        console.log(data);
-        console.log(123);
         this._data_proxy_response[data.id] = data;
         return;
       }

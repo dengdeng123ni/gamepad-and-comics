@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { I18nService } from 'src/app/library/public-api';
 
 @Component({
@@ -7,102 +8,1236 @@ import { I18nService } from 'src/app/library/public-api';
   styleUrls: ['./bilibili-detail.component.scss']
 })
 export class BilibiliDetailComponent {
-  constructor(public i18n:I18nService){
-setTimeout(() => {
-  this.init();
-}, 3000);
+  constructor(
+    public i18n: I18nService,
+    public router: Router,
+    ) {
+    setTimeout(() => {
+      this.init();
+    }, 1000);
   }
-  comics:any = {
-    cover:{
-      src:""
+  comics: any = {
+    cover: {
+      src: ""
     },
-    title:"",
-    chapter:{
-      title:""
+    title: "",
+    chapter: {
+      title: ""
     },
-    chapters:[]
+    chapters: []
   };
   async init() {
-    const b: any = await this.getDetail();
-    const json = await b.json();
-    console.log(json.data);
-
-    const data=json.data;
+    const json: any = this.getDetail();
+    const data = json.data;
+    data.ep_list.forEach(x=>{
+      x.cover=this.httpUrlToHttps(x.cover)
+    })
     const comics = {
-      cover:data.vertical_cover,
-      title:data.title,
-      author:data.author_name.toString(),
-      intro:data.evaluate,
-      chapters:data.ep_list.reverse()
+      cover: this.httpUrlToHttps(data.vertical_cover),
+      title: data.title,
+      author: data.author_name.toString(),
+      intro: data.evaluate,
+      read_order:data.read_order-1,
+      chapters: data.ep_list.reverse()
     };
-    this.comics=comics;
-   console.log(json);
-
+    this.comics = comics;
+    console.log(json);
+  }
+  httpUrlToHttps = (str) => {
+    if(!str) return str
+    const url = new URL(str);
+    if (url.protocol == "http:") {
+      return `https://${url.host}${url.pathname}`
+    } else {
+      return str
+    }
+  }
+  //   <div class="img" (click)="continue($event)" >
+  //   <img loading="lazy" [src]="comics.cover" alt="">
+  // </div>
+  // <div class="info">
+  //   <div class="title">{{comics.title}}</div>
+  //   <div class="author">{{comics.author}}</div>
+  //   <div class="intro">
+  //     {{comics.intro}}
+  //   </div>
+  // </div>
+  back() {
+    this.router.navigate(['/'])
+  }
+  continue(e) {
+    this.router.navigate(['/bilibili_reader', this.comics.id])
+  }
+  on($event, n) {
 
   }
-//   <div class="img" (click)="continue($event)" >
-//   <img loading="lazy" [src]="comics.cover" alt="">
-// </div>
-// <div class="info">
-//   <div class="title">{{comics.title}}</div>
-//   <div class="author">{{comics.author}}</div>
-//   <div class="intro">
-//     {{comics.intro}}
-//   </div>
-// </div>
-back() {
-  // this.router.navigate(['/'])
-}
-continue(e) {
-  // this.router.navigate(['/reader', this.comics.id])
-}
-on($event,n){
-
-}
   getDetail() {
 
-    return new Promise((r, j) => {
-
-
-      window.addEventListener("message", function (event) {
-        if (event.data.type == "proxy_response") {
-          let rsponse = event.data.data;
-          const readableStream = new ReadableStream({
-            start(controller) {
-              for (const data of rsponse.body) {
-                controller.enqueue(Uint8Array.from(data));
-              }
-              controller.close();
-            },
-          });
-          delete rsponse.body;
-          const headers = new Headers();
-          rsponse.headers.forEach(x => {
-            headers.append(x.name, x.value);
-          })
-          rsponse.headers = headers;
-          // readableStream.json()
-          r(new Response(readableStream, rsponse))
-        }
-      }, false);
-      window.postMessage({
-        type: "website_proxy_request",
-        proxy_request_website_url: "https://manga.bilibili.com/",
-        proxy_response_website_url: "http://localhost:3200/bilibili_detail/5647710",
-        http: {
-          url: "https://manga.bilibili.com/twirp/comic.v1.Comic/ComicDetail?device=pc&platform=web",
-          option: {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": JSON.stringify({ comic_id: 25966 }),
-            "method": "POST"
+    return {
+      "code": 0,
+      "msg": "",
+      "data": {
+        "id": 28649,
+        "title": "在无神的世界进行信仰传播",
+        "comic_type": 1,
+        "page_default": 4,
+        "page_allow": 15,
+        "horizontal_cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+        "square_cover": "http://i0.hdslb.com/bfs/manga-static/c9172ba47feb8a25f86501b85e3a046412ed9d71.jpg",
+        "vertical_cover": "http://i0.hdslb.com/bfs/manga-static/f7087237522dd879f1248b4a3a4764edbf548a2c.jpg",
+        "author_name": [
+          "朱白苍",
+          "半月板损伤",
+          "HERO'S"
+        ],
+        "styles": [
+          "奇幻"
+        ],
+        "last_ord": 42,
+        "is_finish": 0,
+        "status": 0,
+        "fav": 1,
+        "read_order": 42,
+        "evaluate": "男主角征人的父亲是一个怪异团体的教祖，他在父亲安排的严酷修行中不幸丧命，竟然转生到了异世界！\n这个没有“神”也没有“宗教”概念的异世界，对征人而言堪称理想世界！\n然而……为了保护在这里一起生活的居民，征人却不得不在这个没有神的异世界建立“宗教”?!",
+        "total": 42,
+        "ep_list": [
+          {
+            "id": 1225430,
+            "ord": 42,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "41",
+            "is_in_free": false,
+            "title": "异世界是大同人时代的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2023-07-12 12:01:44",
+            "comments": 47,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 123,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 27
+          },
+          {
+            "id": 1163020,
+            "ord": 41,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 92080997,
+            "short_title": "40",
+            "is_in_free": false,
+            "title": "要是我的推出现在异世界小黄书中我就去死的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2023-05-09 00:00:46",
+            "comments": 94,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 216,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 33
+          },
+          {
+            "id": 1130479,
+            "ord": 40,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 72512405,
+            "short_title": "39",
+            "is_in_free": false,
+            "title": "在异世界想立起败犬之旗却立不起来的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2023-04-06 00:00:24",
+            "comments": 41,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 187,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 33
+          },
+          {
+            "id": 1101917,
+            "ord": 39,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 65609914,
+            "short_title": "38",
+            "is_in_free": false,
+            "title": "在即将收拾异教团之际将其收编的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2023-03-07 13:30:55",
+            "comments": 40,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 154,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 31
+          },
+          {
+            "id": 1058629,
+            "ord": 38,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 111446469,
+            "short_title": "37",
+            "is_in_free": false,
+            "title": "真诚向异教教主许愿的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2023-01-17 12:13:22",
+            "comments": 88,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 172,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 31
+          },
+          {
+            "id": 1014710,
+            "ord": 37,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 75340554,
+            "short_title": "36",
+            "is_in_free": false,
+            "title": "用物理方法降服异教教祖的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-12-07 00:00:55",
+            "comments": 45,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 198,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 33
+          },
+          {
+            "id": 958580,
+            "ord": 36,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 87918815,
+            "short_title": "35",
+            "is_in_free": false,
+            "title": "在异世界的爱与演唱会的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-10-25 20:21:14",
+            "comments": 45,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 185,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 33
+          },
+          {
+            "id": 926081,
+            "ord": 35,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 139425071,
+            "short_title": "34",
+            "is_in_free": false,
+            "title": "在异世界物以类聚的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-09-26 22:21:03",
+            "comments": 38,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 185,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 31
+          },
+          {
+            "id": 926042,
+            "ord": 34,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 138047769,
+            "short_title": "33",
+            "is_in_free": false,
+            "title": "在异世界“真的是……长大了❤”的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-09-26 17:04:46",
+            "comments": 35,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 154,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 31
+          },
+          {
+            "id": 836729,
+            "ord": 33,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 117108560,
+            "short_title": "32",
+            "is_in_free": false,
+            "title": "在异世界的秘密家族的故事。",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-07-05 12:19:56",
+            "comments": 46,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 220,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 31
+          },
+          {
+            "id": 800432,
+            "ord": 32,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 112619266,
+            "short_title": "31",
+            "is_in_free": false,
+            "title": "在异世界建立快乐家族的故事。",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-05-31 17:17:39",
+            "comments": 39,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 203,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 31
+          },
+          {
+            "id": 760117,
+            "ord": 31,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 83502428,
+            "short_title": "30",
+            "is_in_free": false,
+            "title": "在异世界姐姐也想尝试的故事。",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-04-25 12:40:07",
+            "comments": 38,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 214,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 25
+          },
+          {
+            "id": 705900,
+            "ord": 30,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 82488260,
+            "short_title": "29",
+            "is_in_free": false,
+            "title": "在异世界开家庭会议的故事。",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-03-14 13:39:37",
+            "comments": 36,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 240,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 21
+          },
+          {
+            "id": 695496,
+            "ord": 29,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 58058938,
+            "short_title": "28",
+            "is_in_free": false,
+            "title": "在异世界迎来第二性征的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2022-02-05 00:28:54",
+            "comments": 30,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 240,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 29
+          },
+          {
+            "id": 670864,
+            "ord": 28,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 109456409,
+            "short_title": "27",
+            "is_in_free": false,
+            "title": "异教团中姐姐与少年的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-12-22 15:12:04",
+            "comments": 64,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 276,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 29
+          },
+          {
+            "id": 663614,
+            "ord": 27,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "26",
+            "is_in_free": false,
+            "title": "异教团与亲人的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-29 12:32:42",
+            "comments": 31,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 246,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 27
+          },
+          {
+            "id": 654674,
+            "ord": 26,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 54617047,
+            "short_title": "25-2",
+            "is_in_free": false,
+            "title": "在异世界请你听我的歌的故事【后篇】",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 47,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 272,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 13
+          },
+          {
+            "id": 654669,
+            "ord": 25,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 68353415,
+            "short_title": "25-1",
+            "is_in_free": false,
+            "title": "在异世界请你听我的歌的故事【前篇】",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 18,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 203,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 17
+          },
+          {
+            "id": 654655,
+            "ord": 24,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 66960948,
+            "short_title": "24",
+            "is_in_free": false,
+            "title": "利用异教之神扩张的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 40,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 230,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 22
+          },
+          {
+            "id": 654654,
+            "ord": 23,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 79046984,
+            "short_title": "23",
+            "is_in_free": false,
+            "title": "异教之神所讲述的意义不明的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 12,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 225,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 21
+          },
+          {
+            "id": 654653,
+            "ord": 22,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 118182418,
+            "short_title": "22",
+            "is_in_free": false,
+            "title": "无能神在异世界关于生存战略的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 15,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 236,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 31
+          },
+          {
+            "id": 654652,
+            "ord": 21,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": true,
+            "pay_gold": 79,
+            "size": 98594326,
+            "short_title": "21",
+            "is_in_free": false,
+            "title": "在异世界探寻领袖魅力意义的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 28,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 0,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 247,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 27
+          },
+          {
+            "id": 654651,
+            "ord": 20,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "20",
+            "is_in_free": false,
+            "title": "在异世界信徒突破一百万人的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 35,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 255,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 31
+          },
+          {
+            "id": 654648,
+            "ord": 19,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 95424931,
+            "short_title": "19",
+            "is_in_free": false,
+            "title": "向异教之神下跪祈求的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 31,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 273,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 25
+          },
+          {
+            "id": 654646,
+            "ord": 18,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "18",
+            "is_in_free": false,
+            "title": "在异世界篡夺教主的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-11-11 13:14:19",
+            "comments": 40,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 257,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 24
+          },
+          {
+            "id": 593884,
+            "ord": 17,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 107977499,
+            "short_title": "17",
+            "is_in_free": false,
+            "title": "差不多要在异世界使出全力的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-07-16 17:40:00",
+            "comments": 51,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 379,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 26
+          },
+          {
+            "id": 593883,
+            "ord": 16,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 111687762,
+            "short_title": "16",
+            "is_in_free": false,
+            "title": "在异教比拼教祖资质的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-07-16 17:40:00",
+            "comments": 26,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 278,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 23
+          },
+          {
+            "id": 593881,
+            "ord": 15,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 115515151,
+            "short_title": "15",
+            "is_in_free": false,
+            "title": "异教的教祖也有过去的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-07-16 17:40:00",
+            "comments": 38,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 291,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 25
+          },
+          {
+            "id": 593879,
+            "ord": 14,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 153051672,
+            "short_title": "14",
+            "is_in_free": false,
+            "title": "异教也有派别斗争的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-07-16 17:40:00",
+            "comments": 31,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 290,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 35
+          },
+          {
+            "id": 593878,
+            "ord": 13,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 159914885,
+            "short_title": "13",
+            "is_in_free": false,
+            "title": "在教团进行性教育的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-07-16 17:40:00",
+            "comments": 21,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 281,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 37
+          },
+          {
+            "id": 593877,
+            "ord": 12,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 169656611,
+            "short_title": "12",
+            "is_in_free": false,
+            "title": "合并与收买教团的故事",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2021-07-16 17:40:00",
+            "comments": 52,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 321,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 42
+          },
+          {
+            "id": 506483,
+            "ord": 11,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 52970886,
+            "short_title": "11",
+            "is_in_free": false,
+            "title": "“尽管不是异世界但是想要增加神的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 93,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 455,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 29
+          },
+          {
+            "id": 506482,
+            "ord": 10,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "10",
+            "is_in_free": false,
+            "title": "“异世界的国家毁灭了的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 56,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 427,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 29
+          },
+          {
+            "id": 506478,
+            "ord": 9,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 89506177,
+            "short_title": "9",
+            "is_in_free": false,
+            "title": "“虽然在异世界但其实不是异世界的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 85,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 424,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 47
+          },
+          {
+            "id": 506476,
+            "ord": 8,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "8",
+            "is_in_free": false,
+            "title": "“就算是在异世界也果然还是要死的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 46,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 452,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 25
+          },
+          {
+            "id": 506475,
+            "ord": 7,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "7",
+            "is_in_free": false,
+            "title": "“在异世界看神的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 44,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 450,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 27
+          },
+          {
+            "id": 506474,
+            "ord": 6,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 83446863,
+            "short_title": "6",
+            "is_in_free": false,
+            "title": "“因为是在异世界所以受到管理的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 77,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 475,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 42
+          },
+          {
+            "id": 505747,
+            "ord": 5,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "5",
+            "is_in_free": false,
+            "title": "“就算在异世界也还是命悬一线的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 96,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 448,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 36
+          },
+          {
+            "id": 505741,
+            "ord": 4,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "4",
+            "is_in_free": false,
+            "title": "“邪宗门要靠地盘的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 69,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 460,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 37
+          },
+          {
+            "id": 505706,
+            "ord": 3,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 48576721,
+            "short_title": "3",
+            "is_in_free": false,
+            "title": "“就算在异世界也要聚集信徒的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 74,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 516,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 37
+          },
+          {
+            "id": 505704,
+            "ord": 2,
+            "read": 1,
+            "pay_mode": 1,
+            "is_locked": false,
+            "pay_gold": 79,
+            "size": 0,
+            "short_title": "2",
+            "is_in_free": false,
+            "title": "“因为在异世界所以无法被推广的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 102,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 1,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 668,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 37
+          },
+          {
+            "id": 505702,
+            "ord": 1,
+            "read": 1,
+            "pay_mode": 0,
+            "is_locked": false,
+            "pay_gold": 0,
+            "size": 0,
+            "short_title": "1",
+            "is_in_free": false,
+            "title": "“因为在异世界所以去买小黄书了的故事”",
+            "cover": "http://i0.hdslb.com/bfs/manga-static/b72a72bfbe6e5f52a6165f4bd3869fb7486deb3d.jpg",
+            "pub_time": "2020-10-28 00:00:00",
+            "comments": 402,
+            "unlock_expire_at": "0000-00-00 00:00:00",
+            "unlock_type": 0,
+            "allow_wait_free": false,
+            "progress": "",
+            "like_count": 1854,
+            "chapter_id": 0,
+            "type": 0,
+            "extra": 0,
+            "image_count": 66
           }
-        }
-      }, '*')
-    })
+        ],
+        "release_time": "2020.10.28",
+        "is_limit": 0,
+        "read_epid": 1225430,
+        "last_read_time": "2023-07-20 13:22:29",
+        "is_download": 1,
+        "read_short_title": "41",
+        "styles2": [
+          {
+            "id": 998,
+            "name": "奇幻"
+          }
+        ],
+        "renewal_time": "与日本同步更新 ",
+        "last_short_title": "41",
+        "discount_type": 0,
+        "discount": 0,
+        "discount_end": "0001-01-01 00:00:00",
+        "no_reward": false,
+        "batch_discount_type": 0,
+        "ep_discount_type": 0,
+        "has_fav_activity": false,
+        "fav_free_amount": 0,
+        "allow_wait_free": false,
+        "wait_hour": 0,
+        "wait_free_at": "0000-00-00 00:00:00",
+        "no_danmaku": 0,
+        "auto_pay_status": 1,
+        "no_month_ticket": true,
+        "immersive": false,
+        "no_discount": false,
+        "show_type": 0,
+        "pay_mode": 1,
+        "chapters": [],
+        "classic_lines": "男主角征人的父亲是一个怪异团体的教祖，他在父亲安排的严酷修行中不幸丧命，竟然转生到了异世界！\n这个没有“神”也没有“宗教”概念的异世界，对征人而言堪称理想世界！\n然而……为了保护在这里一起生活的居民，征人却不得不在这个没有神的异世界建立“宗教”?!",
+        "pay_for_new": 0,
+        "fav_comic_info": {
+          "has_fav_activity": false,
+          "fav_free_amount": 0,
+          "fav_coupon_type": 0
+        },
+        "serial_status": 0,
+        "series_info": {
+          "id": 0,
+          "comics": []
+        },
+        "album_count": 0,
+        "wiki_id": 131224,
+        "disable_coupon_amount": 0,
+        "japan_comic": true,
+        "interact_value": "11592",
+        "temporary_finish_time": "",
+        "video": null,
+        "introduction": "",
+        "comment_status": 1,
+        "no_screenshot": true,
+        "type": 0,
+        "vomic_cvs": [],
+        "no_rank": true,
+        "presale_eps": [],
+        "presale_text": "",
+        "presale_discount": 0,
+        "no_leaderboard": true,
+        "auto_pay_info": {
+          "auto_pay_orders": [
+            {
+              "id": 2,
+              "title": "漫读券"
+            },
+            {
+              "id": 3,
+              "title": "通用券"
+            },
+            {
+              "id": 1,
+              "title": "漫币"
+            }
+          ],
+          "id": 29135618
+        },
+        "orientation": 1,
+        "story_elems": [
+          {
+            "id": 662,
+            "name": "中二"
+          },
+          {
+            "id": 722,
+            "name": "冒险"
+          },
+          {
+            "id": 690,
+            "name": "种田"
+          },
+          {
+            "id": 957,
+            "name": "勇者"
+          },
+          {
+            "id": 734,
+            "name": "装逼"
+          }
+        ],
+        "tags": [
+          {
+            "id": 662,
+            "name": "中二"
+          },
+          {
+            "id": 722,
+            "name": "冒险"
+          },
+          {
+            "id": 690,
+            "name": "种田"
+          },
+          {
+            "id": 957,
+            "name": "勇者"
+          },
+          {
+            "id": 734,
+            "name": "装逼"
+          }
+        ],
+        "is_star_hall": 0,
+        "hall_icon_text": ""
+      }
+    }
 
   }
 }

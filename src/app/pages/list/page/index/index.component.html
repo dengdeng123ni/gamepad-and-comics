@@ -4,9 +4,8 @@
   <div class="mian" *ngIf="config.type=='local'">
     <div class="top">
       <div class="content required">
-        <!-- <app-list-mode1 *ngIf="!config.page.is_page"></app-list-mode1>
-        <app-list-mode2 *ngIf="config.page.is_page"></app-list-mode2> -->
-        <bilibili-mode1></bilibili-mode1>
+        <app-list-mode1 *ngIf="!config.page.is_page"></app-list-mode1>
+        <app-list-mode2 *ngIf="config.page.is_page"></app-list-mode2>
       </div>
       <div class="side" *ngIf="!config.edit">
         <app-list-side></app-list-side>
@@ -15,11 +14,8 @@
   </div>
   <div class="mian" *ngIf="config.type=='bilibili'">
     <div class="top">
-      <div class="content required">
+      <div class="content required" style="width: 100%;">
         <bilibili-mode1></bilibili-mode1>
-      </div>
-      <div class="side" *ngIf="!config.edit">
-        <app-list-side></app-list-side>
       </div>
     </div>
   </div>
