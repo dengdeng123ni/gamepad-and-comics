@@ -1360,7 +1360,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         id: id,
         type: "website_proxy_request",
         proxy_request_website_url: "https://manga.bilibili.com/",
-        proxy_response_website_url: "http://localhost:8075/",
+        proxy_response_website_url: "http://localhost:3200/",
         http: {
           url: req.url,
           option: {
