@@ -1,0 +1,51 @@
+<div class="warp">
+
+  <div class="list">
+    <div class="item">
+      <mat-button-toggle-group style="    width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;" [value]="type">
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" value="PDF"
+          (click)="type='PDF'" [matTooltipShowDelay]="3000" [matTooltip]="'PDT'">PDF</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" value="PPT"
+          (click)="type='PPT'" [matTooltipShowDelay]="3000" [matTooltip]="'PPT'">PPT</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" value="EPUB"
+          (click)="type='EPUB';onEpub()" [matTooltipShowDelay]="3000" [matTooltip]="'EPUB'">EPUB</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'detail_export_settings_file_type'" value="ZIP"
+          (click)="type='ZIP'" [matTooltipShowDelay]="3000" [matTooltip]="'ZIP'">ZIP</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <mat-divider style="margin: 4px 0;"></mat-divider>
+    <div class="item">
+      <mat-chip-listbox>
+        <mat-chip-option [attr.type]="'chip'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.single_page" (selectionChange)="change('one')" [selectable]="page!='one'"
+          *ngIf="type!='EPUB'" [attr.region]="'detail_export_settings_page'">{{i18n.config.single_page}}</mat-chip-option>
+        <mat-chip-option id="page_double" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.double_page" [attr.type]="'chip'" ≈
+          [selectable]="page!='double'" selected [attr.region]="'detail_export_settings_page'">{{i18n.config.double_page}}</mat-chip-option>
+      </mat-chip-listbox>
+      <button mat-mini-fab style="    height: 32px;
+      width: 32px;margin-left: 10px;" (click)="on()" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.images" [attr.region]="'detail_export_settings_page'" [attr.select]="true">
+        <mat-icon style="zoom: 0.8;">file_download</mat-icon>
+      </button>
+    </div>
+    <mat-divider style="margin-top: 8px;" *ngIf="page=='double'"></mat-divider>
+    <div class="item" *ngIf="page=='double'">
+      <div class="name">{{i18n.config.page_order}}</div>
+      <div class="options">
+        <mat-radio-group [(ngModel)]="pageOrder">
+          <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.ordinary" [attr.region]="'detail_export_settings'"
+            [value]="true">{{i18n.config.ordinary}}</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.japanese_manga" [attr.region]="'detail_export_settings'"
+            [value]="false">{{i18n.config.japanese_manga}}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="item" *ngIf="page=='double'&&type!='EPUB'">
+      <div class="name">{{i18n.config.first_page_cover}}</div>
+      <div class="options">
+        <mat-slide-toggle [matTooltip]="i18n.config.first_page_cover" [attr.type]="'slide'" [attr.region]="'detail_export_settings'"
+          [(ngModel)]="isFirstPageCover"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+</div>

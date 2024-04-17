@@ -1,0 +1,105 @@
+<div
+  class="navbar_bar"
+  [attr.opened]="opened"
+  [style.zIndex]="zIndex"
+  [style.display]="zIndex > 0 ? '' : ''"
+>
+  <div class="warp">
+    <div class="top">
+      <div class="list">
+        <div class="id item">
+          <div
+            class="title"
+            (click)="routerList()"
+            *ngIf="zIndex > 0"
+            [attr.region]="'reader_navbar_bar_top_item'"
+          >
+            首页
+          </div>
+        </div>
+        <div class="pid item">
+          <div class="arrow">></div>
+          <div
+            class="title"
+            (click)="routerDetail()"
+            *ngIf="zIndex > 0"
+            [attr.region]="'reader_navbar_bar_top_item'"
+          >
+            {{ data.comics_info.title }}
+          </div>
+        </div>
+        <div class="sid item">
+          <div class="arrow">></div>
+          <div
+            class="title"
+            *ngIf="zIndex > 0"
+            [attr.region]="'reader_navbar_bar_top_item'"
+          >
+            {{ data.chapters[chapter_index].title }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content" (click)="close()"></div>
+    <div class="bottom">
+      <mat-slider
+        ngClass="progress"
+        *ngIf="zIndex > 0"
+        [attr._id]="'reader_navbar_bar_buttom_item_progress'"
+        [attr.region]="'reader_navbar_bar_buttom_item'"
+        [min]="0"
+        class="w-full"
+        [step]="1"
+        [max]="data.pages.length - 1"
+      >
+        <input matSliderThumb [(ngModel)]="index" />
+      </mat-slider>
+      <button
+        mat-icon-button
+        *ngIf="zIndex > 0"
+        [attr.region]="'reader_navbar_bar_buttom_item'"
+        [disabled]="data.chapter_id == data.chapters[0].id"
+        (click)="current._chapterPrevious()"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        *ngIf="zIndex > 0"
+        [attr.region]="'reader_navbar_bar_buttom_item'"
+        [attr.select]="true"
+        [disabled]="
+          data.chapter_id ==
+          data.chapters[data.chapters.length - 1].id
+        "
+        (click)="current._chapterNext()"
+      >
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        *ngIf="zIndex > 0"
+        [attr.region]="'reader_navbar_bar_buttom_item'"
+        (click)="readerSectionOpen($event)"
+      >
+        <mat-icon>subject</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        *ngIf="zIndex > 0"
+        [attr.region]="'reader_navbar_bar_buttom_item'"
+        (click)="openSettings()"
+      >
+        <mat-icon>settings</mat-icon>
+      </button>
+      <!-- <button
+        mat-icon-button
+        *ngIf="zIndex > 0"
+        [attr.region]="'reader_navbar_bar_buttom_item'"
+        (click)="switchChnage(); close()"
+      >
+        <mat-icon>swap_horiz</mat-icon>
+      </button> -->
+    </div>
+  </div>
+</div>

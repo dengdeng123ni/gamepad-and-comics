@@ -1,0 +1,54 @@
+<div class="warp opacity-0" id="double_page_thumbnail" (click)="close()">
+  <div class="list" [attr.page_order]="false" [attr.type]="'list'">
+    <button
+      mat-button
+      *ngFor="let n of double_pages; let index = index"
+      class="item"
+      [attr.region]="'double_page_thumbnail'"
+      [attr.select]="n.select"
+      (click)="on(n)"
+      [attr.content_menu_key]="'double_page_thumbnail'"
+      [attr.content_menu_value]="index"
+    >
+      <div *ngIf="n.images.length == 2" class="double">
+        <div class="img">
+          <img
+            [src]="n.images[0].img"
+            [width]="n.images[0].width"
+            loading="lazy"
+            [height]="n.images[0].height"
+            *ngIf="n.images[0]"
+          />
+          <div class="index">{{ n.images[0].index }}</div>
+        </div>
+        <div class="img">
+          <img
+            [src]="n.images[1].img"
+            [width]="n.images[1].width"
+            loading="lazy"
+            [height]="n.images[1].height"
+            *ngIf="n.images[1]"
+          />
+          <div class="index">{{ n.images[1].index }}</div>
+        </div>
+      </div>
+      <div
+        *ngIf="n.images.length == 1"
+        class="single"
+        [attr.page]="n.images[0].width < n.images[0].height ? 'p' : 'l'"
+        [attr.first]="index == 0"
+      >
+        <div class="img">
+          <img
+            [src]="n.images[0].img"
+            [width]="n.images[0].width"
+            loading="lazy"
+            [height]="n.images[0].height"
+            *ngIf="n.images[0]"
+          />
+          <div class="index">{{ n.images[0].index }}</div>
+        </div>
+      </div>
+    </button>
+  </div>
+</div>

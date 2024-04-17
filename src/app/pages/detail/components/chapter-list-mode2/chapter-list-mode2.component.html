@@ -1,0 +1,18 @@
+
+<div class="warp" (click)="close()" [attr.edit]="data.is_edit">
+  <div class="list" (click)="on($event)">
+    <button class="item" [id]="n.id" [attr._id]="'chapter_item_' + n.id" [attr.region]="'chapter_item'"
+    [attr.multiple]="n.selected" [attr.content_menu_key]="'chapter_item'" [attr.content_menu_value]="n.id"
+    [matTooltipShowDelay]="5000"
+    [matTooltip]="n.title" mat-button *ngFor="let n of data.chapters;let index=index"
+    [attr.index]="index" [attr.current]="data.chapter_id==n.id" [attr.read]="!!n.read">
+      <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==data.chapter_id">
+
+        <span>  <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="data.is_edit" [(ngModel)]="n.selected"></mat-checkbox> {{n.title}}</span>
+        <mat-icon class="icon" *ngIf="data.is_locked&&n.is_locked">lock</mat-icon>
+        <mat-icon class="icon" *ngIf="data.is_locked&&!n.is_locked">lock_open</mat-icon>
+      </div>
+
+    </button>
+  </div>
+</div>

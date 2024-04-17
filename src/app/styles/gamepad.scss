@@ -1,0 +1,46 @@
+body[pattern=gamepad][locked_region=list],
+body[pattern=gamepad][locked_region=detail],
+body[pattern=gamepad][locked_region=reader],
+body[pattern=gamepad][locked_region=chapters_thumbnail],
+body[pattern=gamepad][locked_region=double_page_thumbnail],
+body[pattern=gamepad][locked_region=gamepad_left_circle_toolbar],
+body[pattern=gamepad][locked_region=menu],
+body[pattern=gamepad][locked_region=comics_type]
+
+{
+
+  [region=comics_option][select=true],
+  [region=comics_item][select=true],
+  [region=chapter_item][select=true],
+  [region=continue][select=true],
+  [region=back][select=true],
+  [region=chapter_item][select=true],
+  [region=double_page_thumbnail_item][select=true],
+  [region=gamepad_toolabr_right][select=true],
+  [region=menu_item][select=true],
+  [region=comics_type_item][select=true]
+
+
+
+  {
+    position: relative;
+
+    &::after {
+      @extend .default_frame;
+    }
+  }
+}
+
+
+.default_frame {
+  content: "";
+  position: absolute;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  left: 0;
+  border: 2px solid #ffffff57;
+  border-radius: 4px;
+  top: 0;
+}
+
+

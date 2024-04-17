@@ -1,0 +1,136 @@
+<div class="list">
+  <!-- <button mat-button class="title" id="collect_first" [attr.content_menu_key]="'application'" [attr.content_menu_value]="'application'">漫画</button> -->
+
+  <!-- <app-menu-top-toolbar></app-menu-top-toolbar> -->
+  <form class="example-form">
+    <mat-form-field class="example-full-width" style="width: 100%;">
+      <input type="text" matInput placeholder="搜索" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <button mat-button class="item" [attr.region]="'menu_item'">
+            <mat-icon class="icon">home</mat-icon>
+            <div class="name" ngc>
+              bilibili
+            </div>
+          </button>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <!-- <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('home')">
+        <mat-icon class="icon">home</mat-icon>
+        <div class="name" ngc>
+          首页
+        </div>
+      </button> -->
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('type')">
+        <mat-icon class="icon">class</mat-icon>
+        <div class="name">
+          分类
+        </div>
+      </button>
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('update')">
+        <mat-icon class="icon">update</mat-icon>
+        <div class="name">
+          更新
+        </div>
+      </button>
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('ranking')">
+        <mat-icon class="icon">sort</mat-icon>
+        <div class="name">
+          排行榜
+        </div>
+      </button>
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('favorites')">
+        <mat-icon class="icon">favorite</mat-icon>
+        <div class="name">
+          我的追漫
+        </div>
+      </button>
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('history')">
+        <mat-icon class="icon">history</mat-icon>
+        <div class="name" ngc>
+          历史记录
+        </div>
+      </button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <button mat-button class="item" [attr.region]="'menu_item'">
+            <mat-icon class="icon">home</mat-icon>
+            <div class="name" ngc>
+              hanime1
+            </div>
+          </button>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on3('hanime1','history')">
+        <mat-icon class="icon">history</mat-icon>
+        <div class="name" ngc>
+          历史记录
+        </div>
+      </button>
+      <!-- <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('type')">
+        <mat-icon class="icon">class</mat-icon>
+        <div class="name">
+          分类
+        </div>
+      </button>
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('update')">
+        <mat-icon class="icon">update</mat-icon>
+        <div class="name">
+          更新
+        </div>
+      </button>
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('ranking')">
+        <mat-icon class="icon">sort</mat-icon>
+        <div class="name">
+          排行榜
+        </div>
+      </button>
+      <button mat-button class="item item1" [attr.region]="'menu_item'" (click)="on('favorites')">
+        <mat-icon class="icon">favorite</mat-icon>
+        <div class="name">
+          我的追漫
+        </div>
+      </button> -->
+    </mat-expansion-panel>
+  </mat-accordion>
+  <button style="margin-top: 4px;" mat-button class="item" [attr.select]="true" [attr.region]="'menu_item'"
+  (click)="onLocalMenu('local_cache')">
+  <mat-icon class="icon">cached</mat-icon>
+  <div class="name" >
+    缓存
+  </div>
+</button>
+<button style="margin-top: 4px;" mat-button class="item" [attr.select]="true" [attr.region]="'menu_item'"
+  (click)="cc()">
+  <mat-icon class="icon">cached</mat-icon>
+  <div class="name" >
+    设置
+  </div>
+</button>
+  <mat-divider style="margin: 8px 16px;"></mat-divider>
+  <button mat-button class="item" [attr.region]="'menu_item'" (click)="openTemporaryFile()">
+    <mat-icon class="icon">add</mat-icon>
+    <div class="name">
+      打开文件夹
+    </div>
+  </button>
+  <button mat-button class="item" [attr.region]="'menu_item'" *ngFor="let n of temporaryFile.menu;let index=index" (click)="on2(n.id)">
+    <mat-icon class="icon">subject</mat-icon>
+    <div class="name">
+      {{n.name}}
+    </div>
+  </button>
+</div>

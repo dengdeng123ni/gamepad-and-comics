@@ -1,0 +1,31 @@
+<div class="warp" (click)="OnePageThumbnailMode3.close()">
+  <div class="list opacity-0" id="one_page_thumbnail_mode3">
+    <button
+      mat-button
+      *ngFor="let n of pages; let index = index"
+      (click)="on(index)"
+      class="item"
+      [attr._id]="'one_page_thumbnail_mode3_' + page_index"
+      [attr.select]="page_index == index ? true : false"
+      [attr.region]="'one_page_thumbnail_mode3'"
+      [attr.content_menu_key]="'one_page_thumbnail_mode3'"
+      [attr.content_menu_value]="n.id"
+      [class]="page_index == index ? 'select' : ''"
+    >
+      <div class="img">
+        <app-image
+        loading="lazy"
+        [width]="500"
+        [height]="706"
+        [src]="n.src"
+        [alt]="index"
+      />
+      </div>
+      <div class="index">
+        <div class="name">
+          {{ index + 1 }}
+        </div>
+      </div>
+    </button>
+  </div>
+</div>

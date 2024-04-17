@@ -1,0 +1,28 @@
+<mat-drawer-container autosize [hasBackdrop]="false">
+
+
+  <div class="container">
+    <!-- <app-menu></app-menu> -->
+    <div class="content">
+      <mat-tab-group>
+        <mat-tab label="本地">
+          <div class="list">
+            <button mat-button class="item">
+              <div class="box">
+                <mat-icon class="icon">folder</mat-icon>
+              <div class="name">本地文件</div>
+              </div>
+            </button>
+            <button mat-button class="item">
+              <div class="box">
+                <mat-icon class="icon">folder_copy</mat-icon>
+              <div class="name">临时文件</div>
+              </div>
+            </button>
+          </div>
+        </mat-tab>
+        <mat-tab label="插件"> </mat-tab>
+        </mat-tab-group>
+    </div>
+  </div>
+</mat-drawer-container>

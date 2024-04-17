@@ -1,0 +1,33 @@
+<div class="warp">
+  <div class="list">
+    <button mat-button class="item" *ngFor="let n of data.chapters; let index = index" [attr._id]="'chapter_item_' + n.id"
+      [attr.select]="n.id == data.chapter_id" [attr.default]="n.id == data.chapter_id" [attr.region]="'chapter_item'"
+      [id]="'chapter_item_' + n.id" [style]="
+        n.id == data.chapter_id
+          ? 'background: rgba(255, 255, 255, .1);color:rgba(255, 255, 255, .87);border-radius: 4px;'
+          : null
+      " (click)="on(n.id)">
+      <div class="img">
+        <app-image [objectFit]="'cover'" loading="lazy" class="w-full" [src]="n.cover" />
+        <div class="lock" *ngIf="data.is_locked">
+          <mat-icon class="lock_icon" *ngIf="n.is_locked">lock</mat-icon>
+          <mat-icon class="lock_icon" *ngIf="!n.is_locked">lock_open</mat-icon>
+        </div>
+      </div>
+      <div class="info">
+        <div class="name" [attr.read]="!!n.read" [attr.current]="n.id == data.chapter_id">
+          {{ n.title }}
+        </div>
+        <div class="bottom">
+          <div class="sub_title" *ngIf="n.pub_time">
+            {{n.pub_time | date:'YYYY-MM-dd'}}
+          </div>
+          <!-- <div class="progress">{{n.total}}</div> -->
+          <!-- <div class="date">{{n.lastReadTime | date:'yyyy-MM-dd'}}</div> -->
+        </div>
+      </div>
+
+    </button>
+  </div>
+</div>
+<!-- rgba(255, 255, 255, .87) -->

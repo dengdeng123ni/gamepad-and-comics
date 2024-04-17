@@ -1,0 +1,138 @@
+<div class="reader_toolbar_left">
+  <div class="list top">
+    <div class="item">
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="back()">
+        <mat-icon>keyboard_return</mat-icon>
+      </button>
+    </div>
+    <div class="item mt-5">
+      <button matTooltipPosition="right" tabIndex="-1" *ngIf="data.comics_config.reader_mode=='double_page_reader'" mat-icon-button class="icon" (click)="openFirstPageCoverChangeView($event)">
+        <mat-icon *ngIf="false">radio_button_unchecked</mat-icon>
+        <mat-icon *ngIf="true">radio_button_checked</mat-icon>
+      </button>
+      <button matTooltipPosition="right" *ngIf="data.comics_config.reader_mode=='double_page_reader'" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage()">
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+      <button matTooltipPosition="right" *ngIf="data.comics_config.reader_mode=='left_right_page_reader'" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage2()">
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+      <!-- <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage()">
+        <mat-icon>settings</mat-icon>
+      </button> -->
+    </div>
+  </div>
+
+  <div class="list bottom">
+    <div class="item">
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="imageRotation()">
+        <mat-icon>screen_rotation</mat-icon>
+      </button>
+    </div>
+    <div class="item mt-5" id="reader_toolbar_page" *ngIf="data.is_edit">
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="separatePage()">
+        <mat-icon>call_split</mat-icon>
+      </button>
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="mergePage()">
+        <mat-icon>merge</mat-icon>
+      </button>
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="insertPage()">
+        <mat-icon>insert_page_break</mat-icon>
+      </button>
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon delete"
+        (click)="openDeleteMenu($event)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div class="item mt-5" id="reader_toolbar_section">
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button (click)="openList($event)" class="icon subject">
+        <mat-icon>subject</mat-icon>
+      </button>
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="previous()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="next()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="reader_toolbar_right">
+  <div class="list top">
+    <div class="item">
+      <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="chaptersThumbnail.open()">
+        <mat-icon>subject</mat-icon>
+      </button>
+      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+        class="icon filter_image_list" (click)="doublePageThumbnail.open()">
+        <mat-icon>grid_view</mat-icon>
+      </button>
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="openReaderChangeView($event)">
+        <mat-icon>chrome_reader_mode</mat-icon>
+      </button>
+      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="openReaderSettings($event)">
+        <mat-icon>settings</mat-icon>
+      </button>
+      <!-- <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="onePageThumbnailMode2.open()">
+        <mat-icon>filter</mat-icon>
+      </button>
+      <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon">
+        <mat-icon>home_repair_service</mat-icon>
+      </button> -->
+    </div>
+    <div class="item mt-5">
+      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+        class="icon filter_image_list" (click)="onePageThumbnailMode2.isToggle()">
+        <mat-icon  style="transform: rotate(180deg) scale(1.35) rotateY(36deg);">view_sidebar</mat-icon>
+      </button>
+      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+        class="icon filter_image_list" (click)="onePageThumbnailMode1.open()">
+        <mat-icon style="transform: rotate(90deg) scale(1.35) rotateY(36deg);">view_sidebar</mat-icon>
+      </button>
+      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+        class="icon filter_image_list" (click)="onePageThumbnailMode3.open()">
+        <mat-icon>view_comfy</mat-icon>
+      </button>
+      <!-- <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+        class="icon filter_image_list" (click)="onePageThumbnailMode1.open()">
+        <mat-icon>view_module</mat-icon>
+      </button> -->
+    </div>
+  </div>
+  <div class="item bottom">
+    <!-- <div class="flex flex-col item ">
+
+    </div> -->
+    <!-- [attr.content_menu_key]="'create_ppt'"
+      [attr.content_menu_value]="'create_ppt'" (click)="createPptOne()"
+      [disabled]="current.mode==1||current.mode==4?false:true" -->
+    <!-- <div class="flex flex-col item mt-10 bottom2">
+
+    </div> -->
+    <div class="flex flex-col item mt-5 bottom">
+      <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+        (click)="isFullChange()">
+        <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
+        <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="fixed" id="reader_toolbar_menu" (menuClosed)="closeMenu()" [matMenuTriggerFor]="menu"
+  [matMenuTriggerData]="{data:menuObj.list,type:menuObj.type}"></div>
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent let-name="data" let-type="type">
+    <!-- <div *ngIf="type=='delete'">
+      <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
+        (mouseover)="mouseoverDeleteMenu(item.id)" (mouseout)="mouseoutDeleteMenu(item.id)" (click)="delete(item.id)">
+        {{item.name}}
+      </button>
+    </div> -->
+    <div *ngIf="type=='list'" style="max-height: 40vh;">
+      <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
+        (click)="onItem(item.id)" [attr._id]="'_menu_item_'+item.id">
+        {{item.title}}
+      </button>
+    </div>
+  </ng-template>
+</mat-menu>

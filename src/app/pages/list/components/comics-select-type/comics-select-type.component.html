@@ -1,0 +1,5 @@
+<div class="list">
+  <button [attr.region]="'comics_type_item'" mat-button *ngFor="let n of ComicsSelectType.list;let n_index=index" class="item" (click)="on(n.id)" [attr.select]="n.id==ComicsSelectType.selected" [attr.current]="n.id==ComicsSelectType.selected">
+    {{n.name}}
+  </button>
+</div>

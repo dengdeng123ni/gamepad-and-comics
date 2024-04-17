@@ -1,0 +1,30 @@
+<div id="gamepad_reader_circle_toolbar" (click)="close()">
+  <div class="circularity_toolabr">
+    <div class="inner">
+      <div class='inner-select' style="transform: rotate(0deg);">
+        <div class='inner-triangle'>
+        </div>
+      </div>
+      <button mat-icon-button matTooltipPosition="right" *ngFor="let n of list;let index=index" class="icon" [attr.index]="index+1" [attr._id]="'gamepad_toolabr_center_'+(8-index)"
+        [attr.region]="'gamepad_toolabr_center'" [attr.select]="true" (click)="on(index)">
+        <mat-icon>{{n.icon}}</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="list gamepad_reader_circle_toolbar_left">
+    <!-- <button mat-icon-button matTooltipPosition="right"  class="icon" (click)="firstPageCoverChange()"
+      [attr._id]="'gamepad_toolabr_left_1'" [attr.region]="'gamepad_toolabr_left'">
+      <mat-icon *ngIf="!current.comics.isFirstPageCover">
+        radio_button_unchecked</mat-icon>
+      <mat-icon *ngIf="current.comics.isFirstPageCover">
+        radio_button_checked</mat-icon>
+    </button> -->
+  </div>
+  <div class="list gamepad_reader_circle_toolbar_right">
+    <button mat-icon-button class="icon" matTooltipPosition="right" class="icon" [attr._id]="'gamepad_toolabr_right_1'" (click)="isFullChange()"
+      [attr.region]="'gamepad_toolabr_right'" [attr.select]="false" >
+      <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
+      <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
+    </button>
+  </div>
+</div>

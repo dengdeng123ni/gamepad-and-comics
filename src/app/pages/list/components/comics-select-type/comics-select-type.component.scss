@@ -1,0 +1,23 @@
+
+.list {
+  display: flex;
+  max-width: 360px;
+  padding: 8px;
+  flex-wrap: wrap;
+}
+
+.item {
+  margin: 0 3px;
+  display: flex;
+  align-items: center;
+  min-width: fit-content;
+}
+
+.item[current=true] {
+  color: #fff;
+  opacity: 0.87;
+}
+
+.item[current=false] {
+  // display: none;
+}

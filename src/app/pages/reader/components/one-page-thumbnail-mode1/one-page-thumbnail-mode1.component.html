@@ -1,0 +1,28 @@
+<div class="list opacity-0" id="one_page_thumbnail_mode1">
+  <button
+    mat-button
+    *ngFor="let n of pages; let index = index"
+    (click)="on(index)"
+    class="item"
+    tabIndex="1"
+    [attr._id]="'one_page_thumbnail_mode1_' + index"
+    [attr.select]="index == page_index ? true : false"
+    [attr.region]="'one_page_thumbnail_mode1'"
+    [attr.content_menu_key]="'one_page_thumbnail_mode1'"
+    [attr.content_menu_value]="n.id"
+    [class]="index == page_index ? 'select' : ''"
+  >
+    <div class="img">
+      <app-image
+        loading="lazy"
+        [width]="500"
+        [height]="706"
+        [src]="n.src"
+        [alt]="index"
+      />
+    </div>
+    <div class="index">
+      <div class="name">{{ index + 1 }}</div>
+    </div>
+  </button>
+</div>

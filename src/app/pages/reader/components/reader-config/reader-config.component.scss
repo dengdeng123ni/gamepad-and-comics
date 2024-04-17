@@ -1,0 +1,21 @@
+.warp{
+  padding: 8px;
+}
+.item{
+  margin: 12px;
+  // display: flex;
+  align-items: center;
+  .left{
+    margin-right: 24px;
+    margin-bottom: 8px;
+    color:rgba(255, 255, 255, .34); ;
+  }
+  .right{
+    margin-left: 4px;
+  }
+}
+:host ::ng-deep {
+  .mdc-evolution-chip-set .mdc-evolution-chip{
+    border-radius: 4px;
+  }
+}

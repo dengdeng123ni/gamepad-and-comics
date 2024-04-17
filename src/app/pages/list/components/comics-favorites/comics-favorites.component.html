@@ -1,0 +1,12 @@
+<div class="warp">
+  <div class="title" style="color:rgba(255,255,255,.34)">我的追漫</div>
+  <div class="list">
+    <button  [attr.region]="'comics_option'" mat-button *ngFor="let n of list" class="item"
+      [attr._id]="n.id"
+      [attr.select]="n.id==order"
+      (click)="change(n.id)"
+      [attr.current]="n.id==order">
+      {{n.name}}
+    </button>
+  </div>
+</div>

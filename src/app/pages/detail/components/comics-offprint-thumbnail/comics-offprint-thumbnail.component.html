@@ -1,0 +1,7 @@
+<div class="warp">
+  <div class="list">
+    <button mat-button class="item" *ngFor="let n of list;let index=index" (click)="on(index)">
+      <app-image [objectFit]="'cover'" class="image" loading="lazy"  [src]="n.src" />
+    </button>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="warp">
+  <div class="list">
+    <div class="item">
+      <div class="left">
+        阅读模式
+      </div>
+      <div class="right">
+        <mat-chip-listbox>
+          <mat-chip-option [attr.type]="'chip'" (selectionChange)="change('double_page_reader')" [selectable]="data.comics_config.reader_mode!='double_page_reader'" [selected]="data.comics_config.reader_mode=='double_page_reader'">左右翻页</mat-chip-option>
+          <mat-chip-option [attr.type]="'chip'" (selectionChange)="change('up_down_page_reader')" [selectable]="data.comics_config.reader_mode!='up_down_page_reader'" [selected]="data.comics_config.reader_mode=='up_down_page_reader'">上下滑动</mat-chip-option>
+          <mat-chip-option [attr.type]="'chip'" (selectionChange)="change('left_right_page_reader')" [selectable]="data.comics_config.reader_mode!='left_right_page_reader'" [selected]="data.comics_config.reader_mode=='left_right_page_reader'">左右滑动</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+    </div>
+    <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'">
+      <div class="left">
+        页面模式
+      </div>
+      <div class="right">
+        <mat-chip-listbox>
+          <mat-chip-option [attr.type]="'chip'" (selectionChange)="change1(true)" [selectable]="!data.comics_config.is_double_page" [selected]="data.comics_config.is_double_page">双页</mat-chip-option>
+          <mat-chip-option [attr.type]="'chip'" (selectionChange)="change1(false)" [selectable]="data.comics_config.is_double_page" [selected]="!data.comics_config.is_double_page">单页</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+    </div>
+    <div class="item">
+      <div class="left">
+        翻页方向
+      </div>
+      <div class="right">
+        <mat-chip-listbox>
+          <mat-chip-option [attr.type]="'chip'" (selectionChange)="change2(true)" [selectable]="!data.comics_config.is_page_order" [selected]="data.comics_config.is_page_order">普通模式</mat-chip-option>
+          <mat-chip-option [attr.type]="'chip'" (selectionChange)="change2(false)" [selectable]="data.comics_config.is_page_order" [selected]="!data.comics_config.is_page_order">日漫模式</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+    </div>
+  </div>
+</div>

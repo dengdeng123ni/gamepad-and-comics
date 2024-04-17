@@ -1,0 +1,14 @@
+.list{
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100vw;
+  transform: scale(1);
+  justify-content: top;
+  /* align-items: center; */
+  margin: 0 auto;
+  height: 100%;
+  overflow: auto;
+    app-image{
+      min-width: fit-content;
+    }
+}

@@ -1,0 +1,50 @@
+<!-- transform: scale(0.8); -->
+<div class="warp mode_change">
+
+
+  <div class="box1">
+    <button mat-button class="mode_1 flex items-center justify-center flex-col item" [attr._id]="'mode_1'"
+      [attr.select]="state==2"
+      [attr.default]="state==2" [attr.region]="'mode'"
+      (click)="change(2)">
+      <div class="box _box">
+        <div class="left"></div>
+        <div class="right" style="opacity: 0.1;"></div>
+      </div>
+    </button>
+    <div [class]="state==2 ? 'select' : ''"
+      class="index">
+      封面单页
+    </div>
+  </div>
+  <div class="box1">
+    <button mat-button class="mode_1 flex items-center justify-center flex-col item" [attr._id]="'mode_1'"
+      [attr.select]="state==3"
+      [attr.default]="state==3" [attr.region]="'mode'"
+      (click)="change(3)">
+      <div class="box _box">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+    </button>
+    <div [class]="state==3 ? 'select' : ''"
+      class="index">
+      封面双页
+    </div>
+  </div>
+  <div class="box1" style="margin: 0;">
+    <button mat-button class="mode_1 flex items-center justify-center flex-col item" [attr._id]="'mode_1'"
+      [attr.select]="state==1"
+      [attr.default]="state==1" [attr.region]="'mode'"
+      (click)="change(1)">
+      <div class="box _box">
+        <!-- <div class="left"></div>
+        <div class="right"></div> -->
+      </div>
+    </button>
+    <div [class]="state==1 ? 'select' : ''"
+      class="index">
+    封面推断
+    </div>
+  </div>
+</div>

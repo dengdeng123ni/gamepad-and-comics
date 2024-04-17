@@ -1,0 +1,17 @@
+<div class="warp">
+  <div class="page_toolbar" style="display: flex;justify-content: space-between;padding: 0.6rem; zoom: 1.4;">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <input type="text" matInput [(ngModel)]="keyword">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <button *ngIf="keyword" matSuffix mat-icon-button class="input_close" (click)="keyword=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+
+</div>
