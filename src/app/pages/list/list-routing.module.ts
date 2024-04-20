@@ -4,7 +4,8 @@ import { IndexComponent } from './pages/index/index.component';
 
 const routes: Routes = [
   { path: "", component: IndexComponent,data: { animation: 'ListPage' } },
-  { path: "specify_link/:id", component: IndexComponent,data: { animation: 'ListPage' } }
+  { path: "specify_link/:id", component: IndexComponent,data: { animation: 'ListPage' } },
+  { path: "list/:id/:sid", component: IndexComponent,data: { animation: 'ListPage' } }
 
 ];
 

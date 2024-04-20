@@ -55,8 +55,6 @@ export class DbControllerService {
         }
         const obj = b64_to_utf8(id)
         let res = await this.DbEvent.Events[option.origin]["List"](obj);
-        console.log(res);
-
         res.forEach(x => {
           this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
           x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;

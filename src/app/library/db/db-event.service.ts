@@ -10,6 +10,7 @@ interface Events {
 interface Config {
   name: string,
   tab: Tab,
+  menu?:Array<[]>;
   is_edit: boolean;
   is_locked: boolean;
   is_cache: boolean;
@@ -37,8 +38,6 @@ export class DbEventService {
   }
 
   register = (config: Config, events: Events) => {
-    console.log(config);
-
     const key = config.name;
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };
     else this.Events[key] = events;
