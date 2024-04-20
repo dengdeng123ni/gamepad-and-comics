@@ -10,7 +10,7 @@
     </mat-form-field>
   </form>
 
-  <div *ngFor="let n of list;let index=index">
+  <div *ngFor="let n of data.menu;let index=index">
     <div *ngIf="n.submenu" [attr.type]="'expansion'">
       <mat-accordion>
         <mat-expansion-panel [expanded]="true">

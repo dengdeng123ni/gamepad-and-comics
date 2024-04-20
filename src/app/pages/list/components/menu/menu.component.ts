@@ -14,15 +14,58 @@ declare const window: any;
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  list = [
-
-  ];
 
   myControl = new FormControl('');
 
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
 
+  query_type = [
+    {
+      id: 'type',
+      name: '分类',
+      query: {
+        type: '',
+        list: [
+          {
+            id: '',
+            name: '',
+            types: [
+              {
+                id: '',
+                name: ''
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: 'update',
+      name: '更新',
+      query: {
+        type: '',
+        list: []
+      }
+    },
+    {
+      id: 'ranking',
+      name: '排行榜',
+      query: {
+        type: '',
+        list: []
+      }
+    },
+    {
+      id: 'favorites',
+      name: '我的追漫',
+      query: {
+        type: '',
+        name: '',
+        list: []
+      }
+    }
+  ]
 
   on(obj) {
 
@@ -38,51 +81,54 @@ export class MenuComponent {
     public pulg: PulgService,
     private zone: NgZone
   ) {
-    Object.keys(this.DbEvent.Events).forEach(x => {
-      if(x=="temporary_file") return
-      let obj = {
-        id: x,
-        icon: "home",
-        name: x,
-        submenu: [],
-      };
-      if (this.DbEvent.Configs[x].menu) {
-        for (let index = 0; index < this.DbEvent.Configs[x].menu.length; index++) {
-          obj.submenu.push(this.DbEvent.Configs[x].menu[index])
-        }
-      }
-      obj.submenu.push(
-        {
-          id: "history",
-          icon: "history",
-          name: "历史记录",
-          click: (e) => {
-            this.zone.run(() => {
-              this.data.qurye_page_type = "1"
-              setTimeout(() => {
-                this.data.qurye_page_type = 'history';
-              })
-            })
-            this.data.list = [];
-            this.AppData.setOrigin(e.parent.id)
-            this.DbEvent.Configs[this.AppData.origin].is_cache = true;
-            this.menu.opened = !this.menu.opened;
+    if (this.data.menu.length == 0) {
+      Object.keys(this.DbEvent.Events).forEach(x => {
+        if (x == "temporary_file") return
+        let obj = {
+          id: x,
+          icon: "home",
+          name: x,
+          submenu: [],
+        };
+        if (this.DbEvent.Configs[x].menu) {
+          for (let index = 0; index < this.DbEvent.Configs[x].menu.length; index++) {
+            obj.submenu.push(this.DbEvent.Configs[x].menu[index])
           }
         }
-      )
-      this.list.push(obj)
-    })
+        obj.submenu.push(
+          {
+            id: "history",
+            icon: "history",
+            name: "历史记录",
+            click: (e) => {
+              this.zone.run(() => {
+                this.data.qurye_page_type = "1"
+                setTimeout(() => {
+                  this.data.qurye_page_type = 'history';
+                })
+              })
+              this.data.list = [];
+              this.AppData.setOrigin(e.parent.id)
+              this.DbEvent.Configs[this.AppData.origin].is_cache = true;
+              this.menu.opened = !this.menu.opened;
+            }
+          }
+        )
+        this.data.menu.push(obj)
+      })
 
-    this.list.push({ type: 'separator' })
-    this.list.push({
-      id: 'add',
-      icon: "add",
-      name: '打开文件夹',
-      click: (e) => {
-        this.openTemporaryFile();
+      this.data.menu.push({ type: 'separator' })
+      this.data.menu.push({
+        id: 'add',
+        icon: "add",
+        name: '打开文件夹',
+        click: (e) => {
+          this.openTemporaryFile();
+        }
       }
+      )
     }
-    )
+
   }
   cc() {
     this.pulg.openFile();
@@ -123,15 +169,20 @@ export class MenuComponent {
     list.forEach(x => x.temporary_file_id = id);
     this.temporaryFile.data = [...this.temporaryFile.data, ...list]
     let chapters: any[] = [];
-    this.list.push({
+    this.data.menu.push({
       id,
       icon: "subject",
       name: dirHandle["name"],
       click: e => {
         this.zone.run(() => {
-          window.comics_query_option.temporary_file_id = id;
+          window.comics_query_option.temporary_file_id = e.id;
           this.AppData.origin = "temporary_file";
-          this.data.qurye_page_type = "temporary_file"
+          this.zone.run(() => {
+            this.data.qurye_page_type = "1"
+            setTimeout(() => {
+              this.data.qurye_page_type = "temporary_file"
+            })
+          })
         })
       }
     })
