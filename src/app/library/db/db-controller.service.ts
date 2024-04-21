@@ -43,6 +43,7 @@ export class DbControllerService {
   async getList(id: string, option?: {
     origin: string
   }): Promise<Array<Item>> {
+
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]

@@ -13,19 +13,23 @@ export class DataService {
   is_local_record = false;
   is_download = false;
 
-  is_loading_free=false;
+  is_loading_free = false;
 
-  qurye_page_type="home"
+  qurye_page_type = "home"
 
-  menu=[];
+  menu = [];
 
+
+  query = {
+
+  }
   // is_left_drawer_opened=false;
 
-  left_drawer_mode:any='over';
+  left_drawer_mode: any = 'over';
   constructor() {
-    window.comics_query_option={
-      page_num:0,
-      page_size:0
+    window.comics_query_option = {
+      page_num: 0,
+      page_size: 0
     }
 
   }

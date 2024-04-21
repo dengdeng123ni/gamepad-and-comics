@@ -10,8 +10,8 @@ export class ComicsSelectTypeComponent {
   constructor(public ComicsSelectType:ComicsSelectTypeService){
 
   }
-  on(id:any){
-    this.ComicsSelectType.selected=id;
+  on(index){
+    this.ComicsSelectType.index=index;
     this.ComicsSelectType.close();
   }
 }

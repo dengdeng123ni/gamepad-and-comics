@@ -10,19 +10,15 @@ import { QueryComponent } from './components/query/query.component';
 import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { EditToolbarComponent } from './components/edit-toolbar/edit-toolbar.component';
-import { ComicsOptionComponent } from './components/comics-option/comics-option.component';
 import { ComicsQueryTypeComponent } from './components/comics-query-type/comics-query-type.component';
-import { ComicsFavoritesComponent } from './components/comics-favorites/comics-favorites.component';
 import { ComicsSelectTypeComponent } from './components/comics-select-type/comics-select-type.component';
 import { ComicsUpdateComponent } from './components/comics-update/comics-update.component';
-import { ComicsRankingComponent } from './components/comics-ranking/comics-ranking.component';
-import { ComicsHomeComponent } from './components/comics-home/comics-home.component';
 import { MenuTopToolbarComponent } from './components/menu-top-toolbar/menu-top-toolbar.component';
-import { ComicsCacheComponent } from './components/comics-cache/comics-cache.component';
 import { TemporaryFileComponent } from './components/temporary-file/temporary-file.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DownloadOptionComponent } from './components/download-option/download-option.component';
 import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
+import { ComicsQueryComponent } from './components/comics-query/comics-query.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -35,19 +31,15 @@ import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v
     BookmarksComponent,
     ToolbarComponent,
     EditToolbarComponent,
-    ComicsOptionComponent,
     ComicsQueryTypeComponent,
-    ComicsFavoritesComponent,
     ComicsSelectTypeComponent,
     ComicsUpdateComponent,
-    ComicsRankingComponent,
-    ComicsHomeComponent,
     MenuTopToolbarComponent,
-    ComicsCacheComponent,
     TemporaryFileComponent,
     HistoryComponent,
     DownloadOptionComponent,
-    ComicsListV2Component
+    ComicsListV2Component,
+    ComicsQueryComponent
   ],
   imports: [
     CommonModule,

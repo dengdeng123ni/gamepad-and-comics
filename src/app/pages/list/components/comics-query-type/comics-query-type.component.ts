@@ -74,25 +74,25 @@ export class ComicsQueryTypeComponent {
     const openTargetHeight = 36;
     const x = position.left-10;
     const y = position.bottom+10;
-    // this.uploadSelect.open({ x, y });\
+    const cindex =await this.ComicsSelectType.getType(e.tag, e.selected,{position:{ top: `${y}px`, left: `${x}px` }}) as any
 
-    const selected =await this.ComicsSelectType.getType(e.tag, e.selected,{position:{ top: `${y}px`, left: `${x}px` }}) as any
-    if(this.list[index].selected==selected){
 
-    }else{
-      this.list[index].selected=selected;
-      this.list.forEach(x => {
-        if (x.key == "orders") window.comics_query_option.order = x.selected;
-        if (x.key == "prices") window.comics_query_option.is_free = x.selected;
-        if (x.key == "status") window.comics_query_option.is_finish = x.selected;
-        if (x.key == "areas") window.comics_query_option.area_id = x.selected;
-        if (x.key == "styles") window.comics_query_option.style_id = x.selected;
-      })
-      window.comics_query_option.page_num = 1;
-      window.comics_query();
-      const node = document.querySelector("#comics_list")
-      if (node) node.scrollTop = 0
-    }
+    // if(this.list[index].selected==selcected){
+
+    // }else{
+    //   this.list[index].selected=selected;
+    //   this.list.forEach(x => {
+    //     if (x.key == "orders") window.comics_query_option.order = x.selected;
+    //     if (x.key == "prices") window.comics_query_option.is_free = x.selected;
+    //     if (x.key == "status") window.comics_query_option.is_finish = x.selected;
+    //     if (x.key == "areas") window.comics_query_option.area_id = x.selected;
+    //     if (x.key == "styles") window.comics_query_option.style_id = x.selected;
+    //   })
+    //   window.comics_query_option.page_num = 1;
+    //   window.comics_query();
+    //   const node = document.querySelector("#comics_list")
+    //   if (node) node.scrollTop = 0
+    // }
   }
   change(c: number, e: number) {
     this.list[c].selected = this.list[c].tag[e].id;

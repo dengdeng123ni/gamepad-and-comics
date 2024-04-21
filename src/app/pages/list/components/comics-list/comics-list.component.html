@@ -1,13 +1,6 @@
-<!-- <app-comics-option></app-comics-option> -->
-<app-comics-favorites *ngIf="data.qurye_page_type=='favorites'"></app-comics-favorites>
-<app-comics-query-type *ngIf="data.qurye_page_type=='type'"></app-comics-query-type>
-<app-comics-update *ngIf="data.qurye_page_type=='update'"></app-comics-update>
-<app-comics-ranking *ngIf="data.qurye_page_type=='ranking'"></app-comics-ranking>
-<app-comics-home *ngIf="data.qurye_page_type=='home'"></app-comics-home>
-<app-comics-cache *ngIf="data.qurye_page_type=='local_cache'"></app-comics-cache>
 <app-temporary-file *ngIf="data.qurye_page_type=='temporary_file'"></app-temporary-file>
 <app-history *ngIf="data.qurye_page_type=='history'"></app-history>
-
+<app-comics-query *ngIf="data.qurye_page_type=='query'"></app-comics-query>
 <div class="warp" (click)="on($event)">
   <div class="grid" id="comics_list" [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
     <button

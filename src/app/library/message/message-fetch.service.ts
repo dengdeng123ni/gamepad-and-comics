@@ -38,6 +38,8 @@ export class MessageFetchService {
     })
   }
   fetch = async (url: RequestInfo | URL, init: RequestInit): Promise<Response> => {
+    console.log(url, init);
+
     const req = new Request(url, init);
     let body = null;
     if (req.body) body = await this.readStreamToString(req.body)
@@ -46,7 +48,6 @@ export class MessageFetchService {
     }
     const id = Math.round(Math.random() * 1000000000000);
     let bool = true;
-    console.log(url);
 
     window.postMessage({
       id: id,
@@ -109,7 +110,7 @@ export class MessageFetchService {
       id: id,
       type: "pulg_proxy_request",
       proxy_request_website_url: "https://hanime1.me/comic/",
-      proxy_response_website_url: "http://localhost:3202/",
+      proxy_response_website_url: "http://localhost:4200/",
       http: {
         url: url,
         option: {
@@ -160,7 +161,7 @@ export class MessageFetchService {
       id: id,
       type: "website_proxy_request_html",
       proxy_request_website_url: url,
-      proxy_response_website_url: "http://localhost:3202/"
+      proxy_response_website_url: "http://localhost:4200/"
     });
     return new Promise((r, j) => {
       const getFile = () => {

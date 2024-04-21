@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { DbControllerService } from 'src/app/library/public-api';
+import { Subject } from 'rxjs';
 declare const window: any;
 @Injectable({
   providedIn: 'root'
 })
 export class CurrentService {
-
+  public query$ = new Subject();
   constructor(
     public DbController: DbControllerService,
     public Data: DataService
@@ -16,6 +17,13 @@ export class CurrentService {
 
   async init() {
 
+  }
+  public query() {
+    return this.query$
+  }
+
+  public _query(e) {
+     this.query$.next(e)
   }
 
   async getList() {
@@ -31,6 +39,8 @@ export class CurrentService {
   utf8_to_b64(str: string) {
     return window.btoa(unescape(encodeURIComponent(str)));
   }
+
+
 
 
 

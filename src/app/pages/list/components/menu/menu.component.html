@@ -25,15 +25,11 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <button *ngFor="let c of n.submenu;let index2=index" mat-button class="item item1" [attr.region]="'menu_item'"
-            (click)="c.click({
-            id:c.id,
-            name:c.name,
-            parent:{
+            (click)="on($event,c,{
               id:n.id,
               name:n.name
-            }
-          })">
-            <mat-icon class="icon">class</mat-icon>
+            })">
+            <mat-icon class="icon">{{c.icon}}</mat-icon>
             <div class="name">
               {{c.name}}
             </div>
@@ -45,10 +41,7 @@
       <mat-divider style="margin: 8px 16px;"></mat-divider>
     </div>
     <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
-      <button style="margin-top: 4px;" mat-button class="item" [attr.select]="true" [attr.region]="'menu_item'" (click)="n.click({
-        id:n.id,
-        name:n.name
-      })">
+      <button style="margin-top: 4px;" mat-button class="item" [attr.select]="true" [attr.region]="'menu_item'" (click)="on($event,n)">
         <mat-icon class="icon">{{n.icon}}</mat-icon>
         <div class="name">
           {{n.name}}

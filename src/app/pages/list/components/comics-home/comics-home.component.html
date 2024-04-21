@@ -1,7 +1,0 @@
-<div class="warp">
-  <div class="list">
-    <button  [attr.region]="'comics_option'" mat-button *ngFor="let n of list" class="item" (click)="change(n.id)"  [attr.select]="n.id==order" [attr.current]="n.id==order">
-      {{n.name}}
-    </button>
-  </div>
-</div>

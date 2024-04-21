@@ -13,7 +13,7 @@ export class ComicsSelectTypeService {
     id: string | number,
     name: string
   }> = [];
-  selected: string | number = "";
+  index = null;
   constructor(
     public _dialog: MatDialog,
   ) {
@@ -22,11 +22,11 @@ export class ComicsSelectTypeService {
   async getType(list: Array<{
     id: string | number,
     name: string
-  }>, selected: string | number, option: {
+  }>, index: string | number, option: {
     position: DialogPosition
   }): Promise<string | number> {
     this.list = list;
-    this.selected = selected;
+    this.index = index;
     if (this.opened == false) {
 
       this.opened = true;
@@ -47,7 +47,7 @@ export class ComicsSelectTypeService {
       const _f = () => {
         setTimeout(() => {
           if (!this.opened) {
-            r(this.selected)
+            r(this.index)
             this.close();
           } else {
             _f();
