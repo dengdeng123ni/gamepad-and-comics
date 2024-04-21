@@ -15,7 +15,7 @@ export class DataService {
 
   is_loading_free = false;
 
-  qurye_page_type = "home"
+  qurye_page_type = "cached"
 
   menu = [];
 

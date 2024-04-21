@@ -1,12 +1,12 @@
-<div class="choice"  *ngIf="type=='choice'" [attr.justify_content]="!name">
-  <div class="title" style="color:rgba(255,255,255,.34)" *ngIf="name">{{name}}</div>
+<div class="choice"  *ngIf="ComicsQuery.type=='choice'" [attr.justify_content]="!ComicsQuery.name">
+  <div class="title" style="color:rgba(255,255,255,.34)" *ngIf="ComicsQuery.name">{{ComicsQuery.name}}</div>
   <div class="list">
-    <button [attr.region]="'comics_option'" mat-button *ngFor="let n of list;let index=index"
+    <button [attr.region]="'comics_option'" mat-button *ngFor="let n of ComicsQuery.list;let index=index"
       class="item"
       [attr._id]="n.index"
-      [attr.select]="default_index==index"
-      [attr.current]="default_index==index"
-      (click)="on(index)"
+      [attr.select]="ComicsQuery.default_index==index"
+      [attr.current]="ComicsQuery.default_index==index"
+      (click)="ComicsQuery.on(index)"
       >
       {{n.name}}
     </button>
@@ -14,10 +14,10 @@
 </div>
 
 
-<div class="multipy" *ngIf="type=='multipy'" >
-  <div class="list" *ngFor="let c of lists;let c_index=index">
+<div class="multipy" *ngIf="ComicsQuery.type=='multipy'" >
+  <div class="list" *ngFor="let c of ComicsQuery.lists;let c_index=index">
     <div class="title" style="color:rgba(255,255,255,.34)">{{c.name}}</div>
-    <button [attr.region]="'comics_option'" mat-button *ngFor="let n of c.tag;let n_index=index"  (click)="on1($event,c,c_index)" class="item" [attr.select]="n.index==c.index"  [attr.current]="n.index==c.index">
+    <button [attr.region]="'comics_option'" mat-button *ngFor="let n of c.tag;let n_index=index"  (click)="ComicsQuery.on1($event,c,c_index)" class="item" [attr.select]="n.index==c.index"  [attr.current]="n.index==c.index">
       {{n.name}}
     </button>
   </div>
