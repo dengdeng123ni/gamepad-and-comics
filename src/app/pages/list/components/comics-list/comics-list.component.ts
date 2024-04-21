@@ -115,8 +115,6 @@ export class ComicsListComponent {
 
   ngAfterViewInit() {
     const node: any = document.querySelector("#comics_list");
-
-
     node!.addEventListener('scroll', (e: any) => {
       this.scroll$.next(e)
     }, true)

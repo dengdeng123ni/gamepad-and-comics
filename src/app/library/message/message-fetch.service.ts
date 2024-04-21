@@ -38,8 +38,6 @@ export class MessageFetchService {
     })
   }
   fetch = async (url: RequestInfo | URL, init: RequestInit): Promise<Response> => {
-    console.log(url, init);
-
     const req = new Request(url, init);
     let body = null;
     if (req.body) body = await this.readStreamToString(req.body)
