@@ -19,7 +19,7 @@ import { ReaderModule } from './pages/reader/reader.module';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 18,
+  version: 19,
   objectStoresMeta: [
     {
       store: 'details',
@@ -37,6 +37,13 @@ const dbConfig: DBConfig = {
     },
     {
       store: 'history',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+    {
+      store: 'local_details',
       storeConfig: { keyPath: 'id', autoIncrement: false },
       storeSchema: [
         { name: 'id', keypath: 'id', options: { unique: false } },

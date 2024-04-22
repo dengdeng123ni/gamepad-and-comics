@@ -108,10 +108,12 @@ export class WebFileService {
       return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').trim()
     }
     let { chapters, title, option: config } = await this.DbController.getDetail(comics_id)
+
     if (option?.chapters_ids?.length) chapters = chapters.filetr(x => option.chapters_ids.includes(x.id))
     for (let index = 0; index < chapters.length; index++) {
       const x = chapters[index];
       const pages = await this.DbController.getPages(x.id);
+      await Promise.all(pages.map(x => this.DbController.getImage(x.src)))
       if (option?.type) {
         if (option.type == "JPG") {
           if(option.page=="double"){

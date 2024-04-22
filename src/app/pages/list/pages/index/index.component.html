@@ -13,6 +13,7 @@
     <div class="content" (mouseleave)="mouseleave($event)">
       <app-edit-toolbar></app-edit-toolbar>
       <app-temporary-file *ngIf="data.qurye_page_type=='temporary_file'"></app-temporary-file>
+      <app-temporary-file *ngIf="data.qurye_page_type=='local_cache'"></app-temporary-file>
       <app-history *ngIf="data.qurye_page_type=='history'"></app-history>
       <app-comics-query *ngIf="data.qurye_page_type=='query'"></app-comics-query>
       <app-comics-list></app-comics-list>

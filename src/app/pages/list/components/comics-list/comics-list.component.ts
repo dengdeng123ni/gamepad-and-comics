@@ -6,6 +6,7 @@ import { Subject, throttleTime } from 'rxjs';
 import { ContextMenuEventService } from 'src/app/library/public-api';
 import { WebFileService } from 'src/app/library/web-file/web-file.service';
 import { DownloadOptionService } from '../download-option/download-option.service';
+import { LocalCachService } from '../menu/local-cach.service';
 declare const window: any;
 interface Item {
   id: string | number,
@@ -48,7 +49,8 @@ export class ComicsListComponent {
     public ContextMenuEvent: ContextMenuEventService,
     public router: Router,
     public WebFile: WebFileService,
-    public DownloadOption: DownloadOptionService
+    public DownloadOption: DownloadOptionService,
+    public LocalCach:LocalCachService
   ) {
 
     ContextMenuEvent.register('comics_item', {
@@ -64,13 +66,15 @@ export class ComicsListComponent {
           this.data.list[index].selected = !this.data.list[index].selected;
         }
         const list = this.data.list.filter(x => x.selected)
-        this.DownloadOption.open(list);
+
+        this.LocalCach.save(list[0].id);
 
 
         // WebFile.downloadComics(e.value)
         // ,{type:'PDF'}
       },
       menu: [
+        { name: "下载", id: "thumbnail" },
         { name: "下载", id: "thumbnail" },
         // { name: "delete", id: "delete" },
       ]

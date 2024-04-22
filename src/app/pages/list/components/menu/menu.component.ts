@@ -24,213 +24,213 @@ export class MenuComponent {
   query_type = [
     {
       id: 'type',
-      icon:'class',
+      icon: 'class',
       name: '分类',
       query: {
         type: 'multipy',
         list: [
           {
-              "key": "styles",
-              "name": "题材",
-              "index": 0,
-              "tag": [
-                  {
-                      "id": -1,
-                      "name": "全部",
-                      "index": 0
-                  },
-                  {
-                      "id": 999,
-                      "name": "热血",
-                      "index": 1
-                  },
-                  {
-                      "id": 997,
-                      "name": "古风",
-                      "index": 2
-                  },
-                  {
-                      "id": 1016,
-                      "name": "玄幻",
-                      "index": 3
-                  },
-                  {
-                      "id": 998,
-                      "name": "奇幻",
-                      "index": 4
-                  },
-                  {
-                      "id": 1023,
-                      "name": "悬疑",
-                      "index": 5
-                  },
-                  {
-                      "id": 1002,
-                      "name": "都市",
-                      "index": 6
-                  },
-                  {
-                      "id": 1096,
-                      "name": "历史",
-                      "index": 7
-                  },
-                  {
-                      "id": 1092,
-                      "name": "武侠仙侠",
-                      "index": 8
-                  },
-                  {
-                      "id": 1088,
-                      "name": "游戏竞技",
-                      "index": 9
-                  },
-                  {
-                      "id": 1081,
-                      "name": "悬疑灵异",
-                      "index": 10
-                  },
-                  {
-                      "id": 1063,
-                      "name": "架空",
-                      "index": 11
-                  },
-                  {
-                      "id": 1060,
-                      "name": "青春",
-                      "index": 12
-                  },
-                  {
-                      "id": 1054,
-                      "name": "西幻",
-                      "index": 13
-                  },
-                  {
-                      "id": 1048,
-                      "name": "现代",
-                      "index": 14
-                  },
-                  {
-                      "id": 1028,
-                      "name": "正能量",
-                      "index": 15
-                  },
-                  {
-                      "id": 1015,
-                      "name": "科幻",
-                      "index": 16
-                  }
-              ]
+            "key": "styles",
+            "name": "题材",
+            "index": 0,
+            "tag": [
+              {
+                "id": -1,
+                "name": "全部",
+                "index": 0
+              },
+              {
+                "id": 999,
+                "name": "热血",
+                "index": 1
+              },
+              {
+                "id": 997,
+                "name": "古风",
+                "index": 2
+              },
+              {
+                "id": 1016,
+                "name": "玄幻",
+                "index": 3
+              },
+              {
+                "id": 998,
+                "name": "奇幻",
+                "index": 4
+              },
+              {
+                "id": 1023,
+                "name": "悬疑",
+                "index": 5
+              },
+              {
+                "id": 1002,
+                "name": "都市",
+                "index": 6
+              },
+              {
+                "id": 1096,
+                "name": "历史",
+                "index": 7
+              },
+              {
+                "id": 1092,
+                "name": "武侠仙侠",
+                "index": 8
+              },
+              {
+                "id": 1088,
+                "name": "游戏竞技",
+                "index": 9
+              },
+              {
+                "id": 1081,
+                "name": "悬疑灵异",
+                "index": 10
+              },
+              {
+                "id": 1063,
+                "name": "架空",
+                "index": 11
+              },
+              {
+                "id": 1060,
+                "name": "青春",
+                "index": 12
+              },
+              {
+                "id": 1054,
+                "name": "西幻",
+                "index": 13
+              },
+              {
+                "id": 1048,
+                "name": "现代",
+                "index": 14
+              },
+              {
+                "id": 1028,
+                "name": "正能量",
+                "index": 15
+              },
+              {
+                "id": 1015,
+                "name": "科幻",
+                "index": 16
+              }
+            ]
           },
           {
-              "key": "areas",
-              "name": "区域",
-              "index": 0,
-              "tag": [
-                  {
-                      "id": -1,
-                      "name": "全部",
-                      "index": 0
-                  },
-                  {
-                      "id": 1,
-                      "name": "大陆",
-                      "index": 1
-                  },
-                  {
-                      "id": 2,
-                      "name": "日本",
-                      "index": 2
-                  },
-                  {
-                      "id": 6,
-                      "name": "韩国",
-                      "index": 3
-                  },
-                  {
-                      "id": 5,
-                      "name": "其他",
-                      "index": 4
-                  }
-              ]
+            "key": "areas",
+            "name": "区域",
+            "index": 0,
+            "tag": [
+              {
+                "id": -1,
+                "name": "全部",
+                "index": 0
+              },
+              {
+                "id": 1,
+                "name": "大陆",
+                "index": 1
+              },
+              {
+                "id": 2,
+                "name": "日本",
+                "index": 2
+              },
+              {
+                "id": 6,
+                "name": "韩国",
+                "index": 3
+              },
+              {
+                "id": 5,
+                "name": "其他",
+                "index": 4
+              }
+            ]
           },
           {
-              "key": "status",
-              "name": "进度",
-              "index": 0,
-              "tag": [
-                  {
-                      "id": -1,
-                      "name": "全部",
-                      "index": 0
-                  },
-                  {
-                      "id": 0,
-                      "name": "连载",
-                      "index": 1
-                  },
-                  {
-                      "id": 1,
-                      "name": "完结",
-                      "index": 2
-                  }
-              ]
+            "key": "status",
+            "name": "进度",
+            "index": 0,
+            "tag": [
+              {
+                "id": -1,
+                "name": "全部",
+                "index": 0
+              },
+              {
+                "id": 0,
+                "name": "连载",
+                "index": 1
+              },
+              {
+                "id": 1,
+                "name": "完结",
+                "index": 2
+              }
+            ]
           },
           {
-              "key": "prices",
-              "name": "收费",
-              "index": 0,
-              "tag": [
-                  {
-                      "id": -1,
-                      "name": "全部",
-                      "index": 0
-                  },
-                  {
-                      "id": 1,
-                      "name": "免费",
-                      "index": 1
-                  },
-                  {
-                      "id": 2,
-                      "name": "付费",
-                      "index": 2
-                  },
-                  {
-                      "id": 3,
-                      "name": "等就免费",
-                      "index": 3
-                  }
-              ]
+            "key": "prices",
+            "name": "收费",
+            "index": 0,
+            "tag": [
+              {
+                "id": -1,
+                "name": "全部",
+                "index": 0
+              },
+              {
+                "id": 1,
+                "name": "免费",
+                "index": 1
+              },
+              {
+                "id": 2,
+                "name": "付费",
+                "index": 2
+              },
+              {
+                "id": 3,
+                "name": "等就免费",
+                "index": 3
+              }
+            ]
           },
           {
-              "key": "orders",
-              "name": "排序",
-              "index": 0,
-              "tag": [
-                  {
-                      "id": 0,
-                      "name": "人气推荐",
-                      "index": 0
-                  },
-                  {
-                      "id": 1,
-                      "name": "更新时间",
-                      "index": 1
-                  },
-                  {
-                      "id": 3,
-                      "name": "上架时间",
-                      "index": 2
-                  }
-              ]
+            "key": "orders",
+            "name": "排序",
+            "index": 0,
+            "tag": [
+              {
+                "id": 0,
+                "name": "人气推荐",
+                "index": 0
+              },
+              {
+                "id": 1,
+                "name": "更新时间",
+                "index": 1
+              },
+              {
+                "id": 3,
+                "name": "上架时间",
+                "index": 2
+              }
+            ]
           }
-      ]
+        ]
       }
     },
     {
       id: 'update',
       name: '更新',
-      icon:'update',
+      icon: 'update',
       query: {
         type: '',
         list: []
@@ -238,7 +238,7 @@ export class MenuComponent {
     },
     {
       id: 'ranking',
-      icon:'sort',
+      icon: 'sort',
       name: '排行榜',
       query: {
         type: 'choice',
@@ -296,7 +296,7 @@ export class MenuComponent {
     },
     {
       id: 'favorites',
-      icon:'favorite',
+      icon: 'favorite',
       name: '我的追漫',
       query: {
         type: 'choice',
@@ -327,18 +327,21 @@ export class MenuComponent {
     }
   ]
 
-  on($event, data, parent = {}) {
+  on($event, data, parent: any = {}) {
     if (data.click) {
       data.click({
         ...data, $event: $event, parent
       })
+      if (parent.id) this.AppData.setOrigin(parent.id)
+
     } else if (data.query) {
-      this.data.list=[];
+      if (parent.id) this.AppData.setOrigin(parent.id)
+      this.data.list = [];
       this.zone.run(() => {
         this.data.qurye_page_type = "1"
         setTimeout(() => {
           this.data.qurye_page_type = 'query';
-          setTimeout(()=>{
+          setTimeout(() => {
             this.current._query(data)
           })
         })
@@ -362,6 +365,7 @@ export class MenuComponent {
       this.DbEvent.Configs['bilibili'].menu = this.query_type;
       Object.keys(this.DbEvent.Events).forEach(x => {
         if (x == "temporary_file") return
+        if (x == "local_cache") return
         let obj = {
           id: x,
           icon: "home",
@@ -388,7 +392,6 @@ export class MenuComponent {
               this.data.list = [];
               this.AppData.setOrigin(e.parent.id)
               this.DbEvent.Configs[this.AppData.origin].is_cache = true;
-              this.menu.opened = !this.menu.opened;
             }
           }
         )
@@ -399,7 +402,17 @@ export class MenuComponent {
         icon: "cached",
         name: '缓存',
         click: (e) => {
-          // this.openTemporaryFile();
+          window.comics_query_option.origin="local_cache"
+          this.zone.run(() => {
+            this.data.qurye_page_type = "1"
+            setTimeout(() => {
+              this.data.list = [];
+              this.data.qurye_page_type = 'local_cache';
+            })
+          })
+
+          this.AppData.setOrigin('local_cache')
+
         }
       })
       this.data.menu.push({ type: 'separator' })
@@ -464,6 +477,7 @@ export class MenuComponent {
         this.zone.run(() => {
           window.comics_query_option.temporary_file_id = e.id;
           this.AppData.origin = "temporary_file";
+          window.comics_query_option.origin="temporary_file"
           this.zone.run(() => {
             this.data.qurye_page_type = "1"
             setTimeout(() => {
