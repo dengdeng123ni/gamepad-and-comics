@@ -16,6 +16,7 @@ export class TemporaryFileComponent {
 
   change(c: number, e: number) {
     this.data.list=[];
+
     window.comics_query_option.page_num = 1;
     window.comics_query();
     const node = document.querySelector("#comics_list")
