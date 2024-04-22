@@ -1,6 +1,4 @@
-<app-temporary-file *ngIf="data.qurye_page_type=='temporary_file'"></app-temporary-file>
-<app-history *ngIf="data.qurye_page_type=='history'"></app-history>
-<app-comics-query *ngIf="data.qurye_page_type=='query'"></app-comics-query>
+
 <div class="warp" (click)="on($event)">
   <div class="grid" id="comics_list" [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
     <button

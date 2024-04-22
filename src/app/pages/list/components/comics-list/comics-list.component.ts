@@ -121,6 +121,14 @@ export class ComicsListComponent {
     this.scroll$.pipe(throttleTime(300)).subscribe(e => {
       this.handleScroll(e);
     })
+    const i_w = 172.8;
+    const i_h = 276.8;
+    let w2 = ((node.clientWidth - 32) / i_w);
+    let h2 = (node.clientHeight / i_h);
+    if (h2 < 1) h2 = 1;
+    else h2 = h2 + 1;
+    window.comics_query_option.page_size = Math.trunc(h2) * Math.trunc(w2);
+    window.comics_query_option.page_num = 1;
   }
   scroll$ = new Subject();
   getData() {

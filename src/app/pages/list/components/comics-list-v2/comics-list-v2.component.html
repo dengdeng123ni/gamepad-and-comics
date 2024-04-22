@@ -1,28 +1,39 @@
+<div class="swiper mySwiper">
+  <div class="swiper-wrapper" (click)="on($event)">
+    <div class="swiper-slide" *ngFor="let c of lists">
 
- <div class="swiper mySwiper warp">
-    <div class="swiper-wrapper" class="grid" [attr.section]="'comics_list'" id="comics_list" [attr.size]="'middle'" [attr.type]="'list'">
-      <div class="swiper-slide" [attr.size]="'middle'">
+      <div class="grid" id="comics_list" [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
         <button
-        class="item"
-        mat-button
-        *ngFor="let n of data.list;let index=index"
-        [attr._id]="n.id"
-        [attr.index]="index"
-        [attr.region]="'comics_item'"
-        [attr.select]="n.id==''"
-        [matTooltipShowDelay]="3000"
-        [matTooltip]="n.title"
-        [attr.content_menu_key]="'comics_item'"
-        [attr.content_menu_value]="n.id"
-        [attr.multiple]="n.selected">
-        <div class="img">
-          <app-image class="w-full" [src]="n.cover" />
-          <div class="mezzanine"></div>
-        </div>
-        <div class="name">{{n.title}}</div>
-        <div class="progress">{{n.subTitle}}</div>
-        <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="data.is_edit" [(ngModel)]="n.selected"></mat-checkbox>
-      </button>
+          class="item"
+          mat-button
+          *ngFor="let n of c;let index=index"
+          [attr._id]="n.id"
+          [attr.index]="index"
+          [attr.region]="'comics_item'"
+          [attr.select]="n.id==''"
+          [matTooltipShowDelay]="3000"
+          [matTooltip]="n.title"
+          [attr.content_menu_key]="'comics_item'"
+          [attr.content_menu_value]="n.id"
+          [attr.multiple]="n.selected">
+          <div class="img">
+            <app-image class="w-full" [src]="n.cover" />
+            <div class="mezzanine"></div>
+          </div>
+          <div class="name">{{n.title}}</div>
+          <div class="progress">{{n.subTitle}}</div>
+          <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="data.is_edit" [(ngModel)]="n.selected"></mat-checkbox>
+        </button>
       </div>
+
     </div>
   </div>
+</div>
+<div style="display: flex;justify-content: end;margin: 12px;">
+  <button mat-icon-button>
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>

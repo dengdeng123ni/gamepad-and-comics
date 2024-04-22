@@ -20,6 +20,8 @@ export class ComicsQueryService {
     public ComicsSelectType: ComicsSelectTypeService
   ) {
     this.query$ = this.current.query().subscribe((x: any) => {
+      console.log(x);
+
       this.menu_id = x.id
       this.type = x.query.type;
       if (x.query.type == "choice") {
@@ -79,15 +81,7 @@ export class ComicsQueryService {
   }
 
   ngAfterViewInit() {
-    const i_w = 172.8;
-    const i_h = 276.8;
-    const node: any = document.querySelector("#comics_list");
-    let w2 = ((node.clientWidth - 32) / i_w);
-    let h2 = (node.clientHeight / i_h);
-    if (h2 < 1) h2 = 1;
-    else h2 = h2 + 1;
-    window.comics_query_option.page_size = Math.trunc(h2) * Math.trunc(w2);
-    window.comics_query_option.page_num = 1;
+
   }
 }
 

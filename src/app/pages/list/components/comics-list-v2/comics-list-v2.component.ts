@@ -103,37 +103,29 @@ export class ComicsListV2Component {
   }
 
 
-
+  change$=null;
+  lists=[];
   ngAfterViewInit() {
+
     var swiper = new Swiper(".mySwiper", {
-      cssMode: true,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
       pagination: {
         el: ".swiper-pagination",
       },
-      mousewheel: true,
-      keyboard: true,
     });
-    const node: any = document.querySelector("#comics_list");
+    window.comics_query_option.page_size = 32;
+    window.comics_query_option.page_num = 1;
 
-    // const i_w = 172.8;
-    // const i_h = 276.8;
-    // let w2 = ((node.clientWidth - 32) / i_w);
-    // let h2 = (node.clientHeight / i_h);
-    // if (h2 < 1) h2 = 1;
-    // else h2 = h2 + 1;
-    // const page_size = Math.trunc(h2) * Math.trunc(w2);
-    // console.log(page_size);
+    this.change$ = this.current.change().subscribe((x: any) => {
 
-    node!.addEventListener('scroll', (e: any) => {
-      this.scroll$.next(e)
-    }, true)
-    this.scroll$.pipe(throttleTime(300)).subscribe(e => {
-      this.handleScroll(e);
+      const count=16;
+      const o = Math.ceil(this.data.list.length / count);
+      for (let i = 0; i < o; i++) {
+        const e = this.data.list.slice(i * count, (i + 1) * count);
+        this.lists.push(e)
+      }
+
     })
+
   }
   scroll$ = new Subject();
   getData() {

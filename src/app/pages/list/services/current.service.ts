@@ -8,6 +8,7 @@ declare const window: any;
 })
 export class CurrentService {
   public query$ = new Subject();
+  public change$ = new Subject();
   constructor(
     public DbController: DbControllerService,
     public Data: DataService
@@ -26,6 +27,13 @@ export class CurrentService {
      this.query$.next(e)
   }
 
+  public change() {
+    return this.change$
+  }
+
+  public _change(e) {
+    this.change$.next(e)
+  }
   async getList() {
     const id = this.utf8_to_b64(JSON.stringify(window.comics_query_option))
     const list = await this.DbController.getList(id);
@@ -35,6 +43,7 @@ export class CurrentService {
     const id = this.utf8_to_b64(JSON.stringify(window.comics_query_option))
     const list = await this.DbController.getList(id);
     this.Data.list=list;
+    this._change(this.Data.list)
   }
   utf8_to_b64(str: string) {
     return window.btoa(unescape(encodeURIComponent(str)));
