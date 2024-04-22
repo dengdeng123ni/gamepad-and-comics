@@ -95,7 +95,12 @@ export class ComicsListComponent {
       if (this.data.is_edit || this._ctrl) {
         this.data.list[index].selected = !this.data.list[index].selected;
       } else {
-        this.router.navigate(['/detail', data.id]);
+        const nodec:any=$event.target
+        if(nodec.getAttribute("router_reader")){
+         this.current.routerReader(data.id)
+        }else{
+          this.router.navigate(['/detail', data.id]);
+        }
       }
 
     }

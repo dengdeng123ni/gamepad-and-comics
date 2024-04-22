@@ -58,6 +58,7 @@ export class CurrentService {
   }
 
   async _getWebDbComicsConfig(id: string) {
+
     const res: any = await firstValueFrom(this.webDb.getByID("comics_config", id.toString()))
     if (res) {
       return { ...this.data.comics_config, ...res }
