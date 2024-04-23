@@ -34,6 +34,7 @@ export class DbEventService {
     window._gh_register = this.register;
     window._gh_register({
       id: "bilibili",
+      name: "哔哩哔哩漫画",
       is_cache: true,
     }, {
       List: async (obj) => {
@@ -59,6 +60,8 @@ export class DbEventService {
               },
               "body": JSON.stringify(data),
               "method": "POST"
+            }, {
+              proxy: "https://manga.bilibili.com/"
             });
           const json = await res.json();
           list = json.data.map((x) => {
@@ -82,6 +85,8 @@ export class DbEventService {
               },
               "body": `{\"page_num\":${obj.page_num},\"page_size\":${obj.page_size},\"order\":${obj.order},\"wait_free\":${obj.wait_free}}`,
               "method": "POST"
+            }, {
+              proxy: "https://manga.bilibili.com/"
             });
           const json = await res.json();
           const httpUrlToHttps = (str) => {
@@ -104,6 +109,8 @@ export class DbEventService {
             },
             "body": `{\"date\":\"${obj.date}\",\"page_num\":1,\"page_size\":50}`,
             "method": "POST"
+          }, {
+            proxy: "https://manga.bilibili.com/"
           });
           const json = await res.json();
           const httpUrlToHttps = (str) => {
@@ -127,6 +134,8 @@ export class DbEventService {
             },
             "body": `{\"id\":${obj.id}}`,
             "method": "POST"
+          }, {
+            proxy: "https://manga.bilibili.com/"
           });
           const json = await res.json();
           const httpUrlToHttps = (str) => {
@@ -149,6 +158,8 @@ export class DbEventService {
             },
             "body": `{\"id\":${obj.id},\"isAll\":0,\"page_num\":${obj.page_num},\"page_size\":${obj.page_size}}`,
             "method": "POST"
+          }, {
+            proxy: "https://manga.bilibili.com/"
           });
           const json = await res.json();
           const httpUrlToHttps = (str) => {
@@ -174,6 +185,8 @@ export class DbEventService {
           },
           "body": `{\"comic_id\":${id}}`,
           "method": "POST"
+        }, {
+          proxy: "https://manga.bilibili.com/"
         });
         const json = await res.json();
         const x = json.data;
@@ -218,6 +231,8 @@ export class DbEventService {
           },
           "body": `{\"ep_id\":${id}}`,
           "method": "POST"
+        }, {
+          proxy: "https://manga.bilibili.com/"
         });
         const json = await res.json();
         let data = [];
@@ -242,7 +257,17 @@ export class DbEventService {
       },
       Image: async (id) => {
         if (id.substring(0, 4) == "http") {
-          const res = await window._gh_get(id)
+          const res = await  window._gh_fetch(id, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          }, {
+            proxy: "https://manga.bilibili.com/"
+          })
           const blob = await res.blob();
           return blob
         } else {
@@ -256,6 +281,8 @@ export class DbEventService {
                 },
                 "body": `{\"urls\":\"[\\\"${id}\\\"]\"}`,
                 "method": "POST",
+              }, {
+                proxy: "https://manga.bilibili.com/"
               });
               const json = await res.json();
               return `${json.data[0].url}?token=${json.data[0].token}`
@@ -264,7 +291,17 @@ export class DbEventService {
             }
           }
           const url = await getImageUrl(id);
-          const res = await window._gh_get(url);
+          const res = await window._gh_fetch(url, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          }, {
+            proxy: "https://manga.bilibili.com/"
+          });
           const blob = await res.blob();
           return blob
         }

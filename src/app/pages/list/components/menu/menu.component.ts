@@ -369,7 +369,7 @@ export class MenuComponent {
         let obj = {
           id: x,
           icon: "home",
-          name: x,
+          name: this.DbEvent.Configs[x].name,
           submenu: [],
         };
         if (this.DbEvent.Configs[x].menu) {
