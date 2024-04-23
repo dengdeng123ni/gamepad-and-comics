@@ -128,12 +128,25 @@ export class ChapterListMode1Component {
     if (this._ctrl) return
     this.data.chapters.forEach(x => x.selected = false)
   }
-  ngAfterViewInit() {
-    const warp = document.querySelector(".detail_section")
-    warp.setAttribute('hide', 'false')
+
+  scrollNode(){
     const node = document.getElementById(`${this.data.chapter_id}`)
-    node!.scrollIntoView({ behavior: 'instant', block: 'center' })
-    // node?.focus()
-    warp.setAttribute('hide', 'false')
+    if(node){
+      node!.scrollIntoView({ behavior: 'instant', block: 'center' })
+      node?.focus()
+    }else{
+      setTimeout(()=>{
+        this.scrollNode()
+      },33)
+    }
+
+  }
+  ngAfterViewInit() {
+    this.scrollNode();
+    // const warp = document.querySelector(".detail_section")
+    // warp.setAttribute('hide', 'false')
+
+
+    // warp.setAttribute('hide', 'false')
   }
 }
