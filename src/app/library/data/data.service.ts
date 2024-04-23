@@ -9,13 +9,16 @@ import { Router } from '@angular/router';
 export class AppDataService {
   origin = "bilibili"
   origin$ = new Subject();
+
+  is_pulg = false;
+  is_pwa = false;
+
   constructor(public DbEvent: DbEventService,
     public router: Router,
 
   ) {
     const c = localStorage.getItem('origin');
-    if(c=="temporary_file"){
-      console.log(c);
+    if (c == "temporary_file") {
       this.router.navigate(['/']);
     }
     if (c) {

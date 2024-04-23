@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { ContextMenuControllerService, DbControllerService, ImageService, MessageControllerService, MessageEventService, PulgService, QueryService, SelectDataSourceService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, MessageControllerService, MessageEventService, PulgService, QueryService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadLeftCircleToolbarService } from './library/event/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
@@ -58,12 +58,12 @@ export class AppComponent {
     public MessageEvent: MessageEventService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
-    public SelectDataSource: SelectDataSourceService,
     public query: QueryService,
     private contexts: ChildrenOutletContexts,
     public ccc: WebFileService,
     public image: ImageService,
-    public pulg:PulgService
+    public pulg: PulgService,
+    public App: AppDataService
   ) {
     GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS: () => GamepadLeftCircleToolbar.isToggle()
@@ -73,6 +73,11 @@ export class AppComponent {
       await DbController.getImage(data.id)
       return { id: data.id, type: "local_image" }
     })
+
+    MessageEvent.service_worker_register('init', async (event: any) => {
+      document.body.setAttribute("pwa","true")
+      this.App.is_pulg = true;
+    })
     this.init();
 
   }
@@ -80,9 +85,10 @@ export class AppComponent {
   async init() {
     await this.pulg.init();
 
-    setTimeout(()=>{
-       this.getPulgLoadingFree();
-    },50)
+    setTimeout(() => {
+      if(navigator) navigator?.serviceWorker?.controller?.postMessage({type:"_init"})
+      this.getPulgLoadingFree();
+    }, 50)
     // this.getPulgLoadingFree();
   }
   getAnimationData() {
@@ -90,21 +96,11 @@ export class AppComponent {
   }
   getPulgLoadingFree() {
     if (document.body.getAttribute("pulg")) {
-      this.is_loading_page = true;
+      this.App.is_pulg = true;
     } else {
       setTimeout(() => {
         this.getPulgLoadingFree();
-      })
-    }
-  }
-
-  getDataSource() {
-    const data = localStorage.getItem("data_source");
-    if (data) {
-      document.body.setAttribute("data_source", data);
-      this.is_data_source = true;
-    } else {
-      // this.SelectDataSource.open();
+      }, 50)
     }
   }
 

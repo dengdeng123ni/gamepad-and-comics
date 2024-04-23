@@ -38,8 +38,6 @@ export * from './event/event.service'
 export * from './query/query.service'
 export * from './history/history.service'
 
-export * from './select-data-source/select-data-source.service'
-
 export * from './pulg/pulg.service'
 
 export * from './custom-route-reuse-strategy'

@@ -1270,15 +1270,13 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
     }
     async init() {
       this.image_cache = await caches.open('image');
+      await this.broadcast({ type: "init" })
     }
      getImage=async (url)=> {
-      console.log(url);
-      console.log(this.image_cache);
       const res = await this.image_cache.match(url);
       if (res) {
         return res
       } else {
-
         await this.broadcast({ type: "local_image", id: url })
         let bool = true;
         return new Promise((r, j) => {
@@ -1341,6 +1339,11 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       const data = event.data;
       if (data && data.type && data.type == "local_image") {
         this._data_images[data.id] = data;
+        return;
+      }
+
+      if (data && data.type && data.type == "_init") {
+        this.broadcast({ type: "init" })
         return;
       }
 
