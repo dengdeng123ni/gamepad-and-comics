@@ -7,6 +7,7 @@
     "serve": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "hserve":"http-server -p 8080 -c-1 dist/browser",
     "test": "ng test"
   },
   "private": true,

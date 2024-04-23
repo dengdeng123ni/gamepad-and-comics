@@ -36,6 +36,7 @@ export class ImageComponent {
   }
 
   ngAfterViewInit() {
+    // this.url=this.src;
     setTimeout(() => {
       this.getImage(this.src)
     })

@@ -41,7 +41,7 @@ export const slideInAnimation =
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  is_loading_page = false;
+  is_loading_page = true;
   is_data_source = true;
 
   @HostListener('window:keydown', ['$event'])
@@ -70,10 +70,9 @@ export class AppComponent {
     })
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
-      const response = await DbController.getImage(data.id)
-      return { id: data.id, type: "local_image", response: response }
+      await DbController.getImage(data.id)
+      return { id: data.id, type: "local_image" }
     })
-
     this.init();
 
   }

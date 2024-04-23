@@ -51,7 +51,7 @@ export class MessageFetchService {
       id: id,
       type: "website_proxy_request",
       proxy_request_website_url: "https://manga.bilibili.com/",
-      proxy_response_website_url: "http://localhost:4200/",
+      proxy_response_website_url: window.location.origin,
       http: {
         url: url,
         option: {
@@ -108,7 +108,7 @@ export class MessageFetchService {
       id: id,
       type: "pulg_proxy_request",
       proxy_request_website_url: "https://hanime1.me/comic/",
-      proxy_response_website_url: "http://localhost:4200/",
+      proxy_response_website_url: window.location.origin,
       http: {
         url: url,
         option: {
@@ -159,7 +159,7 @@ export class MessageFetchService {
       id: id,
       type: "website_proxy_request_html",
       proxy_request_website_url: url,
-      proxy_response_website_url: "http://localhost:4200/"
+      proxy_response_website_url: window.location.origin
     });
     return new Promise((r, j) => {
       const getFile = () => {

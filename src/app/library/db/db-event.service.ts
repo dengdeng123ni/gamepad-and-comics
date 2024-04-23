@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Query } from '@angular/core';
 import { MessageFetchService } from '../public-api';
 interface Events {
   List: Function;
@@ -50,16 +50,16 @@ export class DbEventService {
       List: async (obj) => {
         let list = [];
         if (obj.menu_id == "type") {
-          let data:any={};
-          obj.list.forEach(x=>{
+          let data: any = {};
+          obj.list.forEach(x => {
             if (x.key == "orders") data.order = x.tag.id;
-            if (x.key == "prices")data.is_free = x.tag.id;
-            if (x.key == "status")data.is_finish = x.tag.id;
-            if (x.key == "areas")data.area_id = x.tag.id;
-            if (x.key == "styles")data.style_id = x.tag.id;
+            if (x.key == "prices") data.is_free = x.tag.id;
+            if (x.key == "status") data.is_finish = x.tag.id;
+            if (x.key == "areas") data.area_id = x.tag.id;
+            if (x.key == "styles") data.style_id = x.tag.id;
           })
-          obj.list=undefined;
-          data={...obj,...data}
+          obj.list = undefined;
+          data = { ...obj, ...data }
 
           const res = await
             window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/ClassPage?device=pc&platform=web", {
@@ -279,6 +279,12 @@ export class DbEventService {
           const blob = await res.blob();
           return blob
         }
+      },
+      Query: async (id) => {
+
+      },
+      UrlToDetailId: async (id) => {
+
       }
     });
 
