@@ -19,16 +19,10 @@ export class TemporaryFileService {
     //   return { id: event.data.id, type: "temporary_file", blob: blob }
     // })]
     DbEvent.register({
+      id:"temporary_file",
       name: "temporary_file",
-      tab: {
-        url: "",
-        host_names: [],
-      },
-      is_edit: true,
       is_locked: false,
-      is_cache: false,
-      is_offprint:false,
-      is_tab: false
+      is_cache: false
     }, {
       List: async (obj: any) => {
 

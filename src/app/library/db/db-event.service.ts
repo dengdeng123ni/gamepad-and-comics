@@ -8,14 +8,11 @@ interface Events {
   Image: Function;
 }
 interface Config {
-  name: string,
-  tab: Tab,
+  id: string,
+  name?: string,
   menu?: Array<any>;
-  is_edit: boolean;
-  is_locked: boolean;
-  is_cache: boolean;
-  is_offprint: boolean;
-  is_tab: boolean;
+  is_locked?: boolean;
+  is_cache?: boolean;
 }
 interface Tab {
   url: string,
@@ -36,16 +33,8 @@ export class DbEventService {
 
     window._gh_register = this.register;
     window._gh_register({
-      name: "bilibili",
-      tab: {
-        url: "https://manga.bilibili.com/",
-        host_names: ["manga.bilibili.com", "i0.hdslb.com", "manga.hdslb.com"],
-      },
-      is_edit: false,
-      is_locked: true,
+      id: "bilibili",
       is_cache: true,
-      is_offprint: false,
-      is_tab: true
     }, {
       List: async (obj) => {
         let list = [];
@@ -291,15 +280,16 @@ export class DbEventService {
   }
 
   register = (config: Config, events: Events) => {
-    const key = config.name;
+    const key = config.id;
+    config = {
+      name: key,
+      is_cache: false,
+      ...config
+    }
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };
     else this.Events[key] = events;
     if (this.Events[key]) this.Configs[key] = { ...this.Configs[key], ...config };
     else this.Configs[key] = config;
-    let proxy_hostnames: { url: string; host_name: string; }[] = []
-    Object.keys(this.Configs).forEach(x => this.Configs[x].tab.host_names.forEach(c => proxy_hostnames.push({ url: this.Configs[x].tab.url, host_name: c })));
-    if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage({ type: "pulg_config", proxy_hostnames: proxy_hostnames, configs: this.Configs })
-
   }
 
 }

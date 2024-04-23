@@ -16,16 +16,7 @@ export class LocalCachService {
   ) {
 
     DbEvent.register({
-      name: "local_cache",
-      tab: {
-        url: "",
-        host_names: [],
-      },
-      is_edit: false,
-      is_locked: false,
-      is_cache: false,
-      is_offprint: false,
-      is_tab: false
+      id: "local_cache",
     }, {
       List: async (obj: any) => {
         console.log(obj);

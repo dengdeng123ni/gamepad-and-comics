@@ -48,7 +48,6 @@ import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FormsModule } from '@angular/forms';
 import { ImageComponent } from './image/image.component';
-import { ListComponent } from './list/list.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -149,7 +148,6 @@ import { ListComponent } from './list/list.component';
   ],
   declarations: [
     ImageComponent,
-    ListComponent,
   ]
 })
 export class MaterialModule {

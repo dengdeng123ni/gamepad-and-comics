@@ -82,7 +82,7 @@ export class DbControllerService {
 
           if (res) {
             this.details[id] = JSON.parse(JSON.stringify(res));
-            res.option = { origin: option.origin, is_offprint: config.is_offprint }
+            res.option = { origin: option.origin }
             return res
           }
         }
@@ -103,7 +103,7 @@ export class DbControllerService {
         if (!Array.isArray(res.author)) {
           res.author = [{ name: res.author }]
         }
-        res.option = { origin: option.origin, is_offprint: config.is_offprint };
+        res.option = { origin: option.origin };
         this.details[id] = JSON.parse(JSON.stringify(res));
         return res
       }

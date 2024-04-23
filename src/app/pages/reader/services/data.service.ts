@@ -38,9 +38,7 @@ export class DataService {
 
   init() {
     const obj = this.AppData.getOption();
-    this.is_edit = obj.is_edit;
     this.is_locked = obj.is_locked;
     this.is_cache = obj.is_cache;
-    this.is_offprint=obj.is_offprint;
   }
 }

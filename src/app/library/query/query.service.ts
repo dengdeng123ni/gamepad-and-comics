@@ -56,7 +56,6 @@ export class QueryService {
     const url = new URL(value);
     if (url.protocol.substring(0, 4) == "http") {
       let proxy_hostnames = [];
-      Object.keys(this.DbEvent.Configs).forEach(x => this.DbEvent.Configs[x].tab.host_names.forEach(c => proxy_hostnames.push({ url: this.DbEvent.Configs[x].tab.url, name: this.DbEvent.Configs[x].name, host_name: c })))
       const obj = proxy_hostnames.find(x => x.host_name == url.hostname)
       if (!obj) return false
       const arr = url.pathname.split("/")
@@ -64,12 +63,12 @@ export class QueryService {
       const bool = await this.DbController.getDetail(id, { origin: obj.name })
       if (bool) {
         this.AppData.setOrigin(obj.name)
-        if(this.DbEvent.Configs[obj.name].is_offprint){
-          this.router.navigate(['/reader', id.toString().trim()]);
-          this.history.update({ id: id, title: bool.title, cover: bool.cover })
-        }else{
-          this.router.navigate(['/detail', id.toString().trim()]);
-        }
+        // if(this.DbEvent.Configs[obj.name].is_offprint){
+        //   this.router.navigate(['/reader', id.toString().trim()]);
+        //   this.history.update({ id: id, title: bool.title, cover: bool.cover })
+        // }else{
+        //   this.router.navigate(['/detail', id.toString().trim()]);
+        // }
 
         return true
       }
