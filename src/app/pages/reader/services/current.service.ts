@@ -132,7 +132,7 @@ export class CurrentService {
       this.data.chapters = res.chapters;
     }
     delete res.chapters;
-    this.data.comics_info = res;
+    this.data.details = res;
     this.init$.next(this.data)
     this.data.is_init_free = true;
 

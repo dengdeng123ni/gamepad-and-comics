@@ -13,7 +13,7 @@ export class LoadingCoverComponent {
 
 
   constructor(private data: DataService) {
-    this.cover = this.data.comics_info.cover;
+    this.cover = this.data.details.cover;
   }
 
 

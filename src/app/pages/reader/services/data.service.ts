@@ -8,11 +8,16 @@ export class DataService {
 
   pages: Array<PagesItem> = [];
   chapters: Array<ChaptersItem> = [];
-  comics_info: ComicsInfo = {
+
+  details={
     cover: '',
     title: '',
-    chapter_id: ''
+    author: '',
+    styles: [],
+    intro: ""
   };
+
+
   comics_id = "";
   chapter_id = "";
   page_index: number = 0;
