@@ -50,7 +50,7 @@ export class ComicsListComponent {
     public router: Router,
     public WebFile: WebFileService,
     public DownloadOption: DownloadOptionService,
-    public LocalCach:LocalCachService
+    public LocalCach: LocalCachService
   ) {
 
     ContextMenuEvent.register('comics_item', {
@@ -74,8 +74,16 @@ export class ComicsListComponent {
         // ,{type:'PDF'}
       },
       menu: [
-        { name: "下载", id: "thumbnail" },
-        { name: "下载", id: "thumbnail" },
+        {
+          name: "下载", id: "thumbnail", click: () => {
+
+          }
+        },
+        {
+          name: "缓存", id: "thumbnail", click: () => {
+
+          }
+        },
         // { name: "delete", id: "delete" },
       ]
     })
@@ -99,10 +107,10 @@ export class ComicsListComponent {
       if (this.data.is_edit || this._ctrl) {
         this.data.list[index].selected = !this.data.list[index].selected;
       } else {
-        const nodec:any=$event.target
-        if(nodec.getAttribute("router_reader")){
-         this.current.routerReader(data.id)
-        }else{
+        const nodec: any = $event.target
+        if (nodec.getAttribute("router_reader")) {
+          this.current.routerReader(data.id)
+        } else {
           this.router.navigate(['/detail', data.id]);
         }
       }

@@ -476,6 +476,7 @@ export class MenuComponent {
       click: e => {
         this.zone.run(() => {
           window.comics_query_option.temporary_file_id = e.id;
+          window.comics_query_option.name = e.name;
           this.AppData.origin = "temporary_file";
           window.comics_query_option.origin="temporary_file"
           this.zone.run(() => {
@@ -496,6 +497,7 @@ export class MenuComponent {
 
     this.zone.run(() => {
       window.comics_query_option.temporary_file_id = id;
+      window.comics_query_option.name = dirHandle["name"];
       this.AppData.origin = "temporary_file";
       this.data.qurye_page_type = "temporary_file"
     })

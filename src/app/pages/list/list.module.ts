@@ -13,6 +13,7 @@ import { HistoryComponent } from './components/history/history.component';
 import { DownloadOptionComponent } from './components/download-option/download-option.component';
 import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
 import { ComicsQueryComponent } from './components/comics-query/comics-query.component';
+import { LocalCacheComponent } from './components/local-cache/local-cache.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -27,7 +28,8 @@ import { ComicsQueryComponent } from './components/comics-query/comics-query.com
     HistoryComponent,
     DownloadOptionComponent,
     ComicsListV2Component,
-    ComicsQueryComponent
+    ComicsQueryComponent,
+    LocalCacheComponent
   ],
   imports: [
     CommonModule,

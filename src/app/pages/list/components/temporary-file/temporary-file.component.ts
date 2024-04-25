@@ -7,6 +7,7 @@ declare const window: any;
   styleUrls: ['./temporary-file.component.scss']
 })
 export class TemporaryFileComponent {
+  name="";
   constructor(public data:DataService) {
   }
 
@@ -15,6 +16,8 @@ export class TemporaryFileComponent {
   }
 
   change(c: number, e: number) {
+    this.name=window.comics_query_option.name;
+
     this.data.list=[];
     window.comics_query_option.page_num = 1;
     window.comics_query();
