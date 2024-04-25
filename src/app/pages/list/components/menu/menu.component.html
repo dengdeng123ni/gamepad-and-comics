@@ -1,14 +1,7 @@
 <div class="list">
-  <form class="example-form">
-    <mat-form-field class="example-full-width" style="width: 100%;">
-      <input type="text" matInput placeholder="搜索" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
+  <mat-form-field style="width: 100%;" (click)="search()">
+    <input type="text" matInput placeholder="搜索" [(ngModel)]="keyword">
+  </mat-form-field>
 
   <div *ngFor="let n of data.menu;let index=index">
     <div *ngIf="n.submenu" [attr.type]="'expansion'">
@@ -41,7 +34,8 @@
       <mat-divider style="margin: 8px 16px;"></mat-divider>
     </div>
     <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
-      <button style="margin-top: 4px;" mat-button class="item" [attr.select]="true" [attr.region]="'menu_item'" (click)="on($event,n)">
+      <button style="margin-top: 4px;" mat-button class="item" [attr.select]="true" [attr.region]="'menu_item'"
+        (click)="on($event,n)">
         <mat-icon class="icon">{{n.icon}}</mat-icon>
         <div class="name">
           {{n.name}}

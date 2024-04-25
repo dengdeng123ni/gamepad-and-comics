@@ -306,17 +306,17 @@ export class DbEventService {
           return blob
         }
       },
-      Query: async (id) => {
+      Query: async (obj) => {
         const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/Search?device=pc&platform=web", {
           "headers": {
             "accept": "application/json, text/plain, */*",
             "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "content-type": "application/json;charset=UTF-8"
           },
-          "body": { key_word: id, page_num: 1, page_size: 10 },
-          "method": "POST",
-          "mode": "cors",
-          "credentials": "include"
+          "body": JSON.stringify({ key_word: obj.keyword, page_num: 1, page_size: 10 }),
+          "method": "POST"
+        }, {
+          proxy: "https://manga.bilibili.com/"
         });
         const httpUrlToHttps = (str) => {
           const url = new URL(str);
@@ -326,8 +326,8 @@ export class DbEventService {
             return str
           }
         }
-        const list = res.data.list.map(x => ({ id: x.id, title: x.real_title, cover: httpUrlToHttps(x.vertical_cover), subTitle: x.is_finish ? "已完结" : "连载中" }))
-
+        const json = await res.json();
+        const list = json.data.list.map(x => ({ id: x.id, title: x.real_title, cover: httpUrlToHttps(x.vertical_cover), subTitle: x.is_finish ? "已完结" : "连载中" }))
         return list
       },
       UrlToDetailId: async (id) => {

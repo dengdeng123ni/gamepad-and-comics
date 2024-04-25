@@ -19,8 +19,6 @@ export class LocalCachService {
       id: "local_cache",
     }, {
       List: async (obj: any) => {
-        console.log(obj);
-
         const res = await firstValueFrom(this.webDb.getAll("local_comics"))
         const list = res.map((x: any) => {
           return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
@@ -29,8 +27,6 @@ export class LocalCachService {
       },
       Detail: async (id: string) => {
         let res = (await firstValueFrom(this.webDb.getByID('local_comics', id.toString())) as any)
-        console.log(res);
-
         return res
       },
       Pages: async (id: string) => {

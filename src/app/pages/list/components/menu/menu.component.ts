@@ -326,7 +326,22 @@ export class MenuComponent {
       }
     }
   ]
+  _keyword = "";
+  get keyword() { return this._keyword };
+  set keyword(value: string) {
+    this.current.search(value);
+    this._keyword = value;
+  }
+  search(){
+    this.data.list = [];
+    this.zone.run(() => {
+      this.data.qurye_page_type = "1"
+      setTimeout(() => {
+        this.data.qurye_page_type = 'search';
+      })
+    })
 
+  }
   on($event, data, parent: any = {}) {
     if (data.click) {
       data.click({

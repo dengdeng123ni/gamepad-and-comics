@@ -17,6 +17,7 @@ interface Events {
 export class DbControllerService {
 
   lists: any = {};
+  query:any={};
   details: any = {};
   pages: any = {};
 
@@ -242,6 +243,33 @@ export class DbControllerService {
       return new Blob([], {
         type: 'image/jpeg'
       })
+    }
+  }
+  async Query(id: string, option?: {
+    origin: string
+  }): Promise<Array<Item>> {
+
+    if (!option) option = { origin: this.AppData.origin }
+    if (!option.origin) option.origin = this.AppData.origin;
+    const config = this.DbEvent.Configs[option.origin]
+    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["Query"]) {
+      if (this.query[id]) {
+        return JSON.parse(JSON.stringify(this.query[id]))
+      } else {
+        const b64_to_utf8 = (str: string) => {
+          return JSON.parse(decodeURIComponent(escape(window.atob(str))));
+        }
+        const obj = b64_to_utf8(id)
+        let res = await this.DbEvent.Events[option.origin]["Query"](obj);
+        res.forEach(x => {
+          this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
+          x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;
+        })
+        this.query[id] = JSON.parse(JSON.stringify(res));
+        return res
+      }
+    } else {
+      return []
     }
   }
   waitList = [];

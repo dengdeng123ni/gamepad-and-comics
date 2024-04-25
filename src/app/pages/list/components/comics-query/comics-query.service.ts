@@ -20,8 +20,6 @@ export class ComicsQueryService {
     public ComicsSelectType: ComicsSelectTypeService
   ) {
     this.query$ = this.current.query().subscribe((x: any) => {
-      console.log(x);
-
       this.menu_id = x.id
       this.type = x.query.type;
       if (x.query.type == "choice") {
@@ -35,8 +33,6 @@ export class ComicsQueryService {
         this.getData();
       }
     })
-
-
   }
   async on1($event: any, e: any, index: any) {
     const node = ($event.target as HTMLElement);
