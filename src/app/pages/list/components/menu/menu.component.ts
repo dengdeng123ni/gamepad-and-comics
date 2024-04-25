@@ -231,9 +231,8 @@ export class MenuComponent {
       id: 'update',
       name: '更新',
       icon: 'update',
-      query: {
-        type: '',
-        list: []
+      query: async () => {
+
       }
     },
     {
@@ -332,7 +331,7 @@ export class MenuComponent {
     this.current.search(value);
     this._keyword = value;
   }
-  search(){
+  search() {
     this.data.list = [];
     this.zone.run(() => {
       this.data.qurye_page_type = "1"
@@ -417,7 +416,7 @@ export class MenuComponent {
         icon: "cached",
         name: '缓存',
         click: (e) => {
-          window.comics_query_option.origin="local_cache"
+          window.comics_query_option.origin = "local_cache"
           this.zone.run(() => {
             this.data.qurye_page_type = "1"
             setTimeout(() => {
@@ -493,7 +492,7 @@ export class MenuComponent {
           window.comics_query_option.temporary_file_id = e.id;
           window.comics_query_option.name = e.name;
           this.AppData.origin = "temporary_file";
-          window.comics_query_option.origin="temporary_file"
+          window.comics_query_option.origin = "temporary_file"
           this.zone.run(() => {
             this.data.qurye_page_type = "1"
             setTimeout(() => {

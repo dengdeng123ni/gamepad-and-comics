@@ -7,7 +7,6 @@ import { MaterialModule } from 'src/app/library/material.module';
 import { ComicsListComponent } from './components/comics-list/comics-list.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ComicsSelectTypeComponent } from './components/comics-select-type/comics-select-type.component';
-import { ComicsUpdateComponent } from './components/comics-update/comics-update.component';
 import { TemporaryFileComponent } from './components/temporary-file/temporary-file.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DownloadOptionComponent } from './components/download-option/download-option.component';
@@ -24,7 +23,6 @@ import { ComicsSearchComponent } from './components/comics-search/comics-search.
     ComicsListComponent,
     MenuComponent,
     ComicsSelectTypeComponent,
-    ComicsUpdateComponent,
     TemporaryFileComponent,
     HistoryComponent,
     DownloadOptionComponent,
