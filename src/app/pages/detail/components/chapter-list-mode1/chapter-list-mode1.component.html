@@ -8,7 +8,7 @@
         <div class="box">
           <div class="img">
             <app-image [objectFit]="'cover'" class="image" loading="lazy" [src]="n.cover" />
-            <div class="lock" *ngIf="data.is_locked">
+            <div class="lock" *ngIf="is_locked">
               <mat-icon class="lock_icon" *ngIf="n.is_locked">lock</mat-icon>
               <mat-icon class="lock_icon" *ngIf="!n.is_locked">lock_open</mat-icon>
             </div>

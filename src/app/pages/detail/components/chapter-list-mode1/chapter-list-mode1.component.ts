@@ -38,6 +38,7 @@ export class ChapterListMode1Component {
   _ctrl = false;
 
   pattern = ''
+  is_locked=true;
   constructor(public data: DataService,
     public router: Router,
     public current: CurrentService, public doublePageThumbnail: DoublePageThumbnailService, public ContextMenuEvent: ContextMenuEventService, public exportSettings: ExportSettingsService,) {
@@ -92,6 +93,9 @@ export class ChapterListMode1Component {
     if (this.data.chapters[0].cover) this.pattern = 'image';
     else if (this.data.chapters[0].title) this.pattern = 'title';
     else this.pattern = 'index';
+     console.log(this.data.chapters[0].is_locked,this.data.chapters[0].is_locked===undefined);
+
+    if(this.data.chapters[0].is_locked===undefined) this.is_locked=false;
   }
   on($event: MouseEvent) {
     const node = $event.target as HTMLElement;

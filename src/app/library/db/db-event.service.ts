@@ -330,6 +330,9 @@ export class DbEventService {
         const list = json.data.list.map(x => ({ id: x.id, title: x.real_title, cover: httpUrlToHttps(x.vertical_cover), subTitle: x.is_finish ? "已完结" : "连载中" }))
         return list
       },
+      Unlock:async()=>{
+
+      },
       UrlToDetailId: async (id) => {
 
       }
