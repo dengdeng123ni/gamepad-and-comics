@@ -257,7 +257,7 @@ export class DbEventService {
       },
       Image: async (id) => {
         if (id.substring(0, 4) == "http") {
-          const res = await  window._gh_fetch(id, {
+          const res = await window._gh_fetch(id, {
             method: "GET",
             headers: {
               "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
@@ -307,7 +307,28 @@ export class DbEventService {
         }
       },
       Query: async (id) => {
+        const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/Search?device=pc&platform=web", {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": { key_word: id, page_num: 1, page_size: 10 },
+          "method": "POST",
+          "mode": "cors",
+          "credentials": "include"
+        });
+        const httpUrlToHttps = (str) => {
+          const url = new URL(str);
+          if (url.protocol == "http:") {
+            return `https://${url.host}${url.pathname}`
+          } else {
+            return str
+          }
+        }
+        const list = res.data.list.map(x => ({ id: x.id, title: x.real_title, cover: httpUrlToHttps(x.vertical_cover), subTitle: x.is_finish ? "已完结" : "连载中" }))
 
+        return list
       },
       UrlToDetailId: async (id) => {
 
