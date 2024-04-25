@@ -14,6 +14,7 @@ import { DownloadOptionComponent } from './components/download-option/download-o
 import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
 import { ComicsQueryComponent } from './components/comics-query/comics-query.component';
 import { LocalCacheComponent } from './components/local-cache/local-cache.component';
+import { ComicsSearchComponent } from './components/comics-search/comics-search.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -29,7 +30,8 @@ import { LocalCacheComponent } from './components/local-cache/local-cache.compon
     DownloadOptionComponent,
     ComicsListV2Component,
     ComicsQueryComponent,
-    LocalCacheComponent
+    LocalCacheComponent,
+    ComicsSearchComponent
   ],
   imports: [
     CommonModule,
