@@ -14,13 +14,14 @@ export class ComicsDetailService {
   ) {
 
   }
-  open() {
+  open(position?) {
     if (this.opened == false) {
       this.opened = true;
 
       const dialogRef = this._dialog.open(ComicsDetailComponent, {
         panelClass: "_comics_detail",
         backdropClass:"_comics_detail_bg",
+        position
       });
       document.body.setAttribute("locked_region", "_comics_detail")
       dialogRef.afterClosed().subscribe(result => {

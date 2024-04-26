@@ -35,9 +35,7 @@ export class IndexComponent {
   ) {
     document.body.setAttribute("router", "reader")
     document.body.setAttribute("locked_region", "reader")
-   setTimeout(()=>{
-     this.ComicsDetail.open();
-   },1000)
+
     // ReaderConfig.open();
     // this.LoadingCover.open();
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
@@ -59,7 +57,7 @@ export class IndexComponent {
     //   },3000)
     // })
   }
-  observe
+
   on($event: MouseEvent) {
     this.current.on$.next($event)
   }

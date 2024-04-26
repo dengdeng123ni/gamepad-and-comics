@@ -109,6 +109,14 @@
     <!-- <div class="flex flex-col item mt-10 bottom2">
 
     </div> -->
+
+    <div class="flex flex-col item mt-5 bottom">
+      <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+        (click)="OpenComicsDetail($event)">
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
+
     <div class="flex flex-col item mt-5 bottom">
       <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="isFullChange()">
@@ -116,6 +124,7 @@
         <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
       </button>
     </div>
+
   </div>
 </div>
 <div class="fixed" id="reader_toolbar_menu" (menuClosed)="closeMenu()" [matMenuTriggerFor]="menu"

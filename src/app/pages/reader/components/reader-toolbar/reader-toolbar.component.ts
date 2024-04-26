@@ -10,6 +10,7 @@ import { OnePageThumbnailMode3Service } from '../one-page-thumbnail-mode3/one-pa
 import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
+import { ComicsDetailService } from '../comics-detail/comics-detail.service';
 
 @Component({
   selector: 'app-reader-toolbar',
@@ -32,7 +33,8 @@ export class ReaderToolbarComponent {
     public onePageThumbnailMode3: OnePageThumbnailMode3Service,
     public SetChapterFirstPageCover:SetChapterFirstPageCoverService,
     public ReaderChange: ReaderChangeService,
-    public ReaderConfig:ReaderConfigService
+    public ReaderConfig:ReaderConfigService,
+    public ComicsDetail:ComicsDetailService
   ) {
   }
   menuObj: {
@@ -182,9 +184,17 @@ export class ReaderToolbarComponent {
     this.SetChapterFirstPageCover.open({position:{ top: `${y}px`, left: `${70}px` },delayFocusTrap:false,})
   }
 
+
   openReaderSettings($event){
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
     this.ReaderConfig.open({right:"30px",top:`${position.top}px`})
   }
+
+  OpenComicsDetail($event){
+    const node = ($event.target as HTMLElement);
+    const position = node.getBoundingClientRect();
+    this.ComicsDetail.open({right:"30px",bottom:`30px`})
+  }
+
 }
