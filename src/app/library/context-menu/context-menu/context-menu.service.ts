@@ -7,6 +7,7 @@ interface MenuItem {
   text: boolean;
   data?: any;
   value:string;
+  click:Function,
   arg?: {
     key: string;
     parent?: string;
@@ -86,7 +87,8 @@ export class ContextMenuService {
           id: menuItem.id,
           name: menuItem.name,
           text: menuItem.text,
-          data: menuItem.data
+          data: menuItem.data,
+          click:menuItem.click
         };
       }
       return menuItem;

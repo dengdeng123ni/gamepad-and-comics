@@ -60,31 +60,27 @@ export class ComicsListComponent {
       close: (e: any) => {
 
       },
-      on: async (e: { value: string; id: string; }) => {
+      on: async (e: any) => {
         const index = this.data.list.findIndex(x => x.id.toString() == e.value.toString());
         if (this.data.list.filter(x => x.selected).length == 0) {
           this.data.list[index].selected = !this.data.list[index].selected;
         }
         const list = this.data.list.filter(x => x.selected)
-
-        this.LocalCach.save(list[0].id);
-
-
-        // WebFile.downloadComics(e.value)
-        // ,{type:'PDF'}
+        e.click(list)
       },
       menu: [
         {
-          name: "下载", id: "thumbnail", click: () => {
-
+          name: "下载", id: "download", click: async (list) => {
+            this.DownloadOption.open(list)
           }
         },
         {
-          name: "缓存", id: "thumbnail", click: () => {
-
+          name: "缓存", id: "local_cach", click: async (list) => {
+             for (let index = 0; index < list.length; index++) {
+              await this.LocalCach.save(list[index].id);
+             }
           }
         },
-        // { name: "delete", id: "delete" },
       ]
     })
   }
