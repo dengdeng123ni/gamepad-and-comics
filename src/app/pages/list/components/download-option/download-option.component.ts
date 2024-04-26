@@ -31,7 +31,6 @@ export class DownloadOptionComponent {
   }
   async on() {
     const ids = this.list.map(x => x.id);
-    console.log(ids);
 
     if (this.option.isOneFile) {
 
