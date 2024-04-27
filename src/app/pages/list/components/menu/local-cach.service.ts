@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { AppDataService, DbControllerService, DbEventService } from 'src/app/library/public-api';
@@ -12,6 +13,7 @@ export class LocalCachService {
     public DbController: DbControllerService,
     public AppData: AppDataService,
     public webDb: NgxIndexedDBService,
+    private _snackBar: MatSnackBar,
     public DbEvent: DbEventService
   ) {
 
@@ -58,8 +60,18 @@ export class LocalCachService {
       const pages = await this.DbController.getPages(x.id)
       await Promise.all(pages.map(x => this.DbController.getImage(x.src)))
       await firstValueFrom(this.webDb.update("local_pages", { id: x.id.toString(), data: pages }))
-    }
+      this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
+        duration:3000,
+        horizontalPosition:'end',
+        verticalPosition:'bottom',
 
+      });
+    }
+    this._snackBar.open(`${res.title}`, '', {
+      duration:5000,
+      horizontalPosition:'end',
+      verticalPosition:'bottom',
+    });
   }
 
 }

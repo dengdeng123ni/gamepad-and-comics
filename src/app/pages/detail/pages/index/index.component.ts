@@ -4,6 +4,7 @@ import { DataService } from '../../services/data.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { IndexService } from './index.service';
+import { AppDataService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-index',
@@ -16,12 +17,23 @@ export class IndexComponent {
     public data: DataService,
     public router: Router,
     public index:IndexService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public AppData:AppDataService
   ) {
-    let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
-    id$.subscribe(x => {
-      this.data.init();
-      this.current.init(x.toString() as string)
+
+
+    let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
+    id$.subscribe(params => {
+      if (params.get('origin')) {
+        this.AppData.setOrigin(params.get('origin'));
+        this.data.init();
+        this.current.init(params.get('id'))
+        return
+      }else{
+        this.data.init();
+        this.current.init(params.get('id'))
+      }
+
     })
     document.body.setAttribute("router", "detail")
     document.body.setAttribute("locked_region", "detail")
