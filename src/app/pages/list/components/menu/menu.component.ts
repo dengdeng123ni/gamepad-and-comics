@@ -24,6 +24,14 @@ export class MenuComponent {
   query_type = [
     {
       id: 'type',
+      icon: 'search',
+      name: '搜索',
+      query: {
+        type: 'search'
+      }
+    },
+    {
+      id: 'type',
       icon: 'class',
       name: '分类',
       query: {
@@ -225,14 +233,6 @@ export class MenuComponent {
             ]
           }
         ]
-      }
-    },
-    {
-      id: 'update',
-      name: '更新',
-      icon: 'update',
-      query: async () => {
-
       }
     },
     {

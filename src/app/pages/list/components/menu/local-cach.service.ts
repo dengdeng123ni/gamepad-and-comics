@@ -53,18 +53,19 @@ export class LocalCachService {
     let res = await this.DbController.getDetail(id);
     await this.DbController.getImage(res.cover)
     res.id=res.id.toString();
-    await firstValueFrom(this.webDb.update("local_comics", res))
+
     await Promise.all(res.chapters.map(x=>this.DbController.getImage(x.cover)))
     for (let index = 0; index < res.chapters.length; index++) {
       const x = res.chapters[index];
       const pages = await this.DbController.getPages(x.id)
       await Promise.all(pages.map(x => this.DbController.getImage(x.src)))
       await firstValueFrom(this.webDb.update("local_pages", { id: x.id.toString(), data: pages }))
+      let chapters=res.chapters.slice(0,index+1)
+      await firstValueFrom(this.webDb.update("local_comics", {...res,chapters}))
       this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
         duration:3000,
         horizontalPosition:'end',
         verticalPosition:'bottom',
-
       });
     }
     this._snackBar.open(`${res.title}`, '', {

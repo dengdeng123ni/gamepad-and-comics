@@ -10,7 +10,6 @@ import { ComicsSelectTypeComponent } from './components/comics-select-type/comic
 import { TemporaryFileComponent } from './components/temporary-file/temporary-file.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DownloadOptionComponent } from './components/download-option/download-option.component';
-import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
 import { ComicsQueryComponent } from './components/comics-query/comics-query.component';
 import { LocalCacheComponent } from './components/local-cache/local-cache.component';
 import { ComicsSearchComponent } from './components/comics-search/comics-search.component';
@@ -26,7 +25,6 @@ import { ComicsSearchComponent } from './components/comics-search/comics-search.
     TemporaryFileComponent,
     HistoryComponent,
     DownloadOptionComponent,
-    ComicsListV2Component,
     ComicsQueryComponent,
     LocalCacheComponent,
     ComicsSearchComponent

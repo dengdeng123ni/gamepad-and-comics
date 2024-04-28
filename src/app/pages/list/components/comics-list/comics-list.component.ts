@@ -121,7 +121,6 @@ export class ComicsListComponent {
     } else {
       this.data.list.forEach(x => x.selected = true)
     }
-
   }
 
 

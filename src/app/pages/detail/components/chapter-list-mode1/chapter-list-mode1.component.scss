@@ -93,12 +93,16 @@
   // margin-top: 12px;
 
   .item[read=true] {
+    .img{
+      filter: brightness(0.6);
+    }
     .name {
       color: rgba(255, 255, 255, .34);
     }
   }
   .item[current=true] {
     .name {
+      // filter: brightness(0.8);
       color: #c2185b;
     }
   }
