@@ -56,6 +56,7 @@ export interface ComicsInfo {
   chapter_id: string,
   author_href?:string,
   href?:string
+  origin?:string
 }
 
 
@@ -69,4 +70,4 @@ export interface ChaptersItem {
   is_locked?: boolean
 }
 
-export interface ComicsItem { id: string | number, cover: string, title: string, subTitle: string, selected?: boolean }
+export interface ComicsItem { id: string | number,origin?:string, cover: string, title: string, subTitle: string, selected?: boolean }

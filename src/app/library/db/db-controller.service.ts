@@ -17,7 +17,7 @@ interface Events {
 export class DbControllerService {
 
   lists: any = {};
-  query:any={};
+  query: any = {};
   details: any = {};
   pages: any = {};
 
@@ -53,7 +53,9 @@ export class DbControllerService {
       res.forEach(x => {
         this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
         x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;
+        x.origin = option.origin;
       })
+      res.option = { origin: option.origin }
       return res
     } else {
       return []

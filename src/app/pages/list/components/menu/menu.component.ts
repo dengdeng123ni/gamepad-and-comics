@@ -338,6 +338,8 @@ export class MenuComponent {
 
   }
   on($event, data, parent: any = {}) {
+
+    if(parent.id) this.AppData.setOrigin(parent.id)
     if (data.click) {
       data.click({
         ...data, $event: $event, parent
@@ -404,6 +406,7 @@ export class MenuComponent {
         icon: "cached",
         name: '缓存',
         click: (e) => {
+          this.AppData.setOrigin('local_cache')
           this.router.navigate(['/local_cache']);
         }
       })
@@ -466,6 +469,7 @@ export class MenuComponent {
       icon: "subject",
       name: dirHandle["name"],
       click: e => {
+        this.AppData.setOrigin('temporary_file')
         this.router.navigate(['/temporary_file', e.id], { queryParams: { name: e.name } });
       }
     })
@@ -476,12 +480,5 @@ export class MenuComponent {
     this.temporaryFile.chapters = chapters;
     this.temporaryFile.files = [...this.temporaryFile.files, ...files_arr];
 
-    this.zone.run(() => {
-      this.data.query_option = {};
-      this.data.query_option.temporary_file_id = id;
-      this.data.query_option.name = dirHandle["name"];
-      this.AppData.origin = "temporary_file";
-      this.data.qurye_page_type = "temporary_file"
-    })
   }
 }

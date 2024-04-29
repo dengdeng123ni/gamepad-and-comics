@@ -25,7 +25,6 @@ export class TemporaryFileService {
       is_cache: false
     }, {
       List: async (obj: any) => {
-
         let list = [];
         list = this.data.filter((x: { temporary_file_id: any; })=>obj.temporary_file_id==x.temporary_file_id).map((x: any) => {
           return { id: x.id, cover: x.chapters[0].pages[0].id.toString(), title: x.title, subTitle: `${x.chapters[0].title}` }

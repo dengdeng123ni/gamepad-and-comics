@@ -15,7 +15,7 @@
       [attr.content_menu_value]="n.id"
       [attr.multiple]="n.selected">
       <div class="img">
-        <app-image class="w-full" [src]="n.cover" />
+        <app-image class="w-full" [src]="n.cover" [origin]="n.origin" />
         <div class="mezzanine"></div>
       </div>
       <div class="name" [attr.router_reader]="true">{{n.title}}</div>

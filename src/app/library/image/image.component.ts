@@ -9,6 +9,7 @@ import { AppDataService, ImageService, MessageFetchService } from 'src/app/libra
 })
 export class ImageComponent {
   @Input() src: string = "";
+  @Input() origin: string = "";
   @Input() width: string | number | null = "";
   @Input() height: string | number | null = "";
   @Input() alt: string | number | null = "";
