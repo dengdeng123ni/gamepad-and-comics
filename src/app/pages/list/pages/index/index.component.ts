@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
-import { AppDataService, QueryService } from 'src/app/library/public-api';
+import { AppDataService } from 'src/app/library/public-api';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
 import { IndexService } from './index.service';
@@ -23,7 +23,6 @@ export class IndexComponent {
     public indexser:IndexService,
     public GamepadEvent:GamepadEventService,
     public menu:MenuService,
-    public query: QueryService,
     public router:Router,
     public route: ActivatedRoute
 
@@ -39,10 +38,7 @@ export class IndexComponent {
       }
 
       id$.subscribe((params:any) => {
-        if (window.location.pathname.split("/")[1] == "specify_link") {
-          this.query.getComicsId(b64_to_utf8(params.get('id')))
-          return
-        }
+
       })
   }
 

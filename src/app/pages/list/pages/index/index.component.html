@@ -11,13 +11,7 @@
   <div class="container" [attr.is_fixed]="false" [attr.edit]="data.is_edit">
     <app-menu></app-menu>
     <div class="content" (mouseleave)="mouseleave($event)">
-      <app-comics-search *ngIf="data.qurye_page_type=='search'"></app-comics-search>
-      <app-temporary-file *ngIf="data.qurye_page_type=='temporary_file'"></app-temporary-file>
-      <app-local-cache *ngIf="data.qurye_page_type=='local_cache'"></app-local-cache>
-      <app-history *ngIf="data.qurye_page_type=='history'"></app-history>
-      <app-comics-query *ngIf="data.qurye_page_type=='query'"></app-comics-query>
-      <app-comics-list></app-comics-list>
-      <!-- <app-comics-list-v2></app-comics-list-v2> -->
+      <router-outlet></router-outlet>
     </div>
   </div>
 </mat-drawer-container>

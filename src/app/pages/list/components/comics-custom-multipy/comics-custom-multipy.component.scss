@@ -1,36 +1,4 @@
-.choice {
-  display: flex;
-  align-items: baseline;
-  margin: 12px 22px;
-  margin-bottom: 0;
 
-  .title {
-    font-size: 24px;
-    font-weight: 400;
-    font-family: Roboto, sans-serif;
-    letter-spacing: normal;
-    margin-right: 12px;
-  }
-
-  .list {
-    display: flex;
-    margin-right: 24px;
-  }
-
-  .item {
-    margin: 0 6px;
-    display: flex;
-    align-items: center;
-  }
-
-  .item[current=true] {
-    color: #c2185b;
-  }
-
-}
-.choice[justify_content=true]{
-  justify-content: center;
-}
 
 
 .multipy {

@@ -41,7 +41,7 @@ export class DbControllerService {
     this.caches = await caches.open('image');
   }
 
-  async getList(id: string, option?: {
+  async getList(obj: any, option?: {
     origin: string
   }): Promise<Array<Item>> {
 
@@ -49,21 +49,12 @@ export class DbControllerService {
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
     if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["List"]) {
-      if (this.lists[id]) {
-        return JSON.parse(JSON.stringify(this.lists[id]))
-      } else {
-        const b64_to_utf8 = (str: string) => {
-          return JSON.parse(decodeURIComponent(escape(window.atob(str))));
-        }
-        const obj = b64_to_utf8(id)
-        let res = await this.DbEvent.Events[option.origin]["List"](obj);
-        res.forEach(x => {
-          this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
-          x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;
-        })
-        this.lists[id] = JSON.parse(JSON.stringify(res));
-        return res
-      }
+      let res = await this.DbEvent.Events[option.origin]["List"](obj);
+      res.forEach(x => {
+        this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
+        x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;
+      })
+      return res
     } else {
       return []
     }
@@ -245,29 +236,20 @@ export class DbControllerService {
       })
     }
   }
-  async Query(id: string, option?: {
+  async Search(obj: any, option?: {
     origin: string
   }): Promise<Array<Item>> {
 
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
-    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["Query"]) {
-      if (this.query[id]) {
-        return JSON.parse(JSON.stringify(this.query[id]))
-      } else {
-        const b64_to_utf8 = (str: string) => {
-          return JSON.parse(decodeURIComponent(escape(window.atob(str))));
-        }
-        const obj = b64_to_utf8(id)
-        let res = await this.DbEvent.Events[option.origin]["Query"](obj);
-        res.forEach(x => {
-          this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
-          x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;
-        })
-        this.query[id] = JSON.parse(JSON.stringify(res));
-        return res
-      }
+    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["Search"]) {
+      let res = await this.DbEvent.Events[option.origin]["Search"](obj);
+      res.forEach(x => {
+        this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
+        x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;
+      })
+      return res
     } else {
       return []
     }

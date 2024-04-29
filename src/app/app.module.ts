@@ -10,7 +10,6 @@ import { GamepadLeftCircleToolbarComponent } from './library/event/gamepad-left-
 import { GamepadVioceComponent } from './library/gamepad/gamepad-vioce/gamepad-vioce.component';
 import { MaterialModule } from './library/material.module';
 import { ContextMenuComponent } from './library/public-api';
-import { QueryComponent } from './library/query/query.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailModule } from './pages/detail/detail.module';
 import { ListModule } from './pages/list/list.module';
@@ -147,7 +146,6 @@ const dbConfig: DBConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    QueryComponent,
     ContextMenuComponent,
     GamepadVioceComponent,
     GamepadLeftCircleToolbarComponent

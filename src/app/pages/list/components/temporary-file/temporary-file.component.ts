@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { map } from 'rxjs';
+import { DbControllerService, QueryEventService } from 'src/app/library/public-api';
 declare const window: any;
 @Component({
   selector: 'app-temporary-file',
@@ -7,34 +10,40 @@ declare const window: any;
   styleUrls: ['./temporary-file.component.scss']
 })
 export class TemporaryFileComponent {
-  name="";
-  constructor(public data:DataService) {
-  }
+  list = [];
+  id = '';
+  name = '';
+  constructor(public data: DataService,
+    public route: ActivatedRoute,
+    public DbController: DbControllerService,
+    public QueryEvent: QueryEventService
+  ) {
 
-  init() {
-    this.change(0, 0)
+    let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
+    id$.subscribe(x => {
+      this.id = x.get("id");
+      const params = new URLSearchParams(window.location.search);
+      this.name = params.get("name");
+    })
+    QueryEvent.register({
+      id: "temporary_file"
+    }, {
+      Add: async (obj) => {
+        const id = this.utf8_to_b64(JSON.stringify({ temporary_file_id: this.id, ...obj }))
+        const list = await this.DbController.getList(id, { origin: 'temporary_file' });
+        return list
+      },
+      Init: async (obj) => {
+        const id = this.utf8_to_b64(JSON.stringify({ temporary_file_id: this.id, ...obj }))
+        const list = await this.DbController.getList(id, { origin: 'temporary_file' });
+        return list
+      }
+    })
   }
-
-  change(c: number, e: number) {
-    this.name=window.comics_query_option.name;
-
-    this.data.list=[];
-    window.comics_query_option.page_num = 1;
-    window.comics_query();
-    const node = document.querySelector("#comics_list")
-    if (node) node.scrollTop = 0
+  async getList() {
   }
-  ngAfterViewInit() {
-    const i_w = 172.8;
-    const i_h = 276.8;
-    const node: any = document.querySelector("#comics_list");
-    let w2 = ((node.clientWidth - 32) / i_w);
-    let h2 = (node.clientHeight / i_h);
-    if (h2 < 1) h2 = 1;
-    else h2 = h2 + 1;
-    window.comics_query_option.page_size = Math.trunc(h2) * Math.trunc(w2);
-    window.comics_query_option.page_num = 1;
-    this.init();
+  utf8_to_b64(str: string) {
+    return window.btoa(unescape(encodeURIComponent(str)));
   }
 }
 

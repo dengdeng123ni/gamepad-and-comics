@@ -15,22 +15,27 @@ export class DataService {
 
   is_loading_free = false;
 
-  qurye_page_type = "cached"
+
 
   menu = [];
 
+  qurye_page_type = "cached"
 
-  query = {
+  query_option:any = {
 
   }
+  default_query_option = {
+    page_size:5,
+    page_num:1
+  }
+  keyword = "";
+
+
+
   // is_left_drawer_opened=false;
 
   left_drawer_mode: any = 'over';
   constructor() {
-    window.comics_query_option = {
-      page_num: 0,
-      page_size: 0
-    }
 
   }
 }

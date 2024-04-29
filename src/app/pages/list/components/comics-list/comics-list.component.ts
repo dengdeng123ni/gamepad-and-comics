@@ -1,9 +1,9 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
-import { Router } from '@angular/router';
-import { Subject, throttleTime } from 'rxjs';
-import { ContextMenuEventService } from 'src/app/library/public-api';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Subject, map, throttleTime } from 'rxjs';
+import { ContextMenuEventService, QueryControllerService } from 'src/app/library/public-api';
 import { WebFileService } from 'src/app/library/web-file/web-file.service';
 import { DownloadOptionService } from '../download-option/download-option.service';
 import { LocalCachService } from '../menu/local-cach.service';
@@ -24,6 +24,7 @@ interface Item {
 })
 
 export class ComicsListComponent {
+  @Input() key: string = '';
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (event.key == "a" || this._ctrl) {
@@ -43,14 +44,20 @@ export class ComicsListComponent {
     if (event.key == "Control") this._ctrl = false;
     return true
   }
+  @ViewChild('list') ListNode: ElementRef;
   _ctrl = false;
-  constructor(public data: DataService,
+  page_num=1;
+  page_size=5;
+  constructor(
+    public data: DataService,
     public current: CurrentService,
     public ContextMenuEvent: ContextMenuEventService,
     public router: Router,
     public WebFile: WebFileService,
     public DownloadOption: DownloadOptionService,
-    public LocalCach: LocalCachService
+    public LocalCach: LocalCachService,
+    public QueryController:QueryControllerService,
+    public route: ActivatedRoute,
   ) {
 
     ContextMenuEvent.register('comics_item', {
@@ -82,6 +89,10 @@ export class ComicsListComponent {
           }
         },
       ]
+    })
+    let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
+    id$.subscribe(params => {
+      if(this.key)  this.init();
     })
   }
   on($event: MouseEvent) {
@@ -126,21 +137,17 @@ export class ComicsListComponent {
 
 
   ngAfterViewInit() {
-    const node: any = document.querySelector("#comics_list");
-    node!.addEventListener('scroll', (e: any) => {
+    this.ListNode.nativeElement.addEventListener('scroll', (e: any) => {
       this.scroll$.next(e)
     }, true)
     this.scroll$.pipe(throttleTime(300)).subscribe(e => {
       this.handleScroll(e);
     })
-    const i_w = 172.8;
-    const i_h = 276.8;
-    let w2 = ((node.clientWidth - 32) / i_w);
-    let h2 = (node.clientHeight / i_h);
-    if (h2 < 1) h2 = 1;
-    else h2 = h2 + 1;
-    window.comics_query_option.page_size = Math.trunc(h2) * Math.trunc(w2);
-    window.comics_query_option.page_num = 1;
+   this.page_size = 20;
+   this.init();
+  }
+   async init(){
+    this.data.list=await this.QueryController.init(this.key,{page_num:this.page_num,page_size:this.page_size});
   }
   scroll$ = new Subject();
   getData() {
@@ -165,10 +172,10 @@ export class ComicsListComponent {
     this.scroll$.unsubscribe();
   }
   async add_pages() {
-    window.comics_query_option.page_num++;
-    const list = await this.current.getList()
+   this.page_num++;
+    const list = await this.QueryController.add(this.key,{page_num:this.page_num,page_size:this.page_size})
     if (list.length == 0) {
-      window.comics_query_option.page_num--;
+     this.page_num--;
       return
     }
     this.data.list = [...this.data.list, ...list]

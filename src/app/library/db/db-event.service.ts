@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Query } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MessageFetchService } from '../public-api';
 interface Events {
   List: Function;
   Detail: Function;
   Pages: Function;
   Image: Function;
+  Search?:Function
 }
 interface Config {
   id: string,
@@ -38,6 +39,8 @@ export class DbEventService {
       is_cache: true,
     }, {
       List: async (obj) => {
+        console.log(obj);
+
         let list = [];
         if (obj.menu_id == "type") {
           let data: any = {};
@@ -306,14 +309,14 @@ export class DbEventService {
           return blob
         }
       },
-      Query: async (obj) => {
+      Search: async (obj) => {
         const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/Search?device=pc&platform=web", {
           "headers": {
             "accept": "application/json, text/plain, */*",
             "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "content-type": "application/json;charset=UTF-8"
           },
-          "body": JSON.stringify({ key_word: obj.keyword, page_num: 1, page_size: 10 }),
+          "body": JSON.stringify({ key_word: obj.keyword, page_num: obj.page_num, page_size: obj.page_size }),
           "method": "POST"
         }, {
           proxy: "https://manga.bilibili.com/"

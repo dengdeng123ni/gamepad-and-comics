@@ -8,6 +8,7 @@ import { AppDataService, DbEventService, PulgService } from 'src/app/library/pub
 import { LocalCachService } from './local-cach.service';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
+import { Router } from '@angular/router';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -23,7 +24,7 @@ export class MenuComponent {
 
   query_type = [
     {
-      id: 'type',
+      id: 'search',
       icon: 'search',
       name: '搜索',
       query: {
@@ -328,17 +329,12 @@ export class MenuComponent {
   _keyword = "";
   get keyword() { return this._keyword };
   set keyword(value: string) {
-    this.current.search(value);
+    this.search(value)
     this._keyword = value;
   }
-  search() {
-    this.data.list = [];
-    this.zone.run(() => {
-      this.data.qurye_page_type = "1"
-      setTimeout(() => {
-        this.data.qurye_page_type = 'search';
-      })
-    })
+  search(str) {
+
+
 
   }
   on($event, data, parent: any = {}) {
@@ -350,16 +346,15 @@ export class MenuComponent {
 
     } else if (data.query) {
       if (parent.id) this.AppData.setOrigin(parent.id)
-      this.data.list = [];
-      this.zone.run(() => {
-        this.data.qurye_page_type = "1"
-        setTimeout(() => {
-          this.data.qurye_page_type = 'query';
-          setTimeout(() => {
-            this.current._query(data)
-          })
-        })
-      })
+      if(data.query.type=="choice"){
+        this.router.navigate(['/choice', parent.id, data.id]);
+      }
+      if(data.query.type=="search"){
+        this.router.navigate(['/search', parent.id]);
+      }
+      if(data.query.type=="multipy"){
+        this.router.navigate(['/multipy', parent.id, data.id]);
+      }
 
     }
   }
@@ -371,6 +366,7 @@ export class MenuComponent {
     public DbEvent: DbEventService,
     public LocalCach: LocalCachService,
     public menu: MenuService,
+    public router: Router,
     public pulg: PulgService,
     private zone: NgZone
   ) {
@@ -397,15 +393,7 @@ export class MenuComponent {
             icon: "history",
             name: "历史记录",
             click: (e) => {
-              this.zone.run(() => {
-                this.data.qurye_page_type = "1"
-                setTimeout(() => {
-                  this.data.qurye_page_type = 'history';
-                })
-              })
-              this.data.list = [];
-              this.AppData.setOrigin(e.parent.id)
-              this.DbEvent.Configs[this.AppData.origin].is_cache = true;
+              this.router.navigate(['/history', e.parent.id]);
             }
           }
         )
@@ -416,17 +404,7 @@ export class MenuComponent {
         icon: "cached",
         name: '缓存',
         click: (e) => {
-          window.comics_query_option.origin = "local_cache"
-          this.zone.run(() => {
-            this.data.qurye_page_type = "1"
-            setTimeout(() => {
-              this.data.list = [];
-              this.data.qurye_page_type = 'local_cache';
-            })
-          })
-
-          this.AppData.setOrigin('local_cache')
-
+          this.router.navigate(['/local_cache']);
         }
       })
       this.data.menu.push({ type: 'separator' })
@@ -488,18 +466,7 @@ export class MenuComponent {
       icon: "subject",
       name: dirHandle["name"],
       click: e => {
-        this.zone.run(() => {
-          window.comics_query_option.temporary_file_id = e.id;
-          window.comics_query_option.name = e.name;
-          this.AppData.origin = "temporary_file";
-          window.comics_query_option.origin = "temporary_file"
-          this.zone.run(() => {
-            this.data.qurye_page_type = "1"
-            setTimeout(() => {
-              this.data.qurye_page_type = "temporary_file"
-            })
-          })
-        })
+        this.router.navigate(['/temporary_file', e.id], { queryParams: { name: e.name } });
       }
     })
     for (let index = 0; index < this.temporaryFile.data.length; index++) {
@@ -510,8 +477,9 @@ export class MenuComponent {
     this.temporaryFile.files = [...this.temporaryFile.files, ...files_arr];
 
     this.zone.run(() => {
-      window.comics_query_option.temporary_file_id = id;
-      window.comics_query_option.name = dirHandle["name"];
+      this.data.query_option = {};
+      this.data.query_option.temporary_file_id = id;
+      this.data.query_option.name = dirHandle["name"];
       this.AppData.origin = "temporary_file";
       this.data.qurye_page_type = "temporary_file"
     })

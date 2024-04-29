@@ -1,0 +1,15 @@
+<div class="choice" [attr.justify_content]="!name">
+  <div class="title" style="color:rgba(255,255,255,.34)" *ngIf="name">{{name}}</div>
+  <div class="list">
+    <button [attr.region]="'comics_option'" mat-button *ngFor="let n of list;let index=index"
+      class="item"
+      [attr._id]="n.index"
+      [attr.select]="default_index==index"
+      [attr.current]="default_index==index"
+      (click)="on(index)"
+      >
+      {{n.name}}
+    </button>
+  </div>
+</div>
+<app-comics-list key="choice"></app-comics-list>

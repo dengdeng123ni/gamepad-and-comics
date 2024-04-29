@@ -1,6 +1,6 @@
 
-<div class="warp" (click)="on($event)">
-  <div class="grid" id="comics_list" [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
+<div class="warp">
+  <div class="grid" #list [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'" (click)="on($event)">
     <button
       class="item"
       mat-button

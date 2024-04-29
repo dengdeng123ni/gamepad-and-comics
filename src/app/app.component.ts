@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, MessageControllerService, MessageEventService, PulgService, QueryService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, MessageControllerService, MessageEventService, PulgService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadLeftCircleToolbarService } from './library/event/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
@@ -41,13 +41,11 @@ export const slideInAnimation =
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  is_loading_page = true;
+  is_loading_page = false;
   is_data_source = true;
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key == "b") this.query.isToggle();
-    // return false
   }
 
   constructor(
@@ -58,7 +56,6 @@ export class AppComponent {
     public MessageEvent: MessageEventService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
-    public query: QueryService,
     private contexts: ChildrenOutletContexts,
     public ccc: WebFileService,
     public image: ImageService,
@@ -88,6 +85,7 @@ export class AppComponent {
     setTimeout(() => {
       if(navigator) navigator?.serviceWorker?.controller?.postMessage({type:"_init"})
       this.getPulgLoadingFree();
+      this.is_loading_page=true;
     }, 50)
     // this.getPulgLoadingFree();
   }
