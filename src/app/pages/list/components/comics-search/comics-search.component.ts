@@ -13,15 +13,11 @@ export class ComicsSearchComponent {
   _keyword = "";
   get keyword() { return this._keyword };
   set keyword(value: string) {
-    this.search(value)
     this._keyword = value;
   }
-  async search(keyword) {
-console.log({ keyword: keyword, ...this.obj }, { origin: this.origin });
+  async search() {
 
-    this.data.list = await this.DbController.Search({ keyword: keyword, ...this.obj }, { origin: this.origin });
-console.log(this.data.list);
-
+    this.data.list = await this.DbController.Search({ keyword: this.keyword, ...this.obj }, { origin: this.origin });
   }
   obj = {};
   origin = ''

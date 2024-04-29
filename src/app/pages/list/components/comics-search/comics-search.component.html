@@ -1,6 +1,9 @@
 <!-- <input type="text" matInput placeholder="搜索" [(ngModel)]="keyword"> -->
 <mat-form-field class="search">
   <input type="text" matInput placeholder="搜索" [(ngModel)]="keyword">
+ <div class="llll" (click)="search()">
+  <mat-icon>search</mat-icon>
+ </div>
 </mat-form-field>
 
 <app-comics-list key="search"></app-comics-list>
