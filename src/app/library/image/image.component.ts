@@ -1,5 +1,4 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { SafeUrl } from '@angular/platform-browser';
 import { AppDataService, ImageService, MessageFetchService } from 'src/app/library/public-api';
 
 @Component({
@@ -13,12 +12,12 @@ export class ImageComponent {
   @Input() width: string | number | null = "";
   @Input() height: string | number | null = "";
   @Input() alt: string | number | null = "";
-  url: SafeUrl | undefined
+  url: string | undefined
   @ViewChild('box')
   box!: ElementRef;
   @Input() objectFit: string = ""
   constructor(public image: ImageService,
-    public App:AppDataService
+    public App: AppDataService
   ) {
     // console.log(this.src);
 
@@ -39,9 +38,9 @@ export class ImageComponent {
   }
 
   ngAfterViewInit() {
-    if(this.App.is_pwa){
-      this.url=this.src;
-    }else{
+    if (this.App.is_pwa&&this.url.substring(7, 21) == "localhost:7700") {
+      this.url = this.src;
+    } else {
       setTimeout(() => {
         this.getImage(this.src)
       })
