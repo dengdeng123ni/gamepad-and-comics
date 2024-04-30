@@ -36,4 +36,29 @@ export class PulgJavascriptService {
   close() {
     this._dialog.closeAll();
   }
+  // constructor(private _sheet: MatBottomSheet,) { }
+
+  // opened: boolean = false;
+  // open() {
+  //   if (this.opened == false) {
+  //     if (this.opened == false) {
+  //       const sheetRef = this._sheet.open(PulgJavascriptComponent, { backdropClass: "_pulg_javascript_bg", panelClass: "_pulg_javascript" });
+  //       document.body.setAttribute("locked_region", "pulg_javascript")
+  //       sheetRef.afterDismissed().subscribe(() => {
+  //         if (document.body.getAttribute("locked_region") == "pulg_javascript" && this.opened) document.body.setAttribute("locked_region", "reader")
+  //         this.opened = false;
+  //       });
+  //     }
+  //     this.opened = true;
+  //   }
+  // }
+
+  // isToggle = () => {
+  //   if (this.opened) this.close()
+  //   else this.open();
+  // }
+
+  // close() {
+  //   this._sheet.dismiss();
+  // }
 }
