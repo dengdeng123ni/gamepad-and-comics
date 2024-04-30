@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MessageFetchService } from '../public-api';
@@ -6,7 +7,7 @@ interface Events {
   Detail: Function;
   Pages: Function;
   Image: Function;
-  Search?:Function
+  Search?: Function
 }
 interface Config {
   id: string,
@@ -36,6 +37,310 @@ export class DbEventService {
     window._gh_register({
       id: "bilibili",
       name: "哔哩哔哩漫画",
+      menu:[
+        {
+          id: 'search',
+          icon: 'search',
+          name: '搜索',
+          query: {
+            type: 'search'
+          }
+        },
+        {
+          id: 'type',
+          icon: 'class',
+          name: '分类',
+          query: {
+            type: 'multipy',
+            list: [
+              {
+                "key": "styles",
+                "name": "题材",
+                "index": 0,
+                "tag": [
+                  {
+                    "id": -1,
+                    "name": "全部",
+                    "index": 0
+                  },
+                  {
+                    "id": 999,
+                    "name": "热血",
+                    "index": 1
+                  },
+                  {
+                    "id": 997,
+                    "name": "古风",
+                    "index": 2
+                  },
+                  {
+                    "id": 1016,
+                    "name": "玄幻",
+                    "index": 3
+                  },
+                  {
+                    "id": 998,
+                    "name": "奇幻",
+                    "index": 4
+                  },
+                  {
+                    "id": 1023,
+                    "name": "悬疑",
+                    "index": 5
+                  },
+                  {
+                    "id": 1002,
+                    "name": "都市",
+                    "index": 6
+                  },
+                  {
+                    "id": 1096,
+                    "name": "历史",
+                    "index": 7
+                  },
+                  {
+                    "id": 1092,
+                    "name": "武侠仙侠",
+                    "index": 8
+                  },
+                  {
+                    "id": 1088,
+                    "name": "游戏竞技",
+                    "index": 9
+                  },
+                  {
+                    "id": 1081,
+                    "name": "悬疑灵异",
+                    "index": 10
+                  },
+                  {
+                    "id": 1063,
+                    "name": "架空",
+                    "index": 11
+                  },
+                  {
+                    "id": 1060,
+                    "name": "青春",
+                    "index": 12
+                  },
+                  {
+                    "id": 1054,
+                    "name": "西幻",
+                    "index": 13
+                  },
+                  {
+                    "id": 1048,
+                    "name": "现代",
+                    "index": 14
+                  },
+                  {
+                    "id": 1028,
+                    "name": "正能量",
+                    "index": 15
+                  },
+                  {
+                    "id": 1015,
+                    "name": "科幻",
+                    "index": 16
+                  }
+                ]
+              },
+              {
+                "key": "areas",
+                "name": "区域",
+                "index": 0,
+                "tag": [
+                  {
+                    "id": -1,
+                    "name": "全部",
+                    "index": 0
+                  },
+                  {
+                    "id": 1,
+                    "name": "大陆",
+                    "index": 1
+                  },
+                  {
+                    "id": 2,
+                    "name": "日本",
+                    "index": 2
+                  },
+                  {
+                    "id": 6,
+                    "name": "韩国",
+                    "index": 3
+                  },
+                  {
+                    "id": 5,
+                    "name": "其他",
+                    "index": 4
+                  }
+                ]
+              },
+              {
+                "key": "status",
+                "name": "进度",
+                "index": 0,
+                "tag": [
+                  {
+                    "id": -1,
+                    "name": "全部",
+                    "index": 0
+                  },
+                  {
+                    "id": 0,
+                    "name": "连载",
+                    "index": 1
+                  },
+                  {
+                    "id": 1,
+                    "name": "完结",
+                    "index": 2
+                  }
+                ]
+              },
+              {
+                "key": "prices",
+                "name": "收费",
+                "index": 0,
+                "tag": [
+                  {
+                    "id": -1,
+                    "name": "全部",
+                    "index": 0
+                  },
+                  {
+                    "id": 1,
+                    "name": "免费",
+                    "index": 1
+                  },
+                  {
+                    "id": 2,
+                    "name": "付费",
+                    "index": 2
+                  },
+                  {
+                    "id": 3,
+                    "name": "等就免费",
+                    "index": 3
+                  }
+                ]
+              },
+              {
+                "key": "orders",
+                "name": "排序",
+                "index": 0,
+                "tag": [
+                  {
+                    "id": 0,
+                    "name": "人气推荐",
+                    "index": 0
+                  },
+                  {
+                    "id": 1,
+                    "name": "更新时间",
+                    "index": 1
+                  },
+                  {
+                    "id": 3,
+                    "name": "上架时间",
+                    "index": 2
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: 'ranking',
+          icon: 'sort',
+          name: '排行榜',
+          query: {
+            type: 'choice',
+            list: [
+              {
+                id: 7,
+                type: 0,
+                description: '前7日综合指标最高的三个月内上线漫画作品排行',
+                name: '新作榜',
+              },
+              {
+                id: 11,
+                type: 0,
+                description: '前7日综合指标最高的男性向漫画作品排行',
+                name: '男生榜',
+              },
+              {
+                id: 12,
+                type: 0,
+                description: '前7日综合指标最高的女性向漫画作品排行',
+                name: '女生榜',
+              },
+              {
+                id: 1,
+                type: 0,
+                description: '前7日人气最高的国漫作品排行，每日更新',
+                name: '国漫榜',
+              },
+              {
+                id: 0,
+                type: 0,
+                description: '前7日人气最高的日漫作品排行，每日更新',
+                name: '日漫榜',
+              },
+              {
+                id: 2,
+                type: 0,
+                description: '前7日人气最高的韩漫作品排行，每日更新',
+                name: '韩漫榜',
+              },
+              {
+                id: 5,
+                type: 0,
+                description: '前7日人气最高的官方精选漫画作品排行，每日更新',
+                name: '宝藏榜',
+              },
+              {
+                id: 13,
+                type: 2,
+                description: '前365日综合指标最高的完结漫画作品排行',
+                name: '完结榜',
+              },
+            ]
+          }
+        },
+        {
+          id: 'favorites',
+          icon: 'favorite',
+          name: '我的追漫',
+          query: {
+            type: 'choice',
+            name: '我的追漫',
+            list: [
+              {
+                order: 1,
+                name: "追漫顺序",
+                wait_free: 0
+              },
+              {
+                order: 2,
+                name: "更新时间",
+                wait_free: 0
+              },
+              {
+                order: 3,
+                name: "最近阅读",
+                wait_free: 0
+              },
+              {
+                order: 4,
+                name: "完成等免",
+                wait_free: 1
+              }
+            ]
+          }
+        }
+      ],
       is_cache: true,
     }, {
       List: async (obj) => {
@@ -333,13 +638,133 @@ export class DbEventService {
         const list = json.data.list.map(x => ({ id: x.id, title: x.real_title, cover: httpUrlToHttps(x.vertical_cover), subTitle: x.is_finish ? "已完结" : "连载中" }))
         return list
       },
-      Unlock:async()=>{
+      Unlock: async () => {
 
       },
       UrlToDetailId: async (id) => {
 
       }
     });
+
+    window._gh_register({
+      id: "hanime1",
+      is_cache: true
+    }, {
+      List: async (obj) => {
+        let list = [];
+        return list
+      },
+      Detail: async (id) => {
+        const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(text, 'text/html');
+        let obj = {
+          id: id,
+          cover: "",
+          title: "",
+          author: "",
+          author_href: "",
+          intro: "",
+          chapters: [
+
+          ],
+          chapter_id: id,
+          styles: []
+        }
+        const utf8_to_b64 = (str) => {
+          return window.btoa(encodeURIComponent(str));
+        }
+        obj.title = doc.querySelector("body > div > div:nth-child(4) > div:nth-child(2) > div > div.col-md-8 > h3").textContent.trim()
+        obj.cover = doc.querySelector("body > div > div:nth-child(4) > div:nth-child(2) > div > div.col-md-4 > a > img").src;
+        const nodes = doc.querySelectorAll("h5:nth-child(1) .hover-lighter .no-select");
+        const nodes1 = doc.querySelectorAll("h5:nth-child(2) .hover-lighter .no-select");
+        const nodes2 = doc.querySelectorAll("h5:nth-child(3) .hover-lighter .no-select");
+        let styles = []
+
+        if (nodes1.length > nodes.length) {
+          for (let index = 0; index < nodes1.length; index++) {
+            obj.styles.push({ name: nodes1[index].textContent, href: nodes1[index].parentNode.href })
+          }
+          obj.author = nodes2[0].textContent;
+          obj.author_href = nodes2[0].parentNode.href
+        } else {
+          for (let index = 0; index < nodes.length; index++) {
+            obj.styles.push({ name: nodes[index].textContent, href: nodes1[index]?.parentNode?.href })
+          }
+          obj.author = nodes1[0].textContent;
+          obj.author_href = nodes1[0].parentNode.href
+        }
+
+        obj.chapters.push({
+          id: obj.id,
+          title: obj.title,
+          cover: obj.cover,
+        })
+        return obj
+      },
+      Pages: async (id) => {
+        const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(text, 'text/html');
+
+        let data = [];
+        let nodes = doc.querySelectorAll(".comics-thumbnail-wrapper img")
+        for (let index = 0; index < nodes.length; index++) {
+          let _id = nodes[index].dataset.srcset.split("/").at(-2)
+          let type = nodes[index].dataset.srcset.split("/").at(-1).split(".").at(-1)
+          let obj = {
+            id: "",
+            src: "",
+            width: 0,
+            height: 0
+          };
+          const utf8_to_b64 = (str) => {
+            return window.btoa(encodeURIComponent(str));
+          }
+
+          obj["id"] = `${id}_${index}`;
+          obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
+          data.push(obj)
+        }
+        return data
+      },
+      Image: async (id) => {
+        const getImageUrl = async (id) => {
+          const res = await window._gh_fetch(id, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          });
+          const blob = await res.blob();
+          return blob
+        }
+        const blob = await getImageUrl(id);
+        return blob
+      }
+    });
+
 
   }
 

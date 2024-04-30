@@ -30,7 +30,7 @@ export class DoublePageReaderV2Component {
   }
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 353) * window.innerHeight * 2}px`);
+    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight * 2}px`);
   }
   change$;
   event$;
@@ -110,7 +110,7 @@ export class DoublePageReaderV2Component {
 
     this.init();
 
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 353) * window.innerHeight * 2}px`);
+    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight * 2}px`);
   }
   firstPageToggle() {
     this.is_first_page_cover = !this.is_first_page_cover;

@@ -7,10 +7,11 @@ export class MessageFetchService {
   _data_proxy_response: any = {};
   constructor() {
     window._gh_fetch = this.fetch;
+    window._gh_getHtml = this.getHtml;
   }
 
   fetch = async (url: RequestInfo | URL, init: RequestInit, option?: {
-    proxy?:string
+    proxy?: string
   }): Promise<Response> => {
     const req = new Request(url, init);
     let body = null;
@@ -20,7 +21,7 @@ export class MessageFetchService {
     }
     const id = Math.round(Math.random() * 1000000000000);
     let bool = true;
-    if(option.proxy){
+    if (option&&option.proxy) {
       window.postMessage({
         id: id,
         type: "website_proxy_request",
@@ -35,7 +36,7 @@ export class MessageFetchService {
           }
         }
       });
-    }else{
+    } else {
       window.postMessage({
         id: id,
         type: "pulg_proxy_request",
@@ -86,7 +87,7 @@ export class MessageFetchService {
     })
   }
 
-  async getHtml(url: RequestInfo | URL): Promise<Response> {
+  getHtml = async (url: RequestInfo | URL): Promise<Response> => {
     const id = Math.round(Math.random() * 1000000000000);
     let bool = true;
     window.postMessage({

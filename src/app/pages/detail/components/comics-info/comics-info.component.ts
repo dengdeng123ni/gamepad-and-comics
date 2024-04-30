@@ -39,7 +39,7 @@ export class ComicsInfoComponent {
     }
   }
   back() {
-    this.router.navigate(['/'])
+    window.history.back();
   }
   continue() {
     this.router.navigate(['/', this.data.comics_id, this.data.chapter_id,])

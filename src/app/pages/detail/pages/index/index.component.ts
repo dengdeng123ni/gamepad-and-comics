@@ -33,7 +33,6 @@ export class IndexComponent {
         this.data.init();
         this.current.init(params.get('id'))
       }
-
     })
     document.body.setAttribute("router", "detail")
     document.body.setAttribute("locked_region", "detail")

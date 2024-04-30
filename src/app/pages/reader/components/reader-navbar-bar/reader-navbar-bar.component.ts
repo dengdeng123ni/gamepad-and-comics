@@ -67,7 +67,11 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.current._pageChange(e)
   }
   routerList() {
-    this.router.navigate(['/']);
+   window.history.back();
+   setTimeout(()=>{
+    if(window.location.href.includes("detail")) window.history.back();
+
+   })
   }
   routerDetail() {
     this.router.navigate(['/detail', this.data.comics_id]);
