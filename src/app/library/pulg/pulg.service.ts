@@ -26,7 +26,7 @@ export class PulgService {
     const request = new Request(url);
     await this.caches.put(request, response);
     const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-    this.loadJS(bloburl)
+    this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
   }
   async getAll() {
     const list = await this.caches.keys()
@@ -36,7 +36,7 @@ export class PulgService {
     const e = await this.caches.match(url)
     const blob = await e.blob()
     const url1: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-    return url1
+    return url1.changingThisBreaksApplicationSecurity
   }
   async delete(url){
     const list = await this.caches.delete(url)

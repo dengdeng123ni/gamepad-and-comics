@@ -30,6 +30,8 @@ export class PulgJavascriptComponent {
   }
   async on(e) {
    const url= await this.pulg.get(e.url);
+   console.log(url);
+
     const download = (filename, url) => {
       let a = document.createElement('a');
       a.download = filename;
