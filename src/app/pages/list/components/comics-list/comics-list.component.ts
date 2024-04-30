@@ -114,6 +114,7 @@ export class ComicsListComponent {
       if (this.data.is_edit || this._ctrl) {
         this.data.list[index].selected = !this.data.list[index].selected;
       } else {
+        sessionStorage.setItem('list_url',window.location.href)
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
           this.current.routerReader(data.id)

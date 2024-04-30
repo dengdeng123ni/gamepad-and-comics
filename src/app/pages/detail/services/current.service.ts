@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DbControllerService, HistoryService, PagesItem } from 'src/app/library/public-api';
 import { DataService } from './data.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { firstValueFrom } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class CurrentService {
   private _chapters: any = {};
   private _chapters_IsFirstPageCover: any = {};
+  public init$ = new Subject<any>();
   constructor(
     public DbController: DbControllerService,
     public data: DataService,
@@ -18,8 +19,10 @@ export class CurrentService {
     public router: Router,
     public history: HistoryService
   ) { }
-
-  async init(comic_id: string) {
+  public init() {
+    return this.init$
+  }
+  async _init(comic_id: string) {
     this.data.is_init_free = false;
     this.data.comics_id = comic_id;
     const _res = await Promise.all([this.DbController.getDetail(comic_id), this._getWebDbComicsConfig(comic_id)])
@@ -45,6 +48,7 @@ export class CurrentService {
 
     this.data.comics_info = res;
     this.data.is_init_free = true;
+    this.init$.next(this.data)
     this.history.update({
       id: comic_id,
       title: this.data.comics_info.title,

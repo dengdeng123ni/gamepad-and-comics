@@ -28,7 +28,7 @@ export class ReaderNavbarBarComponent implements OnInit {
 
   change$ = new Subject<number>();
   readerNavbarBarChange$;
-  chapter_index=0;
+  chapter_index = 0;
   constructor(
     public readerNavbarBar: ReaderNavbarBarService,
     public current: CurrentService,
@@ -38,7 +38,7 @@ export class ReaderNavbarBarComponent implements OnInit {
   ) {
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {
       if (x == true) {
-        this.chapter_index=data.chapters.findIndex(x=>x.id==data.chapter_id)
+        this.chapter_index = data.chapters.findIndex(x => x.id == data.chapter_id)
         this.opened = true;
         this.zIndex = 500;
       } else {
@@ -67,11 +67,12 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.current._pageChange(e)
   }
   routerList() {
-   window.history.back();
-   setTimeout(()=>{
-    if(window.location.href.includes("detail")) window.history.back();
-
-   })
+    //  window.history.back();
+    let url = sessionStorage.getItem('list_url');
+    if (!url) url = window.location.origin
+    window.open(url,
+      '_self',
+    )
   }
   routerDetail() {
     this.router.navigate(['/detail', this.data.comics_id]);

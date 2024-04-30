@@ -1,6 +1,6 @@
 .title {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 16px;
+  // font-weight: bold;
   /* margin: 0 15px; */
   margin-bottom: 5px;
   -webkit-user-select: none;
@@ -11,7 +11,7 @@
   /* padding: 0; */
   min-width: auto;
   margin-top: 5px;
-
+  color: rgba(255, 255, 255, .54);
 }
 
 .name {
@@ -24,7 +24,9 @@
   width: 160px;
   text-align: left;
 }
-
+.warp{
+  margin: 12px;
+}
 .item {
   display: flex;
   margin: 1px 10px;
@@ -113,7 +115,7 @@
 
 .list {
   min-width: 240px;
-  margin: 2.5vh 0;
+  margin: 12px 0;
   // margin-left: 2.5vh;
 }
 
@@ -131,7 +133,14 @@
   // background: ;
   background-color: rgba(255, 255, 255, .1);
 }
-
+.warp{
+  width: 300px;
+}
+.box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 :host ::ng-deep {
   .mat-mdc-button-touch-target {
     height: 100% !important;

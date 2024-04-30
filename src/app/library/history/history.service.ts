@@ -27,8 +27,6 @@ export class HistoryService {
 
   async update_progress(id: string, subTitle: string) {
     const res: any = await firstValueFrom(this.webDb.getByID("history", id))
-    console.log(res);
-
     await firstValueFrom(this.webDb.update("history", { ...res, subTitle: subTitle }))
   }
 

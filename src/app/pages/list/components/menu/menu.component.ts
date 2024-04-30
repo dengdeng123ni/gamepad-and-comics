@@ -9,6 +9,8 @@ import { LocalCachService } from './local-cach.service';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { Router } from '@angular/router';
+import { SettingsService } from '../../settings/settings.service';
+import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -55,6 +57,8 @@ export class MenuComponent {
     public menu: MenuService,
     public router: Router,
     public pulg: PulgService,
+    public Settings:SettingsService,
+    public PulgJavascript:PulgJavascriptService,
     private zone: NgZone
   ) {
 

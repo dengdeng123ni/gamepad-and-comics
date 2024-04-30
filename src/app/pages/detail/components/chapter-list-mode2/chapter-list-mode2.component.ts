@@ -36,11 +36,21 @@ export class ChapterListMode2Component {
   }
   // abbreviated list
   _ctrl = false;
+
+  pattern = ''
+  is_locked = true;
+  list = [];
+  tag = [];
   constructor(public data: DataService,
     public router: Router,
-    public current: CurrentService, public doublePageThumbnail: DoublePageThumbnailService, public ContextMenuEvent: ContextMenuEventService, public exportSettings: ExportSettingsService,) {
+    public current: CurrentService,
+    public doublePageThumbnail: DoublePageThumbnailService,
+    public ContextMenuEvent: ContextMenuEventService,
+    public exportSettings: ExportSettingsService,
+  ) {
+
     ContextMenuEvent.register('chapter_item', {
-      open:()=>{
+      open: () => {
         // this.close()
       },
       close: (e: any) => {
@@ -48,8 +58,10 @@ export class ChapterListMode2Component {
       },
       on: async (e: { value: string; id: string; }) => {
 
-        const index=this.data.chapters.findIndex(x=>x.id.toString()==e.value.toString());
+        const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
+        if (this.data.chapters.filter(x => x.selected).length == 0) {
           this.data.chapters[index].selected = !this.data.chapters[index].selected;
+        }
         if (e.id == "delete") {
         } else if (e.id == "thumbnail") {
           const id = e.value
@@ -58,6 +70,8 @@ export class ChapterListMode2Component {
             chapter_id: id,
             page_index: index
           })
+
+        } else if (e.id == "ccccc") {
 
         }
         else if (e.id == "export") {
@@ -77,15 +91,32 @@ export class ChapterListMode2Component {
         }
       },
       menu: [
-        { name: "thumbnail", id: "thumbnail" },
-        { name: "export", id: "export" },
+        { name: "缩略图", id: "thumbnail" },
+        { name: "缓存", id: "ccccc" },
+        { name: "导出", id: "export" },
         // { name: "delete", id: "delete" },
       ]
     })
+    for (let index = 0; index < this.data.chapters.length;) {
+      this.list.push(this.data.chapters.slice(index, index + 50))
+      this.tag.push({
+        start: index+1,
+        end: index + 50
+      })
+      index = index + 50;
+    }
+    console.log(this.list,this.tag);
+
+
+    if (this.data.chapters[0].cover) this.pattern = 'title';
+    else if (this.data.chapters[0].title) this.pattern = 'title';
+    else this.pattern = 'index';
+
+    if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
   }
   on($event: MouseEvent) {
     const node = $event.target as HTMLElement;
-    if (node.getAttribute("id") == 'list') {
+    if (node.getAttribute("type") == 'list') {
 
     } else {
       const getTargetNode = (node: HTMLElement): HTMLElement => {
@@ -118,11 +149,25 @@ export class ChapterListMode2Component {
     if (this._ctrl) return
     this.data.chapters.forEach(x => x.selected = false)
   }
-  ngAfterViewInit() {
-    setTimeout(() => {
-      const node = document.getElementById(`${this.data.chapter_id}`)
-      node!.scrollIntoView({behavior: 'instant', block: 'center' })
+
+  scrollNode() {
+    const node = document.getElementById(`${this.data.chapter_id}`)
+    if (node) {
+      node!.scrollIntoView({ behavior: 'instant', block: 'center' })
       node?.focus()
-    })
+    } else {
+      setTimeout(() => {
+        this.scrollNode()
+      }, 33)
+    }
+
+  }
+  ngAfterViewInit() {
+    this.scrollNode();
+    // const warp = document.querySelector(".detail_section")
+    // warp.setAttribute('hide', 'false')
+
+
+    // warp.setAttribute('hide', 'false')
   }
 }

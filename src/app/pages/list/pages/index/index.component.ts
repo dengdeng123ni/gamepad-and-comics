@@ -79,5 +79,8 @@ export class IndexComponent {
       this.menu.opened=false;
     }
   }
+  ngOnDestroy(){
+
+  }
 
 }

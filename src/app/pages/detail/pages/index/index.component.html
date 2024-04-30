@@ -11,8 +11,8 @@
     <app-comics-info></app-comics-info>
     <div class="content">
       <app-edit-toolbar *ngIf="data.is_edit"></app-edit-toolbar>
-      <app-chapter-list-mode1 *ngIf="data.chapter_config.is_cover_exist"></app-chapter-list-mode1>
-      <app-chapter-list-mode2 *ngIf="!data.chapter_config.is_cover_exist"></app-chapter-list-mode2>
+      <app-chapter-list-mode1></app-chapter-list-mode1>
+      <!-- <app-chapter-list-mode2></app-chapter-list-mode2> -->
     </div>
   </div>
   <div class="container" (mouseleave)="mouseleave($event)" *ngIf="data.is_offprint" [attr.edit]="data.is_edit">

@@ -27,11 +27,11 @@ export class IndexComponent {
       if (params.get('origin')) {
         this.AppData.setOrigin(params.get('origin'));
         this.data.init();
-        this.current.init(params.get('id'))
+        this.current._init(params.get('id'))
         return
       }else{
         this.data.init();
-        this.current.init(params.get('id'))
+        this.current._init(params.get('id'))
       }
     })
     document.body.setAttribute("router", "detail")
@@ -40,6 +40,7 @@ export class IndexComponent {
   ngOnDestroy() {
     this.data.is_left_drawer_opened=false;
     this.current.close();
+
   }
 
 

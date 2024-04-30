@@ -25,6 +25,21 @@ export class PulgService {
     const response = new Response(blob);
     const request = new Request(url);
     await this.caches.put(request, response);
+    const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+    this.loadJS(bloburl)
+  }
+  async getAll() {
+    const list = await this.caches.keys()
+    return list
+  }
+  async get(url) {
+    const e = await this.caches.match(url)
+    const blob = await e.blob()
+    const url1: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+    return url1
+  }
+  async delete(url){
+    const list = await this.caches.delete(url)
   }
   async registerScript(id: string, blob: any, option = {}) {
 
@@ -34,21 +49,18 @@ export class PulgService {
     for (let index = 0; index < list.length; index++) {
       const e = list[index];
       const blob = await e.blob();
-      const url:any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
       this.loadJS(url.changingThisBreaksApplicationSecurity)
     }
-
-    // const list = await firstValueFrom(this.webDb.getAll('script'))
-
   }
 
-  loadJS(url){
+  loadJS(url) {
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
     document.body.appendChild(script);
     //document.getElementsByTagName('body')[0].appendChild(script);
-}
+  }
 
 
 }

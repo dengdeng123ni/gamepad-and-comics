@@ -5,7 +5,7 @@
     <!-- matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="info.chapter.title"  -->
   </div>
   <div class="img" [attr.href]="info.href" (click)="on($event)">
-    <app-image [objectFit]="'cover'" loading="lazy" [width]="info.width" [height]="info.height" [src]="info.cover" alt="" />
+    <app-image [objectFit]="'cover'" loading="lazy" [width]="250" [height]="400" [src]="info.cover" alt="" />
   </div>
   <div class="info">
     <div class="title" [attr.size]="info.title.length>35" [attr.href]="info.href" (click)="on($event)">{{info.title}}</div>

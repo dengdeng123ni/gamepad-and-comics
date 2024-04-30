@@ -12,10 +12,12 @@
   // margin-top: 2.5vh;
   // margin-bottom: 0.8rem;
 }
-.detail_section[hide=true]{
+
+.detail_section[hide=true] {
   opacity: 0;
 }
-.detail_section[edit=true]{
+
+.detail_section[edit=true] {
   width: calc(100vw - 24px) !important;
   margin-left: 0 !important;
 }
@@ -48,6 +50,7 @@
   }
 
 }
+
 .detail_section {
   width: 100%;
   transition: all 0.3s;
@@ -61,6 +64,7 @@
   // margin-top: 2.5vh;
   // margin-bottom: 0.8rem;
 }
+
 .list[list_type=image] {
   width: 100%;
   // position: absolute;
@@ -93,13 +97,15 @@
   // margin-top: 12px;
 
   .item[read=true] {
-    .img{
+    .img {
       filter: brightness(0.6);
     }
+
     .name {
       color: rgba(255, 255, 255, .34);
     }
   }
+
   .item[current=true] {
     .name {
       // filter: brightness(0.8);
@@ -254,17 +260,21 @@
     background-color: rgba(255, 255, 255, .1);
   }
 }
+
 .list[list_type=index] {
   display: grid;
   padding-top: 4px;
   grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
   grid-template-rows: repeat(100vw, minmax(64px, 1fr));
   gap: 4px;
+  overflow: auto;
+
   [multiple=true],
   [content_menu_select=true] {
     // background: ;
     background-color: rgba(255, 255, 255, .1);
   }
+
   .item {
 
 
@@ -282,24 +292,34 @@
     }
   }
 }
-.list[list_type=title]{
+
+.list[list_type=title] {
   display: grid;
   padding-top: 8px;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   grid-template-rows: repeat(100vw, minmax(240px, 1fr));
   gap: 8px;
   overflow: auto;
+
   [multiple=true],
   [content_menu_select=true] {
     // background: ;
     background-color: rgba(255, 255, 255, .1);
   }
+
   .item {
 
 
-text-align: left;
+    text-align: left;
+
     span {
-      color: rgba(255, 255, 255, .87);
+      color: rgba(255, 255, 255, 0.87);
+      display: block;
+      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      word-break: break-all;
+      white-space: nowrap;
     }
 
     span[read=true] {
@@ -336,6 +356,7 @@ img::before {
   grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
   grid-template-rows: repeat(100vw, minmax(64px, 1fr));
   gap: 4px;
+  overflow: auto;
 
   [multiple=true],
   [content_menu_select=true] {
@@ -367,6 +388,8 @@ img::before {
   .mdc-button .mdc-button__label {
     width: 100%;
   }
+
+
 
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
     border-radius: 4px;

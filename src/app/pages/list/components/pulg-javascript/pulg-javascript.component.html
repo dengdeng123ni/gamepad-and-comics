@@ -1,0 +1,22 @@
+<div class="warp">
+  <div class="title">全部脚本</div>
+  <div class="list">
+    <div class="box"  *ngFor="let n of list;let index=index">
+      <div class="name" style="cursor: pointer;" (click)="on(n)">
+        {{n.name}}
+      </div>
+      <button mat-button class="item" style="width: 60px;" (click)="del(n.url)">
+        <div class="name">
+           删除
+        </div>
+      </button>
+    </div>
+
+  </div>
+  <button mat-button class="item" (click)="add()" cdkFocusInitial>
+    <mat-icon class="icon">add</mat-icon>
+    <div class="name">
+       脚本
+    </div>
+  </button>
+</div>
