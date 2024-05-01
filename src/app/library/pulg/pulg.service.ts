@@ -17,7 +17,6 @@ export class PulgService {
   async init() {
     this.caches = await caches.open('script');
     await this.loadAllScript();
-
     const url= document.querySelector("base").href+'assets/js/swiper-bundle.min.js'
     this.loadJS(url)
     this.loadCss(document.querySelector("base").href+'assets/css/swiper-bundle.min.css')
