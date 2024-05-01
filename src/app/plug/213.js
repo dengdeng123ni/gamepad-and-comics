@@ -634,6 +634,7 @@ window._gh_register({
       cover: "",
       title: "",
       author: "",
+      href:`https://hanime1.me/comic/${id}`,
       author_href: "",
       intro: "",
       chapters: [
@@ -656,14 +657,12 @@ window._gh_register({
       for (let index = 0; index < nodes1.length; index++) {
         obj.styles.push({ name: nodes1[index].textContent, href: nodes1[index].parentNode.href })
       }
-      obj.author = nodes2[0].textContent;
-      obj.author_href = nodes2[0].parentNode.href
+      obj.author = [{name:nodes2[0].textContent,href:nodes2[0].parentNode.href}];
     } else {
       for (let index = 0; index < nodes.length; index++) {
         obj.styles.push({ name: nodes[index].textContent, href: nodes1[index]?.parentNode?.href })
       }
-      obj.author = nodes1[0].textContent;
-      obj.author_href = nodes1[0].parentNode.href
+      obj.author = [{name:nodes1[0].textContent,href:nodes1[0].parentNode.href}];
     }
 
     obj.chapters.push({

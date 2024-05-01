@@ -17,6 +17,10 @@ export class PulgService {
   async init() {
     this.caches = await caches.open('script');
     await this.loadAllScript();
+
+    const url= document.querySelector("base").href+'assets/js/swiper-bundle.min.js'
+    this.loadJS(url)
+    this.loadCss(document.querySelector("base").href+'assets/css/swiper-bundle.min.css')
   }
   async openFile() {
     const files = await (window as any).showOpenFilePicker()
@@ -42,9 +46,12 @@ export class PulgService {
     const list = await this.caches.delete(url)
   }
   async registerScript(id: string, blob: any, option = {}) {
+    // 'swiper-bundle.min'
+
 
   }
   async loadAllScript() {
+
     const list = await this.caches.matchAll()
     for (let index = 0; index < list.length; index++) {
       const e = list[index];
@@ -52,6 +59,7 @@ export class PulgService {
       const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
       this.loadJS(url.changingThisBreaksApplicationSecurity)
     }
+
   }
 
   loadJS(url) {
@@ -59,8 +67,12 @@ export class PulgService {
     script.type = 'text/javascript';
     script.src = url;
     document.body.appendChild(script);
-    //document.getElementsByTagName('body')[0].appendChild(script);
   }
-
+  loadCss(url) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = url
+    document.head.appendChild(link);
+  }
 
 }

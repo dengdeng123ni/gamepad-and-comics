@@ -82,6 +82,7 @@ export class AppComponent {
   async init() {
     await this.pulg.init();
 
+
     setTimeout(() => {
       if(navigator) navigator?.serviceWorker?.controller?.postMessage({type:"_init"})
       this.getPulgLoadingFree();
