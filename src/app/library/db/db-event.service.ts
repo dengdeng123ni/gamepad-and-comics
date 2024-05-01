@@ -2,6 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MessageFetchService } from '../public-api';
+import { Subject } from 'rxjs';
 interface Events {
   List: Function;
   Detail: Function;
@@ -29,6 +30,10 @@ export class DbEventService {
   public Events: { [key: string]: Events } = {};
   public Configs: { [key: string]: Config } = {};
 
+  public change(){
+     return this.change$
+  }
+  change$=new Subject();
 
 
   constructor(
@@ -52,6 +57,8 @@ export class DbEventService {
     else this.Events[key] = events;
     if (this.Events[key]) this.Configs[key] = { ...this.Configs[key], ...config };
     else this.Configs[key] = config;
+
+    this.change$.next(config)
   }
 
 }
