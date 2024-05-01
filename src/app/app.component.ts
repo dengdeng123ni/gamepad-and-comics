@@ -87,6 +87,9 @@ export class AppComponent {
       if(navigator) navigator?.serviceWorker?.controller?.postMessage({type:"_init"})
       this.getPulgLoadingFree();
       this.is_loading_page=true;
+      setTimeout(()=>{
+        this.App.init();
+      },50)
     }, 50)
     // this.getPulgLoadingFree();
   }

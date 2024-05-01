@@ -18,6 +18,9 @@ export class AppDataService {
     public router: Router,
 
   ) {
+
+  }
+  init(){
     const c = localStorage.getItem('origin');
     if (c == "temporary_file") {
       this.router.navigate(['/']);

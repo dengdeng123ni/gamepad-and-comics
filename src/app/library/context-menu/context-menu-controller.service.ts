@@ -32,6 +32,22 @@ export class ContextMenuControllerService {
     if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
     this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
   }
+  // 扩容菜单方法
+  public openMenu(node: HTMLElement, x: number, y: number): void {
+    this.currentNode = node;
+    const key = node.getAttribute('menu_key');
+    if (!key) return
+    let menu = this.contextMenuEvent.menu[key];
+    if (!menu) {
+      return;
+    }
+    this.currentNode.setAttribute('menu_select', 'true');
+    const value = node.getAttribute('menu_value');
+    this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? '';
+    (document.querySelector('body') as HTMLElement).setAttribute('locked_region', 'content_menu');
+    if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
+    this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
+  }
 
   // 初始化右键菜单
   private init(): void {

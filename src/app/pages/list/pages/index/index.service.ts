@@ -42,16 +42,12 @@ export class IndexService {
     AppData.origin$.subscribe((x:any)=>{
       this.updateComicsItem(x)
     })
-    console.log(AppData.originConfig);
-
-    this.updateComicsItem(AppData.originConfig)
+    // this.updateComicsItem(AppData.originConfig)
 
 
   }
 
   updateComicsItem(x){
-    console.log(x);
-
     if(x.is_download){
       this.ContextMenuEvent.registerMenu('comics_item', [
         {
