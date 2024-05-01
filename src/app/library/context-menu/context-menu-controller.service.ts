@@ -21,16 +21,16 @@ export class ContextMenuControllerService {
     this.currentNode = node;
     const key = node.getAttribute('content_menu_key');
     if (!key) return
-    let eventObj = this.contextMenuEvent.sendEvent[key];
-    if (!eventObj) {
+    let menu = this.contextMenuEvent.menu[key];
+    if (!menu) {
       return;
     }
     this.currentNode.setAttribute('content_menu_select', 'true');
     const value = node.getAttribute('content_menu_value');
     this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? '';
     (document.querySelector('body') as HTMLElement).setAttribute('locked_region', 'content_menu');
-    if (eventObj.callback) eventObj.context = eventObj.callback(node, eventObj.context)
-    this.contextMenu.open(eventObj.context, { x, y, key: key, value: value ?? "" });
+    if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
+    this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
   }
 
   // 初始化右键菜单
@@ -59,10 +59,14 @@ export class ContextMenuControllerService {
           this.currentNode = node;
           (this.currentNode as any).setAttribute('content_menu_select', 'true');
           const value = node.getAttribute('content_menu_value');
-          let eventObj = this.contextMenuEvent.sendEvent[key];
-          if (eventObj.callback) eventObj.context = eventObj.callback(node, eventObj.context)
-          this.contextMenu.open(eventObj.context, { x: e.clientX, y: e.clientY, key: key, value: value ?? null });
-          break;
+          let menu = this.contextMenuEvent.menu[key];
+          if (menu&&menu.length) {
+            if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
+            this.contextMenu.open(menu, { x: e.clientX, y: e.clientY, key: key, value: value ?? null });
+            break;
+          } else {
+            break;
+          }
         }
       }
     });

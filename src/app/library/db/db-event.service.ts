@@ -15,6 +15,7 @@ interface Config {
   name?: string,
   menu?: Array<any>;
   is_locked?: boolean;
+  is_download?:boolean;
   is_cache?: boolean;
 }
 interface Tab {
@@ -51,6 +52,7 @@ export class DbEventService {
     config = {
       name: key,
       is_cache: false,
+      is_download:false,
       ...config
     }
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };

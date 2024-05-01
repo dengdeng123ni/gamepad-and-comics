@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
-import { EventService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, EventService } from 'src/app/library/public-api';
 import { MenuService } from '../../components/menu/menu.service';
+import { DownloadOptionService } from '../../components/download-option/download-option.service';
+import { LocalCachService } from '../../components/menu/local-cach.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +12,12 @@ export class IndexService {
 
   constructor(
     public GamepadEvent:GamepadEventService,
+    public ContextMenuEvent: ContextMenuEventService,
     public Event:EventService,
-    public menu:MenuService
+    public menu:MenuService,
+    public AppData:AppDataService,
+    public DownloadOption: DownloadOptionService,
+    public LocalCach: LocalCachService,
     ) {
 
 
@@ -33,5 +39,40 @@ export class IndexService {
         }
       }
     })
+    AppData.origin$.subscribe((x:any)=>{
+      this.updateComicsItem(x)
+    })
+    console.log(AppData.originConfig);
+
+    this.updateComicsItem(AppData.originConfig)
+
+
+  }
+
+  updateComicsItem(x){
+    console.log(x);
+
+    if(x.is_download){
+      this.ContextMenuEvent.registerMenu('comics_item', [
+        {
+          name: "下载", id: "download", click: async (list) => {
+            this.DownloadOption.open(list)
+          }
+        },
+        {
+          name: "缓存", id: "local_cach", click: async (list) => {
+             for (let index = 0; index < list.length; index++) {
+              await this.LocalCach.save(list[index].id);
+             }
+          }
+        },
+      ])
+      if(x.id=="local_cache")  {
+        this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
+      }
+    }else{
+      this.ContextMenuEvent.logoutMenu('comics_item', 'download')
+      this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
+    }
   }
 }

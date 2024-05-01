@@ -21,7 +21,7 @@ export class TemporaryFileService {
     DbEvent.register({
       id:"temporary_file",
       name: "temporary_file",
-      is_locked: false,
+      is_download:true,
       is_cache: false
     }, {
       List: async (obj: any) => {

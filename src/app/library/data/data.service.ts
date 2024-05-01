@@ -13,6 +13,7 @@ export class AppDataService {
   is_pulg = false;
   is_pwa = false;
 
+  originConfig={};
   constructor(public DbEvent: DbEventService,
     public router: Router,
 
@@ -22,15 +23,16 @@ export class AppDataService {
       this.router.navigate(['/']);
     }
     if (c) {
-      this.origin = c;
+      this.setOrigin(c)
     }
   }
 
   setOrigin(origin: string) {
     this.origin = origin;
-    const x = this.DbEvent.Configs['origin']
-    localStorage.setItem('origin', origin)
+    const x = this.DbEvent.Configs[origin];
+    if(x) this.originConfig=x;
     this.origin$.next(x)
+    localStorage.setItem('origin', origin)
   }
   getOption() {
     return this.DbEvent.Configs[this.origin]

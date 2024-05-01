@@ -5,8 +5,6 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subject, map, throttleTime } from 'rxjs';
 import { ContextMenuEventService, QueryControllerService } from 'src/app/library/public-api';
 import { WebFileService } from 'src/app/library/web-file/web-file.service';
-import { DownloadOptionService } from '../download-option/download-option.service';
-import { LocalCachService } from '../menu/local-cach.service';
 declare const window: any;
 interface Item {
   id: string | number,
@@ -54,19 +52,12 @@ export class ComicsListComponent {
     public ContextMenuEvent: ContextMenuEventService,
     public router: Router,
     public WebFile: WebFileService,
-    public DownloadOption: DownloadOptionService,
-    public LocalCach: LocalCachService,
+
     public QueryController:QueryControllerService,
     public route: ActivatedRoute,
   ) {
 
     ContextMenuEvent.register('comics_item', {
-      open: () => {
-        // this.close()
-      },
-      close: (e: any) => {
-
-      },
       on: async (e: any) => {
         const index = this.data.list.findIndex(x => x.id.toString() == e.value.toString());
         if (this.data.list.filter(x => x.selected).length == 0) {
@@ -74,21 +65,7 @@ export class ComicsListComponent {
         }
         const list = this.data.list.filter(x => x.selected)
         e.click(list)
-      },
-      menu: [
-        {
-          name: "下载", id: "download", click: async (list) => {
-            this.DownloadOption.open(list)
-          }
-        },
-        {
-          name: "缓存", id: "local_cach", click: async (list) => {
-             for (let index = 0; index < list.length; index++) {
-              await this.LocalCach.save(list[index].id);
-             }
-          }
-        },
-      ]
+      }
     })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(params => {

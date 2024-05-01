@@ -19,6 +19,7 @@ export class LocalCachService {
 
     DbEvent.register({
       id: "local_cache",
+      is_download:true,
     }, {
       List: async (obj: any) => {
         const res = await firstValueFrom(this.webDb.getAll("local_comics"))
