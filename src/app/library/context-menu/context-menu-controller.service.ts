@@ -7,7 +7,7 @@ declare const window: any;
 })
 export class ContextMenuControllerService {
   private handleRegion: string = '';
-  private currentNode: HTMLElement | null = null;
+  private currentNode: HTMLElement|Element | null = null;
 
   constructor(
     private contextMenuEvent: ContextMenuEventService,
@@ -33,7 +33,7 @@ export class ContextMenuControllerService {
     this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
   }
   // 扩容菜单方法
-  public openMenu(node: HTMLElement, x: number, y: number): void {
+  public openMenu(node: HTMLElement | Element, x: number, y: number): void {
     this.currentNode = node;
     const key = node.getAttribute('menu_key');
     if (!key) return

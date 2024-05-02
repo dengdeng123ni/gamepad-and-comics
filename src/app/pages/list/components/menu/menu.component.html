@@ -43,7 +43,9 @@
       </button>
     </div>
   </div>
-  <button mat-icon-button class="settings" (click)="PulgJavascript.open()">
-    <mat-icon>settings</mat-icon>
+  <button  [attr.menu_key]="'_gh_settings'"
+           [attr.menu_value]="'_gh_settings'"
+    mat-icon-button class="settings" (click)="onMenu($event)">
+    <mat-icon class="icon">settings</mat-icon>
   </button>
 </div>

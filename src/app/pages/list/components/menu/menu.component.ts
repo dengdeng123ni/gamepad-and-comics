@@ -4,7 +4,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { TemporaryFileService } from './temporary-file.service';
-import { AppDataService, DbEventService, PulgService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, PulgService } from 'src/app/library/public-api';
 import { LocalCachService } from './local-cach.service';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
@@ -48,7 +48,8 @@ export class MenuComponent {
     }
   }
   change$=null;
-  constructor(public data: DataService,
+  constructor(
+    public data: DataService,
     public current: CurrentService,
     public upload: UploadService,
     public temporaryFile: TemporaryFileService,
@@ -60,6 +61,8 @@ export class MenuComponent {
     public pulg: PulgService,
     public Settings:SettingsService,
     public PulgJavascript:PulgJavascriptService,
+    public ContextMenuController:ContextMenuControllerService,
+    public ContextMenuEvent:ContextMenuEventService,
     private zone: NgZone
   ) {
 
@@ -133,7 +136,28 @@ export class MenuComponent {
         this.data.menu.push(obj)
       })
     }
+    ContextMenuEvent.register('_gh_settings',
+    {
+      on: async (e: any) => {
+        e.click()
+      },
+      menu:[
+        {
+          id:"javasciprt",
+          name:"脚本",
+          click:()=>{
+            PulgJavascript.open()
+          }
+        }
+      ]
+    })
 
+
+  }
+  onMenu(e){
+     const node=document.querySelector("[menu_key=_gh_settings]")
+     const p=node.getBoundingClientRect();
+     this.ContextMenuController.openMenu(node,p.left,p.top)
   }
   ngOnDestroy() {
     this.change$.unsubscribe();
