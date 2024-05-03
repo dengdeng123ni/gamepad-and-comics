@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AppDataService {
-  origin = "bilibili"
+  origin = ""
   origin$ = new Subject();
 
   is_pulg = false;
@@ -18,7 +18,7 @@ export class AppDataService {
     public router: Router,
 
   ) {
-
+    this.origin = localStorage.getItem('origin');
   }
   init(){
     const c = localStorage.getItem('origin');

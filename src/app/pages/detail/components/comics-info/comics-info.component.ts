@@ -39,7 +39,12 @@ export class ComicsInfoComponent {
     }
   }
   back() {
-    window.history.back();
+    let url = sessionStorage.getItem('list_url');
+    if (!url) url = window.location.origin
+    window.open(url,
+      '_self',
+    )
+    // window.history.back();
   }
   continue() {
     this.router.navigate(['/', this.data.comics_id, this.data.chapter_id,])
