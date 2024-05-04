@@ -53,7 +53,7 @@ export class MessageFetchService {
     }
 
     return new Promise((r, j) => {
-      const getFile = () => {
+      const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
             let rsponse = this._data_proxy_response[id].data;
@@ -74,11 +74,11 @@ export class MessageFetchService {
             delete this._data_proxy_response[id]
             r(new Response(readableStream, rsponse))
           } else {
-            if (bool) getFile()
+            if (bool) getData()
           }
-        }, 0)
+        }, 33)
       }
-      getFile()
+      getData()
       setTimeout(() => {
         bool = false;
         r(new Response(""))

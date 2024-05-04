@@ -42,7 +42,7 @@ export class ImageComponent {
       this.url = this.src;
     } else {
       setTimeout(() => {
-        this.getImage(this.src)
+        this.image.addTask(()=>this.getImage(this.src))
       })
     }
   }

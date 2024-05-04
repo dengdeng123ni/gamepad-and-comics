@@ -610,7 +610,8 @@ window._gh_register({
 
 window._gh_register({
   id: "hanime1",
-  is_cache: true
+  is_cache: true,
+  is_download:true
 }, {
   List: async (obj) => {
     let list = [];

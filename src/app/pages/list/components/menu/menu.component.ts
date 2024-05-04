@@ -160,7 +160,7 @@ export class MenuComponent {
      this.ContextMenuController.openMenu(node,p.left,p.top)
   }
   ngOnDestroy() {
-    this.change$.unsubscribe();
+    if(this.change$)this.change$.unsubscribe();
   }
   cc() {
     this.pulg.openFile();

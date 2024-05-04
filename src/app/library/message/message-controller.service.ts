@@ -31,6 +31,9 @@ export class MessageControllerService {
 
       if (event.data.type == "proxy_response") {
         http._data_proxy_response[event.data.id]=event.data;
+        setTimeout(()=>{
+          if(http._data_proxy_response[event.data.id]) delete http._data_proxy_response[event.data.id]
+        },300)
         if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage(event.data)
       }else if (event.data.type == "specify_link") {
         MessageEvent.OtherEvents['specify_link'](event.data.data)

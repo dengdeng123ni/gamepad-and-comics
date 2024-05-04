@@ -57,8 +57,8 @@ export class GamepadControllerService {
       subtree: true, //目标节点所有后代节点的attributes、childList、characterData变化
     };
 
-    // let observe = new MutationObserver(() => this.execute());
-    // observe.observe(document, config);
+    let observe = new MutationObserver(() => this.execute());
+    observe.observe(document, config);
 
     this.router.events.subscribe((event) => {
       // NavigationEnd,NavigationCancel,NavigationError,RoutesRecognized
@@ -95,7 +95,6 @@ export class GamepadControllerService {
     this.GamepadEventBefore$.subscribe((x: any) => {
       this.GamepadSound.device(x.input, x.node, x.region, x.index)
     })
-
     this.EegionBefore$.subscribe(x => {
       // console.log(x);
 
@@ -108,28 +107,19 @@ export class GamepadControllerService {
     })
   }
   async execute() {
-    if (document.body.getAttribute("pattern") != "gamepad") return
-    if (this.runs.length == 0) {
-      this.runs.push(0)
-      const start = this.runs.length
+    // 检查是否符合执行条件
+    if (document.body.getAttribute("pattern") !== "gamepad") return;
+    // 防止并发执行
+    if (this.isRunning) return;
+    this.isRunning = true;
+    try {
       await this.getNodes();
-      await this.sleep(400)
-      const end = this.runs.length
-      if (start != end) {
-        setTimeout(() => {
-          this.runs = [];
-          this.execute()
-        })
-
-      } else {
-        setTimeout(() => {
-          this.runs = [];
-        })
-      }
-    } else {
-      this.runs.push(0)
+      await this.sleep(100);
+      this.execute();
+    } finally {
+      // 清理状态，以便下次执行
+      this.isRunning = false;
     }
-
   }
   Y = false;
 

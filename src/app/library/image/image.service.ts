@@ -21,7 +21,7 @@ export class ImageService {
         arr.push(nodes[index].src)
       }
       Object.keys(this._data).forEach(id => {
-        if(!this._data[id]&&this._data.changingThisBreaksApplicationSecurity) {
+        if (!this._data[id] && this._data.changingThisBreaksApplicationSecurity) {
           if (arr.includes(this._data[id].changingThisBreaksApplicationSecurity)) {
           } else {
             URL.revokeObjectURL(this._data[id])
@@ -103,6 +103,35 @@ export class ImageService {
       }
     })
   }
+
+  tasks = []; // 存储所有要执行的任务
+  concurrent = 0; // 当前正在执行的任务数量
+  maxConcurrent = 20; // 最大并发数量
+
+  // 添加任务到队列中
+  addTask(task) {
+    this.tasks.push(task);
+    this.processTasks();
+  }
+
+  // 处理任务队列
+  processTasks() {
+    while (this.concurrent < this.maxConcurrent && this.tasks.length > 0) {
+      const task = this.tasks.shift(); // 从队列中取出一个任务
+      task()
+        .then(() => {
+          this.concurrent--; // 任务完成，减少并发计数
+          this.processTasks(); // 继续处理下一个任务
+        })
+        .catch(error => {
+          console.error(error); // 处理任务失败
+          this.concurrent--; // 任务完成，减少并发计数
+          this.processTasks(); // 继续处理下一个任务
+        });
+      this.concurrent++; // 增加并发计数
+    }
+  }
+
 
 
   async getImageToLocalUrl(src: string) {

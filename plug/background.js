@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener(
       sendMessageToTargetContentScript(request, request.proxy_request_website_url)
     } else if (request.type == "website_proxy_request_html") {
       request.type = "website_proxy_response_html";
-      sendMessageToTargetContentScript(request, request.proxy_request_website_url)
+      sendMessageToTargetHtml(request, request.proxy_request_website_url)
     } else if (request.type == "website_proxy_response") {
       request.type = "proxy_response";
       sendMessageToTargetContentScript(request, request.proxy_response_website_url)
@@ -27,12 +27,12 @@ chrome.runtime.onMessage.addListener(
       res.type = "proxy_response";
       sendMessageToTargetContentScript(res, res.proxy_response_website_url)
     } else if (request.type == "page_load_complete") {
-      const index = data.findIndex(x => x.tab.pendingUrl == request.url)
+      const index = data.filter(x=>x.tab).findIndex(x => x.tab.pendingUrl == request.url)
       if (index > -1) {
         const obj = data[index];
         setTimeout(() => {
           if (obj.data && obj.data.type && "website_proxy_response_html" == obj.data.type) chrome.tabs.remove(obj.tab.id)
-        }, 10000)
+        }, 3000)
         chrome.tabs.sendMessage(obj.tab.id, obj.data);
         data = [];
       }
@@ -119,11 +119,62 @@ function sendMessageToTargetContentScript(message, url) {
       }, (tab) => {
         data.push({ tab: tab, data: message })
       })
-    }
-    const index = Math.floor(Math.random() * ((list.length - 0) + 0))
-    if (index > -1) {
-      chrome.tabs.sendMessage(list[index].id, message);
+    }else{
+      for (let index = 0; index < list.length; index++) {
+        chrome.tabs.sendMessage(list[index].id, message);
+      }
     }
   });
 }
+let is=false;
+ function  sendMessageToTargetHtml(message, url) {
+  if(is){
+    setTimeout(()=>{
+      chrome.tabs.query({}, function (tabs) {
+        const list = tabs.filter(x => x.url== url);
+        if (list.length == 0) {
+          chrome.tabs.create({
+            active: false,
+            url: url
+          }, (tab) => {
+            data.push({ tab: tab, data: message })
 
+          })
+        }else{
+          for (let index = 0; index < list.length; index++) {
+            chrome.tabs.sendMessage(list[index].id, message);
+          }
+        }
+      });
+    },1000)
+  }else{
+    is=true;
+
+    chrome.tabs.query({}, function (tabs) {
+      const list = tabs.filter(x => x.url== url);
+      if (list.length == 0) {
+        chrome.tabs.create({
+          active: false,
+          url: url
+        }, (tab) => {
+          data.push({ tab: tab, data: message })
+          setTimeout(()=>{is=false;},300)
+        })
+      }else{
+        for (let index = 0; index < list.length; index++) {
+          chrome.tabs.sendMessage(list[index].id, message);
+        }
+        setTimeout(()=>{is=false;},300)
+      }
+    });
+
+  }
+
+}
+
+
+sleep = (duration) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, duration);
+  })
+}

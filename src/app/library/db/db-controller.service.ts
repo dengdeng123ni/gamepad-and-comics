@@ -147,6 +147,26 @@ export class DbControllerService {
       return []
     }
   }
+  isConditionMet = false;
+  async waitForCondition(): Promise<boolean> {
+    if(!this.isConditionMet) {
+      this.isConditionMet=true;
+      return true
+    }
+    return new Promise((r, j) => {
+      const get=()=>{
+        setTimeout(() => {
+          if (!this.isConditionMet) r(true)
+          else get()
+        }, 33)
+      }
+
+      get();
+      setTimeout(() => {
+        if (!this.isConditionMet) j(false)
+      }, 30000)
+    })
+  }
   async getImage(id: string, option?: {
     origin: string
   }) {
@@ -157,6 +177,7 @@ export class DbControllerService {
       if (id.substring(7, 21) == "localhost:7700") {
         let url = id;
         const getBlob = async () => {
+
           const getImageURL = async (id: string) => {
             const arr = id.split("/")
             const name = arr[3];
@@ -168,10 +189,12 @@ export class DbControllerService {
               if (url) {
                 return url
               } else {
+                await this.waitForCondition()
                 let resc = await this.DbEvent.Events[option.origin]["Pages"](chapter_id);
                 resc.forEach((x, i) => {
                   this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
                 })
+                this.isConditionMet=false;
                 return this.image_url[`${name}_page_${chapter_id}_${index}`];
               }
             } else if (type == "comics") {
@@ -180,31 +203,38 @@ export class DbControllerService {
               if (url) {
                 return url
               } else {
+                await this.waitForCondition()
                 let res = await this.DbEvent.Events[option.origin]["Detail"](comics_id);
                 this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
                 res.chapters.forEach(x => {
                   this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
                 })
+                this.isConditionMet=false;
                 return this.image_url[`${name}_comics_${comics_id}`];
               }
             } else if (type == "chapter") {
+
               const comics_id = arr[5];
               const chapter_id = arr[6];
               const url = this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
               if (url) {
                 return url
               } else {
+                await this.waitForCondition()
                 let res = await this.DbEvent.Events[option.origin]["Detail"](comics_id);
                 this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
                 res.chapters.forEach(x => {
                   this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
                 })
+                this.isConditionMet=false;
                 return this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
               }
             } else {
               return ""
             }
+
           }
+
           const id1 = await getImageURL(url);
           const blob = await this.DbEvent.Events[option.origin]["Image"](id1)
           const response = new Response(blob);

@@ -46,42 +46,49 @@ export class WebFileService {
 
   }
   async post(path, blob): Promise<boolean> {
-    const obj = this.paths.find(x => x.path == path)
-    if (!obj) {
-      const arr = path.split("/")
+    try {
+      const obj = this.paths.find(x => x.path == path)
+      if (!obj) {
+        const arr = path.split("/")
 
 
-      const createDirHandle = async (dirHandle, path_arr, index) => {
+        const createDirHandle = async (dirHandle, path_arr, index) => {
 
 
-        if ((path_arr.length - 1) == index) {
-          for await (const it of dirHandle.values()) {
-            if (it.name == path_arr[index]) {
-              return null;
+          if ((path_arr.length - 1) == index) {
+            for await (const it of dirHandle.values()) {
+              if (it.name == path_arr[index]) {
+                return null;
+              }
             }
-          }
-          const res = await dirHandle.getFileHandle(path_arr[index], {
-            create: true,
-          });
-          return res
-        } else {
+            const res = await dirHandle.getFileHandle(path_arr[index], {
+              create: true,
+            });
+            return res
+          } else {
 
-          const res = await dirHandle.getDirectoryHandle(path_arr[index], {
-            create: true,
-          });
-          index++;
-          return await createDirHandle(res, path_arr, index)
+            const res = await dirHandle.getDirectoryHandle(path_arr[index], {
+              create: true,
+            });
+            index++;
+            return await createDirHandle(res, path_arr, index)
+          }
+        }
+        const dir = await createDirHandle(this.dirHandle, arr, 0)
+        if (dir) {
+          const writable = await dir.createWritable();
+          await writable.write(blob);
+          await writable.close();
+          this.paths.push({ dirHandle: dir, path: path.substring(1), name: dir.name })
         }
       }
-      const dir = await createDirHandle(this.dirHandle, arr, 0)
-      if (dir) {
-        const writable = await dir.createWritable();
-        await writable.write(blob);
-        await writable.close();
-        this.paths.push({ dirHandle: dir, path: path.substring(1), name: dir.name })
-      }
+      return true
+    } catch (error) {
+      console.log(path);
+      return false
+
     }
-    return true
+
   }
 
   async get(path): Promise<Blob> {
@@ -99,10 +106,10 @@ export class WebFileService {
     pageOrder: boolean,
     isFirstPageCover: boolean,
     page: string,
-    downloadChapterAtrer?:Function
+    downloadChapterAtrer?: Function
   }) {
 
-    if(!this.dirHandle)  await this.open();
+    if (!this.dirHandle) await this.open();
 
     const toTitle = (title) => {
       return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').trim()
@@ -116,14 +123,14 @@ export class WebFileService {
       await Promise.all(pages.map(x => this.DbController.getImage(x.src)))
       if (option?.type) {
         if (option.type == "JPG") {
-          if(option.page=="double"){
-            const blobs= await this.download.ImageToTypeBlob({ type: option.type, name: toTitle(x.title), images: pages.map((x: { src: any; }) => x.src), pageOrder: option.pageOrder, isFirstPageCover: option.isFirstPageCover, page: option.page }) as any
+          if (option.page == "double") {
+            const blobs = await this.download.ImageToTypeBlob({ type: option.type, name: toTitle(x.title), images: pages.map((x: { src: any; }) => x.src), pageOrder: option.pageOrder, isFirstPageCover: option.isFirstPageCover, page: option.page }) as any
             for (let index = 0; index < blobs.length; index++) {
-              const blob=blobs[index]
-              await this.post(`${config.origin}[双页]${option.pageOrder?"":"[日漫]"}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+              const blob = blobs[index]
+              await this.post(`${config.origin}[双页]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
 
             }
-          }else{
+          } else {
             const downloadImage = async (x2, index) => {
               const blob = await this.DbController.getImage(x2.src)
 
@@ -164,12 +171,12 @@ export class WebFileService {
           suffix_name = `epub`;
         }
         if (config.is_offprint) {
-          await this.post(`${config.origin}_${suffix_name}[${option.page=="double"?"双页":"单页"}]${option.pageOrder?"":"[日漫]"}/${toTitle(title)}.${suffix_name}`, blob)
+          await this.post(`${config.origin}_${suffix_name}[${option.page == "double" ? "双页" : "单页"}]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}.${suffix_name}`, blob)
         } else {
-          await this.post(`${config.origin}_${suffix_name}[${option.page=="double"?"双页":"单页"}]${option.pageOrder?"":"[日漫]"}/${toTitle(title)}/${toTitle(x.title)}.${suffix_name}`, blob)
+          await this.post(`${config.origin}_${suffix_name}[${option.page == "double" ? "双页" : "单页"}]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}/${toTitle(x.title)}.${suffix_name}`, blob)
         }
       }
-      if(option.downloadChapterAtrer) option.downloadChapterAtrer(x)
+      if (option.downloadChapterAtrer) option.downloadChapterAtrer(x)
     }
   }
 

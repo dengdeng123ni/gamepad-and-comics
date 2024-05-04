@@ -70,9 +70,10 @@ export class ReaderNavbarBarComponent implements OnInit {
     //  window.history.back();
     let url = sessionStorage.getItem('list_url');
     if (!url) url = window.location.origin
-    window.open(url,
-      '_self',
-    )
+    const urlObj = new URL(url);
+    let arr = [...urlObj.pathname.split("/")];
+    arr.shift()
+    this.router.navigate(['/', ...arr])
   }
   routerDetail() {
     this.router.navigate(['/detail', this.data.comics_id]);

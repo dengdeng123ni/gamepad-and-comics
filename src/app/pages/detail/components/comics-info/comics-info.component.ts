@@ -41,10 +41,10 @@ export class ComicsInfoComponent {
   back() {
     let url = sessionStorage.getItem('list_url');
     if (!url) url = window.location.origin
-    window.open(url,
-      '_self',
-    )
-    // window.history.back();
+    const urlObj = new URL(url);
+    let arr = [...urlObj.pathname.split("/")];
+    arr.shift()
+    this.router.navigate(['/', ...arr])
   }
   continue() {
     this.router.navigate(['/', this.data.comics_id, this.data.chapter_id,])
