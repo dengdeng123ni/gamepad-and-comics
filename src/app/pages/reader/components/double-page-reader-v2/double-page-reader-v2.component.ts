@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
-import { ImageService, PagesItem } from 'src/app/library/public-api';
+import { Component, HostListener } from '@angular/core';
+import { GamepadControllerService, GamepadEventService, GamepadInputService, ImageService, KeyboardEventService, PagesItem } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
-import { GamepadControllerService } from 'src/app/library/gamepad/gamepad-controller.service';
-import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
 // import Swiper from 'swiper';
 declare const Swiper: any;
 @Component({
@@ -13,6 +11,7 @@ declare const Swiper: any;
 })
 export class DoublePageReaderV2Component {
   swiper = null;
+  @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
     document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight * 2}px`);
   }
@@ -24,9 +23,49 @@ export class DoublePageReaderV2Component {
     public data: DataService,
     public image: ImageService,
     public GamepadEvent: GamepadEventService,
-    public GamepadController: GamepadControllerService
-  ) {
+    public GamepadController: GamepadControllerService,
+    public GamepadInput: GamepadInputService,
+    public KeyboardEvent: KeyboardEventService
 
+  ) {
+    KeyboardEvent.registerAreaEvent('double_page_reader', {
+      "space": () => {
+        this.GamepadInput.down$.next("A")
+      },
+      "ArrowLeft": () => {
+        this.GamepadInput.down$.next("LEFT")
+      },
+      "ArrowRight": () => {
+        this.GamepadInput.down$.next("RIGHT")
+      },
+      "ArrowUp": () => {
+        this.GamepadInput.down$.next("UP")
+      },
+      "ArrowDown": () => {
+        this.GamepadInput.down$.next("DOWN")
+      },
+
+    })
+    GamepadEvent.registerAreaEvent('double_page_reader', {
+      "LEFT": () => {
+        this.current._pagePrevious();
+      },
+      "UP": () => {
+        this.current._pagePrevious();
+      },
+      "DOWN": () => {
+        this.current._pageNext();
+      },
+      "RIGHT": () => {
+        this.current._pageNext();
+      },
+      "X": () => {
+        this.pageToggle();
+      },
+      "A": () => {
+        this.current._pageNext();
+      },
+    })
 
     // GamepadEvent.registerAreaEventY('double_page_reader', {
     //   "UP": () => {
@@ -129,21 +168,21 @@ export class DoublePageReaderV2Component {
     setTimeout(async () => {
       await this.next();
       await this.previous();
-      setTimeout(async ()=>{
+      setTimeout(async () => {
         await this.next();
       })
     })
   }
 
   async change(chapter_id, pages, page_index) {
-    this.objPreviousHtml={};
-    this.objNextHtml={};
+    this.objPreviousHtml = {};
+    this.objNextHtml = {};
     this.swiper.removeAllSlides();
     await this.addNextSlide(chapter_id, pages, page_index);
     setTimeout(async () => {
       await this.next();
       await this.previous();
-      setTimeout(async ()=>{
+      setTimeout(async () => {
         await this.next();
       })
     })
@@ -217,13 +256,13 @@ export class DoublePageReaderV2Component {
   }
   objNextHtml = {};
   objPreviousHtml = {};
-  isPageFirst=false;
-  is_first_page_cover=true;
+  isPageFirst = false;
+  is_first_page_cover = true;
   async addNextSlide(chapter_id, list, index: number) {
-    if(index<0) index=0;
+    if (index < 0) index = 0;
 
-    if(this.objNextHtml[`${chapter_id}_${index}`]) return
-    else this.objNextHtml[`${chapter_id}_${index}`]=true;
+    if (this.objNextHtml[`${chapter_id}_${index}`]) return
+    else this.objNextHtml[`${chapter_id}_${index}`] = true;
     const getNextPages = async (list: Array<PagesItem>, index: number) => {
       const total = list.length;
       let page = {
@@ -267,8 +306,8 @@ export class DoublePageReaderV2Component {
     this.prependSlide(current)
   }
   async addPreviousSlide(chapter_id, list, index: number) {
-    if(this.objPreviousHtml[`${chapter_id}_${index}`]) return
-    else  this.objPreviousHtml[`${chapter_id}_${index}`]=true;
+    if (this.objPreviousHtml[`${chapter_id}_${index}`]) return
+    else this.objPreviousHtml[`${chapter_id}_${index}`] = true;
     const getPreviousPages = async (list: Array<PagesItem>, index: number) => {
       const total = list.length;
       let page = {
@@ -375,20 +414,16 @@ export class DoublePageReaderV2Component {
       if (!this.ccc) {
         this.ccc = true;
 
-        setTimeout(() => {
-          this.next()
-          this.ccc = false;
-        }, 200)
+        this.next()
+        this.ccc = false;
       }
     });
     this.swiper.on('slideChange', () => {
       if (!this.ppp) {
         this.ppp = true;
 
-        setTimeout(() => {
-          this.updata()
-          this.ppp = false;
-        }, 200)
+        this.updata()
+        this.ppp = false;
       }
     })
 
@@ -396,10 +431,8 @@ export class DoublePageReaderV2Component {
       if (!this.ccc) {
         this.ccc = true;
 
-        setTimeout(() => {
-          this.previous()
+        this.previous()
           this.ccc = false;
-        }, 200)
       }
     });
 

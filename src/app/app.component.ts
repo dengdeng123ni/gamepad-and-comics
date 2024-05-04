@@ -68,9 +68,11 @@ export class AppComponent {
     })
 
     MessageEvent.service_worker_register('init', async (event: any) => {
-      document.body.setAttribute("pwa","true")
+      document.body.setAttribute("pwa", "true")
       this.App.is_pulg = true;
     })
+
+
     this.init();
 
   }
@@ -80,13 +82,13 @@ export class AppComponent {
 
 
     setTimeout(() => {
-      if(navigator) navigator?.serviceWorker?.controller?.postMessage({type:"_init"})
+      if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
       this.getPulgLoadingFree();
-      this.is_loading_page=true;
-      setTimeout(()=>{
+      this.is_loading_page = true;
+      setTimeout(() => {
         this.App.init();
-      },50)
-    }, 50)
+      }, 50)
+    }, 200)
     // this.getPulgLoadingFree();
   }
   getAnimationData() {
