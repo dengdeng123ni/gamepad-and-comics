@@ -1,4 +1,4 @@
-import { Component, HostListener, Query } from '@angular/core';
+import { Component, Query } from '@angular/core';
 import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, MessageControllerService, MessageEventService, PulgService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadLeftCircleToolbarService } from './library/event/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
@@ -43,10 +43,6 @@ export const slideInAnimation =
 export class AppComponent {
   is_loading_page = false;
   is_data_source = true;
-
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown = (event: KeyboardEvent) => {
-  }
 
   constructor(
     public GamepadController: GamepadControllerService,

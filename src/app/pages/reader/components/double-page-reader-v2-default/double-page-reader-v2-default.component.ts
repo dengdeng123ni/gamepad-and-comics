@@ -14,21 +14,6 @@ declare const Swiper: any;
 })
 export class DoublePageReaderV2DefaultComponent {
   swiper = null;
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key == "ArrowRight") this.current._pageNext();
-    if (event.key == "ArrowLeft") this.current._pagePrevious();
-    if (event.key == "c") this.pageToggle();
-    // if (event.key == "v") this.firstPageToggle();
-    if (event.code == "Space") {
-      this.swiper.slidePrev();
-      return false
-    }
-    return true
-  }
-  @HostListener('window:keyup', ['$event'])
-  handleKeyUp = (event: KeyboardEvent) => {
-  }
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
     document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 353) * window.innerHeight * 2}px`);

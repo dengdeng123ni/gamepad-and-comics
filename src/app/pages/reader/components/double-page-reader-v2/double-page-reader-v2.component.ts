@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { ImageService, PagesItem } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
@@ -13,22 +13,6 @@ declare const Swiper: any;
 })
 export class DoublePageReaderV2Component {
   swiper = null;
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key == "ArrowRight") this.current._pagePrevious();
-    if (event.key == "ArrowLeft") this.current._pageNext();
-    if (event.key == "c") this.pageToggle();
-    // if (event.key == "v") this.firstPageToggle();
-    if (event.code == "Space") {
-      this.swiper.slidePrev();
-      return false
-    }
-    return true
-  }
-  @HostListener('window:keyup', ['$event'])
-  handleKeyUp = (event: KeyboardEvent) => {
-  }
-  @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
     document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight * 2}px`);
   }
@@ -394,7 +378,7 @@ export class DoublePageReaderV2Component {
         setTimeout(() => {
           this.next()
           this.ccc = false;
-        }, 500)
+        }, 200)
       }
     });
     this.swiper.on('slideChange', () => {
@@ -404,7 +388,7 @@ export class DoublePageReaderV2Component {
         setTimeout(() => {
           this.updata()
           this.ppp = false;
-        }, 500)
+        }, 200)
       }
     })
 
@@ -415,7 +399,7 @@ export class DoublePageReaderV2Component {
         setTimeout(() => {
           this.previous()
           this.ccc = false;
-        }, 500)
+        }, 200)
       }
     });
 

@@ -37,9 +37,25 @@ export class GamepadControllerService {
     //     document.body.style.cursor = "none";
     //   }, 3000);
     // });
+    window.addEventListener('keyup', (e: any) => {
+      if (document.visibilityState === "hidden" || this.pause) return;
+      // if (input === "Y") this.Y = true;
+      console.log(e);
 
+      this.getCurrentTarget();
+
+      this.GamepadEventBefore$.next({ input: e.key, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
+      this.zone.run(() => {
+        if (e.key == "s") this.setCurrentTarget("DOWN")
+        if (e.key == "w") this.setCurrentTarget("UP")
+        if (e.key == "a") this.setCurrentTarget("LEFT")
+        if (e.key == "d") this.setCurrentTarget("RIGHT")
+        if (e.key == "j") this.leftKey();
+        if (e.key == "k") this.rightKey();
+      })
+    })
     this.GamepadInput.down().subscribe((x: string) => {
-      document.body.setAttribute("pattern", "gamepad")
+
       this.device(x);
     })
     this.GamepadInput.up().subscribe((x: string) => {
@@ -50,6 +66,7 @@ export class GamepadControllerService {
         this.device(e);
       }
     });
+    document.body.setAttribute("pattern", "gamepad")
     let config = {
       attributes: true, //目标节点的属性变化
       childList: false, //目标节点的子节点的新增和删除

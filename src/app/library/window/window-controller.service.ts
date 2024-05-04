@@ -29,6 +29,8 @@ export class WindowControllerService {
         this.WindowEvent.clickSectionEvents[value](e);
       }
     })
+
+
     // window.addEventListener('mousemove', (e: any) => {
 
 

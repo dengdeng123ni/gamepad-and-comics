@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { ContextMenuEventService } from 'src/app/library/public-api';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
@@ -24,16 +24,6 @@ interface Item {
   styleUrls: ['./chapter-list-mode2.component.scss']
 })
 export class ChapterListMode2Component {
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.key == "Meta") this._ctrl = true;
-    if (event.key == "Control") this._ctrl = true;
-  }
-  @HostListener('window:keyup', ['$event'])
-  handleKeyUp(event: KeyboardEvent) {
-    if (event.key == "Meta") this._ctrl = false;
-    if (event.key == "Control") this._ctrl = false;
-  }
   // abbreviated list
   _ctrl = false;
 

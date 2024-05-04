@@ -149,7 +149,6 @@ let is=false;
     },1000)
   }else{
     is=true;
-
     chrome.tabs.query({}, function (tabs) {
       const list = tabs.filter(x => x.url== url);
       if (list.length == 0) {
@@ -158,13 +157,12 @@ let is=false;
           url: url
         }, (tab) => {
           data.push({ tab: tab, data: message })
-          setTimeout(()=>{is=false;},300)
+
         })
       }else{
         for (let index = 0; index < list.length; index++) {
           chrome.tabs.sendMessage(list[index].id, message);
         }
-        setTimeout(()=>{is=false;},300)
       }
     });
 

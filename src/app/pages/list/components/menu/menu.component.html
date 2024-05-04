@@ -34,7 +34,7 @@
       <mat-divider style="margin: 8px 16px;"></mat-divider>
     </div>
     <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
-      <button style="margin-top: 4px;" mat-button class="item" [attr.select]="true" [attr.region]="'menu_item'"
+      <button style="margin-top: 4px;" mat-button class="item" [attr.region]="'menu_item'"
         (click)="on($event,n)">
         <mat-icon class="icon">{{n.icon}}</mat-icon>
         <div class="name">

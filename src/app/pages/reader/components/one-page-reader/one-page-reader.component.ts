@@ -15,18 +15,6 @@ declare const Swiper: any;
 })
 export class OnePageReaderComponent {
   swiper = null;
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key == "ArrowRight") this.current._pageNext();
-    if (event.key == "ArrowLeft") this.current._pagePrevious();
-    if (event.key == "c") this.pageToggle();
-    // if (event.key == "v") this.firstPageToggle();
-    if (event.code == "Space") {
-      this.swiper.slideNext();
-      return false
-    }
-    return true
-  }
   @HostListener('window:keyup', ['$event'])
   handleKeyUp = (event: KeyboardEvent) => {
   }
