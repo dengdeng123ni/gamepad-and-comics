@@ -29,23 +29,9 @@ export class DoublePageReaderV2Component {
 
   ) {
     KeyboardEvent.registerAreaEvent('double_page_reader', {
-      "space": () => {
-        this.GamepadInput.down$.next("A")
-      },
+
       "c": () => {
         this.GamepadInput.down$.next("X")
-      },
-      "ArrowLeft": () => {
-        this.GamepadInput.down$.next("LEFT")
-      },
-      "ArrowRight": () => {
-        this.GamepadInput.down$.next("RIGHT")
-      },
-      "ArrowUp": () => {
-        this.GamepadInput.down$.next("UP")
-      },
-      "ArrowDown": () => {
-        this.GamepadInput.down$.next("DOWN")
       },
 
     })

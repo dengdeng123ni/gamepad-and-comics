@@ -8,7 +8,7 @@
     <app-image [objectFit]="'cover'" loading="lazy" [width]="250" [height]="400" [src]="info.cover" alt="" />
   </div>
   <div class="info">
-    <div class="title" [attr.size]="info.title.length>35" [attr.href]="info.href" (click)="on($event)">{{info.title}}</div>
+    <div class="title" [attr.size]="info.title.length>20" [attr.href]="info.href" (click)="on($event)">{{info.title}}</div>
     <div class="author" (click)="on($event)">
       <div class="item" *ngFor="let item of info.author" (click)="on($event)">
         <span class="name" [attr.href]="item.href">{{item.name}}</span>

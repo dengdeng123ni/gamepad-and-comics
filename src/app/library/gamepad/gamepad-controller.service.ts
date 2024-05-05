@@ -27,7 +27,7 @@ export class GamepadControllerService {
     public ContextMenuController: ContextMenuControllerService,
     public GamepadSound: GamepadSoundService,
     public GamepadVoice: GamepadVoiceService,
-    public KeyboardEvent:KeyboardEventService,
+    public KeyboardEvent: KeyboardEventService,
     private zone: NgZone,
     private router: Router
   ) {
@@ -45,8 +45,9 @@ export class GamepadControllerService {
     window.addEventListener('keyup', (event) => {
       console.log(event.key);
 
-      if(event.code=="Space") this.device2("space")
-      else this.device2(event.key)
+      if (event.code == "Space") this.device2("space",event)
+      else this.device2(event.key,event)
+
     });
     this.GamepadInput.down().subscribe((x: string) => {
 
@@ -86,6 +87,33 @@ export class GamepadControllerService {
       "a": () => this.GamepadInput.down$.next("LEFT"),
       "u": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
       "i": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
+      "[": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
+      "]": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
+      "<": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
+      ">": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
+      "Alt": () => {
+        this.GamepadInput.down$.next("Y")
+      },
+      "space": () => {
+        this.GamepadInput.down$.next("A")
+      },
+      "Enter": () => {
+        this.GamepadInput.down$.next("A")
+      },
+      "Escape": () => { this.GamepadInput.down$.next("B") },
+      "Shift": () => { this.GamepadInput.down$.next("X") },
+      "ArrowLeft": () => {
+        this.GamepadInput.down$.next("LEFT")
+      },
+      "ArrowRight": () => {
+        this.GamepadInput.down$.next("RIGHT")
+      },
+      "ArrowUp": () => {
+        this.GamepadInput.down$.next("UP")
+      },
+      "ArrowDown": () => {
+        this.GamepadInput.down$.next("DOWN")
+      },
     })
     this.GamepadEvent.registerGlobalEvent({
       "A": () => this.leftKey(),
@@ -182,7 +210,7 @@ export class GamepadControllerService {
     if (!this.current) return
     this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
   }
-  device2(input: string) {
+  device2(input: string,event) {
 
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
@@ -195,14 +223,18 @@ export class GamepadControllerService {
       if (this.Y) {
         if (this.KeyboardEvent.areaEventsY[region]?.[input]) {
           this.KeyboardEvent.areaEventsY[region][input](this.nodes[this.current.index]);
+          event.stopPropagation();
         } else if (this.KeyboardEvent.globalEventsY[input]) {
           this.KeyboardEvent.globalEventsY[input](this.nodes[this.current.index]);
+          event.stopPropagation();
         }
       } else {
         if (this.KeyboardEvent.areaEvents[region]?.[input]) {
           this.KeyboardEvent.areaEvents[region][input](this.nodes[this.current.index]);
+          event.stopPropagation();
         } else if (this.KeyboardEvent.globalEvents[input]) {
           this.KeyboardEvent.globalEvents[input](this.nodes[this.current.index]);
+          event.stopPropagation();
         }
       }
     })
