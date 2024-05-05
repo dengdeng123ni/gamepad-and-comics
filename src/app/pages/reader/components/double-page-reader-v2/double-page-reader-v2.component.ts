@@ -54,6 +54,9 @@ export class DoublePageReaderV2Component {
       "A": () => {
         this.current._pageNext();
       },
+      "B": () => {
+       window.history.back()
+      },
     })
 
     // GamepadEvent.registerAreaEventY('double_page_reader', {
@@ -209,6 +212,7 @@ export class DoublePageReaderV2Component {
         const id = await this.current._getNextChapterId();
         this.addNextSlide(id, list, 0);
         return
+
       } else {
         this.addNextSlide(this.data.chapter_id, this.data.pages, index)
       }

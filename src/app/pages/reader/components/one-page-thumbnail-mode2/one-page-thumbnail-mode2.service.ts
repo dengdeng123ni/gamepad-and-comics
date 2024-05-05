@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { GamepadEventService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OnePageThumbnailMode2Service {
   constructor(
+     public GamepadEvent: GamepadEventService
   ) {
+    GamepadEvent.registerAreaEvent('thumbnail_sidebar_left', {
+      B: () => setTimeout(() => this.close())
+    })
+    GamepadEvent.registerConfig('thumbnail_sidebar_left', {
+      region: ['one_page_thumbnail_mode2'],
+    });
   }
 
   opened=false;

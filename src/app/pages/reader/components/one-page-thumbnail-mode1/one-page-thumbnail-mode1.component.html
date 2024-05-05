@@ -1,14 +1,14 @@
-<div class="list opacity-0" id="one_page_thumbnail_mode1">
+<div class="list opacity-0" id="one_page">
   <button
     mat-button
     *ngFor="let n of pages; let index = index"
     (click)="on(index)"
     class="item"
     tabIndex="1"
-    [attr._id]="'one_page_thumbnail_mode1_' + index"
+    [attr._id]="'one_page_item_' + index"
     [attr.select]="index == page_index ? true : false"
-    [attr.region]="'one_page_thumbnail_mode1'"
-    [attr.content_menu_key]="'one_page_thumbnail_mode1'"
+    [attr.region]="'one_page_item'"
+    [attr.content_menu_key]="'one_page_item'"
     [attr.content_menu_value]="n.id"
     [class]="index == page_index ? 'select' : ''"
   >

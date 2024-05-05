@@ -37,8 +37,8 @@ export class OnePageThumbnailMode1Component {
     this.zone.run(() => {
       setTimeout(()=>{
         if (this.data.page_index || this.page_index === 0) {
-          let container = document.querySelector("#one_page_thumbnail_mode1") as any;
-          let node = document.querySelector(`[_id=one_page_thumbnail_mode1_${this.page_index}]`);
+          let container = document.querySelector("#one_page") as any;
+          let node = document.querySelector(`[_id=one_page_item_${this.page_index}]`);
           let observer = new IntersectionObserver(
             changes => {
               changes.forEach(x => {

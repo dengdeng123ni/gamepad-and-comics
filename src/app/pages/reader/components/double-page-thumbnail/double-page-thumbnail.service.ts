@@ -21,6 +21,9 @@ export class DoublePageThumbnailService {
     GamepadEvent.registerAreaEvent('double_page_thumbnail_item',{
       B:()=>setTimeout(()=>this.close())
     })
+    GamepadEvent.registerConfig('double_page_thumbnail_item', {
+      region: ['chapter_item'],
+    });
   }
   open(data?: DialogData) {
     if (this.opened == false) {

@@ -2,7 +2,7 @@
 <div class="multipy">
   <div class="list" *ngFor="let c of lists;let c_index=index">
     <div class="title" style="color:rgba(255,255,255,.34)">{{c.name}}</div>
-    <button [attr.region]="'comics_option'" mat-button *ngFor="let n of c.tag;let n_index=index"  (click)="on($event,c,c_index)" class="item" [attr.select]="n.index==c.index"  [attr.current]="n.index==c.index">
+    <button [attr.region]="'comics_option'" mat-button *ngFor="let n of c.tag;let n_index=index"  (click)="on($event,c,c_index)" class="item"  [attr.current]="n.index==c.index">
       {{n.name}}
     </button>
   </div>
