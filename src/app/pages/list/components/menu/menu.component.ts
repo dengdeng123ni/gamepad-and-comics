@@ -8,7 +8,7 @@ import { AppDataService, ContextMenuControllerService, ContextMenuEventService, 
 import { LocalCachService } from './local-cach.service';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
 import { SettingsService } from '../../settings/settings.service';
 import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.service';
 declare const window: any;
@@ -24,6 +24,8 @@ export class MenuComponent {
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
 
+
+  current_menu_id=null;
   on($event, data, parent: any = {}) {
 
     if(parent.id) this.AppData.setOrigin(parent.id)
@@ -63,8 +65,34 @@ export class MenuComponent {
     public PulgJavascript:PulgJavascriptService,
     public ContextMenuController:ContextMenuControllerService,
     public ContextMenuEvent:ContextMenuEventService,
+    public route:ActivatedRoute,
     private zone: NgZone
   ) {
+    router.events.subscribe((event) => {
+      console.log(event);
+
+      if (event instanceof NavigationStart) {
+
+      }
+      if (event instanceof NavigationEnd) {
+        const arr=window.location.pathname.split("/");
+        if(arr[1]=="history") this.current_menu_id=`${arr[2]}_${arr[1]}`
+        if(arr[1]=="choice") this.current_menu_id=`${arr[2]}_${arr[3]}`
+        if(arr[1]=="multipy") this.current_menu_id=`${arr[2]}_${arr[3]}`
+        if(arr[1]=="search") this.current_menu_id=`${arr[2]}_${arr[1]}`
+        if(arr[1]=="local_cache") this.current_menu_id="cached"
+
+      }
+
+
+
+      // if(event instanceof N)
+    })
+    const arr=window.location.pathname.split("/");
+    if(arr[1]=="history") this.current_menu_id=`${arr[2]}_${arr[1]}`
+    if(arr[1]=="choice") this.current_menu_id=`${arr[2]}_${arr[3]}`
+    if(arr[1]=="multipy") this.current_menu_id=`${arr[2]}_${arr[3]}`
+    if(arr[1]=="local_cache") this.current_menu_id="cached"
 
     if (this.data.menu.length == 0) {
       Object.keys(this.DbEvent.Events).forEach(x => {

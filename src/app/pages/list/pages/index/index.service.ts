@@ -21,7 +21,7 @@ export class IndexService {
     ) {
 
 
-    GamepadEvent.registerConfig("list", { region: ["comics_item","comics_option"] })
+    GamepadEvent.registerConfig("list", { region: ["comics_item","comics_option","menu_item"] })
     GamepadEvent.registerConfig("comics_type", { region: ["comics_type_item"] })
 
     GamepadEvent.registerAreaEvent("menu",{

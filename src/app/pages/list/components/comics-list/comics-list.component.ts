@@ -23,6 +23,25 @@ interface Item {
 
 export class ComicsListComponent {
   @Input() key: string = '';
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key == "z" || this._ctrl) {
+      this.selectedAll();
+      return false
+    }
+    if (event.key == "Meta") this._ctrl = true;
+    if (event.key == "Control") this._ctrl = true;
+
+    return true
+  }
+  // selectedAll
+  @HostListener('window:keyup', ['$event'])
+  handleKeyUp(event: KeyboardEvent) {
+
+    if (event.key == "Meta") this._ctrl = false;
+    if (event.key == "Control") this._ctrl = false;
+    return true
+  }
   @ViewChild('list') ListNode: ElementRef;
   _ctrl = false;
   page_num=1;

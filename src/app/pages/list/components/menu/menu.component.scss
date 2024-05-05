@@ -38,6 +38,7 @@
   // color: rgba(255, 255, 255, .87);
 }
 
+
 .item1 {
   margin-left: 20px;
   width: calc(100% - 30px);
@@ -112,6 +113,9 @@
 }
 
 [selected=true] {
+  background: rgba(255, 255, 255, .1);
+}
+[select=true] {
   background: rgba(255, 255, 255, .1);
 }
 

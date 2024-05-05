@@ -32,6 +32,9 @@ export class DoublePageReaderV2Component {
       "space": () => {
         this.GamepadInput.down$.next("A")
       },
+      "c": () => {
+        this.GamepadInput.down$.next("X")
+      },
       "ArrowLeft": () => {
         this.GamepadInput.down$.next("LEFT")
       },

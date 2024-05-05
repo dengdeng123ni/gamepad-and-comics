@@ -56,10 +56,7 @@ export class GamepadSoundService {
   device(input: string, node: HTMLElement, region: string, index: number) {
      try {
       if (index == this.index && (input == "UP" || input == "RIGHT" || input == "DOWN" || input == "LEFT")) {
-        if ("reader_mode_1" == region) this.obj[input]();
-        if ("reader_mode_2" == region) this.obj[input]();
-        if ("reader_mode_3" == region) this.obj[input]();
-        if ("reader_mode_4" == region) this.obj[input]();
+        this.obj[input]();
       } else {
         if ((input == "RIGHT_BUMPER" || input == "LEFT_BUMPER")) {
           this.obj[input]();
