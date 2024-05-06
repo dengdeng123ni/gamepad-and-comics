@@ -121,6 +121,8 @@
 
 .list {
   min-width: 240px;
+  height: calc(100% - 40px);
+  overflow: auto;
   margin: 2.5vh 0;
   // margin-left: 2.5vh;
 }
