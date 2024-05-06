@@ -95,7 +95,6 @@ export class DbControllerService {
         }
         res.option = { origin: option.origin };
         this.details[id] = JSON.parse(JSON.stringify(res));
-        console.log(res);
 
         return res
       }
@@ -244,7 +243,6 @@ export class DbControllerService {
           }
         }
         const res = await caches.match(url);
-        console.log(res);
 
         if (res) {
           const blob = await res.blob()

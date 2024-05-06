@@ -34,7 +34,7 @@ window.addEventListener("message", async function (e) {
 
 
   if (e.data && e.data.type == "pulg_proxy_request") {
-    // console.log(e.data);
+    // e.data);
     await chrome.runtime.sendMessage(e.data);
 
   }

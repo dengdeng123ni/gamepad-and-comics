@@ -46,7 +46,6 @@ export class WebFileService {
 
   }
   async post(path, blob): Promise<boolean> {
-    console.log(path);
     try {
       const obj = this.paths.find(x => x.path == path)
       if (!obj) {
@@ -85,7 +84,6 @@ export class WebFileService {
       }
       return true
     } catch (error) {
-      console.log(path);
       return false
 
     }

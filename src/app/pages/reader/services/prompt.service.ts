@@ -16,8 +16,6 @@ export class PromptService {
     public i18n: I18nService
   ) {
     current.pageStatu$.subscribe(x => {
-      console.log(x);
-
       // if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
       if (x == "page_first") this._snackBar.open("第一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
       if (x == "page_last") this._snackBar.open("最后一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });

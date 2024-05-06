@@ -17,8 +17,6 @@ export class CanvasImage1Component {
   }
 
   async init() {
-    console.log(this.height);
-
 
     const start_height = this.index * this.height;
     const end_height = (this.index + 1) * this.height;

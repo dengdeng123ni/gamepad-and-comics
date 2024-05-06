@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(
       request.type = "proxy_response";
       sendMessageToTargetContentScript(request, request.proxy_response_website_url)
     } else if (request.type == "pulg_proxy_request") {
-      console.log(request);
+      request);
       if (request.http.option.body) request.http.option.body = await stringToReadStream(request.http.option.body);
       const rsponse = await fetch(request.http.url, request.http.option)
       const data = await readStreamToString(rsponse.body)

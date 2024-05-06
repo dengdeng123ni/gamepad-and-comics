@@ -80,8 +80,6 @@ export class ChapterListMode1Component {
         // { name: "delete", id: "delete" },
       ]
     })
-    console.log(this.data.chapters);
-
     if (this.data.chapters[0].cover) this.pattern = 'image';
     else if (this.data.chapters[0].title) this.pattern = 'title';
     else this.pattern = 'index';

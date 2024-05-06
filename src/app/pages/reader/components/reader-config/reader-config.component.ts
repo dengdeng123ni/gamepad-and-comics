@@ -8,7 +8,6 @@ import { DataService } from '../../services/data.service';
 })
 export class ReaderConfigComponent {
   constructor(public data:DataService){
-console.log(data);
 
   }
   change(e){

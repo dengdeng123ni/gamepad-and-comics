@@ -248,8 +248,6 @@ export class DbEventService {
         var doc = parser.parseFromString(text, 'text/html');
 
         let data = [];
-        console.log(doc.querySelectorAll(".padding5 img"));
-
         let nodes = doc.querySelectorAll(".padding5 img")
         for (let index = 0; index < nodes.length; index++) {
           let obj = {
@@ -263,12 +261,10 @@ export class DbEventService {
           obj["src"] = `${nodes[index].src}`
           data.push(obj)
         }
-        console.log(data);
 
         return data
       },
       Image: async (id) => {
-        console.log(id);
 
         const getImageUrl = async (id) => {
           const res = await window._gh_fetch(id, {
