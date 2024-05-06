@@ -24,8 +24,15 @@ export class ComicsDetailComponent {
   async init() {
 
   }
-  on(e){
+  on2(e){
     window.open(e,'_blank')
+  }
+  on(e){
+    if(e?.srcElement?.getAttribute('href')){
+      window.open(e?.srcElement?.getAttribute('href'),'_blank')
+    }else{
+
+    }
   }
   back() {
     this.router.navigate(['/'])

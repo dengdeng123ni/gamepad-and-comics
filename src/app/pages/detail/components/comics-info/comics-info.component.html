@@ -4,7 +4,7 @@
     <button mat-button [attr.region]="'continue'" id="continue" [attr.select]="true"  [attr.default]="true" [disabled]="!info.title" (click)="continue()" cdkFocusInitial>继续</button>
     <!-- matTooltipPosition="below" [matTooltipShowDelay]="i18n.tooltipShowDelay" [matTooltip]="info.chapter.title"  -->
   </div>
-  <div class="img" [attr.href]="info.href" (click)="on($event)">
+  <div class="img"  (click)="continue()">
     <app-image [objectFit]="'cover'" loading="lazy" [width]="250" [height]="400" [src]="info.cover" alt="" />
   </div>
   <div class="info">

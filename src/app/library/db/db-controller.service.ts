@@ -71,34 +71,32 @@ export class DbControllerService {
       if (this.details[id]) {
         return JSON.parse(JSON.stringify(this.details[id]))
       } else {
+        let res;
         if (config.is_cache) {
-          let res: any = await firstValueFrom(this.webDb.getByID('details', id))
-
+           res = await firstValueFrom(this.webDb.getByID('details', id))
           if (res) {
-            this.details[id] = JSON.parse(JSON.stringify(res));
-            res.option = { origin: option.origin }
-            return res
-          }
-        }
-        let res = await this.DbEvent.Events[option.origin]["Detail"](id);
-        if (config.is_cache) {
-          const utf8_to_b64 = (str: string) => {
-            return window.btoa(encodeURIComponent(str));
+
+          }else{
+            res = await this.DbEvent.Events[option.origin]["Detail"](id);
+            firstValueFrom(this.webDb.update('details', res))
           }
           this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
           res.cover = `http://localhost:7700/${config.name}/comics/${res.id}`;
           res.chapters.forEach(x => {
             this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
-            x.cover = `http://localhost:7700/${config.name}/chapter/${res.id}/${x.id}`;
+            if(x.cover) x.cover = `http://localhost:7700/${config.name}/chapter/${res.id}/${x.id}`;
           })
-
-          firstValueFrom(this.webDb.update('details', res))
+        }else{
+          res = await this.DbEvent.Events[option.origin]["Detail"](id);
         }
+
         if (!Array.isArray(res.author)) {
           res.author = [{ name: res.author }]
         }
         res.option = { origin: option.origin };
         this.details[id] = JSON.parse(JSON.stringify(res));
+        console.log(res);
+
         return res
       }
     } else {
@@ -118,28 +116,25 @@ export class DbControllerService {
       if (this.pages[id]) {
         return JSON.parse(JSON.stringify(this.pages[id]))
       } else {
+        let res;
         if (config.is_cache) {
-          let res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
+          res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
           if (res) {
-            this.pages[id] = JSON.parse(JSON.stringify(res.data));
-            return res.data
+            res = res.data;
+          }else{
+            res = await this.DbEvent.Events[option.origin]["Pages"](id);
+            firstValueFrom(this.webDb.update('pages', res))
           }
-        }
-        let res = await this.DbEvent.Events[option.origin]["Pages"](id);
-        if (config.is_cache) {
           res.forEach((x, i) => {
             this.image_url[`${config.name}_page_${id}_${i}`] = x.src;
             x.src = `http://localhost:7700/${config.name}/page/${id}/${i}`;
-            x.index = i;
           })
-          if (res.length) {
-            firstValueFrom(this.webDb.update('pages', { id: id, data: res }))
-          }
-        } else {
-          res.forEach((x, i) => {
-            x.index = i;
-          })
+        }else{
+          res= await this.DbEvent.Events[option.origin]["Pages"](id);
         }
+        res.forEach((x, i) => {
+          x.index = i;
+        })
         this.pages[id] = JSON.parse(JSON.stringify(res));
         return res
       }
@@ -149,12 +144,12 @@ export class DbControllerService {
   }
   isConditionMet = false;
   async waitForCondition(): Promise<boolean> {
-    if(!this.isConditionMet) {
-      this.isConditionMet=true;
+    if (!this.isConditionMet) {
+      this.isConditionMet = true;
       return true
     }
     return new Promise((r, j) => {
-      const get=()=>{
+      const get = () => {
         setTimeout(() => {
           if (!this.isConditionMet) r(true)
           else get()
@@ -194,7 +189,7 @@ export class DbControllerService {
                 resc.forEach((x, i) => {
                   this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
                 })
-                this.isConditionMet=false;
+                this.isConditionMet = false;
                 return this.image_url[`${name}_page_${chapter_id}_${index}`];
               }
             } else if (type == "comics") {
@@ -209,7 +204,7 @@ export class DbControllerService {
                 res.chapters.forEach(x => {
                   this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
                 })
-                this.isConditionMet=false;
+                this.isConditionMet = false;
                 return this.image_url[`${name}_comics_${comics_id}`];
               }
             } else if (type == "chapter") {
@@ -226,7 +221,7 @@ export class DbControllerService {
                 res.chapters.forEach(x => {
                   this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
                 })
-                this.isConditionMet=false;
+                this.isConditionMet = false;
                 return this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
               }
             } else {
@@ -249,6 +244,8 @@ export class DbControllerService {
           }
         }
         const res = await caches.match(url);
+        console.log(res);
+
         if (res) {
           const blob = await res.blob()
           if (blob.size < 1000) {

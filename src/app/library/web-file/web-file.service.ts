@@ -46,6 +46,7 @@ export class WebFileService {
 
   }
   async post(path, blob): Promise<boolean> {
+    console.log(path);
     try {
       const obj = this.paths.find(x => x.path == path)
       if (!obj) {
@@ -112,7 +113,7 @@ export class WebFileService {
     if (!this.dirHandle) await this.open();
 
     const toTitle = (title) => {
-      return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').trim()
+      return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').replace(/[\'\"\\\/\b\f\n\r\t]/g, '').replace(/[\@\#\$\%\^\&\*\{\}\:\"\L\<\>\?]/).trim()
     }
     let { chapters, title, option: config } = await this.DbController.getDetail(comics_id)
 
