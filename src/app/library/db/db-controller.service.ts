@@ -73,20 +73,20 @@ export class DbControllerService {
       } else {
         let res;
         if (config.is_cache) {
-           res = await firstValueFrom(this.webDb.getByID('details', id))
+          res = await firstValueFrom(this.webDb.getByID('details', id))
           if (res) {
 
-          }else{
+          } else {
             res = await this.DbEvent.Events[option.origin]["Detail"](id);
             firstValueFrom(this.webDb.update('details', res))
           }
-          this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
+          if (res.cover.substring(0, 4) == "http") this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
           res.cover = `http://localhost:7700/${config.name}/comics/${res.id}`;
           res.chapters.forEach(x => {
-            this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
-            if(x.cover) x.cover = `http://localhost:7700/${config.name}/chapter/${res.id}/${x.id}`;
+            if (x.cover.substring(0, 4) == "http") this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
+            if (x.cover) x.cover = `http://localhost:7700/${config.name}/chapter/${res.id}/${x.id}`;
           })
-        }else{
+        } else {
           res = await this.DbEvent.Events[option.origin]["Detail"](id);
         }
 
@@ -120,16 +120,16 @@ export class DbControllerService {
           res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
           if (res) {
             res = res.data;
-          }else{
+          } else {
             res = await this.DbEvent.Events[option.origin]["Pages"](id);
             firstValueFrom(this.webDb.update('pages', res))
           }
           res.forEach((x, i) => {
-            this.image_url[`${config.name}_page_${id}_${i}`] = x.src;
+            if (x.src.substring(0, 4) == "http") this.image_url[`${config.name}_page_${id}_${i}`] = x.src;
             x.src = `http://localhost:7700/${config.name}/page/${id}/${i}`;
           })
-        }else{
-          res= await this.DbEvent.Events[option.origin]["Pages"](id);
+        } else {
+          res = await this.DbEvent.Events[option.origin]["Pages"](id);
         }
         res.forEach((x, i) => {
           x.index = i;

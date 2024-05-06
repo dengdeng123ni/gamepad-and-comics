@@ -15,6 +15,7 @@ import { DoublePageThumbnailComponent } from './components/double-page-thumbnail
 import { UnlockComponent } from './components/unlock/unlock.component';
 import { ComicsOffprintDetailComponent } from './components/comics-offprint-detail/comics-offprint-detail.component';
 import { ComicsOffprintThumbnailComponent } from './components/comics-offprint-thumbnail/comics-offprint-thumbnail.component';
+import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ComicsOffprintThumbnailComponent } from './components/comics-offprint-t
     DoublePageThumbnailComponent,
     UnlockComponent,
     ComicsOffprintDetailComponent,
-    ComicsOffprintThumbnailComponent
+    ComicsOffprintThumbnailComponent,
+    IndexToolbarComponent
   ],
   imports: [
     CommonModule,

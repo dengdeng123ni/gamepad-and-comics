@@ -16,6 +16,7 @@ import { ComicsCustomChoiceComponent } from './components/comics-custom-choice/c
 import { ComicsCustomMultipyComponent } from './components/comics-custom-multipy/comics-custom-multipy.component';
 import { SettingsComponent } from './settings/settings.component';
 import { PulgJavascriptComponent } from './components/pulg-javascript/pulg-javascript.component';
+import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -33,7 +34,8 @@ import { PulgJavascriptComponent } from './components/pulg-javascript/pulg-javas
     ComicsCustomChoiceComponent,
     ComicsCustomMultipyComponent,
     SettingsComponent,
-    PulgJavascriptComponent
+    PulgJavascriptComponent,
+    IndexToolbarComponent
   ],
   imports: [
     CommonModule,
