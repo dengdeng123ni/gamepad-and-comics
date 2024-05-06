@@ -661,7 +661,7 @@ window._gh_register({
       obj.author = [{name:nodes2[0].textContent,href:nodes2[0].parentNode.href}];
     } else {
       for (let index = 0; index < nodes.length; index++) {
-        obj.styles.push({ name: nodes[index].textContent, href: nodes1[index]?.parentNode?.href })
+        obj.styles.push({ name: nodes[index].textContent, href: nodes[index]?.parentNode?.href })
       }
       obj.author = [{name:nodes1[0].textContent,href:nodes1[0].parentNode.href}];
     }
