@@ -4,7 +4,7 @@
     <button [attr.region]="'comics_option'" mat-button *ngFor="let n of list;let index=index"
       class="item"
       [attr._id]="n.index"
-      [attr.select]="false"
+      [attr.selected]="default_index==index"
       [attr.current]="false"
       (click)="on(index)"
       >

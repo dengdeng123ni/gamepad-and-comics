@@ -38,7 +38,6 @@ export class ComicsCustomChoiceComponent {
       const obj = this.DbEvent.Configs[id].menu.find(x => x.id == sid);
       this.list = obj.query.list;
       this.name = obj.query.name;
-
       this.default_index = 0;
       const e = this.list[this.default_index];
       this.option = {
