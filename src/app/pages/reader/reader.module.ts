@@ -29,6 +29,8 @@ import { ReaderConfigComponent } from './components/reader-config/reader-config.
 import { LoadingCoverComponent } from './components/loading-cover/loading-cover.component';
 import { ComicsDetailComponent } from './components/comics-detail/comics-detail.component';
 import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard-toolbar.component';
+import { OnePageReaderV2Component } from './components/one-page-reader-v2/one-page-reader-v2.component';
+import { OnePageReaderV2DefaultComponent } from './components/one-page-reader-v2-default/one-page-reader-v2-default.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard
     LoadingCoverComponent,
     KeyboardToolbarComponent,
     ComicsDetailComponent,
+    OnePageReaderV2Component,
+    OnePageReaderV2DefaultComponent,
   ],
   imports: [
     CommonModule,

@@ -1,22 +1,19 @@
-
 import { Component, HostListener } from '@angular/core';
-import { GamepadInputService, ImageService, KeyboardEventService, PagesItem } from 'src/app/library/public-api';
+import { ImageService, GamepadEventService, GamepadControllerService, GamepadInputService, KeyboardEventService, PagesItem } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
-import { GamepadControllerService } from 'src/app/library/gamepad/gamepad-controller.service';
-import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
-// import Swiper from 'swiper';
 declare const Swiper: any;
 @Component({
-  selector: 'app-double-page-reader-v2-default',
-  templateUrl: './double-page-reader-v2-default.component.html',
-  styleUrls: ['./double-page-reader-v2-default.component.scss']
+  selector: 'app-one-page-reader-v2-default',
+  templateUrl: './one-page-reader-v2-default.component.html',
+  styleUrl: './one-page-reader-v2-default.component.scss'
 })
-export class DoublePageReaderV2DefaultComponent {
+export class OnePageReaderV2DefaultComponent {
+
   swiper = null;
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight * 2}px`);
+    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight}px`);
   }
   change$;
   event$;
@@ -128,7 +125,7 @@ export class DoublePageReaderV2DefaultComponent {
 
     this.init();
 
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight * 2}px`);
+    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight}px`);
   }
   firstPageToggle() {
     this.is_first_page_cover = !this.is_first_page_cover;
@@ -264,7 +261,7 @@ export class DoublePageReaderV2DefaultComponent {
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
       const obj = await this.isWideImage(list[index], list[index + 1]);
-      if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
+      obj.secondary = undefined;
       if (this.isPageFirst) {
         this.isPageFirst = false;
         if (this.is_first_page_cover == true && index == 0) {
@@ -291,10 +288,7 @@ export class DoublePageReaderV2DefaultComponent {
     const res = await getNextPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
-    if (res.primary.start) current = current + `<img style="opacity: 0;width:50%"  src="${res.primary.src}" />`;
-    if (res.primary.src) current = current + `<img  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: right;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
-    if (res.secondary.src) current = current + `<img style="width: 50%;height: auto;object-fit: contain;object-position: left;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
-    if (res.primary.end) current = current + `<img style="opacity: 0;width:50%"  src="${res.primary.src}" />`;
+    if (res.primary.src) current = current + `<img  style="width:100%;height: auto;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     this.objNextHtml[`${chapter_id}_${index}`] = current;
     this.appendSlide(current)
   }
@@ -309,7 +303,7 @@ export class DoublePageReaderV2DefaultComponent {
       }
       const obj = await this.isWideImage(list[index], list[index - 1]);
       if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
-      if (index == 0) obj.secondary = undefined;
+      obj.secondary = undefined;
 
       if (index >= (total - 1) && !obj.secondary) {
         if (obj.primary.width < obj.primary.height) page.primary.end = true;
@@ -324,10 +318,8 @@ export class DoublePageReaderV2DefaultComponent {
     const res = await getPreviousPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
-    if (res.primary.start) current = current + `<img style="opacity: 0;width50%"  src="${res.primary.src}" />`;
-    if (res.secondary.src) current = current + `<img style="width: 50%;height: auto;object-fit: contain;object-position: right;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
-    if (res.primary.src) current = current + `<img  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: left;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`
-    if (res.primary.end) current = current + `<img style="opacity: 0;width50%" src="${res.primary.src}" />`;
+
+    if (res.primary.src) current = current + `<img  style="width:100%;height: auto;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     this.objPreviousHtml[`${chapter_id}_${index}`] = current;
     this.prependSlide(current)
   }
@@ -382,23 +374,12 @@ export class DoublePageReaderV2DefaultComponent {
   }
 
   ngAfterViewInit() {
-    this.swiper = new Swiper(".mySwiper5", {
+    this.swiper = new Swiper(".mySwiper7", {
       mousewheel: {
         thresholdDelta: 20,
         forceToAxis: false,
         thresholdTime: 500,
-      },
-      grabCursor: true,
-      effect: "creative",
-      creativeEffect: {
-        prev: {
-          shadow: true,
-          translate: ["-20%", 0, -1],
-        },
-        next: {
-          translate: ["100%", 0, 0],
-        },
-      },
+      }
     });
     // this.swiper.stop
     this.swiper.on('slidePrevTransitionEnd', () => {

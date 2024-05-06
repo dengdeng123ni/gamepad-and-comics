@@ -80,10 +80,10 @@ export class DbControllerService {
             res = await this.DbEvent.Events[option.origin]["Detail"](id);
             firstValueFrom(this.webDb.update('details', res))
           }
-          if (res.cover.substring(0, 4) == "http") this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
+          if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
           res.cover = `http://localhost:7700/${config.name}/comics/${res.id}`;
           res.chapters.forEach(x => {
-            if (x.cover.substring(0, 4) == "http") this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
+            if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
             if (x.cover) x.cover = `http://localhost:7700/${config.name}/chapter/${res.id}/${x.id}`;
           })
         } else {
@@ -122,7 +122,7 @@ export class DbControllerService {
             res = res.data;
           } else {
             res = await this.DbEvent.Events[option.origin]["Pages"](id);
-            firstValueFrom(this.webDb.update('pages', res))
+            firstValueFrom(this.webDb.update('pages', {id,data:res}))
           }
           res.forEach((x, i) => {
             if (x.src.substring(0, 4) == "http") this.image_url[`${config.name}_page_${id}_${i}`] = x.src;
