@@ -8,7 +8,9 @@ body[pattern=gamepad][locked_region=menu],
 body[pattern=gamepad][locked_region=one_page_mode1],
 body[pattern=gamepad][locked_region=comics_type],
 body[pattern=gamepad][locked_region=thumbnail_sidebar_left],
-body[pattern=gamepad][locked_region=one_page_mode3]
+body[pattern=gamepad][locked_region=one_page_mode3],
+body[pattern=gamepad][locked_region=kyboard_toolbar]
+
 {
   [region=one_page_item][select=true],
   [region=comics_option][select=true],
@@ -22,7 +24,8 @@ body[pattern=gamepad][locked_region=one_page_mode3]
   [region=menu_item][select=true],
   [region=comics_type_item][select=true],
   [region=one_page_thumbnail_mode2][select=true],
-  [region=one_page_thumbnail_mode3][select=true]
+  [region=one_page_thumbnail_mode3][select=true],
+  [region=kyboard_toolbar_item][select=true]
 
 
 

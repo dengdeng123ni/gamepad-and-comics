@@ -8,10 +8,12 @@ import { IndexService } from './index.service';
 import { ChaptersListService } from '../../components/chapters-list/chapters-list.service';
 import { ToolbarOptionService } from '../../components/toolbar-option/toolbar-option.service';
 import { CustomGridService } from '../../components/custom-grid/custom-grid.service';
-import { HistoryService } from 'src/app/library/public-api';
+import { HistoryService, KeyboardEventService } from 'src/app/library/public-api';
 import { LoadingCoverService } from '../../components/loading-cover/loading-cover.service';
 import { ReaderConfigService } from '../../components/reader-config/reader-config.service';
 import { ComicsDetailService } from '../../components/comics-detail/comics-detail.service';
+import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
+import { PromptService } from '../../services/prompt.service';
 
 @Component({
   selector: 'app-index',
@@ -31,8 +33,19 @@ export class IndexComponent {
     public CustomGrid: CustomGridService,
     public LoadingCover:LoadingCoverService,
     public ReaderConfig:ReaderConfigService,
-    public ComicsDetail:ComicsDetailService
+    public ComicsDetail:ComicsDetailService,
+    public KeyboardToolbar:KeyboardToolbarService,
+    public KeyboardEvent:KeyboardEventService,
+    public Prompt:PromptService
   ) {
+    //
+    this.KeyboardEvent.registerGlobalEvent({
+      "p":()=>this.KeyboardToolbar.isToggle()
+    })
+    // space
+    // setTimeout(()=>{
+    //   KeyboardToolbar.open()
+    // },1000)
     document.body.setAttribute("router", "reader")
     document.body.setAttribute("locked_region", "reader")
 

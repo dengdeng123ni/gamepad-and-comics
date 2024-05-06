@@ -141,7 +141,6 @@ export class OnePageReaderComponent {
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const list = await this.current._getChapter(chapter_id);
     this.current._change('changePage', {
-      pages: list,
       chapter_id: chapter_id,
       page_index: index,
       trigger: 'double_page_reader_v2'

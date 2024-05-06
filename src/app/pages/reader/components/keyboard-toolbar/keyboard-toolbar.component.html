@@ -1,0 +1,34 @@
+<div class="warp">
+  <div class="list" (click)="close()">
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="togglePage2()">
+          <mat-icon *ngIf="false">radio_button_unchecked</mat-icon>
+        <mat-icon *ngIf="true">radio_button_checked</mat-icon>
+    </button>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="chaptersThumbnail.open()">
+      <mat-icon>subject</mat-icon>
+    </button>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="togglePage()">
+      <mat-icon>swap_horiz</mat-icon>
+    </button>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="doublePageThumbnail.open()">
+      <mat-icon>grid_view</mat-icon>
+    </button>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="true" cdkFocusInitial class="item" (click)="back()">
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="onePageThumbnailMode3.open()">
+      <mat-icon>view_comfy</mat-icon>
+      <!-- <mat-icon>swap_horiz</mat-icon> -->
+    </button>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="OpenComicsDetail()">
+        <mat-icon>info</mat-icon>
+    </button>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="openReaderSettings($event)">
+      <mat-icon>settings</mat-icon>
+    </button>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="isFullChange()">
+      <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
+        <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
+    </button>
+  </div>
+</div>

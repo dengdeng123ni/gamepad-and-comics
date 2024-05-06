@@ -21,7 +21,7 @@ export class CurrentService {
     public webDb: NgxIndexedDBService,
     public image: ImageService,
     public _http: MessageFetchService,
-    public history: HistoryService
+    public history: HistoryService,
   ) {
     this.reader_mode_change$.subscribe(x => {
       if (this.reader_modes.includes(x)) this.data.comics_config.reader_mode = x;
@@ -29,7 +29,22 @@ export class CurrentService {
       if (this.data.comics_config.reader_mode == "double_page_reader") this.data.comics_config.is_double_page = true;
       else this.data.comics_config.is_double_page = false;
     })
+    this.change$.subscribe(e => {
+      const index = this.data.chapters.findIndex(x => x.id == e.chapter_id)
+      if (index == 0) {
+        if (e.page_index == 0) this.pageStatu$.next("page_first")
+      }
+      if (index == this.data.chapters.length - 1) {
+        if (e.page_index == e.pages.length - 2) this.pageStatu$.next("page_last")
+      }
 
+      if (e.type == "changeChapter") {
+       this.pageStatu$.next("chapter")
+      }
+      if (e.type == "changePage") {
+        this.pageStatu$.next("page")
+       }
+    })
   }
 
 
@@ -44,27 +59,20 @@ export class CurrentService {
     chapter_id?: string,
     trigger?: string
   }>();
-
+  // ['page_last','page','page_first','chapter_first','chapter_last']
+  // ['page_last','page','page_first','chapter_first','chapter_last']
+  public pageStatu$ = new Subject<string>();
   public init$ = new Subject<any>();
 
-  public imageReadingTime$ = new Subject<any>();
-
-  public comicsLast$ = new Subject();
-  public comicsFirst$ = new Subject();
-
-  public pageFirstBefore$ = new Subject<void>();
-  public pageLastAfter$ = new Subject<void>();
-
-  public chapterEnd$ = new Subject();
-  public chapterStart$ = new Subject();
 
 
 
-  public switch$ = new Subject();
+
+
   public readerNavbarBar$ = new Subject();
+  public switch$ = new Subject<any>();
+  public reader_mode_change$ = new Subject<any>();
 
-
-  public reader_mode_change$ = new Subject<string>();
 
   public event$ = new Subject<{ key: string, value: any }>();
 
@@ -82,19 +90,6 @@ export class CurrentService {
   }
   public init() {
     return this.init$
-  }
-
-  public comicsLast() {
-    return this.comicsLast$
-  }
-  public comicsFirst() {
-    return this.comicsFirst$
-  }
-  public chapterEnd() {
-    return this.chapterEnd$
-  }
-  public chapterStart() {
-    return this.chapterStart$
   }
 
   public change() {
@@ -161,7 +156,7 @@ export class CurrentService {
       const id = obj.id;
       return await this._setChapter(id);
     } else {
-      this.pageLastAfter$.next();
+      this.pageStatu$.next('chapter_first');
     }
   }
 
@@ -172,7 +167,7 @@ export class CurrentService {
       const id = obj.id;
       return await this._setChapter(id);
     } else {
-      this.pageFirstBefore$.next();
+      this.pageStatu$.next('chapter_last');
     }
   }
 
@@ -258,25 +253,25 @@ export class CurrentService {
   }
 
   async _pageNext() {
-    this._change("nextPage", { pages: this.data.pages, page_index: this.data.page_index, chapter_id: this.data.chapter_id })
+    this._change("nextPage", { page_index: this.data.page_index, chapter_id: this.data.chapter_id })
   }
 
   async _pagePrevious() {
-    this._change("previousPage", { pages: this.data.pages, page_index: this.data.page_index, chapter_id: this.data.chapter_id })
+    this._change("previousPage", { page_index: this.data.page_index, chapter_id: this.data.chapter_id })
   }
 
   async _chapterPageChange(chapter_id: string, page_index: number) {
     const pages = await this._setChapter(chapter_id);
-    this._change('changeChapter', { chapter_id, pages, page_index })
+    this._change('changeChapter', { chapter_id, page_index })
   }
   async _chapterChange(chapter_id: string) {
     const pages = await this._setChapter(chapter_id);
     let page_index = await this._getChapterIndex(chapter_id);
     if (pages.length - 2 < page_index) page_index = 0;
-    this._change('changeChapter', { chapter_id, pages, page_index })
+    this._change('changeChapter', { chapter_id, page_index })
   }
   async _pageChange(page_index: number) {
-    this._change('changePage', { chapter_id: this.data.chapter_id, pages: this.data.pages, page_index })
+    this._change('changePage', { chapter_id: this.data.chapter_id, page_index })
   }
 
   async _getChapterIndex(id: string): Promise<number> {
@@ -496,16 +491,15 @@ export class CurrentService {
     return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
   }
   async _change(type: string, option: {
-    pages: Array<PagesItem>,
     page_index: number,
     chapter_id: string,
     trigger?: string
   }) {
-    if(!option.chapter_id) return
+    if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
-
+    const pages = await this._getChapter(option.chapter_id)
     this.data.page_index = option.page_index;
-    this.data.pages = option.pages;
+    this.data.pages = pages;
     if (!!option.chapter_id) {
       this.data.chapter_id = option.chapter_id;
       history.replaceState(null, "", `${this.data.comics_id}/${this.data.chapter_id}`);
@@ -517,7 +511,7 @@ export class CurrentService {
     }
     this._updateChapterRead(this.data.chapter_id);
     const types = ['initPage', 'closePage', 'changePage', 'nextPage', 'previousPage', 'nextChapter', 'previousChapter', 'changeChapter'];
-    this.change$.next({ ...option, type })
+    this.change$.next({ ...option, pages, type })
   }
 
   close() {

@@ -67,13 +67,11 @@ export class IndexService {
       } else {
         if (x < innerWidth / 2) {
           this.current._change('previousPage', {
-            pages: this.data.pages,
             page_index: this.data.page_index,
             chapter_id: this.data.chapter_id,
           });
         } else {
           this.current._change('nextPage', {
-            pages: this.data.pages,
             page_index: this.data.page_index,
             chapter_id: this.data.chapter_id,
           });

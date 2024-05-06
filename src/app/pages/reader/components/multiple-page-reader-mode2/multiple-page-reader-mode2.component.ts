@@ -111,7 +111,7 @@ export class MultiplePageReaderMode2Component {
             var container = change.target;
             const id = container.getAttribute('chapter_id');
             const index = parseInt(container.getAttribute('index'));
-            this.current._change('changePage', { pages: this.data.pages, chapter_id: id, page_index: index, trigger: "up_down_page_reader" })
+            this.current._change('changePage', { chapter_id: id, page_index: index, trigger: "up_down_page_reader" })
           } else {
             var container = change.target;
             const id = parseInt(container.getAttribute('id'));

@@ -28,6 +28,7 @@ import { DoublePageReaderV2DefaultComponent } from './components/double-page-rea
 import { ReaderConfigComponent } from './components/reader-config/reader-config.component';
 import { LoadingCoverComponent } from './components/loading-cover/loading-cover.component';
 import { ComicsDetailComponent } from './components/comics-detail/comics-detail.component';
+import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ComicsDetailComponent } from './components/comics-detail/comics-detail.
     DoublePageReaderV2DefaultComponent,
     ReaderConfigComponent,
     LoadingCoverComponent,
-    ComicsDetailComponent
+    KeyboardToolbarComponent,
+    ComicsDetailComponent,
   ],
   imports: [
     CommonModule,

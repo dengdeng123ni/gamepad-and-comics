@@ -40,13 +40,15 @@ export class GamepadControllerService {
     //   }, 3000);
     // });
     window.addEventListener('keydown', (event) => {
-
+      event.stopPropagation();
+      return true
     });
     window.addEventListener('keyup', (event) => {
-      console.log(event.key);
 
       if (event.code == "Space") this.device2("space",event)
       else this.device2(event.key,event)
+
+      return true
 
     });
     this.GamepadInput.down().subscribe((x: string) => {
@@ -333,6 +335,7 @@ export class GamepadControllerService {
       this.setDefaultRegion();
       return
     }
+console.log(region);
 
     this.nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
 
