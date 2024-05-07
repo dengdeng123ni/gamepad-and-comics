@@ -102,6 +102,7 @@ export class GamepadControllerService {
       "Enter": () => {
         this.GamepadInput.down$.next("A")
       },
+      "l": () => { this.GamepadInput.down$.next("B") },
       "Escape": () => { this.GamepadInput.down$.next("B") },
       "Shift": () => { this.GamepadInput.down$.next("X") },
       "ArrowLeft": () => {

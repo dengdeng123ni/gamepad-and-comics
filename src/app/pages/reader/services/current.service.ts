@@ -26,8 +26,8 @@ export class CurrentService {
     this.reader_mode_change$.subscribe(x => {
       if (this.reader_modes.includes(x)) this.data.comics_config.reader_mode = x;
       else this.data.comics_config.reader_mode = "double_page_reader";
-      if (this.data.comics_config.reader_mode == "double_page_reader") this.data.comics_config.is_double_page = true;
-      else this.data.comics_config.is_double_page = false;
+      // if (this.data.comics_config.reader_mode == "double_page_reader") this.data.comics_config.is_double_page = true;
+      // else this.data.comics_config.is_double_page = false;
     })
     this.change$.subscribe(e => {
       const index = this.data.chapters.findIndex(x => x.id == e.chapter_id)
