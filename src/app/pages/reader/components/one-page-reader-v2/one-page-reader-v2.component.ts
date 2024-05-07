@@ -13,7 +13,7 @@ export class OnePageReaderV2Component {
   swiper = null;
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight}px`);
+    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 353) * window.innerHeight}px`);
   }
   change$;
   event$;
@@ -125,7 +125,7 @@ export class OnePageReaderV2Component {
 
     this.init();
 
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight}px`);
+    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 353) * window.innerHeight}px`);
   }
   firstPageToggle() {
     this.is_first_page_cover = !this.is_first_page_cover;

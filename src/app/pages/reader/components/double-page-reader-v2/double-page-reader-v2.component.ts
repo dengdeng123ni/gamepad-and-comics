@@ -13,7 +13,7 @@ export class DoublePageReaderV2Component {
   swiper = null;
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 375) * window.innerHeight * 2}px`);
+    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 353) * window.innerHeight * 2}px`);
   }
   change$;
   event$;
