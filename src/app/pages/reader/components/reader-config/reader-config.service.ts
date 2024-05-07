@@ -13,9 +13,12 @@ export class ReaderConfigService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('_reader_config_item',{
+    GamepadEvent.registerAreaEvent('reader_config_item',{
       B:()=>setTimeout(()=>this.close())
     })
+    GamepadEvent.registerConfig('reader_config', {
+      region: ['reader_config_item'],
+    });
   }
   open(position?) {
     if (this.opened == false) {
@@ -26,9 +29,9 @@ export class ReaderConfigService {
         backdropClass:"_reader_config_bg",
         position
       });
-      document.body.setAttribute("locked_region", "_reader_config")
+      document.body.setAttribute("locked_region", "reader_config")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "_reader_config" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "reader_config" && this.opened) document.body.setAttribute("locked_region", "reader")
         this.opened = false;
       });
     }

@@ -12,7 +12,7 @@
     >
       <div *ngIf="n.images.length == 2" class="double">
         <div class="img">
-          <img
+          <app-image
             [src]="n.images[0].img"
             [width]="n.images[0].width"
             loading="lazy"
@@ -22,7 +22,7 @@
           <div class="index">{{ n.images[0].index }}</div>
         </div>
         <div class="img">
-          <img
+          <app-image
             [src]="n.images[1].img"
             [width]="n.images[1].width"
             loading="lazy"
@@ -39,7 +39,7 @@
         [attr.first]="index == 0"
       >
         <div class="img">
-          <img
+          <app-image
             [src]="n.images[0].img"
             [width]="n.images[0].width"
             loading="lazy"

@@ -298,6 +298,7 @@ export class DbEventService {
     else this.Events[key] = events;
     if (this.Events[key]) this.Configs[key] = { ...this.Configs[key], ...config };
     else this.Configs[key] = config;
+console.log(this.Configs[key]);
 
     this.change$.next(config)
   }

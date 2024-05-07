@@ -51,8 +51,8 @@ export class DbControllerService {
     if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["List"]) {
       let res = await this.DbEvent.Events[option.origin]["List"](obj);
       res.forEach(x => {
-        this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
-        x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;
+        this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
+        x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
       })
       res.option = { origin: option.origin }
       return res
@@ -80,11 +80,11 @@ export class DbControllerService {
             res = await this.DbEvent.Events[option.origin]["Detail"](id);
             firstValueFrom(this.webDb.update('details', res))
           }
-          if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
-          res.cover = `http://localhost:7700/${config.name}/comics/${res.id}`;
+          if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+          res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
           res.chapters.forEach(x => {
-            if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
-            if (x.cover) x.cover = `http://localhost:7700/${config.name}/chapter/${res.id}/${x.id}`;
+            if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+            if (x.cover) x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
           })
         } else {
           res = await this.DbEvent.Events[option.origin]["Detail"](id);
@@ -125,8 +125,8 @@ export class DbControllerService {
             firstValueFrom(this.webDb.update('pages', {id,data:res}))
           }
           res.forEach((x, i) => {
-            if (x.src.substring(0, 4) == "http") this.image_url[`${config.name}_page_${id}_${i}`] = x.src;
-            x.src = `http://localhost:7700/${config.name}/page/${id}/${i}`;
+            if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
+            x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
           })
         } else {
           res = await this.DbEvent.Events[option.origin]["Pages"](id);
@@ -199,9 +199,9 @@ export class DbControllerService {
               } else {
                 await this.waitForCondition()
                 let res = await this.DbEvent.Events[option.origin]["Detail"](comics_id);
-                this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
+                this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                 res.chapters.forEach(x => {
-                  this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
+                  this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
                 })
                 this.isConditionMet = false;
                 return this.image_url[`${name}_comics_${comics_id}`];
@@ -216,9 +216,9 @@ export class DbControllerService {
               } else {
                 await this.waitForCondition()
                 let res = await this.DbEvent.Events[option.origin]["Detail"](comics_id);
-                this.image_url[`${config.name}_comics_${res.id}`] = res.cover;
+                this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                 res.chapters.forEach(x => {
-                  this.image_url[`${config.name}_chapter_${res.id}_${x.id}`] = x.cover;
+                  this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
                 })
                 this.isConditionMet = false;
                 return this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
@@ -273,8 +273,8 @@ export class DbControllerService {
     if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["Search"]) {
       let res = await this.DbEvent.Events[option.origin]["Search"](obj);
       res.forEach(x => {
-        this.image_url[`${config.name}_comics_${x.id}`] = x.cover;
-        x.cover = `http://localhost:7700/${config.name}/comics/${x.id}`;
+        this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
+        x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
       })
       return res
     } else {

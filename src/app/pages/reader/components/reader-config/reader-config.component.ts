@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { CurrentService } from '../../services/current.service';
 
 @Component({
   selector: 'app-reader-config',
@@ -7,7 +8,7 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./reader-config.component.scss']
 })
 export class ReaderConfigComponent {
-  constructor(public data:DataService){
+  constructor(public data:DataService,public current:CurrentService){
 
   }
   change(e){
@@ -24,4 +25,7 @@ export class ReaderConfigComponent {
   // is_page_order = true;
 
   //
+  ngOnDestroy() {
+    this.current._setWebDbComicsConfig(this.data.comics_id);
+  }
 }
