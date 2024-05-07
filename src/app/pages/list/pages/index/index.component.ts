@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
-import { AppDataService } from 'src/app/library/public-api';
+import { AppDataService, KeyboardEventService } from 'src/app/library/public-api';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
 import { IndexService } from './index.service';
 import { MenuService } from '../../components/menu/menu.service';
 import { map } from 'rxjs';
-import { DownloadOptionService } from '../../components/download-option/download-option.service';
+import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 
 @Component({
   selector: 'app-index',
@@ -24,9 +24,14 @@ export class IndexComponent {
     public GamepadEvent:GamepadEventService,
     public menu:MenuService,
     public router:Router,
-    public route: ActivatedRoute
-
-    ) {
+    public route: ActivatedRoute,
+    public KeyboardToolbar:KeyboardToolbarService,
+    public KeyboardEvent:KeyboardEventService,
+  ) {
+    //
+    this.KeyboardEvent.registerGlobalEvent({
+      "p":()=>this.KeyboardToolbar.isToggle()
+    })
       document.body.setAttribute("router", "list")
       document.body.setAttribute("locked_region", "list")
       // this.Current.init();

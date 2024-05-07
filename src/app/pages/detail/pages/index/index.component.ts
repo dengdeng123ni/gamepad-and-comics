@@ -4,7 +4,8 @@ import { DataService } from '../../services/data.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { IndexService } from './index.service';
-import { AppDataService } from 'src/app/library/public-api';
+import { AppDataService, KeyboardEventService } from 'src/app/library/public-api';
+import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 
 @Component({
   selector: 'app-index',
@@ -18,8 +19,14 @@ export class IndexComponent {
     public router: Router,
     public index:IndexService,
     public route: ActivatedRoute,
-    public AppData:AppDataService
+    public AppData:AppDataService,
+    public KeyboardToolbar:KeyboardToolbarService,
+    public KeyboardEvent:KeyboardEventService,
   ) {
+    //
+    this.KeyboardEvent.registerGlobalEvent({
+      "p":()=>this.KeyboardToolbar.isToggle()
+    })
 
 
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));

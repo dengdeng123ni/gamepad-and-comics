@@ -16,6 +16,7 @@ import { UnlockComponent } from './components/unlock/unlock.component';
 import { ComicsOffprintDetailComponent } from './components/comics-offprint-detail/comics-offprint-detail.component';
 import { ComicsOffprintThumbnailComponent } from './components/comics-offprint-thumbnail/comics-offprint-thumbnail.component';
 import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.component';
+import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard-toolbar.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.
     UnlockComponent,
     ComicsOffprintDetailComponent,
     ComicsOffprintThumbnailComponent,
-    IndexToolbarComponent
+    IndexToolbarComponent,
+    KeyboardToolbarComponent
   ],
   imports: [
     CommonModule,
