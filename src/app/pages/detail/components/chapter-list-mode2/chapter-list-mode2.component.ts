@@ -95,9 +95,6 @@ export class ChapterListMode2Component {
       })
       index = index + 50;
     }
-    console.log(this.list,this.tag);
-
-
     if (this.data.chapters[0].cover) this.pattern = 'title';
     else if (this.data.chapters[0].title) this.pattern = 'title';
     else this.pattern = 'index';

@@ -29,7 +29,6 @@ export class ComicsSearchComponent {
   ) {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get("id")));
     id$.subscribe(x => {
-      console.log(x);
 
       this.origin = x;
     })
@@ -41,8 +40,6 @@ export class ComicsSearchComponent {
         return list
       },
       Init: async (obj) => {
-        console.log(obj);
-
         this.obj = obj;
         return []
       }

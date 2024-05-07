@@ -1,7 +1,33 @@
 <div class="full_buttom">
   <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
     (click)="isFullChange()">
+    <mat-icon>help</mat-icon>
+  </button>
+
+  <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+    (click)="isFullChange()">
     <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
     <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
   </button>
+</div>
+<div class="full_buttom1" >
+<div  style="
+    min-width: 32px;
+    height: 72px;
+    max-width: 32px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+" (click)="on()" [attr.opened]="opened"
+      [matTooltipShowDelay]="300"
+      [matTooltip]="'打开侧边栏'"
+      [matTooltipPosition]="'right'"
+>
+  <div class="switch_left" >
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+</div>
 </div>

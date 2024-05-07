@@ -122,7 +122,7 @@ export class DbControllerService {
             res = res.data;
           } else {
             res = await this.DbEvent.Events[option.origin]["Pages"](id);
-            firstValueFrom(this.webDb.update('pages', {id,data:res}))
+            firstValueFrom(this.webDb.update('pages', {id,data: JSON.parse(JSON.stringify(res))}))
           }
           res.forEach((x, i) => {
             if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
@@ -230,6 +230,7 @@ export class DbControllerService {
           }
 
           const id1 = await getImageURL(url);
+
           const blob = await this.DbEvent.Events[option.origin]["Image"](id1)
           const response = new Response(blob);
           const request = new Request(url);

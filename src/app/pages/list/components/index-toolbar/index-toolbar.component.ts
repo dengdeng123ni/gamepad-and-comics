@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class IndexToolbarComponent {
   isfullscreen = !!document.fullscreenElement;
+  opened=false;
   isFullChange() {
     this.isfullscreen = !this.isfullscreen
     if (document.fullscreenElement) {
@@ -18,5 +19,9 @@ export class IndexToolbarComponent {
         document.documentElement.requestFullscreen();
       }
     }
+  }
+
+  on(){
+    this.opened=!this.opened;
   }
 }

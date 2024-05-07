@@ -36,7 +36,6 @@ export class GamepadVioceComponent {
       this.text = x.results[x.results.length - 1][0].transcript;
     })
     this.recognition$.pipe(debounceTime(50)).subscribe(x => {
-      console.log(this.text);
       this.gamepadvioce.init(this.text)
       setTimeout(() => {
         this.text = "";

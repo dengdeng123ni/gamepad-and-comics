@@ -39,7 +39,6 @@ export class CanvasImage1Component {
           const start_heightc = (this.index - 1) * this.height;
           const end_heightc = (this.index) * this.height;
           const h2 = end_heightc - (start_heightc + this.list[index - 1].height);
-          console.log(h2);
           return h2
         }
         const h3=bb();
