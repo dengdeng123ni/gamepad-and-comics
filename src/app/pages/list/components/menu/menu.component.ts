@@ -9,7 +9,6 @@ import { LocalCachService } from './local-cach.service';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
-import { SettingsService } from '../../settings/settings.service';
 import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 declare const window: any;
@@ -63,7 +62,6 @@ export class MenuComponent {
     public menu: MenuService,
     public router: Router,
     public pulg: PulgService,
-    public Settings:SettingsService,
     public PulgJavascript:PulgJavascriptService,
     public ContextMenuController:ContextMenuControllerService,
     public ContextMenuEvent:ContextMenuEventService,
