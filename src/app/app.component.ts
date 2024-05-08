@@ -64,8 +64,6 @@ export class AppComponent {
         if (event.key == "Tab") {
           this.is_tab = true;
           return true
-        }else{
-
         }
         return bool
       } else {

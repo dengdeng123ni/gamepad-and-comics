@@ -38,6 +38,11 @@ export class IndexComponent {
     public KeyboardEvent: KeyboardEventService,
     public Prompt: PromptService
   ) {
+    // Tab 控制
+    // 键盘 控制
+    // 手柄事件
+    // 鼠标事件
+    // 语音控制
     //
     this.KeyboardEvent.registerGlobalEvent({
       "p": () => this.KeyboardToolbar.isToggle(),
@@ -62,17 +67,9 @@ export class IndexComponent {
         this.current._init(params.get('id').toString() as string, params.get('id').toString() as string)
         return
       }
-
       this.data.init();
       this.current._init(params.get('id').toString() as string, params.get('sid').toString() as string)
     })
-
-
-    // this.current.init$.subscribe(x=>{
-    //   setTimeout(()=>{
-    //
-    //   },3000)
-    // })
   }
 
   on($event: MouseEvent) {
@@ -89,18 +86,6 @@ export class IndexComponent {
   }
 
   getIsImage() {
-    // setTimeout(()=>{
-    //   const nodes=document.querySelectorAll("#_reader_pages img")
-    //  if(nodes.length){
-    //   this.LoadingCover.close();
-
-    //  }else{
-    //   this.getIsImage();
-    //  }
-
-    // },30)
-    // console.log(nodes);
-
   }
 
 
