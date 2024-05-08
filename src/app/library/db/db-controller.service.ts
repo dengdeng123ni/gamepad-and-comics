@@ -75,17 +75,23 @@ export class DbControllerService {
         if (config.is_cache) {
           res = await firstValueFrom(this.webDb.getByID('details', id))
           if (res) {
-
+            if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+            res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
+            res.chapters.forEach(x => {
+              if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+              if (x.cover) x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+            })
           } else {
             res = await this.DbEvent.Events[option.origin]["Detail"](id);
-            firstValueFrom(this.webDb.update('details', res))
+            firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify(res))))
+            this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+            res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
+            res.chapters.forEach(x => {
+              this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+              if (x.cover) x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+            })
           }
-          if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-          res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
-          res.chapters.forEach(x => {
-            if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-            if (x.cover) x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
-          })
+
         } else {
           res = await this.DbEvent.Events[option.origin]["Detail"](id);
         }
@@ -148,7 +154,7 @@ export class DbControllerService {
   isConditionMet = false;
   async waitForCondition(): Promise<boolean> {
     if (!this.isConditionMet) {
-      this.isConditionMet = true;
+
       return true
     }
     return new Promise((r, j) => {
@@ -188,6 +194,7 @@ export class DbControllerService {
                 return url
               } else {
                 await this.waitForCondition()
+
                 let resc = await this.DbEvent.Events[option.origin]["Pages"](chapter_id);
                 resc.forEach((x, i) => {
                   this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;

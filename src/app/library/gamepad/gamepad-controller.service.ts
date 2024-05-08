@@ -39,18 +39,6 @@ export class GamepadControllerService {
     //     document.body.style.cursor = "none";
     //   }, 3000);
     // });
-    window.addEventListener('keydown', (event) => {
-      event.stopPropagation();
-      return true
-    });
-    window.addEventListener('keyup', (event) => {
-
-      if (event.code == "Space") this.device2("space",event)
-      else this.device2(event.key,event)
-
-      return true
-
-    });
     this.GamepadInput.down().subscribe((x: string) => {
 
       this.device(x);
@@ -81,6 +69,7 @@ export class GamepadControllerService {
       }
     })
     this.KeyboardEvent.registerGlobalEvent({
+      // "Tab": () => this.GamepadInput.down$.next("A"),
       "j": () => this.GamepadInput.down$.next("A"),
       "k": () => this.GamepadInput.down$.next("X"),
       "w": () => this.GamepadInput.down$.next("UP"),
@@ -96,14 +85,12 @@ export class GamepadControllerService {
       "Alt": () => {
         this.GamepadInput.down$.next("Y")
       },
-      "space": () => {
+      "Space": () => {
         this.GamepadInput.down$.next("A")
       },
-      "Enter": () => {
-        this.GamepadInput.down$.next("A")
-      },
-      "l": () => { this.GamepadInput.down$.next("B") },
+      "Enter": () => { this.GamepadInput.down$.next("A") },
       "Escape": () => { this.GamepadInput.down$.next("B") },
+      "End": () => { this.GamepadInput.down$.next("X") },
       "Shift": () => { this.GamepadInput.down$.next("X") },
       "ArrowLeft": () => {
         this.GamepadInput.down$.next("LEFT")
@@ -212,36 +199,30 @@ export class GamepadControllerService {
     if (!this.current) return
     this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
   }
-  device2(input: string,event) {
-
-    if (document.visibilityState === "hidden" || this.pause) return;
-    if (input === "Y") this.Y = true;
+  device2(input: string) {
     this.getCurrentTarget();
-
-    this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
     const region = this.current.region;
-
-    this.zone.run(() => {
-      if (this.Y) {
-        if (this.KeyboardEvent.areaEventsY[region]?.[input]) {
-          this.KeyboardEvent.areaEventsY[region][input](this.nodes[this.current.index]);
-          event.stopPropagation();
-        } else if (this.KeyboardEvent.globalEventsY[input]) {
-          this.KeyboardEvent.globalEventsY[input](this.nodes[this.current.index]);
-          event.stopPropagation();
-        }
+    if (this.Y) {
+      if (this.KeyboardEvent.areaEventsY[region]?.[input]) {
+        this.KeyboardEvent.areaEventsY[region][input](this.nodes[this.current.index]);
+        return false
+      } else if (this.KeyboardEvent.globalEventsY[input]) {
+        this.KeyboardEvent.globalEventsY[input](this.nodes[this.current.index]);
+        return false
       } else {
-        if (this.KeyboardEvent.areaEvents[region]?.[input]) {
-          this.KeyboardEvent.areaEvents[region][input](this.nodes[this.current.index]);
-          event.stopPropagation();
-        } else if (this.KeyboardEvent.globalEvents[input]) {
-          this.KeyboardEvent.globalEvents[input](this.nodes[this.current.index]);
-          event.stopPropagation();
-        }
+        return true
       }
-    })
-    if (!this.current) return
-    this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
+    } else {
+      if (this.KeyboardEvent.areaEvents[region]?.[input]) {
+        this.KeyboardEvent.areaEvents[region][input](this.nodes[this.current.index]);
+        return false
+      } else if (this.KeyboardEvent.globalEvents[input]) {
+        this.KeyboardEvent.globalEvents[input](this.nodes[this.current.index]);
+        return false
+      } else {
+        return true
+      }
+    }
   }
   setMoveTargetPrevious() {
     const node = this.getCurrentNode();

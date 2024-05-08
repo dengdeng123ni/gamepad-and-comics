@@ -31,16 +31,20 @@ export class IndexComponent {
     public index: IndexService,
     public ToolbarOption: ToolbarOptionService,
     public CustomGrid: CustomGridService,
-    public LoadingCover:LoadingCoverService,
-    public ReaderConfig:ReaderConfigService,
-    public ComicsDetail:ComicsDetailService,
-    public KeyboardToolbar:KeyboardToolbarService,
-    public KeyboardEvent:KeyboardEventService,
-    public Prompt:PromptService
+    public LoadingCover: LoadingCoverService,
+    public ReaderConfig: ReaderConfigService,
+    public ComicsDetail: ComicsDetailService,
+    public KeyboardToolbar: KeyboardToolbarService,
+    public KeyboardEvent: KeyboardEventService,
+    public Prompt: PromptService
   ) {
     //
     this.KeyboardEvent.registerGlobalEvent({
-      "p":()=>this.KeyboardToolbar.isToggle()
+      "p": () => this.KeyboardToolbar.isToggle(),
+
+    })
+    this.KeyboardEvent.registerAreaEvent("double_page_reader",{
+      "Tab": () => this.KeyboardToolbar.isToggle(),
     })
     // space
     // setTimeout(()=>{
@@ -77,14 +81,14 @@ export class IndexComponent {
   ngOnDestroy() {
     this.current.close();
   }
-  ngAfterViewInit(){
-this.getIsImage();
+  ngAfterViewInit() {
+    this.getIsImage();
   }
   close() {
 
   }
 
-  getIsImage(){
+  getIsImage() {
     // setTimeout(()=>{
     //   const nodes=document.querySelectorAll("#_reader_pages img")
     //  if(nodes.length){

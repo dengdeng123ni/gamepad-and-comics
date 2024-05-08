@@ -26,12 +26,12 @@ chrome.runtime.onMessage.addListener(
       res.type = "proxy_response";
       sendMessageToTargetContentScript(res, res.proxy_response_website_url)
     } else if (request.type == "page_load_complete") {
-      const index = data.filter(x=>x.tab).findIndex(x => x.tab.pendingUrl == request.url)
+      const index = data.findIndex(x => x.tab.pendingUrl == request.url)
       if (index > -1) {
         const obj = data[index];
         setTimeout(() => {
           if (obj.data && obj.data.type && "website_proxy_response_html" == obj.data.type) chrome.tabs.remove(obj.tab.id)
-        }, 3000)
+        }, 5000)
         chrome.tabs.sendMessage(obj.tab.id, obj.data);
         data = [];
       }
