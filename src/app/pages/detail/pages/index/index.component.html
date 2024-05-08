@@ -1,4 +1,4 @@
-<mat-drawer-container autosize [hasBackdrop]="false" *ngIf="data.is_init_free">
+<mat-drawer-container autosize [hasBackdrop]="false">
   <!-- <mat-drawer style="
   border: 1px solid;
   border-radius: 4px;
@@ -8,17 +8,11 @@
    <app-comics-info [info]="data.comics_info" (on_back)="back()" (on_continue)="continue()"></app-comics-info>
 </mat-drawer> -->
   <div class="container" (mouseleave)="mouseleave($event)" [attr.edit]="data.is_edit">
-    <app-comics-info></app-comics-info>
+    <app-comics-info  *ngIf="data.is_init_free"></app-comics-info>
     <div class="content">
       <app-edit-toolbar *ngIf="data.is_edit"></app-edit-toolbar>
-      <app-chapter-list-mode1></app-chapter-list-mode1>
+      <app-chapter-list-mode1  *ngIf="data.is_init_free"></app-chapter-list-mode1>
       <!-- <app-chapter-list-mode2></app-chapter-list-mode2> -->
-    </div>
-  </div>
-  <div class="container" (mouseleave)="mouseleave($event)" *ngIf="data.is_offprint" [attr.edit]="data.is_edit">
-    <div class="content">
-      <app-comics-offprint-detail style="width: 100%;height: 100%;"></app-comics-offprint-detail>
-      <app-comics-offprint-thumbnail style="width: 100%;height: 100%;"></app-comics-offprint-thumbnail>
     </div>
   </div>
   <app-index-toolbar></app-index-toolbar>

@@ -170,7 +170,7 @@
   }
 
 }
-[opened=false]:hover{
+[opened=true]:hover{
   .switch_left{
     .left {
       border-radius: 9999px;
@@ -183,7 +183,7 @@
     }
   }
 }
-[opened=true]{
+[opened=false]{
   .switch_left{
     .left {
       border-radius: 9999px;

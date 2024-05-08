@@ -290,7 +290,7 @@ export class OnePageReaderV2Component {
     const res = await getNextPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
-    if (res.primary.src) current = current + `<img  style="width:100%;height: auto;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.primary.src) current = current + `<img  style="width:100%;height: fit-content;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     this.objNextHtml[`${chapter_id}_${index}`] = current;
     this.prependSlide(current)
   }
@@ -320,7 +320,7 @@ export class OnePageReaderV2Component {
     const res = await getPreviousPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
-    if (res.primary.src) current = current + `<img  style="width:100%;height: auto;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.primary.src) current = current + `<img  style="width:100%;height: fit-content;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
 
     this.objPreviousHtml[`${chapter_id}_${index}`] = current;
     this.appendSlide(current)

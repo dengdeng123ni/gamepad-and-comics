@@ -45,6 +45,14 @@ export class IndexComponent {
       id$.subscribe((params:any) => {
 
       })
+
+     this.init();
+  }
+
+
+  async init(){
+    await this.menu.init();
+    this.data.is_init_free=true;
   }
 
   on_list($event:any) {
@@ -61,28 +69,29 @@ export class IndexComponent {
   }
 
   openedChange(bool){
-     if(bool){
-      document.body.setAttribute("locked_region", "menu")
-     }else{
-      if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region", "list")
-     }
+    //  if(bool){
+    //   document.body.setAttribute("locked_region", "menu")
+    //  }else{
+    //   if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region", "list")
+    //  }
+    this.menu.post()
   }
   mouseleave($event:MouseEvent){
-    if($event.offsetX>24) return
-    if($event.offsetX+24>window.innerHeight) return
-    if(($event.offsetX+13)>window.innerWidth){
+    // if($event.offsetX>24) return
+    // if($event.offsetX+24>window.innerHeight) return
+    // if(($event.offsetX+13)>window.innerWidth){
 
-    }else{
-      this.menu.opened=true;
-    }
+    // }else{
+    //   this.menu.opened=true;
+    // }
     // if($event.offsetX<window.innerWidth){
 
     // }
   }
   drawer_mouseleave($event:MouseEvent){
-    if($event.offsetX>240) {
-      this.menu.opened=false;
-    }
+    // if($event.offsetX>240) {
+    //   this.menu.opened=false;
+    // }
   }
   ngOnDestroy(){
 

@@ -1,15 +1,10 @@
-<mat-drawer-container autosize [hasBackdrop]="false">
+<mat-drawer-container autosize [hasBackdrop]="false" [mode]="'side'" *ngIf="data.is_init_free">
 
-  <!-- <mat-drawer style="
-    border: 1px solid;
-    border-radius: 4px;
-    border-color: #ffffff1f;
-    margin: 4px;
-    " [opened]="menu.opened" [autoFocus]="false" (openedChange)="openedChange($event)" (mouseleave)="drawer_mouseleave($event)" [mode]="data.left_drawer_mode" class="example-sidenav" mode="side">
+  <mat-drawer [opened]="menu.opened"  [autoFocus]="false" (openedChange)="openedChange($event)" class="example-sidenav" mode="side">
     <app-menu></app-menu>
-  </mat-drawer> -->
+  </mat-drawer>
   <div class="container" [attr.is_fixed]="false" [attr.edit]="data.is_edit">
-    <app-menu></app-menu>
+    <!-- <app-menu></app-menu> -->
     <div class="content" (mouseleave)="mouseleave($event)">
       <router-outlet></router-outlet>
       <app-index-toolbar></app-index-toolbar>

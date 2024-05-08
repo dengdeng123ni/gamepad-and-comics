@@ -11,6 +11,7 @@ import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
 import { SettingsService } from '../../settings/settings.service';
 import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.service';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -58,6 +59,7 @@ export class MenuComponent {
     public AppData: AppDataService,
     public DbEvent: DbEventService,
     public LocalCach: LocalCachService,
+    public webDb: NgxIndexedDBService,
     public menu: MenuService,
     public router: Router,
     public pulg: PulgService,
@@ -68,6 +70,8 @@ export class MenuComponent {
     public route:ActivatedRoute,
     private zone: NgZone
   ) {
+
+
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
 
@@ -194,6 +198,7 @@ export class MenuComponent {
      this.ContextMenuController.openMenu(node,p.left,p.top)
   }
   ngOnDestroy() {
+
     if(this.change$)this.change$.unsubscribe();
   }
   cc() {
