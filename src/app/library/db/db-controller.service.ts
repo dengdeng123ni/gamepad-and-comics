@@ -120,14 +120,18 @@ export class DbControllerService {
           res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
           if (res) {
             res = res.data;
+            res.forEach((x, i) => {
+              if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
+              x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
+            })
           } else {
             res = await this.DbEvent.Events[option.origin]["Pages"](id);
             firstValueFrom(this.webDb.update('pages', {id,data: JSON.parse(JSON.stringify(res))}))
+            res.forEach((x, i) => {
+              this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
+              x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
+            })
           }
-          res.forEach((x, i) => {
-            if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
-            x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
-          })
         } else {
           res = await this.DbEvent.Events[option.origin]["Pages"](id);
         }

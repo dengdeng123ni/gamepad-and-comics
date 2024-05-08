@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, NgZone, Output, ViewChild } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -44,16 +44,16 @@ export class ComicsListComponent {
   }
   @ViewChild('list') ListNode: ElementRef;
   _ctrl = false;
-  page_num=1;
-  page_size=5;
+  page_num = 1;
+  page_size = 5;
   constructor(
     public data: DataService,
     public current: CurrentService,
     public ContextMenuEvent: ContextMenuEventService,
     public router: Router,
     public WebFile: WebFileService,
-
-    public QueryController:QueryControllerService,
+    private zone: NgZone,
+    public QueryController: QueryControllerService,
     public route: ActivatedRoute,
   ) {
 
@@ -69,7 +69,7 @@ export class ComicsListComponent {
     })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(params => {
-      if(this.key)  this.init();
+      if (this.key) this.init();
     })
   }
   on($event: MouseEvent) {
@@ -91,7 +91,7 @@ export class ComicsListComponent {
       if (this.data.is_edit || this._ctrl) {
         this.data.list[index].selected = !this.data.list[index].selected;
       } else {
-        sessionStorage.setItem('list_url',window.location.href)
+        sessionStorage.setItem('list_url', window.location.href)
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
           this.current.routerReader(data.id)
@@ -121,11 +121,25 @@ export class ComicsListComponent {
     this.scroll$.pipe(throttleTime(300)).subscribe(e => {
       this.handleScroll(e);
     })
-   this.page_size = 20;
-   this.init();
+    this.page_size = 20;
+    this.init();
   }
-   async init(){
-    this.data.list=await this.QueryController.init(this.key,{page_num:this.page_num,page_size:this.page_size});
+  async init() {
+    this.data.list = await this.QueryController.init(this.key, { page_num: this.page_num, page_size: this.page_size });
+    this.overflow();
+  }
+  async overflow(){
+    this.zone.run(() => {
+      setTimeout(async () => {
+        const node = this.ListNode.nativeElement.querySelector(`[index='${this.data.list.length - 1}']`)
+        if(this.ListNode.nativeElement.clientHeight<node.getBoundingClientRect().y){
+
+        }else{
+          await this.add_pages();
+          this.overflow();
+        }
+      })
+    })
   }
   scroll$ = new Subject();
   getData() {
@@ -150,10 +164,10 @@ export class ComicsListComponent {
     this.scroll$.unsubscribe();
   }
   async add_pages() {
-   this.page_num++;
-    const list = await this.QueryController.add(this.key,{page_num:this.page_num,page_size:this.page_size})
+    this.page_num++;
+    const list = await this.QueryController.add(this.key, { page_num: this.page_num, page_size: this.page_size })
     if (list.length == 0) {
-     this.page_num--;
+      this.page_num--;
       return
     }
     this.data.list = [...this.data.list, ...list]
