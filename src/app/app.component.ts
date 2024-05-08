@@ -83,7 +83,14 @@ export class AppComponent {
     if (key == "Alt") this.GamepadController.Y = false;
   }
 
-
+    // Tab 控制
+    // 键盘 控制
+    // 手柄事件
+    // 鼠标事件
+    // 语音控制
+    // 事件列表 列出可以使用的函数
+    // 蓝牙
+    //
   constructor(
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,

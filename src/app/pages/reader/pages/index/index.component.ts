@@ -38,12 +38,7 @@ export class IndexComponent {
     public KeyboardEvent: KeyboardEventService,
     public Prompt: PromptService
   ) {
-    // Tab 控制
-    // 键盘 控制
-    // 手柄事件
-    // 鼠标事件
-    // 语音控制
-    //
+
     this.KeyboardEvent.registerGlobalEvent({
       "p": () => this.KeyboardToolbar.isToggle(),
 
