@@ -70,6 +70,7 @@ export class GamepadControllerService {
     })
     this.KeyboardEvent.registerGlobalEvent({
       // "Tab": () => this.GamepadInput.down$.next("A"),
+      "l": () => this.GamepadInput.down$.next("B"),
       "j": () => this.GamepadInput.down$.next("A"),
       "k": () => this.GamepadInput.down$.next("X"),
       "w": () => this.GamepadInput.down$.next("UP"),
