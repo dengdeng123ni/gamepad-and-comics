@@ -1,7 +1,6 @@
 import { Component, HostListener, Query } from '@angular/core';
 import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, MessageControllerService, MessageEventService, PulgService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
-import { GamepadLeftCircleToolbarService } from './library/event/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
@@ -95,7 +94,6 @@ export class AppComponent {
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,
     public MessageController: MessageControllerService,
-    public GamepadLeftCircleToolbar: GamepadLeftCircleToolbarService,
     public MessageEvent: MessageEventService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
@@ -105,9 +103,6 @@ export class AppComponent {
     public pulg: PulgService,
     public App: AppDataService
   ) {
-    GamepadEvent.registerGlobalEvent({
-      LEFT_ANALOG_PRESS: () => GamepadLeftCircleToolbar.isToggle()
-    })
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
       await DbController.getImage(data.id)

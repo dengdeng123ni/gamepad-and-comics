@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpClientModule } from '@angular/common/http';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
-import { GamepadLeftCircleToolbarComponent } from './library/event/gamepad-left-circle-toolbar/gamepad-left-circle-toolbar.component';
 import { GamepadVioceComponent } from './library/gamepad/gamepad-vioce/gamepad-vioce.component';
 import { MaterialModule } from './library/material.module';
 import { ContextMenuComponent } from './library/public-api';
@@ -154,8 +153,7 @@ const dbConfig: DBConfig = {
   declarations: [
     AppComponent,
     ContextMenuComponent,
-    GamepadVioceComponent,
-    GamepadLeftCircleToolbarComponent
+    GamepadVioceComponent
   ],
   imports: [
     BrowserModule,

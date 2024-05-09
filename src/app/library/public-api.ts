@@ -34,8 +34,6 @@ export * from './utils/utils.service'
 export * from './window/window-controller.service'
 export * from './window/window-event.service'
 
-export * from './event/event.service'
-
 export * from './query/query-controller.service'
 export * from './query/query-event.service'
 export * from './history/history.service'

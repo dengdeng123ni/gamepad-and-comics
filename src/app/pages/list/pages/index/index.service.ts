@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
-import { AppDataService, ContextMenuEventService, EventService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService } from 'src/app/library/public-api';
 import { MenuService } from '../../components/menu/menu.service';
 import { DownloadOptionService } from '../../components/download-option/download-option.service';
 import { LocalCachService } from '../../components/menu/local-cach.service';
@@ -13,7 +13,6 @@ export class IndexService {
   constructor(
     public GamepadEvent:GamepadEventService,
     public ContextMenuEvent: ContextMenuEventService,
-    public Event:EventService,
     public menu:MenuService,
     public AppData:AppDataService,
     public DownloadOption: DownloadOptionService,
@@ -27,18 +26,7 @@ export class IndexService {
     GamepadEvent.registerAreaEvent("menu",{
       B:()=>menu.close()
     })
-    Event.register('menu', {
-      name: "菜单",
-      icon: "menu",
-      router:"list",
-      event: () => this.menu.isToggle(),
-      shortcut_key:{
-        gamepad:{
-          position:"center",
-          index:1
-        }
-      }
-    })
+
     AppData.origin$.subscribe((x:any)=>{
       this.updateComicsItem(x)
     })
