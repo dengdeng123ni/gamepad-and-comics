@@ -17,6 +17,7 @@ import { ComicsCustomMultipyComponent } from './components/comics-custom-multipy
 import { PulgJavascriptComponent } from './components/pulg-javascript/pulg-javascript.component';
 import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.component';
 import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard-toolbar.component';
+import { ControllerSettingsComponent } from './components/controller-settings/controller-settings.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -35,7 +36,8 @@ import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard
     ComicsCustomMultipyComponent,
     PulgJavascriptComponent,
     IndexToolbarComponent,
-    KeyboardToolbarComponent
+    KeyboardToolbarComponent,
+    ControllerSettingsComponent
   ],
   imports: [
     CommonModule,
