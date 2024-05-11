@@ -1,7 +1,7 @@
 window._gh_register({
   id: "bilibili",
   name: "哔哩哔哩漫画",
-  menu:[
+  menu: [
     {
       id: 'search',
       icon: 'search',
@@ -307,7 +307,7 @@ window._gh_register({
   ],
   is_cache: true,
 }, {
-  List: async (obj) => {
+  getList: async (obj) => {
     let list = [];
     if (obj.menu_id == "type") {
       let data = {};
@@ -446,7 +446,7 @@ window._gh_register({
     }
     return list
   },
-  Detail: async (id) => {
+  getDetail: async (id) => {
     const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/ComicDetail?device=pc&platform=web", {
       "headers": {
         "accept": "application/json, text/plain, */*",
@@ -492,7 +492,7 @@ window._gh_register({
       chapter_id: x.read_epid
     }
   },
-  Pages: async (id) => {
+  getPages: async (id) => {
     const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/GetImageIndex?device=pc&platform=web", {
       "headers": {
         "accept": "application/json, text/plain, */*",
@@ -525,7 +525,7 @@ window._gh_register({
     }
     return data
   },
-  Image: async (id) => {
+  getImage: async (id) => {
     if (id.substring(0, 4) == "http") {
       const res = await window._gh_fetch(id, {
         method: "GET",
@@ -611,13 +611,13 @@ window._gh_register({
 window._gh_register({
   id: "hanime1",
   is_cache: true,
-  is_download:true
+  is_download: true
 }, {
-  List: async (obj) => {
+  getList: async (obj) => {
     let list = [];
     return list
   },
-  Detail: async (id) => {
+  getDetail: async (id) => {
     const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
       "headers": {
         "accept": "application/json, text/plain, */*",
@@ -635,7 +635,7 @@ window._gh_register({
       cover: "",
       title: "",
       author: "",
-      href:`https://hanime1.me/comic/${id}`,
+      href: `https://hanime1.me/comic/${id}`,
       author_href: "",
       intro: "",
       chapters: [
@@ -658,12 +658,12 @@ window._gh_register({
       for (let index = 0; index < nodes1.length; index++) {
         obj.styles.push({ name: nodes1[index].textContent, href: nodes1[index].parentNode.href })
       }
-      obj.author = [{name:nodes2[0].textContent,href:nodes2[0].parentNode.href}];
+      obj.author = [{ name: nodes2[0].textContent, href: nodes2[0].parentNode.href }];
     } else {
       for (let index = 0; index < nodes.length; index++) {
         obj.styles.push({ name: nodes[index].textContent, href: nodes[index]?.parentNode?.href })
       }
-      obj.author = [{name:nodes1[0].textContent,href:nodes1[0].parentNode.href}];
+      obj.author = [{ name: nodes1[0].textContent, href: nodes1[0].parentNode.href }];
     }
 
     obj.chapters.push({
@@ -673,7 +673,7 @@ window._gh_register({
     })
     return obj
   },
-  Pages: async (id) => {
+  getPages: async (id) => {
     const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
       "headers": {
         "accept": "application/json, text/plain, */*",
@@ -708,7 +708,7 @@ window._gh_register({
     }
     return data
   },
-  Image: async (id) => {
+  getImage: async (id) => {
     const getImageUrl = async (id) => {
       const res = await window._gh_fetch(id, {
         method: "GET",

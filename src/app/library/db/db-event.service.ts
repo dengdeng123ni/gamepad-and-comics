@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { MessageFetchService } from '../public-api';
 import { Subject } from 'rxjs';
 interface Events {
-  List: Function;
-  Detail: Function;
-  Pages: Function;
-  Image: Function;
+  getList: Function;
+  getDetail: Function;
+  getPages: Function;
+  getImage: Function;
   Search?: Function
 }
 interface Config {

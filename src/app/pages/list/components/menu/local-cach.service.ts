@@ -21,22 +21,22 @@ export class LocalCachService {
       id: "local_cache",
       is_download: true,
     }, {
-      List: async (obj: any) => {
+      getList: async (obj: any) => {
         const res = await firstValueFrom(this.webDb.getAll("local_comics"))
         const list = res.map((x: any) => {
           return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
         }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
         return list
       },
-      Detail: async (id: string) => {
+      getDetail: async (id: string) => {
         let res = (await firstValueFrom(this.webDb.getByID('local_comics', id.toString())) as any)
         return res
       },
-      Pages: async (id: string) => {
+      getPages: async (id: string) => {
         let res = (await firstValueFrom(this.webDb.getByID('local_pages', id.toString())) as any)
         return res.data
       },
-      Image: async (_id: string) => {
+      getImage: async (_id: string) => {
         const res = await caches.match(_id);
         const blob = await res.blob()
         return blob
