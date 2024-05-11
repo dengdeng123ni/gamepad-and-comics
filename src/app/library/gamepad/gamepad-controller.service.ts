@@ -68,7 +68,6 @@ export class GamepadControllerService {
       }
     })
     this.KeyboardEvent.registerGlobalEvent({
-      // "Tab": () => this.GamepadInput.down$.next("A"),
       "l": () => this.GamepadInput.down$.next("B"),
       "j": () => this.GamepadInput.down$.next("A"),
       "k": () => this.GamepadInput.down$.next("X"),
@@ -122,7 +121,6 @@ export class GamepadControllerService {
         this.isGamepadExplanationComponent = !this.isGamepadExplanationComponent;
       }
     })
-
     this.GamepadEvent.registerGlobalEventY({
       LEFT_BUMPER: () => {
         this.setMoveTargetFirst();

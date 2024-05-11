@@ -11,6 +11,7 @@ import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
 import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { ControllerSettingsService } from '../controller-settings/controller-settings.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -65,6 +66,7 @@ export class MenuComponent {
     public PulgJavascript:PulgJavascriptService,
     public ContextMenuController:ContextMenuControllerService,
     public ContextMenuEvent:ContextMenuEventService,
+    public ControllerSettings:ControllerSettingsService,
     public route:ActivatedRoute,
     private zone: NgZone
   ) {
@@ -184,7 +186,14 @@ export class MenuComponent {
           click:()=>{
             PulgJavascript.open()
           }
-        }
+        },
+        {
+          id:"ope",
+          name:"按键说明",
+          click:()=>{
+            ControllerSettings.open()
+          }
+        },
       ]
     })
 

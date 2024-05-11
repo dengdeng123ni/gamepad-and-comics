@@ -30,7 +30,6 @@ export class IndexComponent {
     public KeyboardEvent:KeyboardEventService,
     public ControllerSettings:ControllerSettingsService
   ) {
-    this.ControllerSettings.open();
     this.KeyboardEvent.registerGlobalEvent({
       "p":()=>this.KeyboardToolbar.isToggle()
     })
