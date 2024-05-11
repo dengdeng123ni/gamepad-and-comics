@@ -4,18 +4,26 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ApplicationEventService {
-  // public Events: { [key: string]: Events } = {};
+  //
+  public Events: { [key: string]: any } = {};
   constructor() {
     const config = {
-      id: "",
-      name: "",
-      type: "",
+      id: "gamepad_up",
+      name: "手柄按键[上]",
+      type: "gamepad",
       event: () => { }
     }
 
-    // 控制器事件
-    // 页面事件
-    // 全局事件
-    // ['controller','page','all']
+
+
+
+  }
+  register(option: {
+    id: string,
+    name: string,
+    type: '',
+    event: Function
+  }) {
+
   }
 }

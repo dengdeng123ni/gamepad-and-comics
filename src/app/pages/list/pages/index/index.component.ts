@@ -8,6 +8,7 @@ import { IndexService } from './index.service';
 import { MenuService } from '../../components/menu/menu.service';
 import { map } from 'rxjs';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
+import { ControllerSettingsService } from '../../components/controller-settings/controller-settings.service';
 
 @Component({
   selector: 'app-index',
@@ -27,8 +28,9 @@ export class IndexComponent {
     public route: ActivatedRoute,
     public KeyboardToolbar:KeyboardToolbarService,
     public KeyboardEvent:KeyboardEventService,
+    public ControllerSettings:ControllerSettingsService
   ) {
-    //
+    this.ControllerSettings.open();
     this.KeyboardEvent.registerGlobalEvent({
       "p":()=>this.KeyboardToolbar.isToggle()
     })

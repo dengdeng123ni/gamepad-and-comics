@@ -1,13 +1,8 @@
-// @ts-nocheck
 import { Injectable, NgZone } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { ContextMenuControllerService } from '../context-menu/context-menu-controller.service';
-import { GamepadEventService } from './gamepad-event.service';
-import { GamepadInputService } from './gamepad-input.service';
 import { Subject } from 'rxjs';
-import { GamepadSoundService } from './gamepad-sound.service';
-import { GamepadVoiceService } from './gamepad-voice.service';
-import { KeyboardEventService } from './keyboard-event.service';
+import { PageEventService } from './page-event.service';
 declare const document: any;
 // Define an enum to hold the possible directions
 // Define a type for the options object passed to scrollIntoView
@@ -19,127 +14,34 @@ type ScrollOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class GamepadControllerService {
+export class PageControllerService {
+
   constructor(
-    public GamepadInput: GamepadInputService,
-    public GamepadEvent: GamepadEventService,
+    public PageEvent:PageEventService,
     public ContextMenuController: ContextMenuControllerService,
-    public GamepadSound: GamepadSoundService,
-    public GamepadVoice: GamepadVoiceService,
-    public KeyboardEvent: KeyboardEventService,
     private zone: NgZone,
     private router: Router
   ) {
-    // let timer = null;
-    // document.addEventListener("mousemove", () => {
-    //   clearTimeout(timer);
-    //   document.body.style.cursor = "default";
-    //   timer = setTimeout(() => {
-    //     document.body.style.cursor = "none";
-    //   }, 3000);
-    // });
-    this.GamepadInput.down().subscribe((x: string) => {
-
-      this.device(x);
-    })
-    this.GamepadInput.up().subscribe((x: string) => {
-      if (x == "Y") this.Y = false;
-    })
-    this.GamepadInput.press().subscribe((e: string) => {
-      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER"].includes(e)) {
-        this.device(e);
-      }
-    });
     document.body.setAttribute("pattern", "gamepad")
     let config = {
-      attributes: true, //目标节点的属性变化
-      childList: false, //目标节点的子节点的新增和删除
-      characterData: false, //如果目标节点为characterData节点(一种抽象接口,具体可以为文本节点,注释节点,以及处理指令节点)时,也要观察该节点的文本内容是否发生变化
-      subtree: true, //目标节点所有后代节点的attributes、childList、characterData变化
+      attributes: true,
+      childList: false,
+      characterData: false,
+      subtree: true,
     };
 
     let observe = new MutationObserver(() => this.execute());
     observe.observe(document, config);
 
     this.router.events.subscribe((event) => {
-      // NavigationEnd,NavigationCancel,NavigationError,RoutesRecognized
       if (event instanceof NavigationStart) {
         this.current = null;
       }
     })
-    this.KeyboardEvent.registerGlobalEvent({
-      // "Tab": () => this.GamepadInput.down$.next("A"),
-      "l": () => this.GamepadInput.down$.next("B"),
-      "j": () => this.GamepadInput.down$.next("A"),
-      "k": () => this.GamepadInput.down$.next("X"),
-      "w": () => this.GamepadInput.down$.next("UP"),
-      "s": () => this.GamepadInput.down$.next("DOWN"),
-      "d": () => this.GamepadInput.down$.next("RIGHT"),
-      "a": () => this.GamepadInput.down$.next("LEFT"),
-      "u": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-      "i": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-      "[": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-      "]": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-      "<": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-      ">": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-      "Alt": () => {
-        this.GamepadInput.down$.next("Y")
-      },
-      "Space": () => {
-        this.GamepadInput.down$.next("A")
-      },
-      "Enter": () => { this.GamepadInput.down$.next("A") },
-      "Escape": () => { this.GamepadInput.down$.next("B") },
-      "End": () => { this.GamepadInput.down$.next("X") },
-      "Shift": () => { this.GamepadInput.down$.next("X") },
-      "ArrowLeft": () => {
-        this.GamepadInput.down$.next("LEFT")
-      },
-      "ArrowRight": () => {
-        this.GamepadInput.down$.next("RIGHT")
-      },
-      "ArrowUp": () => {
-        this.GamepadInput.down$.next("UP")
-      },
-      "ArrowDown": () => {
-        this.GamepadInput.down$.next("DOWN")
-      },
-    })
-    this.GamepadEvent.registerGlobalEvent({
-      "A": () => this.leftKey(),
-      "X": () => this.rightKey(),
-      "UP": () => this.setCurrentTarget("UP"),
-      "DOWN": () => this.setCurrentTarget("DOWN"),
-      "RIGHT": () => this.setCurrentTarget("RIGHT"),
-      "LEFT": () => this.setCurrentTarget("LEFT"),
-      LEFT_BUMPER: () => {
-        this.setMoveTargetPrevious();
-      },
-      RIGHT_BUMPER: () => {
-        this.setMoveTargetNext();
-      },
-      START: () => {
-        this.isGamepadExplanationComponent = !this.isGamepadExplanationComponent;
-      }
-    })
 
-    this.GamepadEvent.registerGlobalEventY({
-      LEFT_BUMPER: () => {
-        this.setMoveTargetFirst();
-      },
-      RIGHT_BUMPER: () => {
-        this.setMoveTargetLast();
-      },
-    })
-    this.GamepadEventBefore$.subscribe((x: any) => {
-      this.GamepadSound.device(x.input, x.node, x.region, x.index)
-    })
-    this.EegionBefore$.subscribe(x => {
-        console.log(x);
-
-    })
   }
   runs = [];
+  isRunning=false;
   sleep = (duration) => {
     return new Promise(resolve => {
       setTimeout(resolve, duration);
@@ -162,69 +64,12 @@ export class GamepadControllerService {
   }
   Y = false;
 
-  private GamepadEventBefore$ = new Subject();
-  private GamepadEventAfter$ = new Subject();
   private EegionBefore$ = new Subject();
   private nodes = [];
   private list = [];
 
   current = null;
-  pause = false;
 
-  isGamepadExplanationComponent = false;
-  isVoiceComponet = false;
-  device(input: string) {
-
-    if (document.visibilityState === "hidden" || this.pause) return;
-    if (input === "Y") this.Y = true;
-    this.getCurrentTarget();
-
-    this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
-    const region = this.current.region;
-
-    this.zone.run(() => {
-      if (this.Y) {
-        if (this.GamepadEvent.areaEventsY[region]?.[input]) {
-          this.GamepadEvent.areaEventsY[region][input](this.nodes[this.current.index]);
-        } else if (this.GamepadEvent.globalEventsY[input]) {
-          this.GamepadEvent.globalEventsY[input](this.nodes[this.current.index]);
-        }
-      } else {
-        if (this.GamepadEvent.areaEvents[region]?.[input]) {
-          this.GamepadEvent.areaEvents[region][input](this.nodes[this.current.index]);
-        } else if (this.GamepadEvent.globalEvents[input]) {
-          this.GamepadEvent.globalEvents[input](this.nodes[this.current.index]);
-        }
-      }
-    })
-    if (!this.current) return
-    this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
-  }
-  device2(input: string) {
-    this.getCurrentTarget();
-    const region = this.current.region;
-    if (this.Y) {
-      if (this.KeyboardEvent.areaEventsY[region]?.[input]) {
-        this.KeyboardEvent.areaEventsY[region][input](this.nodes[this.current.index]);
-        return false
-      } else if (this.KeyboardEvent.globalEventsY[input]) {
-        this.KeyboardEvent.globalEventsY[input](this.nodes[this.current.index]);
-        return false
-      } else {
-        return true
-      }
-    } else {
-      if (this.KeyboardEvent.areaEvents[region]?.[input]) {
-        this.KeyboardEvent.areaEvents[region][input](this.nodes[this.current.index]);
-        return false
-      } else if (this.KeyboardEvent.globalEvents[input]) {
-        this.KeyboardEvent.globalEvents[input](this.nodes[this.current.index]);
-        return false
-      } else {
-        return true
-      }
-    }
-  }
   setMoveTargetPrevious() {
     const node = this.getCurrentNode();
     const region = node.getAttribute("region");
@@ -317,7 +162,7 @@ export class GamepadControllerService {
       this.setDefaultRegion();
       return
     }
-    this.nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
+    this.nodes = document.querySelectorAll(this.PageEvent.configs[region].queryStr);
 
     if (this.oldRegion != region) {
       this.oldRegion = region;
@@ -419,10 +264,6 @@ export class GamepadControllerService {
   }
 
   delSelectTarget() {
-    // this.nod
-    // document.querySelectorAll("[select=true]").forEach(element => {
-    //   element.removeAttribute("select");
-    // });
     this.list.filter(x => x.select == true).forEach(x => this.nodes[x.index].removeAttribute("select"));
   }
   setCurrentTarget(direction: string) {
@@ -458,17 +299,8 @@ export class GamepadControllerService {
       const { target } = mutations[0];
       if (node.getAttribute("select") === "true") {
         if (!this.current || this.current && !this.current.region) return
-        if (!isHovering && this.GamepadEvent.hoverEvents[this.current.region]?.ENTER) {
-          this.GamepadEvent.hoverEvents[this.current.region].ENTER(target);
-          isHovering = true;
-        }
       } else {
         if (!this.current || this.current && !this.current.region) return
-        if (isHovering && this.GamepadEvent.hoverEvents[this.current.region]?.LEAVE) {
-          this.GamepadEvent.hoverEvents[this.current.region].LEAVE(target);
-          isHovering = false;
-          observe.disconnect();
-        }
       }
     });
     observe.observe(node, config);
@@ -507,11 +339,6 @@ export class GamepadControllerService {
     );
     observer.observe(element);
   }
-  GamepadEventBefore = () => this.GamepadEventBefore$
-
-  GamepadEventAfter = () => this.GamepadEventAfter$
-
-  EegionBefore = () => this.EegionBefore$
 
   leftKey = () => {
     const node = this.nodes[this.current.index];
@@ -532,36 +359,6 @@ export class GamepadControllerService {
     let x = parseInt(currentPosition.x + currentPosition.width * 0.7)
     let y = parseInt(currentPosition.y + currentPosition.height * 0.7)
     this.ContextMenuController.openContextMenu(this.nodes[index], x, y)
-  }
-  getHandelState = () => this.GamepadInput.getState()
-  setMoveEventRegister(name, obj) {
-    this.GamepadEvent.registerAreaEvent(name,
-      {
-        "UP": () => {
-          const state = this.getHandelState();
-          if (state.LEFT_ANALOG_UP) obj.LEFT_ANALOG_UP(state);
-          else if (state.DPAD_UP) obj.DPAD_UP(state);
-          else if (state.RIGHT_ANALOG_UP) obj.RIGHT_ANALOG_UP(state);
-        },
-        "DOWN": () => {
-          const state = this.getHandelState();
-          if (state.LEFT_ANALOG_RIGHT) obj.LEFT_ANALOG_RIGHT(state);
-          else if (state.DPAD_RIGHT) obj.DPAD_RIGHT(state);
-          else if (state.RIGHT_ANALOG_RIGHT) obj.RIGHT_ANALOG_RIGHT(state);
-        },
-        "RIGHT": () => {
-          const state = this.getHandelState();
-          if (state.LEFT_ANALOG_DOWN) obj.LEFT_ANALOG_DOWN(state);
-          else if (state.DPAD_DOWN) obj.DPAD_DOWN(state);
-          else if (state.RIGHT_ANALOG_DOWN) obj.RIGHT_ANALOG_DOWN(state);
-        },
-        "LEFT": () => {
-          const state = this.getHandelState();
-          if (state.LEFT_ANALOG_LEFT) obj.LEFT_ANALOG_LEFT(state);
-          else if (state.DPAD_LEFT) obj.DPAD_LEFT(state);
-          else if (state.RIGHT_ANALOG_LEFT) obj.RIGHT_ANALOG_LEFT(state);
-        },
-      })
   }
 
   getAngle = (x, y): number => {
