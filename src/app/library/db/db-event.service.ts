@@ -170,11 +170,11 @@ export class DbEventService {
       is_cache: true,
       is_download: true
     }, {
-      List: async (obj) => {
+      getList: async (obj) => {
         let list = [];
         return list
       },
-      Detail: async (id) => {
+      getDetail: async (id) => {
 
         const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/${id}.html`, {
           "headers": {
@@ -233,7 +233,7 @@ export class DbEventService {
 
         return obj
       },
-      Pages: async (id) => {
+      getPages: async (id) => {
         const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/capter/${id}`, {
           "headers": {
             "accept": "application/json, text/plain, */*",
@@ -264,7 +264,7 @@ export class DbEventService {
 
         return data
       },
-      Image: async (id) => {
+      getImage: async (id) => {
 
         const getImageUrl = async (id) => {
           const res = await window._gh_fetch(id, {
