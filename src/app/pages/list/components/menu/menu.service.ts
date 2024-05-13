@@ -11,6 +11,7 @@ export class MenuService {
   key = "_gh_menu";
   opened = true;
   mode = 'side';
+  position: "start" | "end" = 'start';
 
   constructor(public data: DataService,
     public webDb: NgxIndexedDBService,
@@ -20,7 +21,7 @@ export class MenuService {
 
   }
 
-  async init(){
+  async init() {
 
     await this.get();
   }
@@ -45,14 +46,10 @@ export class MenuService {
 
   async get() {
     const res: any = await firstValueFrom(this.webDb.getByKey("data", this.key))
-    console.log(res);
-
     if (res) {
       this.opened = res.opened;
       this.mode = res.mode;
+      this.position = res.position;
     }
   }
-
-
-
 }

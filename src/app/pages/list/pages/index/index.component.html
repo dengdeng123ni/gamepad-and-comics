@@ -1,6 +1,6 @@
 <mat-drawer-container autosize [hasBackdrop]="false" [mode]="'side'" *ngIf="data.is_init_free">
 
-  <mat-drawer [opened]="menu.opened" [autoFocus]="false" (openedChange)="openedChange($event)" class="example-sidenav" mode="side">
+  <mat-drawer [opened]="menu.opened" [position]="menu.position" [autoFocus]="false" (openedChange)="openedChange($event)" class="example-sidenav" mode="side">
     <app-menu></app-menu>
   </mat-drawer>
   <div class="container" [attr.is_fixed]="false" [attr.edit]="data.is_edit">

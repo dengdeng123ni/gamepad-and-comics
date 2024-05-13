@@ -115,4 +115,9 @@ export class ComicsCustomMultipyComponent {
       return null
     }
   }
+
+  ngOnDestroy() {
+    this.data.list =[];
+    this.is_init_free=false;
+  }
 }

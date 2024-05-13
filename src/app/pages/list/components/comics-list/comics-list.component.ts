@@ -125,11 +125,19 @@ export class ComicsListComponent {
     this.init();
   }
   async init() {
-    this.data.list = await this.QueryController.init(this.key, { page_num: this.page_num, page_size: this.page_size });
-    this.overflow();
+
+    this.zone.run(async () => {
+      this.data.list=[];
+     setTimeout(async ()=>{
+      this.data.list = await this.QueryController.init(this.key, { page_num: this.page_num, page_size: this.page_size });
+      this.overflow();
+     })
+    })
+
   }
   async overflow(){
     this.zone.run(() => {
+
       setTimeout(async () => {
         const node = this.ListNode.nativeElement.querySelector(`[index='${this.data.list.length - 1}']`)
         if(this.ListNode.nativeElement.clientHeight<node.getBoundingClientRect().y){

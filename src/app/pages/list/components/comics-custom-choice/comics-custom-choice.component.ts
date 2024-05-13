@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { firstValueFrom, map } from 'rxjs';
 import { DbControllerService, DbEventService, QueryEventService } from 'src/app/library/public-api';
@@ -24,19 +24,22 @@ export class ComicsCustomChoiceComponent {
   origin = '';
   obj = {};
 
-  uid=null;
+  uid = null;
 
-  is_init_free=false;
+  is_init_free = false;
   constructor(
     public route: ActivatedRoute,
     public DbEvent: DbEventService,
     public QueryEvent: QueryEventService,
     public data: DataService,
     public DbController: DbControllerService,
-    public webDb: NgxIndexedDBService
+    public webDb: NgxIndexedDBService,
+    private zone: NgZone,
   ) {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
+      this.is_init_free = false;
+      this.data.list = [];
       const id = params.get('id')
       const sid = params.get('sid')
       this.menu_id = sid;
@@ -46,13 +49,16 @@ export class ComicsCustomChoiceComponent {
       this.name = obj.query.name;
       this.uid = `choice_${id}_${sid}`;
       this.default_index = await this.getIndex(this.uid);
-      if ((this.list.length-1) < this.default_index) this.default_index = 0;
+      if ((this.list.length - 1) < this.default_index) this.default_index = 0;
       const e = this.list[this.default_index];
       this.option = {
         menu_id: this.menu_id,
         ...e,
       }
-      this.is_init_free=true;
+      setTimeout(()=>{
+        this.is_init_free = true;
+      })
+
     })
 
     QueryEvent.register({
@@ -98,5 +104,9 @@ export class ComicsCustomChoiceComponent {
     } else {
       return 0
     }
+  }
+  ngOnDestroy() {
+    this.data.list = [];
+    this.is_init_free = false;
   }
 }
