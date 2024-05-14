@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DbControllerService, QueryEventService } from 'src/app/library/public-api';
+import { DbControllerService, DbEventService, QueryEventService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
@@ -25,25 +25,31 @@ export class ComicsSearchComponent {
     public DbController: DbControllerService,
     public data: DataService,
     public route: ActivatedRoute,
-    public QueryEvent: QueryEventService
+    public QueryEvent: QueryEventService,
+    public DbEvent: DbEventService,
   ) {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get("id")));
+
     id$.subscribe(x => {
 
       this.origin = x;
+      const obj = this.DbEvent.Configs[x].menu.find(x => x.id == 'search');
+
+      QueryEvent.register({
+        id: "search",
+        page_size:obj.query.page_size
+      }, {
+        Add: async (obj) => {
+          const list = await this.DbController.Search({ keyword: this.keyword, ...obj }, { origin: this.origin });
+          return list
+        },
+        Init: async (obj) => {
+          this.obj = obj;
+          return []
+        }
+      })
     })
-    QueryEvent.register({
-      id: "search"
-    }, {
-      Add: async (obj) => {
-        const list = await this.DbController.Search({ keyword: this.keyword, ...obj }, { origin: this.origin });
-        return list
-      },
-      Init: async (obj) => {
-        this.obj = obj;
-        return []
-      }
-    })
+
   }
 
 

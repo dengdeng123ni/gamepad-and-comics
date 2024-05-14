@@ -45,6 +45,21 @@ export class ComicsCustomChoiceComponent {
       this.menu_id = sid;
       this.origin = id;
       const obj = this.DbEvent.Configs[id].menu.find(x => x.id == sid);
+
+      QueryEvent.register({
+        id: "choice",
+        page_size:obj.query.page_size
+      }, {
+        Add: async (obj) => {
+          const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+          return list
+        },
+        Init: async (obj) => {
+          this.obj = obj;
+          const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+          return list
+        }
+      })
       this.list = obj.query.list;
       this.name = obj.query.name;
       this.uid = `choice_${id}_${sid}`;
@@ -61,19 +76,7 @@ export class ComicsCustomChoiceComponent {
 
     })
 
-    QueryEvent.register({
-      id: "choice"
-    }, {
-      Add: async (obj) => {
-        const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
-        return list
-      },
-      Init: async (obj) => {
-        this.obj = obj;
-        const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
-        return list
-      }
-    })
+
   }
 
   async on(index) {

@@ -5,6 +5,7 @@ interface Events {
 }
 interface Config {
   id: string,
+  page_size?: number
 }
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,11 @@ export class QueryEventService {
     const key = config.id;
     config = {
       id: key,
+      page_size: config.page_size ?? 20
     }
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };
     else this.Events[key] = events;
-    if (this.Events[key]) this.Configs[key] = { ...this.Configs[key], ...config };
+    if (this.Configs[key]) this.Configs[key] = { ...this.Configs[key], ...config };
     else this.Configs[key] = config;
   }
 }

@@ -25,8 +25,8 @@ export class ComicsCustomMultipyComponent {
   origin = '';
   obj = {};
 
-  uid=null;
-  is_init_free=false;
+  uid = null;
+  is_init_free = false;
   constructor(
     public route: ActivatedRoute,
     public DbEvent: DbEventService,
@@ -45,32 +45,34 @@ export class ComicsCustomMultipyComponent {
       this.uid = `multipy_${id}_${sid}`;
       const obj = this.DbEvent.Configs[id].menu.find(x => x.id == sid);
       this.lists = obj.query.list;
-      const indexs=await this.getIndex(this.uid);
-      if(indexs&&indexs.length){
-        if(this.lists.length==indexs.length){
-          indexs.forEach((x,i)=>{
-            if((this.lists[i].tag.length-1)>x) this.lists[i].index=x;
+      QueryEvent.register({
+        id: "multipy",
+        page_size: obj.query.page_size
+      }, {
+        Add: async (obj) => {
+          const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+          return list
+        },
+        Init: async (obj) => {
+          this.obj = obj;
+          const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+          return list
+        }
+      })
+      const indexs = await this.getIndex(this.uid);
+      if (indexs && indexs.length) {
+        if (this.lists.length == indexs.length) {
+          indexs.forEach((x, i) => {
+            if ((this.lists[i].tag.length - 1) > x) this.lists[i].index = x;
           })
         }
       }
-      this.is_init_free=true;
+      this.is_init_free = true;
       this.getData();
 
     })
 
-    QueryEvent.register({
-      id: "multipy"
-    }, {
-      Add: async (obj) => {
-        const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
-        return list
-      },
-      Init: async (obj) => {
-        this.obj = obj;
-        const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
-        return list
-      }
-    })
+
   }
 
 
@@ -88,7 +90,7 @@ export class ComicsCustomMultipyComponent {
 
   getData() {
     const lists = JSON.parse(JSON.stringify(this.lists))
-    this.postIndex(lists.map(x=>x.index))
+    this.postIndex(lists.map(x => x.index))
     let list = lists.map(x => {
       x.tag = x.tag[x.index]
       return x
@@ -117,7 +119,7 @@ export class ComicsCustomMultipyComponent {
   }
 
   ngOnDestroy() {
-    this.data.list =[];
-    this.is_init_free=false;
+    this.data.list = [];
+    this.is_init_free = false;
   }
 }
