@@ -12,6 +12,7 @@ export class AppDataService {
 
   is_pulg = false;
   is_pwa = false;
+  is_web_worker=false;
 
   originConfig={};
   constructor(public DbEvent: DbEventService,

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { AppDataService, ImageService, MessageFetchService } from 'src/app/library/public-api';
+import { AppDataService, ImageService, MessageFetchService, WorkerService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-image',
@@ -17,6 +17,7 @@ export class ImageComponent {
   box!: ElementRef;
   @Input() objectFit: string = ""
   constructor(public image: ImageService,
+    public WebWorker: WorkerService,
     public App: AppDataService
   ) {
     // console.log(this.src);
@@ -37,13 +38,25 @@ export class ImageComponent {
     this.url = await this.image.getImageToLocalUrl(this.src)
   }
 
+  async getImage2() {
+    console.log(this.src);
+
+    this.url = await this.WebWorker.UrlToBolbUrl(this.src)
+    console.log(this.url );
+
+  }
+
   ngAfterViewInit() {
-    if (this.App.is_pwa&&this.url.substring(7, 21) == "localhost:7700") {
+    if (this.App.is_pwa && this.src.substring(7, 21) == "localhost:7700") {
       this.url = this.src;
     } else {
-      setTimeout(() => {
-        this.image.addTask(()=>this.getImage(this.src))
-      })
+      if (this.App.is_web_worker && this.src.substring(7, 21) == "localhost:7700") {
+         this.getImage2()
+      }else{
+        setTimeout(() => {
+          this.image.addTask(() => this.getImage(this.src))
+        })
+      }
     }
   }
   ngOnDestroy() {

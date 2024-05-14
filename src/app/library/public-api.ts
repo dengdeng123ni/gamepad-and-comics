@@ -28,6 +28,7 @@ export * from './db/db-event.service';
 export * from './message/message-controller.service'
 export * from './message/message-event.service'
 export * from './message/message-fetch.service'
+export * from './worker/worker.service'
 
 export * from './utils/utils.service'
 

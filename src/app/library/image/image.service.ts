@@ -48,10 +48,10 @@ export class ImageService {
     return url
   }
 
-  private utf8_to_b64 = (str: string) => {
+   utf8_to_b64 = (str: string) => {
     return window.btoa(encodeURIComponent(str));
   }
-  private b64_to_utf8 = (str: string) => {
+   b64_to_utf8 = (str: string) => {
     return decodeURIComponent(window.atob(str));
   }
   delBlobUrl(src: string, url: string) {
