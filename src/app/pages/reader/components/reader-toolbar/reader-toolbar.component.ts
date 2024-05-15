@@ -20,7 +20,7 @@ import { ComicsDetailService } from '../comics-detail/comics-detail.service';
 export class ReaderToolbarComponent {
   isfullscreen = !!document.fullscreenElement;
   isMobile = (navigator as any).userAgentData.mobile;
-
+  is_locked=true;
   double_page_reader: any = {}
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
@@ -36,6 +36,7 @@ export class ReaderToolbarComponent {
     public ReaderConfig:ReaderConfigService,
     public ComicsDetail:ComicsDetailService
   ) {
+    if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
   }
   menuObj: {
     list: any,

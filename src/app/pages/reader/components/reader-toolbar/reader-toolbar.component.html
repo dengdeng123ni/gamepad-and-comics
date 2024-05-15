@@ -140,6 +140,16 @@
     <div *ngIf="type=='list'" style="max-height: 40vh;">
       <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
         (click)="onItem(item.id)" [attr._id]="'_menu_item_'+item.id">
+        <mat-icon class="icon" style="    width: 18px;
+        height: 18px;
+        line-height: 18px;
+        font-size: 18px;
+        margin-right: 10px;" *ngIf="is_locked&&item.is_locked">lock</mat-icon>
+        <mat-icon class="icon" style="    width: 18px;
+        height: 18px;
+        line-height: 18px;
+        font-size: 18px;
+        margin-right: 10px;" *ngIf="is_locked&&!item.is_locked">lock_open</mat-icon>
         {{item.title}}
       </button>
     </div>
