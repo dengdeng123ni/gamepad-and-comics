@@ -44,24 +44,11 @@ export class ComicsCustomChoiceComponent {
       this.menu_id = sid;
       this.origin = id;
       const obj = this.DbEvent.Configs[id].menu.find(x => x.id == sid);
+      this.uid = `choice_${id}_${sid}`;
 
-      QueryEvent.register({
-        id: "choice",
-        page_size:obj.query.page_size
-      }, {
-        Add: async (obj) => {
-          const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
-          return list
-        },
-        Init: async (obj) => {
-          this.obj = obj;
-          const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
-          return list
-        }
-      })
       this.list = obj.query.list;
       this.name = obj.query.name;
-      this.uid = `choice_${id}_${sid}`;
+
       this.default_index = await this.getIndex(this.uid);
       if ((this.list.length - 1) < this.default_index) this.default_index = 0;
       const e = this.list[this.default_index];
@@ -70,6 +57,21 @@ export class ComicsCustomChoiceComponent {
         ...e,
       }
       setTimeout(()=>{
+        QueryEvent.register({
+          id: "choice",
+          uid:this.uid,
+          page_size:obj.query.page_size
+        }, {
+          Add: async (obj) => {
+            const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+            return list
+          },
+          Init: async (obj) => {
+            this.obj = obj;
+            const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+            return list
+          }
+        })
         this.is_init_free = true;
       })
 
@@ -109,5 +111,7 @@ export class ComicsCustomChoiceComponent {
   }
   ngOnDestroy() {
     this.is_init_free = false;
+
+
   }
 }

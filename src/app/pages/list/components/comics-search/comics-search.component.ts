@@ -37,6 +37,7 @@ export class ComicsSearchComponent {
 
       QueryEvent.register({
         id: "search",
+        uid: `${this.origin}_search`,
         page_size:obj.query.page_size
       }, {
         Add: async (obj) => {

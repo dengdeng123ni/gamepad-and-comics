@@ -15,7 +15,8 @@ export class LocalCacheComponent {
     ) {
 
       QueryEvent.register({
-        id:"local_cache"
+        id:"local_cache",
+        uid:"local_cache"
       },{
         Add:async (obj)=>{
           const res = await firstValueFrom(this.webDb.getAll("local_comics"))

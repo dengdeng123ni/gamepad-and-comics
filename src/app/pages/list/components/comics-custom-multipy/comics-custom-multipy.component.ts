@@ -47,6 +47,7 @@ export class ComicsCustomMultipyComponent {
       this.lists = obj.query.list;
       QueryEvent.register({
         id: "multipy",
+        uid:this.uid,
         page_size: obj.query.page_size
       }, {
         Add: async (obj) => {

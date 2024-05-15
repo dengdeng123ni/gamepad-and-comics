@@ -45,7 +45,7 @@ export class ComicsListComponent {
   @ViewChild('list') ListNode: ElementRef;
   _ctrl = false;
   page_num = 1;
-  page_size = 5;
+  page_size = 20;
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -69,6 +69,8 @@ export class ComicsListComponent {
     })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(params => {
+      // console.log(this.data.list,this.page_num);
+
       if (this.key) this.init();
     })
   }
@@ -128,10 +130,8 @@ export class ComicsListComponent {
 
     this.zone.run(async () => {
       this.data.list = [];
-      setTimeout(async () => {
-        this.data.list = await this.QueryController.init(this.key, { page_num: this.page_num, page_size: this.page_size });
-        this.overflow();
-      })
+      this.data.list = await this.QueryController.init(this.key, { page_num: this.page_num, page_size: this.page_size });
+      this.overflow();
     })
 
   }
@@ -169,9 +169,6 @@ export class ComicsListComponent {
     }
   }
   ngOnDestroy() {
-
-
-
     this.scroll$.unsubscribe();
   }
   async add_pages() {

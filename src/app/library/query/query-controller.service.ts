@@ -20,4 +20,10 @@ export class QueryControllerService {
     return await this.QueryEvent.Events[key].Init(option)
   }
 
+  async close(option) {
+
+  }
+
+
+
 }
