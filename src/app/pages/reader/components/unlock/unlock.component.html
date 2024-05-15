@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>解锁</h1>
+<div mat-dialog-content>
+   是否解锁?
+</div>
+<div mat-dialog-actions style="    justify-content: end;">
+  <button mat-button mat-dialog-close [attr.region]="'reset_reading_progress'" [matTooltipShowDelay]="3000"
+  [matTooltip]="'否'" (click)="close()">否</button>
+  <button mat-button mat-dialog-close cdkFocusInitial [attr.region]="'reset_reading_progress'" [matTooltipShowDelay]="3000"
+  [matTooltip]="'是'" [attr.select]="true" (click)="on()">是</button>
+</div>

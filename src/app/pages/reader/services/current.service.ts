@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { DbControllerService, HistoryService, ImageService, MessageFetchService, PagesItem } from 'src/app/library/public-api';
+import { ChaptersItem, DbControllerService, HistoryService, ImageService, MessageFetchService, PagesItem } from 'src/app/library/public-api';
 import { Subject, firstValueFrom } from 'rxjs';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 
@@ -39,11 +39,11 @@ export class CurrentService {
       }
 
       if (e.type == "changeChapter") {
-       this.pageStatu$.next("chapter")
+        this.pageStatu$.next("chapter")
       }
       if (e.type == "changePage") {
         this.pageStatu$.next("page")
-       }
+      }
     })
   }
 
@@ -56,6 +56,7 @@ export class CurrentService {
     type: string,
     pages: Array<PagesItem>,
     page_index: number,
+    chapter: ChaptersItem,
     chapter_id?: string,
     trigger?: string
   }>();
@@ -190,7 +191,6 @@ export class CurrentService {
     const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
     const obj = this.data.chapters[index + 1];
     if (obj) {
-      const id = obj.id;
       return obj.id
     } else {
       return null
@@ -497,6 +497,11 @@ export class CurrentService {
   }) {
     if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
+    const chapter = this.data.chapters.find(x => x.id == option.chapter_id);
+    // if(chapter.is_locked){
+
+    //   return
+    // }
     const pages = await this._getChapter(option.chapter_id)
     this.data.page_index = option.page_index;
     this.data.pages = pages;
@@ -511,7 +516,7 @@ export class CurrentService {
     }
     this._updateChapterRead(this.data.chapter_id);
     const types = ['initPage', 'closePage', 'changePage', 'nextPage', 'previousPage', 'nextChapter', 'previousChapter', 'changeChapter'];
-    this.change$.next({ ...option, pages, type })
+    this.change$.next({ ...option, pages, type, chapter })
   }
 
   close() {
