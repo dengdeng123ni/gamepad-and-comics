@@ -9,12 +9,14 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./chapters-thumbnail.component.scss']
 })
 export class ChaptersThumbnailComponent {
+  is_locked = true;
   constructor(
     public current: CurrentService,
     public data:DataService,
     public chaptersThumbnail: ChaptersThumbnailService
   ) {
 
+    if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
   }
   on(id:string) {
     this.chaptersThumbnail.close();

@@ -58,8 +58,8 @@ export class GamepadControllerService {
       subtree: true, //目标节点所有后代节点的attributes、childList、characterData变化
     };
 
-    // let observe = new MutationObserver(() => this.execute());
-    // observe.observe(document, config);
+    let observe = new MutationObserver(() => this.execute());
+    observe.observe(document, config);
 
     this.router.events.subscribe((event) => {
       // NavigationEnd,NavigationCancel,NavigationError,RoutesRecognized

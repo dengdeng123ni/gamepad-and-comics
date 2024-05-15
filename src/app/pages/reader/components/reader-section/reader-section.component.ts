@@ -9,12 +9,14 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./reader-section.component.scss']
 })
 export class ReaderSectionComponent {
+  is_locked=true;
   constructor(
     public current:CurrentService,
     public data:DataService,
     public readerSection:ReaderSectionService
     ){
 
+      if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
   }
   ngAfterViewInit() {
    const node:any=document.querySelector(`#_${this.data.chapter_id}`);

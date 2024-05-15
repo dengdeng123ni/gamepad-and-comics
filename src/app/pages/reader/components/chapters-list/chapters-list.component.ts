@@ -24,10 +24,12 @@ interface Item {
 })
 export class ChaptersListComponent {
   _ctrl = false;
+  is_locked = true;
   constructor(public data: DataService,
     public router: Router,
     public current: CurrentService, public doublePageThumbnail: DoublePageThumbnailService, public ContextMenuEvent: ContextMenuEventService,) {
 
+    if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
   }
   on($event: MouseEvent) {
     const node = $event.target as HTMLElement;
@@ -69,7 +71,7 @@ export class ChaptersListComponent {
       const node = document.getElementById(`${this.data.chapter_id}`)
       node!.scrollIntoView({ behavior: 'instant', block: 'center' })
       node?.focus()
-    },100)
+    }, 100)
   }
 
 }
