@@ -36,7 +36,9 @@ export class ReaderToolbarComponent {
     public ReaderConfig:ReaderConfigService,
     public ComicsDetail:ComicsDetailService
   ) {
-    if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
+    current.init$.subscribe(x=>{
+      if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
+    })
   }
   menuObj: {
     list: any,
