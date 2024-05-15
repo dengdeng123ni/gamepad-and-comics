@@ -9,6 +9,8 @@ export class DataService {
   is_init_free=false;
 
   list: Array<ComicsItem> = [];
+
+
   is_edit = false;
   is_locked = false;
   is_cache = false;

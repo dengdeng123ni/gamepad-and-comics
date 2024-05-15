@@ -69,6 +69,7 @@ export class ComicsListComponent {
     })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(params => {
+      console.log(this.data.list);
       if (this.key) this.init();
     })
   }
@@ -169,6 +170,9 @@ export class ComicsListComponent {
     }
   }
   ngOnDestroy() {
+
+
+
     this.scroll$.unsubscribe();
   }
   async add_pages() {

@@ -53,8 +53,9 @@ export class DbControllerService {
       res.forEach(x => {
         this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
         x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
+        x.option = { origin: option.origin }
       })
-      res.option = { origin: option.origin }
+      // res.
       return res
     } else {
       return []
