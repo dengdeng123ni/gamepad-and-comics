@@ -39,11 +39,7 @@ export class ImageComponent {
   }
 
   async getImage2() {
-    console.log(this.src);
-
     this.url = await this.WebWorker.UrlToBolbUrl(this.src)
-    console.log(this.url );
-
   }
 
   ngAfterViewInit() {

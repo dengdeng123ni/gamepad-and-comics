@@ -194,6 +194,13 @@ export class MenuComponent {
             ControllerSettings.open()
           }
         },
+        {
+          id:"ope1",
+          name:"链接",
+          click:()=>{
+
+          }
+        },
       ]
     })
 

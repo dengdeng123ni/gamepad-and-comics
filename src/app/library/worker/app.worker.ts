@@ -10,6 +10,9 @@ addEventListener('message', async ({ data }) => {
       postMessage({ id: data.id, type: "load_image", data: data.data });
     }
   }
+  if (data.type == "UrlToBase64Url") {
+
+  }
 });
 var cache: CacheStorage;
 const init = async () => {

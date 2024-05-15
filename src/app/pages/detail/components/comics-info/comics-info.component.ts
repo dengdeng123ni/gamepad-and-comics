@@ -39,7 +39,7 @@ export class ComicsInfoComponent {
     }
   }
   back() {
-    let url = sessionStorage.getItem('list_url');
+    let url = localStorage.getItem('list_url');
     if (!url) url = window.location.origin
     const urlObj = new URL(url);
     let arr = [...urlObj.pathname.split("/")];
