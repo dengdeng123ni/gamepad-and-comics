@@ -39,7 +39,6 @@ export class ComicsCustomChoiceComponent {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
       this.is_init_free = false;
-      this.data.list = [];
       const id = params.get('id')
       const sid = params.get('sid')
       this.menu_id = sid;
@@ -109,7 +108,6 @@ export class ComicsCustomChoiceComponent {
     }
   }
   ngOnDestroy() {
-    this.data.list = [];
     this.is_init_free = false;
   }
 }
