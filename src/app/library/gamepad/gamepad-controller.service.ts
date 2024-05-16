@@ -58,8 +58,8 @@ export class GamepadControllerService {
       subtree: true, //目标节点所有后代节点的attributes、childList、characterData变化
     };
 
-    // let observe = new MutationObserver(() => this.execute());
-    // observe.observe(document, config);
+    let observe = new MutationObserver(() => this.execute());
+    observe.observe(document, config);
 
     this.router.events.subscribe((event) => {
       // NavigationEnd,NavigationCancel,NavigationError,RoutesRecognized
@@ -67,75 +67,75 @@ export class GamepadControllerService {
         this.current = null;
       }
     })
-    // this.KeyboardEvent.registerGlobalEvent({
-    //   "l": () => this.GamepadInput.down$.next("B"),
-    //   "j": () => this.GamepadInput.down$.next("A"),
-    //   "k": () => this.GamepadInput.down$.next("X"),
-    //   "w": () => this.GamepadInput.down$.next("UP"),
-    //   "s": () => this.GamepadInput.down$.next("DOWN"),
-    //   "d": () => this.GamepadInput.down$.next("RIGHT"),
-    //   "a": () => this.GamepadInput.down$.next("LEFT"),
-    //   "u": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-    //   "i": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-    //   "[": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-    //   "]": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-    //   "<": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-    //   ">": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-    //   "Alt": () => {
-    //     this.GamepadInput.down$.next("Y")
-    //   },
-    //   "Space": () => {
-    //     this.GamepadInput.down$.next("A")
-    //   },
-    //   "Enter": () => { this.GamepadInput.down$.next("A") },
-    //   "Escape": () => { this.GamepadInput.down$.next("B") },
-    //   "End": () => { this.GamepadInput.down$.next("X") },
-    //   "Shift": () => { this.GamepadInput.down$.next("X") },
-    //   "ArrowLeft": () => {
-    //     this.GamepadInput.down$.next("LEFT")
-    //   },
-    //   "ArrowRight": () => {
-    //     this.GamepadInput.down$.next("RIGHT")
-    //   },
-    //   "ArrowUp": () => {
-    //     this.GamepadInput.down$.next("UP")
-    //   },
-    //   "ArrowDown": () => {
-    //     this.GamepadInput.down$.next("DOWN")
-    //   },
-    // })
-    // this.GamepadEvent.registerGlobalEvent({
-    //   "A": () => this.leftKey(),
-    //   "X": () => this.rightKey(),
-    //   "UP": () => this.setCurrentTarget("UP"),
-    //   "DOWN": () => this.setCurrentTarget("DOWN"),
-    //   "RIGHT": () => this.setCurrentTarget("RIGHT"),
-    //   "LEFT": () => this.setCurrentTarget("LEFT"),
-    //   LEFT_BUMPER: () => {
-    //     this.setMoveTargetPrevious();
-    //   },
-    //   RIGHT_BUMPER: () => {
-    //     this.setMoveTargetNext();
-    //   },
-    //   START: () => {
-    //     this.isGamepadExplanationComponent = !this.isGamepadExplanationComponent;
-    //   }
-    // })
-    // this.GamepadEvent.registerGlobalEventY({
-    //   LEFT_BUMPER: () => {
-    //     this.setMoveTargetFirst();
-    //   },
-    //   RIGHT_BUMPER: () => {
-    //     this.setMoveTargetLast();
-    //   },
-    // })
-    // this.GamepadEventBefore$.subscribe((x: any) => {
-    //   this.GamepadSound.device(x.input, x.node, x.region, x.index)
-    // })
-    // this.EegionBefore$.subscribe(x => {
-    //     console.log(x);
+    this.KeyboardEvent.registerGlobalEvent({
+      "l": () => this.GamepadInput.down$.next("B"),
+      "j": () => this.GamepadInput.down$.next("A"),
+      "k": () => this.GamepadInput.down$.next("X"),
+      "w": () => this.GamepadInput.down$.next("UP"),
+      "s": () => this.GamepadInput.down$.next("DOWN"),
+      "d": () => this.GamepadInput.down$.next("RIGHT"),
+      "a": () => this.GamepadInput.down$.next("LEFT"),
+      "u": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
+      "i": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
+      "[": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
+      "]": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
+      "<": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
+      ">": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
+      "Alt": () => {
+        this.GamepadInput.down$.next("Y")
+      },
+      "Space": () => {
+        this.GamepadInput.down$.next("A")
+      },
+      "Enter": () => { this.GamepadInput.down$.next("A") },
+      "Escape": () => { this.GamepadInput.down$.next("B") },
+      "End": () => { this.GamepadInput.down$.next("X") },
+      "Shift": () => { this.GamepadInput.down$.next("X") },
+      "ArrowLeft": () => {
+        this.GamepadInput.down$.next("LEFT")
+      },
+      "ArrowRight": () => {
+        this.GamepadInput.down$.next("RIGHT")
+      },
+      "ArrowUp": () => {
+        this.GamepadInput.down$.next("UP")
+      },
+      "ArrowDown": () => {
+        this.GamepadInput.down$.next("DOWN")
+      },
+    })
+    this.GamepadEvent.registerGlobalEvent({
+      "A": () => this.leftKey(),
+      "X": () => this.rightKey(),
+      "UP": () => this.setCurrentTarget("UP"),
+      "DOWN": () => this.setCurrentTarget("DOWN"),
+      "RIGHT": () => this.setCurrentTarget("RIGHT"),
+      "LEFT": () => this.setCurrentTarget("LEFT"),
+      LEFT_BUMPER: () => {
+        this.setMoveTargetPrevious();
+      },
+      RIGHT_BUMPER: () => {
+        this.setMoveTargetNext();
+      },
+      START: () => {
+        this.isGamepadExplanationComponent = !this.isGamepadExplanationComponent;
+      }
+    })
+    this.GamepadEvent.registerGlobalEventY({
+      LEFT_BUMPER: () => {
+        this.setMoveTargetFirst();
+      },
+      RIGHT_BUMPER: () => {
+        this.setMoveTargetLast();
+      },
+    })
+    this.GamepadEventBefore$.subscribe((x: any) => {
+      this.GamepadSound.device(x.input, x.node, x.region, x.index)
+    })
+    this.EegionBefore$.subscribe(x => {
+        console.log(x);
 
-    // })
+    })
   }
   runs = [];
   sleep = (duration) => {

@@ -46,6 +46,7 @@ export class ComicsListComponent {
   _ctrl = false;
   page_num = 1;
   page_size = 20;
+  is_destroy=false;
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -170,9 +171,11 @@ export class ComicsListComponent {
     }
   }
   ngOnDestroy() {
+    this.is_destroy=true;
     this.scroll$.unsubscribe();
   }
   async add_pages() {
+    if(this.is_destroy) return
     this.page_num++;
     const list = await this.QueryController.add(this.key, { page_num: this.page_num, page_size: this.page_size })
     if (list.length == 0) {
