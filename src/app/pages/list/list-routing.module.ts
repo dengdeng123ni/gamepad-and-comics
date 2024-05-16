@@ -7,6 +7,7 @@ import { TemporaryFileComponent } from './components/temporary-file/temporary-fi
 import { ComicsCustomChoiceComponent } from './components/comics-custom-choice/comics-custom-choice.component';
 import { ComicsCustomMultipyComponent } from './components/comics-custom-multipy/comics-custom-multipy.component';
 import { ComicsSearchComponent } from './components/comics-search/comics-search.component';
+import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,18 @@ const routes: Routes = [
     component: IndexComponent,
     data: { animation: 'ListPage' },
     children: [
+      {
+        path: 'query/:id/:sid/:pid', // child route path
+        component: ComicsListV2Component, // child route component that the router renders
+      },
+      {
+        path: 'query/:id/:sid', // child route path
+        component: ComicsListV2Component, // child route component that the router renders
+      },
+      {
+        path: 'query/:id', // child route path
+        component: ComicsListV2Component, // child route component that the router renders
+      },
       {
         path: 'history/:id', // child route path
         component: HistoryComponent, // child route component that the router renders

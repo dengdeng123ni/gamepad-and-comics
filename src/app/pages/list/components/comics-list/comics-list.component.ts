@@ -129,6 +129,7 @@ export class ComicsListComponent {
   async init() {
 
     this.zone.run(async () => {
+
       this.data.list = [];
       this.data.list = await this.QueryController.init(this.key, { page_num: this.page_num, page_size: this.page_size });
       this.overflow();

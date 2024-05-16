@@ -39,7 +39,7 @@ export class MenuComponent {
     } else if (data.query) {
       if (parent.id) this.AppData.setOrigin(parent.id)
       if(data.query.type=="choice"){
-        this.router.navigate(['/choice', parent.id, data.id]);
+        this.router.navigate(['/query','choice',parent.id, data.id]);
       }
       if(data.query.type=="search"){
         this.router.navigate(['/search', parent.id]);
@@ -70,39 +70,6 @@ export class MenuComponent {
     public route:ActivatedRoute,
     private zone: NgZone
   ) {
-
-
-    router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-
-      }
-      if (event instanceof NavigationEnd) {
-        const arr=window.location.pathname.split("/");
-        if(arr[1]=="history") this.current_menu_id=`${arr[2]}_${arr[1]}`
-        if(arr[1]=="choice") this.current_menu_id=`${arr[2]}_${arr[3]}`
-        if(arr[1]=="multipy") this.current_menu_id=`${arr[2]}_${arr[3]}`
-        if(arr[1]=="search") this.current_menu_id=`${arr[2]}_${arr[1]}`
-        if(arr[1]=="local_cache") this.current_menu_id="cached"
-      }
-    })
-    const arr=window.location.pathname.split("/");
-    if(arr[1]=="history") {
-      this.AppData.setOrigin(arr[2])
-      this.current_menu_id=`${arr[2]}_${arr[1]}`
-    }
-    if(arr[1]=="choice") {
-      this.AppData.setOrigin(arr[2])
-      this.current_menu_id=`${arr[2]}_${arr[3]}`
-    }
-    if(arr[1]=="multipy"){
-      this.AppData.setOrigin(arr[2])
-      this.current_menu_id=`${arr[2]}_${arr[3]}`
-    }
-    if(arr[1]=="local_cache") {
-      this.current_menu_id="cached"
-      this.AppData.setOrigin('local_cache')
-    }
-
 
     if (this.data.menu.length == 0) {
       Object.keys(this.DbEvent.Events).forEach(x => {

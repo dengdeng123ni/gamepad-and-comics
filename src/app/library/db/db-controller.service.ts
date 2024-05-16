@@ -48,8 +48,12 @@ export class DbControllerService {
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
+
+
     if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["getList"]) {
       let res = await this.DbEvent.Events[option.origin]["getList"](obj);
+
+
       res.forEach(x => {
         this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
         x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;

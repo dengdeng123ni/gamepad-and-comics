@@ -9,6 +9,7 @@ import { MenuService } from '../../components/menu/menu.service';
 import { map } from 'rxjs';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 import { ControllerSettingsService } from '../../components/controller-settings/controller-settings.service';
+import { ComicsListV2Service } from '../../components/comics-list-v2/comics-list-v2.service';
 
 @Component({
   selector: 'app-index',
@@ -28,7 +29,8 @@ export class IndexComponent {
     public route: ActivatedRoute,
     public KeyboardToolbar:KeyboardToolbarService,
     public KeyboardEvent:KeyboardEventService,
-    public ControllerSettings:ControllerSettingsService
+    public ControllerSettings:ControllerSettingsService,
+    public ComicsListV2:ComicsListV2Service
   ) {
     this.KeyboardEvent.registerGlobalEvent({
       "p":()=>this.KeyboardToolbar.isToggle()

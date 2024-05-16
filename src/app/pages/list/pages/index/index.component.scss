@@ -56,8 +56,7 @@
     border-radius: 4px;
     position: relative;
 
-    app-comics-list,
-    app-comics-list-v2 {
+    app-comics-list {
 
       width: 100%;
       height: 100%;
@@ -89,7 +88,7 @@
 }
 
 :host ::ng-deep {
-  app-history,app-temporary-file,app-local-cache,app-comics-custom-choice,app-comics-custom-multipy,app-comics-search {
+  app-history,app-comics-list-v2,app-temporary-file,app-local-cache,app-comics-custom-choice,app-comics-custom-multipy,app-comics-search {
     height: 100%;
     width: 100%;
     display: flex;

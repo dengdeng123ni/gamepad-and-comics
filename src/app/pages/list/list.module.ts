@@ -18,6 +18,7 @@ import { PulgJavascriptComponent } from './components/pulg-javascript/pulg-javas
 import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.component';
 import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard-toolbar.component';
 import { ControllerSettingsComponent } from './components/controller-settings/controller-settings.component';
+import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -37,7 +38,8 @@ import { ControllerSettingsComponent } from './components/controller-settings/co
     PulgJavascriptComponent,
     IndexToolbarComponent,
     KeyboardToolbarComponent,
-    ControllerSettingsComponent
+    ControllerSettingsComponent,
+    ComicsListV2Component
   ],
   imports: [
     CommonModule,

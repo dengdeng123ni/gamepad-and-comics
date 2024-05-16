@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, ParamMap, Router } from '@angular/router';
 import { firstValueFrom, map } from 'rxjs';
 import { DbControllerService, DbEventService, QueryEventService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
@@ -34,6 +34,7 @@ export class ComicsCustomChoiceComponent {
     public data: DataService,
     public DbController: DbControllerService,
     public webDb: NgxIndexedDBService,
+    private router: Router,
     private zone: NgZone,
   ) {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
@@ -76,7 +77,6 @@ export class ComicsCustomChoiceComponent {
       })
 
     })
-
 
   }
 
