@@ -12,7 +12,7 @@ export class HistoryComponent {
   list=[];
   origin='';
   constructor(public data:DataService,
-    public history:HistoryService,
+
     public AppData:AppDataService,
     public route: ActivatedRoute,
     public QueryEvent:QueryEventService
@@ -21,17 +21,7 @@ export class HistoryComponent {
       let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get("id")));
       id$.subscribe(x=>{
         origin=x;
-        QueryEvent.register({
-          id:"history",
-          uid:`${origin}_history`
-        },{
-          Add:async (obj)=>{
-            return (await this.history.getAll() as any).filter(x=>x.origin==origin).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) *obj.page_size);
-          },
-          Init:async (obj)=>{
-            return (await this.history.getAll() as any).filter(x=>x.origin==origin).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
-          }
-        })
+
       })
 
   }

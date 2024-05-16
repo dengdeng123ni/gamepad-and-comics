@@ -1,6 +1,6 @@
 
 <div class="head">
-  <div class="choice" [attr.justify_content]="!query.name">
+  <div class="choice" *ngIf="type=='choice'" [attr.justify_content]="!query.name">
     <div class="title" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
     <div class="list">
       <button [attr.region]="'comics_option'" mat-button *ngFor="let c of query.list;let index=index"
@@ -14,7 +14,25 @@
       </button>
     </div>
   </div>
+  <div class="multipy" *ngIf="type=='multipy'">
+    <div class="list" *ngFor="let c of query.list;let c_index=index">
+      <div class="title" style="color:rgba(255,255,255,.34)">{{c.name}}</div>
+      <button [attr.region]="'comics_option'" mat-button *ngFor="let n of c.tag;let n_index=index"  (click)="on2($event,c,c_index)" class="item"  [attr.current]="n.index==c.index">
+        {{n.name}}
+      </button>
+    </div>
+  </div>
+  <div class="choice" *ngIf="type=='local_cache'">
+    <div class="title" style="color:rgba(255,255,255,.34)">历史记录</div>
+  </div>
+  <div class="choice" *ngIf="type=='history'">
+    <div class="title" style="color:rgba(255,255,255,.34)">缓存</div>
+  </div>
+
 </div>
+
+
+
 <div class="warp">
   <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'" (click)="on_list($event)">
     <button

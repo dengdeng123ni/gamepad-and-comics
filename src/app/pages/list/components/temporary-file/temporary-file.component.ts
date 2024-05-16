@@ -24,19 +24,7 @@ export class TemporaryFileComponent {
       this.id = x.get("id");
       const params = new URLSearchParams(window.location.search);
       this.name = params.get("name");
-      QueryEvent.register({
-        id: "temporary_file",
-        uid: `temporary_file_${this.id}`,
-      }, {
-        Add: async (obj) => {
-          const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
-          return list
-        },
-        Init: async (obj) => {
-          const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
-          return list
-        }
-      })
+
     })
 
   }

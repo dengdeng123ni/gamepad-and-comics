@@ -45,7 +45,7 @@ export class MenuComponent {
         this.router.navigate(['/search', parent.id]);
       }
       if(data.query.type=="multipy"){
-        this.router.navigate(['/multipy', parent.id, data.id]);
+        this.router.navigate(['/query','multipy',parent.id, data.id]);
       }
 
     }
@@ -92,7 +92,7 @@ export class MenuComponent {
             icon: "history",
             name: "历史记录",
             click: (e) => {
-              this.router.navigate(['/history', e.parent.id]);
+              this.router.navigate(['query', 'history',e.parent.id]);
             }
           }
         )
@@ -104,7 +104,7 @@ export class MenuComponent {
         name: '缓存',
         click: (e) => {
           this.AppData.setOrigin('local_cache')
-          this.router.navigate(['/local_cache']);
+          this.router.navigate(['query', 'local_cache']);
         }
       })
       this.data.menu.push({ type: 'separator' })
@@ -134,7 +134,7 @@ export class MenuComponent {
             icon: "history",
             name: "历史记录",
             click: (e) => {
-              this.router.navigate(['/history', e.parent.id]);
+              this.router.navigate(['query', 'history',e.parent.id]);
             }
           }
         )
