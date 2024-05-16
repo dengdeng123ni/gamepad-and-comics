@@ -106,7 +106,7 @@ export class ImageService {
 
   tasks = []; // 存储所有要执行的任务
   concurrent = 0; // 当前正在执行的任务数量
-  maxConcurrent = 20; // 最大并发数量
+  maxConcurrent = 7; // 最大并发数量
 
   // 添加任务到队列中
   addTask(task) {

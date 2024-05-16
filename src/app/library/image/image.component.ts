@@ -34,7 +34,7 @@ export class ImageComponent {
 
     return top >= 0 && left >= 0 && right <= viewWidth && bottom <= viewHeight;
   }
-  async getImage(str: string) {
+  async getImage() {
     this.url = await this.image.getImageToLocalUrl(this.src)
   }
 
@@ -47,10 +47,10 @@ export class ImageComponent {
       this.url = this.src;
     } else {
       if (this.App.is_web_worker && this.src.substring(7, 21) == "localhost:7700") {
-         this.getImage2()
+         this.image.addTask(() => this.getImage2())
       }else{
         setTimeout(() => {
-          this.image.addTask(() => this.getImage(this.src))
+          this.image.addTask(() => this.getImage())
         })
       }
     }
