@@ -32,13 +32,14 @@ export class IndexComponent {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(params => {
       if (params.get('origin')) {
-        this.AppData.setOrigin(params.get('origin'));
+        const origin=params.get('origin');
         this.data.init();
-        this.current._init(params.get('id'))
+        this.current._init(origin,params.get('id'))
         return
       }else{
+        const origin=this.AppData.origin;
         this.data.init();
-        this.current._init(params.get('id'))
+        this.current._init(origin,params.get('id'))
       }
     })
     document.body.setAttribute("router", "detail")

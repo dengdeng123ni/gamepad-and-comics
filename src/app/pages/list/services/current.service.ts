@@ -17,17 +17,17 @@ export class CurrentService {
   ) {
   }
 
-  async routerReader(comics_id) {
+  async routerReader(origin,comics_id) {
     const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("read_comics", comics_id.toString()))])
     if (_res[1]) {
-      this.router.navigate(['/', comics_id, _res[1].chapter_id])
+      this.router.navigate(['/comics',origin, comics_id, _res[1].chapter_id])
     } else {
-      this.router.navigate(['/', comics_id, _res[0].chapters[0].id])
+      this.router.navigate(['/comics',origin, comics_id, _res[0].chapters[0].id])
     }
   }
 
-  async routerDetail(comics_id) {
-    this.router.navigate(['/detail', comics_id]);
+  async routerDetail(origin,comics_id) {
+    this.router.navigate(['/detail',origin, comics_id]);
   }
 
 

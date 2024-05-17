@@ -97,7 +97,7 @@ export class ComicsListComponent {
         localStorage.setItem('list_url', window.location.href)
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
-          this.current.routerReader(data.id)
+          // this.current.routerReader(data.id)
         } else {
           this.router.navigate(['/detail', data.id]);
         }

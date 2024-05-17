@@ -104,12 +104,12 @@ export class ChapterListMode1Component {
         this.data.chapters[index].selected = !this.data.chapters[index].selected;
       } else {
         if (this.data.is_locked) {
-          this.router.navigate(['/', this.data.comics_id, this.data.chapters[index].id,])
+          this.current.routerReader(this.data.comics_id, this.data.chapters[index].id)
         } else {
           if (this.data.chapters[index].is_locked) {
 
           } else {
-            this.router.navigate(['/', this.data.comics_id, this.data.chapters[index].id,])
+            this.current.routerReader(this.data.comics_id, this.data.chapters[index].id)
           }
         }
       }

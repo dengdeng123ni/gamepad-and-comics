@@ -12,6 +12,7 @@ export class CurrentService {
   private _chapters: any = {};
   private _chapters_IsFirstPageCover: any = {};
 
+  private origin;
 
 
   reader_modes = ['double_page_reader', 'up_down_page_reader', 'left_right_page_reader', 'one_page_reader']
@@ -101,12 +102,15 @@ export class CurrentService {
     return this.event$
   }
 
-  async _init(comic_id: string, chapter_id: string) {
+  async _init(origin: string, comic_id: string, chapter_id: string) {
+    console.log(origin);
+
+    this.origin = origin;
     this.data.is_init_free = false;
     this.data.chapter_id = chapter_id;
     this.data.comics_id = comic_id;
 
-    const _res = await Promise.all([this.DbController.getPages(chapter_id), this.DbController.getDetail(comic_id), this._getChapterIndex(chapter_id), this._getWebDbComicsConfig(comic_id)])
+    const _res = await Promise.all([this.DbController.getPages(chapter_id, { origin: origin }), this.DbController.getDetail(comic_id, { origin: origin }), this._getChapterIndex(chapter_id), this._getWebDbComicsConfig(comic_id)])
 
     if (_res[0] && _res[1]) {
 
@@ -221,7 +225,7 @@ export class CurrentService {
     if (this._chapters[id]) {
       list = this._chapters[id]
     } else {
-      list = await this.DbController.getPages(id);
+      list = await this.DbController.getPages(id, { origin: this.origin });
       this._chapters[id] = list;
     }
     return list
@@ -507,7 +511,7 @@ export class CurrentService {
     this.data.pages = pages;
     if (!!option.chapter_id) {
       this.data.chapter_id = option.chapter_id;
-      history.replaceState(null, "", `${this.data.comics_id}/${this.data.chapter_id}`);
+      // history.replaceState(null, "", `${this.data.comics_id}/${this.data.chapter_id}`);
     }
     if (type == "changePage") {
       this._setChapterIndex(this.data.chapter_id.toString(), option.page_index)

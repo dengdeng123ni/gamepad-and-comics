@@ -12,6 +12,8 @@ export class CurrentService {
   private _chapters: any = {};
   private _chapters_IsFirstPageCover: any = {};
   public init$ = new Subject<any>();
+
+  private origin;
   constructor(
     public DbController: DbControllerService,
     public data: DataService,
@@ -22,10 +24,11 @@ export class CurrentService {
   public init() {
     return this.init$
   }
-  async _init(comic_id: string) {
+  async _init(origin, comic_id: string) {
+    this.origin=origin;
     this.data.is_init_free = false;
     this.data.comics_id = comic_id;
-    const _res = await Promise.all([this.DbController.getDetail(comic_id), this._getWebDbComicsConfig(comic_id)])
+    const _res = await Promise.all([this.DbController.getDetail(comic_id, { origin: origin }), this._getWebDbComicsConfig(comic_id)])
     const res = _res[0];
     this.data.comics_config = _res[1];
     if (this.data.is_local_record) {
@@ -76,7 +79,7 @@ export class CurrentService {
     if (this._chapters[id]) {
       list = this._chapters[id]
     } else {
-      list = await this.DbController.getPages(id);
+      list = await this.DbController.getPages(id, { origin: this.origin });
       this._chapters[id] = list;
     }
     return list
@@ -294,5 +297,9 @@ export class CurrentService {
     y = (y > 0.008856) ? Math.pow(y, 1 / 3) : (7.787 * y) + 16 / 116;
     z = (z > 0.008856) ? Math.pow(z, 1 / 3) : (7.787 * z) + 16 / 116;
     return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
+  }
+
+  async routerReader(comics_id,chapter_id) {
+    this.router.navigate(['/comics',this.origin, comics_id, chapter_id])
   }
 }

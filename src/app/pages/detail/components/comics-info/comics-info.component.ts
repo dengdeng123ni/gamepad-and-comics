@@ -51,7 +51,7 @@ export class ComicsInfoComponent {
     // this.router.navigate(['/', ...arr])
   }
   continue() {
-    this.router.navigate(['/', this.data.comics_id, this.data.chapter_id,])
+    this.current.routerReader(this.data.comics_id, this.data.chapter_id)
   }
   ngAfterViewInit() {
     // this.node_continue.nativeElement.focus();

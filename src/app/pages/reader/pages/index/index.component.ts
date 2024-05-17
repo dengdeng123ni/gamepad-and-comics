@@ -8,7 +8,7 @@ import { IndexService } from './index.service';
 import { ChaptersListService } from '../../components/chapters-list/chapters-list.service';
 import { ToolbarOptionService } from '../../components/toolbar-option/toolbar-option.service';
 import { CustomGridService } from '../../components/custom-grid/custom-grid.service';
-import { HistoryService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
 import { LoadingCoverService } from '../../components/loading-cover/loading-cover.service';
 import { ReaderConfigService } from '../../components/reader-config/reader-config.service';
 import { ComicsDetailService } from '../../components/comics-detail/comics-detail.service';
@@ -26,6 +26,7 @@ export class IndexComponent {
     public data: DataService,
     public router: Router,
     public route: ActivatedRoute,
+    public App:AppDataService,
     public left: OnePageThumbnailMode2Service,
     public ChaptersList: ChaptersListService,
     public index: IndexService,
@@ -57,13 +58,15 @@ export class IndexComponent {
     // this.LoadingCover.open();
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(params => {
-      if (window.location.pathname.split("/")[1] == "reader") {
+      if (params.get('origin')) {
+        this.App.setOrigin(params.get('origin'))
         this.data.init();
-        this.current._init(params.get('id').toString() as string, params.get('id').toString() as string)
+        this.current._init(params.get('origin'),params.get('id').toString() as string, params.get('sid').toString() as string)
         return
       }
       this.data.init();
-      this.current._init(params.get('id').toString() as string, params.get('sid').toString() as string)
+      this.current._init(this.App.origin,params.get('id').toString() as string, params.get('sid').toString() as string)
+
     })
   }
 

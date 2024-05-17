@@ -70,6 +70,7 @@ export class ComicsListV2Component {
       const type = params.get('id')
       const origin = params.get('sid')
       const sid = params.get('pid')
+      this.origin=origin;
       this.type = type;
       this.App.setOrigin(origin)
       if (type == "history") {
@@ -232,9 +233,9 @@ export class ComicsListV2Component {
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
 
-          this.current.routerReader(data.id)
+          this.current.routerReader(this.origin,data.id)
         } else {
-          this.current.routerDetail(data.id)
+          this.current.routerDetail(this.origin,data.id)
         }
       }
 

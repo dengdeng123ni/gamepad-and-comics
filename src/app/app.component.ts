@@ -47,6 +47,8 @@ export class AppComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     let key = "";
+    if(event.key=="F12") return true
+
     if(event.key=="Enter"){
       if(this.is_tab) return true
     }else{
