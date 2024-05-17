@@ -38,6 +38,8 @@ export * from './history/history.service'
 
 export * from './pulg/pulg.service'
 
+export * from './routing-controller.service'
+
 export * from './custom-route-reuse-strategy'
 
 export interface PagesItem { id: string,index:number,src: string, width: number, height: number }

@@ -16,25 +16,6 @@ import { ComicsSelectTypeService } from '../comics-select-type/comics-select-typ
 })
 export class ComicsListV2Component {
   key: string = '';
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.key == "z" || this._ctrl) {
-      this.selectedAll();
-      return false
-    }
-    if (event.key == "Meta") this._ctrl = true;
-    if (event.key == "Control") this._ctrl = true;
-
-    return true
-  }
-  // selectedAll
-  @HostListener('window:keyup', ['$event'])
-  handleKeyUp(event: KeyboardEvent) {
-
-    if (event.key == "Meta") this._ctrl = false;
-    if (event.key == "Control") this._ctrl = false;
-    return true
-  }
   @ViewChild('listbox') ListNode: ElementRef;
   _ctrl = false;
   page_num = 1;
@@ -53,10 +34,10 @@ export class ComicsListV2Component {
   menu_id = '';
 
   id = null;
-  type=null;
+  type = null;
 
 
-  is_destroy=false;
+  is_destroy = false;
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -70,7 +51,7 @@ export class ComicsListV2Component {
     public DbEvent: DbEventService,
     public ComicsListV2: ComicsListV2Service,
     public ComicsSelectType: ComicsSelectTypeService,
-    public history:HistoryService,
+    public history: HistoryService,
     public App: AppDataService
   ) {
 
@@ -83,13 +64,72 @@ export class ComicsListV2Component {
     })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
+     console.log(params);
 
       if (this.id) await this.put()
       const type = params.get('id')
       const origin = params.get('sid')
       const sid = params.get('pid')
-      this.type=type;
-      if(sid){
+      this.type = type;
+      this.App.setOrigin(origin)
+      if (type == "history") {
+        this.id = `${type}_${origin}`;
+        this.key = this.id;
+
+        ComicsListV2.register({
+          id: this.id,
+          type: type,
+          page_size: 20
+        }, {
+          Add: async (obj) => {
+            return (await this.history.getAll() as any).filter(x => x.origin == origin).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
+          },
+          Init: async (obj) => {
+            return (await this.history.getAll() as any).filter(x => x.origin == origin).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
+          }
+        })
+
+      } else if (type == "local_cache") {
+        this.id = `${type}_${origin}`;
+        this.key = this.id;
+        ComicsListV2.register({
+          id: this.id,
+          type: type,
+          page_size: 20
+        }, {
+          Add: async (obj) => {
+            const res = await firstValueFrom(this.webDb.getAll("local_comics"))
+            const list = res.map((x: any) => {
+              return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
+            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
+            return list
+          },
+          Init: async (obj) => {
+            const res = await firstValueFrom(this.webDb.getAll("local_comics"))
+            const list = res.map((x: any) => {
+              return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
+            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
+            return list
+          }
+        })
+      } else if (type == "temporary_file") {
+        this.id = `${sid}`;
+        this.key = this.id;
+        ComicsListV2.register({
+          id: this.id,
+          type: type,
+          page_size: 20
+        }, {
+          Add: async (obj) => {
+            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
+            return list
+          },
+          Init: async (obj) => {
+            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
+            return list
+          }
+        })
+      } else if (sid) {
         this.menu_id = sid;
         this.origin = origin;
         const obj = this.DbEvent.Configs[origin].menu.find(x => x.id == sid);
@@ -119,67 +159,10 @@ export class ComicsListV2Component {
         })
 
       }
-      if(type=="history"){
-        this.id = `${type}_${origin}`;
-        this.key=this.id;
-        ComicsListV2.register({
-          id: this.id,
-          type: type,
-          page_size:20
-        },{
-          Add:async (obj)=>{
-            return (await this.history.getAll() as any).filter(x=>x.origin==origin).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) *obj.page_size);
-          },
-          Init:async (obj)=>{
-            return (await this.history.getAll() as any).filter(x=>x.origin==origin).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
-          }
-        })
-
-      }else if(type=="local_cache"){
-        this.id = `${type}_${origin}`;
-        this.key=this.id;
-        ComicsListV2.register({
-          id: this.id,
-          type: type,
-          page_size:20
-        },{
-          Add:async (obj)=>{
-            const res = await firstValueFrom(this.webDb.getAll("local_comics"))
-            const list = res.map((x: any) => {
-              return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
-            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
-            return list
-          },
-          Init:async (obj)=>{
-            const res = await firstValueFrom(this.webDb.getAll("local_comics"))
-            const list = res.map((x: any) => {
-              return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
-            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
-            return list
-          }
-        })
-      }else if(type=="temporary_file"){
-        this.id = `${type}_${origin}`;
-        this.key=this.id;
-        ComicsListV2.register({
-          id: this.id,
-          type: type,
-          page_size:20
-        }, {
-          Add: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
-            return list
-          },
-          Init: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
-            return list
-          }
-        })
-      }
 
       const data: any = await this.get(this.id);
       if (data) {
-        this.page_num=data.page_num;
+        this.page_num = data.page_num;
         if (this.type == "multipy") {
           this.query.list = data.query.list;
           this.getDatac123123();
@@ -187,14 +170,14 @@ export class ComicsListV2Component {
         } else if (this.type == "choice") {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
-        }else if (this.type == "history") {
-          this.list = await this.ComicsListV2.Events[this.id].Init({page_num:0,page_size:data.list.length});
-        }else if (this.type == "local_cache") {
-          this.list = await this.ComicsListV2.Events[this.id].Init({page_num:0,page_size:data.list.length});
-        }else{
+        } else if (this.type == "history") {
+          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 0, page_size: data.list.length });
+        } else if (this.type == "local_cache") {
+          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 0, page_size: data.list.length });
+        } else {
           this.list = data.list;
         }
-        if(this.list.length==0){
+        if (this.list.length == 0) {
           this.page_num = 0;
         }
 
@@ -212,7 +195,7 @@ export class ComicsListV2Component {
           this.init();
         } else if (this.type == "choice") {
           this.init();
-        }else{
+        } else {
           this.init();
         }
 
@@ -248,9 +231,10 @@ export class ComicsListV2Component {
         localStorage.setItem('list_url', window.location.href)
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
+
           this.current.routerReader(data.id)
         } else {
-          this.router.navigate(['/detail', data.id]);
+          this.current.routerDetail(data.id)
         }
       }
 
@@ -314,14 +298,6 @@ export class ComicsListV2Component {
     }
   }
 
-  selectedAll() {
-    const bool = this.list.filter(x => x.selected == true).length == this.list.length;
-    if (bool) {
-      this.list.forEach(x => x.selected = false)
-    } else {
-      this.list.forEach(x => x.selected = true)
-    }
-  }
 
   ngAfterViewInit() {
     this.ListNode.nativeElement.addEventListener('scroll', (e: any) => {
@@ -342,13 +318,13 @@ export class ComicsListV2Component {
   async overflow() {
     setTimeout(async () => {
       const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-      if (node&&this.ListNode.nativeElement.clientHeight < node.getBoundingClientRect().y) {
+      if (node && this.ListNode.nativeElement.clientHeight < node.getBoundingClientRect().y) {
 
       } else {
         await this.add_pages();
         this.overflow();
       }
-    },50)
+    }, 50)
   }
   scroll$ = new Subject();
   getData() {
@@ -371,11 +347,12 @@ export class ComicsListV2Component {
   }
   ngOnDestroy() {
     this.put();
-    this.is_destroy=true;
+    this.is_destroy = true;
     this.scroll$.unsubscribe();
   }
+  is_end=false;
   async add_pages() {
-    if(this.is_destroy) return
+    if (this.is_destroy) return
     this.page_num++;
     const list = await this.ComicsListV2.add(this.key, { page_num: this.page_num, page_size: this.page_size })
     if (list.length == 0) {

@@ -5,6 +5,7 @@ import { ReaderSectionService } from '../reader-section/reader-section.service';
 import { ReaderNavbarBarService } from './reader-navbar-bar.service';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
+import { RoutingControllerService } from 'src/app/library/routing-controller.service';
 
 @Component({
   selector: 'app-reader-navbar-bar',
@@ -34,7 +35,8 @@ export class ReaderNavbarBarComponent implements OnInit {
     public current: CurrentService,
     public router: Router,
     public data: DataService,
-    public readerSection: ReaderSectionService
+    public readerSection: ReaderSectionService,
+    public RoutingController:RoutingControllerService
   ) {
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {
       if (x == true) {
@@ -67,13 +69,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.current._pageChange(e)
   }
   routerList() {
-    //  window.history.back();
-    let url = localStorage.getItem('list_url');
-    if (!url) url = window.location.origin
-    const urlObj = new URL(url);
-    let arr = [...urlObj.pathname.split("/")];
-    arr.shift()
-    this.router.navigate(['/', ...arr])
+    this.RoutingController.navigate('list')
   }
   routerDetail() {
     this.router.navigate(['/detail', this.data.comics_id]);

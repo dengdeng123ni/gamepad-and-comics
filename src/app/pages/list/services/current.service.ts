@@ -26,6 +26,10 @@ export class CurrentService {
     }
   }
 
+  async routerDetail(comics_id) {
+    this.router.navigate(['/detail', comics_id]);
+  }
+
 
   continue() {
 

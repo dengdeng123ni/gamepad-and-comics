@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { CurrentService } from '../../services/current.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
-import { ImageService } from 'src/app/library/public-api';
+import { ImageService, RoutingControllerService } from 'src/app/library/public-api';
 interface Info {
   cover: string,
   title: string,
@@ -22,6 +22,7 @@ export class ComicsInfoComponent {
     public data: DataService,
     public router: Router,
     public image: ImageService,
+    public RoutingController:RoutingControllerService,
   ) {
     this.info = this.data.comics_info;
     this.init();
@@ -39,12 +40,15 @@ export class ComicsInfoComponent {
     }
   }
   back() {
-    let url = localStorage.getItem('list_url');
-    if (!url) url = window.location.origin
-    const urlObj = new URL(url);
-    let arr = [...urlObj.pathname.split("/")];
-    arr.shift()
-    this.router.navigate(['/', ...arr])
+    this.RoutingController.navigate('list')
+    // console.log();
+
+    // let url = localStorage.getItem('list_url');
+    // if (!url) url = window.location.origin
+    // const urlObj = new URL(url);
+    // let arr = [...urlObj.pathname.split("/")];
+    // arr.shift()
+    // this.router.navigate(['/', ...arr])
   }
   continue() {
     this.router.navigate(['/', this.data.comics_id, this.data.chapter_id,])

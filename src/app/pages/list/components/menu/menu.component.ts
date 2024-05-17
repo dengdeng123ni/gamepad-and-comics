@@ -39,6 +39,7 @@ export class MenuComponent {
     } else if (data.query) {
       if (parent.id) this.AppData.setOrigin(parent.id)
       if(data.query.type=="choice"){
+
         this.router.navigate(['/query','choice',parent.id, data.id]);
       }
       if(data.query.type=="search"){
@@ -70,6 +71,8 @@ export class MenuComponent {
     public route:ActivatedRoute,
     private zone: NgZone
   ) {
+
+
 
     if (this.data.menu.length == 0) {
       Object.keys(this.DbEvent.Events).forEach(x => {
@@ -227,7 +230,7 @@ export class MenuComponent {
       name: dirHandle["name"],
       click: e => {
         this.AppData.setOrigin('temporary_file')
-        this.router.navigate(['/temporary_file', e.id], { queryParams: { name: e.name } });
+        this.router.navigate(['query','temporary_file','temporary_file', e.id], { queryParams: { name: e.name } });
       }
     })
     for (let index = 0; index < this.temporaryFile.data.length; index++) {
