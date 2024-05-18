@@ -40,7 +40,7 @@ const routes: Routes = [
         component: TemporaryFileComponent, // child route component that the router renders
       },
       {
-        path: 'search/:id', // child route path
+        path: 'search/:id/:sid', // child route path
         component: ComicsSearchComponent, // child route component that the router renders
       },
       {

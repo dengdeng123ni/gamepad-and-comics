@@ -29,7 +29,7 @@ export class RoutingControllerService {
     commands: Array<string>
   }) {
     let page = null;
-    if (option.commands[0] == "query") page = "list"
+    if (option.commands[0] == "query"||option.commands[0] == "search") page = "list"
     else if (option.commands[0] == "detail") page = "detail"
     else page = "reader"
     await firstValueFrom(this.webDb.update('router', {

@@ -26,10 +26,10 @@ export class MenuComponent {
   filteredOptions: Observable<string[]>;
 
 
-  current_menu_id=null;
+  current_menu_id = null;
   on($event, data, parent: any = {}) {
-    this.menu.current_menu_id=`${parent.id}_${data.id}`
-    if(parent.id) this.AppData.setOrigin(parent.id)
+    this.menu.current_menu_id = `${parent.id}_${data.id}`
+    if (parent.id) this.AppData.setOrigin(parent.id)
     if (data.click) {
       data.click({
         ...data, $event: $event, parent
@@ -38,20 +38,20 @@ export class MenuComponent {
 
     } else if (data.query) {
       if (parent.id) this.AppData.setOrigin(parent.id)
-      if(data.query.type=="choice"){
+      if (data.query.type == "choice") {
 
-        this.router.navigate(['/query','choice',parent.id, data.id]);
+        this.router.navigate(['/query', 'choice', parent.id, data.id]);
       }
-      if(data.query.type=="search"){
-        this.router.navigate(['/search', parent.id]);
+      if (data.query.type == "search") {
+        this.router.navigate(['/search', parent.id, ""]);
       }
-      if(data.query.type=="multipy"){
-        this.router.navigate(['/query','multipy',parent.id, data.id]);
+      if (data.query.type == "multipy") {
+        this.router.navigate(['/query', 'multipy', parent.id, data.id]);
       }
 
     }
   }
-  change$=null;
+  change$ = null;
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -64,11 +64,11 @@ export class MenuComponent {
     public menu: MenuService,
     public router: Router,
     public pulg: PulgService,
-    public PulgJavascript:PulgJavascriptService,
-    public ContextMenuController:ContextMenuControllerService,
-    public ContextMenuEvent:ContextMenuEventService,
-    public ControllerSettings:ControllerSettingsService,
-    public route:ActivatedRoute,
+    public PulgJavascript: PulgJavascriptService,
+    public ContextMenuController: ContextMenuControllerService,
+    public ContextMenuEvent: ContextMenuEventService,
+    public ControllerSettings: ControllerSettingsService,
+    public route: ActivatedRoute,
     private zone: NgZone
   ) {
 
@@ -101,7 +101,7 @@ export class MenuComponent {
             icon: "history",
             name: "历史记录",
             click: (e) => {
-              this.router.navigate(['query', 'history',e.parent.id]);
+              this.router.navigate(['query', 'history', e.parent.id]);
             }
           }
         )
@@ -125,7 +125,7 @@ export class MenuComponent {
           this.openTemporaryFile();
         }
       })
-      this.change$= this.DbEvent.change().subscribe((x:any)=>{
+      this.change$ = this.DbEvent.change().subscribe((x: any) => {
         let obj = {
           id: x,
           icon: "home",
@@ -143,7 +143,7 @@ export class MenuComponent {
             icon: "history",
             name: "历史记录",
             click: (e) => {
-              this.router.navigate(['query', 'history',e.parent.id]);
+              this.router.navigate(['query', 'history', e.parent.id]);
             }
           }
         )
@@ -151,45 +151,45 @@ export class MenuComponent {
       })
     }
     ContextMenuEvent.register('_gh_settings',
-    {
-      on: async (e: any) => {
-        e.click()
-      },
-      menu:[
-        {
-          id:"javasciprt",
-          name:"脚本",
-          click:()=>{
-            PulgJavascript.open()
-          }
+      {
+        on: async (e: any) => {
+          e.click()
         },
-        {
-          id:"ope",
-          name:"按键说明",
-          click:()=>{
-            ControllerSettings.open()
-          }
-        },
-        {
-          id:"ope1",
-          name:"链接",
-          click:()=>{
+        menu: [
+          {
+            id: "javasciprt",
+            name: "脚本",
+            click: () => {
+              PulgJavascript.open()
+            }
+          },
+          {
+            id: "ope",
+            name: "按键说明",
+            click: () => {
+              ControllerSettings.open()
+            }
+          },
+          {
+            id: "ope1",
+            name: "链接",
+            click: () => {
 
-          }
-        },
-      ]
-    })
+            }
+          },
+        ]
+      })
 
 
   }
-  onMenu(e){
-     const node=document.querySelector("[menu_key=_gh_settings]")
-     const p=node.getBoundingClientRect();
-     this.ContextMenuController.openMenu(node,p.left,p.top)
+  onMenu(e) {
+    const node = document.querySelector("[menu_key=_gh_settings]")
+    const p = node.getBoundingClientRect();
+    this.ContextMenuController.openMenu(node, p.left, p.top)
   }
   ngOnDestroy() {
 
-    if(this.change$)this.change$.unsubscribe();
+    if (this.change$) this.change$.unsubscribe();
   }
   cc() {
     this.pulg.openFile();
@@ -224,7 +224,7 @@ export class MenuComponent {
       }
     }
     const out = {};
-    const id =new Date().getTime();
+    const id = new Date().getTime();
     await handleDirectoryEntry(dirHandle, out, dirHandle["name"]);
     let list = await this.upload.subscribe_to_temporary_file_directory(files_arr, id)
     list.forEach(x => x.temporary_file_id = id);
@@ -236,7 +236,7 @@ export class MenuComponent {
       name: dirHandle["name"],
       click: e => {
         this.AppData.setOrigin('temporary_file')
-        this.router.navigate(['query','temporary_file','temporary_file', e.id]);
+        this.router.navigate(['query', 'temporary_file', 'temporary_file', e.id]);
       }
     })
     for (let index = 0; index < this.temporaryFile.data.length; index++) {
