@@ -7,13 +7,22 @@
   " [opened]="data.is_left_drawer_opened" (mouseleave)="drawer_mouseleave($event)" [mode]="data.left_drawer_mode" class="example-sidenav" mode="side">
    <app-comics-info [info]="data.comics_info" (on_back)="back()" (on_continue)="continue()"></app-comics-info>
 </mat-drawer> -->
+<mat-drawer style="    border: 0;" [opened]="menu.opened" [position]="menu.position" [autoFocus]="false" (openedChange)="openedChange($event)" class="example-sidenav" mode="side">
+  <div class="left" style="    margin-left: 0.4rem;">
+    <app-comics-toolbar></app-comics-toolbar>
+    <app-comics-info *ngIf="data.is_init_free"></app-comics-info>
+  </div>
+</mat-drawer>
   <div class="container" (mouseleave)="mouseleave($event)" [attr.edit]="data.is_edit">
-    <app-comics-info  *ngIf="data.is_init_free"></app-comics-info>
+
     <div class="content">
+      <!-- <app-comics-toolbar></app-comics-toolbar> -->
       <app-edit-toolbar *ngIf="data.is_edit"></app-edit-toolbar>
-      <app-chapter-list-mode1  *ngIf="data.is_init_free"></app-chapter-list-mode1>
+      <app-chapter-list-mode1 *ngIf="data.is_init_free"></app-chapter-list-mode1>
       <!-- <app-chapter-list-mode2></app-chapter-list-mode2> -->
+
+  <app-index-toolbar></app-index-toolbar>
     </div>
   </div>
-  <app-index-toolbar></app-index-toolbar>
 </mat-drawer-container>
+

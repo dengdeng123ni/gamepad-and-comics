@@ -5,3 +5,21 @@
     <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
   </button>
 </div>
+<div class="switch_left_position">
+  <div style="
+      min-width: 32px;
+      height: 72px;
+      max-width: 32px;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    " (click)="on()" [attr.opened]="menu.opened" [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
+    [matTooltipPosition]="'right'">
+    <div class="switch_left">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+  </div>
+</div>

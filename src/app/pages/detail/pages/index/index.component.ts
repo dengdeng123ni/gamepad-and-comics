@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { IndexService } from './index.service';
 import { AppDataService, KeyboardEventService } from 'src/app/library/public-api';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-index',
@@ -22,6 +23,7 @@ export class IndexComponent {
     public AppData:AppDataService,
     public KeyboardToolbar:KeyboardToolbarService,
     public KeyboardEvent:KeyboardEventService,
+    public menu:MenuService
   ) {
     //
     this.KeyboardEvent.registerGlobalEvent({
@@ -44,6 +46,14 @@ export class IndexComponent {
     })
     document.body.setAttribute("router", "detail")
     document.body.setAttribute("locked_region", "detail")
+  }
+  openedChange(bool){
+    //  if(bool){
+    //   document.body.setAttribute("locked_region", "menu")
+    //  }else{
+    //   if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region", "list")
+    //  }
+    this.menu.post()
   }
   ngOnDestroy() {
     this.data.is_left_drawer_opened=false;
