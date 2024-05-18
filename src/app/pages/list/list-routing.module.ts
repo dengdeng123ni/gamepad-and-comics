@@ -44,6 +44,10 @@ const routes: Routes = [
         component: ComicsSearchComponent, // child route component that the router renders
       },
       {
+        path: 'search/:id', // child route path
+        component: ComicsSearchComponent, // child route component that the router renders
+      },
+      {
         path: 'choice/:id/:sid', // child route path
         component: ComicsCustomChoiceComponent, // child route component that the router renders
       },

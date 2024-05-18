@@ -77,8 +77,9 @@ export class ComicsSearchComponent {
     id$.subscribe(async (params) => {
       if (this.id) await this.put()
       const origin = params.get('id')
-      const value = this.b64_to_utf8(params.get('sid'))
-
+      let value = params.get('sid')
+      if(value) value=this.b64_to_utf8(value)
+      else value=''
       this.id=`${origin}_${value}`
       this.origin = origin;
       this.value = value;
