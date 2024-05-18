@@ -18,36 +18,36 @@ export class IndexComponent {
     public current: CurrentService,
     public data: DataService,
     public router: Router,
-    public index:IndexService,
+    public index: IndexService,
     public route: ActivatedRoute,
-    public AppData:AppDataService,
-    public KeyboardToolbar:KeyboardToolbarService,
-    public KeyboardEvent:KeyboardEventService,
-    public menu:MenuService
+    public AppData: AppDataService,
+    public KeyboardToolbar: KeyboardToolbarService,
+    public KeyboardEvent: KeyboardEventService,
+    public menu: MenuService
   ) {
     //
     this.KeyboardEvent.registerGlobalEvent({
-      "p":()=>this.KeyboardToolbar.isToggle()
+      "p": () => this.KeyboardToolbar.isToggle()
     })
 
 
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(params => {
       if (params.get('origin')) {
-        const origin=params.get('origin');
+        const origin = params.get('origin');
         this.data.init();
-        this.current._init(origin,params.get('id'))
+        this.current._init(origin, params.get('id'))
         return
-      }else{
-        const origin=this.AppData.origin;
+      } else {
+        const origin = this.AppData.origin;
         this.data.init();
-        this.current._init(origin,params.get('id'))
+        this.current._init(origin, params.get('id'))
       }
     })
     document.body.setAttribute("router", "detail")
     document.body.setAttribute("locked_region", "detail")
   }
-  openedChange(bool){
+  openedChange(bool) {
     //  if(bool){
     //   document.body.setAttribute("locked_region", "menu")
     //  }else{
@@ -56,11 +56,20 @@ export class IndexComponent {
     this.menu.post()
   }
   ngOnDestroy() {
-    this.data.is_left_drawer_opened=false;
+    this.data.is_left_drawer_opened = false;
     this.current.close();
 
   }
 
+  on($event) {
+    $event.stopPropagation();
+    if ($event.clientX < 72 && $event.clientY <72) {
+      (document.querySelector("#back") as any).click()
+    } else {
+
+    }
+
+  }
 
   on_list($event: HTMLElement) {
 
@@ -69,23 +78,23 @@ export class IndexComponent {
   on_item(e: { $event: HTMLElement, data: any }) {
     const $event = e.$event;
     const data = e.data;
-    this.router.navigate(['/', this.data.comics_id,data.id,])
+    this.router.navigate(['/', this.data.comics_id, data.id,])
   }
-  mouseleave($event:MouseEvent){
-    if($event.offsetX>24) return
-    if($event.offsetX+24>window.innerHeight) return
-    if(($event.offsetX+13)>window.innerWidth){
+  mouseleave($event: MouseEvent) {
+    if ($event.offsetX > 24) return
+    if ($event.offsetX + 24 > window.innerHeight) return
+    if (($event.offsetX + 13) > window.innerWidth) {
 
-    }else{
-      this.data.is_left_drawer_opened=true;
+    } else {
+      this.data.is_left_drawer_opened = true;
     }
     // if($event.offsetX<window.innerWidth){
 
     // }
   }
-  drawer_mouseleave($event:MouseEvent){
-    if($event.offsetX>240) {
-      this.data.is_left_drawer_opened=false;
+  drawer_mouseleave($event: MouseEvent) {
+    if ($event.offsetX > 240) {
+      this.data.is_left_drawer_opened = false;
     }
   }
 }

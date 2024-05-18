@@ -10,13 +10,14 @@ import { DataService } from '../../services/data.service';
 })
 export class ComicsToolbarComponent {
 
-  constructor(public data:DataService,public current:CurrentService,
-    public RoutingController:RoutingControllerService
-  ){}
-  back() {
+  constructor(public data: DataService, public current: CurrentService,
+    public RoutingController: RoutingControllerService
+  ) { }
+  back($event) {
+    $event.stopPropagation();
     this.RoutingController.navigate('list')
   }
   continue() {
     this.current.routerReader(this.data.comics_id, this.data.chapter_id)
   }
-  }
+}
