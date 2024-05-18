@@ -103,8 +103,6 @@ export class CurrentService {
   }
 
   async _init(origin: string, comic_id: string, chapter_id: string) {
-    console.log(origin);
-
     this.origin = origin;
     this.data.is_init_free = false;
     this.data.chapter_id = chapter_id;
