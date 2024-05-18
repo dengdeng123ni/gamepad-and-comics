@@ -172,9 +172,9 @@ export class ComicsListV2Component {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
         } else if (this.type == "history") {
-          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 0, page_size: data.list.length });
+          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
         } else if (this.type == "local_cache") {
-          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 0, page_size: data.list.length });
+          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
         } else {
           this.list = data.list;
         }

@@ -20,7 +20,7 @@ export class TemporaryFileService {
     // })]
     DbEvent.register({
       id:"temporary_file",
-      name: "temporary_file",
+      name: "本地文件",
       is_download:true,
       is_cache: false
     }, {

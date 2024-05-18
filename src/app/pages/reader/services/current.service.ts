@@ -12,7 +12,7 @@ export class CurrentService {
   private _chapters: any = {};
   private _chapters_IsFirstPageCover: any = {};
 
-  private origin;
+  public origin;
 
 
   reader_modes = ['double_page_reader', 'up_down_page_reader', 'left_right_page_reader', 'one_page_reader']
@@ -104,6 +104,7 @@ export class CurrentService {
 
   async _init(origin: string, comic_id: string, chapter_id: string) {
     this.origin = origin;
+
     this.data.is_init_free = false;
     this.data.chapter_id = chapter_id;
     this.data.comics_id = comic_id;

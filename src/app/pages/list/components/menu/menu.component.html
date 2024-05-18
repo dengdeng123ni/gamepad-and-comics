@@ -17,7 +17,7 @@
               </button>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <button [attr.selected]="current_menu_id==(n.id+'_'+c.id)" [attr._id]="n.id+'_'+c.id" *ngFor="let c of n.submenu;let index2=index" mat-button class="item item1" [attr.region]="'menu_item'"
+          <button [attr.selected]="menu.current_menu_id==(n.id+'_'+c.id)" [attr._id]="n.id+'_'+c.id" *ngFor="let c of n.submenu;let index2=index" mat-button class="item item1" [attr.region]="'menu_item'"
             (click)="on($event,c,{
               id:n.id,
               name:n.name
@@ -34,7 +34,7 @@
       <mat-divider style="margin: 8px 16px;"></mat-divider>
     </div>
     <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
-      <button [attr.selected]="current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item" [attr.region]="'menu_item'"
+      <button [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item" [attr.region]="'menu_item'"
         (click)="on($event,n)" [attr._id]="n.id">
         <mat-icon class="icon" >{{n.icon}}</mat-icon>
         <div class="name">

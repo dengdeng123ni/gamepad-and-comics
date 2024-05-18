@@ -6,6 +6,7 @@ import { ReaderNavbarBarService } from './reader-navbar-bar.service';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { RoutingControllerService } from 'src/app/library/routing-controller.service';
+import { DbEventService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-reader-navbar-bar',
@@ -26,6 +27,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     return this.data.page_index
   }
 
+  title='首页';
 
   change$ = new Subject<number>();
   readerNavbarBarChange$;
@@ -36,8 +38,10 @@ export class ReaderNavbarBarComponent implements OnInit {
     public router: Router,
     public data: DataService,
     public readerSection: ReaderSectionService,
+    public DbEvent:DbEventService,
     public RoutingController:RoutingControllerService
   ) {
+    this.title= DbEvent.Configs[current.origin].name;
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {
       if (x == true) {
         this.chapter_index = data.chapters.findIndex(x => x.id == data.chapter_id)

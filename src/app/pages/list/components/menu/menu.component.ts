@@ -28,7 +28,7 @@ export class MenuComponent {
 
   current_menu_id=null;
   on($event, data, parent: any = {}) {
-
+    this.menu.current_menu_id=`${parent.id}_${data.id}`
     if(parent.id) this.AppData.setOrigin(parent.id)
     if (data.click) {
       data.click({
@@ -72,7 +72,13 @@ export class MenuComponent {
     private zone: NgZone
   ) {
 
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
 
+      }
+      if (event instanceof NavigationEnd) {
+      }
+    })
 
     if (this.data.menu.length == 0) {
       Object.keys(this.DbEvent.Events).forEach(x => {
@@ -218,7 +224,7 @@ export class MenuComponent {
       }
     }
     const out = {};
-    const id = window.btoa(encodeURI(dirHandle["name"]))
+    const id =new Date().getTime();
     await handleDirectoryEntry(dirHandle, out, dirHandle["name"]);
     let list = await this.upload.subscribe_to_temporary_file_directory(files_arr, id)
     list.forEach(x => x.temporary_file_id = id);
@@ -230,7 +236,7 @@ export class MenuComponent {
       name: dirHandle["name"],
       click: e => {
         this.AppData.setOrigin('temporary_file')
-        this.router.navigate(['query','temporary_file','temporary_file', e.id], { queryParams: { name: e.name } });
+        this.router.navigate(['query','temporary_file','temporary_file', e.id]);
       }
     })
     for (let index = 0; index < this.temporaryFile.data.length; index++) {

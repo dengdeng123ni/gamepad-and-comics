@@ -12,7 +12,7 @@ export class MenuService {
   opened = true;
   mode = 'side';
   position: "start" | "end" = 'start';
-
+  current_menu_id=null
   constructor(public data: DataService,
     public webDb: NgxIndexedDBService,
 
@@ -40,7 +40,8 @@ export class MenuService {
     return await firstValueFrom(this.webDb.update("data", {
       id: this.key,
       opened: this.opened,
-      mode: this.mode
+      mode: this.mode,
+      current_menu_id:this.current_menu_id
     }))
   }
 
@@ -50,6 +51,7 @@ export class MenuService {
       this.opened = res.opened;
       this.mode = res.mode;
       this.position = res.position;
+      if(!this.current_menu_id)  this.current_menu_id=res.current_menu_id;
     }
   }
 }
