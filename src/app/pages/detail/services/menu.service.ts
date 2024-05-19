@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class MenuService {
 
-  key = "_gh_menu";
+  key = "_gh_menu_detail";
   opened = true;
   mode = 'side';
   position: "start" | "end" = 'start';
