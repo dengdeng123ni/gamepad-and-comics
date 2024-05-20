@@ -183,11 +183,11 @@ export class ComicsListV2Component {
         }
 
         this.zone.run(() => {
-          setTimeout(() => {
-            this.ListNode.nativeElement.scrollTop = data.scrollTop;
-            this.overflow()
-          })
+          setTimeout(async () => {
 
+            await this.overflow()
+            this.ListNode.nativeElement.scrollTop = data.scrollTop;
+          })
         })
 
       } else {

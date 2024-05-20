@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { AppDataService, ImageService, MessageFetchService, WorkerService } from 'src/app/library/public-api';
+import { Component, Input, ViewChild } from '@angular/core';
+import { AppDataService, ImageService, WorkerService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-image',
@@ -12,10 +12,10 @@ export class ImageComponent {
   @Input() width: string | number | null = "";
   @Input() height: string | number | null = "";
   @Input() alt: string | number | null = "";
-  url: string | undefined
-  @ViewChild('box')
-  box!: ElementRef;
+  url:  string= "";
   @Input() objectFit: string = ""
+
+  is_init_free=false;
   constructor(public image: ImageService,
     public WebWorker: WorkerService,
     public App: AppDataService
@@ -47,7 +47,9 @@ export class ImageComponent {
       this.url = this.src;
     } else {
       if (this.App.is_web_worker && this.src.substring(7, 21) == "localhost:7700") {
+        setTimeout(() => {
          this.image.addTask(() => this.getImage2())
+        })
       }else{
         setTimeout(() => {
           this.image.addTask(() => this.getImage())
