@@ -12,7 +12,8 @@
   width: calc(100vw - 24px);
   margin-left: 12px;
 }
-.warp{
+
+.warp {
   padding: 0.6rem;
   padding-top: 0;
   height: 100%;
@@ -20,12 +21,13 @@
   overflow: hidden;
   // 199,154,118
 }
+
 .grid {
   display: grid;
   margin-left: auto;
   margin-right: auto;
   overflow: auto;
-  grid-template-columns: repeat(auto-fill, calc(162px + 2rem));
+  grid-template-columns: repeat(auto-fill, minmax(calc(162px + 2rem), 1fr));
   justify-content: space-between;
   grid-gap: 0.4rem 0;
   height: auto;
@@ -37,8 +39,10 @@
 
   &[size=small] {
     grid-template-columns: repeat(auto-fill, calc(130px + 1.6rem));
+
     .item {
       padding: 0.8rem;
+
       .img {
         height: 184px;
       }
@@ -46,9 +50,11 @@
   }
 
   &[size=middle] {
-    grid-template-columns: repeat(auto-fill, calc(144px + 1.8rem));
+    grid-template-columns:repeat(auto-fit, minmax(min(calc(144px + 1.8rem), 100%), 1fr));
+
     .item {
       padding: 0.9rem;
+
       .img {
         height: 192px;
       }
@@ -99,7 +105,8 @@
     width: 100%;
     text-align: left;
     transition: 10s all;
-    &:hover{
+
+    &:hover {
       color: rgba(255, 255, 255, .87);
     }
   }

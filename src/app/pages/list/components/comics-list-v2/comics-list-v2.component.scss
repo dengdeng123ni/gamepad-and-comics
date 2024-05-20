@@ -27,7 +27,7 @@
   margin-left: auto;
   margin-right: auto;
   overflow: auto;
-  grid-template-columns: repeat(auto-fill, calc(162px + 2rem));
+  grid-template-columns: repeat(auto-fit, minmax(min(calc(132px + 1.6rem), calc(144px + 1.8rem)), 1fr));
   justify-content: space-between;
   grid-gap: 0.4rem 0;
   height: auto;
@@ -35,47 +35,20 @@
   width: 100%;
   grid-template-rows: min-content;
 
-  &[size=large] {}
-
-  &[size=small] {
-    grid-template-columns: repeat(auto-fill, calc(130px + 1.6rem));
-
-    .item {
-      padding: 0.8rem;
-
-      .img {
-        height: 184px;
-      }
-    }
-  }
-
-  &[size=middle] {
-    grid-template-columns: repeat(auto-fill, calc(144px + 1.8rem));
-
-    .item {
-      padding: 0.9rem;
-
-      .img {
-        height: 192px;
-      }
-    }
-  }
 
   .item {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    padding: 1rem;
+    padding: 0.8rem;
     height: auto;
     width: 100%;
     user-select: none;
-    height: fit-content;
     // text-align: left;
     // height: min-content;
 
     .img {
       width: 100%;
-      height: 236px;
       display: flex;
       align-items: end;
       overflow: hidden;
@@ -134,20 +107,21 @@
     pointer-events: none;
   }
 }
-
-@media (max-width: 480px) {
+@media screen and (min-width: 0px) and (max-width: 720px) {
   .grid {
-    grid-template-columns: 1fr 1fr;
-    padding: 0.4rem;
-
+    grid-template-columns: repeat(auto-fit, minmax(min(calc(96px + 0.4rem), calc(124px + 0.6rem)), 1fr));
     .item {
-      padding: 0.75rem;
-
-      .img {
-        // height: fit-content !important;
-      }
+      padding: 0.4rem;
     }
+  }
+}
 
+@media screen and (min-width: 720px) and (max-width: 1080px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(calc(124px + 0.6rem), calc(144px + 0.6rem)), 1fr));
+    .item {
+      padding: 0.6rem;
+    }
   }
 }
 
@@ -358,10 +332,17 @@
     padding: 0 12px;
     justify-content: end;
   }
-
-  .mdc-button__label {
-    width: 100%;
+  [region=comics_item]{
+    .mdc-button__label {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      align-items: center;
+      justify-content: end;
+    }
   }
+
 
 }
 
