@@ -48,21 +48,19 @@ export class DbControllerService {
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
+    const id = window.btoa(encodeURIComponent(JSON.stringify(obj)))
+    if (this.lists[id]) {
+      return JSON.parse(JSON.stringify(this.lists[id]))
+    } else {
 
-
-    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["getList"]) {
       let res = await this.DbEvent.Events[option.origin]["getList"](obj);
-
-
       res.forEach(x => {
         this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
         x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
         x.option = { origin: option.origin }
       })
-      // res.
+      this.lists[id] = JSON.parse(JSON.stringify(res));
       return res
-    } else {
-      return []
     }
   }
   async getDetail(id: string, option?: {
@@ -137,7 +135,7 @@ export class DbControllerService {
             })
           } else {
             res = await this.DbEvent.Events[option.origin]["getPages"](id);
-            firstValueFrom(this.webDb.update('pages', {id,data: JSON.parse(JSON.stringify(res))}))
+            firstValueFrom(this.webDb.update('pages', { id, data: JSON.parse(JSON.stringify(res)) }))
             res.forEach((x, i) => {
               this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
               x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
@@ -182,6 +180,9 @@ export class DbControllerService {
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
+    let blob = new Blob([], {
+      type: 'image/jpeg'
+    });
     if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["getImage"]) {
       if (id.substring(7, 21) == "localhost:7700") {
         let url = id;
@@ -260,20 +261,19 @@ export class DbControllerService {
           }
         }
         const res = await caches.match(url);
-
         if (res) {
-          const blob = await res.blob()
+          blob = await res.blob()
           if (blob.size < 1000) {
-            return await getBlob()
+            blob = await getBlob()
           }
-          return blob
         } else {
-          return await getBlob()
+          blob = await getBlob()
         }
       } else {
-        const res = await this.DbEvent.Events[option.origin]["getImage"](id)
-        return res
+        blob = await this.DbEvent.Events[option.origin]["getImage"](id)
       }
+
+      return blob
     } else {
       return new Blob([], {
         type: 'image/jpeg'
