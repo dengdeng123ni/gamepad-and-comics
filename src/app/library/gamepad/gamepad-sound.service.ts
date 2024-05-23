@@ -25,10 +25,10 @@ export class GamepadSoundService {
   opened = true;
   constructor() {
     window.addEventListener('click', e => {
-      var sound = this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/tick.wav");
+      // var sound = this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/tick.wav");
     })
     window.addEventListener('contextmenu', e => {
-      var sound = this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/select.wav");
+      // var sound = this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/select.wav");
     })
     if (localStorage.getItem('sound') == "close") this.opened = false;
   }

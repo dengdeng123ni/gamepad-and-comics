@@ -62,9 +62,9 @@ export class IndexComponent {
   }
 
   on($event) {
-    $event.stopPropagation();
-    if ($event.clientX < 72 && $event.clientY <72) {
-      (document.querySelector("#back") as any).click()
+    if ($event.pointerId < 0) return
+    if ($event.clientX < 72 && $event.clientY < 72) {
+      // (document.querySelector("#back") as any).click()
     } else {
 
     }
