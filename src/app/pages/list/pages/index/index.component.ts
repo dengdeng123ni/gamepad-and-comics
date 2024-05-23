@@ -10,6 +10,7 @@ import { map } from 'rxjs';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 import { ControllerSettingsService } from '../../components/controller-settings/controller-settings.service';
 import { ComicsListV2Service } from '../../components/comics-list-v2/comics-list-v2.service';
+import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
 
 @Component({
   selector: 'app-index',
@@ -30,6 +31,7 @@ export class IndexComponent {
     public KeyboardToolbar:KeyboardToolbarService,
     public KeyboardEvent:KeyboardEventService,
     public ControllerSettings:ControllerSettingsService,
+    public GamepadToolbar:GamepadToolbarService,
     public ComicsListV2:ComicsListV2Service
   ) {
     this.KeyboardEvent.registerGlobalEvent({

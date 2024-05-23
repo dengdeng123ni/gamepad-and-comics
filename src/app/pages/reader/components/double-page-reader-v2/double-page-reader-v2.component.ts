@@ -388,17 +388,17 @@ export class DoublePageReaderV2Component {
         forceToAxis: false,
         thresholdTime: 500,
       },
-      grabCursor: true,
-      effect: "creative",
-      creativeEffect: {
-        prev: {
-          shadow: true,
-          translate: ["-20%", 0, -1],
-        },
-        next: {
-          translate: ["100%", 0, 0],
-        },
-      },
+      // grabCursor: true,
+      // effect: "creative",
+      // creativeEffect: {
+      //   prev: {
+      //     shadow: true,
+      //     translate: ["-20%", 0, -1],
+      //   },
+      //   next: {
+      //     translate: ["100%", 0, 0],
+      //   },
+      // },
     });
     // this.swiper.stop
     this.swiper.on('slidePrevTransitionEnd', () => {

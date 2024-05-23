@@ -1,0 +1,68 @@
+<div id="gamepad_reader_circle_toolbar" (click)="close()">
+  <div class="circularity_toolabr">
+    <!-- <div class="outer">
+      <div class="outer-wire"></div>
+      <div class='outer-select'>
+        <div class='triangle' (click)="on(index)">
+        </div>
+      </div>
+      <div class="outer-wire" style="transform: rotate(30deg)"></div>
+      <div class="outer-wire" style="transform: rotate(60deg)"></div>
+      <div class="outer-wire" style="transform: rotate(90deg)"></div>
+      <div class="outer-wire" style="transform: rotate(120deg)"></div>
+      <div class="outer-wire" style="transform: rotate(150deg)"></div>
+      <div class="outer-select"></div>
+      <mat-icon class="icon icon-1" style="left: 29px;top: 30px;">settings</mat-icon>
+    </div> -->
+    <div class="inner">
+      <div class='inner-select' style="transform: rotate(0deg);">
+        <div class='inner-triangle'>
+        </div>
+      </div>
+
+      <button mat-icon-button matTooltipPosition="right" class="icon icon-3" [attr._id]="'handel_toolabr_center_6'"
+        [attr.region]="'handel_toolabr_center'" (click)="isFullChange()">
+        <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
+        <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
+      </button>
+    </div>
+  </div>
+  <!-- <div class="list gamepad_reader_circle_toolbar_left">
+
+    <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="'Language'" class="icon create_pdf" (click)="LanguageSettings.open()"
+      [attr.region]="'handel_toolabr_left'" [attr._id]="'handel_toolabr_left_1'">
+      <mat-icon>g_translate</mat-icon>
+    </button>
+    <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.about_the_software" class="icon" (click)="SoftwareInformation.open()"
+      [attr.region]="'handel_toolabr_left'">
+      <mat-icon>help</mat-icon>
+    </button>
+    <button mat-icon-button matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.settings" class="icon" (click)="openGlobalSettings($event)"
+      [attr.region]="'handel_toolabr_left'">
+      <mat-icon>settings_applications</mat-icon>
+    </button>
+  </div>
+  <div class="list gamepad_reader_circle_toolbar_right">
+    <button cdkFocusInitial matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.full_screen" mat-icon-button class="icon"
+      (click)="isfullscreen?isFullChange('window'):isFullChange('full_screen')"
+      [attr.region]="'handel_toolabr_right'" [attr._id]="'handel_toolabr_right_1'">
+      <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
+      <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
+    </button>
+    <button mat-icon-button class="icon" matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+      [matTooltip]="i18n.config.hide_cursor" (click)="cursorChange();"
+      [attr.region]="'handel_toolabr_right'">
+      <mat-icon>play_disabled</mat-icon>
+    </button>
+    <button mat-icon-button class="icon" matTooltipPosition="right" [matTooltipShowDelay]="i18n.tooltipShowDelay"
+    [matTooltip]="i18n.config.close_the_gamepad" (click)="handelClose();GamepadLeftCircleToolbar.close()"
+    [attr.region]="'handel_toolabr_right'">
+    <mat-icon>videogame_asset_off</mat-icon>
+    </button>
+  </div> -->
+  <!-- <div class="name">全屏</div> -->
+</div>
