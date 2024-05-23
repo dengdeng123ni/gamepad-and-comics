@@ -120,6 +120,7 @@ export class CurrentService {
     this.data.page_index = _res[2];
     this.data.comics_config = _res[3];
     this.data.pages = list;
+    if (this.data.page_index >= this.data.pages.length) this.data.page_index = 0;
     if (this.data.is_local_record) {
       this.data.chapters = res.chapters;
       const chapters = await this._getChapterRead(this.data.comics_id);
@@ -500,12 +501,14 @@ export class CurrentService {
   }) {
     if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
+
     const chapter = this.data.chapters.find(x => x.id == option.chapter_id);
     // if(chapter.is_locked){
 
     //   return
     // }
     const pages = await this._getChapter(option.chapter_id)
+    if (option.page_index > pages.length) option.page_index = pages.length - 1;
     this.data.page_index = option.page_index;
     this.data.pages = pages;
     if (!!option.chapter_id) {

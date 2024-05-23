@@ -32,6 +32,7 @@ import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard
 import { OnePageReaderV2Component } from './components/one-page-reader-v2/one-page-reader-v2.component';
 import { OnePageReaderV2DefaultComponent } from './components/one-page-reader-v2-default/one-page-reader-v2-default.component';
 import { UnlockComponent } from './components/unlock/unlock.component';
+import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { UnlockComponent } from './components/unlock/unlock.component';
     OnePageReaderV2Component,
     OnePageReaderV2DefaultComponent,
     UnlockComponent,
+    GamepadToolbarComponent
   ],
   imports: [
     CommonModule,

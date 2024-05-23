@@ -7,6 +7,7 @@ import { IndexService } from './index.service';
 import { AppDataService, KeyboardEventService } from 'src/app/library/public-api';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 import { MenuService } from '../../services/menu.service';
+import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
 
 @Component({
   selector: 'app-index',
@@ -23,6 +24,7 @@ export class IndexComponent {
     public AppData: AppDataService,
     public KeyboardToolbar: KeyboardToolbarService,
     public KeyboardEvent: KeyboardEventService,
+    public GamepadToolbar:GamepadToolbarService,
     public menu: MenuService
   ) {
     //

@@ -95,7 +95,7 @@ export class GamepadExplanationComponent {
       LEFT_TRIGGER: "上一章",
       RIGHT_TRIGGER: "下一章",
     },
-    handel_toolabr_center: {
+    gamepad_toolbar_center: {
       LEFT_ANALOG: "旋转",
       RIGHT_ANALOG: "旋转",
       UP: "上一个",
@@ -108,11 +108,11 @@ export class GamepadExplanationComponent {
       LEFT_TRIGGER: "切换区域",
       RIGHT_TRIGGER: "切换区域"
     },
-    handel_toolabr_left: {
+    gamepad_toolbar_left: {
       LEFT_TRIGGER: "切换区域",
       RIGHT_TRIGGER: "切换区域"
     },
-    handel_toolabr_right: {
+    gamepad_toolbar_right: {
       LEFT_TRIGGER: "切换区域",
       RIGHT_TRIGGER: "切换区域"
     },

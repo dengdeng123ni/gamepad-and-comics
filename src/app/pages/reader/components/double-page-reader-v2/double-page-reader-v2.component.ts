@@ -55,7 +55,7 @@ export class DoublePageReaderV2Component {
         this.current._pageNext();
       },
       "B": () => {
-       window.history.back()
+        window.history.back()
       },
     })
 
@@ -100,6 +100,7 @@ export class DoublePageReaderV2Component {
 
 
     this.change$ = this.current.change().subscribe(x => {
+
       if (x.trigger == 'double_page_reader_v2') return
       if (x.type == "changePage") {
         this.change(x.chapter_id, x.pages, x.page_index)
@@ -157,12 +158,10 @@ export class DoublePageReaderV2Component {
   }
   async init() {
     await this.addNextSlide(this.data.chapter_id, this.data.pages, this.data.page_index);
+    await this.next();
+    await this.previous();
     setTimeout(async () => {
       await this.next();
-      await this.previous();
-      setTimeout(async () => {
-        await this.next();
-      })
     })
   }
 
@@ -250,6 +249,8 @@ export class DoublePageReaderV2Component {
   objPreviousHtml = {};
   isPageFirst = false;
   is_first_page_cover = true;
+
+  is_1 = false;
   async addNextSlide(chapter_id, list, index: number) {
     if (index < 0) index = 0;
 
@@ -290,6 +291,11 @@ export class DoublePageReaderV2Component {
     const res = await getNextPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
+    if (res?.primary?.width == res?.secondary?.width && !this.is_1) {
+      document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(res.primary.width / res.primary.height) * window.innerHeight * 2}px`);
+      this.is_1 = true
+    }
+
     if (res.primary.end) current = current + `<img style="opacity: 0;width:50%"  src="${res.primary.src}" />`;
     if (res.secondary.src) current = current + `<img style="width: 50%;height: auto;object-fit: contain;object-position: right;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
     if (res.primary.src) current = current + `<img  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: left;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
@@ -388,43 +394,52 @@ export class DoublePageReaderV2Component {
         forceToAxis: false,
         thresholdTime: 500,
       },
-      // grabCursor: true,
-      // effect: "creative",
-      // creativeEffect: {
-      //   prev: {
-      //     shadow: true,
-      //     translate: ["-20%", 0, -1],
-      //   },
-      //   next: {
-      //     translate: ["100%", 0, 0],
-      //   },
-      // },
+      grabCursor: true,
+      effect: "creative",
+      creativeEffect: {
+        prev: {
+          shadow: true,
+          translate: ["-20%", 0, -1],
+        },
+        next: {
+          translate: ["100%", 0, 0],
+        },
+      },
     });
     // this.swiper.stop
-    this.swiper.on('slidePrevTransitionEnd', () => {
+    this.swiper.on('slidePrevTransitionEnd', async () => {
 
       if (!this.ccc) {
         this.ccc = true;
 
-        this.next()
+        await this.next()
+
         this.ccc = false;
+       setTimeout(()=>{
+         this.next()
+       },0)
       }
     });
-    this.swiper.on('slideChange', () => {
+    this.swiper.on('slideChange', async () => {
       if (!this.ppp) {
         this.ppp = true;
 
-        this.updata()
+        await this.updata()
+
         this.ppp = false;
       }
     })
 
-    this.swiper.on('slideNextTransitionEnd', () => {
+    this.swiper.on('slideNextTransitionEnd', async () => {
       if (!this.ccc) {
         this.ccc = true;
 
-        this.previous()
-          this.ccc = false;
+        await this.previous()
+
+        this.ccc = false;
+        setTimeout(()=>{
+          this.previous()
+        },0)
       }
     });
 

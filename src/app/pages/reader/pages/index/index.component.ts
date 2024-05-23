@@ -14,6 +14,8 @@ import { ReaderConfigService } from '../../components/reader-config/reader-confi
 import { ComicsDetailService } from '../../components/comics-detail/comics-detail.service';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 import { PromptService } from '../../services/prompt.service';
+import { GamepadToolbarComponent } from '../../components/gamepad-toolbar/gamepad-toolbar.component';
+import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
 
 @Component({
   selector: 'app-index',
@@ -37,6 +39,7 @@ export class IndexComponent {
     public ComicsDetail: ComicsDetailService,
     public KeyboardToolbar: KeyboardToolbarService,
     public KeyboardEvent: KeyboardEventService,
+    public GamepadToolbar:GamepadToolbarService,
     public Prompt: PromptService
   ) {
 

@@ -34,6 +34,7 @@ export class IndexService {
       region: ['double_page_thumbnail_item'],
     });
 
+    this.GamepadEvent.registerConfig("reader_navbar_bar", { region: ["reader_navbar_bar_top_item","reader_navbar_bar_buttom_item"] })
     this.current.on$.subscribe((event$) => {
       const { x, y } = event$;
       const { innerWidth, innerHeight } = window;

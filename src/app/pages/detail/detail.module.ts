@@ -18,6 +18,7 @@ import { ComicsOffprintThumbnailComponent } from './components/comics-offprint-t
 import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.component';
 import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard-toolbar.component';
 import { ComicsToolbarComponent } from './components/comics-toolbar/comics-toolbar.component';
+import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ComicsToolbarComponent } from './components/comics-toolbar/comics-toolb
     ComicsOffprintThumbnailComponent,
     IndexToolbarComponent,
     KeyboardToolbarComponent,
-    ComicsToolbarComponent
+    ComicsToolbarComponent,
+    GamepadToolbarComponent
   ],
   imports: [
     CommonModule,

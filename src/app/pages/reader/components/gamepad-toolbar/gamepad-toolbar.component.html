@@ -19,8 +19,43 @@
         <div class='inner-triangle'>
         </div>
       </div>
-
-      <button mat-icon-button matTooltipPosition="right" class="icon icon-3" [attr._id]="'gamepad_toolbar_center_6'"
+      <button mat-icon-button mat-icon-button matTooltipPosition="right" class="icon icon-1" [attr._id]="'gamepad_toolbar_center_1'"
+        [attr.region]="'gamepad_toolbar_center'"
+        (click)="close();togglePage2()">
+        <mat-icon *ngIf="false">radio_button_unchecked</mat-icon>
+        <mat-icon *ngIf="true">radio_button_checked</mat-icon>
+      </button>
+      <button mat-icon-button mat-icon-button matTooltipPosition="right" class="icon icon-2" [attr._id]="'gamepad_toolbar_center_2'"
+        [attr.region]="'gamepad_toolbar_center'"
+        (click)="close();chaptersThumbnail.open()">
+        <mat-icon>subject</mat-icon>
+      </button>
+      <button mat-icon-button mat-icon-button matTooltipPosition="right" class="icon icon-3" [attr._id]="'gamepad_toolbar_center_3'"
+        [attr.region]="'gamepad_toolbar_center'"
+        (click)="close();togglePage()">
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+      <button mat-icon-button mat-icon-button matTooltipPosition="right" class="icon icon-4" [attr._id]="'gamepad_toolbar_center_4'"
+        [attr.region]="'gamepad_toolbar_center'"
+        (click)="close();doublePageThumbnail.open()">
+        <mat-icon>grid_view</mat-icon>
+      </button>
+      <button mat-icon-button mat-icon-button matTooltipPosition="right" class="icon icon-5" [attr._id]="'gamepad_toolbar_center_5'"
+        [attr.region]="'gamepad_toolbar_center'"
+        (click)="close();onePageThumbnailMode3.open()">
+        <mat-icon>view_comfy</mat-icon>
+      </button>
+      <button mat-icon-button mat-icon-button matTooltipPosition="right" class="icon icon-6" [attr._id]="'gamepad_toolbar_center_6'"
+        [attr.region]="'gamepad_toolbar_center'"
+        (click)="close();OpenComicsDetail()">
+        <mat-icon>info</mat-icon>
+      </button>
+      <button mat-icon-button mat-icon-button matTooltipPosition="right" class="icon icon-7" [attr._id]="'gamepad_toolbar_center_7'"
+        [attr.region]="'gamepad_toolbar_center'"
+        (click)="close();openReaderSettings($event)">
+        <mat-icon>settings</mat-icon>
+      </button>
+      <button mat-icon-button matTooltipPosition="right" class="icon icon-8" [attr._id]="'gamepad_toolbar_center_8'"
         [attr.region]="'gamepad_toolbar_center'" (click)="isFullChange()">
         <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
         <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>

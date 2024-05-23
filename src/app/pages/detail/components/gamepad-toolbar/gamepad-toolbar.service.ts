@@ -200,7 +200,7 @@ if (this.opened == false) {
       this.region = document.body.getAttribute("locked_region") ?? "";
       document.body.setAttribute("locked_region", "gamepad_left_circle_toolbar")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "list")
+        if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "detail")
       });
     }
   }
@@ -211,7 +211,7 @@ if (this.opened == false) {
   close() {
     this.up$.unsubscribe();
     document.body.setAttribute("locked_region", this.region)
-    if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "list")
+    if (document.body.getAttribute("locked_region") == "gamepad_left_circle_toolbar" && this.opened) document.body.setAttribute("locked_region", "detail")
     this._dialog.closeAll();
     this.opened = false;
     //
