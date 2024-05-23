@@ -8,7 +8,7 @@ import { IndexService } from './index.service';
 import { ChaptersListService } from '../../components/chapters-list/chapters-list.service';
 import { ToolbarOptionService } from '../../components/toolbar-option/toolbar-option.service';
 import { CustomGridService } from '../../components/custom-grid/custom-grid.service';
-import { AppDataService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, GamepadEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
 import { LoadingCoverService } from '../../components/loading-cover/loading-cover.service';
 import { ReaderConfigService } from '../../components/reader-config/reader-config.service';
 import { ComicsDetailService } from '../../components/comics-detail/comics-detail.service';
@@ -40,9 +40,14 @@ export class IndexComponent {
     public KeyboardToolbar: KeyboardToolbarService,
     public KeyboardEvent: KeyboardEventService,
     public GamepadToolbar:GamepadToolbarService,
+    public GamepadEvent:GamepadEventService,
     public Prompt: PromptService
   ) {
-
+    this.GamepadEvent.registerGlobalEvent({
+      LEFT_ANALOG_PRESS:()=>{
+        this.GamepadToolbar.isToggle()
+      }
+    })
     this.KeyboardEvent.registerGlobalEvent({
       "p": () => this.KeyboardToolbar.isToggle(),
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GamepadEventService, GamepadControllerService, GamepadInputService } from 'src/app/library/public-api';
 import { GamepadToolbarComponent } from './gamepad-toolbar.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +14,15 @@ export class GamepadToolbarService {
   up$=null;
   constructor(
     public _dialog: MatDialog,
+    private _sheet: MatBottomSheet,
     public GamepadEvent: GamepadEventService,
     public GamepadController: GamepadControllerService,
     public GamepadInput: GamepadInputService,
   ) {
-    this.GamepadEvent.registerGlobalEvent({
-      LEFT_ANALOG_PRESS:()=>{
-        this.isToggle()
 
-      }
-    })
     this.GamepadEvent.registerConfig("gamepad_left_circle_toolbar", { region: ["gamepad_toolbar_left","gamepad_toolbar_right","gamepad_toolbar_center","gamepad_toolbar_menu"] })
   }
-registerGlobalEvent
+
   init(){
     this.GamepadEvent.registerAreaEvent("gamepad_toolbar_center", {
       "B": () => this.close(),
@@ -189,6 +186,8 @@ registerGlobalEvent
   opened: boolean = false;
   region = "";
   open() {
+    this._dialog.closeAll();
+    this._sheet.dismiss();
 if (this.opened == false) {
       this.init();
       this.current=8;
