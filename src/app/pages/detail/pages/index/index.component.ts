@@ -64,9 +64,10 @@ export class IndexComponent {
   }
 
   on($event) {
-    if ($event.pointerId < 0) return
+    // if ($event.pointerId < 0) return
+    if($event.clientX==0&&$event.clientY==0) return
     if ($event.clientX < 72 && $event.clientY < 72) {
-      // (document.querySelector("#back") as any).click()
+      (document.querySelector("#back") as any).click()
     } else {
 
     }
