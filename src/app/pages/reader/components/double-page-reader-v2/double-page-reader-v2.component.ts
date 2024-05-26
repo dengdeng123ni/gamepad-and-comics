@@ -207,10 +207,14 @@ export class DoublePageReaderV2Component {
     const chapter_id = nodes[0].getAttribute("chapter_id");
     if (chapter_id == this.data.chapter_id) {
       if (index >= this.data.pages.length-1) {
-        const list = await this.current._getNextChapter();
-        const id = await this.current._getNextChapterId();
-        this.addNextSlide(id, list, 0);
-        return
+        const next_chapter_id = await this.current._getNextChapterId(chapter_id);
+        const pages = await this.current._getChapter(chapter_id);
+        if(next_chapter_id){
+          this.addNextSlide(next_chapter_id, pages, 0);
+          return
+        }else{
+          return
+        }
 
       } else {
         this.addNextSlide(this.data.chapter_id, this.data.pages, index)
@@ -233,10 +237,14 @@ export class DoublePageReaderV2Component {
     const chapter_id = nodes[0].getAttribute("chapter_id");
     if (chapter_id == this.data.chapter_id) {
       if (index < 0) {
-        const list = await this.current._getPreviousChapter();
-        const id = await this.current._getPreviousChapterId();
-        this.addPreviousSlide(id, list, list.length - 1);
-        return
+        const previous_chapter_id = await this.current._getPreviousChapterId(chapter_id);
+        if(previous_chapter_id){
+          const pages = await this.current._getChapter(previous_chapter_id);
+          this.addPreviousSlide(previous_chapter_id, pages, pages.length - 1);
+          return
+        }else{
+          return
+        }
       } else {
         this.addPreviousSlide(this.data.chapter_id, this.data.pages, index)
       }
