@@ -191,8 +191,9 @@ export class CurrentService {
       return await this._getChapter(id);
     }
   }
-  async _getNextChapterId(): Promise<string | null> {
-    const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
+  async _getNextChapterId(id?): Promise<string | null> {
+    if (!id) id = this.data.chapter_id;
+    const index = this.data.chapters.findIndex(x => x.id == id);
     const obj = this.data.chapters[index + 1];
     if (obj) {
       return obj.id
@@ -200,7 +201,8 @@ export class CurrentService {
       return null
     }
   }
-  async _getPreviousChapterId(): Promise<string | null> {
+  async _getPreviousChapterId(id?): Promise<string | null> {
+    if (!id) id = this.data.chapter_id;
     const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
     const obj = this.data.chapters[index + 1];
     if (obj) {
@@ -501,20 +503,12 @@ export class CurrentService {
   }) {
     if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
-
     const chapter = this.data.chapters.find(x => x.id == option.chapter_id);
-    // if(chapter.is_locked){
-
-    //   return
-    // }
     const pages = await this._getChapter(option.chapter_id)
     if (option.page_index > pages.length) option.page_index = pages.length - 1;
     this.data.page_index = option.page_index;
     this.data.pages = pages;
-    if (!!option.chapter_id) {
-      this.data.chapter_id = option.chapter_id;
-      // history.replaceState(null, "", `${this.data.comics_id}/${this.data.chapter_id}`);
-    }
+    this.data.chapter_id = option.chapter_id;
     if (type == "changePage") {
       this._setChapterIndex(this.data.chapter_id.toString(), option.page_index)
     } else if (type == "changeChapter") {

@@ -42,8 +42,6 @@ export class ComicsListV2Service {
 
   async add(key: string, option) {
     option.page_size = this.Configs[key].page_size;
-    console.log(option);
-
     return await this.Events[key].Add(option)
   }
 }

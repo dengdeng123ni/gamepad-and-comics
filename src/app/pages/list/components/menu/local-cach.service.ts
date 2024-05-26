@@ -19,6 +19,7 @@ export class LocalCachService {
 
     DbEvent.register({
       id: "local_cache",
+      name:"本地缓存",
       is_download: true,
     }, {
       getList: async (obj: any) => {

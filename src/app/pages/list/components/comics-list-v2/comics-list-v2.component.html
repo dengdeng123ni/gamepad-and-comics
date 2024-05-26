@@ -36,7 +36,7 @@
 
 
 <div class="warp">
-  <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'" (click)="on_list($event)">
+  <div class="grid" [attr.is_one_party]="is_one_party" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'" (click)="on_list($event)">
     <button
       class="item"
       mat-button
@@ -44,7 +44,8 @@
       [attr._id]="n.id"
       [attr.index]="index"
       [attr.region]="'comics_item'"
-      [attr.select]="n.id==''"
+      [attr.default]="n.id==data.currend_read_comics_id"
+      [attr.select]="n.id==data.currend_read_comics_id"
       [matTooltipShowDelay]="3000"
       [matTooltip]="n.title"
       [attr.content_menu_key]="'comics_item'"

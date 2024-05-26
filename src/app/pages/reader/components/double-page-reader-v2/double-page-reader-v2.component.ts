@@ -57,6 +57,12 @@ export class DoublePageReaderV2Component {
       "B": () => {
         window.history.back()
       },
+      LEFT_TRIGGER: () => {
+        current._chapterNext();
+      },
+      RIGHT_TRIGGER: () => {
+        current._chapterPrevious();
+      }
     })
 
     // GamepadEvent.registerAreaEventY('double_page_reader', {
@@ -90,12 +96,7 @@ export class DoublePageReaderV2Component {
     //   // RIGHT_ANALOG_PRESS: () => {
     //   //   this.ReaderNavbarBar.isToggle();
     //   // },
-    //   LEFT_TRIGGER: () => {
-    //     current._chapterNext();
-    //   },
-    //   RIGHT_TRIGGER: () => {
-    //     current._chapterPrevious();
-    //   }
+
     // })
 
 
@@ -205,7 +206,7 @@ export class DoublePageReaderV2Component {
     const index = indexs.sort((a, b) => b - a)[0] + 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     if (chapter_id == this.data.chapter_id) {
-      if (index == this.data.pages.length) {
+      if (index >= this.data.pages.length-1) {
         const list = await this.current._getNextChapter();
         const id = await this.current._getNextChapterId();
         this.addNextSlide(id, list, 0);
@@ -216,9 +217,9 @@ export class DoublePageReaderV2Component {
       }
 
     } else {
-      this.data.pages = await this.current._getNextChapter();
-      this.data.chapter_id = await this.current._getNextChapterId();
-      this.addNextSlide(this.data.chapter_id, this.data.pages, index)
+      const next_chapter_id = await this.current._getNextChapterId(chapter_id);
+      const pages = await this.current._getChapter(chapter_id);
+      this.addNextSlide(next_chapter_id, pages, index)
     }
   }
   async previous() {
@@ -240,9 +241,9 @@ export class DoublePageReaderV2Component {
         this.addPreviousSlide(this.data.chapter_id, this.data.pages, index)
       }
     } else {
-      this.data.pages = await this.current._getPreviousChapter();
-      this.data.chapter_id = await this.current._getPreviousChapterId();
-      this.addPreviousSlide(this.data.chapter_id, this.data.pages, index)
+      const previous_chapter_id = await this.current._getPreviousChapterId(chapter_id);
+      const pages = await this.current._getChapter(previous_chapter_id);
+      this.addPreviousSlide(previous_chapter_id, pages, index)
     }
   }
   objNextHtml = {};

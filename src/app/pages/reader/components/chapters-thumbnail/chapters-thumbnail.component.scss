@@ -28,6 +28,7 @@
               width: 75px;
               height: 100%;
               object-fit: cover;
+
           }
       }
       .lock {
@@ -47,6 +48,7 @@
         }
       }
   }
+
 
   .info {
       display: flex;
@@ -165,5 +167,12 @@ img::before {
 :host ::ng-deep {
   .mdc-button__label{
     display: flex;
+  }
+  app-image {
+
+    img{
+      width: 100% !important;
+      height: 100% !important;
+    }
   }
 }

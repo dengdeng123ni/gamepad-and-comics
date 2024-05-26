@@ -34,6 +34,11 @@ export class IndexComponent {
     public GamepadToolbar:GamepadToolbarService,
     public ComicsListV2:ComicsListV2Service
   ) {
+    this.GamepadEvent.registerGlobalEvent({
+      LEFT_ANALOG_PRESS:()=>{
+        this.GamepadToolbar.isToggle()
+      }
+    })
     this.KeyboardEvent.registerGlobalEvent({
       "p":()=>this.KeyboardToolbar.isToggle()
     })
@@ -56,6 +61,7 @@ export class IndexComponent {
 
 
   async init(){
+    await this.data.init();
     await this.menu.init();
     this.data.is_init_free=true;
   }
@@ -99,7 +105,7 @@ export class IndexComponent {
     // }
   }
   ngOnDestroy(){
-
+     this.data.post();
   }
 
 

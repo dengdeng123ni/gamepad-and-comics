@@ -4,7 +4,7 @@ import { DataService } from '../../services/data.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { IndexService } from './index.service';
-import { AppDataService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, GamepadEventService, KeyboardEventService } from 'src/app/library/public-api';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 import { MenuService } from '../../services/menu.service';
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
@@ -22,12 +22,18 @@ export class IndexComponent {
     public index: IndexService,
     public route: ActivatedRoute,
     public AppData: AppDataService,
+    public GamepadEvent:GamepadEventService,
     public KeyboardToolbar: KeyboardToolbarService,
     public KeyboardEvent: KeyboardEventService,
     public GamepadToolbar:GamepadToolbarService,
     public menu: MenuService
   ) {
     //
+    this.GamepadEvent.registerGlobalEvent({
+      LEFT_ANALOG_PRESS:()=>{
+        this.GamepadToolbar.isToggle()
+      }
+    })
     this.KeyboardEvent.registerGlobalEvent({
       "p": () => this.KeyboardToolbar.isToggle()
     })

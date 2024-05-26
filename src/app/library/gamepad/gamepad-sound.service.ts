@@ -7,7 +7,7 @@ export class GamepadSoundService {
   async loadSound(url) {
     if (!this.opened) return
     var audio = new Audio();
-    fetch(url);
+    await fetch(url);
     audio.src = url;
     audio.load();
     audio.play();
@@ -17,10 +17,12 @@ export class GamepadSoundService {
     if (!this.opened) return
     if (this.audio&&!this.audio.paused) return
     this.audio = new Audio();
-    fetch(url);
+    await fetch(url);
     this.audio.src = url;
     this.audio.load();
     this.audio.play();
+
+
   }
   opened = true;
   constructor() {
@@ -54,6 +56,7 @@ export class GamepadSoundService {
   index = -1;
   input = "";
   device(input: string, node: HTMLElement, region: string, index: number) {
+
      try {
       if (index == this.index && (input == "UP" || input == "RIGHT" || input == "DOWN" || input == "LEFT")) {
         this.obj[input]();

@@ -13,11 +13,12 @@ export class CurrentService {
     public DbController: DbControllerService,
     public router: Router,
     public webDb: NgxIndexedDBService,
-    public Data: DataService
+    public data: DataService
   ) {
   }
 
   async routerReader(origin,comics_id) {
+    this.data.currend_read_comics_id=comics_id;
     const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("read_comics", comics_id.toString()))])
     if (_res[1]) {
       this.router.navigate(['/comics',origin, comics_id, _res[1].chapter_id])
@@ -27,6 +28,7 @@ export class CurrentService {
   }
 
   async routerDetail(origin,comics_id) {
+    this.data.currend_read_comics_id=comics_id;
     this.router.navigate(['/detail',origin, comics_id]);
   }
 

@@ -185,15 +185,11 @@ export class ComicsSearchComponent {
 
   async initFiast(obj) {
     if (this.value == '') return []
-    console.log({ keyword: this.value, ...obj }, { origin: this.origin });
-
     return await this.DbController.Search({ keyword: this.value, ...obj }, { origin: this.origin });
   }
 
   async add(obj) {
     if (this.value == '') return []
-
-    console.log({ keyword: this.value, ...obj }, { origin: this.origin });
     return await this.DbController.Search({ keyword: this.value, ...obj }, { origin: this.origin });
   }
 
@@ -201,8 +197,6 @@ export class ComicsSearchComponent {
     this.page_num = 1;
     this.ListNode.nativeElement.scrollTop = 0;
     this.list = await this.initFiast({ page_num: this.page_num,page_size:this.page_size });
-    console.log(this.list);
-
     this.overflow()
   }
   async overflow() {

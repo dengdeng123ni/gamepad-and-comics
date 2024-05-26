@@ -28,7 +28,7 @@ export class MenuComponent {
 
   current_menu_id = null;
   on($event, data, parent: any = {}) {
-    this.menu.current_menu_id = `${parent.id}_${data.id}`
+    this.menu.current_menu_id = parent.id?`${parent.id}_${data.id}`:data.id
     if (parent.id) this.AppData.setOrigin(parent.id)
     if (data.click) {
       data.click({

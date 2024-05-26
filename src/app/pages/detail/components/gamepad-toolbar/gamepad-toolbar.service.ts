@@ -17,13 +17,6 @@ export class GamepadToolbarService {
     public GamepadController: GamepadControllerService,
     public GamepadInput: GamepadInputService,
   ) {
-    this.GamepadEvent.registerGlobalEvent({
-      LEFT_ANALOG_PRESS:()=>{
-        console.log(123);
-        this.isToggle()
-
-      }
-    })
     this.GamepadEvent.registerConfig("gamepad_left_circle_toolbar", { region: ["gamepad_toolbar_left","gamepad_toolbar_right","gamepad_toolbar_center","gamepad_toolbar_menu"] })
   }
 registerGlobalEvent

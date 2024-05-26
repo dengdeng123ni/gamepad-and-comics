@@ -17,10 +17,17 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 22,
+  version: 23,
   objectStoresMeta: [
     {
       store: 'data',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+    {
+      store: 'list',
       storeConfig: { keyPath: 'id', autoIncrement: false },
       storeSchema: [
         { name: 'id', keypath: 'id', options: { unique: false } },

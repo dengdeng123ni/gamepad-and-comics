@@ -55,7 +55,7 @@ export class GamepadControllerService {
       attributes: true, //目标节点的属性变化
       childList: false, //目标节点的子节点的新增和删除
       characterData: false, //如果目标节点为characterData节点(一种抽象接口,具体可以为文本节点,注释节点,以及处理指令节点)时,也要观察该节点的文本内容是否发生变化
-      subtree: true, //目标节点所有后代节点的attributes、childList、characterData变化
+      subtree: false, //目标节点所有后代节点的attributes、childList、characterData变化
     };
 
     let observe = new MutationObserver(() => this.execute());
@@ -130,10 +130,10 @@ export class GamepadControllerService {
       },
     })
     this.GamepadEventBefore$.subscribe((x: any) => {
+
       this.GamepadSound.device(x.input, x.node, x.region, x.index)
     })
     this.EegionBefore$.subscribe(x => {
-        console.log(x);
 
     })
   }
@@ -229,8 +229,6 @@ export class GamepadControllerService {
     let nodePrevious = node.previousElementSibling;
     if (!nodePrevious || nodePrevious && !nodePrevious.getAttribute("region")) {
       const firstNode = document.querySelectorAll(`[region=${region}]`)[0]
-
-
       if (node.isSameNode(firstNode)) return
       const { node: leftNode } = this.getMoveTarget("LEFT");
       const { node: upNode } = this.getMoveTarget("UP");
@@ -360,7 +358,7 @@ export class GamepadControllerService {
     return this.nodes[current.index]
   };
   getCurrentTarget() {
-
+    this.getNodes();
     this.current = this.list.find(x => x.select == true);
     if (!this.current) this.current = this.list.find(x => x.start == true);
     if (!this.current) this.current = this.list[0];
@@ -513,6 +511,7 @@ export class GamepadControllerService {
 
   leftKey = () => {
     const node = this.nodes[this.current.index];
+
     const type = node.getAttribute("type")
     if (type == 'chip' || type == 'slide') {
       node.querySelector("button").click();

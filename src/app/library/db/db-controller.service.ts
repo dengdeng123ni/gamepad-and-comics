@@ -42,23 +42,40 @@ export class DbControllerService {
   }
 
   async getList(obj: any, option?: {
-    origin: string
+    origin: string,
+    is_cache?: true,
   }): Promise<Array<Item>> {
-
-    if (!option) option = { origin: this.AppData.origin }
+    if (!option.is_cache) option.is_cache = true;
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
     const id = window.btoa(encodeURIComponent(JSON.stringify(obj)))
     if (this.lists[id]) {
       return JSON.parse(JSON.stringify(this.lists[id]))
     } else {
+      let res;
+      if (option.is_cache) {
+        const obj1 = await firstValueFrom(this.webDb.getByID('list', id)) as any;
+        if (obj1) {
+          res = obj1.data;
+        } else {
+          const data = await this.DbEvent.Events[option.origin]["getList"](obj);
+          firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({
+            id: id,
+            data: data
+          }))))
+          res = data;
+        }
+        res.forEach(x => {
+          this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
+          x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
+          x.option = { origin: option.origin }
+        })
+      } else {
+        const data = await this.DbEvent.Events[option.origin]["getList"](obj);
+        res = data;
+      }
 
-      let res = await this.DbEvent.Events[option.origin]["getList"](obj);
-      res.forEach(x => {
-        this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
-        x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
-        x.option = { origin: option.origin }
-      })
+
       this.lists[id] = JSON.parse(JSON.stringify(res));
       return res
     }
@@ -69,7 +86,6 @@ export class DbControllerService {
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
-
     if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["getDetail"]) {
       if (this.details[id]) {
         return JSON.parse(JSON.stringify(this.details[id]))
@@ -78,6 +94,7 @@ export class DbControllerService {
         if (config.is_cache) {
           res = await firstValueFrom(this.webDb.getByID('details', id))
           if (res) {
+            res = res.data;
             if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
@@ -86,7 +103,7 @@ export class DbControllerService {
             })
           } else {
             res = await this.DbEvent.Events[option.origin]["getDetail"](id);
-            firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify(res))))
+            firstValueFrom(this.webDb.update('details', {id:id,data:res}))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
@@ -94,7 +111,6 @@ export class DbControllerService {
               if (x.cover) x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
             })
           }
-
         } else {
           res = await this.DbEvent.Events[option.origin]["getDetail"](id);
         }

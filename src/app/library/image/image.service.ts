@@ -124,7 +124,6 @@ export class ImageService {
           this.processTasks(); // 继续处理下一个任务
         })
         .catch(error => {
-          console.error(error); // 处理任务失败
           this.concurrent--; // 任务完成，减少并发计数
           this.processTasks(); // 继续处理下一个任务
         });

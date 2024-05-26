@@ -24,6 +24,8 @@
       [attr.select]="n.id==''"
       [matTooltipShowDelay]="3000"
       [matTooltip]="n.title"
+
+      [attr.select]="n.id==data.currend_read_comics_id"
       [attr.content_menu_key]="'comics_item'"
       [attr.content_menu_value]="n.id"
       [attr.multiple]="n.selected">

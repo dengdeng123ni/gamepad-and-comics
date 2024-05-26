@@ -37,6 +37,8 @@ export class ComicsListV2Component {
   type = null;
 
 
+  is_one_party = false;
+
   is_destroy = false;
   constructor(
     public data: DataService,
@@ -64,13 +66,13 @@ export class ComicsListV2Component {
     })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
-     console.log(params);
 
       if (this.id) await this.put()
       const type = params.get('id')
-      const origin = params.get('sid')
+      let origin = params.get('sid')
       const sid = params.get('pid')
-      this.origin=origin;
+      if (!origin) origin = type;
+      this.origin = origin;
       this.type = type;
       this.App.setOrigin(origin)
       if (type == "history") {
@@ -230,12 +232,16 @@ export class ComicsListV2Component {
         this.list[index].selected = !this.list[index].selected;
       } else {
         localStorage.setItem('list_url', window.location.href)
-        const nodec: any = $event.target
+        const nodec: any = $event.target;
+        console.log(this.list[index].id);
         if (nodec.getAttribute("router_reader")) {
 
-          this.current.routerReader(this.origin,data.id)
+
+          this.current.routerReader(this.origin, data.id)
         } else {
-          this.current.routerDetail(this.origin,data.id)
+          console.log(this.origin, data.id);
+
+          this.current.routerDetail(this.origin, data.id)
         }
       }
 
@@ -317,26 +323,26 @@ export class ComicsListV2Component {
     this.overflow()
   }
   async overflow() {
-    setTimeout(async () => {
-      const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-      if (node && this.ListNode.nativeElement.clientHeight < node.getBoundingClientRect().y) {
+    const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
+    if (node.getBoundingClientRect().top < 100) {
+      this.is_one_party = true;
+    } else {
+      this.is_one_party = false;
+    }
+    if (node && this.ListNode.nativeElement.clientHeight < node.getBoundingClientRect().y) {
+
+    } else {
+      const length = this.list.length;
+      await this.add_pages();
+      if (this.list.length == length) {
 
       } else {
-        await this.add_pages();
         this.overflow();
       }
-    }, 50)
-  }
-  scroll$ = new Subject();
-  getData() {
-    if (this.list.length) {
-      this.add_pages();
-    } else {
-      setTimeout(() => {
-        this.getData()
-      }, 10)
+
     }
   }
+  scroll$ = new Subject();
   async handleScroll(e: any) {
     const node: any = this.ListNode.nativeElement;
     let scrollHeight = Math.max(node.scrollHeight, node.scrollHeight);
@@ -351,7 +357,7 @@ export class ComicsListV2Component {
     this.is_destroy = true;
     this.scroll$.unsubscribe();
   }
-  is_end=false;
+  is_end = false;
   async add_pages() {
     if (this.is_destroy) return
     this.page_num++;

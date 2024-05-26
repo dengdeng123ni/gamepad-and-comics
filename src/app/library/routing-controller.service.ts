@@ -40,6 +40,7 @@ export class RoutingControllerService {
   }
 
   async navigate(page) {
+
     const list:any = await firstValueFrom(this.webDb.getAll('router'))
     const arr=list.filter(x=>x.page==page)
     const obj=arr.at(-1)
