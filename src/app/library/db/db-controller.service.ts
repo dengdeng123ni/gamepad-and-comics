@@ -43,7 +43,7 @@ export class DbControllerService {
 
   async getList(obj: any, option?: {
     origin: string,
-    is_cache?: true,
+    is_cache?: boolean,
   }): Promise<Array<Item>> {
     if (!option.is_cache) option.is_cache = true;
     if (!option.origin) option.origin = this.AppData.origin;

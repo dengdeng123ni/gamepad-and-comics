@@ -28,7 +28,7 @@ export class TemporaryFileService {
         let list = [];
         list = this.data.filter((x: { temporary_file_id: any; })=>obj.temporary_file_id==x.temporary_file_id).map((x: any) => {
           return { id: x.id, cover: x.chapters[0].pages[0].id.toString(), title: x.title, subTitle: `${x.chapters[0].title}` }
-        }).slice((obj.page_num-1)*obj.page_size,obj.page_size);
+        }).slice((obj.page_num - 1) * obj.page_size, obj.page_size*obj.page_num);
         return list
       },
       getDetail: async (id: string) => {

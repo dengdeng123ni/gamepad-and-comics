@@ -104,14 +104,14 @@ export class ComicsListV2Component {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
               return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
-            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
+            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size*obj.page_num);
             return list
           },
           Init: async (obj) => {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
               return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
-            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
+            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size*obj.page_num);
             return list
           }
         })
@@ -124,11 +124,11 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
+            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file',is_cache:false });
             return list
           },
           Init: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
+            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file',is_cache:false });
             return list
           }
         })

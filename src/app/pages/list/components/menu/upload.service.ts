@@ -286,7 +286,7 @@ export class UploadService {
       const size = files.map(x => x.size).reduce((acr, cur) => acr + cur);
       const id = new Date().getTime();
       let comics = {
-        id:this.chaptersId,
+        id:window.btoa(encodeURIComponent(pages[0].relativePath)),
         origin: "local",
         title: name,
         size: size,
@@ -328,8 +328,10 @@ export class UploadService {
 
       const size = files.map(x => x.size).reduce((acr, cur) => acr + cur);
       const id = new Date().getTime();
+      console.log(pages);
+
       let comics = {
-        id: this.chaptersId,
+        id: window.btoa(encodeURIComponent(pages[0].relativePath)),
         origin: "local",
         title: name,
         size: size,
@@ -337,7 +339,7 @@ export class UploadService {
         cover: pages[0],
         chapters: [
           {
-            id: this.chaptersId,
+            id: window.btoa(encodeURIComponent(pages[0].relativePath)),
             title: "单行本",
             date: this.chaptersId,
             pages: pages
@@ -370,7 +372,7 @@ export class UploadService {
       const id = new Date().getTime();
       const size = files.map(x => x.size).reduce((acr, cur) => acr + cur);
       let comics = {
-        id: this.chaptersId,
+        id: "",
         origin: "local",
         size: size,
         title: name,
@@ -393,10 +395,14 @@ export class UploadService {
       for (let i = 0; i < names.length; i++) {
         const x = names[i];
         const pages = objFiles[x]
-        if (i == 0) comics.cover = pages[0];
+
+        if (i == 0) {
+          comics.id=window.btoa(encodeURIComponent(pages[0].relativePath))
+          comics.cover = pages[0];
+        }
 
         comics.chapters.push({
-          id: this.chaptersId,
+          id: window.btoa(encodeURIComponent(pages[0].relativePath)),
           title: x,
           pages: pages
         })
@@ -438,10 +444,13 @@ export class UploadService {
       for (let i = 0; i < names.length; i++) {
         const x = names[i];
         const pages = objFiles[x]
-        if (i == 0) comics.cover = pages[0];
+        if (i == 0) {
+          comics.id=window.btoa(encodeURIComponent(pages[0].relativePath))
+          comics.cover = pages[0];
+        }
 
         comics.chapters.push({
-          id: this.chaptersId,
+          id: window.btoa(encodeURIComponent(pages[0].relativePath)),
           title: x,
           date: this.chaptersId,
           pages: pages

@@ -196,7 +196,7 @@ export class MenuComponent {
 
   }
   async openTemporaryFile() {
-    const dirHandle = await (window as any).showDirectoryPicker({ mode: "read" });
+    const dirHandle = await (window as any).showDirectoryPicker();
     let files_arr: { id: number; blob: any; path: string; name: any; }[] = []
     let date = new Date().getTime();
     const handleDirectoryEntry = async (dirHandle: any, out: { [x: string]: {}; }, path: any) => {
@@ -225,7 +225,10 @@ export class MenuComponent {
     }
     const out = {};
     const id = new Date().getTime();
+
+
     await handleDirectoryEntry(dirHandle, out, dirHandle["name"]);
+    console.log(files_arr);
     let list = await this.upload.subscribe_to_temporary_file_directory(files_arr, id)
     list.forEach(x => x.temporary_file_id = id);
     this.temporaryFile.data = [...this.temporaryFile.data, ...list]
