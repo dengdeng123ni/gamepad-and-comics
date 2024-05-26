@@ -323,6 +323,10 @@ export class ComicsListV2Component {
     this.overflow()
   }
   async overflow() {
+    if(this.list.length==0){
+      await this.add_pages();
+      return
+    }
     const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
     if (node.getBoundingClientRect().top < 100) {
       this.is_one_party = true;

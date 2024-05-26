@@ -5,7 +5,6 @@ import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { WebFileService } from './library/web-file/web-file.service';
-
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [
@@ -107,7 +106,6 @@ export class AppComponent {
     public RoutingController:RoutingControllerService,
     public App: AppDataService
   ) {
-
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
       await DbController.getImage(data.id)
@@ -130,6 +128,7 @@ export class AppComponent {
       if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
       this.getPulgLoadingFree();
       this.is_loading_page = true;
+      this.GamepadController.init();
       setTimeout(() => {
         this.App.init();
       }, 50)

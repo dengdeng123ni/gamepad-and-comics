@@ -2,6 +2,6 @@
   <router-outlet></router-outlet>
 </div>
 <!-- <app-select-data-source *ngIf="!is_data_source"></app-select-data-source> -->
-<lib-context-menu></lib-context-menu>
+<lib-context-menu *ngIf="is_loading_page"></lib-context-menu>
 <!-- <app-gamepad-vioce></app-gamepad-vioce> -->
 <!-- <mat-progress-bar mode="determinate" value="40"></mat-progress-bar> -->

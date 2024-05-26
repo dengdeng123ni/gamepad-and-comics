@@ -30,16 +30,13 @@ export class GamepadControllerService {
     private zone: NgZone,
     private router: Router
   ) {
-    // let timer = null;
-    // document.addEventListener("mousemove", () => {
-    //   clearTimeout(timer);
-    //   document.body.style.cursor = "default";
-    //   timer = setTimeout(() => {
-    //     document.body.style.cursor = "none";
-    //   }, 3000);
-    // });
-    this.GamepadInput.down().subscribe((x: string) => {
 
+
+  }
+
+  init() {
+    this.GamepadInput.down().subscribe((x: string) => {
+      document.body.setAttribute("pattern", "gamepad")
       this.device(x);
     })
     this.GamepadInput.up().subscribe((x: string) => {
@@ -50,7 +47,7 @@ export class GamepadControllerService {
         this.device(e);
       }
     });
-    document.body.setAttribute("pattern", "gamepad")
+
     let config = {
       attributes: true, //目标节点的属性变化
       childList: false, //目标节点的子节点的新增和删除
