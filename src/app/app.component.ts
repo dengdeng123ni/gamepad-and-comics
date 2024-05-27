@@ -43,45 +43,7 @@ export class AppComponent {
   is_data_source = true;
   keys = [];
   is_tab = false;
-  @HostListener('window:keydown', ['$event'])
-  handleKeyDown = (event: KeyboardEvent) => {
-    let key = "";
-    if(event.key=="F12") return true
 
-    if(event.key=="Enter"){
-      if(this.is_tab) return true
-    }else{
-      this.is_tab = false;
-    }
-    if (event.code == "Space") key = "Space";
-    else key = event.key
-    const obj = this.keys.find(x => x == key)
-    if (obj) {
-      return false
-    } else {
-      const bool = this.GamepadController.device2(key);
-      if (bool) {
-        if (event.key == "Tab") {
-          this.is_tab = true;
-          return true
-        }
-        return bool
-      } else {
-        this.keys.push(key)
-        return bool
-      }
-
-    }
-  }
-
-  @HostListener('window:keyup', ['$event'])
-  handleKeyUp = (event: KeyboardEvent) => {
-    let key = "";
-    if (event.code == "Space") key = "Space";
-    else key = event.key
-    this.keys = this.keys.filter(x => x != key)
-    if (key == "Alt") this.GamepadController.Y = false;
-  }
 
     // Tab 控制
     // 键盘 控制

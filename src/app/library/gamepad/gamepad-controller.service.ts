@@ -43,10 +43,22 @@ export class GamepadControllerService {
       if (x == "Y") this.Y = false;
     })
     this.GamepadInput.press().subscribe((e: string) => {
-      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER"].includes(e)) {
+      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER","LEFT_ANALOG_DOWN",
+      "LEFT_ANALOG_RIGHT",
+      "RIGHT_ANALOG_DOWN",
+      "RIGHT_ANALOG_RIGHT",
+      "DPAD_DOWN",
+      "DPAD_RIGHT",
+      "LEFT_ANALOG_LEFT",
+      "LEFT_ANALOG_UP",
+      "RIGHT_ANALOG_LEFT",
+      "RIGHT_ANALOG_UP",
+      "DPAD_LEFT",
+      "DPAD_UP"].includes(e)) {
         this.device(e);
       }
     });
+
 
     let config = {
       attributes: true, //目标节点的属性变化
@@ -200,8 +212,7 @@ export class GamepadControllerService {
     const region = this.current.region;
     if (this.Y) {
       if (this.KeyboardEvent.areaEventsY[region]?.[input]) {
-        this.KeyboardEvent.areaEventsY[region][input](this.nodes[this.current.index]);
-        return false
+        return this.KeyboardEvent.areaEventsY[region][input](this.nodes[this.current.index]);
       } else if (this.KeyboardEvent.globalEventsY[input]) {
         this.KeyboardEvent.globalEventsY[input](this.nodes[this.current.index]);
         return false
@@ -210,8 +221,7 @@ export class GamepadControllerService {
       }
     } else {
       if (this.KeyboardEvent.areaEvents[region]?.[input]) {
-        this.KeyboardEvent.areaEvents[region][input](this.nodes[this.current.index]);
-        return false
+        return this.KeyboardEvent.areaEvents[region][input](this.nodes[this.current.index]);
       } else if (this.KeyboardEvent.globalEvents[input]) {
         this.KeyboardEvent.globalEvents[input](this.nodes[this.current.index]);
         return false

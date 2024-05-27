@@ -12,3 +12,12 @@
       min-width: fit-content;
     }
 }
+:host ::ng-deep {
+  app-image{
+    position: relative;
+    img{
+      width: auto;
+      height: 100%;
+    }
+  }
+}

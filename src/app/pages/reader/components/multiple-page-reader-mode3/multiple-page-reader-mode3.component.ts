@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
-import { ImageService } from 'src/app/library/public-api';
+import { GamepadEventService, ImageService } from 'src/app/library/public-api';
 interface Item { chapter_id: string, index: number, id: string, src: string, width: number, height: number }
 @Component({
   selector: 'app-multiple-page-reader-mode3',
@@ -17,9 +17,84 @@ export class MultiplePageReaderMode3Component {
   constructor(
     public current: CurrentService,
     public image: ImageService,
-    public data: DataService
-  ) {
+    public data: DataService,
 
+    public GamepadEvent:GamepadEventService,
+  ) {
+    GamepadEvent.registerAreaEvent('page_reader', {
+      "B": () => {
+        window.history.back()
+      },
+      "A": () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft - window.innerWidth;
+      },
+      "X": () => {
+        const nodes = document.querySelectorAll(".list app-image");
+        var observer = new IntersectionObserver(
+          (changes) => {
+            changes.forEach((change: any) => {
+              if (change.isIntersecting || change.isVisible) {
+                change.target.scrollIntoView(true)
+                nodes.forEach(node => observer.unobserve(node))
+              } else {
+              }
+            });
+          }
+        );
+        nodes.forEach(node => observer.observe(node))
+      },
+      LEFT_ANALOG_DOWN: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft + 4;
+      },
+      LEFT_ANALOG_RIGHT: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft + 4;
+      },
+      RIGHT_ANALOG_DOWN: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft + 4;
+      },
+      RIGHT_ANALOG_RIGHT: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft + 4;
+      },
+      DPAD_DOWN: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft + 4;
+      },
+      DPAD_RIGHT: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft + 4;
+      },
+      LEFT_ANALOG_LEFT: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft - 4;
+      },
+      LEFT_ANALOG_UP: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft - 4;
+      },
+
+      RIGHT_ANALOG_LEFT: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft - 4;
+      },
+      RIGHT_ANALOG_UP: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft - 4;
+      },
+      DPAD_LEFT: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft - 4;
+      },
+      DPAD_UP: () => {
+        const container = document.getElementById("multiple_page_reader_mode3")
+        container.scrollLeft = container.scrollLeft - 4;
+      },
+
+    } as any)
     this.pages = this.data.pages.map(x => ({ ...x, chapter_id: this.data.chapter_id }));
     this.change$ = this.current.change().subscribe(x => {
       if (x.trigger == "up_down_page_reader") return

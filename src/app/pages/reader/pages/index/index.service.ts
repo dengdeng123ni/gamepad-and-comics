@@ -26,7 +26,7 @@ export class IndexService {
     public SetChapterFirstPageCover: SetChapterFirstPageCoverService,
     public GamepadEvent: GamepadEventService,
   ) {
-    GamepadEvent.registerConfig('reader', { region: ['double_page_reader'] });
+    GamepadEvent.registerConfig('reader', { region: ['double_page_reader','page_reader'] });
     GamepadEvent.registerConfig('chapters_thumbnail', {
       region: ['chapter_item'],
     });
@@ -65,15 +65,15 @@ export class IndexService {
         this.chaptersThumbnail.isToggle();
       } else {
         if (x < innerWidth / 2) {
-          this.current._change('previousPage', {
-            page_index: this.data.page_index,
-            chapter_id: this.data.chapter_id,
-          });
+          // this.current._change('previousPage', {
+          //   page_index: this.data.page_index,
+          //   chapter_id: this.data.chapter_id,
+          // });
         } else {
-          this.current._change('nextPage', {
-            page_index: this.data.page_index,
-            chapter_id: this.data.chapter_id,
-          });
+          // this.current._change('nextPage', {
+          //   page_index: this.data.page_index,
+          //   chapter_id: this.data.chapter_id,
+          // });
         }
       }
     });
