@@ -140,7 +140,7 @@ export class GamepadControllerService {
     })
     this.GamepadEventBefore$.subscribe((x: any) => {
 
-      // this.GamepadSound.device(x.input, x.node, x.region, x.index)
+      this.GamepadSound.device(x.input, x.node, x.region, x.index)
     })
     this.EegionBefore$.subscribe(x => {
 

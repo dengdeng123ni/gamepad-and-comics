@@ -43,6 +43,9 @@ export class IndexComponent {
     public GamepadEvent:GamepadEventService,
     public Prompt: PromptService
   ) {
+    GamepadEvent.registerAreaEvent('page_reader', {
+      B:()=>window.history.back()
+    })
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS:()=>{
         this.GamepadToolbar.isToggle()

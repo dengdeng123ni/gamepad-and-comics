@@ -23,9 +23,7 @@ export class MultiplePageReaderMode1Component {
     public GamepadEvent: GamepadEventService,
   ) {
     GamepadEvent.registerAreaEvent('page_reader', {
-      "B": () => {
-        window.history.back()
-      },
+
       "A": () => {
         const container = document.getElementById("multiple_page_reader_mode1")
         container.scrollTop = container.scrollTop + window.innerHeight;

@@ -27,14 +27,14 @@ export class OnePageReaderV2DefaultComponent {
     public KeyboardEvent: KeyboardEventService
 
   ) {
-    KeyboardEvent.registerAreaEvent('double_page_reader', {
+    KeyboardEvent.registerAreaEvent('page_reader', {
 
       "c": () => {
         this.GamepadInput.down$.next("X")
       },
 
     })
-    GamepadEvent.registerAreaEvent('double_page_reader', {
+    GamepadEvent.registerAreaEvent('page_reader', {
       "LEFT": () => {
         this.current._pagePrevious();
       },
@@ -53,9 +53,7 @@ export class OnePageReaderV2DefaultComponent {
       "A": () => {
         this.current._pageNext();
       },
-      "B": () => {
-        window.history.back()
-      },
+
       LEFT_TRIGGER: () => {
         current._chapterNext();
       },

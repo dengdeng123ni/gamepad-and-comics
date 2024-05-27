@@ -2,15 +2,18 @@
   <mat-drawer [opened]="left.opened" mode="side" style="min-width: 192px;" id="scroll">
     <app-one-page-thumbnail-mode2 *ngIf="left.opened"></app-one-page-thumbnail-mode2>
   </mat-drawer>
-  <div id="_reader_pages" class="_reader" (click)="on($event)" *ngIf="data.is_init_free">
-    <app-double-page-reader-v2-default *ngIf="data.comics_config.reader_mode=='double_page_reader'&&data.comics_config.is_page_order&&data.comics_config.is_double_page"></app-double-page-reader-v2-default>
-    <app-double-page-reader-v2 *ngIf="data.comics_config.reader_mode=='double_page_reader'&&!data.comics_config.is_page_order&&data.comics_config.is_double_page"></app-double-page-reader-v2>
-    <app-multiple-page-reader-mode1 *ngIf="data.comics_config.reader_mode=='up_down_page_reader'"></app-multiple-page-reader-mode1>
-    <app-multiple-page-reader-mode2 *ngIf="data.comics_config.reader_mode=='left_right_page_reader'&&data.comics_config.is_page_order"></app-multiple-page-reader-mode2>
-    <app-multiple-page-reader-mode3 *ngIf="data.comics_config.reader_mode=='left_right_page_reader'&&!data.comics_config.is_page_order"></app-multiple-page-reader-mode3>
-    <app-one-page-reader-v2 *ngIf="data.comics_config.reader_mode=='double_page_reader'&&!data.comics_config.is_page_order&&!data.comics_config.is_double_page"></app-one-page-reader-v2>
-    <app-one-page-reader-v2-default *ngIf="data.comics_config.reader_mode=='double_page_reader'&&data.comics_config.is_page_order&&!data.comics_config.is_double_page"></app-one-page-reader-v2-default>
+  <div [attr.region]="'page_reader'" id="_reader_pages"  class="_reader">
+    <div (click)="on($event)" *ngIf="data.is_init_free">
+      <app-double-page-reader-v2-default *ngIf="data.comics_config.reader_mode=='double_page_reader'&&data.comics_config.is_page_order&&data.comics_config.is_double_page"></app-double-page-reader-v2-default>
+      <app-double-page-reader-v2 *ngIf="data.comics_config.reader_mode=='double_page_reader'&&!data.comics_config.is_page_order&&data.comics_config.is_double_page"></app-double-page-reader-v2>
+      <app-multiple-page-reader-mode1 *ngIf="data.comics_config.reader_mode=='up_down_page_reader'"></app-multiple-page-reader-mode1>
+      <app-multiple-page-reader-mode2 *ngIf="data.comics_config.reader_mode=='left_right_page_reader'&&data.comics_config.is_page_order"></app-multiple-page-reader-mode2>
+      <app-multiple-page-reader-mode3 *ngIf="data.comics_config.reader_mode=='left_right_page_reader'&&!data.comics_config.is_page_order"></app-multiple-page-reader-mode3>
+      <app-one-page-reader-v2 *ngIf="data.comics_config.reader_mode=='double_page_reader'&&!data.comics_config.is_page_order&&!data.comics_config.is_double_page"></app-one-page-reader-v2>
+      <app-one-page-reader-v2-default *ngIf="data.comics_config.reader_mode=='double_page_reader'&&data.comics_config.is_page_order&&!data.comics_config.is_double_page"></app-one-page-reader-v2-default>
+    </div>
   </div>
+
   <app-reader-toolbar></app-reader-toolbar>
   <app-reader-navbar-bar></app-reader-navbar-bar>
 </mat-drawer-container>
