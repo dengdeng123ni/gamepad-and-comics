@@ -118,7 +118,6 @@ export class AppComponent {
     })
 
 
-
     this.init();
 
   }
