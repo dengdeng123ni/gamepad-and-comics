@@ -144,18 +144,21 @@ export class DoublePageReaderV2Component {
     this.event$.unsubscribe();
   }
   isSwitch = false;
-  pageToggle() {
-    if (this.data.page_index == 0) {
-      this.current._pageChange(this.data.page_index);
-    } else {
-      if (this.data.page_index == this.data.pages.length - 1) {
-        this.current._pageChange(this.isSwitch ? this.data.page_index - 1 : this.data.page_index - 1);
-        // this.isSwitch = !this.isSwitch;
+  async pageToggle() {
+    await this.updata();
+    setTimeout(()=>{
+      if (this.data.page_index == 0) {
+        this.current._pageChange(this.data.page_index);
       } else {
-        this.current._pageChange(this.isSwitch ? this.data.page_index - 1 : this.data.page_index + 1);
+        if (this.data.page_index == this.data.pages.length - 1) {
+          this.current._pageChange(this.isSwitch ? this.data.page_index - 1 : this.data.page_index - 1);
+          // this.isSwitch = !this.isSwitch;
+        } else {
+          this.current._pageChange(this.isSwitch ? this.data.page_index - 1 : this.data.page_index + 1);
+        }
       }
-    }
-    this.isSwitch = !this.isSwitch;
+      this.isSwitch = !this.isSwitch;
+    })
   }
   async init() {
     await this.addNextSlide(this.data.chapter_id, this.data.pages, this.data.page_index);

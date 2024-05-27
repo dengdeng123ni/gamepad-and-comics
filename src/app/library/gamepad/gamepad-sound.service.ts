@@ -58,6 +58,9 @@ export class GamepadSoundService {
   device(input: string, node: HTMLElement, region: string, index: number) {
 
      try {
+      if(!this.obj[input]) return
+      console.log(input);
+
       if (index == this.index && (input == "UP" || input == "RIGHT" || input == "DOWN" || input == "LEFT")) {
         this.obj[input]();
       } else {
