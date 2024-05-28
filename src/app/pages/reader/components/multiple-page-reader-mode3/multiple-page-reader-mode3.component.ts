@@ -22,7 +22,14 @@ export class MultiplePageReaderMode3Component {
     public GamepadEvent:GamepadEventService,
   ) {
     GamepadEvent.registerAreaEvent('page_reader', {
-
+      "LEFT": () => {
+      },
+      "UP": () => {
+      },
+      "DOWN": () => {
+      },
+      "RIGHT": () => {
+      },
       "A": () => {
         const container = document.getElementById("multiple_page_reader_mode3")
         container.scrollLeft = container.scrollLeft - window.innerWidth;

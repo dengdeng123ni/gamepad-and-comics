@@ -43,18 +43,18 @@ export class GamepadControllerService {
       if (x == "Y") this.Y = false;
     })
     this.GamepadInput.press().subscribe((e: string) => {
-      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER", "LEFT_ANALOG_DOWN",
-        "LEFT_ANALOG_RIGHT",
-        "RIGHT_ANALOG_DOWN",
-        "RIGHT_ANALOG_RIGHT",
-        "DPAD_DOWN",
-        "DPAD_RIGHT",
-        "LEFT_ANALOG_LEFT",
-        "LEFT_ANALOG_UP",
-        "RIGHT_ANALOG_LEFT",
-        "RIGHT_ANALOG_UP",
-        "DPAD_LEFT",
-        "DPAD_UP"].includes(e)) {
+      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER","LEFT_ANALOG_DOWN",
+      "LEFT_ANALOG_RIGHT",
+      "RIGHT_ANALOG_DOWN",
+      "RIGHT_ANALOG_RIGHT",
+      "DPAD_DOWN",
+      "DPAD_RIGHT",
+      "LEFT_ANALOG_LEFT",
+      "LEFT_ANALOG_UP",
+      "RIGHT_ANALOG_LEFT",
+      "RIGHT_ANALOG_UP",
+      "DPAD_LEFT",
+      "DPAD_UP"].includes(e)) {
         this.device(e);
       }
     });
@@ -181,23 +181,24 @@ export class GamepadControllerService {
   isGamepadExplanationComponent = false;
   isVoiceComponet = false;
   device(input: string) {
-
+    let is_11=["LEFT_ANALOG_DOWN",
+    "LEFT_ANALOG_RIGHT",
+    "RIGHT_ANALOG_DOWN",
+    "RIGHT_ANALOG_RIGHT",
+    "DPAD_DOWN",
+    "DPAD_RIGHT",
+    "LEFT_ANALOG_LEFT",
+    "LEFT_ANALOG_UP",
+    "RIGHT_ANALOG_LEFT",
+    "RIGHT_ANALOG_UP",
+    "DPAD_LEFT",
+    "DPAD_UP"].includes(input);
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
-    if (!["LEFT_ANALOG_DOWN",
-      "LEFT_ANALOG_RIGHT",
-      "RIGHT_ANALOG_DOWN",
-      "RIGHT_ANALOG_RIGHT",
-      "DPAD_DOWN",
-      "DPAD_RIGHT",
-      "LEFT_ANALOG_LEFT",
-      "LEFT_ANALOG_UP",
-      "RIGHT_ANALOG_LEFT",
-      "RIGHT_ANALOG_UP",
-      "DPAD_LEFT",
-      "DPAD_UP"].includes(input)) this.getCurrentTarget();
+    if(!is_11) this.getCurrentTarget();
 
-    this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
+    if(!is_11) this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
+
     const region = this.current.region;
 
     this.zone.run(() => {
@@ -216,7 +217,7 @@ export class GamepadControllerService {
       }
     })
     if (!this.current) return
-    this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
+    if(!is_11) this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
   }
   device2(input: string) {
     this.getCurrentTarget();

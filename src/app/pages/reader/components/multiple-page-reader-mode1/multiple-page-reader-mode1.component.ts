@@ -23,7 +23,14 @@ export class MultiplePageReaderMode1Component {
     public GamepadEvent: GamepadEventService,
   ) {
     GamepadEvent.registerAreaEvent('page_reader', {
-
+      "LEFT": () => {
+      },
+      "UP": () => {
+      },
+      "DOWN": () => {
+      },
+      "RIGHT": () => {
+      },
       "A": () => {
         const container = document.getElementById("multiple_page_reader_mode1")
         container.scrollTop = container.scrollTop + window.innerHeight;
@@ -63,11 +70,13 @@ export class MultiplePageReaderMode1Component {
       },
       DPAD_DOWN: () => {
         const container = document.getElementById("multiple_page_reader_mode1")
-        container.scrollTop = container.scrollTop + 4;
+        container.scrollTop = container.scrollTop + 24;
+        console.log(213);
+
       },
       DPAD_RIGHT: () => {
         const container = document.getElementById("multiple_page_reader_mode1")
-        container.scrollTop = container.scrollTop + 4;
+        container.scrollTop = container.scrollTop + 24;
       },
       LEFT_ANALOG_LEFT: () => {
         const container = document.getElementById("multiple_page_reader_mode1")
@@ -88,11 +97,11 @@ export class MultiplePageReaderMode1Component {
       },
       DPAD_LEFT: () => {
         const container = document.getElementById("multiple_page_reader_mode1")
-        container.scrollTop = container.scrollTop - 4;
+        container.scrollTop = container.scrollTop - 24;
       },
       DPAD_UP: () => {
         const container = document.getElementById("multiple_page_reader_mode1")
-        container.scrollTop = container.scrollTop - 4;
+        container.scrollTop = container.scrollTop - 24;
       },
 
     } as any)
