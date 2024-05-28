@@ -43,18 +43,18 @@ export class GamepadControllerService {
       if (x == "Y") this.Y = false;
     })
     this.GamepadInput.press().subscribe((e: string) => {
-      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER","LEFT_ANALOG_DOWN",
-      "LEFT_ANALOG_RIGHT",
-      "RIGHT_ANALOG_DOWN",
-      "RIGHT_ANALOG_RIGHT",
-      "DPAD_DOWN",
-      "DPAD_RIGHT",
-      "LEFT_ANALOG_LEFT",
-      "LEFT_ANALOG_UP",
-      "RIGHT_ANALOG_LEFT",
-      "RIGHT_ANALOG_UP",
-      "DPAD_LEFT",
-      "DPAD_UP"].includes(e)) {
+      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER", "LEFT_ANALOG_DOWN",
+        "LEFT_ANALOG_RIGHT",
+        "RIGHT_ANALOG_DOWN",
+        "RIGHT_ANALOG_RIGHT",
+        "DPAD_DOWN",
+        "DPAD_RIGHT",
+        "LEFT_ANALOG_LEFT",
+        "LEFT_ANALOG_UP",
+        "RIGHT_ANALOG_LEFT",
+        "RIGHT_ANALOG_UP",
+        "DPAD_LEFT",
+        "DPAD_UP"].includes(e)) {
         this.device(e);
       }
     });
@@ -184,7 +184,18 @@ export class GamepadControllerService {
 
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
-    this.getCurrentTarget();
+    if (!["LEFT_ANALOG_DOWN",
+      "LEFT_ANALOG_RIGHT",
+      "RIGHT_ANALOG_DOWN",
+      "RIGHT_ANALOG_RIGHT",
+      "DPAD_DOWN",
+      "DPAD_RIGHT",
+      "LEFT_ANALOG_LEFT",
+      "LEFT_ANALOG_UP",
+      "RIGHT_ANALOG_LEFT",
+      "RIGHT_ANALOG_UP",
+      "DPAD_LEFT",
+      "DPAD_UP"].includes(input)) this.getCurrentTarget();
 
     this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
     const region = this.current.region;

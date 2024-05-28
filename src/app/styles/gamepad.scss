@@ -11,7 +11,6 @@ body[pattern=gamepad][locked_region=thumbnail_sidebar_left],
 body[pattern=gamepad][locked_region=one_page_mode3],
 body[pattern=gamepad][locked_region=kyboard_toolbar],
 body[pattern=gamepad][locked_region=reader_config]
-
 {
   [region=one_page_item][select=true],
   [region=comics_option][select=true],
@@ -28,9 +27,17 @@ body[pattern=gamepad][locked_region=reader_config]
   [region=one_page_thumbnail_mode3][select=true],
   [region=kyboard_toolbar_item][select=true],
   [region=reader_config_item][select=true]
+  {
+    position: relative;
 
-
-
+    &::after {
+      @extend .default_frame;
+    }
+  }
+}
+body[pattern=gamepad][locked_region=content_menu]{
+  [region=content_menu][select=true],
+  [region=content_menu_submenu][select=true]
   {
     position: relative;
 

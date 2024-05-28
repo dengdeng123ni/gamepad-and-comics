@@ -119,7 +119,18 @@ export class AppComponent {
       this.App.is_pulg = true;
     })
 
+    this.GamepadEvent.registerAreaEvent("content_menu_submenu", {
+      "B": () => {
+        this.ContextMenuController.close();
+      }
+    })
 
+    this.GamepadEvent.registerAreaEvent("content_menu", {
+      "B": () => {
+        this.ContextMenuController.close();
+      }
+    })
+    GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     this.init();
 
   }

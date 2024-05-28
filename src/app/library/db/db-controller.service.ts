@@ -127,6 +127,12 @@ export class DbControllerService {
       return []
     }
   }
+  async delWebDbDetail(id){
+    await firstValueFrom(this.webDb.deleteByKey('details', id))
+  }
+  async delWebDbPages(id){
+    await firstValueFrom(this.webDb.deleteByKey('pages', id))
+  }
   async getPages(id: string, option?: {
     origin: string
   }) {

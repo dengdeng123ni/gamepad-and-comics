@@ -205,6 +205,17 @@ export class ComicsListV2Component {
       }
 
     })
+
+    ContextMenuEvent.register('comics_item', {
+      on: async (e: any) => {
+        const index = this.list.findIndex(x => x.id.toString() == e.value.toString());
+        if (this.list.filter(x => x.selected).length == 0) {
+          this.list[index].selected = !this.list[index].selected;
+        }
+        const list = this.list.filter(x => x.selected)
+        e.click(list)
+      }
+    })
   }
 
   initc(type, origin, menu_id) {
