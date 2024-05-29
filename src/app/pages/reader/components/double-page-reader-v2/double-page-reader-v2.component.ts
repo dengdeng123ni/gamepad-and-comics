@@ -409,27 +409,27 @@ export class DoublePageReaderV2Component {
 
   ngAfterViewInit() {
     this.swiper = new Swiper(".mySwiper3", {
-      speed: 0,
+      speed: 300,
       mousewheel: {
         thresholdDelta: 20,
         forceToAxis: false,
         thresholdTime: 500,
       },
-      // grabCursor: true,
-      // effect: "creative",
-      // creativeEffect: {
-      //   prev: {
-      //     shadow: true,
-      //     translate: ["-20%", 0, -1],
-      //   },
-      //   next: {
-      //     translate: ["100%", 0, 0],
-      //   },
-      // },
+      grabCursor: true,
+      effect: "creative",
+      creativeEffect: {
+        prev: {
+          shadow: true,
+          translate: ["-20%", 0, -1],
+        },
+        next: {
+          translate: ["100%", 0, 0],
+        },
+      },
     });
 
-    this.oBox = document.querySelector('.mySwiper3')
-    this.oDiv = document.querySelector('.swiper-wrapper')
+    this.oBox = document.querySelector('.mat-drawer-content')
+    this.oDiv = document.querySelector('#_reader_pages')
     // this.swiper.stop
     this.swiper.on('slidePrevTransitionEnd', async () => {
 
@@ -447,7 +447,7 @@ export class DoublePageReaderV2Component {
     this.swiper.on('slideChange', async () => {
       if (!this.ppp) {
         this.ppp = true;
-
+        this.zoom(1)
         await this.updata()
 
         this.ppp = false;
@@ -707,14 +707,6 @@ export class DoublePageReaderV2Component {
     this.oDiv.style.transform = `matrix(${transf.multiple}, 0, 0, ${transf.multiple}, ${newTransf.transX}, ${newTransf.transY})`;
     this.zoomSize = transf.multiple;
   }
-  /**
- * 通过getComputedStyle获取transform矩阵 并用split分割
- * 如 oDiv 的 transform: translate(200, 200);
- * getComputedStyle可以取到"matrix(1, 0, 0, 1, 200, 200)"
- * 当transform属性没有旋转rotate和拉伸skew时
- * metrix的第1, 4, 5, 6个参数为 x方向倍数, y方向倍数, x方向偏移量, y方向偏移量
- * 再分别利用 字符串分割 取到对应参数
- */
   getTransform = DOM => {
     let arr = getComputedStyle(DOM).transform.split(',')
     return {
