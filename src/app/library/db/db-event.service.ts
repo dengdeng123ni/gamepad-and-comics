@@ -44,7 +44,185 @@ export class DbEventService {
 
     window._gh_register = this.register;
 
+    this.register({
+      id: "ehentai",
+      tab: {
+        url: "https://hanime1.me/comic/",
+        host_names: ["manga.bilibili.com", "i0.hdslb.com", "manga.hdslb.com"],
+      },
+      is_cache: true,
+      is_download: true
+    }, {
+      getList: async (obj: any) => {
+        let list = [];
+        return list
+      },
+      getDetail: async (id: string) => {
+        const b64_to_utf8 = (str: string) => {
+          return decodeURIComponent(window.atob(str));
+        }
+        const res = await this._http.getHtml(b64_to_utf8(id), {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc: any = parser.parseFromString(text, 'text/html');
 
+        let obj = {
+          id: id,
+          cover: "",
+          title: "",
+          author: "",
+          intro: "",
+          chapters: [
+
+          ],
+          chapter_id: id
+        }
+        const utf8_to_b64 = (str: string) => {
+          return window.btoa(encodeURIComponent(str));
+        }
+        obj.title = doc.querySelector("#gn").textContent.trim()
+        obj.cover = doc.querySelector("#gd1 > div").style.background.split('"')[1];
+        obj.chapters.push({
+          id: obj.id,
+          title: obj.title,
+          cover: obj.cover,
+        })
+
+        return obj
+      },
+      getPages: async (id: string) => {
+        const b64_to_utf8 = (str: string) => {
+          return decodeURIComponent(window.atob(str));
+        }
+        const res = await this._http.getHtml(b64_to_utf8(id), {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc: any = parser.parseFromString(text, 'text/html');
+        const nodes = doc.querySelectorAll(".ptt a");
+        let arr = []
+        for (let index = 0; index < nodes.length; index++) {
+          const element = nodes[index];
+          arr.push(element.href)
+        }
+        arr.pop()
+
+        let arr2 = [];
+        for (let index = 0; index < arr.length; index++) {
+          const res = await this._http.getHtml(arr[index], {
+            "headers": {
+              "accept": "application/json, text/plain, */*",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "content-type": "application/json;charset=UTF-8"
+            },
+            "body": null,
+            "method": "GET"
+          });
+          const text = await res.text();
+          var parser = new DOMParser();
+          var doc: any = parser.parseFromString(text, 'text/html');
+          const nodes = doc.querySelectorAll(".gdtm a")
+
+          for (let index = 0; index < nodes.length; index++) {
+            const element = nodes[index] as any;
+            arr2.push(element.href)
+          }
+
+        }
+
+        let data = [];
+        for (let index = 0; index < arr2.length; index++) {
+          let obj = {
+            id: "",
+            src: "",
+            width: 0,
+            height: 0
+          };
+          const utf8_to_b64 = (str: string) => {
+            return window.btoa(encodeURIComponent(str));
+          }
+
+
+          obj["id"] = `${id}_${index}`;
+          obj["src"] = `${utf8_to_b64(arr2[index])}`
+          data.push(obj)
+        }
+        console.log(data);
+
+        return data
+      },
+      getImage: async (id: string) => {
+        console.log(id);
+
+        if (id.substring(0, 4) == "http") {
+          const res = await window._gh_fetch(id, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          })
+          const blob = await res.blob();
+          return blob
+        } else {
+          const b64_to_utf8 = (str: string) => {
+            return decodeURIComponent(window.atob(str));
+          }
+          const _id = b64_to_utf8(id);
+          const getHtmlUrl = async (url) => {
+            const res = await this._http.getHtml(url, {
+              "headers": {
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "content-type": "application/json;charset=UTF-8"
+              },
+              "body": null,
+              "method": "GET"
+            });
+            const text = await res.text();
+            var parser = new DOMParser();
+            var doc: any = parser.parseFromString(text, 'text/html');
+            return doc.querySelector("#img").src
+          }
+          const getImageUrl = async (id: string) => {
+            const res = await this._http.fetch(id, {
+              method: "GET",
+              headers: {
+                "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+              },
+              mode: "cors"
+            });
+            const blob = await res.blob();
+            return blob
+          }
+          const url = await getHtmlUrl(_id)
+          console.log(url);
+
+          const blob = await getImageUrl(url);
+          return blob
+        }
+
+      }
+    });
     // window._gh_register({
     //   id: "18comic",
     //   is_cache: true,
@@ -294,7 +472,7 @@ export class DbEventService {
           name: '搜索',
           query: {
             type: 'search',
-            page_size:5
+            page_size: 5
           }
         },
         {
@@ -303,7 +481,7 @@ export class DbEventService {
           name: '分类',
           query: {
             type: 'multipy',
-            page_size:20,
+            page_size: 20,
             list: [
               {
                 "key": "styles",
@@ -507,7 +685,7 @@ export class DbEventService {
           id: 'ranking',
           icon: 'sort',
           name: '排行榜',
-          page_size:20,
+          page_size: 20,
           query: {
             type: 'choice',
             list: [
@@ -566,7 +744,7 @@ export class DbEventService {
           id: 'favorites',
           icon: 'favorite',
           name: '我的追漫',
-          page_size:20,
+          page_size: 20,
           query: {
             type: 'choice',
             name: '我的追漫',
@@ -901,11 +1079,52 @@ export class DbEventService {
     window._gh_register({
       id: "hanime1",
       is_cache: true,
-      is_download: true
+      is_download: true,
+      menu: [
+        {
+          id: 'search',
+          icon: 'search',
+          name: '搜索',
+          query: {
+            type: 'search',
+            page_size: 30
+          }
+        },
+        {
+          id: 'latestUpload',
+          icon: 'fiber_new',
+          name: '最新上傳',
+          page_size: 30,
+          query: {
+            type: 'single',
+            name: '最新上傳'
+          }
+        }
+      ],
     }, {
       getList: async (obj) => {
-        let list = [];
-        return list
+        const res = await window._gh_getHtml(`https://hanime1.me/comics?page=${obj.page_num}`, {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(text, 'text/html');
+        let data = [];
+        let nodes = doc.querySelectorAll("body .comic-rows-videos-div")
+        for (let index = 0; index < nodes.length; index++) {
+          const node = nodes[index];
+          const id = node.querySelector("a").href.split("/").at(-1)
+          const cover = node.querySelector("img").getAttribute("data-srcset");
+          const title = node.textContent;
+          data.push({ id, cover, title })
+        }
+        return data
       },
       getDetail: async (id) => {
         const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
@@ -1014,8 +1233,35 @@ export class DbEventService {
         }
         const blob = await getImageUrl(id);
         return blob
+      },
+      Search: async (obj) => {
+        const res = await window._gh_getHtml(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(text, 'text/html');
+        let data = [];
+        let nodes = doc.querySelectorAll("body .comic-rows-videos-div")
+        for (let index = 0; index < nodes.length; index++) {
+          const node = nodes[index];
+          const id = node.querySelector("a").href.split("/").at(-1)
+          const cover = node.querySelector("img").getAttribute("data-srcset");
+          const title = node.textContent;
+          data.push({ id, cover, title })
+        }
+        return data
       }
     });
+
+
+
 
   }
 

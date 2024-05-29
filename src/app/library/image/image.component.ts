@@ -40,7 +40,7 @@ export class ImageComponent {
     } else {
       if (this.App.is_web_worker && this.src.substring(7, 21) == "localhost:7700") {
         setTimeout(() => {
-         this.image.addTask(() => this.getImage2())
+          this.image.addTask(()=>this.getImage2())
         })
       }else{
         setTimeout(() => {

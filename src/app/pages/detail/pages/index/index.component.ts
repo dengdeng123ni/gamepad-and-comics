@@ -43,6 +43,7 @@ export class IndexComponent {
     id$.subscribe(params => {
       if (params.get('origin')) {
         const origin = params.get('origin');
+        this.AppData.setOrigin(origin)
         this.data.init();
         this.current._init(origin, params.get('id'))
         return

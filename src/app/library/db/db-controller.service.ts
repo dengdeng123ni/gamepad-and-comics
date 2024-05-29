@@ -86,6 +86,7 @@ export class DbControllerService {
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
+
     if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["getDetail"]) {
       if (this.details[id]) {
         return JSON.parse(JSON.stringify(this.details[id]))

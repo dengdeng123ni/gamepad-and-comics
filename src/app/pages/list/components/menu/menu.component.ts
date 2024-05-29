@@ -28,7 +28,9 @@ export class MenuComponent {
 
   current_menu_id = null;
   on($event, data, parent: any = {}) {
-    this.menu.current_menu_id = parent.id?`${parent.id}_${data.id}`:data.id
+    this.menu.current_menu_id = parent.id?`${parent.id}_${data.id}`:data.id;
+    console.log( this.menu.current_menu_id );
+
     if (parent.id) this.AppData.setOrigin(parent.id)
     if (data.click) {
       data.click({
@@ -48,6 +50,11 @@ export class MenuComponent {
       if (data.query.type == "multipy") {
         this.router.navigate(['/query', 'multipy', parent.id, data.id]);
       }
+      if (data.query.type == "single") {
+        this.router.navigate(['/query', 'single', parent.id, data.id]);
+      }
+
+
 
     }
   }

@@ -137,8 +137,9 @@ export class ComicsListV2Component {
         this.origin = origin;
         const obj = this.DbEvent.Configs[origin].menu.find(x => x.id == sid);
         this.id = `${type}_${origin}_${sid}`;
-        this.query.list = obj.query.list;
+        if(obj.query.list) this.query.list = obj.query.list;
         if (obj.query.name) this.query.name = obj.query.name;
+        else this.query.name =''
         this.key = this.id;
         this.App.setOrigin(this.origin);
         const e: any = this.query.list[this.query.default_index];
@@ -336,10 +337,18 @@ export class ComicsListV2Component {
   async overflow() {
     if(this.list.length==0){
       await this.add_pages();
+     setTimeout(()=>{
+      const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
+      if (node.getBoundingClientRect().top < 100 || this.list.length<5) {
+        this.is_one_party = true;
+      } else {
+        this.is_one_party = false;
+      }
+     })
       return
     }
     const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-    if (node.getBoundingClientRect().top < 100) {
+    if (node.getBoundingClientRect().top < 100 || this.list.length<5) {
       this.is_one_party = true;
     } else {
       this.is_one_party = false;
