@@ -20,15 +20,15 @@ export class PromptService {
       if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
       if(!this.obj[x]) this.obj[x]=0;
       this.obj[x]++;
-      // Object.keys(this.obj).forEach(x=>{
-      //   if(this.obj[x]==2){
-      //     if (x == "page_first") this._snackBar.open("第一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-      //     if (x == "page_last") this._snackBar.open("最后一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
-      //     if (x == "chapter_first") this._snackBar.open("第一章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-      //     if (x == "chapter_last") this._snackBar.open("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
-      //     this.obj[x]=1;
-      //   }
-      // })
+      Object.keys(this.obj).forEach(x=>{
+        if(this.obj[x]==2){
+          // if (x == "page_first") this._snackBar.open("第一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
+          // if (x == "page_last") this._snackBar.open("最后一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+          if (x == "chapter_first") this._snackBar.open("第一章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
+          if (x == "chapter_last") this._snackBar.open("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+          this.obj[x]=1;
+        }
+      })
       if (x == "chapter") {
         const obj = this.data.chapters.find(x => x.id == this.data.chapter_id)
         if (obj) this._snackBar.open(obj.title, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });

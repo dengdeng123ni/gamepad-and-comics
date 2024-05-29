@@ -242,6 +242,7 @@ export class CurrentService {
       await this._chapterPageChange(id, 0);
       return true
     } else {
+      await this.pageStatu$.next("chapter_last")
       return false
     }
   }
@@ -254,6 +255,7 @@ export class CurrentService {
       await this._chapterPageChange(id, 0);
       return true
     } else {
+      await this.pageStatu$.next("chapter_first")
       return false
     }
   }
