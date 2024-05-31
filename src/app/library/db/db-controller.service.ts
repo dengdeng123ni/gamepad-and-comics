@@ -104,7 +104,7 @@ export class DbControllerService {
             })
           } else {
             res = await this.DbEvent.Events[option.origin]["getDetail"](id);
-            firstValueFrom(this.webDb.update('details', {id:id,data:res}))
+            firstValueFrom(this.webDb.update('details',JSON.parse(JSON.stringify({id:id,data:res})) ))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
@@ -200,6 +200,8 @@ export class DbControllerService {
   async getImage(id: string, option?: {
     origin: string
   }) {
+
+
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]
@@ -247,7 +249,6 @@ export class DbControllerService {
                 return this.image_url[`${name}_comics_${comics_id}`];
               }
             } else if (type == "chapter") {
-
               const comics_id = arr[5];
               const chapter_id = arr[6];
               const url = this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];

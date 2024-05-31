@@ -64,6 +64,7 @@ export class ComicsListV2Component {
       }
 
     })
+
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
 
