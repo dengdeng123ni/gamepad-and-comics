@@ -175,3 +175,45 @@ sleep = (duration) => {
     setTimeout(resolve, duration);
   })
 }
+
+
+
+chrome.omnibox.onInputStarted.addListener(() => {
+  console.log("[" + new Date() + "] omnibox event: onInputStarted");
+});
+
+// 当用户的输入改变之后
+// text 用户的当前输入
+// suggest 调用suggest为用户提供搜索建议
+chrome.omnibox.onInputChanged.addListener((text, suggest) => {
+  console.log("[" + new Date() + "] omnibox event: onInputChanged, user input: " + text);
+  // 为用户提供一些搜索建议
+  suggest([{
+          "content": text + " foo",
+          "description": "是否要查看“" + text + " foo” 有关的内容？"
+          }, {
+              "content": text + " bar",
+              "description":"是否要查看“" + text + " bar” 有关的内容？"
+          }
+          ]);
+});
+
+// 按下回车时事件，表示向插件提交了一个搜索
+chrome.omnibox.onInputEntered.addListener((text, disposition) => {
+  console.log("[" + new Date() + "] omnibox event: onInputEntered, user input: " + text + ", disposition: " + disposition);
+});
+
+// 取消输入时触发的事件，注意使用上下方向键在搜索建议列表中搜搜也会触发此事件
+chrome.omnibox.onInputCancelled.addListener(() => {
+  console.log("[" + new Date() + "] omnibox event: onInputCancelled");
+});
+
+// 当删除了搜索建议时触发的
+chrome.omnibox.onDeleteSuggestion.addListener(text => {
+  console.log("[" + new Date() + "] omnibox event: onDeleteSuggestion, text: " + text);
+});
+
+// 设置默认的搜索建议，会显示在搜索建议列表的第一行位置，content省略使用用户当前输入的text作为content
+chrome.omnibox.setDefaultSuggestion({
+          "description": "啥也不干，就是随便试试...."
+          })

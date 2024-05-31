@@ -5,6 +5,7 @@ import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { GamepadControllerService } from 'src/app/library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
+import { ZoomService } from '../../services/zoom.service';
 // import Swiper from 'swiper';
 declare const Swiper: any;
 @Component({
@@ -28,28 +29,31 @@ export class DoublePageReaderV2DefaultComponent {
     public GamepadEvent: GamepadEventService,
     public GamepadController: GamepadControllerService,
     public GamepadInput: GamepadInputService,
-    public KeyboardEvent: KeyboardEventService
+    public KeyboardEvent: KeyboardEventService,
+    public zoom:ZoomService
 
   ) {
     KeyboardEvent.registerAreaEvent('page_reader', {
-
       "c": () => {
         this.GamepadInput.down$.next("X")
       },
-
+    })
+    GamepadEvent.registerAreaEventY("page_reader", {
+      "LEFT_BUMPER": () => this.zoom.zoom(1),
+      "RIGHT_BUMPER": () => this.zoom.zoom(2),
     })
     GamepadEvent.registerAreaEvent('page_reader', {
       "LEFT": () => {
-        this.current._pagePrevious();
+        this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_LEFT");
       },
       "UP": () => {
-        this.current._pagePrevious();
+        this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_UP");
       },
       "DOWN": () => {
-        this.current._pageNext();
+        this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_DOWN");
       },
       "RIGHT": () => {
-        this.current._pageNext();
+        this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_RIGHT");
       },
       "X": () => {
         this.pageToggle();
@@ -57,13 +61,15 @@ export class DoublePageReaderV2DefaultComponent {
       "A": () => {
         this.current._pageNext();
       },
-
+      "LEFT_BUMPER": () => this.zoom.zoomOut(),
+      "RIGHT_BUMPER": () => this.zoom.zoomIn(),
       LEFT_TRIGGER: () => {
-        current._chapterNext();
+        current._chapterPrevious();
       },
       RIGHT_TRIGGER: () => {
-        current._chapterPrevious();
-      }
+        current._chapterNext();
+      },
+
     })
 
     // GamepadEvent.registerAreaEventY('double_page_reader', {
@@ -404,6 +410,7 @@ export class DoublePageReaderV2DefaultComponent {
   }
 
   ngAfterViewInit() {
+    this.zoom.init();
     this.swiper = new Swiper(".mySwiper5", {
       speed:300,
       mousewheel: {
@@ -440,7 +447,7 @@ export class DoublePageReaderV2DefaultComponent {
     this.swiper.on('slideChange', async () => {
       if (!this.ppp) {
         this.ppp = true;
-
+        this.zoom.zoom(1)
         await this.updata()
 
         this.ppp = false;

@@ -47,7 +47,7 @@ export class WorkerService {
           bool = false;
           r("")
           j("")
-        }, 30000)
+        }, 3000)
       })
     }
 
