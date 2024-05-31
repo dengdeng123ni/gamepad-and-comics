@@ -1044,6 +1044,12 @@ export class DbEventService {
           return blob
         }
       },
+      getTagList:async(id)=>{
+
+      },
+      getAuthorList:async(id)=>{
+
+      },
       Search: async (obj) => {
         const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/Search?device=pc&platform=web", {
           "headers": {

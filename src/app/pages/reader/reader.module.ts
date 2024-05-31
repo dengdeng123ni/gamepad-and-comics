@@ -33,6 +33,7 @@ import { OnePageReaderV2Component } from './components/one-page-reader-v2/one-pa
 import { OnePageReaderV2DefaultComponent } from './components/one-page-reader-v2-default/one-page-reader-v2-default.component';
 import { UnlockComponent } from './components/unlock/unlock.component';
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
+import { ChaptersFirstCoverSettingsComponent } from './components/chapters-first-cover-settings/chapters-first-cover-settings.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-to
     OnePageReaderV2Component,
     OnePageReaderV2DefaultComponent,
     UnlockComponent,
-    GamepadToolbarComponent
+    GamepadToolbarComponent,
+    ChaptersFirstCoverSettingsComponent
   ],
   imports: [
     CommonModule,
