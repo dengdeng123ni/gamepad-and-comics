@@ -1,0 +1,100 @@
+<div class="warp" id="download_option">
+  <div class="comics_option">
+    <div class="title">下载</div>
+    <mat-divider style="margin: 4px 0;"></mat-divider>
+    <div class="list">
+      <div class="item">
+        <div class="name">页面顺序</div>
+        <mat-radio-group>
+          <mat-radio-button [value]="true" style="display: flex;">默认</mat-radio-button>
+          <mat-radio-button [value]="false">日漫</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="comics_content">
+    <div class="title" style="font-size: 22px;margin: 12px;
+    color: rgba(255, 255, 255, .87);display: flex;align-items: center;">
+     <span>
+      {{data.details.title}}
+     </span>
+
+      <div class="toolbar">
+        <mat-checkbox class="example-margin">全选</mat-checkbox>
+        <mat-checkbox class="example-margin">反选</mat-checkbox>
+      </div>
+    </div>
+
+    <div class="list">
+      <div class="item" *ngFor="let n of data.chapters">
+        <div class="head" style="margin:0  24px;font-size: 16px; color: rgba(255, 255, 255, .34);">
+          <div class="title">
+              {{n.title}}
+          </div>
+          <div class="toolbar">
+            <mat-checkbox class="example-margin">第一页是否封面</mat-checkbox>
+          </div>
+        </div>
+        <div class="content">
+          <div class="double_page" style="display: nine;" [attr.page_order]="false" [attr.type]="'list'">
+            <button
+              mat-button
+              *ngFor="let n of lists[n.id]; let index = index"
+              class="item"
+              [attr.select]="n.select"
+              [attr.content_menu_key]="'double_page_thumbnail_item'"
+              [attr.content_menu_value]="index"
+            >
+              <div *ngIf="n.images.length == 2" class="double">
+                <div class="img">
+                  <app-image
+                    [src]="n.images[0].img"
+                    [width]="n.images[0].width"
+                    loading="lazy"
+                    [height]="n.images[0].height"
+                    *ngIf="n.images[0]"
+                  />
+                  <div class="index">{{ n.images[0].index }}</div>
+                </div>
+                <div class="img">
+                  <app-image
+                    [src]="n.images[1].img"
+                    [width]="n.images[1].width"
+                    loading="lazy"
+                    [height]="n.images[1].height"
+                    *ngIf="n.images[1]"
+                  />
+                  <div class="index">{{ n.images[1].index }}</div>
+                </div>
+              </div>
+              <div
+                *ngIf="n.images.length == 1"
+                class="single"
+                [attr.page]="n.images[0].width < n.images[0].height ? 'p' : 'l'"
+                [attr.first]="index == 0"
+              >
+                <div class="img">
+                  <app-image
+                    [src]="n.images[0].img"
+                    [width]="n.images[0].width"
+                    loading="lazy"
+                    [height]="n.images[0].height"
+                    *ngIf="n.images[0]"
+                  />
+                  <div class="index">{{ n.images[0].index }}</div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <!-- <mat-button-toggle-group si name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle value="bold">待下载</mat-button-toggle>
+    <mat-button-toggle value="italic">下载中</mat-button-toggle>
+    <mat-button-toggle value="underline">已完成</mat-button-toggle>
+  </mat-button-toggle-group> -->
+    </div>
+  </div>
+</div>

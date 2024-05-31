@@ -774,6 +774,7 @@ export class DbEventService {
         }
       ],
       is_cache: true,
+      is_download: true
     }, {
       getList: async (obj) => {
         let list = [];

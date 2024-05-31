@@ -34,6 +34,7 @@ import { OnePageReaderV2DefaultComponent } from './components/one-page-reader-v2
 import { UnlockComponent } from './components/unlock/unlock.component';
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 import { ChaptersFirstCoverSettingsComponent } from './components/chapters-first-cover-settings/chapters-first-cover-settings.component';
+import { ComicsSettingsComponent } from './components/comics-settings/comics-settings.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { ChaptersFirstCoverSettingsComponent } from './components/chapters-first
     OnePageReaderV2DefaultComponent,
     UnlockComponent,
     GamepadToolbarComponent,
-    ChaptersFirstCoverSettingsComponent
+    ChaptersFirstCoverSettingsComponent,
+    ComicsSettingsComponent
   ],
   imports: [
     CommonModule,
