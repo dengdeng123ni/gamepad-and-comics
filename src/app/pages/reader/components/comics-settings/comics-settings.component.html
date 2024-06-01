@@ -1,6 +1,6 @@
 <div class="warp" id="download_option">
-  <div class="comics_option">
-    <div class="title">下载</div>
+  <div class="comics_option" style="display: none;">
+    <div class="title">漫画设置</div>
     <mat-divider style="margin: 4px 0;"></mat-divider>
     <div class="list">
       <div class="item">
@@ -20,19 +20,20 @@
      </span>
 
       <div class="toolbar">
-        <mat-checkbox class="example-margin">全选</mat-checkbox>
-        <mat-checkbox class="example-margin">反选</mat-checkbox>
+        <mat-checkbox>全选</mat-checkbox>
+        <mat-checkbox>反选</mat-checkbox>
+        <mat-checkbox>自动推断</mat-checkbox>
       </div>
     </div>
 
     <div class="list">
-      <div class="item" *ngFor="let n of data.chapters">
-        <div class="head" style="margin:0  24px;font-size: 16px; color: rgba(255, 255, 255, .34);">
+      <div class="item" *ngFor="let n of list">
+        <div class="head" style="padding:0  24px;font-size: 16px; color: rgba(255, 255, 255, .34);background: #424242;">
           <div class="title">
               {{n.title}}
           </div>
           <div class="toolbar">
-            <mat-checkbox class="example-margin">第一页是否封面</mat-checkbox>
+            <mat-checkbox (click)="on(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">第一页是否封面</mat-checkbox>
           </div>
         </div>
         <div class="content">
@@ -41,6 +42,7 @@
               mat-button
               *ngFor="let n of lists[n.id]; let index = index"
               class="item"
+              disabled
               [attr.select]="n.select"
               [attr.content_menu_key]="'double_page_thumbnail_item'"
               [attr.content_menu_value]="index"

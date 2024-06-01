@@ -16,6 +16,7 @@ import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboa
 import { PromptService } from '../../services/prompt.service';
 import { GamepadToolbarComponent } from '../../components/gamepad-toolbar/gamepad-toolbar.component';
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
+import { ComicsSettingsService } from '../../components/comics-settings/comics-settings.service';
 
 @Component({
   selector: 'app-index',
@@ -41,8 +42,12 @@ export class IndexComponent {
     public KeyboardEvent: KeyboardEventService,
     public GamepadToolbar:GamepadToolbarService,
     public GamepadEvent:GamepadEventService,
+    public ComicsSettings:ComicsSettingsService,
     public Prompt: PromptService
   ) {
+   setTimeout(()=>{
+    this.ComicsSettings.open();
+   },1000)
     GamepadEvent.registerAreaEvent('page_reader', {
       B:()=>window.history.back()
     })
