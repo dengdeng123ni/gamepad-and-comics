@@ -14,26 +14,34 @@
   </div>
   <div class="comics_content">
     <div class="title" style="font-size: 22px;margin: 12px;
-    color: rgba(255, 255, 255, .87);display: flex;align-items: center;">
+    color: rgba(255, 255, 255, .34);display: flex;align-items: center;    justify-content: space-between;">
      <span>
       {{data.details.title}}
      </span>
 
       <div class="toolbar">
-        <mat-checkbox>全选</mat-checkbox>
-        <mat-checkbox>反选</mat-checkbox>
-        <mat-checkbox>自动推断</mat-checkbox>
+        <button mat-button (click)="all()">全选</button>
+        <button mat-button (click)="rev()">反选</button>
+        <button mat-button (click)="all()">自动推断</button>
+        <!-- <mat-checkbox (click)="all()">全选</mat-checkbox>
+        <mat-checkbox  (click)="rev()">反选</mat-checkbox>
+        <mat-checkbox>自动推断</mat-checkbox> -->
       </div>
     </div>
 
     <div class="list">
       <div class="item" *ngFor="let n of list">
-        <div class="head" style="padding:0  24px;font-size: 16px; color: rgba(255, 255, 255, .34);background: #424242;">
+        <div class="head" style="    padding: 0 12px;
+        font-size: 16px;
+        color: rgba(255, 255, 255, .34);
+        background: #424242;
+        border-radius: 4px;
+        margin: 0 12px;">
           <div class="title">
               {{n.title}}
           </div>
           <div class="toolbar">
-            <mat-checkbox (click)="on(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">第一页是否封面</mat-checkbox>
+            <mat-checkbox (change)="gefa(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">第一页是否封面</mat-checkbox>
           </div>
         </div>
         <div class="content">

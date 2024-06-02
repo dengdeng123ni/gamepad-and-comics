@@ -1,7 +1,6 @@
 <div class="warp">
   <div class="list">
-   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();togglePage2()">
-          <mat-icon *ngIf="false">radio_button_unchecked</mat-icon>
+   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();comicsSettings.open()">
         <mat-icon *ngIf="true">radio_button_checked</mat-icon>
     </button>
    <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="close();chaptersThumbnail.open()">

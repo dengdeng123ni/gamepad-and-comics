@@ -47,16 +47,39 @@ export class ComicsSettingsComponent {
     }
   }
 
-  async on(id) {
-    console.log(123);
-
+  async gefa(id) {
     const obj = this.list.find(x => x.id == id)
     await this.current._setChapterFirstPageCover(obj.id, obj.is_first_page_cover)
     let pages = await this.current._getChapter(obj.id);
     this.zone.run(async ()=>{
       this.lists[obj.id]= await this.getDoublePages(pages.slice(0, 3),obj.is_first_page_cover)
     })
+  }
 
+  async all() {
+    this.zone.run(async ()=>{
+      for (let index = 0; index < this.list.length; index++) {
+        this.list[index].is_first_page_cover=true;
+        await this.current._setChapterFirstPageCover(this.list[index].id, true)
+        let pages = await this.current._getChapter(this.list[index].id);
+        this.zone.run(async ()=>{
+          this.lists[this.list[index].id]= await this.getDoublePages(pages.slice(0, 3),true)
+        })
+      }
+    })
 
+  }
+
+  async rev() {
+    this.zone.run(async ()=>{
+      for (let index = 0; index < this.list.length; index++) {
+        this.list[index].is_first_page_cover=!this.list[index].is_first_page_cover;
+        let pages = await this.current._getChapter(this.list[index].id);
+        await this.current._setChapterFirstPageCover(this.list[index].id, this.list[index].is_first_page_cover)
+        this.zone.run(async ()=>{
+          this.lists[this.list[index].id]= await this.getDoublePages(pages.slice(0, 3),this.list[index].is_first_page_cover)
+        })
+      }
+    })
   }
 }

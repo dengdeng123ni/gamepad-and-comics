@@ -11,6 +11,7 @@ import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { ComicsDetailService } from '../comics-detail/comics-detail.service';
+import { ComicsSettingsService } from '../comics-settings/comics-settings.service';
 
 @Component({
   selector: 'app-reader-toolbar',
@@ -34,7 +35,8 @@ export class ReaderToolbarComponent {
     public SetChapterFirstPageCover:SetChapterFirstPageCoverService,
     public ReaderChange: ReaderChangeService,
     public ReaderConfig:ReaderConfigService,
-    public ComicsDetail:ComicsDetailService
+    public ComicsDetail:ComicsDetailService,
+    public ComicsSettings:ComicsSettingsService,
   ) {
     current.init$.subscribe(x=>{
       if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;

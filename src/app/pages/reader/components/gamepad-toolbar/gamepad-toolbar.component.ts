@@ -12,6 +12,7 @@ import { OnePageThumbnailMode3Service } from '../one-page-thumbnail-mode3/one-pa
 import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
+import { ComicsSettingsService } from '../comics-settings/comics-settings.service';
 
 @Component({
   selector: 'app-gamepad-toolbar',
@@ -36,7 +37,8 @@ export class GamepadToolbarComponent {
     public ReaderChange: ReaderChangeService,
     public ReaderConfig:ReaderConfigService,
     public ComicsDetail:ComicsDetailService,
-    public GamepadToolbar:GamepadToolbarService
+    public GamepadToolbar:GamepadToolbarService,
+    public comicsSettings:ComicsSettingsService
   ) {
   }
   close(){

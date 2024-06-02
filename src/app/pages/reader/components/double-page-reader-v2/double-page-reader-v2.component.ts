@@ -276,18 +276,10 @@ export class DoublePageReaderV2Component {
       }
       const obj = await this.isWideImage(list[index], list[index + 1]);
       if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
-      if (this.isPageFirst) {
-        this.isPageFirst = false;
-        if (this.is_first_page_cover == true && index == 0) {
-          obj.secondary = undefined;
-        }
-      } else {
-        if (index == 0 && !this.isSwitch && this.is_first_page_cover == true) {
-          obj.secondary = undefined;
-        }
-        if (index == 0 && this.isSwitch && this.is_first_page_cover == false) {
-          obj.secondary = undefined;
-        }
+      if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
+        obj.secondary = undefined;
+      }else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
+        obj.secondary = undefined;
       }
       if (index >= (total - 1) && !obj.secondary) {
         if (obj.primary.width < obj.primary.height) page.primary.end = true;
@@ -300,6 +292,7 @@ export class DoublePageReaderV2Component {
       }
       return page
     }
+    const is_first_page_cover= await this.current._getChapter_IsFirstPageCover(chapter_id);
     const res = await getNextPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;

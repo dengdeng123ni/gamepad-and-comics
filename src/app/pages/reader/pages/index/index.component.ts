@@ -45,9 +45,6 @@ export class IndexComponent {
     public ComicsSettings:ComicsSettingsService,
     public Prompt: PromptService
   ) {
-   setTimeout(()=>{
-    this.ComicsSettings.open();
-   },1000)
     GamepadEvent.registerAreaEvent('page_reader', {
       B:()=>window.history.back()
     })

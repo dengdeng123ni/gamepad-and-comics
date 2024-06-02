@@ -259,10 +259,13 @@
 }
 
 :host ::ng-deep {
-  .mdc-button__label {
-    width: 100%;
-    height: 100%;
+  .item{
+    .mdc-button__label {
+      width: 100%;
+      height: 100%;
+    }
   }
+
 }
 
 

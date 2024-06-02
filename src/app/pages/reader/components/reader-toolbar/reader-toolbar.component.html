@@ -6,9 +6,9 @@
       </button>
     </div>
     <div class="item mt-5">
-      <button matTooltipPosition="right" tabIndex="-1" *ngIf="data.comics_config.reader_mode=='double_page_reader'" mat-icon-button class="icon" (click)="openFirstPageCoverChangeView($event)">
-        <mat-icon *ngIf="false">radio_button_unchecked</mat-icon>
-        <mat-icon *ngIf="true">radio_button_checked</mat-icon>
+      <button matTooltipPosition="right" tabIndex="-1" *ngIf="data.comics_config.reader_mode=='double_page_reader'" mat-icon-button class="icon" (click)="ComicsSettings.open()">
+        <!-- <mat-icon>radio_button_unchecked</mat-icon> -->
+        <mat-icon>radio_button_checked</mat-icon>
       </button>
       <button matTooltipPosition="right" *ngIf="data.comics_config.reader_mode=='double_page_reader'" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage()">
         <mat-icon>swap_horiz</mat-icon>
