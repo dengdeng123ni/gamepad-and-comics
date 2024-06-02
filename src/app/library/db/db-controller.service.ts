@@ -134,6 +134,9 @@ export class DbControllerService {
   async delWebDbPages(id){
     await firstValueFrom(this.webDb.deleteByKey('pages', id))
   }
+  async delWebDbImage(id){
+   const res= await this.caches.delete(id);
+  }
   async getPages(id: string, option?: {
     origin: string
   }) {

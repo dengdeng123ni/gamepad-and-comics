@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { ContextMenuEventService } from 'src/app/library/public-api';
+import { ContextMenuEventService, DbControllerService } from 'src/app/library/public-api';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { CurrentService } from '../../services/current.service';
@@ -28,10 +28,15 @@ export class ChapterListMode1Component {
   _ctrl = false;
 
   pattern = ''
-  is_locked=true;
+  is_locked = true;
   constructor(public data: DataService,
     public router: Router,
-    public current: CurrentService, public doublePageThumbnail: DoublePageThumbnailService, public ContextMenuEvent: ContextMenuEventService, public exportSettings: ExportSettingsService,) {
+    public current: CurrentService,
+    public doublePageThumbnail: DoublePageThumbnailService,
+    public ContextMenuEvent: ContextMenuEventService,
+    public exportSettings: ExportSettingsService,
+    public DbController: DbControllerService
+  ) {
     ContextMenuEvent.register('chapter_item', {
       open: () => {
         // this.close()
@@ -71,20 +76,33 @@ export class ChapterListMode1Component {
             panelClass: "reader_settings_buttom",
             backdropClass: "reader_settings_buttom_backdrop"
           })
+        } else if (e.id == "updaDate") {
+          const id = e.value;
+          await this.DbController.delWebDbPages(id)
+          const pages=await this.DbController.getPages(id)
+          for (let index = 0; index < pages.length; index++) {
+            await this.DbController.delWebDbImage(pages[index].src)
+
+          }
+
+          // console.log();
+
         }
       },
       menu: [
         { name: "缩略图", id: "thumbnail" },
-        { name: "缓存", id: "ccccc" },
+        { name: "提前加载", id: "ccccc" },
         { name: "导出", id: "export" },
+        { name: "重置数据", id: "updaDate" },
         // { name: "delete", id: "delete" },
       ]
+
     })
     if (this.data.chapters[0].cover) this.pattern = 'image';
     else if (this.data.chapters[0].title) this.pattern = 'title';
     else this.pattern = 'index';
 
-    if(this.data.chapters[0].is_locked===undefined) this.is_locked=false;
+    if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
   }
   on($event: MouseEvent) {
     const node = $event.target as HTMLElement;
@@ -122,15 +140,15 @@ export class ChapterListMode1Component {
     this.data.chapters.forEach(x => x.selected = false)
   }
 
-  scrollNode(){
+  scrollNode() {
     const node = document.getElementById(`${this.data.chapter_id}`)
-    if(node){
+    if (node) {
       node!.scrollIntoView({ behavior: 'instant', block: 'center' })
       node?.focus()
-    }else{
-      setTimeout(()=>{
+    } else {
+      setTimeout(() => {
         this.scrollNode()
-      },33)
+      }, 33)
     }
 
   }
