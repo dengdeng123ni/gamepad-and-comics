@@ -295,10 +295,7 @@ export class CurrentService {
     if (res) {
       return res.is_first_page_cover
     } else {
-      const pages = await this._getChapter(id)
-      const is_first_page_cover = await this._getIsFirstPageCover(pages);
-      this._chapters_IsFirstPageCover[id] = is_first_page_cover;
-      return is_first_page_cover
+      return true
     }
   }
   async _getChapterFirstPageCover(chapter_id: string) {
