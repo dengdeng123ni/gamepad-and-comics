@@ -1269,7 +1269,15 @@ export class DbEventService {
           data.push({ id, cover, title })
         }
         return data
-      }
+      },
+      UrlToDetailId: async (id) => {
+       const obj=new URL(id);
+        if(obj.host=="hanime1.me"){
+         return obj.pathname.split("/").at(-1)
+        }else{
+         return null
+        }
+     }
     });
 
 

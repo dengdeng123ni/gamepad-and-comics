@@ -185,6 +185,8 @@ export class ComicsListV2Component {
 
       const data: any = await this.get(this.id);
       if (data) {
+        console.log(this.type);
+
         this.page_num = data.page_num;
         if (this.type == "multipy") {
           this.query.list = data.query.list;
@@ -194,10 +196,13 @@ export class ComicsListV2Component {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
         } else if (this.type == "history") {
+          console.log(123);
+
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
         } else if (this.type == "local_cache") {
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
         } else {
+          console.log(123);
           this.list = data.list;
         }
         if (this.list.length == 0) {
@@ -316,6 +321,8 @@ export class ComicsListV2Component {
   }
 
   async put() {
+    // console.log(this.type);
+    if(this.type=="history") return null
     let obj = {
       id: this.id,
       query: this.query,

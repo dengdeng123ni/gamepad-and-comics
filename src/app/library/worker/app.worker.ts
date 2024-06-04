@@ -23,6 +23,7 @@ init();
 const getImage = async (url) => {
   const res = await cache.match(url);
   if (res) {
+
     const blob = await res.blob()
     if (blob.size < 1000) {
       return null
