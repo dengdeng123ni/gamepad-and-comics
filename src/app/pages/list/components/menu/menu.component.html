@@ -1,6 +1,6 @@
 <div class="list">
   <mat-form-field style="width: 100%;">
-    <input type="text" matInput >
+    <input type="text" matInput (click)="getClipboardContents()">
   </mat-form-field>
   <div *ngFor="let n of data.menu;let index=index">
     <div *ngIf="n.submenu" [attr.type]="'expansion'">

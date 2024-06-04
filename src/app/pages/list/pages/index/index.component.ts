@@ -11,6 +11,7 @@ import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboa
 import { ControllerSettingsService } from '../../components/controller-settings/controller-settings.service';
 import { ComicsListV2Service } from '../../components/comics-list-v2/comics-list-v2.service';
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
+import { UrlToComicsIdService } from '../../components/url-to-comics-id/url-to-comics-id.service';
 
 @Component({
   selector: 'app-index',
@@ -22,51 +23,54 @@ export class IndexComponent {
   constructor(
     private Current: CurrentService,
     public data: DataService,
-    public AppData:AppDataService,
-    public indexser:IndexService,
-    public GamepadEvent:GamepadEventService,
-    public menu:MenuService,
-    public router:Router,
+    public AppData: AppDataService,
+    public indexser: IndexService,
+    public GamepadEvent: GamepadEventService,
+    public menu: MenuService,
+    public router: Router,
     public route: ActivatedRoute,
-    public KeyboardToolbar:KeyboardToolbarService,
-    public KeyboardEvent:KeyboardEventService,
-    public ControllerSettings:ControllerSettingsService,
-    public GamepadToolbar:GamepadToolbarService,
-    public ComicsListV2:ComicsListV2Service
+    public KeyboardToolbar: KeyboardToolbarService,
+    public KeyboardEvent: KeyboardEventService,
+    public ControllerSettings: ControllerSettingsService,
+    public GamepadToolbar: GamepadToolbarService,
+    public ComicsListV2: ComicsListV2Service,
+    public UrlToComicsId: UrlToComicsIdService
   ) {
+
+
     this.GamepadEvent.registerGlobalEvent({
-      LEFT_ANALOG_PRESS:()=>{
+      LEFT_ANALOG_PRESS: () => {
         this.GamepadToolbar.isToggle()
       }
     })
     this.KeyboardEvent.registerGlobalEvent({
-      "p":()=>this.KeyboardToolbar.isToggle()
+      "p": () => this.KeyboardToolbar.isToggle()
     })
-      document.body.setAttribute("router", "list")
-      document.body.setAttribute("locked_region", "list")
-      // this.Current.init();
-      GamepadEvent.registerConfig("menu", { region: ["menu_item"] })
-      let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
+    document.body.setAttribute("router", "list")
+    document.body.setAttribute("locked_region", "list")
+    // this.Current.init();
+    GamepadEvent.registerConfig("menu", { region: ["menu_item"] })
+    let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
 
-      const b64_to_utf8 = (str: string) => {
-        return decodeURIComponent(window.atob(str));
-      }
+    const b64_to_utf8 = (str: string) => {
+      return decodeURIComponent(window.atob(str));
+    }
 
-      id$.subscribe((params:any) => {
+    id$.subscribe((params: any) => {
 
-      })
+    })
 
-     this.init();
+    this.init();
   }
 
 
-  async init(){
+  async init() {
     await this.data.init();
     await this.menu.init();
-    this.data.is_init_free=true;
+    this.data.is_init_free = true;
   }
 
-  on_list($event:any) {
+  on_list($event: any) {
 
   }
 
@@ -79,7 +83,7 @@ export class IndexComponent {
   ngAfterViewInit() {
   }
 
-  openedChange(bool){
+  openedChange(bool) {
     //  if(bool){
     //   document.body.setAttribute("locked_region", "menu")
     //  }else{
@@ -87,7 +91,7 @@ export class IndexComponent {
     //  }
     this.menu.post()
   }
-  mouseleave($event:MouseEvent){
+  mouseleave($event: MouseEvent) {
     // if($event.offsetX>24) return
     // if($event.offsetX+24>window.innerHeight) return
     // if(($event.offsetX+13)>window.innerWidth){
@@ -99,13 +103,13 @@ export class IndexComponent {
 
     // }
   }
-  drawer_mouseleave($event:MouseEvent){
+  drawer_mouseleave($event: MouseEvent) {
     // if($event.offsetX>240) {
     //   this.menu.opened=false;
     // }
   }
-  ngOnDestroy(){
-     this.data.post();
+  ngOnDestroy() {
+    this.data.post();
   }
 
 

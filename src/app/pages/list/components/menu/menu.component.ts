@@ -12,6 +12,7 @@ import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from
 import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ControllerSettingsService } from '../controller-settings/controller-settings.service';
+import { UrlToComicsIdService } from '../url-to-comics-id/url-to-comics-id.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -75,6 +76,8 @@ export class MenuComponent {
     public ContextMenuController: ContextMenuControllerService,
     public ContextMenuEvent: ContextMenuEventService,
     public ControllerSettings: ControllerSettingsService,
+
+    public UrlToComicsId: UrlToComicsIdService,
     public route: ActivatedRoute,
     private zone: NgZone
   ) {
@@ -189,10 +192,28 @@ export class MenuComponent {
 
 
   }
+
   onMenu(e) {
     const node = document.querySelector("[menu_key=_gh_settings]")
     const p = node.getBoundingClientRect();
     this.ContextMenuController.openMenu(node, p.left, p.top)
+  }
+  async getClipboardContents() {
+    try {
+      const clipboardItems = await navigator.clipboard.read();
+      for (const clipboardItem of clipboardItems) {
+        for (const type of clipboardItem.types) {
+          const blob = await clipboardItem.getType(type);
+          const f = await fetch(URL.createObjectURL(blob))
+          const t = await f.text()
+          if(t.substring(0,4)=="http"){
+            this.UrlToComicsId.UrlToDetailIdAll(t)
+          }
+        }
+      }
+    } catch (err) {
+      console.error(err.name, err.message);
+    }
   }
   ngOnDestroy() {
 

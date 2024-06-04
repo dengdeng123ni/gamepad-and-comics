@@ -1079,7 +1079,12 @@ export class DbEventService {
 
       },
       UrlToDetailId: async (id) => {
-
+         const obj=new URL(id);
+         if(obj.host=="manga.bilibili.com"){
+          return obj.pathname.split("/").at(-1).replace("mc","");
+         }else{
+          return null
+         }
       }
     });
 
