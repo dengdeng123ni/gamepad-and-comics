@@ -12,6 +12,7 @@ body[pattern=gamepad][locked_region=one_page_mode3],
 body[pattern=gamepad][locked_region=kyboard_toolbar],
 body[pattern=gamepad][locked_region=reader_config],
 body[pattern=gamepad][locked_region=chapters_list],
+body[pattern=gamepad][locked_region=reset_reading_progress]
 {
   [region=one_page_item][select=true],
   [region=comics_option][select=true],
@@ -26,7 +27,9 @@ body[pattern=gamepad][locked_region=chapters_list],
   [region=one_page_thumbnail_mode2][select=true],
   [region=one_page_thumbnail_mode3][select=true],
   [region=kyboard_toolbar_item][select=true],
-  [region=reader_config_item][select=true]
+  [region=reader_config_item][select=true],
+  [region=reset_reading_progress][select=true]
+
   {
     position: relative;
 

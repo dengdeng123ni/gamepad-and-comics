@@ -35,6 +35,7 @@ import { UnlockComponent } from './components/unlock/unlock.component';
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 import { ChaptersFirstCoverSettingsComponent } from './components/chapters-first-cover-settings/chapters-first-cover-settings.component';
 import { ComicsSettingsComponent } from './components/comics-settings/comics-settings.component';
+import { ResetReadingProgressComponent } from './components/reset-reading-progress/reset-reading-progress.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ComicsSettingsComponent } from './components/comics-settings/comics-set
     UnlockComponent,
     GamepadToolbarComponent,
     ChaptersFirstCoverSettingsComponent,
-    ComicsSettingsComponent
+    ComicsSettingsComponent,
+    ResetReadingProgressComponent
   ],
   imports: [
     CommonModule,

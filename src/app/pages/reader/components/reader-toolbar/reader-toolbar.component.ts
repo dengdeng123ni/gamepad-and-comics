@@ -12,6 +12,10 @@ import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { ComicsDetailService } from '../comics-detail/comics-detail.service';
 import { ComicsSettingsService } from '../comics-settings/comics-settings.service';
+import { DbControllerService } from 'src/app/library/public-api';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { firstValueFrom } from 'rxjs';
+import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
 
 @Component({
   selector: 'app-reader-toolbar',
@@ -37,6 +41,9 @@ export class ReaderToolbarComponent {
     public ReaderConfig:ReaderConfigService,
     public ComicsDetail:ComicsDetailService,
     public ComicsSettings:ComicsSettingsService,
+    public DbController:DbControllerService,
+    public webDb: NgxIndexedDBService,
+    public resetReadingProgress:ResetReadingProgressService
   ) {
     current.init$.subscribe(x=>{
       if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
@@ -201,5 +208,7 @@ export class ReaderToolbarComponent {
     const position = node.getBoundingClientRect();
     this.ComicsDetail.open({right:"30px",bottom:`30px`})
   }
+
+
 
 }
