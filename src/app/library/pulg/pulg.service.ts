@@ -14,6 +14,20 @@ export class PulgService {
 
 
   }
+  async load(){
+    const url= document.querySelector("base").href+'assets/js/jspdf.umd.min.js'
+    const url1= document.querySelector("base").href+'assets/js/jszip.min.js'
+    const url2= document.querySelector("base").href+'assets/js/pptxgen.min.js'
+    this.loadJS(url)
+    this.loadJS(url1)
+    this.loadJS(url2)
+    await this.sleep(100)
+  }
+  sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
+  }
   async init() {
     this.caches = await caches.open('script');
     await this.loadAllScript();
