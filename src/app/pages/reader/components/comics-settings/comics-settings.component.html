@@ -1,31 +1,26 @@
 <div class="warp" id="download_option">
-  <div class="comics_option" style="display: none;">
-    <div class="title">漫画设置</div>
+  <div class="comics_option" style="height: 80vh;">
+    <div class="title"> {{data.details.title}}</div>
     <mat-divider style="margin: 4px 0;"></mat-divider>
     <div class="list">
       <div class="item">
-        <div class="name">页面顺序</div>
-        <mat-radio-group>
-          <mat-radio-button [value]="true" style="display: flex;">默认</mat-radio-button>
-          <mat-radio-button [value]="false">日漫</mat-radio-button>
+        <div class="name">第一页封面</div>
+        <mat-radio-group [(ngModel)]="mode">
+          <mat-radio-button [attr.region]="'chapter_item'" (click)="change(1)" [value]="1" style="display: flex;">是</mat-radio-button>
+          <mat-radio-button [attr.region]="'chapter_item'" [attr.select]="true" (click)="change(2)" [value]="2" style="display: flex;">否</mat-radio-button>
+          <mat-radio-button [attr.region]="'chapter_item'" (click)="change(3)" [value]="3" style="display: flex;">详细设置</mat-radio-button>
         </mat-radio-group>
       </div>
     </div>
   </div>
-  <div class="comics_content">
+  <div class="comics_content" *ngIf="mode==3">
     <div class="title" style="font-size: 22px;margin: 12px;
     color: rgba(255, 255, 255, .34);display: flex;align-items: center;    justify-content: space-between;">
-     <span>
-      {{data.details.title}}
-     </span>
 
       <div class="toolbar">
-        <button mat-button (click)="all()">全选</button>
-        <button mat-button (click)="rev()">反选</button>
-        <button mat-button (click)="all()">自动推断</button>
-        <!-- <mat-checkbox (click)="all()">全选</mat-checkbox>
-        <mat-checkbox  (click)="rev()">反选</mat-checkbox>
-        <mat-checkbox>自动推断</mat-checkbox> -->
+        <button mat-button [attr.region]="'chapter_item'" (click)="all()">全选</button>
+        <button mat-button [attr.region]="'chapter_item'" (click)="rev()">反选</button>
+        <button mat-button [attr.region]="'chapter_item'" (click)="all()">自动推断</button>
       </div>
     </div>
 
@@ -36,12 +31,12 @@
         color: rgba(255, 255, 255, .34);
         background: #424242;
         border-radius: 4px;
-        margin: 0 12px;">
+        margin-left:12px;">
           <div class="title">
               {{n.title}}
           </div>
           <div class="toolbar">
-            <mat-checkbox (change)="gefa(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">第一页是否封面</mat-checkbox>
+            <mat-checkbox style="padding-right: 12px;" [attr.region]="'chapter_item'" (change)="gefa(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">第一页是否封面</mat-checkbox>
           </div>
         </div>
         <div class="content">
@@ -52,7 +47,7 @@
               class="item"
               disabled
               [attr.select]="n.select"
-              [attr.content_menu_key]="'double_page_thumbnail_item'"
+              [attr.region]="'double_page_thumbnail_item'"
               [attr.content_menu_value]="index"
             >
               <div *ngIf="n.images.length == 2" class="double">

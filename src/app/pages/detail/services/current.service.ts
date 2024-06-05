@@ -107,11 +107,11 @@ export class CurrentService {
     }
   }
   async _getComicsRead(comics_id: string) {
-    const res: any = await firstValueFrom(this.webDb.getByID("read_comics", comics_id.toString()))
+    const res: any = await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))
     if (res) {
       return res
     } else {
-      return { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[0].id, chapter_title: this.data.chapters[0].title, chapters_length: this.data.chapters.length }
+      return { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[0].id }
     }
   }
   async _getImageHW(id) {

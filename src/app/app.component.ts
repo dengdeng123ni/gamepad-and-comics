@@ -108,6 +108,15 @@ export class AppComponent {
     public RoutingController:RoutingControllerService,
     public App: AppDataService
   ) {
+    // console.log();
+  //  setTimeout(async ()=>{
+  //   const device = await (navigator as any).bluetooth.requestDevice({
+  //     optionalServices: ["battery_service", "device_information"],
+  //     acceptAllDevices: true,
+  //   });
+
+
+  //  },3000)
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
       await DbController.getImage(data.id)

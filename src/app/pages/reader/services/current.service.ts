@@ -244,7 +244,8 @@ export class CurrentService {
     const obj = this.data.chapters[index + 1];
     if (obj) {
       const id = obj.id;
-      await this._chapterPageChange(id, 0);
+      const index=await this._getChapterIndex(id);
+      await this._chapterPageChange(id, index);
       return true
     } else {
       await this.pageStatu$.next("chapter_last")
@@ -257,7 +258,8 @@ export class CurrentService {
     const obj = this.data.chapters[index - 1];
     if (obj) {
       const id = obj.id;
-      await this._chapterPageChange(id, 0);
+      const index=await this._getChapterIndex(id);
+      await this._chapterPageChange(id, index);
       return true
     } else {
       await this.pageStatu$.next("chapter_first")
@@ -337,7 +339,7 @@ export class CurrentService {
     this.data.chapters[index].read = 1;
     const chapters = this.data.chapters.map(x => ({ id: x.id, read: x.read }))
     await firstValueFrom(this.webDb.update("read_comics_chapter", { 'comics_id': this.data.comics_id.toString(), chapters: chapters }))
-    await firstValueFrom(this.webDb.update("read_comics", { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[index].id, chapter_title: this.data.chapters[index].title, chapters_length: chapters.length }))
+    await firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[index].id }))
   }
   async _getIsFirstPageCover(pages: Array<PagesItem>): Promise<boolean> {
     try {

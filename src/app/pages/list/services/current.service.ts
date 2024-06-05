@@ -19,7 +19,7 @@ export class CurrentService {
 
   async routerReader(origin,comics_id) {
     this.data.currend_read_comics_id=comics_id;
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("read_comics", comics_id.toString()))])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
     if (_res[1]) {
       this.router.navigate(['/comics',origin, comics_id, _res[1].chapter_id])
     } else {

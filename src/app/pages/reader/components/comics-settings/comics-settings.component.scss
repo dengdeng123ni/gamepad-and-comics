@@ -107,6 +107,8 @@
   background: #3c3c3c;
   width:700px;
   height: 80vh;
+  display: flex;
+  flex-direction: column;
 
   .list {
     overflow: auto;

@@ -13,10 +13,10 @@ export class ComicsSettingsService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('comics_settings_item',{
+    GamepadEvent.registerAreaEvent('chapters_list',{
       B:()=>setTimeout(()=>this.close())
     })
-    GamepadEvent.registerConfig('comics_settings_item', {
+    GamepadEvent.registerConfig('chapters_list', {
       region: ['chapter_item'],
     });
   }
@@ -25,11 +25,11 @@ export class ComicsSettingsService {
       this.opened = true;
 
       const dialogRef = this._dialog.open(ComicsSettingsComponent, {
-        panelClass: "_comics_settings"
+        panelClass: "_chapters_list"
       });
-      document.body.setAttribute("locked_region", "comics_settings")
+      document.body.setAttribute("locked_region", "chapters_list")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "comics_settings" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "chapters_list" && this.opened) document.body.setAttribute("locked_region", "reader")
         this.opened = false;
       });
     }

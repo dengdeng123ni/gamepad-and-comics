@@ -2,6 +2,8 @@ import { Component, NgZone } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { UtilsService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-comics-settings',
@@ -11,14 +13,17 @@ import { CurrentService } from '../../services/current.service';
 export class ComicsSettingsComponent {
   list = []
   lists = {}
+
+
+  mode=1
   constructor(
     public utils: UtilsService,
     private zone: NgZone,
     public data: DataService,
     public current: CurrentService,
-
+    public webDb: NgxIndexedDBService,
   ) {
-    this.init();
+    this.get();
 
   }
   async getDoublePages(pages,is_first_page_cover) {
@@ -32,20 +37,6 @@ export class ComicsSettingsComponent {
     return double_list
   }
 
-
-  async init() {
-    this.list = this.data.chapters
-    this.data.chapters.forEach(x => {
-      this.lists[x.id] = []
-    })
-    for (let index = 0; index < this.data.chapters.length; index++) {
-      const item = this.data.chapters[index];
-      let pages = await this.current._getChapter(item.id);
-      this.list[index].is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.list[index].id)
-      let arr = await this.getDoublePages(pages.slice(0, 3),this.list[index].is_first_page_cover)
-      this.lists[item.id] = arr;
-    }
-  }
 
   async gefa(id) {
     const obj = this.list.find(x => x.id == id)
@@ -81,5 +72,53 @@ export class ComicsSettingsComponent {
         })
       }
     })
+  }
+
+  async change(mode){
+   if(mode==1){
+    for (let index = 0; index < this.list.length; index++) {
+      this.list[index].is_first_page_cover=true;
+      await this.current._setChapterFirstPageCover(this.list[index].id, true)
+    }
+    this.mode=1;
+    this.post();
+   }else if(mode==2){
+    for (let index = 0; index < this.list.length; index++) {
+      this.list[index].is_first_page_cover=false;
+      await this.current._setChapterFirstPageCover(this.list[index].id, false)
+    }
+    this.mode=2;
+    this.post();
+   }else if(mode==3){
+    this.list = this.data.chapters
+    this.data.chapters.forEach(x => {
+      this.lists[x.id] = []
+    })
+    this.mode=3;
+    this.post();
+    for (let index = 0; index < this.data.chapters.length; index++) {
+      const item = this.data.chapters[index];
+      let pages = await this.current._getChapter(item.id);
+      this.list[index].is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.list[index].id)
+      let arr = await this.getDoublePages(pages.slice(0, 3),this.list[index].is_first_page_cover)
+      this.lists[item.id] = arr;
+    }
+
+   }
+ }
+
+  async post() {
+    return await firstValueFrom(this.webDb.update("data", {
+      id: `first_page_cover_settings_${this.data.comics_id}`,
+      mode: this.mode
+    }))
+  }
+
+  async get() {
+    const res: any = await firstValueFrom(this.webDb.getByKey("data", `first_page_cover_settings_${this.data.comics_id}`))
+    if (res) {
+      this.mode = res.mode;
+    }
+    this.change(this.mode)
   }
 }

@@ -363,16 +363,19 @@ export class ComicsListV2Component {
   async overflow() {
     if(this.list.length==0){
       await this.add_pages();
-     setTimeout(()=>{
+
+      return
+    }
+    setTimeout(()=>{
       const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
+      console.log(node);
+
       if (node.getBoundingClientRect().top < 100 || this.list.length<5) {
         this.is_one_party = true;
       } else {
         this.is_one_party = false;
       }
      })
-      return
-    }
     const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
     if (node.getBoundingClientRect().top < 100 || this.list.length<5) {
       this.is_one_party = true;
