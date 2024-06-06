@@ -126,6 +126,7 @@ export class MenuComponent {
           this.router.navigate(['query', 'local_cache']);
         }
       })
+
       this.data.menu.push({ type: 'separator' })
       this.data.menu.push({
         id: 'add',
@@ -183,6 +184,13 @@ export class MenuComponent {
           {
             id: "ope1",
             name: "链接",
+            click: () => {
+
+            }
+          },
+          {
+            id: "ope3",
+            name: "清理全部缓存",
             click: () => {
 
             }

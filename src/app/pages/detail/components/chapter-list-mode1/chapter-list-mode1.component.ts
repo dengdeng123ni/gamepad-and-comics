@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { ContextMenuEventService, DbControllerService } from 'src/app/library/public-api';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
@@ -29,6 +29,25 @@ export class ChapterListMode1Component {
 
   pattern = ''
   is_locked = true;
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key == "z" || this._ctrl) {
+      return false
+    }
+    if (event.key == "Meta") this._ctrl = true;
+    if (event.key == "Control") this._ctrl = true;
+
+    return true
+  }
+  // selectedAll
+  @HostListener('window:keyup', ['$event'])
+  handleKeyUp(event: KeyboardEvent) {
+
+    if (event.key == "Meta") this._ctrl = false;
+    if (event.key == "Control") this._ctrl = false;
+    return true
+  }
   constructor(public data: DataService,
     public router: Router,
     public current: CurrentService,
@@ -60,7 +79,12 @@ export class ChapterListMode1Component {
           })
 
         } else if (e.id == "ccccc") {
+          const id = e.value;
+          const pages=await this.DbController.getPages(id)
+          for (let index = 0; index < pages.length; index++) {
+            await this.DbController.getImage(pages[index].src)
 
+          }
         }
         else if (e.id == "export") {
           const node = document.getElementById("menu_content");
@@ -93,7 +117,7 @@ export class ChapterListMode1Component {
         { name: "缩略图", id: "thumbnail" },
         { name: "提前加载", id: "ccccc" },
         { name: "导出", id: "export" },
-        { name: "重置数据", id: "updaDate" },
+        { name: "重新获取", id: "updaDate" },
         // { name: "delete", id: "delete" },
       ]
 

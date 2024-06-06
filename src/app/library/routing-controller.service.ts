@@ -42,6 +42,14 @@ export class RoutingControllerService {
   async navigate(page) {
 
     const list:any = await firstValueFrom(this.webDb.getAll('router'))
+    setTimeout(()=>{
+      console.log(123);
+      list.forEach(x=>{
+        firstValueFrom(this.webDb.deleteByKey('router',x.id))
+
+      })
+
+    },100)
     const arr=list.filter(x=>x.page==page)
     const obj=arr.at(-1)
     if (obj) {

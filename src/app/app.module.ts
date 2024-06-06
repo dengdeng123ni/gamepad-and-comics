@@ -17,7 +17,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 23,
+  version: 27,
   objectStoresMeta: [
     {
       store: 'data',

@@ -17,24 +17,24 @@ import { ComicsSelectTypeService } from '../comics-select-type/comics-select-typ
 export class ComicsListV2Component {
   key: string = '';
   @ViewChild('listbox') ListNode: ElementRef;
-  // @HostListener('window:keydown', ['$event'])
-  // handleKeyDown(event: KeyboardEvent) {
-  //   if (event.key == "z" || this._ctrl) {
-  //     return false
-  //   }
-  //   if (event.key == "Meta") this._ctrl = true;
-  //   if (event.key == "Control") this._ctrl = true;
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key == "z" || this._ctrl) {
+      return false
+    }
+    if (event.key == "Meta") this._ctrl = true;
+    if (event.key == "Control") this._ctrl = true;
 
-  //   return true
-  // }
-  // // selectedAll
-  // @HostListener('window:keyup', ['$event'])
-  // handleKeyUp(event: KeyboardEvent) {
+    return true
+  }
+  // selectedAll
+  @HostListener('window:keyup', ['$event'])
+  handleKeyUp(event: KeyboardEvent) {
 
-  //   if (event.key == "Meta") this._ctrl = false;
-  //   if (event.key == "Control") this._ctrl = false;
-  //   return true
-  // }
+    if (event.key == "Meta") this._ctrl = false;
+    if (event.key == "Control") this._ctrl = false;
+    return true
+  }
   _ctrl = false;
   page_num = 1;
   page_size = 20;
@@ -186,7 +186,9 @@ export class ComicsListV2Component {
       const data: any = await this.get(this.id);
       if (data) {
         console.log(this.type);
-
+        data.list.forEach(x=>{
+          x.selected=false;
+        })
         this.page_num = data.page_num;
         if (this.type == "multipy") {
           this.query.list = data.query.list;
