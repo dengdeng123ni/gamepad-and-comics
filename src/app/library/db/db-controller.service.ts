@@ -104,7 +104,7 @@ export class DbControllerService {
             })
           } else {
             res = await this.DbEvent.Events[option.origin]["getDetail"](id);
-            firstValueFrom(this.webDb.update('details',JSON.parse(JSON.stringify({id:id,data:res})) ))
+            firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: res }))))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
@@ -128,14 +128,14 @@ export class DbControllerService {
       return []
     }
   }
-  async delWebDbDetail(id){
+  async delWebDbDetail(id) {
     await firstValueFrom(this.webDb.deleteByKey('details', id))
   }
-  async delWebDbPages(id){
+  async delWebDbPages(id) {
     await firstValueFrom(this.webDb.deleteByKey('pages', id))
   }
-  async delWebDbImage(id){
-   const res= await this.caches.delete(id);
+  async delWebDbImage(id) {
+    const res = await this.caches.delete(id);
   }
   async getPages(id: string, option?: {
     origin: string
@@ -180,6 +180,28 @@ export class DbControllerService {
       return []
     }
   }
+  async delComicsAllImages(comics_id) {
+    const c = await this.getDetail(comics_id)
+    const origin = this.AppData.origin;
+    let list = [];
+    list.push(`http://localhost:7700/${origin}/comics/${comics_id}`)
+    for (let index = 0; index < c.chapters.length; index++) {
+      const x = c.chapters[index];
+      list.push(`http://localhost:7700/${origin}/chapter/${comics_id}/${x.id}`)
+      let res = (await firstValueFrom(this.webDb.getByID('pages', x.id)) as any)
+      if (res) {
+        res = res.data;
+        res.forEach((x, i) => {
+          list.push(`http://localhost:7700/${origin}/page/${x.id}/${index}`)
+        })
+        this.delWebDbPages(x.id)
+      }
+    }
+    this.delWebDbDetail(comics_id)
+    list.forEach(x => {
+      this.delWebDbImage(x)
+    })
+  }
   isConditionMet = false;
   async waitForCondition(): Promise<boolean> {
     if (!this.isConditionMet) {
@@ -203,8 +225,6 @@ export class DbControllerService {
   async getImage(id: string, option?: {
     origin: string
   }) {
-
-
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]

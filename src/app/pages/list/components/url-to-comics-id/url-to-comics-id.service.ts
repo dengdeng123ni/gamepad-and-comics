@@ -9,14 +9,14 @@ import { UrlToComicsIdComponent } from './url-to-comics-id.component';
 export class UrlToComicsIdService {
 
   opened = false;
-  list=[];
+  list = [];
   constructor(
     public _dialog: MatDialog,
-    public GamepadEvent:GamepadEventService,
+    public GamepadEvent: GamepadEventService,
     public DbEvent: DbEventService,
   ) {
-    GamepadEvent.registerAreaEvent('url_to_comics_id',{
-      B:()=>setTimeout(()=>this.close())
+    GamepadEvent.registerAreaEvent('url_to_comics_id', {
+      B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('url_to_comics_id', {
       region: ['item'],
@@ -47,17 +47,35 @@ export class UrlToComicsIdService {
   }
 
   async UrlToDetailIdAll(url) {
-    this.list=[]
+    this.list = []
     for (let index = 0; index < Object.keys(this.DbEvent.Events).length; index++) {
       const x = Object.keys(this.DbEvent.Events)[index];
       if (this.DbEvent.Events[x]["UrlToDetailId"]) {
         await this.UrlToDetailId(x, url)
       }
     }
-    if(this.list.length){
+    if (this.list.length) {
       this.open();
     }
   }
+
+  async UrlToComicsId(url):Promise<any> {
+    for (let index = 0; index < Object.keys(this.DbEvent.Events).length; index++) {
+      const x = Object.keys(this.DbEvent.Events)[index];
+      if (this.DbEvent.Events[x]["UrlToDetailId"]) {
+        const id = await this.DbEvent.Events[x]["UrlToDetailId"](url);
+        if (id) {
+          const detail = await this.DbEvent.Events[x]["getDetail"](id);
+          if (detail) {
+            return {oright:x,title:detail.title,id:id}
+          }
+        }
+      }
+    }
+    return null
+  }
+
+
 
   async UrlToDetailId(x, url) {
     const id = await this.DbEvent.Events[x]["UrlToDetailId"](url);

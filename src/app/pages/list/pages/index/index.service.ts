@@ -81,6 +81,15 @@ export class IndexService {
           }
         }
       },
+      {
+        name: "删除缓存", id: "del_caches", click: async (list) => {
+
+          for (let index = 0; index < list.length; index++) {
+            await this.delCaches(list[index].id)
+
+          }
+        }
+      },
     ])
 
   }
@@ -92,6 +101,11 @@ export class IndexService {
       firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 }))
       if (index == 0) firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id }))
     }
+  }
+
+  async delCaches(comics_id){
+    await firstValueFrom(this.webDb.deleteByKey('history',comics_id.toString()))
+    this.DbController.delComicsAllImages(comics_id)
   }
 
 

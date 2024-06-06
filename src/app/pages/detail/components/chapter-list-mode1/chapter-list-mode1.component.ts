@@ -32,9 +32,7 @@ export class ChapterListMode1Component {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key == "z" || this._ctrl) {
-      return false
-    }
+
     if (event.key == "Meta") this._ctrl = true;
     if (event.key == "Control") this._ctrl = true;
 
