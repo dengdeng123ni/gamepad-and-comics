@@ -42,7 +42,8 @@ export class ExportSettingsComponent {
       const x = chapters[index]
       const pages = await this.DbController.getPages(x.id);
       const isFirstPageCover=this.isFirstPageCover;
-      await this.download.download({type:this.type, name: `${this.data.comics_info.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), images: pages.map((x: { src: any; }) => x.src), pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page })
+      const blob=await this.download.ImageToTypeBlob({type:this.type, name: `${this.data.comics_info.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), images: pages.map((x: { src: any; }) => x.src), pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page })
+      this.download.saveAs(blob,`${this.data.comics_info.title}_${x.title}`)
     }
     this.exportSettings.close();
     this.loading.close();

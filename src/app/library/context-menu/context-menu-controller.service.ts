@@ -7,7 +7,7 @@ declare const window: any;
 })
 export class ContextMenuControllerService {
   private handleRegion: string = '';
-  private currentNode: HTMLElement|Element | null = null;
+  private currentNode: HTMLElement | Element | null = null;
 
   constructor(
     private contextMenuEvent: ContextMenuEventService,
@@ -28,8 +28,8 @@ export class ContextMenuControllerService {
     this.currentNode.setAttribute('content_menu_select', 'true');
     const value = node.getAttribute('content_menu_value');
     this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? '';
-    (document.querySelector('body') as HTMLElement).setAttribute('locked_region', 'content_menu');
     if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
+    document.body.setAttribute('locked_region', 'content_menu');
     this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
   }
   // 扩容菜单方法
@@ -44,7 +44,7 @@ export class ContextMenuControllerService {
     this.currentNode.setAttribute('menu_select', 'true');
     const value = node.getAttribute('menu_value');
     this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? '';
-    (document.querySelector('body') as HTMLElement).setAttribute('locked_region', 'content_menu');
+    document.body.setAttribute('locked_region', 'content_menu');
     if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
     this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
   }
@@ -76,8 +76,9 @@ export class ContextMenuControllerService {
           (this.currentNode as any).setAttribute('content_menu_select', 'true');
           const value = node.getAttribute('content_menu_value');
           let menu = this.contextMenuEvent.menu[key];
-          if (menu&&menu.length) {
+          if (menu && menu.length) {
             if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
+              document.body.setAttribute('locked_region', 'content_menu');
             this.contextMenu.open(menu, { x: e.clientX, y: e.clientY, key: key, value: value ?? null });
             break;
           } else {

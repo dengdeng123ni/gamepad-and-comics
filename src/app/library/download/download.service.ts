@@ -60,7 +60,7 @@ export class DownloadService {
 
   async ImageToTypeBlob({ type, name, images = [''], pageOrder = false, isFirstPageCover = false, page }) {
 
-    this.pulg.load()
+    await this.pulg.load()
     if (type == "PDF") return await this.pdf({ name, images, pageOrder, isFirstPageCover, page })
     if (type == "PPT") return await this.ppt({ name, images, pageOrder, isFirstPageCover, page })
     if (type == "ZIP") return await this.zip({ name, images, pageOrder, isFirstPageCover, page })
