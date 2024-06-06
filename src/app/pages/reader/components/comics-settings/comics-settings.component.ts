@@ -76,25 +76,28 @@ export class ComicsSettingsComponent {
 
   async change(mode){
    if(mode==1){
+    this.mode=1;
     for (let index = 0; index < this.list.length; index++) {
       this.list[index].is_first_page_cover=true;
       await this.current._setChapterFirstPageCover(this.list[index].id, true)
     }
-    this.mode=1;
+
     this.post();
    }else if(mode==2){
+    this.mode=2;
     for (let index = 0; index < this.list.length; index++) {
       this.list[index].is_first_page_cover=false;
       await this.current._setChapterFirstPageCover(this.list[index].id, false)
     }
-    this.mode=2;
+
     this.post();
    }else if(mode==3){
+    this.mode=3;
     this.list = this.data.chapters
     this.data.chapters.forEach(x => {
       this.lists[x.id] = []
     })
-    this.mode=3;
+
     this.post();
     for (let index = 0; index < this.data.chapters.length; index++) {
       const item = this.data.chapters[index];

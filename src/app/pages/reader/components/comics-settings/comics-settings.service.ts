@@ -13,7 +13,7 @@ export class ComicsSettingsService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('chapters_list',{
+    GamepadEvent.registerAreaEvent('chapter_item',{
       B:()=>setTimeout(()=>this.close())
     })
     GamepadEvent.registerConfig('chapters_list', {

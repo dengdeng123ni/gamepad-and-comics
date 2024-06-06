@@ -57,7 +57,9 @@ export class GamepadToolbarComponent {
   firstPageCoverChange() {
     this.current.event$.next({ key: "double_page_reader_FirstPageToggle", value: null })
   }
-
+  comicsSettingsOpen(){
+    this.comicsSettings.open()
+  }
   imageRotation() {
     const node: any = document.querySelector(".swiper-slide-active")
     const rotate = node.getAttribute("rotate");
