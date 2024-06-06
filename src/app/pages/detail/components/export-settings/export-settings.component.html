@@ -20,12 +20,11 @@
       <mat-chip-listbox>
         <mat-chip-option [attr.type]="'chip'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.single_page" (selectionChange)="change('one')" [selectable]="page!='one'"
           *ngIf="type!='EPUB'" [attr.region]="'detail_export_settings_page'">{{i18n.config.single_page}}</mat-chip-option>
-        <mat-chip-option id="page_double" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.double_page" [attr.type]="'chip'" ≈
+        <mat-chip-option id="page_double" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.double_page" [attr.type]="'chip'" (selectionChange)="change('double')"
           [selectable]="page!='double'" selected [attr.region]="'detail_export_settings_page'">{{i18n.config.double_page}}</mat-chip-option>
       </mat-chip-listbox>
-      <button mat-mini-fab style="    height: 32px;
-      width: 32px;margin-left: 10px;" (click)="on()" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.images" [attr.region]="'detail_export_settings_page'" [attr.select]="true">
-        <mat-icon style="zoom: 0.8;">file_download</mat-icon>
+      <button mat-mini-fab class="icon" (click)="on($event)" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.images" [attr.region]="'detail_export_settings_page'" [attr.select]="true">
+        <mat-icon>file_download</mat-icon>
       </button>
     </div>
     <mat-divider style="margin-top: 8px;" *ngIf="page=='double'"></mat-divider>

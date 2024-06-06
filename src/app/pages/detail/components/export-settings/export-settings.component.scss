@@ -6,6 +6,7 @@
 }
 .warp{
   padding: 12px;
+  width: 272px;
 }
 .name{
   margin-right: 12px;
@@ -69,6 +70,9 @@
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
     border-radius: 4px;
   }
-
+  .mat-button-toggle .mat-pseudo-checkbox {
+    margin-right: 12px;
+    display: none;
+}
 
 }

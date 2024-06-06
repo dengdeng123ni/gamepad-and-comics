@@ -33,7 +33,7 @@ export class ExportSettingsComponent {
     const node: any = document.querySelector("#page_double");
     node.querySelector("button").click();
   }
-  async on() {
+  async on($event) {
     this.loading.open();
     const chapters = this.data.chapters.filter(x => x.selected);
 
