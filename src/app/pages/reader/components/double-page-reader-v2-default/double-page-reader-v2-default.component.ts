@@ -152,20 +152,26 @@ export class DoublePageReaderV2DefaultComponent {
   }
   isSwitch = false;
   async pageToggle() {
-    await this.updata();
-    setTimeout(()=>{
-      if (this.data.page_index == 0) {
-        this.current._pageChange(this.data.page_index);
+    const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
+
+    let indexs = [];
+    for (let index = 0; index < nodes.length; index++) {
+      const node = nodes[index];
+      indexs.push(parseInt(node.getAttribute("index")))
+    }
+    const index = indexs.sort((a, b) => b - a)[0] - 1 ;
+    console.log(index);
+
+    if (index == 0) {
+      this.current._pageChange(index);
+    } else {
+      if (index >= (this.data.pages.length-2)) {
+        this.current._pageChange( index - (3-nodes.length) );
       } else {
-        if (this.data.page_index == this.data.pages.length - 1) {
-          this.current._pageChange(this.isSwitch ? this.data.page_index - 1 : this.data.page_index - 1);
-          // this.isSwitch = !this.isSwitch;
-        } else {
-          this.current._pageChange(this.isSwitch ? this.data.page_index - 1 : this.data.page_index + 1);
-        }
+        this.current._pageChange(this.isSwitch ? index - 1 : index + 1);
       }
-      this.isSwitch = !this.isSwitch;
-    })
+    }
+    this.isSwitch = !this.isSwitch;
   }
   async init() {
     await this.addNextSlide(this.data.chapter_id, this.data.pages, this.data.page_index);
@@ -216,12 +222,13 @@ export class DoublePageReaderV2DefaultComponent {
     const index = indexs.sort((a, b) => b - a)[0] + 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
-    if (index >= pages.length - (nodes.length - 1)) {
+    if (index >= pages.length) {
       const next_chapter_id = await this.current._getNextChapterId(chapter_id);
 
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
         this.addNextSlide(next_chapter_id, res, 0);
+        this.isSwitch=false;
         return
       } else {
         return
@@ -242,7 +249,7 @@ export class DoublePageReaderV2DefaultComponent {
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
 
-    if (index >= pages.length - (nodes.length - 1)) {
+    if (index <= 0) {
       const next_chapter_id = await this.current._getPreviousChapterId(chapter_id);
 
       if (next_chapter_id) {
