@@ -109,13 +109,18 @@ export class ChapterListMode1Component {
 
           // console.log();
 
+        }else if (e.id == "updaDate2") {
+          const id = e.value;
+          await this.DbController.delWebDbPages(id)
+
         }
       },
       menu: [
         { name: "缩略图", id: "thumbnail" },
         { name: "提前加载", id: "ccccc" },
         { name: "导出", id: "export" },
-        { name: "重新获取", id: "updaDate" },
+        { name: "重置数据", id: "updaDate" },
+        { name: "重新获取", id: "updaDate2" },
         // { name: "delete", id: "delete" },
       ]
 

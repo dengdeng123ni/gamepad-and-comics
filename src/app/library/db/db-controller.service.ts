@@ -171,7 +171,7 @@ export class DbControllerService {
               if(x.src.substring(7, 21) == "localhost:7700"){
               }else{
                 if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
-                x.src = `http://localhost:7700/${config.id}/page/${id}/${x.index}`;
+                x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
               }
             })
           } else {

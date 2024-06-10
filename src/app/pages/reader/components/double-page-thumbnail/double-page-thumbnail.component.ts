@@ -58,12 +58,14 @@ export class DoublePageThumbnailComponent {
         return data
       },
       on: async e => {
-        if (e.value) {
-          const index = parseInt(e.id.split("_")[1]) - 1;
-          this.current.merge_page(this.data.chapter_id, index,index+1).then(() => {
-            this.init()
-          })
-        }
+        console.log(e);
+
+        // if (e.value) {
+        //   const index = parseInt(e.id.split("_")[1]) - 1;
+        //   this.current.merge_page(this.data.chapter_id, index,index+1).then(() => {
+        //     this.init2({chapter_id:this.data.chapter_id,page_index:index})
+        //   })
+        // }
         //  else if (e.id == "merge_page") {
         //   const node = document.querySelector(`[content_menu_value='${e.value}']`)
         //   let index_arr = [];
@@ -130,6 +132,18 @@ export class DoublePageThumbnailComponent {
       this.complete()
       setTimeout(() => this.complete(), 150)
     })
+  }
+
+  async init2(_data?: DialogData) {
+    if (_data) {
+      this.pages = await this.current._getChapter(_data.chapter_id);
+      this.page_index = this.data.page_index;
+    } else {
+      this.pages = this.data.pages as any;
+      this.page_index = this.data.page_index;
+    }
+    const double_list = await this.getDoublePages(this.pages, this.page_index)
+    this.double_pages = double_list;
   }
 
   async getDoublePages(pages: { id: string; width: number; height: number; src: string; }[], page_index: number) {
