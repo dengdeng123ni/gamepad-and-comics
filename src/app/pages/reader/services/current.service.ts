@@ -227,14 +227,14 @@ export class CurrentService {
   }
 
   async _getChapter(id: string): Promise<Array<PagesItem>> {
-    let list = [];
-    if (this._chapters[id]) {
-      list = this._chapters[id]
-    } else {
-      list = await this.DbController.getPages(id, { origin: this.origin });
-      this._chapters[id] = list;
-    }
-    return list
+    // let list = [];
+    // if (this._chapters[id]) {
+    //   list = this._chapters[id]
+    // } else {
+    //   list = ;
+    //   this._chapters[id] = list;
+    // }
+    return await this.DbController.getPages(id, { origin: this.origin })
   }
 
 
@@ -243,7 +243,7 @@ export class CurrentService {
     const obj = this.data.chapters[index + 1];
     if (obj) {
       const id = obj.id;
-      const index=await this._getChapterIndex(id);
+      const index = await this._getChapterIndex(id);
       await this._chapterPageChange(id, index);
       return true
     } else {
@@ -257,7 +257,7 @@ export class CurrentService {
     const obj = this.data.chapters[index - 1];
     if (obj) {
       const id = obj.id;
-      const index=await this._getChapterIndex(id);
+      const index = await this._getChapterIndex(id);
       await this._chapterPageChange(id, index);
       return true
     } else {
@@ -272,6 +272,114 @@ export class CurrentService {
 
   async _pagePrevious() {
     this._change("previousPage", { page_index: this.data.page_index, chapter_id: this.data.chapter_id })
+  }
+  async _delChapterPage(chapter_id: string, page_index: number) {
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+    pages.splice(page_index, 1)
+    await this.DbController.putWebDbPages(chapter_id, pages)
+  }
+  async _addChapterPage(chapter_id: string, page_index: number, blob: Blob) {
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+    let c = `http://localhost:7700/chapter/insert_page/${page_index}_${new Date().getTime()}`
+    await this.DbController.addImage(c, blob)
+    pages.splice(page_index, 0, {
+      id: `${page_index}_${new Date().getTime()}`,
+      src: c,
+      width: 0,
+      height: 0
+    })
+    await this.DbController.putWebDbPages(chapter_id, pages)
+  }
+  async insert_page(chapter_id: string, page_index: number) {
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+
+    const blob = await this.DbController.getImage(pages[page_index].src, { origin: this.origin });
+    const blob2 = await this.getImageBase64(blob);
+    await this._addChapterPage(chapter_id, page_index, blob2)
+  }
+
+  async merge_page(chapter_id: string, page_index1: number,page_index2:number) {
+    console.log(chapter_id,page_index1,page_index2);
+
+
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+    const blob1 = await this.DbController.getImage(pages[page_index1].src, { origin: this.origin });
+    const blob2 = await this.DbController.getImage(pages[page_index2].src, { origin: this.origin });
+    const blob = await this.mergePage([blob1,blob2]);
+    let c = `http://localhost:7700/chapter/insert_page/${page_index1}_${page_index2}_${new Date().getTime()}`
+    await this.DbController.addImage(c, blob)
+    pages.splice(page_index1, 0, {
+      id: `${page_index1}_${page_index2}_${new Date().getTime()}`,
+      src: c,
+      width: 0,
+      height: 0
+    })
+    pages.splice(page_index1+1, 1)
+    pages.splice(page_index2+1, 1)
+
+    await this.DbController.putWebDbPages(chapter_id, pages)
+  }
+
+  async _putChapterPage(chapter_id: string, page_index: number) {
+
+  }
+  getImageBase64 = async (blob) => {
+    const image1 = await createImageBitmap(blob);
+    let canvas = document.createElement('canvas');
+    canvas.width = image1.width;
+    canvas.height = image1.height;
+    let context = canvas.getContext('2d');
+    context.drawImage(image1, 0, 0, image1.width, canvas.height);
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      imageData.data[i] = 255;
+      imageData.data[i + 1] = 255;
+      imageData.data[i + 2] = 255;
+      imageData.data[i + 3] = 255;
+    }
+    context.putImageData(imageData, 0, 0);
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = '#fff';
+    let dataURL = canvas.toDataURL("image/png", 0.1);
+    const base64ToBlob = (data) => {
+      var parts = data.split(';base64,'),
+        contentType = parts[0].split(':')[1],
+        raw = window.atob(parts[1]),
+        length = raw.length,
+        arr = new Uint8Array(length);
+      for (var i = 0; i < length; i++) {
+        arr[i] = raw.charCodeAt(i);
+      }
+      var blob1 = new Blob([arr], { type: contentType });
+      return blob1
+    };
+    return base64ToBlob(dataURL)
+  }
+
+  async mergePage(blobs) {
+    const image1 = await createImageBitmap(blobs[0]);
+    const image2 = await createImageBitmap(blobs[1]);
+    let canvas = document.createElement('canvas');
+    canvas.width = image1.width + image2.width;
+    canvas.height = (image1.height + image2.height) / 2;
+    let context = canvas.getContext('2d');
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image1, 0, 0, image1.width, canvas.height);
+    context.drawImage(image2, image1.width, 0, image2.width, canvas.height);
+    let dataURL = canvas.toDataURL("image/png", 1);
+    const base64ToBlob = (data) => {
+      var parts = data.split(';base64,'),
+        contentType = parts[0].split(':')[1],
+        raw = window.atob(parts[1]),
+        length = raw.length,
+        arr = new Uint8Array(length);
+      for (var i = 0; i < length; i++) {
+        arr[i] = raw.charCodeAt(i);
+      }
+      var blob = new Blob([arr], { type: contentType });
+      return blob
+    };
+    return base64ToBlob(dataURL)
   }
 
   async _chapterPageChange(chapter_id: string, page_index: number) {

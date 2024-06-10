@@ -423,7 +423,7 @@ export class DoublePageReaderV2Component {
       mousewheel: {
         thresholdDelta: 50,
         forceToAxis: false,
-        thresholdTime: 700,
+        thresholdTime: 1000,
       },
       grabCursor: true,
       effect: "creative",

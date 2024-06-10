@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DoublePageThumbnailService } from './double-page-thumbnail.service';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
-import { UtilsService } from 'src/app/library/public-api';
+import { ContextMenuEventService, UtilsService } from 'src/app/library/public-api';
 interface DialogData {
   chapter_id: string;
   page_index: number
@@ -28,8 +28,93 @@ export class DoublePageThumbnailComponent {
     public current: CurrentService,
     @Inject(MAT_DIALOG_DATA) public _data: DialogData,
     public doublePageThumbnail:DoublePageThumbnailService,
+    public ContextMenuEvent:ContextMenuEventService
   ) {
     this.init(_data);
+    ContextMenuEvent.register('double_page_thumbnail_item', {
+      send: ($event, data) => {
+        let index_arr = [];
+        $event.querySelectorAll(".index").forEach(node => {
+          index_arr.push(parseInt(node.textContent))
+        })
+        index_arr.sort();
+        const delete_index = data.findIndex(x => x.id == "delete");
+        data[delete_index].submenu = index_arr.map(x => ({ name: x, id: `delete_${x}` }));
+        const index = data.findIndex(x => x.id == "separate_page")
+        if (index > -1) {
+          data.splice(index, 1)
+        }
+        const index2 = data.findIndex(x => x.id == "merge_page")
+        if (index2 > -1) {
+          data.splice(index2, 1)
+        }
+        if (index_arr.length == 1) {
+          const obj = { name: "separate_page", "id": "separate_page" };
+          data.splice(1, 0, obj)
+        } else {
+          const obj = { name: "merge_page", "id": "merge_page" };
+          data.splice(1, 0, obj)
+        }
+        return data
+      },
+      on: async e => {
+        if (e.value) {
+          const index = parseInt(e.id.split("_")[1]) - 1;
+          this.current.merge_page(this.data.chapter_id, index,index+1).then(() => {
+            this.init()
+          })
+        }
+        //  else if (e.id == "merge_page") {
+        //   const node = document.querySelector(`[content_menu_value='${e.value}']`)
+        //   let index_arr = [];
+        //   node.querySelectorAll(".index").forEach(node => {
+        //     index_arr.push(parseInt(node.textContent) - 1)
+        //   })
+        //   const obj = this.current.comics.chapters.find(x => x.id == this.chapterId).images[index_arr[0]]
+        //   const obj2 = this.current.comics.chapters.find(x => x.id == this.chapterId).images[index_arr[1]]
+        //   this.general.mergePage({ id: obj.id, src: obj.src, src2: obj2.src, id2: obj2.id, }).then(() => {
+        //     this.init(this.chapterId, this.index)
+        //   })
+        // } else if (e.id == "separate_page") {
+        //   const node = document.querySelector(`[content_menu_value='${e.value}']`)
+        //   let index_arr = [];
+        //   node.querySelectorAll(".index").forEach(node => {
+        //     index_arr.push(parseInt(node.textContent) - 1)
+        //   })
+        //   index_arr.sort();
+        //   const obj = this.current.comics.chapters.find(x => x.id == this.chapterId).images[index_arr[0]]
+        //   this.general.separatePage({ id: obj.id, src: obj.src }).then(() => {
+        //     this.init(this.chapterId, this.index)
+        //   })
+        // } else if (e.id == "insertPageBefore" || e.id == "insertPageAfter") {
+        //   const node = document.querySelector(`[content_menu_value='${e.value}']`)
+        //   let index_arr = [];
+        //   node.querySelectorAll(".index").forEach(node => {
+        //     index_arr.push(parseInt(node.textContent) - 1)
+        //   })
+        //   index_arr.sort();
+        //   const obj = this.current.comics.chapters.find(x => x.id == this.chapterId).images[index_arr[0]]
+        //   const id = obj.id;
+        //   this.current.insertPage(this.current.comics.id, this.chapterId, id, "", e.id == "insertPageBefore" ? "before" : "after")
+        //     .then(() => {
+        //       this.init(this.chapterId, this.index)
+        //     })
+        // }
+      },
+      menu: [
+        {
+          name: "insert_page", "id": "insertPage", submenu: [
+            {
+              name: "before", id: "insertPageBefore",
+            },
+            {
+              name: "after", id: "insertPageAfter",
+            }
+          ],
+        },
+        { name: "delete", id: "delete" },
+      ]
+    })
   }
   async init(_data?: DialogData) {
     if (_data) {

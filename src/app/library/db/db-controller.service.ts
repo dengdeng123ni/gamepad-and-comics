@@ -134,6 +134,17 @@ export class DbControllerService {
   async delWebDbPages(id) {
     await firstValueFrom(this.webDb.deleteByKey('pages', id))
   }
+  async putWebDbPages(id, pages) {
+    this.pages[id] = null;
+    await firstValueFrom(this.webDb.update('pages', { id, data: JSON.parse(JSON.stringify(pages)) }))
+  }
+
+  async addImage(url, blob) {
+    const response = new Response(blob);
+    const request = new Request(url);
+    await this.caches.put(request, response);
+  }
+
   async delWebDbImage(id) {
     const res = await this.caches.delete(id);
   }
@@ -155,9 +166,13 @@ export class DbControllerService {
           res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
           if (res) {
             res = res.data;
+
             res.forEach((x, i) => {
-              if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
-              x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
+              if(x.src.substring(7, 21) == "localhost:7700"){
+              }else{
+                if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
+                x.src = `http://localhost:7700/${config.id}/page/${id}/${x.index}`;
+              }
             })
           } else {
             res = await this.DbEvent.Events[option.origin]["getPages"](id);
@@ -171,9 +186,13 @@ export class DbControllerService {
           res = await this.DbEvent.Events[option.origin]["getPages"](id);
         }
         res.forEach((x, i) => {
+          if (!x.id) x.id = `${id}_${i}`;
+          if (!x.uid) x.uid = `${id}_${i}`;
           x.index = i;
         })
         this.pages[id] = JSON.parse(JSON.stringify(res));
+        console.log(res);
+
         return res
       }
     } else {
@@ -225,6 +244,7 @@ export class DbControllerService {
   async getImage(id: string, option?: {
     origin: string
   }) {
+
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]

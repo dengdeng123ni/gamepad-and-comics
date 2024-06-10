@@ -45,7 +45,7 @@ export class ContextMenuControllerService {
     const value = node.getAttribute('menu_value');
     this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? '';
     document.body.setAttribute('locked_region', 'content_menu');
-    if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
+    if (this.contextMenuEvent.sendEvent[key]) menu = this.contextMenuEvent.sendEvent[key](node, menu)
     this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
   }
 
@@ -77,7 +77,7 @@ export class ContextMenuControllerService {
           const value = node.getAttribute('content_menu_value');
           let menu = this.contextMenuEvent.menu[key];
           if (menu && menu.length) {
-            if (this.contextMenuEvent.send[key]) menu = this.contextMenuEvent.send[key].callback(node, menu)
+            if (this.contextMenuEvent.sendEvent[key]) menu = this.contextMenuEvent.sendEvent[key](node, menu)
               document.body.setAttribute('locked_region', 'content_menu');
             this.contextMenu.open(menu, { x: e.clientX, y: e.clientY, key: key, value: value ?? null });
             break;
