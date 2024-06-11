@@ -34,8 +34,6 @@ export class CurrentService {
     if (this.data.is_local_record) {
       this.data.chapters = res.chapters;
       const chapters = await this._getChapterRead(this.data.comics_id);
-      console.log(chapters);
-
       const comics = await this._getComicsRead(this.data.comics_id);
       for (let index = 0; index < this.data.chapters.length; index++) {
         if (chapters[index]) this.data.chapters[index].read = chapters[index].read;
@@ -79,10 +77,7 @@ export class CurrentService {
   async _delChapter(comic_id:any,chapter_id: string) {
     // console.log(detail.chapters,comic_id,chapter_id);
     let detail = await this.DbController.getDetail(comic_id, { origin: this.origin })
-    console.log(detail,detail.chapters);
-
     detail.chapters = detail.chapters.filter(x => x.id.toString() !== chapter_id.toString());
-    console.log(detail.chapters,comic_id,chapter_id);
     await this.DbController.putWebDbDetail(comic_id, detail);
   }
 
