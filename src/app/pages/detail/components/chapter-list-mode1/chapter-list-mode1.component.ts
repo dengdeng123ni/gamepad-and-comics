@@ -125,12 +125,11 @@ export class ChapterListMode1Component {
       },
       menu: [
         { name: "缩略图", id: "thumbnail" },
-        { name: "提前加载", id: "ccccc" },
         { name: "导出", id: "export" },
+        { name: "提前加载", id: "ccccc" },
         { name: "重置数据", id: "updaDate" },
         { name: "重新获取", id: "updaDate2" },
         { name: "删除", id: "delete" },
-        // { name: "delete", id: "delete" },
       ]
 
     })
