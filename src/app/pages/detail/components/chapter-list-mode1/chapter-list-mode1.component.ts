@@ -76,7 +76,7 @@ export class ChapterListMode1Component {
             page_index: index
           })
 
-        } else if (e.id == "ccccc") {
+        } else if (e.id == "loading_ahead") {
           const id = e.value;
           const pages = await this.DbController.getPages(id)
           for (let index = 0; index < pages.length; index++) {
@@ -98,7 +98,7 @@ export class ChapterListMode1Component {
             panelClass: "reader_settings_buttom",
             backdropClass: "reader_settings_buttom_backdrop"
           })
-        } else if (e.id == "updaDate") {
+        } else if (e.id == "reset_data") {
           const id = e.value;
           await this.DbController.delWebDbPages(id)
           const pages = await this.DbController.getPages(id)
@@ -106,30 +106,28 @@ export class ChapterListMode1Component {
             await this.DbController.delWebDbImage(pages[index].src)
 
           }
-
-          // console.log();
-
-        } else if (e.id == "updaDate2") {
+        } else if (e.id == "retrieve_data") {
           const id = e.value;
           await this.DbController.delWebDbPages(id)
 
-        } else if (e.id == "delete") {
-          console.log(this.data.comics_id, e.value);
-
+        } else if (e.id == "delete_data") {
           await this.current._delChapter(this.data.comics_id, e.value)
-          const r=await this.DbController.getDetail(this.data.comics_id);
-          console.log(r);
-
-          this.data.chapters=r.chapters;
+          const r = await this.DbController.getDetail(this.data.comics_id);
+          this.data.chapters = r.chapters;
         }
       },
       menu: [
         { name: "缩略图", id: "thumbnail" },
         { name: "导出", id: "export" },
-        { name: "提前加载", id: "ccccc" },
-        { name: "重置数据", id: "updaDate" },
-        { name: "重新获取", id: "updaDate2" },
-        { name: "删除", id: "delete" },
+        {
+          name: "数据", id: "data", submenu: [
+            { name: "提前加载", id: "loading_ahead" },
+            { name: "重置数据", id: "reset_data" },
+            { name: "重新获取", id: "retrieve_data" },
+            { name: "删除", id: "delete_data" },
+          ]
+        },
+
       ]
 
     })

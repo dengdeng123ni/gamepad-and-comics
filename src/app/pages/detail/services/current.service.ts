@@ -34,6 +34,8 @@ export class CurrentService {
     if (this.data.is_local_record) {
       this.data.chapters = res.chapters;
       const chapters = await this._getChapterRead(this.data.comics_id);
+      console.log(chapters);
+
       const comics = await this._getComicsRead(this.data.comics_id);
       for (let index = 0; index < this.data.chapters.length; index++) {
         if (chapters[index]) this.data.chapters[index].read = chapters[index].read;
