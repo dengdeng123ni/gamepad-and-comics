@@ -2,6 +2,7 @@ import { Component, Inject, NgZone } from '@angular/core';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { OnePageThumbnailMode2Service } from './one-page-thumbnail-mode2.service';
+import { ContextMenuEventService } from 'src/app/library/public-api';
 interface DialogData {
   chapter_id: string;
   page_index: number
@@ -25,6 +26,7 @@ export class OnePageThumbnailMode2Component {
     public data: DataService,
     public OnePageThumbnailMode2: OnePageThumbnailMode2Service,
     private zone: NgZone,
+    public ContextMenuEvent:ContextMenuEventService
   ) {
     this.change$ = this.current.change().subscribe(x => {
       this.zone.run(() => {
@@ -34,8 +36,47 @@ export class OnePageThumbnailMode2Component {
       })
     })
     this.init();
-  }
+    ContextMenuEvent.register('one_page_thumbnail_mode2', {
+      on: async e => {
+        if (e.id == "delete") {
+          this.current._delChapterPage(this.data.chapter_id, parseInt(e.value)).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+          })
+        }else if (e.id == "insertPageBefore") {
+          this.current._insertPage(this.data.chapter_id, parseInt(e.value)).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+          })
+        } else if (e.id == "insertPageAfter") {
+          this.current._insertPage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+          })
+        }
+      },
+      menu: [
+        {
+          name: "插入", "id": "insertPage",submenu:[
+            { name: "插入之前空白页", "id": "insertPageBefore"},
+            {
+              name: "插入之后空白页", "id": "insertPageAfter"
+            },
+          ]
+        },
 
+        { name: "删除", id: "delete" },
+      ]
+    })
+  }
+  async init2(_data?: DialogData) {
+    if (_data) {
+      this.pages = await this.current._getChapter(_data.chapter_id);
+      this.page_index = this.data.page_index;
+    } else {
+      this.pages = this.data.pages as any;
+      this.page_index = this.data.page_index;
+    }
+
+
+  }
   async init(_data?: DialogData) {
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);

@@ -77,6 +77,7 @@ export class ComicsSettingsComponent {
   async change(mode){
    if(mode==1){
     this.mode=1;
+    this.list = this.data.chapters
     for (let index = 0; index < this.list.length; index++) {
       this.list[index].is_first_page_cover=true;
       await this.current._setChapterFirstPageCover(this.list[index].id, true)
@@ -85,6 +86,7 @@ export class ComicsSettingsComponent {
     this.post();
    }else if(mode==2){
     this.mode=2;
+    this.list = this.data.chapters
     for (let index = 0; index < this.list.length; index++) {
       this.list[index].is_first_page_cover=false;
       await this.current._setChapterFirstPageCover(this.list[index].id, false)

@@ -1,3 +1,4 @@
 <div class="list"  id="multiple_page_reader_mode1"  [attr.direction]="false">
-  <app-image *ngFor="let n of pages;let index=index" [attr.chapter_id]="n.chapter_id" [width]="n.width" [height]="n.height" [attr.index]="n.index" [id]="'multiple_page_reader_mode1_'+index" [src]="n.src" [alt]="n.index"></app-image>
+  <app-image *ngFor="let n of pages;let index=index"   [attr.content_menu_key]="'page_item'"
+  [attr.content_menu_value]="n.index" [attr.chapter_id]="n.chapter_id" [width]="n.width" [height]="n.height" [attr.index]="n.index" [id]="'multiple_page_reader_mode1_'+index" [src]="n.src" [alt]="n.index"></app-image>
 </div>

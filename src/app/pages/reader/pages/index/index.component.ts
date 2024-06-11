@@ -8,7 +8,7 @@ import { IndexService } from './index.service';
 import { ChaptersListService } from '../../components/chapters-list/chapters-list.service';
 import { ToolbarOptionService } from '../../components/toolbar-option/toolbar-option.service';
 import { CustomGridService } from '../../components/custom-grid/custom-grid.service';
-import { AppDataService, GamepadEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, GamepadEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
 import { LoadingCoverService } from '../../components/loading-cover/loading-cover.service';
 import { ReaderConfigService } from '../../components/reader-config/reader-config.service';
 import { ComicsDetailService } from '../../components/comics-detail/comics-detail.service';
@@ -43,8 +43,10 @@ export class IndexComponent {
     public GamepadToolbar:GamepadToolbarService,
     public GamepadEvent:GamepadEventService,
     public ComicsSettings:ComicsSettingsService,
+    public ContextMenuEvent: ContextMenuEventService,
     public Prompt: PromptService
   ) {
+
     GamepadEvent.registerAreaEvent('page_reader', {
       B:()=>window.history.back()
     })

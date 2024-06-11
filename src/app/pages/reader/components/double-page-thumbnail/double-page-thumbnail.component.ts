@@ -27,8 +27,8 @@ export class DoublePageThumbnailComponent {
     public data: DataService,
     public current: CurrentService,
     @Inject(MAT_DIALOG_DATA) public _data: DialogData,
-    public doublePageThumbnail:DoublePageThumbnailService,
-    public ContextMenuEvent:ContextMenuEventService
+    public doublePageThumbnail: DoublePageThumbnailService,
+    public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init(_data);
     ContextMenuEvent.register('double_page_thumbnail_item', {
@@ -39,7 +39,14 @@ export class DoublePageThumbnailComponent {
         })
         index_arr.sort();
         const delete_index = data.findIndex(x => x.id == "delete");
-        data[delete_index].submenu = index_arr.map(x => ({ name: x, id: `delete_${x}` }));
+        data[delete_index].submenu = index_arr.map(x => ({ name: x, id: `delete`, data: x }));
+
+        const insertPage_index = data.findIndex(x => x.id == "insertPage");
+        data[insertPage_index].submenu = [];
+        index_arr.forEach(x => {
+          data[insertPage_index].submenu.push({ name: `${x}页之前插入`, id: `insertPageBefore`, data: x })
+          data[insertPage_index].submenu.push({ name: `${x}页之后插入`, id: `insertPageAfter`, data: x })
+        });
         const index = data.findIndex(x => x.id == "separate_page")
         if (index > -1) {
           data.splice(index, 1)
@@ -49,72 +56,44 @@ export class DoublePageThumbnailComponent {
           data.splice(index2, 1)
         }
         if (index_arr.length == 1) {
-          const obj = { name: "separate_page", "id": "separate_page" };
+          const obj = { name: "分页", "id": "separate_page" };
           data.splice(1, 0, obj)
         } else {
-          const obj = { name: "merge_page", "id": "merge_page" };
+          const obj = { name: "合页", "id": "merge_page" };
           data.splice(1, 0, obj)
         }
         return data
       },
       on: async e => {
-        console.log(e);
+        if (e.id == "delete") {
+          this.current._delChapterPage(this.data.chapter_id, e.data - 1).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+          })
+        }
+        else if (e.id == "merge_page") {
+          this.current._mergePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+          })
+        } else if (e.id == "separate_page") {
+          this.current._separatePage(this.data.chapter_id,this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+          })
 
-        // if (e.value) {
-        //   const index = parseInt(e.id.split("_")[1]) - 1;
-        //   this.current.merge_page(this.data.chapter_id, index,index+1).then(() => {
-        //     this.init2({chapter_id:this.data.chapter_id,page_index:index})
-        //   })
-        // }
-        //  else if (e.id == "merge_page") {
-        //   const node = document.querySelector(`[content_menu_value='${e.value}']`)
-        //   let index_arr = [];
-        //   node.querySelectorAll(".index").forEach(node => {
-        //     index_arr.push(parseInt(node.textContent) - 1)
-        //   })
-        //   const obj = this.current.comics.chapters.find(x => x.id == this.chapterId).images[index_arr[0]]
-        //   const obj2 = this.current.comics.chapters.find(x => x.id == this.chapterId).images[index_arr[1]]
-        //   this.general.mergePage({ id: obj.id, src: obj.src, src2: obj2.src, id2: obj2.id, }).then(() => {
-        //     this.init(this.chapterId, this.index)
-        //   })
-        // } else if (e.id == "separate_page") {
-        //   const node = document.querySelector(`[content_menu_value='${e.value}']`)
-        //   let index_arr = [];
-        //   node.querySelectorAll(".index").forEach(node => {
-        //     index_arr.push(parseInt(node.textContent) - 1)
-        //   })
-        //   index_arr.sort();
-        //   const obj = this.current.comics.chapters.find(x => x.id == this.chapterId).images[index_arr[0]]
-        //   this.general.separatePage({ id: obj.id, src: obj.src }).then(() => {
-        //     this.init(this.chapterId, this.index)
-        //   })
-        // } else if (e.id == "insertPageBefore" || e.id == "insertPageAfter") {
-        //   const node = document.querySelector(`[content_menu_value='${e.value}']`)
-        //   let index_arr = [];
-        //   node.querySelectorAll(".index").forEach(node => {
-        //     index_arr.push(parseInt(node.textContent) - 1)
-        //   })
-        //   index_arr.sort();
-        //   const obj = this.current.comics.chapters.find(x => x.id == this.chapterId).images[index_arr[0]]
-        //   const id = obj.id;
-        //   this.current.insertPage(this.current.comics.id, this.chapterId, id, "", e.id == "insertPageBefore" ? "before" : "after")
-        //     .then(() => {
-        //       this.init(this.chapterId, this.index)
-        //     })
-        // }
+        } else if (e.id == "insertPageBefore") {
+          this.current._insertPage(this.data.chapter_id, e.data - 1).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+          })
+        } else if (e.id == "insertPageAfter") {
+          this.current._insertPage(this.data.chapter_id, e.data).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+          })
+        }
       },
       menu: [
         {
-          name: "insert_page", "id": "insertPage", submenu: [
-            {
-              name: "before", id: "insertPageBefore",
-            },
-            {
-              name: "after", id: "insertPageAfter",
-            }
-          ],
+          name: "插入空白页", "id": "insertPage"
         },
-        { name: "delete", id: "delete" },
+        { name: "删除", id: "delete" },
       ]
     })
   }
@@ -153,7 +132,7 @@ export class DoublePageThumbnailComponent {
       height: x.height,
       src: x.src
     }))
-    const is_first_page_cover= await this.current._getChapter_IsFirstPageCover(this.data.chapter_id);
+    const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.data.chapter_id);
 
     const double_list = await this.utils.Images.getPageDouble(list, { isFirstPageCover: is_first_page_cover, pageOrder: this.data.comics_config.is_page_order });
     double_list.forEach((x: any) => {
@@ -170,7 +149,7 @@ export class DoublePageThumbnailComponent {
     const node = document.querySelector("#double_page_thumbnail button[select=true]");
 
     if (node) {
-      node.scrollIntoView({behavior: 'instant', block: "center", inline: "center" });
+      node.scrollIntoView({ behavior: 'instant', block: "center", inline: "center" });
       (node as any).focus();
       setTimeout(() => {
         document.querySelector("#double_page_thumbnail")!.classList.remove("opacity-0");
