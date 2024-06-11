@@ -29,7 +29,7 @@ export class OnePageThumbnailMode3Component {
     ContextMenuEvent.register('one_page_thumbnail_mode3', {
       on: async e => {
         if (e.id == "delete") {
-          this.current._delChapterPage(this.data.chapter_id, parseInt(e.value)).then(() => {
+          this.current._delPage(this.data.chapter_id, parseInt(e.value)).then(() => {
             this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
           })
         }else if (e.id == "insertPageBefore") {

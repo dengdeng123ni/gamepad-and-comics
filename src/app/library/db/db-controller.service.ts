@@ -129,7 +129,13 @@ export class DbControllerService {
     }
   }
   async delWebDbDetail(id) {
+    this.details[id] = null;
     await firstValueFrom(this.webDb.deleteByKey('details', id))
+  }
+
+  async putWebDbDetail(id,res) {
+    this.details[id] = null;
+    firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: res }))))
   }
   async delWebDbPages(id) {
     this.pages[id] = null;

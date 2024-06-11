@@ -74,15 +74,18 @@ export class CurrentService {
     }
   }
 
+  async _delChapter(comic_id:any,chapter_id: string) {
+    // console.log(detail.chapters,comic_id,chapter_id);
+    let detail = await this.DbController.getDetail(comic_id, { origin: this.origin })
+    console.log(detail,detail.chapters);
+
+    detail.chapters = detail.chapters.filter(x => x.id.toString() !== chapter_id.toString());
+    console.log(detail.chapters,comic_id,chapter_id);
+    await this.DbController.putWebDbDetail(comic_id, detail);
+  }
+
   async _getChapter(id: string) {
-    let list = [];
-    if (this._chapters[id]) {
-      list = this._chapters[id]
-    } else {
-      list = await this.DbController.getPages(id, { origin: this.origin });
-      this._chapters[id] = list;
-    }
-    return list
+    return await this.DbController.getPages(id, { origin: this.origin });
   }
   async _getChapterIndex(id: string): Promise<number> {
     const res: any = await firstValueFrom(this.webDb.getByID("last_read_chapter_page", id.toString()))

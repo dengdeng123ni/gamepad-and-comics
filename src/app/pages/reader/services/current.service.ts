@@ -273,13 +273,17 @@ export class CurrentService {
   async _pagePrevious() {
     this._change("previousPage", { page_index: this.data.page_index, chapter_id: this.data.chapter_id })
   }
-
-  async _delChapterPage(chapter_id: string, page_index: number) {
+  async _delChapter(comic_id:any,chapter_id: string) {
+    let detail = await this.DbController.getDetail(chapter_id, { origin: this.origin })
+    detail.chapters = detail.chapters.filetr(x => x.id !== chapter_id);
+    await this.DbController.putWebDbDetail(comic_id, detail);
+  }
+  async _delPage(chapter_id: string, page_index: number) {
     let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
     pages.splice(page_index, 1)
     await this.DbController.putWebDbPages(chapter_id, pages)
   }
-  async _addChapterPage(chapter_id: string, page_index: number, blob: Blob) {
+  async _addPage(chapter_id: string, page_index: number, blob: Blob) {
     let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
     let c = `http://localhost:7700/chapter/insert_page/${page_index}_${new Date().getTime()}`
     await this.DbController.addImage(c, blob)
@@ -295,7 +299,7 @@ export class CurrentService {
     let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
     const blob = await this.DbController.getImage(pages[page_index].src, { origin: this.origin });
     const blob2 = await this.getImageBase64(blob);
-    await this._addChapterPage(chapter_id, page_index, blob2)
+    await this._addPage(chapter_id, page_index, blob2)
   }
   async _separatePage(chapter_id: string, page_index: number) {
     let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
@@ -325,21 +329,21 @@ export class CurrentService {
       width: 0,
       height: 0
     })
-    pages.splice(page_index+1, 0, {
+    pages.splice(page_index + 1, 0, {
       id: `${page_index}_2_${new Date().getTime()}`,
       src: c1,
       width: 0,
       height: 0
     })
-    pages.splice(page_index+2, 1)
+    pages.splice(page_index + 2, 1)
     await this.DbController.putWebDbPages(chapter_id, pages)
   }
 
-  async _mergePage(chapter_id: string, page_index1: number,page_index2:number) {
+  async _mergePage(chapter_id: string, page_index1: number, page_index2: number) {
     let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
     const blob1 = await this.DbController.getImage(pages[page_index1].src, { origin: this.origin });
     const blob2 = await this.DbController.getImage(pages[page_index2].src, { origin: this.origin });
-    const blob = await this.mergePage([blob1,blob2].reverse());
+    const blob = await this.mergePage([blob1, blob2].reverse());
     let c = `http://localhost:7700/chapter/insert_page/${page_index1}_${page_index2}_${new Date().getTime()}`
     await this.DbController.addImage(c, blob)
     pages.splice(page_index1, 0, {
@@ -348,7 +352,7 @@ export class CurrentService {
       width: 0,
       height: 0
     })
-    pages.splice(page_index1+1, 1)
+    pages.splice(page_index1 + 1, 1)
     pages.splice(page_index2, 1)
     await this.DbController.putWebDbPages(chapter_id, pages)
   }
@@ -394,8 +398,8 @@ export class CurrentService {
     canvas.height = (image1.height + image2.height) / 2;
     let context = canvas.getContext('2d');
     context.rect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image1, 0, 0, (image1.width/image1.height)*canvas.height, canvas.height);
-    context.drawImage(image2, (image1.width/image1.height)*canvas.height, 0, (image2.width/image2.height)*canvas.height, canvas.height);
+    context.drawImage(image1, 0, 0, (image1.width / image1.height) * canvas.height, canvas.height);
+    context.drawImage(image2, (image1.width / image1.height) * canvas.height, 0, (image2.width / image2.height) * canvas.height, canvas.height);
     let dataURL = canvas.toDataURL("image/png", 1);
     return this.base64ToBlob(dataURL)
   }

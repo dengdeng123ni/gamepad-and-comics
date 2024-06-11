@@ -67,7 +67,7 @@ export class ChapterListMode1Component {
         if (this.data.chapters.filter(x => x.selected).length == 0) {
           this.data.chapters[index].selected = !this.data.chapters[index].selected;
         }
-        if (e.id == "delete") {
+        if (e.id == "delet1e") {
         } else if (e.id == "thumbnail") {
           const id = e.value
           const index = await this.current._getChapterIndex(id);
@@ -78,7 +78,7 @@ export class ChapterListMode1Component {
 
         } else if (e.id == "ccccc") {
           const id = e.value;
-          const pages=await this.DbController.getPages(id)
+          const pages = await this.DbController.getPages(id)
           for (let index = 0; index < pages.length; index++) {
             await this.DbController.getImage(pages[index].src)
 
@@ -101,7 +101,7 @@ export class ChapterListMode1Component {
         } else if (e.id == "updaDate") {
           const id = e.value;
           await this.DbController.delWebDbPages(id)
-          const pages=await this.DbController.getPages(id)
+          const pages = await this.DbController.getPages(id)
           for (let index = 0; index < pages.length; index++) {
             await this.DbController.delWebDbImage(pages[index].src)
 
@@ -109,10 +109,18 @@ export class ChapterListMode1Component {
 
           // console.log();
 
-        }else if (e.id == "updaDate2") {
+        } else if (e.id == "updaDate2") {
           const id = e.value;
           await this.DbController.delWebDbPages(id)
 
+        } else if (e.id == "delete") {
+          console.log(this.data.comics_id, e.value);
+
+          await this.current._delChapter(this.data.comics_id, e.value)
+          const r=await this.DbController.getDetail(this.data.comics_id);
+          console.log(r);
+
+          this.data.chapters=r.chapters;
         }
       },
       menu: [
@@ -121,6 +129,7 @@ export class ChapterListMode1Component {
         { name: "导出", id: "export" },
         { name: "重置数据", id: "updaDate" },
         { name: "重新获取", id: "updaDate2" },
+        { name: "删除", id: "delete" },
         // { name: "delete", id: "delete" },
       ]
 

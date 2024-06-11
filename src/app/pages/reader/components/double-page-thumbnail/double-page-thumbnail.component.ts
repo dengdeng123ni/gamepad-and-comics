@@ -66,7 +66,7 @@ export class DoublePageThumbnailComponent {
       },
       on: async e => {
         if (e.id == "delete") {
-          this.current._delChapterPage(this.data.chapter_id, e.data - 1).then(() => {
+          this.current._delPage(this.data.chapter_id, e.data - 1).then(() => {
             this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
           })
         }
