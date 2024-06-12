@@ -16,7 +16,7 @@ export class ChaptersThumbnailComponent {
     public chaptersThumbnail: ChaptersThumbnailService
   ) {
 
-    if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
+    if (this.data.chapters[0].is_locked === undefined || !this.data.is_locked) this.is_locked = false;
   }
   on(id:string) {
     this.chaptersThumbnail.close();

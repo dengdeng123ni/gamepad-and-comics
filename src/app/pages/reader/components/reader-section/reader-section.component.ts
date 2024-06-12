@@ -19,7 +19,7 @@ export class ReaderSectionComponent {
 
   }
   ngAfterViewInit() {
-    if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
+    if (this.data.chapters[0].is_locked === undefined || !this.data.is_locked) this.is_locked = false;
    const node:any=document.querySelector(`#_${this.data.chapter_id}`);
    setTimeout(()=>{
     node.focus()

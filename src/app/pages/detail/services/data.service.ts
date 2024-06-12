@@ -54,6 +54,7 @@ export class DataService {
     const obj = this.AppData.getOption();
 
     this.is_locked = obj.is_locked;
+
     this.is_cache = obj.is_cache;
   }
 }
