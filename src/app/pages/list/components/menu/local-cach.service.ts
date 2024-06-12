@@ -80,12 +80,12 @@ export class LocalCachService {
     let res = await this.DbController.getDetail(id);
     await this.DbController.getImage(res.cover)
     res.id = res.id.toString();
-
-    await this.limitPromiseAll(res.chapters.map(x => this.DbController.getImage(x.cover)),1)
+    await this.DbController.getImage(res.cover)
     for (let index = 0; index < res.chapters.length; index++) {
       const x = res.chapters[index];
+      await this.DbController.getImage(x.cover)
       const pages = await this.DbController.getPages(x.id)
-      await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),1)
+      await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),6)
       await firstValueFrom(this.webDb.update("local_pages", { id: x.id.toString(), data: pages }))
       let chapters = res.chapters.slice(0, index + 1)
       await firstValueFrom(this.webDb.update("local_comics", { ...res, chapters }))

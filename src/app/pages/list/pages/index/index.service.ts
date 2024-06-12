@@ -105,6 +105,8 @@ export class IndexService {
 
   async delCaches(comics_id){
     await firstValueFrom(this.webDb.deleteByKey('history',comics_id.toString()))
+    await firstValueFrom(this.webDb.deleteByKey('local_comics',comics_id))
+    await firstValueFrom(this.webDb.deleteByKey('local_comics',comics_id.toString()))
     this.DbController.delComicsAllImages(comics_id)
   }
 

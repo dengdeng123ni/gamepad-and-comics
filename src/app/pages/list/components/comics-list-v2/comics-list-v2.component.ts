@@ -112,7 +112,7 @@ export class ComicsListV2Component {
         })
 
       } else if (type == "local_cache") {
-        this.id = `${type}_${origin}`;
+        this.id = `local_cache`;
         this.key = this.id;
         ComicsListV2.register({
           id: this.id,
@@ -182,6 +182,7 @@ export class ComicsListV2Component {
         })
 
       }
+console.log(this.id);
 
       const data: any = await this.get(this.id);
       if (data) {
