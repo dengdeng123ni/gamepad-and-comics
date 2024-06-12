@@ -295,11 +295,38 @@ export class CurrentService {
     })
     await this.DbController.putWebDbPages(chapter_id, pages)
   }
-  async _insertPage(chapter_id: string, page_index: number) {
+  async _insertWhitePage(chapter_id: string, page_index: number) {
     let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
     const blob = await this.DbController.getImage(pages[page_index].src, { origin: this.origin });
     const blob2 = await this.getImageBase64(blob);
     await this._addPage(chapter_id, page_index, blob2)
+  }
+  async _insertPage(chapter_id: string, page_index: number) {
+    const blob2 = await this._getFileImage();
+    if(blob2){
+      await this._addPage(chapter_id, page_index, blob2)
+    }
+
+  }
+  async _getFileImage(){
+    const pickerOpts = {
+      types: [
+        {
+          description: "Images",
+          accept: {
+            "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+          },
+        },
+      ],
+      excludeAcceptAllOption: true,
+      multiple: false,
+    };
+
+    // 打开文件选择器
+    const [fileHandle] = await (window as any).showOpenFilePicker(pickerOpts);
+    // 获取文件内容
+    const fileData = await fileHandle.getFile();
+    return fileData
   }
   async _separatePage(chapter_id: string, page_index: number) {
     let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })

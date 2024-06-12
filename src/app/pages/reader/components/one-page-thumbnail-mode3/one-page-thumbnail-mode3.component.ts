@@ -40,14 +40,30 @@ export class OnePageThumbnailMode3Component {
           this.current._insertPage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
             this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
           })
+        }else if (e.id == "insertWhitePageBefore") {
+          this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value)).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+          })
+        } else if (e.id == "insertWhitePageAfter") {
+          this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+          })
         }
       },
       menu: [
         {
-          name: "插入", "id": "insertPage",submenu:[
-            { name: "插入之前空白页", "id": "insertPageBefore"},
+          name: "插入空白页", "id": "insertWhitePage",submenu:[
+            { name: "前", "id": "insertWhitePageBefore"},
             {
-              name: "插入之后空白页", "id": "insertPageAfter"
+              name: "后", "id": "insertWhitePageAfter"
+            },
+          ]
+        },
+        {
+          name: "插入", "id": "insertPage",submenu:[
+            { name: "前", "id": "insertPageBefore"},
+            {
+              name: "后", "id": "insertPageAfter"
             },
           ]
         },

@@ -47,6 +47,13 @@ export class DoublePageThumbnailComponent {
           data[insertPage_index].submenu.push({ name: `${x}页之前插入`, id: `insertPageBefore`, data: x })
           data[insertPage_index].submenu.push({ name: `${x}页之后插入`, id: `insertPageAfter`, data: x })
         });
+
+        const insertPage_index2 = data.findIndex(x => x.id == "insertWhitePage");
+        data[insertPage_index2].submenu = [];
+        index_arr.forEach(x => {
+          data[insertPage_index2].submenu.push({ name: `${x}页之前插入`, id: `insertWhitePageBefore`, data: x })
+          data[insertPage_index2].submenu.push({ name: `${x}页之后插入`, id: `insertWhitePageAfter`, data: x })
+        });
         const index = data.findIndex(x => x.id == "separate_page")
         if (index > -1) {
           data.splice(index, 1)
@@ -79,7 +86,15 @@ export class DoublePageThumbnailComponent {
             this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
           })
 
-        } else if (e.id == "insertPageBefore") {
+        } else if (e.id == "insertWhitePageBefore") {
+          this.current._insertWhitePage(this.data.chapter_id, e.data - 1).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+          })
+        } else if (e.id == "insertWhitePageAfter") {
+          this.current._insertWhitePage(this.data.chapter_id, e.data).then(() => {
+            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+          })
+        }else if (e.id == "insertPageBefore") {
           this.current._insertPage(this.data.chapter_id, e.data - 1).then(() => {
             this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
           })
@@ -91,7 +106,10 @@ export class DoublePageThumbnailComponent {
       },
       menu: [
         {
-          name: "插入空白页", "id": "insertPage"
+          name: "插入", "id": "insertPage"
+        },
+        {
+          name: "插入空白页", "id": "insertWhitePage"
         },
         { name: "删除", id: "delete" },
       ]
