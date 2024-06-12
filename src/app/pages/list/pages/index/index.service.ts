@@ -66,30 +66,69 @@ export class IndexService {
     }
     this.ContextMenuEvent.registerMenu('comics_item', [
       {
-        name: "更新数据", id: "updataData", click: async (list) => {
-          for (let index = 0; index < list.length; index++) {
-            this.DbController.delWebDbDetail(list[index].id)
-            this.DbController.getDetail(list[index].id)
-          }
-        }
-      },
-      {
-        name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
+        name: "数据", id: "data", submenu: [
+          {
+            name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
 
-          for (let index = 0; index < list.length; index++) {
-            await this.resetReadingProgress(list[index].id)
-          }
-        }
-      },
-      {
-        name: "删除缓存", id: "del_caches", click: async (list) => {
+              for (let index = 0; index < list.length; index++) {
+                await this.resetReadingProgress(list[index].id)
+              }
+            }
+          },
+          {
+            name: "重置数据", id: "updataData", click: async (list) => {
+              for (let index = 0; index < list.length; index++) {
+                this.DbController.delWebDbDetail(list[index].id)
+                const res= await this.DbController.getDetail(list[index].id)
+                for (let index = 0; index < res.chapters.length; index++) {
+                 const chapter_id=res.chapters[index].id;
+                 await this.DbController.delWebDbPages(chapter_id)
+                 const pages = await this.DbController.getPages(chapter_id)
+                 for (let index = 0; index < pages.length; index++) {
+                   await this.DbController.delWebDbImage(pages[index].src)
+                   await this.DbController.getImage(pages[index].src)
+                 }
+                }
+               }
+            }
+          },
+          {
+            name: "提前加载", id: "updataData", click: async (list) => {
+              for (let index = 0; index < list.length; index++) {
+               const res= await this.DbController.getDetail(list[index].id)
+               for (let index = 0; index < res.chapters.length; index++) {
+                const chapter_id=res.chapters[index].id;
+                const pages = await this.DbController.getPages(chapter_id)
+                for (let index = 0; index < pages.length; index++) {
+                  await this.DbController.getImage(pages[index].src)
+                }
+               }
+              }
+            }
+          },
+          {
+            name: "重新获取", id: "updataData", click: async (list) => {
+              for (let index = 0; index < list.length; index++) {
+                this.DbController.delWebDbDetail(list[index].id)
+                const res= await this.DbController.getDetail(list[index].id)
+                for (let index = 0; index < res.chapters.length; index++) {
+                 const chapter_id=res.chapters[index].id;
+                 await this.DbController.delWebDbPages(chapter_id)
+                 const pages = await this.DbController.getPages(chapter_id)
+                }
+               }
+            }
+          },
+          {
+            name: "删除", id: "delete", click: async (list) => {
 
-          for (let index = 0; index < list.length; index++) {
-            await this.delCaches(list[index].id)
-
-          }
-        }
-      },
+              for (let index = 0; index < list.length; index++) {
+                await this.delCaches(list[index].id)
+              }
+            }
+          },
+        ]
+      }
     ])
 
   }
@@ -103,10 +142,10 @@ export class IndexService {
     }
   }
 
-  async delCaches(comics_id){
-    await firstValueFrom(this.webDb.deleteByKey('history',comics_id.toString()))
-    await firstValueFrom(this.webDb.deleteByKey('local_comics',comics_id))
-    await firstValueFrom(this.webDb.deleteByKey('local_comics',comics_id.toString()))
+  async delCaches(comics_id) {
+    await firstValueFrom(this.webDb.deleteByKey('history', comics_id.toString()))
+    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id))
+    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id.toString()))
     this.DbController.delComicsAllImages(comics_id)
   }
 

@@ -162,12 +162,10 @@ export class DbEventService {
           obj["src"] = `${utf8_to_b64(arr2[index])}`
           data.push(obj)
         }
-        console.log(data);
 
         return data
       },
       getImage: async (id: string) => {
-        console.log(id);
 
         if (id.substring(0, 4) == "http") {
           const res = await window._gh_fetch(id, {
@@ -215,7 +213,6 @@ export class DbEventService {
             return blob
           }
           const url = await getHtmlUrl(_id)
-          console.log(url);
 
           const blob = await getImageUrl(url);
           return blob

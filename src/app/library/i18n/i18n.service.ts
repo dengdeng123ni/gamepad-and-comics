@@ -6,22 +6,6 @@ import { Injectable } from '@angular/core';
 export class I18nService {
 
   constructor() {
-    // let obj = {}
-    // Object.keys(this.config).forEach((x, i) => {
-    //   obj[i] = this.config[x];
-    // })
-    // console.log(obj);
-    // this.languages.forEach((x, j) => {
-    //   let obj={}
-    //   Object.keys(this.config).forEach((s,i)=>{
-    //      obj[s]=this.aaa[j][i]
-    //   })
-    //   console.log(obj);
-
-    //   setTimeout(()=>{
-    //     this.download(`${x}.json`,JSON.stringify(obj))
-    //   },j*500)
-    // })
   }
 
   config = {

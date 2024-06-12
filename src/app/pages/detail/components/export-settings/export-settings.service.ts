@@ -16,7 +16,6 @@ export class ExportSettingsService {
   open(config?: MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(ExportSettingsComponent, config);
-      console.log(dialogRef);
 
       document.body.setAttribute("locked_region", "export_settings")
 

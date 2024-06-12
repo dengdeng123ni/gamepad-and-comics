@@ -30,7 +30,6 @@ export class MenuComponent {
   current_menu_id = null;
   on($event, data, parent: any = {}) {
     this.menu.current_menu_id = parent.id?`${parent.id}_${data.id}`:data.id;
-    console.log( this.menu.current_menu_id );
 
     if (parent.id) this.AppData.setOrigin(parent.id)
     if (data.click) {
@@ -264,7 +263,6 @@ export class MenuComponent {
 
 
     await handleDirectoryEntry(dirHandle, out, dirHandle["name"]);
-    console.log(files_arr);
     let list = await this.upload.subscribe_to_temporary_file_directory(files_arr, id)
     list.forEach(x => x.temporary_file_id = id);
     this.temporaryFile.data = [...this.temporaryFile.data, ...list]

@@ -60,8 +60,6 @@ export class AppComponent {
       return false
     } else {
       const bool = this.GamepadController.device2(key);
-      console.log(bool);
-
       if (bool) {
         if (event.key == "Tab") {
           this.is_tab = true;
@@ -108,7 +106,6 @@ export class AppComponent {
     public RoutingController:RoutingControllerService,
     public App: AppDataService
   ) {
-    // console.log();
   //  setTimeout(async ()=>{
   //   const device = await (navigator as any).bluetooth.requestDevice({
   //     optionalServices: ["battery_service", "device_information"],

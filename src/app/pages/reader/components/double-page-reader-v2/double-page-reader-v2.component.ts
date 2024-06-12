@@ -112,7 +112,6 @@ export class DoublePageReaderV2Component {
       if (x.trigger == 'double_page_reader_v2') return
       if (x.type == "changePage") {
         this.change(x.chapter_id, x.pages, x.page_index)
-        console.log(x.chapter_id, x.pages, x.page_index);
 
       } else if (x.type == "changeChapter") {
         this.change(x.chapter_id, x.pages, x.page_index)
@@ -162,7 +161,6 @@ export class DoublePageReaderV2Component {
       indexs.push(parseInt(node.getAttribute("index")))
     }
     const index = indexs.sort((a, b) => b - a)[0] - 1 ;
-    console.log(index);
 
     if (index == 0) {
       this.current._pageChange(index);

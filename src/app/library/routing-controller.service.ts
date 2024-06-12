@@ -43,7 +43,6 @@ export class RoutingControllerService {
 
     const list:any = await firstValueFrom(this.webDb.getAll('router'))
     setTimeout(()=>{
-      console.log(123);
       list.forEach(x=>{
         firstValueFrom(this.webDb.deleteByKey('router',x.id))
 

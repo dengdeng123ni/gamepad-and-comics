@@ -198,8 +198,6 @@ export class DbControllerService {
           x.index = i;
         })
         this.pages[id] = JSON.parse(JSON.stringify(res));
-        console.log(res);
-
         return res
       }
     } else {

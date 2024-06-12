@@ -182,11 +182,9 @@ export class ComicsListV2Component {
         })
 
       }
-console.log(this.id);
 
       const data: any = await this.get(this.id);
       if (data) {
-        console.log(this.type);
         data.list.forEach(x=>{
           x.selected=false;
         })
@@ -199,13 +197,11 @@ console.log(this.id);
           this.query.default_index = data.query.default_index;
           this.list = data.list;
         } else if (this.type == "history") {
-          console.log(123);
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
         } else if (this.type == "local_cache") {
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
         } else {
-          console.log(123);
           this.list = data.list;
         }
         if (this.list.length == 0) {
@@ -272,13 +268,11 @@ console.log(this.id);
       } else {
         localStorage.setItem('list_url', window.location.href)
         const nodec: any = $event.target;
-        console.log(this.list[index].id);
         if (nodec.getAttribute("router_reader")) {
 
 
           this.current.routerReader(this.origin, data.id)
         } else {
-          console.log(this.origin, data.id);
 
           this.current.routerDetail(this.origin, data.id)
         }
@@ -324,7 +318,6 @@ console.log(this.id);
   }
 
   async put() {
-    // console.log(this.type);
     if(this.type=="history") return null
     let obj = {
       id: this.id,

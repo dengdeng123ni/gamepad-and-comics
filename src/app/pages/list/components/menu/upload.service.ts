@@ -328,7 +328,6 @@ export class UploadService {
 
       const size = files.map(x => x.size).reduce((acr, cur) => acr + cur);
       const id = new Date().getTime();
-      console.log(pages);
 
       let comics = {
         id: window.btoa(encodeURIComponent(pages[0].relativePath)),

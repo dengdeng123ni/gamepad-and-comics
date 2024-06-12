@@ -160,8 +160,6 @@ export class DoublePageReaderV2DefaultComponent {
       indexs.push(parseInt(node.getAttribute("index")))
     }
     const index = indexs.sort((a, b) => b - a)[0] - 1 ;
-    console.log(index);
-
     if (index == 0) {
       this.current._pageChange(index);
     } else {

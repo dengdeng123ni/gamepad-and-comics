@@ -7,7 +7,7 @@ import { GamepadControllerService } from 'src/app/library/public-api';
 export class ZoomService {
 
   constructor(public GamepadController:GamepadControllerService) {
-    console.log(213);
+
 
   }
 
@@ -22,7 +22,7 @@ export class ZoomService {
   init(){
     this.oBox = document.querySelector('.mat-drawer-content')
     this.oDiv = document.querySelector('#_reader_pages')
-    console.log(this.oBox,this.oDiv);
+
 
   }
   down(e) {
@@ -245,8 +245,6 @@ export class ZoomService {
     this.zoomSize = transf.multiple;
   }
   zoom = (e: number) => {
-    console.log(this.oDiv);
-
     let transf = this.getTransform(this.oDiv)
     transf.multiple = e;
     let newTransf = this.limitBorder(this.oDiv, this.oBox, transf.transX, transf.transY, transf.multiple)
@@ -284,7 +282,6 @@ export class ZoomService {
       transX = Math.max(Math.min(moveX, outerWidth - innerWidth * (multiple + 1) / 2 - innerLeft), -innerLeft + innerWidth * (multiple - 1) / 2)
       transY = Math.max(Math.min(moveY, outerHeight - innerHeight * (multiple + 1) / 2 - innerTop), -innerTop + innerHeight * (multiple - 1) / 2)
     }
-    // console.log(transX,transY,multiple);
 
     return { transX, transY }
   }

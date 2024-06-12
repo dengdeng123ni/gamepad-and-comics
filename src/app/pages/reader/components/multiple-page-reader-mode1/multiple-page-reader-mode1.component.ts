@@ -59,7 +59,6 @@ export class MultiplePageReaderMode1Component {
         container.scrollTop = container.scrollTop + 4;
       },
       RIGHT_ANALOG_DOWN: () => {
-        console.log(23);
 
         // const container = document.getElementById("multiple_page_reader_mode1")
         // container.scrollTop = container.scrollTop + 4;
@@ -71,8 +70,6 @@ export class MultiplePageReaderMode1Component {
       DPAD_DOWN: () => {
         const container = document.getElementById("multiple_page_reader_mode1")
         container.scrollTop = container.scrollTop + 24;
-        console.log(213);
-
       },
       DPAD_RIGHT: () => {
         const container = document.getElementById("multiple_page_reader_mode1")
