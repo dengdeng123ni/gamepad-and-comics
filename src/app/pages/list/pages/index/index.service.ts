@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
-import { AppDataService, ContextMenuEventService, DbControllerService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, LocalCachService } from 'src/app/library/public-api';
 import { MenuService } from '../../components/menu/menu.service';
 import { DownloadOptionService } from '../../components/download-option/download-option.service';
-import { LocalCachService } from '../../components/menu/local-cach.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 
