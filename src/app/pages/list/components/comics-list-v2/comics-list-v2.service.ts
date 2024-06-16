@@ -18,6 +18,8 @@ export class ComicsListV2Service {
 
   public Events: { [key: string]: Events } = {};
 
+
+  public _data={}
   constructor( public router: Router,) {
   }
 

@@ -157,6 +157,8 @@ export class ComicsListV2Component {
         const obj = this.DbEvent.Configs[origin].menu.find(x => x.id == sid);
         this.id = `${type}_${origin}_${sid}`;
         if(obj.query.list) this.query.list = obj.query.list;
+
+
         if (obj.query.name) this.query.name = obj.query.name;
         else this.query.name =''
         this.key = this.id;
@@ -217,6 +219,7 @@ export class ComicsListV2Component {
         })
 
       } else {
+
         if (this.type == "multipy") {
           this.getDatac123123();
           this.init();
@@ -318,7 +321,7 @@ export class ComicsListV2Component {
   }
 
   async put() {
-    if(this.type=="history") return null
+    // if(this.type=="history") return null
     let obj = {
       id: this.id,
       query: this.query,
@@ -327,11 +330,11 @@ export class ComicsListV2Component {
       scrollTop: this.ListNode.nativeElement.scrollTop
     }
 
-    return await firstValueFrom(this.webDb.update("data", obj))
+    return this.ComicsListV2._data[this.id]=obj
   }
 
   async get(id) {
-    const res = await firstValueFrom(this.webDb.getByKey("data", id))
+    const res =  this.ComicsListV2._data[id];
     if (res) {
       return res
     } else {
@@ -364,8 +367,6 @@ export class ComicsListV2Component {
     }
     setTimeout(()=>{
       const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-      console.log(node);
-
       if (node.getBoundingClientRect().top < 100 || this.list.length<5) {
         this.is_one_party = true;
       } else {

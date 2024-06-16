@@ -46,10 +46,7 @@ export class ReaderToolbarComponent {
     public resetReadingProgress:ResetReadingProgressService
   ) {
     current.init$.subscribe(x=>{
-      console.log(this.data.is_locked);
-
       if (this.data.chapters[0].is_locked === undefined || !this.data.is_locked) this.is_locked = false;
-      console.log(this.is_locked);
 
     })
   }

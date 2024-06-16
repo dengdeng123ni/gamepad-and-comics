@@ -28,9 +28,6 @@ export class OnePageThumbnailMode1Component {
     this.init(this._data);
     ContextMenuEvent.register('one_page_item', {
       on: async e => {
-        console.log(
-          e
-        );
 
         if (e.id == "delete") {
           this.current._delPage(this.data.chapter_id, parseInt(e.value)).then(() => {

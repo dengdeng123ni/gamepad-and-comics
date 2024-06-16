@@ -1,5 +1,9 @@
 
 <div class="head">
+
+  <div class="choice" *ngIf="type=='single'" [attr.justify_content]="!query.name">
+    <div class="title" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
+  </div>
   <div class="choice" *ngIf="type=='choice'" [attr.justify_content]="!query.name">
     <div class="title" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
     <div class="list">

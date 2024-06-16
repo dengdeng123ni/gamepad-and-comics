@@ -44,7 +44,6 @@ export class CanvasImage1Component {
         const h3=bb();
         context.drawImage(image1, 0, -h3, canvas.width, this.list[index].height);
         const h2 = end_height - (start_height + this.list[index].height);
-        // console.log(this.index,index,h2);
         if (h2 > 0) {
           const image2 = await createImageBitmap(await this.image.getImageBlob(this.list[this.index + 1].src))
           context.drawImage(image2, 0, this.height - h2, canvas.width, this.list[index].height);

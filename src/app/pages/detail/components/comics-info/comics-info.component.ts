@@ -41,8 +41,6 @@ export class ComicsInfoComponent {
   }
   back() {
     this.RoutingController.navigate('list')
-    // console.log();
-
     // let url = localStorage.getItem('list_url');
     // if (!url) url = window.location.origin
     // const urlObj = new URL(url);

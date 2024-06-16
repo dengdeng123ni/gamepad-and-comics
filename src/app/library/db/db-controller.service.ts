@@ -53,15 +53,17 @@ export class DbControllerService {
       return JSON.parse(JSON.stringify(this.lists[id]))
     } else {
       let res;
-      if (option.is_cache) {
+
+      if (false) {
         const obj1 = await firstValueFrom(this.webDb.getByID('list', id)) as any;
         if (obj1) {
           res = obj1.data;
         } else {
           const data = await this.DbEvent.Events[option.origin]["getList"](obj);
-          firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({
+          firstValueFrom(this.webDb.update('list', JSON.parse(JSON.stringify({
             id: id,
-            data: data
+            data: data,
+            create_time:new Date().getTime()
           }))))
           res = data;
         }

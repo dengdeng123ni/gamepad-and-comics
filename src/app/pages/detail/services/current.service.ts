@@ -75,7 +75,6 @@ export class CurrentService {
   }
 
   async _delChapter(comic_id:any,chapter_id: string) {
-    // console.log(detail.chapters,comic_id,chapter_id);
     let detail = await this.DbController.getDetail(comic_id, { origin: this.origin })
     detail.chapters = detail.chapters.filter(x => x.id.toString() !== chapter_id.toString());
     await this.DbController.putWebDbDetail(comic_id, detail);

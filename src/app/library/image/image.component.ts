@@ -20,7 +20,6 @@ export class ImageComponent {
     public WebWorker: WorkerService,
     public App: AppDataService
   ) {
-    // console.log(this.src);
 
 
 
