@@ -36,28 +36,7 @@ export class IndexComponent {
     public ComicsListV2: ComicsListV2Service,
     public UrlToComicsId: UrlToComicsIdService
   ) {
-    async function getClipboardContents() {
-      try {
-        const clipboardItems = await navigator.clipboard.read();
-        for (const clipboardItem of clipboardItems) {
-          for (const type of clipboardItem.types) {
-            const blob = await clipboardItem.getType(type);
-            const f = await fetch(URL.createObjectURL(blob))
-            const t = await f.text()
-            if(t.substring(0,4)=="http"){
-              const obj=await UrlToComicsId.UrlToComicsId(t);
-              if(obj){
-                Current.routerReader(obj.oright,obj.id)
-                await navigator.clipboard.writeText(obj.title)
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.error(err.name, err.message);
-      }
-    }
-    getClipboardContents()
+
 
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS: () => {
