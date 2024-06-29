@@ -21,6 +21,7 @@ import { ControllerSettingsComponent } from './components/controller-settings/co
 import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 import { UrlToComicsIdComponent } from './components/url-to-comics-id/url-to-comics-id.component';
+import { TabToolbarComponent } from './components/tab-toolbar/tab-toolbar.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -43,7 +44,8 @@ import { UrlToComicsIdComponent } from './components/url-to-comics-id/url-to-com
     ControllerSettingsComponent,
     ComicsListV2Component,
     GamepadToolbarComponent,
-    UrlToComicsIdComponent
+    UrlToComicsIdComponent,
+    TabToolbarComponent
   ],
   imports: [
     CommonModule,

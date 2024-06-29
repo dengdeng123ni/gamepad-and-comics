@@ -33,9 +33,13 @@ export class GamepadVioceComponent {
       this.speechRecognition.start();
     };
     this.recognition$.subscribe((x: any) => {
+      console.log(x);
+
       this.text = x.results[x.results.length - 1][0].transcript;
     })
     this.recognition$.pipe(debounceTime(50)).subscribe(x => {
+      console.log(x);
+
       this.gamepadvioce.init(this.text)
       setTimeout(() => {
         this.text = "";
