@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ExportSettingsComponent } from './export-settings.component';
+import { GamepadEventService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,16 @@ export class ExportSettingsService {
 
   opened = false;
 
-  constructor(public _dialog: MatDialog
+  constructor(
+    public _dialog: MatDialog,
+    public GamepadEvent:GamepadEventService
   ) {
-
+    GamepadEvent.registerAreaEvent('export_settings', {
+      B: () => setTimeout(() => this.close())
+    })
+    GamepadEvent.registerConfig('export_settings', {
+      region: ['item'],
+    });
   }
   open(config?: MatDialogConfig) {
     if (this.opened == false) {
