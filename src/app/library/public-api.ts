@@ -41,6 +41,7 @@ export * from './pulg/pulg.service'
 export * from './routing-controller.service'
 
 export * from './local-cach.service'
+export * from './tab.service'
 
 export * from './custom-route-reuse-strategy'
 

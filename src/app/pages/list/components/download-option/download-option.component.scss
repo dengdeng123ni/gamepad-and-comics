@@ -26,7 +26,10 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
-
+.radio_button{
+   display: flex;
+   width: 100%;height: 100%;
+}
 .list {
   margin: 16px 24px;
   max-height: 60%e;
@@ -38,7 +41,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
   .title {
     margin: 16px;
@@ -56,16 +58,16 @@
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, calc(260px));
-    margin: 8px 16px;
+    margin: 10px;
     overflow: auto;
-    height: 100%;
+    height: auto;
   }
 
   .item {
-
+    margin-bottom: 12px;
     .box {
       height: 108px;
-      margin: 12px;
+      // margin: 12px;
       display: flex;
     }
     .name{
@@ -80,6 +82,10 @@
       app-image {
         width: auto;
         height: 108px;
+        img{
+          width: 100%;
+          height: 100%;
+        }
       }
     }
 
@@ -98,6 +104,14 @@
 }
 
 :host ::ng-deep {
+  app-image {
+    width: auto;
+    height: 108px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
   .right {
     .mat-mdc-button {
       height: fit-content;

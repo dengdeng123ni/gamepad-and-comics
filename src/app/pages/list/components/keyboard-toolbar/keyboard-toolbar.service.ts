@@ -35,7 +35,7 @@ export class KeyboardToolbarService {
       });
       document.body.setAttribute("locked_region", "kyboard_toolbar")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "kyboard_toolbar" && this.opened) document.body.setAttribute("locked_region", "detail")
+        if (document.body.getAttribute("locked_region") == "kyboard_toolbar" && this.opened) document.body.setAttribute("locked_region", "list")
         this.opened = false;
       });
     }

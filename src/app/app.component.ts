@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -46,6 +46,15 @@ export class AppComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     let key = "";
+
+    if(event.key=="[") {
+      this.tab.setPreviousFocus();
+      return false
+    }
+    if(event.key=="]") {
+      this.tab.setNextFocus();
+      return false
+    }
     if(event.key=="F12") return true
 
     if(event.key=="Enter"){
@@ -105,6 +114,7 @@ export class AppComponent {
     public webWorker:WorkerService,
     public RoutingController:RoutingControllerService,
     public LocalCach: LocalCachService,
+    public tab:TabService,
     public App: AppDataService
   ) {
   //  setTimeout(async ()=>{

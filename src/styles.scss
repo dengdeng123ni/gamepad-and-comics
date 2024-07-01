@@ -160,8 +160,10 @@ body[pattern=gamepad][locked_region=one_page_mode3],
 body[pattern=gamepad][locked_region=kyboard_toolbar],
 body[pattern=gamepad][locked_region=reader_config],
 body[pattern=gamepad][locked_region=chapters_list],
-body[pattern=gamepad][locked_region=reset_reading_progress]
+body[pattern=gamepad][locked_region=reset_reading_progress],
+body[pattern=gamepad][locked_region=download_option]
 {
+  [region=item][select=true],
   [region=one_page_item][select=true],
   [region=comics_option][select=true],
   [region=comics_item][select=true],

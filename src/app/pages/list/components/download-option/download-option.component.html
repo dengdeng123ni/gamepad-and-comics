@@ -6,36 +6,36 @@
       <div class="item">
         <div class="name">类型</div>
         <div class="select">
-          <mat-checkbox *ngFor="let n of types" [(ngModel)]="n.completed"
+          <mat-checkbox [attr.region]="'item'" [attr.type]="'checkbox'" *ngFor="let n of types" [(ngModel)]="n.completed"
             (ngModelChange)="typeChange()">{{n.name}}</mat-checkbox>
         </div>
       </div>
       <div class="item">
         <div class="name">页面</div>
         <mat-radio-group [(ngModel)]="option.page">
-          <mat-radio-button value="one" style="display: flex;">单页 <span style=" color: rgba(232, 230, 227, 0.56)">[EPUB] 不支持</span></mat-radio-button>
-          <mat-radio-button value="double">双页</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" value="one" style="display: flex;">单页 <span style=" color: rgba(232, 230, 227, 0.56)">[EPUB] 不支持</span></mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'"  [attr.region]="'item'" class="radio_button" value="double" style="display: flex;">双页</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="item" *ngIf="option.page!='one'">
         <div class="name">页面顺序</div>
         <mat-radio-group [(ngModel)]="option.pageOrder">
-          <mat-radio-button [value]="true" style="display: flex;">默认</mat-radio-button>
-          <mat-radio-button [value]="false">日漫</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'"  [attr.region]="'item'" class="radio_button" [value]="true" style="display: flex;">默认</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'"  [attr.region]="'item'" class="radio_button" [value]="false" style="display: flex;">日漫</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="item">
         <div class="name">选项</div>
         <div class="iten">
-          <mat-checkbox [(ngModel)]="option.isFirstPageCover" *ngIf="option.page!='one'">第一页封面</mat-checkbox>
-          <mat-checkbox [(ngModel)]="option.isOneFile" [disabled]="true">只生成一个文件</mat-checkbox>
+          <mat-checkbox  [attr.type]="'checkbox'" [attr.region]="'item'" style="display: flex;" [(ngModel)]="option.isFirstPageCover" *ngIf="option.page!='one'">第一页封面</mat-checkbox>
+          <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'item'" style="display: flex;" [(ngModel)]="option.isOneFile" [disabled]="true">只生成一个文件</mat-checkbox>
         </div>
       </div>
     </div>
     <mat-divider style="margin: 4px 0;"></mat-divider>
     <div class="confirm">
-      <button mat-button color="accent">普通下载</button>
-      <button mat-raised-button color="primary" (click)="on()">指定下载</button>
+      <button mat-button [attr.region]="'item'" color="accent">普通下载</button>
+      <button mat-raised-button color="primary" [attr.region]="'item'" (click)="on()">指定下载</button>
     </div>
   </div>
   <div class="right">
@@ -43,7 +43,7 @@
       漫画 {{list.length}} 本
     </div>
     <div class="grid" [attr.size]="'middle'" [attr.type]="'list'" >
-      <button class="item" mat-button *ngFor="let n of list;let index=index" [attr._id]="n.id" [attr.index]="index"
+      <button class="item" [disabled]="true" mat-button *ngFor="let n of list;let index=index" [attr._id]="n.id" [attr.index]="index"
         [attr.region]="'comics_item'" [attr.select]="n.id==''" [matTooltipShowDelay]="3000" [matTooltip]="n.title"
         [attr.multiple]="n.selected">
         <div class="box">

@@ -3,6 +3,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { KeyboardToolbarService } from './keyboard-toolbar.service';
+import { MenuService } from '../menu/menu.service';
 
 @Component({
   selector: 'app-keyboard-toolbar',
@@ -18,6 +19,7 @@ export class KeyboardToolbarComponent {
   constructor(
     public current: CurrentService,
     public data: DataService,
+    public menu1:MenuService,
     public KeyboardToolbar:KeyboardToolbarService
   ) {
   }
