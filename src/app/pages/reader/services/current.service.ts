@@ -3,6 +3,8 @@ import { DataService } from './data.service';
 import { ChaptersItem, DbControllerService, HistoryService, ImageService, MessageFetchService, PagesItem } from 'src/app/library/public-api';
 import { Subject, firstValueFrom } from 'rxjs';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { UnlockService } from './unlock.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,8 @@ export class CurrentService {
     public image: ImageService,
     public _http: MessageFetchService,
     public history: HistoryService,
+    public unlock: UnlockService,
+    private _snackBar: MatSnackBar,
   ) {
     this.reader_mode_change$.subscribe(x => {
       if (this.reader_modes.includes(x)) this.data.comics_config.reader_mode = x;
@@ -273,7 +277,7 @@ export class CurrentService {
   async _pagePrevious() {
     this._change("previousPage", { page_index: this.data.page_index, chapter_id: this.data.chapter_id })
   }
-  async _delChapter(comic_id:any,chapter_id: string) {
+  async _delChapter(comic_id: any, chapter_id: string) {
     let detail = await this.DbController.getDetail(chapter_id, { origin: this.origin })
     detail.chapters = detail.chapters.filetr(x => x.id !== chapter_id);
     await this.DbController.putWebDbDetail(comic_id, detail);
@@ -303,12 +307,12 @@ export class CurrentService {
   }
   async _insertPage(chapter_id: string, page_index: number) {
     const blob2 = await this._getFileImage();
-    if(blob2){
+    if (blob2) {
       await this._addPage(chapter_id, page_index, blob2)
     }
 
   }
-  async _getFileImage(){
+  async _getFileImage() {
     const pickerOpts = {
       types: [
         {
@@ -497,6 +501,24 @@ export class CurrentService {
     await firstValueFrom(this.webDb.update("read_comics_chapter", { 'comics_id': this.data.comics_id.toString(), chapters: chapters }))
     await firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[index].id }))
   }
+  async _unlock(chapter_id) {
+    const bool = await this.DbController.Unlock(chapter_id)
+    if (bool) {
+      this._snackBar.open('解锁成功,以重新获取数据', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+      await this.DbController.delWebDbPages(chapter_id)
+      const pages = await this.DbController.getPages(chapter_id)
+      for (let index = 0; index < pages.length; index++) {
+        await this.DbController.delWebDbImage(pages[index].src)
+      }
+      await this._change("changePage", {
+        chapter_id: chapter_id,
+        page_index: 0
+      })
+    } else {
+      this._snackBar.open('解锁失败,需要到对应网站查看', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+    }
+
+  }
   async _getIsFirstPageCover(pages: Array<PagesItem>): Promise<boolean> {
     try {
       const getImagePixel = async (url: string) => {
@@ -662,6 +684,8 @@ export class CurrentService {
     if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
     const chapter = this.data.chapters.find(x => x.id == option.chapter_id);
+
+    if (chapter.is_locked && option.page_index == 0) this.unlock.open(this.origin, option.chapter_id);
     const pages = await this._getChapter(option.chapter_id)
     if (option.page_index > pages.length) option.page_index = pages.length - 1;
     this.data.page_index = option.page_index;
@@ -669,6 +693,7 @@ export class CurrentService {
     this.data.chapter_id = option.chapter_id;
     if (type == "changePage") {
       this._setChapterIndex(this.data.chapter_id.toString(), option.page_index)
+
     } else if (type == "changeChapter") {
       this._setWebDbComicsConfig(this.data.comics_id);
     }

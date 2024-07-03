@@ -163,6 +163,7 @@ export class ChapterListMode1Component {
         } else {
           if (this.data.chapters[index].is_locked) {
 
+            this.current.routerReader(this.data.comics_id, this.data.chapters[index].id)
           } else {
             this.current.routerReader(this.data.comics_id, this.data.chapters[index].id)
           }

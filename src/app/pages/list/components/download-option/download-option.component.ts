@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./download-option.component.scss']
 })
 export class DownloadOptionComponent {
+  is_download=false;
+  o123r=0;
   constructor(
     public DownloadOption:DownloadOptionService,
     public WebFile: WebFileService,
@@ -30,6 +32,7 @@ export class DownloadOptionComponent {
     this.option.type = this.types.filter(x => x.completed).map(x => x.name)
   }
   async on() {
+
     const ids = this.list.map(x => x.id);
 
     if (this.option.isOneFile) {
@@ -38,6 +41,7 @@ export class DownloadOptionComponent {
 
       for (let index = 0; index < ids.length; index++) {
         const id = ids[index];
+
         for (let index = 0; index < this.option.type.length; index++) {
           const type = this.option.type[index];
           await this.WebFile.downloadComics(id, {
@@ -54,6 +58,7 @@ export class DownloadOptionComponent {
             }
           })
         }
+        this.o123r=index/ids.length;
       }
       // this.DownloadOption.close();
     }

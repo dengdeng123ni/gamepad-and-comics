@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CurrentService } from '../../services/current.service';
+import { UnlockService } from '../../services/unlock.service';
 
 @Component({
   selector: 'app-unlock',
@@ -6,13 +8,14 @@ import { Component } from '@angular/core';
   styleUrl: './unlock.component.scss'
 })
 export class UnlockComponent {
-  constructor(){
+  constructor( public current: CurrentService,public unlock:UnlockService){
 
   }
   close() {
-
+    this.unlock.close();
   }
-  on() {
-    //  this.
+  async on() {
+    await this.current._unlock(this.unlock.chapter_id);
+    this.unlock.close();
   }
 }

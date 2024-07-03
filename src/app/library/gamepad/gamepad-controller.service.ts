@@ -91,8 +91,9 @@ export class GamepadControllerService {
       "<": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
       ">": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
       "Alt": () => {
-        this.GamepadInput.down$.next("Y")
+        this.Y=true;
       },
+
       "Space": () => {
         this.GamepadInput.down$.next("A")
       },
@@ -222,8 +223,11 @@ export class GamepadControllerService {
   device2(input: string) {
     this.getCurrentTarget();
     const region = this.current.region;
+    if("Meta"==input) this.Y=true;
+
+    console.log(input);
     if (this.Y) {
-      if (this.KeyboardEvent.areaEventsY[region]?.[input]) {
+      if (this.KeyboardEvent?.areaEventsY[region]?.[input]) {
         return this.KeyboardEvent.areaEventsY[region][input](this.nodes[this.current.index]);
       } else if (this.KeyboardEvent.globalEventsY[input]) {
         this.KeyboardEvent.globalEventsY[input](this.nodes[this.current.index]);

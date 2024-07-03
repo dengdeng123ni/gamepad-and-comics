@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { MessageFetchService } from '../public-api';
 import { Subject } from 'rxjs';
 interface Events {
+  Unlock?: Function;
   getList: Function;
   getDetail: Function;
   getPages: Function;
@@ -456,6 +457,18 @@ export class DbEventService {
         }
         const blob = await getImageUrl(id);
         return blob
+      },
+      UrlToDetailId: async (id) => {
+        const obj=new URL(id);
+        console.log(obj);
+
+         if(obj.host=="www.baozimhw.com"){
+          console.log(obj.pathname.split("/").at(-1).split(".").at(-1));
+
+          return obj.pathname.split("/").at(-1).split(".")[0]
+         }else{
+          return null
+         }
       }
     });
 
@@ -1073,7 +1086,7 @@ export class DbEventService {
         return list
       },
       Unlock: async () => {
-
+        return false
       },
       UrlToDetailId: async (id) => {
          const obj=new URL(id);

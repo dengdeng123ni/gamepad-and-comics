@@ -26,14 +26,7 @@ export class RoutingControllerService {
       }
     })
 
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-      } else {
-        setTimeout(()=>{
-          this.getClipboardContents();
-        },50)
-      }
-    });
+
   }
 
 
@@ -65,16 +58,22 @@ export class RoutingControllerService {
     }
     return null
   }
-  async getClipboardContents() {
+   getClipboardContents=async ()=> {
     try {
+      const navigator = (window as any).__POWERED_BY_WUJIE__ ? window.parent.navigator : window.navigator;
       const clipboardItems = await navigator.clipboard.read();
+
       for (const clipboardItem of clipboardItems) {
         for (const type of clipboardItem.types) {
           const blob = await clipboardItem.getType(type);
           const f = await fetch(URL.createObjectURL(blob))
           const t = await f.text()
           if (t.substring(0, 4) == "http") {
+            console.log(t);
+
             const obj = await this.UrlToComicsId(t);
+            console.log(obj);
+
             if (obj) {
               this.routerReader(obj.oright, obj.id)
               await navigator.clipboard.writeText(obj.title)

@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
 import { map, throttleTime, Subject, firstValueFrom } from 'rxjs';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
 import { WebFileService } from 'src/app/library/web-file/web-file.service';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
@@ -70,11 +70,30 @@ export class ComicsListV2Component {
     public webDb: NgxIndexedDBService,
     public DbEvent: DbEventService,
     public ComicsListV2: ComicsListV2Service,
+    public KeyboardEvent: KeyboardEventService,
     public ComicsSelectType: ComicsSelectTypeService,
     public history: HistoryService,
     public App: AppDataService
   ) {
+    KeyboardEvent.registerGlobalEventY({
+      "a": () => {
+        console.log(123);
 
+        const c=this.list.filter(x=>x.selected==true).length
+        console.log(c,this.list.length);
+
+        if(c==this.list.length){
+          this.list.forEach(x=>{
+            x.selected=false
+          })
+        }else{
+          this.list.forEach(x=>{
+            x.selected=true
+          })
+        }
+
+      }
+    })
     this.router.events.subscribe(event => {
 
       if (event instanceof NavigationStart) {
@@ -123,14 +142,14 @@ export class ComicsListV2Component {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
               return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
-            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size*obj.page_num);
+            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
           },
           Init: async (obj) => {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
               return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
-            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size*obj.page_num);
+            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
           }
         })
@@ -143,11 +162,11 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file',is_cache:false });
+            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file', is_cache: false });
             return list
           },
           Init: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file',is_cache:false });
+            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file', is_cache: false });
             return list
           }
         })
@@ -156,11 +175,11 @@ export class ComicsListV2Component {
         this.origin = origin;
         const obj = this.DbEvent.Configs[origin].menu.find(x => x.id == sid);
         this.id = `${type}_${origin}_${sid}`;
-        if(obj.query.list) this.query.list = obj.query.list;
+        if (obj.query.list) this.query.list = obj.query.list;
 
 
         if (obj.query.name) this.query.name = obj.query.name;
-        else this.query.name =''
+        else this.query.name = ''
         this.key = this.id;
         this.App.setOrigin(this.origin);
         const e: any = this.query.list[this.query.default_index];
@@ -187,8 +206,8 @@ export class ComicsListV2Component {
 
       const data: any = await this.get(this.id);
       if (data) {
-        data.list.forEach(x=>{
-          x.selected=false;
+        data.list.forEach(x => {
+          x.selected = false;
         })
         this.page_num = data.page_num;
         if (this.type == "multipy") {
@@ -330,11 +349,11 @@ export class ComicsListV2Component {
       scrollTop: this.ListNode.nativeElement.scrollTop
     }
 
-    return this.ComicsListV2._data[this.id]=obj
+    return this.ComicsListV2._data[this.id] = obj
   }
 
   async get(id) {
-    const res =  this.ComicsListV2._data[id];
+    const res = this.ComicsListV2._data[id];
     if (res) {
       return res
     } else {
@@ -360,21 +379,21 @@ export class ComicsListV2Component {
     this.overflow()
   }
   async overflow() {
-    if(this.list.length==0){
+    if (this.list.length == 0) {
       await this.add_pages();
 
       return
     }
-    setTimeout(()=>{
+    setTimeout(() => {
       const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-      if (node.getBoundingClientRect().top < 100 || this.list.length<5) {
+      if (node.getBoundingClientRect().top < 100 || this.list.length < 5) {
         this.is_one_party = true;
       } else {
         this.is_one_party = false;
       }
-     })
+    })
     const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-    if (node.getBoundingClientRect().top < 100 || this.list.length<5) {
+    if (node.getBoundingClientRect().top < 100 || this.list.length < 5) {
       this.is_one_party = true;
     } else {
       this.is_one_party = false;

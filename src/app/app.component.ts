@@ -47,14 +47,6 @@ export class AppComponent {
   handleKeyDown = (event: KeyboardEvent) => {
     let key = "";
 
-    if(event.key=="[") {
-      this.tab.setPreviousFocus();
-      return false
-    }
-    if(event.key=="]") {
-      this.tab.setNextFocus();
-      return false
-    }
     if(event.key=="F12") return true
 
     if(event.key=="Enter"){
@@ -79,7 +71,6 @@ export class AppComponent {
         this.keys.push(key)
         return bool
       }
-
     }
   }
 
@@ -88,8 +79,11 @@ export class AppComponent {
     let key = "";
     if (event.code == "Space") key = "Space";
     else key = event.key
+
+
     this.keys = this.keys.filter(x => x != key)
     if (key == "Alt") this.GamepadController.Y = false;
+    if (key == "Meta") this.GamepadController.Y = false;
   }
 
     // Tab 控制
@@ -161,6 +155,18 @@ export class AppComponent {
       this.GamepadController.init();
       setTimeout(() => {
         this.App.init();
+        window.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+
+          } else {
+            this.RoutingController.getClipboardContents();
+            setTimeout(() => {
+              this.RoutingController.getClipboardContents();
+            },2000)
+          }
+        });
+
+        this.RoutingController.getClipboardContents();
       }, 50)
     }, 200)
     // this.getPulgLoadingFree();

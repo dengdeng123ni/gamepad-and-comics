@@ -63,7 +63,7 @@ export class DbControllerService {
           firstValueFrom(this.webDb.update('list', JSON.parse(JSON.stringify({
             id: id,
             data: data,
-            create_time:new Date().getTime()
+            create_time: new Date().getTime()
           }))))
           res = data;
         }
@@ -134,8 +134,18 @@ export class DbControllerService {
     this.details[id] = null;
     await firstValueFrom(this.webDb.deleteByKey('details', id))
   }
-
-  async putWebDbDetail(id,res) {
+  async Unlock(id, option?: {
+    origin: string
+  }) {
+    if (!option) option = { origin: this.AppData.origin }
+    if (!option.origin) option.origin = this.AppData.origin;
+    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["Unlock"]) {
+      return await this.DbEvent.Events[option.origin]["Unlock"](id);
+    } else {
+      return false
+    }
+  }
+  async putWebDbDetail(id, res) {
     this.details[id] = null;
     firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: res }))))
   }
@@ -177,8 +187,8 @@ export class DbControllerService {
             res = res.data;
 
             res.forEach((x, i) => {
-              if(x.src.substring(7, 21) == "localhost:7700"){
-              }else{
+              if (x.src.substring(7, 21) == "localhost:7700") {
+              } else {
                 if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
                 x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
               }
