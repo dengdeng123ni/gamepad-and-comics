@@ -18,7 +18,7 @@ export class DoublePageReaderV2Component {
   }
   change$;
   event$;
-
+  is_destroy=false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -27,9 +27,10 @@ export class DoublePageReaderV2Component {
     public GamepadController: GamepadControllerService,
     public GamepadInput: GamepadInputService,
     public KeyboardEvent: KeyboardEventService,
-    public zoom:ZoomService
+    public zoom: ZoomService
 
   ) {
+
     KeyboardEvent.registerAreaEvent('page_reader', {
 
       "c": () => {
@@ -150,6 +151,7 @@ export class DoublePageReaderV2Component {
   ngOnDestroy() {
     this.change$.unsubscribe();
     this.event$.unsubscribe();
+    this.is_destroy=true;
   }
   isSwitch = false;
   async pageToggle() {
@@ -160,13 +162,13 @@ export class DoublePageReaderV2Component {
       const node = nodes[index];
       indexs.push(parseInt(node.getAttribute("index")))
     }
-    const index = indexs.sort((a, b) => b - a)[0] - 1 ;
+    const index = indexs.sort((a, b) => b - a)[0] - 1;
 
     if (index == 0) {
       this.current._pageChange(index);
     } else {
-      if (index >= (this.data.pages.length-2)) {
-        this.current._pageChange( index - (3-nodes.length) );
+      if (index >= (this.data.pages.length - 2)) {
+        this.current._pageChange(index - (3 - nodes.length));
       } else {
         this.current._pageChange(this.isSwitch ? index - 1 : index + 1);
       }
@@ -196,21 +198,28 @@ export class DoublePageReaderV2Component {
     })
   }
   async updata() {
-    const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
 
-    let indexs = [];
-    for (let index = 0; index < nodes.length; index++) {
-      const node = nodes[index];
-      indexs.push(parseInt(node.getAttribute("index")))
+    if (this.swiper.slides[this.swiper.activeIndex]) {
+      const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
+      let indexs = [];
+      for (let index = 0; index < nodes.length; index++) {
+        const node = nodes[index];
+        indexs.push(parseInt(node.getAttribute("index")))
+      }
+      const index = indexs.sort((a, b) => b - a)[0] - 1;
+      const chapter_id = nodes[0].getAttribute("chapter_id");
+      this.current._change('changePage', {
+        chapter_id: chapter_id,
+        page_index: index,
+        trigger: 'double_page_reader_v2'
+      });
+    } else {
+      if(this.is_destroy) return
+      setTimeout(() => {
+        this.updata();
+      }, 50)
     }
-    const index = indexs.sort((a, b) => b - a)[0] - 1;
-    const chapter_id = nodes[0].getAttribute("chapter_id");
-    const list = await this.current._getChapter(chapter_id);
-    this.current._change('changePage', {
-      chapter_id: chapter_id,
-      page_index: index,
-      trigger: 'double_page_reader_v2'
-    });
+
   }
 
   async next() {
@@ -228,7 +237,7 @@ export class DoublePageReaderV2Component {
 
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
-        this.isSwitch=false;
+        this.isSwitch = false;
         this.addNextSlide(next_chapter_id, res, 0);
         return
       } else {
@@ -256,7 +265,7 @@ export class DoublePageReaderV2Component {
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
 
-        this.addPreviousSlide(next_chapter_id, res, res.length-1);
+        this.addPreviousSlide(next_chapter_id, res, res.length - 1);
         return
       } else {
         return
@@ -287,7 +296,7 @@ export class DoublePageReaderV2Component {
       if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
       if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
         obj.secondary = undefined;
-      }else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
+      } else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
         obj.secondary = undefined;
       }
       // if (index == 0) this.isSwitch=!this.isSwitch;
@@ -303,7 +312,7 @@ export class DoublePageReaderV2Component {
       }
       return page
     }
-    const is_first_page_cover= await this.current._getChapter_IsFirstPageCover(chapter_id);
+    const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(chapter_id);
 
     const res = await getNextPages(list, index);
     let current = "";
@@ -454,7 +463,7 @@ export class DoublePageReaderV2Component {
     this.swiper.on('slideChange', async () => {
       if (!this.ppp) {
         this.ppp = true;
-          this.zoom.zoom(1)
+        this.zoom.zoom(1)
         await this.updata()
 
         this.ppp = false;

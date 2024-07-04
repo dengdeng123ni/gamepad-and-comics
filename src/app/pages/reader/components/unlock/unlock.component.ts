@@ -8,14 +8,20 @@ import { UnlockService } from '../../services/unlock.service';
   styleUrl: './unlock.component.scss'
 })
 export class UnlockComponent {
-  constructor( public current: CurrentService,public unlock:UnlockService){
+  constructor(public current: CurrentService, public unlock: UnlockService) {
 
   }
   close() {
     this.unlock.close();
   }
   async on() {
-    await this.current._unlock(this.unlock.chapter_id);
+    const bool=await this.current._unlock(this.unlock.chapter_id);
+    if(bool){
+      await this.current._change("changePage", {
+        chapter_id: this.unlock.chapter_id,
+        page_index: 0
+      })
+    }
     this.unlock.close();
   }
 }

@@ -104,6 +104,7 @@ export class ComicsListV2Component {
 
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
+      console.log(params);
 
       if (this.id) await this.put()
       const type = params.get('id')
@@ -374,7 +375,7 @@ export class ComicsListV2Component {
 
   async init() {
     this.page_num = 1;
-    this.ListNode.nativeElement.scrollTop = 0;
+    if( this.ListNode) this.ListNode.nativeElement.scrollTop = 0;
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
     this.overflow()
   }

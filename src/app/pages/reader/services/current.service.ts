@@ -510,13 +510,10 @@ export class CurrentService {
       for (let index = 0; index < pages.length; index++) {
         await this.DbController.delWebDbImage(pages[index].src)
       }
-      await this._change("changePage", {
-        chapter_id: chapter_id,
-        page_index: 0
-      })
     } else {
       this._snackBar.open('解锁失败,需要到对应网站查看', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
     }
+    return bool
 
   }
   async _getIsFirstPageCover(pages: Array<PagesItem>): Promise<boolean> {
@@ -681,6 +678,8 @@ export class CurrentService {
     chapter_id: string,
     trigger?: string
   }) {
+    console.log(option);
+
     if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
     const chapter = this.data.chapters.find(x => x.id == option.chapter_id);
