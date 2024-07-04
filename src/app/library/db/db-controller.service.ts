@@ -157,7 +157,50 @@ export class DbControllerService {
     this.pages[id] = null;
     await firstValueFrom(this.webDb.update('pages', { id, data: JSON.parse(JSON.stringify(pages)) }))
   }
+  load = {};
+  async loadPages(id, option?: {
+    origin: string
+  }) {
+    if (!option) option = { origin: this.AppData.origin }
+    if (!option.origin) option.origin = this.AppData.origin;
+    const config = this.DbEvent.Configs[option.origin]
+    if(!config.is_preloading) return
+    if (this.load[id]) {
 
+    } else {
+      this.load[id] = id;
+      const pages = await this.getPages(id);
+      for (let index = 0; index < pages.length; index++) {
+        const res = await caches.match(pages[index].src);
+        if(!res){
+           this.tasks.unshift(this.getImage(pages[index].src))
+
+        }else{
+          console.log(res);
+
+        }
+      }
+      this.processTasks();
+    }
+  }
+  tasks = []; // 存储所有要执行的任务
+  concurrent = 0; // 当前正在执行的任务数量
+  maxConcurrent = 1; // 最大并发数量
+  processTasks() {
+    while (this.concurrent < this.maxConcurrent && this.tasks.length > 0) {
+      const task = this.tasks.shift(); // 从队列中取出一个任务
+      task()
+        .then(() => {
+          this.concurrent--; // 任务完成，减少并发计数
+          this.processTasks(); // 继续处理下一个任务
+        })
+        .catch(error => {
+          this.concurrent--; // 任务完成，减少并发计数
+          this.processTasks(); // 继续处理下一个任务
+        });
+      this.concurrent++; // 增加并发计数
+    }
+  }
   async addImage(url, blob) {
     const response = new Response(blob);
     const request = new Request(url);

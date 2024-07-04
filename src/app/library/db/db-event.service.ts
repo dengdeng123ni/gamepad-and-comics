@@ -18,6 +18,7 @@ interface Config {
   is_locked?: boolean;
   is_download?: boolean;
   is_cache?: boolean;
+  is_preloading?: boolean;
 }
 interface Tab {
   url: string,
@@ -1103,6 +1104,7 @@ export class DbEventService {
       id: "hanime1",
       is_cache: true,
       is_download: true,
+      is_preloading:true,
       menu: [
         {
           id: 'search',
@@ -1302,6 +1304,7 @@ export class DbEventService {
       name: key,
       is_cache: false,
       is_download: false,
+      is_preloading:false,
       ...config
     }
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };

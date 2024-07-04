@@ -238,7 +238,11 @@ export class CurrentService {
     //   list = ;
     //   this._chapters[id] = list;
     // }
-    return await this.DbController.getPages(id, { origin: this.origin })
+    const c = await this.DbController.getPages(id, { origin: this.origin })
+    setTimeout(() => {
+      this.DbController.loadPages(id, { origin: this.origin })
+    }, 1000)
+    return c
   }
 
 
@@ -678,7 +682,6 @@ export class CurrentService {
     chapter_id: string,
     trigger?: string
   }) {
-    console.log(option);
 
     if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
@@ -686,6 +689,7 @@ export class CurrentService {
 
     if (chapter.is_locked && option.page_index == 0) this.unlock.open(this.origin, option.chapter_id);
     const pages = await this._getChapter(option.chapter_id)
+
     if (option.page_index > pages.length) option.page_index = pages.length - 1;
     this.data.page_index = option.page_index;
     this.data.pages = pages;

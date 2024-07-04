@@ -47,11 +47,11 @@ export class AppComponent {
   handleKeyDown = (event: KeyboardEvent) => {
     let key = "";
 
-    if(event.key=="F12") return true
+    if (event.key == "F12") return true
 
-    if(event.key=="Enter"){
-      if(this.is_tab) return true
-    }else{
+    if (event.key == "Enter") {
+      if (this.is_tab) return true
+    } else {
       this.is_tab = false;
     }
     if (event.code == "Space") key = "Space";
@@ -86,14 +86,14 @@ export class AppComponent {
     if (key == "Meta") this.GamepadController.Y = false;
   }
 
-    // Tab 控制
-    // 键盘 控制
-    // 手柄事件
-    // 鼠标事件
-    // 语音控制
-    // 事件列表 列出可以使用的函数
-    // 蓝牙
-    //
+  // Tab 控制
+  // 键盘 控制
+  // 手柄事件
+  // 鼠标事件
+  // 语音控制
+  // 事件列表 列出可以使用的函数
+  // 蓝牙
+  //
   constructor(
     public GamepadController: GamepadControllerService,
     public GamepadEvent: GamepadEventService,
@@ -105,20 +105,20 @@ export class AppComponent {
     public ccc: WebFileService,
     public image: ImageService,
     public pulg: PulgService,
-    public webWorker:WorkerService,
-    public RoutingController:RoutingControllerService,
+    public webWorker: WorkerService,
+    public RoutingController: RoutingControllerService,
     public LocalCach: LocalCachService,
-    public tab:TabService,
+    public tab: TabService,
     public App: AppDataService
   ) {
-  //  setTimeout(async ()=>{
-  //   const device = await (navigator as any).bluetooth.requestDevice({
-  //     optionalServices: ["battery_service", "device_information"],
-  //     acceptAllDevices: true,
-  //   });
+    //  setTimeout(async ()=>{
+    //   const device = await (navigator as any).bluetooth.requestDevice({
+    //     optionalServices: ["battery_service", "device_information"],
+    //     acceptAllDevices: true,
+    //   });
 
 
-  //  },3000)
+    //  },3000)
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
       await DbController.getImage(data.id)
@@ -159,14 +159,21 @@ export class AppComponent {
           if (document.hidden) {
 
           } else {
-            this.RoutingController.getClipboardContents();
-            setTimeout(() => {
-              this.RoutingController.getClipboardContents();
-            },2000)
+            let nn=0;
+            const gg = () => {
+              if (document.hasFocus()) this.RoutingController.getClipboardContents();
+              setTimeout(() => {
+                if(nn<10) {
+                  gg();
+                  nn++;
+                }
+              }, 2000)
+            }
+            gg();
           }
         });
 
-        this.RoutingController.getClipboardContents();
+        if (document.hasFocus()) this.RoutingController.getClipboardContents();
       }, 50)
     }, 200)
     // this.getPulgLoadingFree();
