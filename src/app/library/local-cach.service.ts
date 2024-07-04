@@ -21,17 +21,19 @@ export class LocalCachService {
       id: "local_cache",
       name:"本地缓存",
       is_download: true,
+      is_cache:true
     }, {
       getList: async (obj: any) => {
         const res = await firstValueFrom(this.webDb.getAll("local_comics"))
         const list = res.map((x: any) => {
+          x=x.data
           return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
         }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
         return list
       },
       getDetail: async (id: string) => {
         let res = (await firstValueFrom(this.webDb.getByID('local_comics', id.toString())) as any)
-        return res
+        return res.data
       },
       getPages: async (id: string) => {
         let res = (await firstValueFrom(this.webDb.getByID('local_pages', id.toString())) as any)
@@ -79,16 +81,19 @@ export class LocalCachService {
     this.DbEvent.Configs[this.AppData.origin].is_cache = true;
     let res = await this.DbController.getDetail(id);
     await this.DbController.getImage(res.cover)
-    res.id = res.id.toString();
+    res.id = `7700_${res.id}`.toString();
     await this.DbController.getImage(res.cover)
     for (let index = 0; index < res.chapters.length; index++) {
-      const x = res.chapters[index];
+      let x = res.chapters[index];
       await this.DbController.getImage(x.cover)
       const pages = await this.DbController.getPages(x.id)
       await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),6)
-      await firstValueFrom(this.webDb.update("local_pages", { id: x.id.toString(), data: pages }))
+      await firstValueFrom(this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(), data: pages }))
       let chapters = res.chapters.slice(0, index + 1)
-      await firstValueFrom(this.webDb.update("local_comics", { ...res, chapters }))
+      chapters.forEach(x=>{
+        x.id= `7700_${x.id}`.toString();
+      })
+      firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, chapters } }))))
       this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
         duration: 3000,
         horizontalPosition: 'end',

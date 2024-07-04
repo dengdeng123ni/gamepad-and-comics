@@ -99,19 +99,19 @@ export class DbControllerService {
           if (res) {
             res = res.data;
             if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-            res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
+            if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
               if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-              if (x.cover) x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+              if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
             })
           } else {
             res = await this.DbEvent.Events[option.origin]["getDetail"](id);
             firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: res }))))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-            res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
+            if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
               this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-              if (x.cover) x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+              if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
             })
           }
         } else {
@@ -190,7 +190,7 @@ export class DbControllerService {
               if (x.src.substring(7, 21) == "localhost:7700") {
               } else {
                 if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
-                x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
+                if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
               }
             })
           } else {
@@ -198,7 +198,7 @@ export class DbControllerService {
             firstValueFrom(this.webDb.update('pages', { id, data: JSON.parse(JSON.stringify(res)) }))
             res.forEach((x, i) => {
               this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
-              x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
+              if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
             })
           }
         } else {

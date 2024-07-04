@@ -142,6 +142,7 @@ export class ComicsListV2Component {
           Add: async (obj) => {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
+              x=x.data
               return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
             }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
@@ -149,6 +150,7 @@ export class ComicsListV2Component {
           Init: async (obj) => {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
+              x=x.data
               return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
             }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
