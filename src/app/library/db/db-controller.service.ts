@@ -163,20 +163,19 @@ export class DbControllerService {
   }) {
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
-    const config = this.DbEvent.Configs[option.origin]
-    if(!config.is_preloading) return
+    const config = this.DbEvent.Configs[option.origin];
+    if (!config.is_preloading || !config.is_cache) return
+
     if (this.load[id]) {
 
     } else {
       this.load[id] = id;
       const pages = await this.getPages(id);
-      for (let index = 0; index < pages.length; index++) {
+      for (let index = (pages.length - 1); 0 <= index; index--) {
         const res = await caches.match(pages[index].src);
-        if(!res){
-           this.tasks.unshift(this.getImage(pages[index].src))
-
-        }else{
-          console.log(res);
+        if (!res) {
+          this.tasks.unshift({id,option})
+        } else {
 
         }
       }
@@ -189,7 +188,7 @@ export class DbControllerService {
   processTasks() {
     while (this.concurrent < this.maxConcurrent && this.tasks.length > 0) {
       const task = this.tasks.shift(); // 从队列中取出一个任务
-      task()
+      this.getImage(task.id,task.option)
         .then(() => {
           this.concurrent--; // 任务完成，减少并发计数
           this.processTasks(); // 继续处理下一个任务
@@ -304,7 +303,6 @@ export class DbControllerService {
   async getImage(id: string, option?: {
     origin: string
   }) {
-
     if (!option) option = { origin: this.AppData.origin }
     if (!option.origin) option.origin = this.AppData.origin;
     const config = this.DbEvent.Configs[option.origin]

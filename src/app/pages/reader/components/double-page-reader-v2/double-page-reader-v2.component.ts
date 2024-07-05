@@ -327,7 +327,7 @@ export class DoublePageReaderV2Component {
     if (res.primary.src) current = current + `<img  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: left;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (res.primary.start) current = current + `<img style="opacity: 0;width:50%"  src="${res.primary.src}" />`;
     if (!!current) {
-      this.objNextHtml[`${chapter_id}_${index}`] = current;
+      this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.prependSlide(current)
     }
   }
@@ -362,7 +362,7 @@ export class DoublePageReaderV2Component {
     if (res.secondary.src) current = current + `<img style="width: 50%;height: auto;object-fit: contain;object-position: left;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
     if (res.primary.start) current = current + `<img style="opacity: 0;width50%"  src="${res.primary.src}" />`;
     if (!!current) {
-      this.objPreviousHtml[`${chapter_id}_${index}`] = current;
+      this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.appendSlide(current)
     }
   }
@@ -377,7 +377,6 @@ export class DoublePageReaderV2Component {
      </div>
     `)
     }
-
   }
   appendSlide(src: string) {
     if (!!src) {
@@ -391,7 +390,7 @@ export class DoublePageReaderV2Component {
   }
 
   loadImage = async (url: string) => {
-    url = await this.image.getImageBase64(url)
+    url = await this.image.getImageBlobUrl2(url)
     return new Promise<any>((resolve, reject) => {
       if (url) {
         const img = new Image();
@@ -405,8 +404,8 @@ export class DoublePageReaderV2Component {
   }
 
   isWideImage = async (primary: any, secondary: any) => {
-    if (primary) primary.src = await this.image.getImageBase64(primary.src)
-    if (secondary) secondary.src = await this.image.getImageBase64(secondary.src)
+    if (primary) primary.src = await this.image.getImageBlobUrl2(primary.src)
+    if (secondary) secondary.src = await this.image.getImageBlobUrl2(secondary.src)
 
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
 

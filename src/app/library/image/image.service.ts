@@ -48,6 +48,24 @@ export class ImageService {
     return url
   }
 
+  async getImageBlobUrl2(src: string) {
+    let url;
+    if (!src) return ""
+
+    if (src.substring(0, 5) == "blob:") {
+      return src
+    }
+    const id = this.utf8_to_b64(src);
+    if (this._data[id]) {
+      url = this._data[id]
+      return url.changingThisBreaksApplicationSecurity
+    }
+    const blob = await this.getImageBlob(src);
+    url = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+    this._data[id] = url;
+    return url.changingThisBreaksApplicationSecurity
+  }
+
   utf8_to_b64 = (str: string) => {
     return window.btoa(encodeURIComponent(str));
   }
