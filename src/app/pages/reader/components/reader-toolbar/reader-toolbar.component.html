@@ -82,6 +82,12 @@
     </div>
     <div class="item mt-5">
       <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+      class="icon filter_image_list" (click)="filter.isToggle()">
+      <mat-icon>filter</mat-icon>
+    </button>
+    </div>
+    <div class="item mt-5">
+      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="onePageThumbnailMode2.isToggle()">
         <mat-icon  style="transform: rotate(180deg) scale(1.35) rotateY(36deg);">view_sidebar</mat-icon>
       </button>

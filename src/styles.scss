@@ -217,6 +217,14 @@ body[pattern=gamepad][locked_region=content_menu]{
   top: 0;
 }
 
+.item123,[region=item123]{
+  position: relative;
+
+    &::after {
+      @extend .default_frame;
+    }
+}
+
 
 
 

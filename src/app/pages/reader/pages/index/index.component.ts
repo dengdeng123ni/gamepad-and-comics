@@ -17,6 +17,7 @@ import { PromptService } from '../../services/prompt.service';
 import { GamepadToolbarComponent } from '../../components/gamepad-toolbar/gamepad-toolbar.component';
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
 import { ComicsSettingsService } from '../../components/comics-settings/comics-settings.service';
+import { FilterService } from '../../components/filter/filter.service';
 
 @Component({
   selector: 'app-index',
@@ -44,6 +45,7 @@ export class IndexComponent {
     public GamepadEvent:GamepadEventService,
     public ComicsSettings:ComicsSettingsService,
     public ContextMenuEvent: ContextMenuEventService,
+    public filter:FilterService,
     public Prompt: PromptService
   ) {
 
@@ -77,11 +79,12 @@ export class IndexComponent {
         this.App.setOrigin(params.get('origin'))
         this.data.init();
         this.current._init(params.get('origin'),params.get('id').toString() as string, params.get('sid').toString() as string)
+        this.filter.init();
         return
       }
       this.data.init();
       this.current._init(this.App.origin,params.get('id').toString() as string, params.get('sid').toString() as string)
-
+      this.filter.init();
     })
   }
 

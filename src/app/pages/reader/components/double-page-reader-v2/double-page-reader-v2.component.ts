@@ -367,6 +367,7 @@ export class DoublePageReaderV2Component {
     }
   }
   prependSlide(src: string) {
+    // if(this.swiper.slides.length>5) this.swiper.removeSlide((this.swiper.slides.length-1));
     if (
       !!src
     ) {
@@ -379,6 +380,7 @@ export class DoublePageReaderV2Component {
     }
   }
   appendSlide(src: string) {
+    // if(this.swiper.slides.length>5) this.swiper.removeSlide(0);
     if (!!src) {
       this.swiper.appendSlide
         (`
@@ -390,7 +392,7 @@ export class DoublePageReaderV2Component {
   }
 
   loadImage = async (url: string) => {
-    url = await this.image.getImageBlobUrl2(url)
+    url = await this.image.getImageBase64(url)
     return new Promise<any>((resolve, reject) => {
       if (url) {
         const img = new Image();
@@ -404,8 +406,8 @@ export class DoublePageReaderV2Component {
   }
 
   isWideImage = async (primary: any, secondary: any) => {
-    if (primary) primary.src = await this.image.getImageBlobUrl2(primary.src)
-    if (secondary) secondary.src = await this.image.getImageBlobUrl2(secondary.src)
+    if (primary) primary.src = await this.image.getImageBase64(primary.src)
+    if (secondary) secondary.src = await this.image.getImageBase64(secondary.src)
 
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
 

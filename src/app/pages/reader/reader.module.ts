@@ -36,6 +36,7 @@ import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-to
 import { ChaptersFirstCoverSettingsComponent } from './components/chapters-first-cover-settings/chapters-first-cover-settings.component';
 import { ComicsSettingsComponent } from './components/comics-settings/comics-settings.component';
 import { ResetReadingProgressComponent } from './components/reset-reading-progress/reset-reading-progress.component';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { ResetReadingProgressComponent } from './components/reset-reading-progre
     GamepadToolbarComponent,
     ChaptersFirstCoverSettingsComponent,
     ComicsSettingsComponent,
-    ResetReadingProgressComponent
+    ResetReadingProgressComponent,
+    FilterComponent
   ],
   imports: [
     CommonModule,

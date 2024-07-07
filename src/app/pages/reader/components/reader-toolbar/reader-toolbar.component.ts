@@ -16,6 +16,7 @@ import { DbControllerService } from 'src/app/library/public-api';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
+import { FilterService } from '../filter/filter.service';
 
 @Component({
   selector: 'app-reader-toolbar',
@@ -43,6 +44,7 @@ export class ReaderToolbarComponent {
     public ComicsSettings:ComicsSettingsService,
     public DbController:DbControllerService,
     public webDb: NgxIndexedDBService,
+    public filter:FilterService,
     public resetReadingProgress:ResetReadingProgressService
   ) {
     current.init$.subscribe(x=>{

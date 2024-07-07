@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -109,6 +109,7 @@ export class AppComponent {
     public RoutingController: RoutingControllerService,
     public LocalCach: LocalCachService,
     public tab: TabService,
+    public svg:SvgService,
     public App: AppDataService
   ) {
     //  setTimeout(async ()=>{
@@ -119,6 +120,11 @@ export class AppComponent {
 
 
     //  },3000)
+
+
+
+
+
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
       await DbController.getImage(data.id)
@@ -153,6 +159,7 @@ export class AppComponent {
       this.getPulgLoadingFree();
       this.is_loading_page = true;
       this.GamepadController.init();
+      this.svg.init();
       setTimeout(() => {
         this.App.init();
         window.addEventListener('visibilitychange', () => {
