@@ -2,7 +2,7 @@
   <mat-drawer [opened]="left.opened" mode="side" style="min-width: 192px;" id="scroll">
     <app-one-page-thumbnail-mode2 *ngIf="left.opened"></app-one-page-thumbnail-mode2>
   </mat-drawer>
-  <div [attr.region]="'page_reader'" id="_reader_pages"  class="_reader" style="backdrop-filter: url(#f11);">
+  <div [attr.region]="'page_reader'" id="_reader_pages"  class="_reader" >
     <div style="width: 100vw;height: 100vh;"  (click)="on($event)" *ngIf="data.is_init_free">
       <app-double-page-reader-v2-default *ngIf="data.comics_config.reader_mode=='double_page_reader'&&data.comics_config.is_page_order&&data.comics_config.is_double_page"></app-double-page-reader-v2-default>
       <app-double-page-reader-v2 *ngIf="data.comics_config.reader_mode=='double_page_reader'&&!data.comics_config.is_page_order&&data.comics_config.is_double_page"></app-double-page-reader-v2>
@@ -17,20 +17,4 @@
 
   <app-reader-toolbar></app-reader-toolbar>
   <app-reader-navbar-bar></app-reader-navbar-bar>
-  <svg xmlns="http://www.w3.org/2000/svg">
-    <filter id="f11" x="0%" y="0%" width="100%" height="100%">
-      <!-- <feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="1"></feMorphology> -->
-      <!-- <feMorphology in="SourceAlpha" result="ERODE" operator="erode" radius="1"></feMorphology> -->
-
-      <!-- <feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.02" numOctaves="1" />
-      <feDisplacementMap in="SourceGraphic" scale="50"></feDisplacementMap> -->
-      <feTurbulence type="fractalNoise" baseFrequency='0.88' result='noise' numOctaves="5" />
-
-      <feDiffuseLighting in='noise' lighting-color='#303030' surfaceScale='2'>
-          <feDistantLight azimuth='45' elevation='60' />
-      </feDiffuseLighting>
-      <!-- <feColorMatrix result="original" id="c1" type="matrix" values="1 -0.4 1.3 1.5 -0.3 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" /> -->
-    </filter>
-  </svg>
-
 </mat-drawer-container>

@@ -18,11 +18,22 @@
   font-size: 22px;
   font-weight: bold;
   color: #fff;
+
 }
 
 
 :host ::ng-deep {
   img{
     filter: url(#page);
+  }
+  img[type=none]{
+    filter: url(#background_primary);
+
+    backdrop-filter: url(#background_primary);
+    opacity: 1 !important;
+  }
+  .swiper-slide {
+    background: transparent;
+    backdrop-filter: url(#background_primary);
   }
 }

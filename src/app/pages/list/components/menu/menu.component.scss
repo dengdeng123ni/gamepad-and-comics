@@ -185,7 +185,9 @@
     padding: 0 !important;
     height: fit-content;
 
+
   }
+
 
   .mat-expansion-indicator {
     display: none;
@@ -194,6 +196,7 @@
   .mat-accordion {}
 
   .mat-expansion-panel {
+    background: none !important;
     box-shadow: none !important;
   }
 
