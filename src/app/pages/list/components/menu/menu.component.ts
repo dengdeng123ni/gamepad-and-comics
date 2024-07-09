@@ -185,13 +185,13 @@ export class MenuComponent {
               ControllerSettings.open()
             }
           },
-          {
-            id: "ope1",
-            name: "链接",
-            click: () => {
+          // {
+          //   id: "ope1",
+          //   name: "链接",
+          //   click: () => {
 
-            }
-          },
+          //   }
+          // },
           {
             id: "ope3",
             name: "清理全部缓存",
