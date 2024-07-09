@@ -14,11 +14,11 @@
             </div>
           </div>
           <div class="info">
-            <div class="name">
+            <div class="name" [attr.svg_filter]="'text_primary'">
               {{ n.title }}
             </div>
             <div class="buttom">
-              <div class="sub_title" *ngIf="n.pub_time">
+              <div class="sub_title" *ngIf="n.pub_time" [attr.svg_filter]="'text_secondary'">
                 {{n.pub_time | date:'YYYY-MM-dd'}}
               </div>
             </div>
@@ -52,3 +52,4 @@
 
     </div>
 </div>
+

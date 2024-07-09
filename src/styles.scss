@@ -264,17 +264,40 @@ body[pattern=gamepad][locked_region=content_menu]{
   }
 }
 
-[svg_filter=background_accent]{
-  background: none !important;
-  backdrop-filter:url("#background_accent");
-}
-[svg_filter=background_primary]{
-  background: none !important;
-  backdrop-filter:url("#background_primary");
-}
-[svg_filter=text_primary]{
-  //  filter:url("#text_primary");
-}
-[svg_filter=text_accent]{
-  // filter:url("#text_accent");
-}
+// [svg_filter=background_secondary]{
+//   background: yellow !important;
+//   // backdrop-filter:url("#background_secondary");
+// }
+// [svg_filter=background_primary]{
+//   background: #000000 !important;
+//   // backdrop-filter:url("#background_primary");
+// }
+// [svg_filter=background_accent]{
+//   background: #c2185b !important;
+//   // backdrop-filter:url("#background_primary");
+// }
+
+// [svg_filter=text_primary]{
+//   color: blue !important;
+//   //  filter:url("#text_primary");
+// }
+// [svg_filter=text_secondary]{
+//   color: #c2185b !important;
+// }
+// [svg_filter=text_accent]{
+//   color: yellow !important;
+// } d
+
+// [svg_filter=background_secondary]{
+//   background: transparent !important;
+//   backdrop-filter:url("#background_secondary");
+// }
+// [svg_filter=background_primary]{
+//   background: transparent !important;
+//   backdrop-filter:url("#background_primary");
+// }
+// [svg_filter=background_accent]{
+// }
+// .mat-bottom-sheet-container,.mdc-dialog__surface,.mat-mdc-menu-panel,.mat-drawer-inner-container{
+//   @extend [svg_filter=background_secondary];
+// }

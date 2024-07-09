@@ -2,7 +2,7 @@
   <mat-drawer [opened]="left.opened" mode="side" style="min-width: 192px;" id="scroll">
     <app-one-page-thumbnail-mode2 *ngIf="left.opened"></app-one-page-thumbnail-mode2>
   </mat-drawer>
-  <div [attr.region]="'page_reader'" id="_reader_pages"  class="_reader" >
+  <div [attr.region]="'page_reader'" id="_reader_pages"  class="_reader" [attr.svg_filter]="'background_primary'">
     <div style="width: 100vw;height: 100vh;"  (click)="on($event)" *ngIf="data.is_init_free">
       <app-double-page-reader-v2-default *ngIf="data.comics_config.reader_mode=='double_page_reader'&&data.comics_config.is_page_order&&data.comics_config.is_double_page"></app-double-page-reader-v2-default>
       <app-double-page-reader-v2 *ngIf="data.comics_config.reader_mode=='double_page_reader'&&!data.comics_config.is_page_order&&data.comics_config.is_double_page"></app-double-page-reader-v2>
