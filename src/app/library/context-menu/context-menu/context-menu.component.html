@@ -22,6 +22,7 @@
             ? submenuOpen($event)
             : contextMenu.afterClosed$.next(item.arg)
         "
+        [attr.svg_filter]="'text_primary'"
         mat-menu-item
         *ngIf="item.submenu"
         [matMenuTriggerFor]="submenu"
@@ -37,6 +38,7 @@
         [attr.default]="index == 0"
         [attr.region]="'content_menu'"
         [attr.gamepad_movable_region]="{} | json"
+        [attr.svg_filter]="'text_primary'"
         (click)="contextMenu.afterClosed$.next(item.arg)"
         [matTooltipShowDelay]="10000"
         [matTooltip]="item.text ? item.name : item.name"
@@ -70,6 +72,7 @@
         [attr._id]="'content_menu_submenu' + index"
         [attr.select]="false"
         [attr.default]="false"
+        [attr.svg_filter]="'text_primary'"
         [attr.region]="'content_menu_submenu'"
         [attr.gamepad_movable_region]="
           { left: 'content_menu', right: 'content_menu_children' } | json
@@ -96,6 +99,7 @@
         [attr.gamepad_movable_region]="
           { left: 'content_menu', right: 'content_menu' } | json
         "
+        [attr.svg_filter]="'text_primary'"
         (click)="contextMenu.afterClosed$.next(item.arg)"
         [matTooltipShowDelay]="10000"
         [matTooltip]="item.text ? item.name : item.name"

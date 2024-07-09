@@ -136,6 +136,10 @@
 }
 
 :host ::ng-deep {
+  .mdc-text-field{
+  background: transparent !important;
+    backdrop-filter: brightness(0.92);
+}
   .mat-mdc-button-touch-target {
     height: 100% !important;
   }

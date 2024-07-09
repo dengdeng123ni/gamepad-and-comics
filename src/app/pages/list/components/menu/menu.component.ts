@@ -167,6 +167,12 @@ export class MenuComponent {
         menu: [
           {
             id: "javasciprt",
+            name: "主题",
+            click: () => {
+            }
+          },
+          {
+            id: "javasciprt",
             name: "脚本",
             click: () => {
               PulgJavascript.open()
