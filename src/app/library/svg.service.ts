@@ -37,7 +37,7 @@ export class SvgService {
   }
   del(id){
     const node=document.querySelector(`#${id}`);
-    node.remove();
+    if(node) node.remove();
   }
   register(str) {
     const text = str;

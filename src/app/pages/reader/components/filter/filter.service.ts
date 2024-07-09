@@ -20,6 +20,7 @@ export class FilterService {
   }
   public opened: boolean = false;
   init() {
+    this.svg.del('page');
      this.get();
   }
   open(config?: MatDialogConfig) {
@@ -54,6 +55,7 @@ export class FilterService {
 
 
   async get() {
+
     const res: any = await firstValueFrom(this.webDb.getByKey("data", `svg_filter_${this.data.comics_id}`))
     if (res) {
       this.svg.add2(res.filter.innerHTML,res.target_id,document.body)
