@@ -28,7 +28,7 @@ export class FilterComponent {
   on(index) {
     this.Filter.post({
       innerHTML: this.svg.data[index].innerHTML,
-      name: this.svg.data[index].name
+      id: this.svg.data[index].id
     }, 'page')
     this.svg.add2(this.svg.data[index].innerHTML, 'page', document.body);
     this.Filter.close();

@@ -34,16 +34,16 @@ export class DownloadOptionComponent {
   async on() {
 
     const ids = this.list.map(x => x.id);
-
+    this.is_download=true;
     if (this.option.isOneFile) {
 
     } else {
 
       for (let index = 0; index < ids.length; index++) {
         const id = ids[index];
-
         for (let index = 0; index < this.option.type.length; index++) {
           const type = this.option.type[index];
+
           await this.WebFile.downloadComics(id, {
             type,
             isFirstPageCover: this.option.isFirstPageCover,
@@ -58,11 +58,19 @@ export class DownloadOptionComponent {
             }
           })
         }
-        this.o123r=index/ids.length;
-      }
-      // this.DownloadOption.close();
-    }
+        this.o123r=((index+1)/ids.length)*100;
 
+      }
+
+    }
+    this.is_download=false;
+     this.DownloadOption.close();
+
+  }
+  sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
   }
   ngAfterViewInit() {
     const height = document.querySelector('#download_option .left').clientHeight;

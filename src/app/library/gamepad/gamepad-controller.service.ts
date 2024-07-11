@@ -351,6 +351,16 @@ export class GamepadControllerService {
     }
     this.list = list;
   }
+  async getNodes2() {
+    const region = document.body.getAttribute("locked_region");
+    if (!region) {
+      this.setDefaultRegion();
+      return
+    }
+    const nodes = document.querySelectorAll(this.GamepadEvent.configs[region].queryStr);
+
+    return nodes
+  }
 
   setDefaultRegion() {
     const router = document.body.getAttribute("router");

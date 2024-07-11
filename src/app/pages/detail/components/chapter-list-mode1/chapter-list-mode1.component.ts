@@ -138,8 +138,9 @@ export class ChapterListMode1Component {
     else this.pattern = 'index';
 
 
-
+    if (!this.data.is_locked) this.is_locked = false;
     if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
+
   }
   on($event: MouseEvent) {
     const node = $event.target as HTMLElement;

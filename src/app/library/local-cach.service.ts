@@ -36,7 +36,11 @@ export class LocalCachService {
         return res.data
       },
       getPages: async (id: string) => {
+        console.log(id);
+
         let res = (await firstValueFrom(this.webDb.getByID('local_pages', id.toString())) as any)
+        console.log(res);
+
         return res.data
       },
       getImage: async (_id: string) => {
@@ -89,10 +93,8 @@ export class LocalCachService {
       const pages = await this.DbController.getPages(x.id)
       await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),6)
       await firstValueFrom(this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(), data: pages }))
-      let chapters = res.chapters.slice(0, index + 1)
-      chapters.forEach(x=>{
-        x.id= `7700_${x.id}`.toString();
-      })
+      x.id= `7700_${x.id}`.toString();
+      let chapters = res.chapters.slice(0, index + 1);
       firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, chapters } }))))
       this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
         duration: 3000,

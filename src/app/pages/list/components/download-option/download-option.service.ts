@@ -26,6 +26,7 @@ export class DownloadOptionService {
 
       const dialogRef = this._dialog.open(DownloadOptionComponent, {
         panelClass: "_download_option",
+        // disableClose:true,
         data:data
       });
       document.body.setAttribute("locked_region", "download_option")

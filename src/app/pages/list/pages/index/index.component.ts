@@ -12,6 +12,7 @@ import { ControllerSettingsService } from '../../components/controller-settings/
 import { ComicsListV2Service } from '../../components/comics-list-v2/comics-list-v2.service';
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
 import { UrlToComicsIdService } from '../../components/url-to-comics-id/url-to-comics-id.service';
+import { TabToolbarService } from '../../components/tab-toolbar/tab-toolbar.service';
 
 @Component({
   selector: 'app-index',
@@ -34,7 +35,8 @@ export class IndexComponent {
     public ControllerSettings: ControllerSettingsService,
     public GamepadToolbar: GamepadToolbarService,
     public ComicsListV2: ComicsListV2Service,
-    public UrlToComicsId: UrlToComicsIdService
+    public UrlToComicsId: UrlToComicsIdService,
+    public TabToolbar:TabToolbarService
   ) {
 
 
@@ -44,7 +46,8 @@ export class IndexComponent {
       }
     })
     this.KeyboardEvent.registerGlobalEvent({
-      "p": () => this.KeyboardToolbar.isToggle()
+      "p": () => this.KeyboardToolbar.isToggle(),
+      "o": () => this.TabToolbar.isToggle(),
     })
     document.body.setAttribute("router", "list")
     document.body.setAttribute("locked_region", "list")

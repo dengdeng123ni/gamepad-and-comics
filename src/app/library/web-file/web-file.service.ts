@@ -153,6 +153,7 @@ export class WebFileService {
             await Promise.all(pages.map((x2, index) => downloadImage(x2, index)))
 
           }
+          if (option.downloadChapterAtrer) option.downloadChapterAtrer(x)
           continue;
         }
 
@@ -174,8 +175,9 @@ export class WebFileService {
         } else {
           await this.post(`${config.origin}_${suffix_name}[${option.page == "double" ? "双页" : "单页"}]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}/${toTitle(x.title)}.${suffix_name}`, blob)
         }
+        if (option.downloadChapterAtrer) option.downloadChapterAtrer(x)
       }
-      if (option.downloadChapterAtrer) option.downloadChapterAtrer(x)
+
     }
   }
 

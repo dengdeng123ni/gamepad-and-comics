@@ -283,7 +283,10 @@ body[pattern=gamepad][locked_region=content_menu]{
 // [svg_filter=text_accent]{
 //   color: yellow !important;
 // }
-
+// .mat-mdc-button .mat-mdc-button-persistent-ripple::before{
+//   background-color: #c2185b;
+//   opacity: 0.2 !;
+// }
 // [svg_filter=background_secondary]{
 //   background: transparent !important;
 //   backdrop-filter:url("#background_secondary");
