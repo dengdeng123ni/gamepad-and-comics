@@ -22,6 +22,7 @@ import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 import { UrlToComicsIdComponent } from './components/url-to-comics-id/url-to-comics-id.component';
 import { TabToolbarComponent } from './components/tab-toolbar/tab-toolbar.component';
+import { DropDownMenuComponent } from './components/drop-down-menu/drop-down-menu.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -45,7 +46,8 @@ import { TabToolbarComponent } from './components/tab-toolbar/tab-toolbar.compon
     ComicsListV2Component,
     GamepadToolbarComponent,
     UrlToComicsIdComponent,
-    TabToolbarComponent
+    TabToolbarComponent,
+    DropDownMenuComponent
   ],
   imports: [
     CommonModule,

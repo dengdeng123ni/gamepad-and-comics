@@ -1293,6 +1293,70 @@ export class DbEventService {
         }
      }
     });
+    window._gh_register({
+      id: "wnacg",
+      is_cache: true,
+      is_download: true,
+      is_preloading:true,
+      menu: [
+      ],
+    }, {
+      getList: async (obj) => {
+      },
+      getDetail: async (id) => {
+      },
+      getPages: async (id) => {
+      },
+      getImage: async (id) => {
+        const getImageUrl = async (id) => {
+          const res = await window._gh_fetch(id, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          });
+          const blob = await res.blob();
+          return blob
+        }
+        const blob = await getImageUrl(id);
+        return blob
+      },
+      Search: async (obj) => {
+        const res = await window._gh_getHtml(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(text, 'text/html');
+        let data = [];
+        let nodes = doc.querySelectorAll("body .comic-rows-videos-div")
+        for (let index = 0; index < nodes.length; index++) {
+          const node = nodes[index];
+          const id = node.querySelector("a").href.split("/").at(-1)
+          const cover = node.querySelector("img").getAttribute("data-srcset");
+          const title = node.textContent;
+          data.push({ id, cover, title })
+        }
+        return data
+      },
+      UrlToDetailId: async (id) => {
+       const obj=new URL(id);
+        if(obj.host=="hanime1.me"){
+         return obj.pathname.split("/").at(-1)
+        }else{
+         return null
+        }
+     }
+    });
 
 
 

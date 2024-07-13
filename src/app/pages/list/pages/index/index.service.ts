@@ -75,7 +75,7 @@ export class IndexService {
             }
           },
           {
-            name: "重置数据", id: "updataData", click: async (list) => {
+            name: "重置数据", id: "reset_data", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 this.DbController.delWebDbDetail(list[index].id)
                 const res= await this.DbController.getDetail(list[index].id)
@@ -92,7 +92,7 @@ export class IndexService {
             }
           },
           {
-            name: "提前加载", id: "updataData", click: async (list) => {
+            name: "提前加载", id: "load", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                const res= await this.DbController.getDetail(list[index].id)
                for (let index = 0; index < res.chapters.length; index++) {
@@ -106,7 +106,7 @@ export class IndexService {
             }
           },
           {
-            name: "重新获取", id: "updataData", click: async (list) => {
+            name: "重新获取", id: "reset_get", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 this.DbController.delWebDbDetail(list[index].id)
                 const res= await this.DbController.getDetail(list[index].id)
@@ -129,6 +129,10 @@ export class IndexService {
         ]
       }
     ])
+
+  }
+
+  data(){
 
   }
 

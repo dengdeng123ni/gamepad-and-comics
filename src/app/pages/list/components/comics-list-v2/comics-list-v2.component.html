@@ -1,5 +1,5 @@
 
-<div class="head">
+<div class="head" *ngIf="!data.is_edit">
 
   <div class="choice" *ngIf="type=='single'" [attr.justify_content]="!query.name">
     <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
@@ -28,16 +28,28 @@
     </div>
   </div>
   <div class="choice" *ngIf="type=='local_cache'">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">历史记录</div>
+    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">缓存</div>
   </div>
   <div class="choice" *ngIf="type=='history'">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">缓存</div>
+    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">历史记录</div>
   </div>
   <div class="choice" *ngIf="type=='temporary_file'">
     <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">全部漫画</div>
   </div>
 </div>
+<div class="edit" *ngIf="data.is_edit" style="display: flex;justify-content: space-between;margin: 12px 22px 0;align-items: center; height: 36px;">
+  <div class="left" style="color: rgba(255, 255, 255, 0.34);font-size: 16px;">
+    <span> 已选择 {{selected_length}} 个</span>
+  </div>
+  <div class="right">
+    <mat-checkbox style="margin-right: 24px;"  [(ngModel)]="is_all" (change)="all()">全选</mat-checkbox>
+    <button mat-flat-button style="margin-right: 12px;" [disabled]="!selected_length" (click)="download()">下载</button>
+    <button mat-flat-button style="margin-right: 12px;" [disabled]="!selected_length" (click)="cache()">缓存</button>
+    <button mat-flat-button style="margin-right: 12px;" [disabled]="!selected_length" (click)=" DropDownMenuOpen()">数据</button>
+    <button mat-flat-button (click)="closeEdit()">完成</button>
+  </div>
 
+</div>
 
 
 <div class="warp">

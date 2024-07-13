@@ -43,9 +43,9 @@
     </div>
   </div>
 </div>
-<div class="edge_corner" style="right: 0px; top: 0px">
+<div class="edge_corner" style="right: 0px; top: 0px" (click)="on1()">
   <div class="button">
-    <div class="triangle" style="clip-path: polygon(0 0, 100% 0%, 100% 100%);" (click)="on()" [attr.opened]="menu.opened" [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
+    <div class="triangle" style="clip-path: polygon(0 0, 100% 0%, 100% 100%);"  [attr.opened]="menu.opened" [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
       [matTooltipPosition]="'right'"></div>
   </div>
 </div>

@@ -1,13 +1,15 @@
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
 import { map, throttleTime, Subject, firstValueFrom } from 'rxjs';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, KeyboardEventService, LocalCachService } from 'src/app/library/public-api';
 import { WebFileService } from 'src/app/library/web-file/web-file.service';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ComicsListV2Service } from './comics-list-v2.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
+import { DownloadOptionService } from '../download-option/download-option.service';
+import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 
 @Component({
   selector: 'app-comics-list-v2',
@@ -16,6 +18,10 @@ import { ComicsSelectTypeService } from '../comics-select-type/comics-select-typ
 })
 export class ComicsListV2Component {
   key: string = '';
+
+  is_all = false;
+  selected_length = 0;
+
   @ViewChild('listbox') ListNode: ElementRef;
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
@@ -73,24 +79,14 @@ export class ComicsListV2Component {
     public KeyboardEvent: KeyboardEventService,
     public ComicsSelectType: ComicsSelectTypeService,
     public history: HistoryService,
-    public App: AppDataService
+    public DownloadOption: DownloadOptionService,
+    public App: AppDataService,
+    public DropDownMenu: DropDownMenuService,
+    public LocalCach: LocalCachService
   ) {
     KeyboardEvent.registerGlobalEventY({
       "a": () => {
-        console.log(123);
-
-        const c=this.list.filter(x=>x.selected==true).length
-        console.log(c,this.list.length);
-
-        if(c==this.list.length){
-          this.list.forEach(x=>{
-            x.selected=false
-          })
-        }else{
-          this.list.forEach(x=>{
-            x.selected=true
-          })
-        }
+        this.all()
 
       }
     })
@@ -142,7 +138,7 @@ export class ComicsListV2Component {
           Add: async (obj) => {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
-              x=x.data
+              x = x.data
               return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
             }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
@@ -150,7 +146,7 @@ export class ComicsListV2Component {
           Init: async (obj) => {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
-              x=x.data
+              x = x.data
               return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
             }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
@@ -261,7 +257,7 @@ export class ComicsListV2Component {
         if (this.list.filter(x => x.selected).length == 0) {
           this.list[index].selected = !this.list[index].selected;
         }
-        const list = this.list.filter(x => x.selected)
+        const list = this.getSelectedData();
         e.click(list)
       }
     })
@@ -272,7 +268,141 @@ export class ComicsListV2Component {
 
     }
   }
+  closeEdit() {
+    this.data.is_edit = false;
+    this.list.forEach(x => {
+      x.selected = false
+    })
+  }
+  getSelectedData() {
+    const list = this.list.filter(x => x.selected)
+    return list
+  }
+  download() {
+    const list = this.getSelectedData();
+    this.DownloadOption.open(list)
+  }
+  async DropDownMenuOpen() {
+    const e = await this.DropDownMenu.open( [
+      {
+        name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
+
+          for (let index = 0; index < list.length; index++) {
+            await this.resetReadingProgress(list[index].id)
+          }
+        }
+      },
+      {
+        name: "重置数据", id: "reset_data", click: async (list) => {
+          for (let index = 0; index < list.length; index++) {
+            this.DbController.delWebDbDetail(list[index].id)
+            const res= await this.DbController.getDetail(list[index].id)
+            for (let index = 0; index < res.chapters.length; index++) {
+             const chapter_id=res.chapters[index].id;
+             await this.DbController.delWebDbPages(chapter_id)
+             const pages = await this.DbController.getPages(chapter_id)
+             for (let index = 0; index < pages.length; index++) {
+               await this.DbController.delWebDbImage(pages[index].src)
+               await this.DbController.getImage(pages[index].src)
+             }
+            }
+           }
+        }
+      },
+      {
+        name: "提前加载", id: "load", click: async (list) => {
+          for (let index = 0; index < list.length; index++) {
+           const res= await this.DbController.getDetail(list[index].id)
+           for (let index = 0; index < res.chapters.length; index++) {
+            const chapter_id=res.chapters[index].id;
+            const pages = await this.DbController.getPages(chapter_id)
+            for (let index = 0; index < pages.length; index++) {
+              await this.DbController.getImage(pages[index].src)
+            }
+           }
+          }
+        }
+      },
+      {
+        name: "重新获取", id: "reset_get", click: async (list) => {
+          for (let index = 0; index < list.length; index++) {
+            this.DbController.delWebDbDetail(list[index].id)
+            const res= await this.DbController.getDetail(list[index].id)
+            for (let index = 0; index < res.chapters.length; index++) {
+             const chapter_id=res.chapters[index].id;
+             await this.DbController.delWebDbPages(chapter_id)
+             const pages = await this.DbController.getPages(chapter_id)
+            }
+           }
+        }
+      },
+      {
+        name: "删除", id: "delete", click: async (list) => {
+
+          for (let index = 0; index < list.length; index++) {
+            await this.delCaches(list[index].id)
+          }
+        }
+      },
+    ])
+    if (e) {
+      const list = this.getSelectedData();
+      (e as any).click(list)
+    }
+
+
+  }
+  async resetReadingProgress(comics_id) {
+    const detail = await this.DbController.getDetail(comics_id)
+    for (let index = 0; index < detail.chapters.length; index++) {
+      const x = detail.chapters[index];
+      firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 }))
+      if (index == 0) firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id }))
+    }
+  }
+
+  async delCaches(comics_id) {
+    await firstValueFrom(this.webDb.deleteByKey('history', comics_id.toString()))
+    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id))
+    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id.toString()))
+    this.DbController.delComicsAllImages(comics_id)
+  }
+  async cache() {
+    const list = this.getSelectedData();
+    for (let index = 0; index < list.length; index++) {
+      await this.LocalCach.save(list[index].id);
+    }
+  }
+
+  async all() {
+    const c = this.list.filter(x => x.selected == true).length
+
+    if (c == this.list.length) {
+      this.list.forEach(x => {
+        x.selected = false
+      })
+    } else {
+      this.list.forEach(x => {
+        x.selected = true
+      })
+    }
+    this.getIsAll();
+  }
+
+  async getIsAll() {
+    const c = this.list.filter(x => x.selected == true).length
+    this.selected_length = c;
+
+    if (c == this.list.length) {
+      this.is_all = true;
+    } else {
+      this.is_all = false;
+    }
+
+
+  }
   async on_list($event: MouseEvent) {
+
     const node = $event.target as HTMLElement;
     if (node.getAttribute("id") == 'comics_list') {
       this.list.forEach(x => x.selected = false)
@@ -304,6 +434,7 @@ export class ComicsListV2Component {
       }
 
     }
+    this.getIsAll();
   }
 
   async on(index) {
@@ -377,7 +508,7 @@ export class ComicsListV2Component {
 
   async init() {
     this.page_num = 1;
-    if( this.ListNode) this.ListNode.nativeElement.scrollTop = 0;
+    if (this.ListNode) this.ListNode.nativeElement.scrollTop = 0;
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
     this.overflow()
   }

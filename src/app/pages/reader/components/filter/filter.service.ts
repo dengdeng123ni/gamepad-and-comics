@@ -20,7 +20,7 @@ export class FilterService {
   }
   public opened: boolean = false;
   init() {
-    this.svg.del('page');
+     this.svg.del('page');
      this.get();
   }
   open(config?: MatDialogConfig) {

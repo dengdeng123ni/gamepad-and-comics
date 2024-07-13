@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuService } from '../menu/menu.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-index-toolbar',
@@ -9,7 +10,7 @@ import { MenuService } from '../menu/menu.service';
 export class IndexToolbarComponent {
   isfullscreen = !!document.fullscreenElement;
   opened=false;
-  constructor(public menu:MenuService){
+  constructor(public menu:MenuService,public data:DataService){
 
   }
   isFullChange() {
@@ -27,5 +28,8 @@ export class IndexToolbarComponent {
 
   on(){
     this.menu.opened=!this.menu.opened;
+  }
+  on1(){
+    this.data.is_edit=!this.data.is_edit;
   }
 }
