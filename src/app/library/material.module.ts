@@ -1,6 +1,6 @@
 
 import { NgModule } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 
 import { A11yModule } from '@angular/cdk/a11y';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
@@ -48,6 +48,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FormsModule } from '@angular/forms';
 import { ImageComponent } from './image/image.component';
+import { HistoryComicsListComponent } from './history-comics-list/history-comics-list.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -96,6 +97,7 @@ import { ImageComponent } from './image/image.component';
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    CommonModule
   ],
   exports: [
     FormsModule,
@@ -148,6 +150,7 @@ import { ImageComponent } from './image/image.component';
   ],
   declarations: [
     ImageComponent,
+    HistoryComicsListComponent
   ]
 })
 export class MaterialModule {

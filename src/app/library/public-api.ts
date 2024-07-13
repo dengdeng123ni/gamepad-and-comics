@@ -35,6 +35,7 @@ export * from './utils/utils.service'
 export * from './query/query-controller.service'
 export * from './query/query-event.service'
 export * from './history/history.service'
+export * from './history-comics-list/history-comics-list.service'
 
 export * from './pulg/pulg.service'
 

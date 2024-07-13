@@ -169,7 +169,7 @@ const dbConfig: DBConfig = {
   declarations: [
     AppComponent,
     ContextMenuComponent,
-    GamepadVioceComponent
+    GamepadVioceComponent,
   ],
   imports: [
     BrowserModule,

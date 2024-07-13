@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -110,8 +110,15 @@ export class AppComponent {
     public LocalCach: LocalCachService,
     public tab: TabService,
     public svg:SvgService,
+    public HistoryComicsList:HistoryComicsListService,
+    public KeyboardEvent:KeyboardEventService,
     public App: AppDataService
   ) {
+    this.KeyboardEvent.registerGlobalEvent({
+      "/": () => this.HistoryComicsList.isToggle(),
+
+    })
+
     //  setTimeout(async ()=>{
     //   const device = await (navigator as any).bluetooth.requestDevice({
     //     optionalServices: ["battery_service", "device_information"],

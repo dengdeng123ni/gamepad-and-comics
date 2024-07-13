@@ -40,7 +40,6 @@ export class IndexComponent {
     public TabToolbar:TabToolbarService,
     public DropDownMenu:DropDownMenuService
   ) {
-
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS: () => {
         this.GamepadToolbar.isToggle()
