@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GamepadEventService } from 'src/app/library/public-api';
 import { HistoryComicsListComponent } from './history-comics-list.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HistoryComicsListService {
 
-  constructor( public _dialog: MatDialog, public GamepadEvent: GamepadEventService) {
+  constructor( public _dialog: MatDialog,private _sheet: MatBottomSheet, public GamepadEvent: GamepadEventService) {
     GamepadEvent.registerAreaEvent('history_comics_list', {
       B: () => setTimeout(() => this.close())
     })
@@ -18,6 +19,8 @@ export class HistoryComicsListService {
   }
   public opened: boolean = false;
   open(config?:MatDialogConfig) {
+    this._dialog.closeAll();
+    this._sheet.dismiss();
     if (this.opened == false) {
       const dialogRef = this._dialog.open(HistoryComicsListComponent,{ panelClass: "_history_comics_list",});
       document.body.setAttribute("locked_region","history_comics_list");
