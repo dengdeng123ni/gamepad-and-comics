@@ -5,6 +5,7 @@ import { ExportSettingsService } from '../export-settings/export-settings.servic
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { CurrentService } from '../../services/current.service';
 import { Router } from '@angular/router';
+import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 interface Item {
   id: string | number,
   cover: string,
@@ -30,8 +31,8 @@ export class ChapterListMode1Component {
   pattern = ''
   is_locked = true;
 
-  selected_length=0;
-  is_all=false;
+  selected_length = 0;
+  is_all = false;
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
@@ -55,7 +56,8 @@ export class ChapterListMode1Component {
     public doublePageThumbnail: DoublePageThumbnailService,
     public ContextMenuEvent: ContextMenuEventService,
     public exportSettings: ExportSettingsService,
-    public DbController: DbControllerService
+    public DbController: DbControllerService,
+    public DropDownMenu: DropDownMenuService
   ) {
     ContextMenuEvent.register('chapter_item', {
       open: () => {
@@ -64,30 +66,14 @@ export class ChapterListMode1Component {
       close: (e: any) => {
 
       },
-      on: async (e: { value: string; id: string; }) => {
+      on: async (e: any) => {
 
         const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
         if (this.data.chapters.filter(x => x.selected).length == 0) {
           this.data.chapters[index].selected = !this.data.chapters[index].selected;
         }
-        if (e.id == "delet1e") {
-        } else if (e.id == "thumbnail") {
-          const id = e.value
-          const index = await this.current._getChapterIndex(id);
-          this.doublePageThumbnail.open({
-            chapter_id: id,
-            page_index: index
-          })
 
-        } else if (e.id == "loading_ahead") {
-          const id = e.value;
-          const pages = await this.DbController.getPages(id)
-          for (let index = 0; index < pages.length; index++) {
-            await this.DbController.getImage(pages[index].src)
-
-          }
-        }
-        else if (e.id == "export") {
+         if (e.id == "export") {
           const node = document.getElementById("menu_content");
           let { x, y, width, height } = node!.getBoundingClientRect();
           if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
@@ -101,22 +87,9 @@ export class ChapterListMode1Component {
             panelClass: "reader_settings_buttom",
             backdropClass: "reader_settings_buttom_backdrop"
           })
-        } else if (e.id == "reset_data") {
-          const id = e.value;
-          await this.DbController.delWebDbPages(id)
-          const pages = await this.DbController.getPages(id)
-          for (let index = 0; index < pages.length; index++) {
-            await this.DbController.delWebDbImage(pages[index].src)
-
-          }
-        } else if (e.id == "retrieve_data") {
-          const id = e.value;
-          await this.DbController.delWebDbPages(id)
-
-        } else if (e.id == "delete_data") {
-          await this.current._delChapter(this.data.comics_id, e.value)
-          const r = await this.DbController.getDetail(this.data.comics_id);
-          this.data.chapters = r.chapters;
+        } else {
+          const list =  this.data.chapters.filter(x => x.selected);
+          (e as any).click(list)
         }
       },
       menu: [
@@ -124,10 +97,49 @@ export class ChapterListMode1Component {
         { name: "下载", id: "export" },
         {
           name: "数据", id: "data", submenu: [
-            { name: "提前加载", id: "loading_ahead" },
-            { name: "重置数据", id: "reset_data" },
-            { name: "重新获取", id: "retrieve_data" },
-            { name: "删除", id: "delete_data" },
+            {
+              name: "重置数据", id: "reset_data", click: async (list) => {
+                for (let index = 0; index < list.length; index++) {
+                  const chapter_id = list[index].id;
+                  await this.DbController.delWebDbPages(chapter_id)
+                  const pages = await this.DbController.getPages(chapter_id)
+                  for (let index = 0; index < pages.length; index++) {
+                    await this.DbController.delWebDbImage(pages[index].src)
+                    await this.DbController.getImage(pages[index].src)
+                  }
+                }
+              }
+            },
+            {
+              name: "提前加载", id: "load", click: async (list) => {
+                for (let index = 0; index < list.length; index++) {
+                  const chapter_id = list.id;
+                  const pages = await this.DbController.getPages(chapter_id)
+                  for (let index = 0; index < pages.length; index++) {
+                    await this.DbController.getImage(pages[index].src)
+                  }
+                }
+              }
+            },
+            {
+              name: "重新获取", id: "reset_get", click: async (list) => {
+                for (let index = 0; index < list.length; index++) {
+                  const chapter_id = list[index].id;
+                  await this.DbController.delWebDbPages(chapter_id)
+                  const pages = await this.DbController.getPages(chapter_id)
+                }
+              }
+            },
+            {
+              name: "删除", id: "delete", click: async (list) => {
+
+                for (let index = 0; index < list.length; index++) {
+                  await this.current._delChapter(this.data.comics_id, list[index].id)
+                  const r = await this.DbController.getDetail(this.data.comics_id);
+                  this.data.chapters = r.chapters;
+                }
+              }
+            },
           ]
         },
 
@@ -172,8 +184,8 @@ export class ChapterListMode1Component {
 
 
   }
-  closeEdit(){
-    this.data.is_edit=false;
+  closeEdit() {
+    this.data.is_edit = false;
   }
   on($event: MouseEvent) {
     const node = $event.target as HTMLElement;
@@ -207,19 +219,65 @@ export class ChapterListMode1Component {
     }
     this.getIsAll();
   }
-  download(){
+  download() {
     const node = document.getElementById("download123");
-    console.log(node);
-
     let { x, y, width, height } = node!.getBoundingClientRect();
-    console.log(x,y);
-
-     x = window.innerWidth-300;
-     y = window.innerHeight;
+    x = window.innerWidth - 300;
+    y = window.innerHeight;
     this.exportSettings.open({
     })
   }
-  DropDownMenuOpen(){
+  async DropDownMenuOpen() {
+    const e = await this.DropDownMenu.open([
+      {
+        name: "重置数据", id: "reset_data", click: async (list) => {
+          for (let index = 0; index < list.length; index++) {
+            const chapter_id = list[index].id;
+            await this.DbController.delWebDbPages(chapter_id)
+            const pages = await this.DbController.getPages(chapter_id)
+            for (let index = 0; index < pages.length; index++) {
+              await this.DbController.delWebDbImage(pages[index].src)
+              await this.DbController.getImage(pages[index].src)
+            }
+          }
+        }
+      },
+      {
+        name: "提前加载", id: "load", click: async (list) => {
+          for (let index = 0; index < list.length; index++) {
+            const chapter_id = list.id;
+            const pages = await this.DbController.getPages(chapter_id)
+            for (let index = 0; index < pages.length; index++) {
+              await this.DbController.getImage(pages[index].src)
+            }
+          }
+        }
+      },
+      {
+        name: "重新获取", id: "reset_get", click: async (list) => {
+          for (let index = 0; index < list.length; index++) {
+            const chapter_id = list[index].id;
+            await this.DbController.delWebDbPages(chapter_id)
+            const pages = await this.DbController.getPages(chapter_id)
+          }
+        }
+      },
+      {
+        name: "删除", id: "delete", click: async (list) => {
+
+          for (let index = 0; index < list.length; index++) {
+            await this.current._delChapter(this.data.comics_id, list[index].id)
+            const r = await this.DbController.getDetail(this.data.comics_id);
+            this.data.chapters = r.chapters;
+          }
+        }
+      },
+    ])
+    if (e) {
+      const list =  this.data.chapters.filter(x => x.selected);
+      (e as any).click(list)
+    }
+
 
   }
   close() {

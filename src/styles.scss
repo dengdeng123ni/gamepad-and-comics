@@ -232,6 +232,13 @@ body[pattern=gamepad][locked_region=content_menu]{
   top: 0;
 }
 
+[type=checkbox][select=true]{
+  &::after {
+    width: calc(100% + 6px) !important;
+    top: 0px !important;
+  }
+}
+
 .item123,[region=item123]{
   position: relative;
 

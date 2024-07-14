@@ -76,7 +76,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.RoutingController.navigate('list')
   }
   routerDetail() {
-    this.router.navigate(['/detail', this.data.comics_id]);
+    this.router.navigate(['/detail',this.current.origin, this.data.comics_id]);
   }
 
   ngOnDestroy() {

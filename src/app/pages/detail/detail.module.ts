@@ -19,6 +19,7 @@ import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.
 import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard-toolbar.component';
 import { ComicsToolbarComponent } from './components/comics-toolbar/comics-toolbar.component';
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
+import { DropDownMenuComponent } from './components/drop-down-menu/drop-down-menu.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-to
     IndexToolbarComponent,
     KeyboardToolbarComponent,
     ComicsToolbarComponent,
-    GamepadToolbarComponent
+    GamepadToolbarComponent,
+    DropDownMenuComponent
   ],
   imports: [
     CommonModule,
