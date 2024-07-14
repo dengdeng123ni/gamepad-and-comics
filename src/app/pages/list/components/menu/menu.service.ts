@@ -13,6 +13,8 @@ export class MenuService {
   mode = 'side';
   position: "start" | "end" = 'start';
   current_menu_id=null
+
+
   constructor(public data: DataService,
     public webDb: NgxIndexedDBService,
 

@@ -12,6 +12,7 @@ import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.servic
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ControllerSettingsService } from '../controller-settings/controller-settings.service';
 import { UrlToComicsIdService } from '../url-to-comics-id/url-to-comics-id.service';
+import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -58,6 +59,8 @@ export class MenuComponent {
     }
   }
   change$ = null;
+
+
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -74,7 +77,7 @@ export class MenuComponent {
     public ContextMenuController: ContextMenuControllerService,
     public ContextMenuEvent: ContextMenuEventService,
     public ControllerSettings: ControllerSettingsService,
-
+    public DropDownMenu: DropDownMenuService,
     public UrlToComicsId: UrlToComicsIdService,
     public route: ActivatedRoute,
     private zone: NgZone
@@ -113,8 +116,10 @@ export class MenuComponent {
             }
           }
         )
+        this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })
+      this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==this.AppData.origin)
       this.data.menu.push({
         id: 'cached',
         icon: "cached",
@@ -204,7 +209,24 @@ export class MenuComponent {
 
 
   }
+  async openOrigin(){
+    let list=[];
+    Object.keys(this.DbEvent.Events).forEach(x => {
+      if (x == "temporary_file") return
+      if (x == "local_cache") return
+      let obj = {
+        id: x,
+        name: this.DbEvent.Configs[x].name
+      };
+      list.push(obj)
+    })
 
+     let obj:any=await this.DropDownMenu.open(list);
+     if(obj){
+      this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==obj.id)
+
+     }
+  }
   onMenu(e) {
     const node = document.querySelector("[menu_key=_gh_settings]")
     const p = node.getBoundingClientRect();

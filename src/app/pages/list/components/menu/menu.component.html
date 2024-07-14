@@ -3,8 +3,31 @@
   ">
     <input type="text" matInput (click)="getClipboardContents()">
   </mat-form-field>
+  <div>
+    <div *ngIf="data.menu_2_obj.submenu" [attr.type]="'expansion'">
+      <button mat-button style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
+        [attr.default]="false" (click)="openOrigin()">
+        <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
+        <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'" >
+          {{data.menu_2_obj.name}}
+        </div>
+      </button>
+      <button [attr.default]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
+        [attr.select]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
+        [attr.selected]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)" [attr._id]="data.menu_2_obj.id+'_'+c.id"
+        *ngFor="let c of data.menu_2_obj.submenu;let index2=index" mat-button class="item item1" [attr.region]="'menu_item'" (click)="on($event,c,{
+            id:data.menu_2_obj.id,
+            name:data.menu_2_obj.name
+          })">
+        <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{c.icon}}</mat-icon>
+        <div class="name" [attr.svg_filter]="'text_primary'">
+          {{c.name}}
+        </div>
+      </button>
+    </div>
+  </div>
   <div *ngFor="let n of data.menu;let index=index">
-    <div *ngIf="n.submenu" [attr.type]="'expansion'">
+    <!-- <div *ngIf="n.submenu" [attr.type]="'expansion'">
       <mat-accordion>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
@@ -29,13 +52,15 @@
           </button>
         </mat-expansion-panel>
       </mat-accordion>
-    </div>
+    </div> -->
     <div *ngIf="n.type=='separator'" [attr.type]="'separator'">
       <mat-divider style="margin: 8px 16px;"></mat-divider>
     </div>
     <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
-      <button  [attr.default]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''" [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''" [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item" [attr.region]="'menu_item'"
-        (click)="on($event,n)" [attr._id]="n.id">
+      <button [attr.default]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+        [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+        [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
+        [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
         <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
         <div class="name" [attr.svg_filter]="'text_primary'">
           {{n.name}}
@@ -43,9 +68,8 @@
       </button>
     </div>
   </div>
-  <button  [attr.menu_key]="'_gh_settings'"
-           [attr.menu_value]="'_gh_settings'"
-    mat-icon-button class="settings" (click)="onMenu($event)">
+  <button [attr.menu_key]="'_gh_settings'" [attr.menu_value]="'_gh_settings'" mat-icon-button class="settings"
+    (click)="onMenu($event)">
     <mat-icon [attr.svg_filter]="'text_primary'" class="icon">settings</mat-icon>
   </button>
 </div>

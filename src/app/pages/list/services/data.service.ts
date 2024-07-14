@@ -28,6 +28,10 @@ export class DataService {
 
 
   menu = [];
+  menu_2=[];
+  menu_2_obj:any={
+
+  };
 
   qurye_page_type = "cached"
 
