@@ -102,7 +102,7 @@ export class LocalCachService {
         verticalPosition: 'bottom',
       });
     }
-    this._snackBar.open(`${res.title}`, '', {
+    this._snackBar.open(`${res.title} 缓存完成`, '', {
       duration: 5000,
       horizontalPosition: 'end',
       verticalPosition: 'bottom',

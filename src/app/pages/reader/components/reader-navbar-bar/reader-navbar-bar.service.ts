@@ -43,7 +43,7 @@ export class ReaderNavbarBarService {
     if (this.opened == true) {
       this.opened = false;
       this.change$.next(false)
-      if (document.body.getAttribute("locked_region") == "reader_navbar_bar") document.body.setAttribute("locked_region", "reader")
+      if (document.body.getAttribute("locked_region") == "reader_navbar_bar") document.body.setAttribute("locked_region",document.body.getAttribute("router"))
 
     }
   }

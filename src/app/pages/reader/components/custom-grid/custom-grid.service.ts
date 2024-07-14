@@ -21,7 +21,7 @@ export class CustomGridService {
       });
       document.body.setAttribute("locked_region", "double_page_thumbnail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "double_page_thumbnail" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "double_page_thumbnail" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }

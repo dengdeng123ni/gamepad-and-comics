@@ -31,7 +31,7 @@ export class DownloadOptionService {
       });
       document.body.setAttribute("locked_region", "download_option")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "download_option" && this.opened) document.body.setAttribute("locked_region", "list")
+        if (document.body.getAttribute("locked_region") == "download_option" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }

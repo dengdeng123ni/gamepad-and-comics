@@ -50,7 +50,7 @@ export class UnlockService {
       });
       document.body.setAttribute("locked_region", "chapter_unlock")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "chapter_unlock" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "chapter_unlock" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }

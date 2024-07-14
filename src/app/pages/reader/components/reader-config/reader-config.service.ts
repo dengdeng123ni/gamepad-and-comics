@@ -31,7 +31,7 @@ export class ReaderConfigService {
       });
       document.body.setAttribute("locked_region", "reader_config")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "reader_config" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "reader_config" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }

@@ -19,7 +19,7 @@ export class DataService {
   page_index: number = 0;
   page_id: string = "";
 
-  is_edit = false;
+  is_edit = true;
   edit = false
   is_locked = true;
   is_cache = false;

@@ -54,13 +54,13 @@ export class IndexComponent {
       }
     })
     document.body.setAttribute("router", "detail")
-    document.body.setAttribute("locked_region", "detail")
+    document.body.setAttribute("locked_region",document.body.getAttribute("router"))
   }
   openedChange(bool) {
     //  if(bool){
     //   document.body.setAttribute("locked_region", "menu")
     //  }else{
-    //   if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region", "list")
+    //   if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region",document.body.getAttribute("router"))
     //  }
     this.menu.post()
   }

@@ -50,7 +50,7 @@ export class IndexComponent {
       "o": () => this.TabToolbar.isToggle(),
     })
     document.body.setAttribute("router", "list")
-    document.body.setAttribute("locked_region", "list")
+    document.body.setAttribute("locked_region",document.body.getAttribute("router"))
     // this.Current.init();
     GamepadEvent.registerConfig("menu", { region: ["menu_item"] })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
@@ -90,7 +90,7 @@ export class IndexComponent {
     //  if(bool){
     //   document.body.setAttribute("locked_region", "menu")
     //  }else{
-    //   if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region", "list")
+    //   if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region",document.body.getAttribute("router"))
     //  }
     this.menu.post()
   }

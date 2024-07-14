@@ -369,16 +369,16 @@ export class GamepadControllerService {
     } else {
       if (this.router.url.split("/")[1] == "") {
         document.body.setAttribute("router", "list")
-        document.body.setAttribute("locked_region", "list")
+        document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         return
       }
       if (this.router.url.split("/")[1] == "detail") {
         document.body.setAttribute("router", "detail")
-        document.body.setAttribute("locked_region", "detail")
+        document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         return
       }
       document.body.setAttribute("router", "reader")
-      document.body.setAttribute("locked_region", "reader")
+      document.body.setAttribute("locked_region",document.body.getAttribute("router"))
     }
   }
 

@@ -16,8 +16,6 @@
   <div class="container" [attr.svg_filter]="'background_secondary'" (mouseleave)="mouseleave($event)" [attr.edit]="data.is_edit" >
 
     <div class="content" [attr.svg_filter]="'background_primary'">
-      <!-- <app-comics-toolbar></app-comics-toolbar> -->
-      <app-edit-toolbar *ngIf="data.is_edit"></app-edit-toolbar>
       <app-chapter-list-mode1 *ngIf="data.is_init_free"></app-chapter-list-mode1>
       <!-- <app-chapter-list-mode2></app-chapter-list-mode2> -->
 

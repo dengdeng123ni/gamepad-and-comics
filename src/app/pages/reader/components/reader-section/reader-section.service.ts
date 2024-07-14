@@ -29,7 +29,7 @@ export class ReaderSectionService {
       });
       document.body.setAttribute("locked_region", "reader_section")
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
       this.opened = true;
@@ -51,7 +51,7 @@ export class ReaderSectionService {
         });
         document.body.setAttribute("locked_region", "reader_section")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region", "reader")
+          if (document.body.getAttribute("locked_region") == "reader_section" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
           this.opened = false;
         });
       }

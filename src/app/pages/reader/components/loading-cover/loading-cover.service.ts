@@ -27,7 +27,7 @@ export class LoadingCoverService {
       });
       document.body.setAttribute("locked_region", "_loading_cover")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "_loading_cover" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "_loading_cover" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }

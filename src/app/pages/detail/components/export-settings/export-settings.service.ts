@@ -28,7 +28,7 @@ export class ExportSettingsService {
       document.body.setAttribute("locked_region", "export_settings")
 
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region") == "export_settings" && this.opened) document.body.setAttribute("locked_region", "detail")
+        if (document.body.getAttribute("locked_region") == "export_settings" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
       this.opened = true;

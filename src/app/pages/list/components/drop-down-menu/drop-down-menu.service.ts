@@ -31,7 +31,7 @@ export class DropDownMenuService {
       const sheetRef = this._sheet.open(DropDownMenuComponent, { autoFocus: true});
       document.body.setAttribute("locked_region", "one_page_mode1")
       sheetRef.afterDismissed().subscribe(() => {
-        if (document.body.getAttribute("locked_region") == "one_page_mode1" && this.opened) document.body.setAttribute("locked_region", "list")
+        if (document.body.getAttribute("locked_region") == "one_page_mode1" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
       this.opened = true;

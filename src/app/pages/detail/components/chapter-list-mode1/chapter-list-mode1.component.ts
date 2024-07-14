@@ -30,6 +30,9 @@ export class ChapterListMode1Component {
   pattern = ''
   is_locked = true;
 
+  selected_length=0;
+  is_all=false;
+
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
 
@@ -118,7 +121,7 @@ export class ChapterListMode1Component {
       },
       menu: [
         { name: "缩略图", id: "thumbnail" },
-        { name: "导出", id: "export" },
+        { name: "下载", id: "export" },
         {
           name: "数据", id: "data", submenu: [
             { name: "提前加载", id: "loading_ahead" },
@@ -141,6 +144,36 @@ export class ChapterListMode1Component {
     if (!this.data.is_locked) this.is_locked = false;
     if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
 
+  }
+  async all() {
+    const c = this.data.chapters.filter(x => x.selected == true).length
+
+    if (c == this.data.chapters.length) {
+      this.data.chapters.forEach(x => {
+        x.selected = false
+      })
+    } else {
+      this.data.chapters.forEach(x => {
+        x.selected = true
+      })
+    }
+    this.getIsAll();
+  }
+
+  async getIsAll() {
+    const c = this.data.chapters.filter(x => x.selected == true).length
+    this.selected_length = c;
+
+    if (c == this.data.chapters.length) {
+      this.is_all = true;
+    } else {
+      this.is_all = false;
+    }
+
+
+  }
+  closeEdit(){
+    this.data.is_edit=false;
   }
   on($event: MouseEvent) {
     const node = $event.target as HTMLElement;
@@ -172,6 +205,22 @@ export class ChapterListMode1Component {
       }
 
     }
+    this.getIsAll();
+  }
+  download(){
+    const node = document.getElementById("download123");
+    console.log(node);
+
+    let { x, y, width, height } = node!.getBoundingClientRect();
+    console.log(x,y);
+
+     x = window.innerWidth-300;
+     y = window.innerHeight;
+    this.exportSettings.open({
+    })
+  }
+  DropDownMenuOpen(){
+
   }
   close() {
     if (this.data.is_edit) return

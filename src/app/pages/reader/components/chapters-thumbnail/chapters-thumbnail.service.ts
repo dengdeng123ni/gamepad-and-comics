@@ -28,7 +28,7 @@ export class ChaptersThumbnailService {
         });
         document.body.setAttribute("locked_region", "chapters_thumbnail")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "chapters_thumbnail" && this.opened) document.body.setAttribute("locked_region", "reader")
+          if (document.body.getAttribute("locked_region") == "chapters_thumbnail" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
           this.opened = false;
         });
 

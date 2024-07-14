@@ -69,7 +69,7 @@ export class IndexComponent {
     //   KeyboardToolbar.open()
     // },1000)
     document.body.setAttribute("router", "reader")
-    document.body.setAttribute("locked_region", "reader")
+    document.body.setAttribute("locked_region",document.body.getAttribute("router"))
 
     // ReaderConfig.open();
     // this.LoadingCover.open();

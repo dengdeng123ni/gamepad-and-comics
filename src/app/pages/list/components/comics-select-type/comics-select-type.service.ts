@@ -38,7 +38,7 @@ export class ComicsSelectTypeService {
       });
       document.body.setAttribute("locked_region", "comics_type")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "comics_type" && this.opened) document.body.setAttribute("locked_region", "list")
+        if (document.body.getAttribute("locked_region") == "comics_type" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }

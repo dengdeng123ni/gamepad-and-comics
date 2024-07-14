@@ -22,7 +22,7 @@ export class PulgJavascriptService {
       });
       document.body.setAttribute("locked_region", "pulg_javascript")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "pulg_javascript" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "pulg_javascript" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }
@@ -45,7 +45,7 @@ export class PulgJavascriptService {
   //       const sheetRef = this._sheet.open(PulgJavascriptComponent, { backdropClass: "_pulg_javascript_bg", panelClass: "_pulg_javascript" });
   //       document.body.setAttribute("locked_region", "pulg_javascript")
   //       sheetRef.afterDismissed().subscribe(() => {
-  //         if (document.body.getAttribute("locked_region") == "pulg_javascript" && this.opened) document.body.setAttribute("locked_region", "reader")
+  //         if (document.body.getAttribute("locked_region") == "pulg_javascript" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
   //         this.opened = false;
   //       });
   //     }

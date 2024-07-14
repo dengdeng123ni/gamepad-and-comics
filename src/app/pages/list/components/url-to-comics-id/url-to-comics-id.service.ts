@@ -31,7 +31,7 @@ export class UrlToComicsIdService {
       });
       document.body.setAttribute("locked_region", "url_to_comics_id")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "url_to_comics_id" && this.opened) document.body.setAttribute("locked_region", "list")
+        if (document.body.getAttribute("locked_region") == "url_to_comics_id" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }

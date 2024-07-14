@@ -27,7 +27,7 @@ export class OnePageThumbnailMode3Service {
         const sheetRef = this._sheet.open(OnePageThumbnailMode3Component, { backdropClass: "sheet_bg_transparent", panelClass: "_side_bottom", data: data });
         document.body.setAttribute("locked_region", "one_page_mode3")
         sheetRef.afterDismissed().subscribe(() => {
-          if (document.body.getAttribute("locked_region") == "one_page_mode3" && this.opened) document.body.setAttribute("locked_region", "reader")
+          if (document.body.getAttribute("locked_region") == "one_page_mode3" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
           this.opened = false;
         });
       }

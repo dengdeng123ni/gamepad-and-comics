@@ -28,7 +28,7 @@ export class FilterService {
       const dialogRef = this._dialog.open(FilterComponent, config);
       document.body.setAttribute("locked_region", "chapters_list")
       dialogRef.afterClosed().subscribe(() => {
-        if (document.body.getAttribute("locked_region") == "chapters_list" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "chapters_list" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
       this.opened = true;

@@ -25,7 +25,7 @@ export class ComicsDetailService {
       });
       document.body.setAttribute("locked_region", "_comics_detail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "_comics_detail" && this.opened) document.body.setAttribute("locked_region", "reader")
+        if (document.body.getAttribute("locked_region") == "_comics_detail" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }
