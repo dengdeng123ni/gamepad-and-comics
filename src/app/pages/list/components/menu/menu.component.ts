@@ -232,6 +232,7 @@ export class MenuComponent {
     const p = node.getBoundingClientRect();
     this.ContextMenuController.openMenu(node, p.left, p.top)
   }
+
   async getClipboardContents() {
     try {
       const clipboardItems = await navigator.clipboard.read();
@@ -310,5 +311,8 @@ export class MenuComponent {
     this.temporaryFile.chapters = chapters;
     this.temporaryFile.files = [...this.temporaryFile.files, ...files_arr];
 
+  }
+  on1(){
+    this.menu.mode_1= this.menu.mode_1==0?1:0;
   }
 }

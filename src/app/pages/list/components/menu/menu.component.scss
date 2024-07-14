@@ -238,3 +238,28 @@
     min-width: 24px;
   }
 }
+
+
+
+.switch_left {
+  align-items: center;
+  flex-direction: column;
+  width: 0.25rem;
+  height: 1.5rem;
+  display: flex;
+  background: #50575b;
+
+
+
+}
+.switch_left:hover{
+
+
+}
+.switch_left_position{
+  opacity: 0;
+  &:hover{
+    opacity: 1;
+
+  }
+}

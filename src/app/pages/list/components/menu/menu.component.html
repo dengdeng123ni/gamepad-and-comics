@@ -4,7 +4,7 @@
     <input type="text" matInput (click)="getClipboardContents()">
   </mat-form-field>
   <div>
-    <div *ngIf="data.menu_2_obj.submenu" [attr.type]="'expansion'">
+    <div *ngIf="data.menu_2_obj.submenu&&menu.mode_1==1" [attr.type]="'expansion'">
       <button mat-button style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
         [attr.default]="false" (click)="openOrigin()">
         <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
@@ -27,7 +27,7 @@
     </div>
   </div>
   <div *ngFor="let n of data.menu;let index=index">
-    <!-- <div *ngIf="n.submenu" [attr.type]="'expansion'">
+    <div *ngIf="n.submenu&&menu.mode_1==0" [attr.type]="'expansion'">
       <mat-accordion>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
@@ -52,7 +52,7 @@
           </button>
         </mat-expansion-panel>
       </mat-accordion>
-    </div> -->
+    </div>
     <div *ngIf="n.type=='separator'" [attr.type]="'separator'">
       <mat-divider style="margin: 8px 16px;"></mat-divider>
     </div>
@@ -72,4 +72,25 @@
     (click)="onMenu($event)">
     <mat-icon [attr.svg_filter]="'text_primary'" class="icon">settings</mat-icon>
   </button>
+  <div class="switch_left_position" style="    position: absolute;
+  right: 0px;
+  top: 10vh;
+">
+    <div style="
+        min-width: 16px;
+        height: 36px;
+        max-width: 16px;
+        background: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      " (click)="on1()" [attr.opened]="menu.opened" [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
+      [matTooltipPosition]="'right'">
+      <div class="switch_left">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+    </div>
+  </div>
 </div>
