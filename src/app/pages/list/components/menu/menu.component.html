@@ -4,7 +4,7 @@
     <input type="text" matInput (click)="getClipboardContents()">
   </mat-form-field>
   <div>
-    <div *ngIf="data.menu_2_obj.submenu&&menu.mode_1==1" [attr.type]="'expansion'">
+    <div *ngIf="data.menu_2_obj&&data.menu_2_obj.submenu&&menu.mode_1==1" [attr.type]="'expansion'">
       <button mat-button style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
         [attr.default]="false" (click)="openOrigin()">
         <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
@@ -73,13 +73,13 @@
     <mat-icon [attr.svg_filter]="'text_primary'" class="icon">settings</mat-icon>
   </button>
   <div class="switch_left_position" style="    position: absolute;
-  right: 0px;
+  right: -10px;
   top: 10vh;
 ">
     <div style="
-        min-width: 16px;
+        min-width: 36px;
         height: 36px;
-        max-width: 16px;
+        max-width: 36px;
         background: transparent;
         display: flex;
         justify-content: center;
