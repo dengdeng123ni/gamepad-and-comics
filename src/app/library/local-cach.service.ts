@@ -36,11 +36,7 @@ export class LocalCachService {
         return res.data
       },
       getPages: async (id: string) => {
-        console.log(id);
-
         let res = (await firstValueFrom(this.webDb.getByID('local_pages', id.toString())) as any)
-        console.log(res);
-
         return res.data
       },
       getImage: async (_id: string) => {
@@ -84,7 +80,6 @@ export class LocalCachService {
   async save(id: any) {
     this.DbEvent.Configs[this.AppData.origin].is_cache = true;
     let res = await this.DbController.getDetail(id);
-    await this.DbController.getImage(res.cover)
     res.id = `7700_${res.id}`.toString();
     await this.DbController.getImage(res.cover)
     for (let index = 0; index < res.chapters.length; index++) {

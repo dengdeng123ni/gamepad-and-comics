@@ -49,6 +49,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { FormsModule } from '@angular/forms';
 import { ImageComponent } from './image/image.component';
 import { HistoryComicsListComponent } from './history-comics-list/history-comics-list.component';
+import { ReadRecordComponent } from './read-record/read-record.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -150,7 +151,8 @@ import { HistoryComicsListComponent } from './history-comics-list/history-comics
   ],
   declarations: [
     ImageComponent,
-    HistoryComicsListComponent
+    HistoryComicsListComponent,
+    ReadRecordComponent
   ]
 })
 export class MaterialModule {

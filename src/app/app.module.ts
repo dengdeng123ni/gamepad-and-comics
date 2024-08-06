@@ -17,7 +17,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 27,
+  version: 30,
   objectStoresMeta: [
     {
       store: 'data',
@@ -54,6 +54,28 @@ const dbConfig: DBConfig = {
         { name: 'id', keypath: 'id', options: { unique: false } },
       ]
     },
+    {
+      store: 'preload_comics',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+    {
+      store: 'preload_pages',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+    {
+      store: 'read_record',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+
     {
       store: 'local_details',
       storeConfig: { keyPath: 'id', autoIncrement: false },

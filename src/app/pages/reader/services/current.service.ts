@@ -689,11 +689,21 @@ export class CurrentService {
 
     if (chapter.is_locked && option.page_index == 0) this.unlock.open(this.origin, option.chapter_id);
     const pages = await this._getChapter(option.chapter_id)
-
+    if(true){
+      firstValueFrom(this.webDb.update('read_record',{
+        id:new Date().getTime(),
+        origin:this.origin,
+        comics_id:this.data.comics_id,
+        chapter_id:option.chapter_id,
+        page_index:option.page_index
+      }))
+    }
     if (option.page_index > pages.length) option.page_index = pages.length - 1;
+
     this.data.page_index = option.page_index;
     this.data.pages = pages;
     this.data.chapter_id = option.chapter_id;
+
     if (type == "changePage") {
       this._setChapterIndex(this.data.chapter_id.toString(), option.page_index)
 

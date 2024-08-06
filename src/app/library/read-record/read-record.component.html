@@ -1,0 +1,16 @@
+<div class="warp" style="    height: 100vh;
+width: 100vw;">
+  <div class="list">
+    <div class="item" *ngFor="let n of list;let index=index">
+      <div class="title" style="    font-size: 18px;
+      margin: 8px;margin-bottom: 0;margin-left: 8px;">
+        {{n.day}}
+      </div>
+      <div class="images" style="display: flex;padding: 4px;margin-bottom: 20px;">
+        <div class="img" style="width: 200px;height: 200px;    overflow: hidden;margin: 4px;"  *ngFor="let c of n.list;">
+          <app-image [src]="c.data.cover"></app-image>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -174,11 +174,12 @@ export class DbControllerService {
       for (let index = (pages.length - 1); 0 <= index; index--) {
         const res = await caches.match(pages[index].src);
         if (!res) {
-          this.tasks.unshift({id,option})
+          this.tasks.unshift({ id: pages[index].src, option })
         } else {
 
         }
       }
+
       this.processTasks();
     }
   }
@@ -188,12 +189,13 @@ export class DbControllerService {
   processTasks() {
     while (this.concurrent < this.maxConcurrent && this.tasks.length > 0) {
       const task = this.tasks.shift(); // 从队列中取出一个任务
-      this.getImage(task.id,task.option)
+      this.getImage(task.id, task.option)
         .then(() => {
           this.concurrent--; // 任务完成，减少并发计数
           this.processTasks(); // 继续处理下一个任务
         })
         .catch(error => {
+          console.log(123);
           this.concurrent--; // 任务完成，减少并发计数
           this.processTasks(); // 继续处理下一个任务
         });

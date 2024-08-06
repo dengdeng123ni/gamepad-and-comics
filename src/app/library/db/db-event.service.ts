@@ -2,7 +2,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MessageFetchService } from '../public-api';
-import { Subject } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 interface Events {
   Unlock?: Function;
   getList: Function;
@@ -41,6 +42,7 @@ export class DbEventService {
 
   constructor(
     public http: HttpClient,
+    private webDb: NgxIndexedDBService,
     public _http: MessageFetchService,
   ) {
 
@@ -53,7 +55,8 @@ export class DbEventService {
         host_names: ["manga.bilibili.com", "i0.hdslb.com", "manga.hdslb.com"],
       },
       is_cache: true,
-      is_download: true
+      is_download: true,
+      is_preloading: true
     }, {
       getList: async (obj: any) => {
         let list = [];
@@ -460,16 +463,16 @@ export class DbEventService {
         return blob
       },
       UrlToDetailId: async (id) => {
-        const obj=new URL(id);
+        const obj = new URL(id);
         console.log(obj);
 
-         if(obj.host=="www.baozimhw.com"){
+        if (obj.host == "www.baozimhw.com") {
           console.log(obj.pathname.split("/").at(-1).split(".").at(-1));
 
           return obj.pathname.split("/").at(-1).split(".")[0]
-         }else{
+        } else {
           return null
-         }
+        }
       }
     });
 
@@ -786,7 +789,7 @@ export class DbEventService {
       ],
       is_cache: true,
       is_download: true,
-      is_preloading:true
+      is_preloading: true
     }, {
       getList: async (obj) => {
         let list = [];
@@ -1057,10 +1060,10 @@ export class DbEventService {
           return blob
         }
       },
-      getTagList:async(id)=>{
+      getTagList: async (id) => {
 
       },
-      getAuthorList:async(id)=>{
+      getAuthorList: async (id) => {
 
       },
       Search: async (obj) => {
@@ -1092,12 +1095,12 @@ export class DbEventService {
         return false
       },
       UrlToDetailId: async (id) => {
-         const obj=new URL(id);
-         if(obj.host=="manga.bilibili.com"){
-          return obj.pathname.split("/").at(-1).replace("mc","");
-         }else{
+        const obj = new URL(id);
+        if (obj.host == "manga.bilibili.com") {
+          return obj.pathname.split("/").at(-1).replace("mc", "");
+        } else {
           return null
-         }
+        }
       }
     });
 
@@ -1105,7 +1108,7 @@ export class DbEventService {
       id: "hanime1",
       is_cache: true,
       is_download: true,
-      is_preloading:true,
+      is_preloading: true,
       menu: [
         {
           id: 'search',
@@ -1285,19 +1288,19 @@ export class DbEventService {
         return data
       },
       UrlToDetailId: async (id) => {
-       const obj=new URL(id);
-        if(obj.host=="hanime1.me"){
-         return obj.pathname.split("/").at(-1)
-        }else{
-         return null
+        const obj = new URL(id);
+        if (obj.host == "hanime1.me") {
+          return obj.pathname.split("/").at(-1)
+        } else {
+          return null
         }
-     }
+      }
     });
     window._gh_register({
       id: "wnacg",
       is_cache: true,
       is_download: true,
-      is_preloading:true,
+      is_preloading: true,
       menu: [
       ],
     }, {
@@ -1349,14 +1352,124 @@ export class DbEventService {
         return data
       },
       UrlToDetailId: async (id) => {
-       const obj=new URL(id);
-        if(obj.host=="hanime1.me"){
-         return obj.pathname.split("/").at(-1)
-        }else{
-         return null
+        const obj = new URL(id);
+        if (obj.host == "hanime1.me") {
+          return obj.pathname.split("/").at(-1)
+        } else {
+          return null
         }
-     }
+      }
     });
+    window._gh_register({
+      id: "cccc",
+      is_cache: true,
+      is_download: true,
+      is_preloading: true,
+      menu: [
+        {
+          id: 'latestUpload',
+          icon: 'fiber_new',
+          name: '加载完成',
+          page_size: 30,
+          query: {
+            type: 'single',
+            name: '加载完成'
+          }
+        }
+      ]
+    }, {
+      getList: async (obj) => {
+        let res = (await firstValueFrom(this.webDb.getAll('preload_comics')) as any)
+        let c= res.map((x: any) => {
+          x = x.data
+          return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
+        }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
+        return c
+      },
+      getDetail: async (id: string) => {
+        let res = (await firstValueFrom(this.webDb.getByID('preload_comics', id.toString())) as any)
+        return res.data
+      },
+      getPages: async (id: string) => {
+        let res = (await firstValueFrom(this.webDb.getByID('preload_pages', id.toString())) as any);
+        return res.data
+      },
+      getImage:async (id:string)=>{
+        const getImageUrl = async (id) => {
+          const res = await window._gh_fetch(id, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          });
+          const blob = await res.blob();
+          return blob
+        }
+        const blob = await getImageUrl(id);
+        return blob
+
+      },
+      loadComics: async (obj, option) => {
+        let obj1=obj;
+        obj1.origin=option.origin;
+        let obj2 = {
+          id: '',
+          cover: '',
+          title: '',
+          origin:option.origin,
+          author: [
+            {
+              id: '',
+              name: '',
+              href: '',
+            }
+          ],
+          styles: [
+            {
+              id: '',
+              name: '',
+              href: '',
+            }
+          ],
+          href: '',
+          intro: "",
+          chapters: [
+            {
+              id:'',
+              cover: '',
+              title: '',
+              pages: [
+                {
+                  src: '',
+                  width: 0,
+                  height: 0
+                }
+              ]
+            }
+          ]
+        };
+        for (let index = 0; index < obj1.chapters.length; index++) {
+          let x = obj1.chapters[index];
+          x.id = `${obj1.id}_${index}`
+          await firstValueFrom(this.webDb.update('preload_pages', { id: x.id, data: JSON.parse(JSON.stringify(x.pages)) }))
+          await firstValueFrom(this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(),  data: JSON.parse(JSON.stringify(x.pages)) }))
+          await firstValueFrom(this.webDb.update('preload_comics', JSON.parse(JSON.stringify({ id: obj1.id, data: obj1 }))))
+          await firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: `7700_${x.id}`, data: obj1.chapters.map(x=>({id:`7700_${x.id}`,...x}))}))))
+        }
+
+
+        // preload_comics
+        // preload_pages
+        // 加载全部
+        // 处理图片 历史记录(淘宝) canvas 阅读器 长图片
+        // this.webDb.update('local_comics_all', obj)
+
+      }
+    });
+
 
 
 
@@ -1369,7 +1482,8 @@ export class DbEventService {
       name: key,
       is_cache: false,
       is_download: false,
-      is_preloading:false,
+      is_preloading: false,
+      is_load_free: false,
       ...config
     }
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };

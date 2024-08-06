@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, ReadRecordService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -112,8 +112,12 @@ export class AppComponent {
     public svg:SvgService,
     public HistoryComicsList:HistoryComicsListService,
     public KeyboardEvent:KeyboardEventService,
+    public readRecord:ReadRecordService,
     public App: AppDataService
   ) {
+  //  setTimeout(()=>{
+  //   readRecord.open();
+  //  },1000)
     this.KeyboardEvent.registerGlobalEvent({
       "/": () => this.HistoryComicsList.isToggle(),
 
