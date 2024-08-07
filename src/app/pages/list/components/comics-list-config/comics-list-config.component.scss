@@ -1,0 +1,140 @@
+.warp {
+  // width: 50vw;
+  overflow: auto;
+  display: flex;
+}
+
+.left {
+  width: 100%;
+  max-height: 100vh;
+  /* overflow-x: auto; */
+  overflow: auto;
+  min-width: 280px;
+
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 16px;
+  }
+
+  .name {
+    font-weight: bold;
+  }
+}
+
+.select {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.radio_button{
+   display: flex;
+   width: 100%;height: 100%;
+}
+.list {
+  margin: 16px 24px;
+  max-height: 60%e;
+  overflow: auto;
+}
+
+.right {
+  background: #303030;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    margin: 16px;
+    margin-bottom: 0;
+    font-size: 16px;
+    /* font-weight: bold; */
+    color: rgba(232, 230, 227, 0.56);
+  }
+.toolbar{
+  display: flex;
+  justify-content: end;
+  margin: 12px;
+  margin-top: 0;
+}
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, calc(260px));
+    margin: 10px;
+    overflow: auto;
+    height: auto;
+  }
+
+  .item {
+    margin-bottom: 12px;
+    .box {
+      height: 108px;
+      // margin: 12px;
+      display: flex;
+    }
+    .name{
+      text-align: left;
+    }
+
+    .img {
+      min-width: fit-content;
+      height: 108px;
+      margin-right: 12px;
+
+      app-image {
+        width: auto;
+        height: 108px;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+  }
+
+}
+
+.confirm {
+  margin: 16px;
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    width: 45%;
+  }
+}
+
+:host ::ng-deep {
+  app-image {
+    width: auto;
+    height: 108px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .right {
+    .mat-mdc-button {
+      height: fit-content;
+    }
+
+    .mat-mdc-icon-button .mat-mdc-button-touch-target {
+      width: 24px;
+      height: 24px;
+    }
+
+    .mat-toolbar-row,
+    .mat-toolbar-single-row {
+      height: 30px;
+      background: #3c3c3c;
+      padding: 0 12px;
+      justify-content: end;
+    }
+
+    .mdc-button__label {
+      width: 100%;
+    }
+    .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
+      line-height: 36px;
+    }
+  }
+}

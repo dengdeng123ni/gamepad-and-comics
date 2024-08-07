@@ -52,6 +52,9 @@ export class DataService {
   left_drawer_mode: any = 'over';
 
 
+  config={
+    click_type:1,
+  }
 
   constructor(public webDb: NgxIndexedDBService,) {
 

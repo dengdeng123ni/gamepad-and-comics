@@ -14,6 +14,7 @@ import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-
 import { UrlToComicsIdService } from '../../components/url-to-comics-id/url-to-comics-id.service';
 import { TabToolbarService } from '../../components/tab-toolbar/tab-toolbar.service';
 import { DropDownMenuService } from '../../components/drop-down-menu/drop-down-menu.service';
+import { ComicsListConfigService } from '../../components/comics-list-config/comics-list-config.service';
 
 @Component({
   selector: 'app-index',
@@ -38,8 +39,10 @@ export class IndexComponent {
     public ComicsListV2: ComicsListV2Service,
     public UrlToComicsId: UrlToComicsIdService,
     public TabToolbar:TabToolbarService,
-    public DropDownMenu:DropDownMenuService
+    public DropDownMenu:DropDownMenuService,
+    public ComicsListConfig:ComicsListConfigService
   ) {
+    // ComicsListConfig.open();
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS: () => {
         this.GamepadToolbar.isToggle()

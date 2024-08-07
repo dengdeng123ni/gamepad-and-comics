@@ -283,7 +283,7 @@ export class ComicsListV2Component {
     this.DownloadOption.open(list)
   }
   async DropDownMenuOpen() {
-    const e = await this.DropDownMenu.open( [
+    const e = await this.DropDownMenu.open([
       {
         name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
 
@@ -296,30 +296,30 @@ export class ComicsListV2Component {
         name: "重置数据", id: "reset_data", click: async (list) => {
           for (let index = 0; index < list.length; index++) {
             this.DbController.delWebDbDetail(list[index].id)
-            const res= await this.DbController.getDetail(list[index].id)
+            const res = await this.DbController.getDetail(list[index].id)
             for (let index = 0; index < res.chapters.length; index++) {
-             const chapter_id=res.chapters[index].id;
-             await this.DbController.delWebDbPages(chapter_id)
-             const pages = await this.DbController.getPages(chapter_id)
-             for (let index = 0; index < pages.length; index++) {
-               await this.DbController.delWebDbImage(pages[index].src)
-               await this.DbController.getImage(pages[index].src)
-             }
+              const chapter_id = res.chapters[index].id;
+              await this.DbController.delWebDbPages(chapter_id)
+              const pages = await this.DbController.getPages(chapter_id)
+              for (let index = 0; index < pages.length; index++) {
+                await this.DbController.delWebDbImage(pages[index].src)
+                await this.DbController.getImage(pages[index].src)
+              }
             }
-           }
+          }
         }
       },
       {
         name: "提前加载", id: "load", click: async (list) => {
           for (let index = 0; index < list.length; index++) {
-           const res= await this.DbController.getDetail(list[index].id)
-           for (let index = 0; index < res.chapters.length; index++) {
-            const chapter_id=res.chapters[index].id;
-            const pages = await this.DbController.getPages(chapter_id)
-            for (let index = 0; index < pages.length; index++) {
-              await this.DbController.getImage(pages[index].src)
+            const res = await this.DbController.getDetail(list[index].id)
+            for (let index = 0; index < res.chapters.length; index++) {
+              const chapter_id = res.chapters[index].id;
+              const pages = await this.DbController.getPages(chapter_id)
+              for (let index = 0; index < pages.length; index++) {
+                await this.DbController.getImage(pages[index].src)
+              }
             }
-           }
           }
         }
       },
@@ -327,13 +327,13 @@ export class ComicsListV2Component {
         name: "重新获取", id: "reset_get", click: async (list) => {
           for (let index = 0; index < list.length; index++) {
             this.DbController.delWebDbDetail(list[index].id)
-            const res= await this.DbController.getDetail(list[index].id)
+            const res = await this.DbController.getDetail(list[index].id)
             for (let index = 0; index < res.chapters.length; index++) {
-             const chapter_id=res.chapters[index].id;
-             await this.DbController.delWebDbPages(chapter_id)
-             const pages = await this.DbController.getPages(chapter_id)
+              const chapter_id = res.chapters[index].id;
+              await this.DbController.delWebDbPages(chapter_id)
+              const pages = await this.DbController.getPages(chapter_id)
             }
-           }
+          }
         }
       },
       {
@@ -423,14 +423,30 @@ export class ComicsListV2Component {
       } else {
         localStorage.setItem('list_url', window.location.href)
         const nodec: any = $event.target;
-        if (nodec.getAttribute("router_reader")) {
-
+        if (this.data.config.click_type == 1) {
+          this.current.routerDetail(this.origin, data.id)
+        } else if (this.data.config.click_type == 2) {
 
           this.current.routerReader(this.origin, data.id)
-        } else {
+        }
+        else if (this.data.config.click_type == 3) {
+          if (nodec.getAttribute("router_reader")) {
+            this.current.routerReader(this.origin, data.id)
+          } else {
+            this.current.routerDetail(this.origin, data.id)
+          }
+        }
+        else if (this.data.config.click_type == 2) {
+          if (nodec.getAttribute("router_reader")) {
 
+            this.current.routerDetail(this.origin, data.id)
+          } else {
+            this.current.routerReader(this.origin, data.id)
+          }
+        } else {
           this.current.routerDetail(this.origin, data.id)
         }
+
       }
 
     }

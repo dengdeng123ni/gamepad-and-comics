@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuService } from '../menu/menu.service';
 import { DataService } from '../../services/data.service';
+import { ComicsListConfigService } from '../comics-list-config/comics-list-config.service';
 
 @Component({
   selector: 'app-index-toolbar',
@@ -10,7 +11,10 @@ import { DataService } from '../../services/data.service';
 export class IndexToolbarComponent {
   isfullscreen = !!document.fullscreenElement;
   opened=false;
-  constructor(public menu:MenuService,public data:DataService){
+  constructor(public menu:MenuService,
+    public data:DataService,
+    public ComicsListConfig:ComicsListConfigService
+  ){
 
   }
   isFullChange() {
@@ -31,5 +35,8 @@ export class IndexToolbarComponent {
   }
   on1(){
     this.data.is_edit=!this.data.is_edit;
+  }
+  on2(){
+   this.ComicsListConfig.isToggle();
   }
 }
