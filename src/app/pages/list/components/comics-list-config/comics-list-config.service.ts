@@ -22,6 +22,10 @@ export class ComicsListConfigService {
     GamepadEvent.registerAreaEvent('chapter_item', {
       B: () => setTimeout(() => this.close())
     })
+    this.init();
+  }
+  init(){
+    this.get();
   }
   open() {
     if (this.opened == false) {
@@ -35,6 +39,7 @@ export class ComicsListConfigService {
         sheetRef.afterDismissed().subscribe(() => {
           if (document.body.getAttribute("locked_region") == "chapters_thumbnail" && this.opened) document.body.setAttribute("locked_region", document.body.getAttribute("router"))
           this.opened = false;
+          this.post();
         });
 
       }
@@ -48,6 +53,7 @@ export class ComicsListConfigService {
   }
 
   close = () => {
+
     this._sheet.dismiss();
   }
 
@@ -60,6 +66,8 @@ export class ComicsListConfigService {
 
   async get() {
     const res: any = await firstValueFrom(this.webDb.getByKey("data", this.key))
+    console.log(res);
+
     if (res) {
       this.data.config.click_type = res.click_type;
     }
