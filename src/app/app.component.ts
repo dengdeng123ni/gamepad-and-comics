@@ -115,11 +115,12 @@ export class AppComponent {
     public readRecord:ReadRecordService,
     public App: AppDataService
   ) {
-  //  setTimeout(()=>{
-  //   readRecord.open();
-  //  },1000)
     this.KeyboardEvent.registerGlobalEvent({
       "/": () => this.HistoryComicsList.isToggle(),
+
+    })
+    this.KeyboardEvent.registerGlobalEvent({
+      ".": () => this.readRecord.isToggle(),
 
     })
 

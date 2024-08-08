@@ -26,7 +26,7 @@ export class ReadRecordComponent {
     const days = [...new Set(list.map(x => x.day))];
     let arr = [];
     days.forEach(x => {
-      arr.push({
+      arr.unshift({
         day: x,
         list: list.filter(c => c.day == x)
       })

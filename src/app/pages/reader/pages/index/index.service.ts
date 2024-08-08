@@ -53,6 +53,10 @@ export class IndexService {
         y > innerHeight * 0 &&
         y < innerHeight * 0.33
       ) {
+        if(y < innerHeight * 0.05){
+         window.history.back()
+         return
+        }
         if (data.comics_config.is_double_page) {
           this.doublePageThumbnail.isToggle();
         } else {

@@ -1,15 +1,36 @@
-<div class="warp" style="    height: 100vh;
-width: 100vw;">
+<div class="warp" >
   <div class="list">
-    <div class="item" *ngFor="let n of list;let index=index">
-      <div class="title" style="    font-size: 18px;
+    <div class="warp" *ngFor="let n2 of list;let index=index">
+      <div class="title1" style="    font-size: 18px;
       margin: 8px;margin-bottom: 0;margin-left: 8px;">
-        {{n.day}}
+        {{n2.day}}
       </div>
-      <div class="images" style="display: flex;padding: 4px;margin-bottom: 20px;">
-        <div class="img" style="width: 200px;height: 200px;    overflow: hidden;margin: 4px;"  *ngFor="let c of n.list;">
-          <app-image [src]="c.data.cover"></app-image>
-        </div>
+      <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
+        <button
+          class="item"
+          mat-button
+          *ngFor="let n of n2.list;let index=index"
+          [attr._id]="n.id"
+          [attr.index]="index"
+          [attr.region]="'item'"
+          [attr.default]="index==0"
+          [attr.select]="index==0"
+          [matTooltipShowDelay]="3000"
+          [matTooltip]="n.title"
+          [attr.content_menu_key]="'comics_item'"
+          [attr.content_menu_value]="n.id"
+          [attr.multiple]="n.selected"
+          >
+          <!-- {{n}} -->
+          <div class="img">
+            <img [attr.width]="720" [attr.height]="960" style="width: 100%;
+            height: auto;opacity: 0;" >
+            <app-image [src]="n.data.cover" style="position: absolute;" />
+            <div class="mezzanine"></div>
+          </div>
+          <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.data.title}}</div>
+          <!-- <div class="progress" [attr.router_reader]="true" [attr.svg_filter]="'text_secondary'">{{n.subTitle}}</div> -->
+        </button>
       </div>
     </div>
   </div>
