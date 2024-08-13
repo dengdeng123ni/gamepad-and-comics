@@ -39,8 +39,6 @@ export class ReadRecordComponent {
         list: this.uniqueFunc(list.filter(c => c.day == x), 'comics_id').sort((a,b)=>b.id-a.id)
       })))
     })
-    console.log(arr);
-
     this.list = arr;
   }
   uniqueFunc(arr, uniId) {

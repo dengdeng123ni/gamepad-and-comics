@@ -114,7 +114,7 @@
   }
 }
 .grid[is_one_party=true]{
-  grid-template-columns: repeat(auto-fit, minmax(min(calc(132px + 1.6rem), calc(144px + 1.8rem)), calc(144px + 1.8rem)));
+  // grid-template-columns: repeat(auto-fit, minmax(min(calc(132px + 1.6rem), calc(144px + 1.8rem)), calc(144px + 1.8rem)));
 }
 @media screen and (min-width: 0px) and (max-width: 720px) {
   .grid {
