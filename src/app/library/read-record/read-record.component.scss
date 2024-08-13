@@ -21,21 +21,21 @@
 .warp {
   // padding: 0.6rem;
   padding-top: 0;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   // width: 100%;
-  overflow: hidden;
+  overflow: auto;
   // 199,154,118
 }
 
 .grid {
-  backdrop-filter: brightness(0.8) blur(4px);
-  padding: 8px;
-  display: flex;
+  // backdrop-filter: brightness(0.8) blur(4px);
+  // padding: 8px;
+  display: grid;
   margin-left: auto;
   margin-right: auto;
   overflow: auto;
-  grid-template-columns: repeat(auto-fit, minmax(min(calc(132px + 1.6rem), calc(144px + 1.8rem)), 1fr));
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 
   justify-content: start;
   grid-gap: 0.4rem 0;
@@ -52,8 +52,8 @@
     padding: 0.8rem;
     height: auto;
     width: 100%;
-    min-width: 25vh;
-    width: 25vh;
+    // min-width: 25vh;
+    // width: 25vh;
     user-select: none;
     // text-align: left;
     // height: min-content;

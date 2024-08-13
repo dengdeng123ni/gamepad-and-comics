@@ -23,13 +23,16 @@ export class ReadRecordComponent {
       x.data = (details.find(c => c.id == x.comics_id))?.data
     })
     list=list.filter(x=>!!x.data)
+    list.forEach(x=>{
+      x.data.cover=`http://localhost:7700/${x.origin}/comics/${x.data.id}`;
+    })
     const days = [...new Set(list.map(x => x.day))];
     let arr = [];
     days.forEach(x => {
-      arr.unshift({
+      arr.unshift(JSON.parse(JSON.stringify({
         day: x,
         list: list.filter(c => c.day == x)
-      })
+      })))
     })
     this.list=arr;
     console.log(arr);

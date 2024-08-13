@@ -321,3 +321,6 @@ body[pattern=gamepad][locked_region=content_menu]{
 // .mat-bottom-sheet-container,.mdc-dialog__surface,.mat-mdc-menu-panel,.mat-drawer-inner-container{
 //   @extend [svg_filter=background_secondary];
 // }
+._read_record{
+  max-width: none !important;
+}
