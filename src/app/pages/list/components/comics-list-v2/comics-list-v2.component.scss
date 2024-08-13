@@ -32,7 +32,7 @@
   margin-left: auto;
   margin-right: auto;
   overflow: auto;
-  grid-template-columns: repeat(auto-fit, minmax(min(calc(132px + 1.6rem), calc(144px + 1.8rem)), 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(168px, 1fr));
 
   justify-content: start;
   grid-gap: 4px;
