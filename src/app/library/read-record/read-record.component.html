@@ -1,5 +1,5 @@
-<div class="warp" >
-  <div class="list">
+<div class="warp1" (click)="close()">
+  <div class="list" style="width: 100%;height: 100%;overflow: auto;">
     <div class="warp" *ngFor="let n2 of list;let index=index">
       <div class="title1" style="    font-size: 18px;
       margin: 8px;margin-bottom: 0;margin-left: 8px;">
@@ -20,6 +20,7 @@
           [attr.content_menu_key]="'comics_item'"
           [attr.content_menu_value]="n.id"
           [attr.multiple]="n.selected"
+          (click)="routerReader(n.origin,n.data.id)"
           >
           <!-- {{n}} -->
           <div class="img">
