@@ -173,3 +173,22 @@
     </div>
   </ng-template>
 </mat-menu>
+<div class="switch_left_position" style="    position: absolute;
+left: calc(50% - 72px);
+top: 0;
+" (click)="routerList()">
+  <div style="
+      min-width: 144px;
+      height: 32px;
+      max-width: 144px;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    " [matTooltipShowDelay]="300" [matTooltip]="'返回'"
+    [matTooltipPosition]="'below'">
+    <div class="switch_left">
+      <div class="cccc"></div>
+    </div>
+  </div>
+</div>

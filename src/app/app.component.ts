@@ -121,7 +121,9 @@ export class AppComponent {
     })
     this.KeyboardEvent.registerGlobalEvent({
       ".": () => this.readRecord.isToggle(),
-
+    })
+    this.KeyboardEvent.registerGlobalEvent({
+      "m": () => this.readRecord.isToggle(),
     })
 
     //  setTimeout(async ()=>{
