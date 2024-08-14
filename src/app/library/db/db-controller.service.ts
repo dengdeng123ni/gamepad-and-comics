@@ -388,7 +388,11 @@ export class DbControllerService {
           }
         }
         const res = await caches.match(url);
+
         if (res) {
+          // console.log(`${url}?size=small`);
+          // console.log(`${url}?size=mini`);
+
           blob = await res.blob()
           if (blob.size < 1000) {
             blob = await getBlob()

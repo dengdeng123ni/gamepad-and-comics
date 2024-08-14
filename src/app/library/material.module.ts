@@ -50,6 +50,7 @@ import { FormsModule } from '@angular/forms';
 import { ImageComponent } from './image/image.component';
 import { HistoryComicsListComponent } from './history-comics-list/history-comics-list.component';
 import { ReadRecordComponent } from './read-record/read-record.component';
+import { ReadRecordChapterComponent } from './read-record-chapter/read-record-chapter.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -152,7 +153,8 @@ import { ReadRecordComponent } from './read-record/read-record.component';
   declarations: [
     ImageComponent,
     HistoryComicsListComponent,
-    ReadRecordComponent
+    ReadRecordComponent,
+    ReadRecordChapterComponent
   ]
 })
 export class MaterialModule {

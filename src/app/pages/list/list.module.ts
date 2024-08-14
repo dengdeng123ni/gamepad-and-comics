@@ -24,6 +24,7 @@ import { UrlToComicsIdComponent } from './components/url-to-comics-id/url-to-com
 import { TabToolbarComponent } from './components/tab-toolbar/tab-toolbar.component';
 import { DropDownMenuComponent } from './components/drop-down-menu/drop-down-menu.component';
 import { ComicsListConfigComponent } from './components/comics-list-config/comics-list-config.component';
+import { ImageCompressionComponent } from './components/image-compression/image-compression.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -49,7 +50,8 @@ import { ComicsListConfigComponent } from './components/comics-list-config/comic
     UrlToComicsIdComponent,
     TabToolbarComponent,
     DropDownMenuComponent,
-    ComicsListConfigComponent
+    ComicsListConfigComponent,
+    ImageCompressionComponent
   ],
   imports: [
     CommonModule,
