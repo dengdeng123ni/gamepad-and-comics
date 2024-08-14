@@ -5,6 +5,7 @@ import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { WebFileService } from './library/web-file/web-file.service';
+import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [
@@ -113,6 +114,7 @@ export class AppComponent {
     public HistoryComicsList:HistoryComicsListService,
     public KeyboardEvent:KeyboardEventService,
     public readRecord:ReadRecordService,
+    public ReadRecordChapter:ReadRecordChapterService,
     public App: AppDataService
   ) {
     this.KeyboardEvent.registerGlobalEvent({
@@ -124,6 +126,9 @@ export class AppComponent {
     })
     this.KeyboardEvent.registerGlobalEvent({
       "m": () => this.readRecord.isToggle(),
+    })
+    this.KeyboardEvent.registerGlobalEvent({
+      "n": () => this.ReadRecordChapter.isToggle(),
     })
 
     //  setTimeout(async ()=>{
