@@ -41,6 +41,8 @@ export * from './pulg/pulg.service'
 
 export * from './routing-controller.service'
 
+
+export * from './image/image-to.service'
 export * from './local-cach.service'
 export * from './read-record/read-record.service'
 export * from './tab.service'
