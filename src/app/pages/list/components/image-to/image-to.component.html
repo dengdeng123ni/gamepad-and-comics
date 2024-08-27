@@ -1,10 +1,18 @@
 <div class="warp">
   <div class="title">
-
+    图片处理
   </div>
-   <div class="list">
-    <div class="item">
+  <div class="list">
+    <button  mat-button class="item" [attr.region]="'item'">
+      <div class="img"></div>
+      <div class="name">原图</div>
+    </button>
 
-    </div>
-   </div>
+    <button mat-button class="item" [attr.region]="'item'" *ngFor="let n of list;let i=index" (click)="on(i)">
+      <div class="img" [style]="'backdrop-filter: url(#'+n.id+')'"></div>
+      <div class="name">{{n.name}}</div>
+    </button>
+  </div>
+  <div id="svg_1" style="display: none;"></div>
 </div>
+

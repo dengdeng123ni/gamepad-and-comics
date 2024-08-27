@@ -3,14 +3,26 @@ interface Option {
   id: string,
   name: string,
   event: Function;
+  md?:''
 }
 @Injectable({
   providedIn: 'root'
 })
-export class ImageToService {
+export class ImageToEventService {
+
   _data = {};
 
-  constructor() { }
+  constructor() {
+     this.register({
+      id:'bvie',
+      name:'测试',
+      event:(blob)=>{
+        console.log(blob);
+
+        return blob
+      }
+     })
+  }
 
   register = (option: Option) => {
     const key = option.id;

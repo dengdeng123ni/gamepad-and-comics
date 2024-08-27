@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrl: './image-to.component.scss'
 })
 export class ImageToComponent {
+   list=[];
+   constructor(){
 
+   }
+   on(e){
+
+   }
 }

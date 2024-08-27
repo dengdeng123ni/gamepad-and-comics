@@ -10,10 +10,11 @@ export class SvgService {
 
 
   constructor() {
-    this.register(`
-    <svg>
-<filter name="变红" x="0%" y="0%" width="100%" height="100%">
-  <feColorMatrix result="original" id="c1" type="matrix" values="1 -0.4 1.3 1.5 -0.3 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
+
+this.register(`
+<svg>
+<filter name="变灰" x="0%" y="0%" width="100%" height="100%">
+<feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0"/>
 </filter>
 </svg>
 `)

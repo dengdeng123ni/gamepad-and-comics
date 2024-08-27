@@ -130,6 +130,7 @@ export class DbControllerService {
       return []
     }
   }
+
   async delWebDbDetail(id) {
     this.details[id] = null;
     await firstValueFrom(this.webDb.deleteByKey('details', id))
