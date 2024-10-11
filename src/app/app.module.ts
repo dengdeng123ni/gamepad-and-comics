@@ -14,6 +14,7 @@ import { DetailModule } from './pages/detail/detail.module';
 import { ListModule } from './pages/list/list.module';
 import { ReaderModule } from './pages/reader/reader.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { CompositeModule } from './composite/composite.module';
 
 const dbConfig: DBConfig = {
   name: 'db',
@@ -203,6 +204,7 @@ const dbConfig: DBConfig = {
     ListModule,
     DetailModule,
     ReaderModule,
+    CompositeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

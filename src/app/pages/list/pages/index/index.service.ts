@@ -5,6 +5,7 @@ import { MenuService } from '../../components/menu/menu.service';
 import { DownloadOptionService } from '../../components/download-option/download-option.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
+import { ImageToService } from '../../components/image-to/image-to.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,9 @@ export class IndexService {
     public LocalCach: LocalCachService,
     public DbController: DbControllerService,
     public webDb: NgxIndexedDBService,
+    public ImageTo:ImageToService,
   ) {
-
+    // this.ImageTo.open();
 
     GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option", "menu_item"] })
     GamepadEvent.registerConfig("comics_type", { region: ["comics_type_item"] })
@@ -54,6 +56,15 @@ export class IndexService {
             }
           }
         },
+        {
+          name: "图像处理", id: "image_to", click: async (list) => {
+            console.log(list);
+
+            await this.ImageTo.open(list);
+
+          }
+        },
+
 
       ])
       if (x.id == "local_cache") {

@@ -105,7 +105,8 @@ export class WebFileService {
     pageOrder: boolean,
     isFirstPageCover: boolean,
     page: string,
-    downloadChapterAtrer?: Function
+    downloadChapterAtrer?: Function,
+    imageChange?: Function
   }) {
 
     if (!this.dirHandle) await this.open();
@@ -125,14 +126,15 @@ export class WebFileService {
           if (option.page == "double") {
             const blobs = await this.download.ImageToTypeBlob({ type: option.type, name: toTitle(x.title), images: pages.map((x: { src: any; }) => x.src), pageOrder: option.pageOrder, isFirstPageCover: option.isFirstPageCover, page: option.page }) as any
             for (let index = 0; index < blobs.length; index++) {
-              const blob = blobs[index]
+              let blob = blobs[index]
+              if (option.imageChange) blob = await option.imageChange(blob);
               await this.post(`${config.origin}[双页]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
 
             }
           } else {
             const downloadImage = async (x2, index) => {
-              const blob = await this.DbController.getImage(x2.src)
-
+              let blob = await this.DbController.getImage(x2.src)
+              if (option.imageChange) blob = await option.imageChange(blob);
               if (blob.size > 500) {
                 if (config.is_offprint) {
                   await this.post(`${config.origin}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
@@ -157,7 +159,7 @@ export class WebFileService {
           continue;
         }
 
-        const blob = await this.download.ImageToTypeBlob({ type: option.type, name: toTitle(x.title), images: pages.map((x: { src: any; }) => x.src), pageOrder: option.pageOrder, isFirstPageCover: option.isFirstPageCover, page: option.page }) as any
+        let blob = await this.download.ImageToTypeBlob({ type: option.type, name: toTitle(x.title), images: pages.map((x: { src: any; }) => x.src), pageOrder: option.pageOrder, isFirstPageCover: option.isFirstPageCover, page: option.page }) as any
         let suffix_name = blob.type.split("/").at(-1);
         if (option.type == "PDF") {
 

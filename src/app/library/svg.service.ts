@@ -18,6 +18,18 @@ this.register(`
 </filter>
 </svg>
 `)
+this.register(`
+  <svg>
+  <filter name="变灰" x="0%" y="0%" width="100%" height="100%">
+  <feColorMatrix type="matrix" values="1.5 0 0 0 100
+0 1.5 0 0 100
+0 0 1.5 0 100
+0 0 0 1 0"/>
+  </filter>
+  </svg>
+  `)
+
+
   }
 
   init() {

@@ -15,6 +15,7 @@ import { UrlToComicsIdService } from '../../components/url-to-comics-id/url-to-c
 import { TabToolbarService } from '../../components/tab-toolbar/tab-toolbar.service';
 import { DropDownMenuService } from '../../components/drop-down-menu/drop-down-menu.service';
 import { ComicsListConfigService } from '../../components/comics-list-config/comics-list-config.service';
+import { ImageToService } from '../../components/image-to/image-to.service';
 
 @Component({
   selector: 'app-index',
@@ -40,8 +41,10 @@ export class IndexComponent {
     public UrlToComicsId: UrlToComicsIdService,
     public TabToolbar:TabToolbarService,
     public DropDownMenu:DropDownMenuService,
-    public ComicsListConfig:ComicsListConfigService
+    public ComicsListConfig:ComicsListConfigService,
+    public imageTo:ImageToService
   ) {
+    this.imageTo.open();
     // ComicsListConfig.open();
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS: () => {

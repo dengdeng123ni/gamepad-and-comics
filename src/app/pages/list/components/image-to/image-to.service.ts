@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
-import { FilterComponent } from 'src/app/pages/reader/components/filter/filter.component';
 import { DataService } from '../../services/data.service';
+import { ImageToComponent } from './image-to.component';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class ImageToService {
   public opened: boolean = false;
   open(config?: MatDialogConfig) {
     if (this.opened == false) {
-      const dialogRef = this._dialog.open(FilterComponent, config);
+      const dialogRef = this._dialog.open(ImageToComponent, config);
       document.body.setAttribute("locked_region", "image_to")
       dialogRef.afterClosed().subscribe(() => {
         if (document.body.getAttribute("locked_region") == "image_to" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
