@@ -27,6 +27,7 @@ import { ComicsListConfigComponent } from './components/comics-list-config/comic
 import { ImageCompressionComponent } from './components/image-compression/image-compression.component';
 import { ImageToComponent } from './components/image-to/image-to.component';
 import { CompositeModule } from 'src/app/composite/composite.module';
+import { DownloadProgressComponent } from './components/download-progress/download-progress.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -54,7 +55,8 @@ import { CompositeModule } from 'src/app/composite/composite.module';
     DropDownMenuComponent,
     ComicsListConfigComponent,
     ImageCompressionComponent,
-    ImageToComponent
+    ImageToComponent,
+    DownloadProgressComponent
   ],
   imports: [
     CommonModule,

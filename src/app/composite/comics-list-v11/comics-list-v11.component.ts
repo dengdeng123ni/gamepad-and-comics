@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comics-list-v11',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './comics-list-v11.component.scss'
 })
 export class ComicsListV11Component {
-
+  list = [];
+  is_edit=false;
+  constructor(@Inject(MAT_DIALOG_DATA) public _data,){
+      this.list=this._data.list;
+  }
 }

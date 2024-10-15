@@ -17,7 +17,9 @@ import { ComicsListV11Component } from './comics-list-v11/comics-list-v11.compon
   ],
   exports: [
     TestComponent,
-    MatrixComponent
+    MatrixComponent,
+    ComicsListV10Component,
+    ComicsListV11Component
   ],
   imports: [
     CommonModule,

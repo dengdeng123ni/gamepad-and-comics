@@ -54,11 +54,11 @@
       justify-content: space-between;
       margin: 12px;">
         <div class="left">
-          <button mat-button [attr.region]="'item'" color="accent">待处理漫画</button>
+          <button mat-button [attr.region]="'item'" color="accent" (click)="open_comics_list()" id="comics_list_837">待处理漫画</button>
         </div>
         <div class="right" (click)="download()">
           <!-- <button mat-button [attr.region]="'item'" color="accent">普通下载</button> -->
-          <button mat-button [attr.region]="'item'" color="primary">下载</button>
+          <button mat-button [attr.region]="'item'">下载</button>
         </div>
       </div>
       <!-- <mat-divider style="margin-top: 8px;"></mat-divider> -->

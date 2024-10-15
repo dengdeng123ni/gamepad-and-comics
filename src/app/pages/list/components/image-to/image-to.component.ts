@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { ImageService, WebFileService } from 'src/app/library/public-api';
 import { compress } from 'image-conversion';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { OpenComicsListService } from './open-comics-list.service';
 
 @Component({
   selector: 'app-image-to',
@@ -15,18 +16,20 @@ export class ImageToComponent {
     quality: 0.92,
     type: 'png'
   }
-  is_compress=false;
+  is_compress = false;
   list = [
 
-];
+  ];
   saturateMatrix = [
     1, 0, 0, 0, 0,
     0, 1, 0, 0, 0,
     0, 0, 1, 0, 0,
     0, 0, 0, 1, 0
   ];
+
   cover = '';
   toCover = '';
+
   arr = [
     {
       name: "灰度",
@@ -89,16 +92,34 @@ export class ImageToComponent {
   saturateMatrixChange = () => {
     document.querySelector("#vvvv feColorMatrix").setAttribute("values", this.saturateMatrix.toString())
   }
-  constructor(public image: ImageService, public WebFile: WebFileService,
-
+  constructor(public image: ImageService,
+    public WebFile: WebFileService,
     @Inject(MAT_DIALOG_DATA) public _data,
+    public OpenComicsList: OpenComicsListService
   ) {
-    this.list=_data;
+    this.list = _data;
     this.cover = this.list[0].cover;
     this.init();
 
 
 
+  }
+
+  open_comics_list(){
+    const node=document.querySelector("#comics_list_837")
+    const position=node.getBoundingClientRect();
+
+    this.OpenComicsList.open({
+      hasBackdrop: true,
+      position: {
+        top: `${position.bottom}px`,
+        left: `${position.left}px`
+      },
+      // delayFocusTrap: false,
+      panelClass: "_open_comics_list",
+      backdropClass: "_open_comics_list_backdrop",
+      data: { list: this.list }
+    })
   }
   async init() {
     this.toCover = await this.to(this.cover)
@@ -203,7 +224,7 @@ export class ImageToComponent {
             quality: this.option.size ? undefined : this.option.quality,
             width: this.option.width ?? undefined
           };
-          if(this.is_compress)  blob2 = await compress(blob2, obj)
+          if (this.is_compress) blob2 = await compress(blob2, obj)
           return blob2
 
         }

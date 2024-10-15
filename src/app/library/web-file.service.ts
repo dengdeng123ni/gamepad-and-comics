@@ -98,7 +98,17 @@ export class WebFileService {
   async del(path): Promise<boolean> {
     return true
   }
+  async downloadComicsAll(option: {
+    list:any,
+    type: Array<string>,
+    pageOrder: boolean,
+    isFirstPageCover: boolean,
+    page: string,
+    downloadChapterAtrer?: Function,
+    imageChange?: Function
+  }){
 
+  }
   async downloadComics(comics_id, option?: {
     chapters_ids?: Array<any>,
     type?: string,
