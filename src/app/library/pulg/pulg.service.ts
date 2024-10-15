@@ -14,14 +14,22 @@ export class PulgService {
 
 
   }
-  async load(){
-    const url= document.querySelector("base").href+'assets/js/jspdf.umd.min.js'
-    const url1= document.querySelector("base").href+'assets/js/jszip.min.js'
-    const url2= document.querySelector("base").href+'assets/js/pptxgen.min.js'
+  async load() {
+    const url = document.querySelector("base").href + 'assets/js/jspdf.umd.min.js'
+    const url1 = document.querySelector("base").href + 'assets/js/jszip.min.js'
+    const url2 = document.querySelector("base").href + 'assets/js/pptxgen.min.js'
     this.loadJS(url)
     this.loadJS(url1)
     this.loadJS(url2)
     await this.sleep(100)
+  }
+  async load2(e) {
+    if ("browser-image-compression" == e || "图片压缩" == e) {
+      const url2 = document.querySelector("base").href + 'assets/js/browser-image-compression.js'
+      this.loadJS(url2)
+    }
+    await this.sleep(100)
+
   }
   sleep = (duration) => {
     return new Promise(resolve => {
@@ -31,9 +39,9 @@ export class PulgService {
   async init() {
     this.caches = await caches.open('script');
     await this.loadAllScript();
-    const url= document.querySelector("base").href+'assets/js/swiper-bundle.min.js'
+    const url = document.querySelector("base").href + 'assets/js/swiper-bundle.min.js'
     this.loadJS(url)
-    this.loadCss(document.querySelector("base").href+'assets/css/swiper-bundle.min.css')
+    this.loadCss(document.querySelector("base").href + 'assets/css/swiper-bundle.min.css')
   }
   async openFile() {
     const files = await (window as any).showOpenFilePicker()
@@ -55,7 +63,7 @@ export class PulgService {
     const url1: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     return url1.changingThisBreaksApplicationSecurity
   }
-  async delete(url){
+  async delete(url) {
     const list = await this.caches.delete(url)
   }
   async registerScript(id: string, blob: any, option = {}) {

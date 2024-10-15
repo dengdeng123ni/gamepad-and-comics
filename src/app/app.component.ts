@@ -1,11 +1,11 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, ReadRecordService, ImageToControllerService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService,WebFileService, ReadRecordService, ImageToControllerService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
-import { WebFileService } from './library/web-file/web-file.service';
 import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
+import { TestService } from './composite/test/test.service';
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [
@@ -116,8 +116,10 @@ export class AppComponent {
     public readRecord:ReadRecordService,
     public ReadRecordChapter:ReadRecordChapterService,
     public ImageToController:ImageToControllerService,
+    public testService:TestService,
     public App: AppDataService
   ) {
+    // this.testService.open();
     this.KeyboardEvent.registerGlobalEvent({
       "/": () => this.HistoryComicsList.isToggle(),
 

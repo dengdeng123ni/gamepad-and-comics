@@ -1,0 +1,133 @@
+<div class="warp">
+  <div class="input" style="width: 100%;">
+    <div class="form" style="width: 100%;">
+      <div> Matrix:</div>
+      <input matInput [(ngModel)]="value" (input)="input_change()" (click)="open()">
+    </div>
+  </div>
+  <div class="tbody" *ngIf="is_close">
+    <div class="td">
+      <div class="item">
+        <div> Red to Red:</div>
+        <input matInput type="number" [(ngModel)]="values[0]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Green to Red: </div>
+        <input matInput type="number" [(ngModel)]="values[1]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Blue to Red: </div>
+        <input matInput type="number" [(ngModel)]="values[2]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Alpha to Red:</div>
+        <input matInput type="number" [(ngModel)]="values[3]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Add to Red:</div>
+        <input matInput type="number" [(ngModel)]="values[4]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Red to Green: </div>
+        <input matInput type="number" [(ngModel)]="values[5]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Green to Green: </div>
+        <input matInput type="number" [(ngModel)]="values[6]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div>Blue to Green: </div>
+        <input matInput type="number" [(ngModel)]="values[7]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Alpha to Green:</div>
+        <input matInput type="number" [(ngModel)]="values[8]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Add to Green: </div>
+        <input matInput type="number" [(ngModel)]="values[9]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+
+
+    <div class="td">
+      <div class="item">
+        <div> Red to Blue:</div>
+        <input matInput type="number" [(ngModel)]="values[10]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Green to Blue:</div>
+        <input matInput type="number" [(ngModel)]="values[11]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div>Blue to Blue: </div>
+        <input matInput type="number" [(ngModel)]="values[12]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Alpha to Blue:</div>
+        <input matInput type="number" [(ngModel)]="values[13]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+    <div class="td">
+      <div class="item">
+        <div> Add to Blue:</div>
+        <input matInput type="number" [(ngModel)]="values[14]" min="-1" max="2" [step]=".1">
+      </div>
+    </div>
+
+
+  <div class="td">
+    <div class="item">
+      <div>Red to Alpha :</div>
+      <input matInput type="number" [(ngModel)]="values[15]" min="-1" max="2" [step]=".1">
+    </div>
+  </div>
+  <div class="td">
+    <div class="item">
+      <div> Green to Alpha:</div>
+      <input matInput type="number" [(ngModel)]="values[16]" min="-1" max="2" [step]=".1">
+    </div>
+  </div>
+  <div class="td">
+    <div class="item">
+      <div>Blue to Alpha: </div>
+      <input matInput type="number" [(ngModel)]="values[17]" min="-1" max="2" [step]=".1">
+    </div>
+  </div>
+  <div class="td">
+    <div class="item">
+      <div> Alpha to Alpha: </div>
+      <input matInput type="number" [(ngModel)]="values[18]" min="-1" max="2" [step]=".1">
+    </div>
+  </div>
+  <div class="td">
+    <div class="item">
+      <div> Add to Alpha: </div>
+      <input matInput type="number" [(ngModel)]="values[19]" min="-1" max="2" [step]=".1">
+    </div>
+  </div>
+</div>

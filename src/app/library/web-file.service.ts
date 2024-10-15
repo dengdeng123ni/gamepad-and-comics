@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbControllerService, DownloadService } from '../public-api';
+import { DbControllerService, DownloadService } from './public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +115,6 @@ export class WebFileService {
       return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').replace(/[\'\"\\\/\b\f\n\r\t]/g, '').replace(/[\@\#\$\%\^\&\*\{\}\:\"\L\<\>\?]/).trim()
     }
     let { chapters, title, option: config } = await this.DbController.getDetail(comics_id)
-
     if (option?.chapters_ids?.length) chapters = chapters.filetr(x => option.chapters_ids.includes(x.id))
     for (let index = 0; index < chapters.length; index++) {
       const x = chapters[index];
@@ -134,6 +133,7 @@ export class WebFileService {
           } else {
             const downloadImage = async (x2, index) => {
               let blob = await this.DbController.getImage(x2.src)
+
               if (option.imageChange) blob = await option.imageChange(blob);
               if (blob.size > 500) {
                 if (config.is_offprint) {

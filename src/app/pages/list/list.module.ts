@@ -26,6 +26,7 @@ import { DropDownMenuComponent } from './components/drop-down-menu/drop-down-men
 import { ComicsListConfigComponent } from './components/comics-list-config/comics-list-config.component';
 import { ImageCompressionComponent } from './components/image-compression/image-compression.component';
 import { ImageToComponent } from './components/image-to/image-to.component';
+import { CompositeModule } from 'src/app/composite/composite.module';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -58,6 +59,7 @@ import { ImageToComponent } from './components/image-to/image-to.component';
   imports: [
     CommonModule,
     ListRoutingModule,
+    CompositeModule,
     MaterialModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

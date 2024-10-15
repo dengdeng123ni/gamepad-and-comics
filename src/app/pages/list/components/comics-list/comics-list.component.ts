@@ -3,8 +3,7 @@ import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subject, map, throttleTime } from 'rxjs';
-import { ContextMenuEventService, QueryControllerService } from 'src/app/library/public-api';
-import { WebFileService } from 'src/app/library/web-file/web-file.service';
+import { ContextMenuEventService, QueryControllerService,WebFileService } from 'src/app/library/public-api';
 declare const window: any;
 interface Item {
   id: string | number,

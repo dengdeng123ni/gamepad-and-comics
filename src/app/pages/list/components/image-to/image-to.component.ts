@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { ImageService } from 'src/app/library/public-api';
+import { Component, Inject } from '@angular/core';
+import { ImageService, WebFileService } from 'src/app/library/public-api';
+import { compress } from 'image-conversion';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-image-to',
@@ -7,97 +9,102 @@ import { ImageService } from 'src/app/library/public-api';
   styleUrl: './image-to.component.scss'
 })
 export class ImageToComponent {
+  option = {
+    size: null,
+    width: null,
+    quality: 0.92,
+    type: 'png'
+  }
+  is_compress=false;
   list = [
-    {
-      "id": "100016",
-      "title": "COMIC Kuriberon DUMA 2023-12 Vol.55\n        [Chinese]",
-      "cover": "http://localhost:7700/hanime1/comics/100016",
-      "origin": "hanime1",
-      "last_read_date": 1727768911114,
-      "subTitle": "0%",
-      "selected": true
-    },
-    {
-      "id": "100778",
-      "title": "[Satou Kuuki]\n        Shino Channel\n        ~Kareshi Mochi Bungaku JK Uwakiroku~ [Chinese] [無邪気漢化組] [Digital]",
-      "cover": "http://localhost:7700/hanime1/comics/100778",
-      "origin": "hanime1",
-      "last_read_date": 1724531105175,
-      "subTitle": "0%",
-      "selected": true
-    },
-    {
-      "id": "101989",
-      "title": "[Jack to Nicholson (NoriPachi)]\n        Nikubenki Ganbou JK. + Watashi ga Rogin o Kasegimasu.\n        (Sousou no Frieren) [Chinese] [Digital]",
-      "cover": "http://localhost:7700/hanime1/comics/101989",
-      "origin": "hanime1",
-      "last_read_date": 1728495820380,
-      "subTitle": "0%",
-      "selected": true
-    },
-    {
-      "id": "103129",
-      "title": "[c-kyuu] Gibo-san wa boku no mono 1-6 [Chinese] [葱鱼个人汉化]",
-      "cover": "http://localhost:7700/hanime1/comics/103129",
-      "origin": "hanime1",
-      "last_read_date": 1728491324671,
-      "subTitle": "0%",
-      "selected": true
-    },
-    {
-      "id": "103654",
-      "title": "[Enokido]\n        Seiyoku Tsuyo Tsuyo\n        [Chinese] [Decensored] [Digital] [guyxyz個人重嵌]",
-      "cover": "http://localhost:7700/hanime1/comics/103654",
-      "origin": "hanime1",
-      "last_read_date": 1727115768446,
-      "subTitle": "0%",
-      "selected": true
-    },
-    {
-      "id": "103757",
-      "title": "[ratatatat74]\n        Blacked Coach 媚黑教练\n        [Chinese][Colorized][挽歌个人汉化]",
-      "cover": "http://localhost:7700/hanime1/comics/103757",
-      "origin": "hanime1",
-      "last_read_date": 1728493148173,
-      "subTitle": "0%",
-      "selected": true
-    },
-    {
-      "id": "1038",
-      "title": "[ratatatat74]\n        072021 reward白人版\n        [Chinese] [流木个人汉化]",
-      "cover": "http://localhost:7700/hanime1/comics/1038",
-      "origin": "hanime1",
-      "last_read_date": 1723913655938,
-      "subTitle": "0%",
-      "selected": true
-    },
-    {
-      "id": "104567",
-      "title": "[緋月アキラ]\n        ノイパちゃんはアブナイ！\n        [中国翻译]",
-      "cover": "http://localhost:7700/hanime1/comics/104567",
-      "origin": "hanime1",
-      "last_read_date": 1728492822689,
-      "subTitle": "0%",
-      "selected": true
-    }
-  ];
 
+];
+  saturateMatrix = [
+    1, 0, 0, 0, 0,
+    0, 1, 0, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 0, 1, 0
+  ];
   cover = '';
   toCover = '';
+  arr = [
+    {
+      name: "灰度",
+      value: [
+        0.213, 0.715, 0.072, 0, 0,
+        0.213, 0.715, 0.072, 0, 0,
+        0.213, 0.715, 0.072, 0, 0,
+        0, 0, 0, 1, 0
+      ]
+    },
+    {
+      name: "棕褐色",
+      value: [
+        0.393, 0.769, 0.189, 0, 0,
+        0.349, 0.686, 0.168, 0, 0,
+        0.272, 0.534, 0.131, 0, 0,
+        0, 0, 0, 1, 0
+      ]
+    },
+    {
+      name: "布朗尼",
+      value: [
+        0.627, 0.320, 0.075, 0, 0,
+        0.299, 0.587, 0.114, 0, 0,
+        0.239, 0.469, 0.091, 0, 0,
+        0, 0, 0, 1, 0
+      ]
+    },
+    {
+      name: "反转颜色",
+      value: [
+        -1, 0, 0, 0, 1,
+        0, -1, 0, 0, 1,
+        0, 0, -1, 0, 1,
+        0, 0, 0, 1, 0
+      ]
+    },
 
-  value=0;
-  constructor(public image: ImageService) {
+    {
+      name: "柯达胶卷",
+      value: [
+        1.15, 0.05, 0.05, 0, 0,
+        0.05, 1.10, 0.05, 0, 0,
+        0.05, 0.05, 1.10, 0, 0,
+        0, 0, 0, 1, 0
+      ]
+    },
+    {
+      name: "宝丽来",
+      value: [
+        0.3588, 0.7044, 0.1368, 0, 0,
+        0.2990, 0.5870, 0.1140, 0, 0,
+        0.2392, 0.4696, 0.0912, 0, 0,
+        0, 0, 0, 1, 0
+      ]
+    },
+  ]
+
+  value = 0;
+  saturateMatrixChange = () => {
+    document.querySelector("#vvvv feColorMatrix").setAttribute("values", this.saturateMatrix.toString())
+  }
+  constructor(public image: ImageService, public WebFile: WebFileService,
+
+    @Inject(MAT_DIALOG_DATA) public _data,
+  ) {
+    this.list=_data;
     this.cover = this.list[0].cover;
     this.init();
+
+
+
   }
   async init() {
     this.toCover = await this.to(this.cover)
-    console.log(this.toCover);
-
   }
   async to(_src) {
     let src = '';
-
     const bolb = await this.image.getImageBlob(_src);
     const image = await createImageBitmap(bolb);
     let canvas = document.createElement('canvas');
@@ -108,13 +115,7 @@ export class ImageToComponent {
     const context = canvas.getContext('2d');
     context.drawImage(image, 0, 0);
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const saturateMatrix = [
-      0.213, 0.715, 0.072, 0, 0,
-      0.213, 0.715, 0.072, 0, 0,
-      0.213, 0.715, 0.072, 0, 0,
-      0, 0, 0, 1, 0
-    ];
-    const newImageData = this.applyColorMatrix(imageData, saturateMatrix);
+    const newImageData = this.applyColorMatrix(imageData, this.saturateMatrix);
     context.putImageData(newImageData, 0, 0);
     let dataURL = canvas.toDataURL("image/jpeg");
     return dataURL
@@ -146,9 +147,74 @@ export class ImageToComponent {
     //return red * 0.2126 + green * 0.7152 + blue * 0.0722;
     return (red * 6966 + green * 23436 + blue * 2366) >> 15;
   }
+  async imageMatrix(blob, matrix) {
+    const image = await createImageBitmap(blob);
+    let canvas = document.createElement('canvas');
+    const width = image.width;
+    const height = image.height;
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    context.drawImage(image, 0, 0);
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const newImageData = this.applyColorMatrix(imageData, matrix);
+    context.putImageData(newImageData, 0, 0);
+    let dataURL = canvas.toDataURL("image/jpeg");
+    return this.base64ToBlob(dataURL)
+  }
+  imageCcompress = async (blob, option) => {
+    return await compress(blob, option)
+  }
+  base64ToBlob(base64Data) {
+    let arr = base64Data.split(','),
+      fileType = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      l = bstr.length,
+      u8Arr = new Uint8Array(l);
+
+    while (l--) {
+      u8Arr[l] = bstr.charCodeAt(l);
+    }
+    return new Blob([u8Arr], {
+      type: fileType
+    });
+  }
   on(e) {
+    this.saturateMatrix = e.value;
+  }
+
+  async download() {
+    for (let index = 0; index < this.list.length; index++) {
+      const id = this.list[index].id;
+      await this.WebFile.downloadComics(id, {
+        type: 'JPG',
+        isFirstPageCover: false,
+        pageOrder: false,
+        page: 'one',
+        downloadChapterAtrer: x => {
+
+        },
+        imageChange: async blob => {
+
+          let blob2 = await this.imageMatrix(blob, this.saturateMatrix);
+          let obj = {
+            mimeType: `image/${this.option.type}`,
+            size: this.option.size ?? undefined,
+            quality: this.option.size ? undefined : this.option.quality,
+            width: this.option.width ?? undefined
+          };
+          if(this.is_compress)  blob2 = await compress(blob2, obj)
+          return blob2
+
+        }
+      })
+
+    }
+
 
   }
+
+
 
 
 }

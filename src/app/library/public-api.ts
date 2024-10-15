@@ -47,6 +47,7 @@ export * from './local-cach.service'
 export * from './read-record/read-record.service'
 export * from './tab.service'
 export * from './svg.service'
+export * from './web-file.service'
 
 export * from './custom-route-reuse-strategy'
 

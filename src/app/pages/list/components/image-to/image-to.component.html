@@ -9,7 +9,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               <button mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false" [attr.default]="false">
-                <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon>
+                <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
                 <div class="name" [attr.svg_filter]="'text_primary'">
                   图片工具
                 </div>
@@ -18,16 +18,30 @@
           </mat-expansion-panel-header>
           <button [attr._id]="1" [attr.default]="false" [attr.select]="true" [attr.selected]="true" mat-button
             class="item item1" [attr.region]="'menu_item'">
-            <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon>
+            <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
             <div class="name" [attr.svg_filter]="'text_primary'">
-              滤镜
+              滤镜和压缩
             </div>
           </button>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <button mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false" [attr.default]="false">
+                <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
+                <div class="name" [attr.svg_filter]="'text_primary'">
+                  图片滤镜
+                </div>
+              </button>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
           <button [attr._id]="1" [attr.default]="false" [attr.select]="false" [attr.selected]="false" mat-button
-            class="item item1" [attr.region]="'menu_item'">
-            <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon>
+            class="item item1" [attr.region]="'menu_item'" *ngFor="let n of arr" (click)="on(n)">
+            <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
             <div class="name" [attr.svg_filter]="'text_primary'">
-              图片压缩
+              {{n.name}}
             </div>
           </button>
         </mat-expansion-panel>
@@ -37,10 +51,15 @@
   <div class="right" style="display: flex;    margin: 8px 8px 8px 0;">
     <div class="content" style="    width: 818px;overflow: auto;">
       <div class="confirm" style="    display: flex;
-      justify-content: end;
-      margin-right: 12px;">
-        <button mat-button [attr.region]="'item'" color="accent">普通下载</button>
-        <button mat-button [attr.region]="'item'" color="primary">指定下载</button>
+      justify-content: space-between;
+      margin: 12px;">
+        <div class="left">
+          <button mat-button [attr.region]="'item'" color="accent">待处理漫画</button>
+        </div>
+        <div class="right" (click)="download()">
+          <!-- <button mat-button [attr.region]="'item'" color="accent">普通下载</button> -->
+          <button mat-button [attr.region]="'item'" color="primary">下载</button>
+        </div>
       </div>
       <!-- <mat-divider style="margin-top: 8px;"></mat-divider> -->
       <div class="box" style="display: flex;justify-content: space-between;">
@@ -57,161 +76,48 @@
           <div class="title" style="font-size: 18px;margin: 8px;    margin-top: 0;">
             预览 - 输出图像
           </div>
-          <img style="width: 384px;
+          <app-image style="width: 384px;
           height: 216px;
           object-fit: cover;    border-radius: 4px;
-          overflow: hidden;object-fit: cover;" [src]="toCover" [width]="384" [height]="204" />
+          overflow: hidden;filter: url(#vvvv);" [src]="cover" [width]="384" [height]="204" [objectFit]="'cover'" />
         </div>
       </div>
       <div class="form">
-        <div class="ccc">
-          <div class="item2">
-            <div class="name">
+        <app-matrix [(values)]="saturateMatrix" [change]="saturateMatrixChange"></app-matrix>
 
-            </div>
-            <div class="value">
-              <mat-form-field class="example-margin example-width">
-                <mat-label>  Red to Red:</mat-label>
-                <input matInput type="number" [(ngModel)]="value">
-              </mat-form-field>
-            </div>
+        <div class="compressed-image-option" >
+          <div class="item">
+            <div>是否压缩:</div>
+
+            <mat-slide-toggle style="margin-left: 8px;" [(ngModel)]="is_compress" name="enableWifi"></mat-slide-toggle>
           </div>
-        </div>
-        <tbody>
-          <tr>
-            <td>
-              <p> </p>
-              <div id="R1-text">0</div>
-
-              <input type="range" id="R1" min="-1" max="2" step=".1" value="1">
-            </td>
-            <td>
-              <p>Green to Red: </p>
-              <div id="R2-text">-0.3</div>
-              <input type="range" id="R2" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Blue to Red: </p>
-              <div id="R3-text">0</div>
-              <input type="range" id="R3" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Alpha to Red: </p>
-              <div id="R4-text">0</div>
-              <input type="range" id="R4" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Add to Red: </p>
-              <div id="R5-text">0.4</div>
-              <input type="range" id="R5" min="-1" max="2" step=".1" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p>Red to Green: </p>
-              <div id="G1-text">1.2</div>
-              <input type="range" id="G1" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Green to Green: </p>
-              <div id="G2-text">1</div>
-              <input type="range" id="G2" min="-1" max="2" step=".1" value="1">
-            </td>
-            <td>
-              <p>Blue to Green: </p>
-              <div id="G3-text">0</div>
-              <input type="range" id="G3" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Alpha to Green: </p>
-              <div id="G4-text">0</div>
-              <input type="range" id="G4" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Add to Green: </p>
-              <div id="G5-text">0</div>
-              <input type="range" id="G5" min="-1" max="2" step=".1" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p>Red to Blue: </p>
-              <div id="B1-text">0</div>
-              <input type="range" id="B1" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Green to Blue: </p>
-              <div id="B2-text">0</div>
-              <input type="range" id="B2" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Blue to Blue: </p>
-              <div id="B3-text">1</div>
-              <input type="range" id="B3" min="-1" max="2" step=".1" value="1">
-            </td>
-            <td>
-              <p>Alpha to Blue: </p>
-              <div id="B4-text">0</div>
-              <input type="range" id="B4" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Add to Blue: </p>
-              <div id="B5-text">0</div>
-              <input type="range" id="B5" min="-1" max="2" step=".1" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p>Red to Alpha </p>
-              <div id="A1-text">0</div>
-              <input type="range" id="A1" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Green to Alpha: </p>
-              <div id="A2-text">0</div>
-              <input type="range" id="A2" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Blue to Alpha: </p>
-              <div id="A3-text">0</div>
-              <input type="range" id="A3" min="-1" max="2" step=".1" value="0">
-            </td>
-            <td>
-              <p>Alpha to Alpha: </p>
-              <div id="A4-text">1</div>
-              <input type="range" id="A4" min="-1" max="2" step=".1" value="1">
-            </td>
-            <td>
-              <p>Add to Alpha: </p>
-              <div id="A5-text">0</div>
-              <input type="range" id="A5" min="-1" max="2" step=".12" value="0">
-            </td>
-          </tr>
-        </tbody>
-      </div>
-      <div class="list">
-        <div class="title" style="font-size: 18px;margin: 12px;">
-          待处理漫画
-        </div>
-        <div class="item">
-          <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
-            <button class="item" mat-button [disabled]="true" *ngFor="let n of list;let index=index" [attr._id]="n.id"
-              [attr.index]="index" [attr.region]="'comics_item'" [matTooltipShowDelay]="3000" [matTooltip]="n.title"
-              [attr.content_menu_key]="'comics_item'" [attr.content_menu_value]="n.id">
-              <div class="img">
-                <img [attr.width]="720" [attr.height]="960" style="width: 100%;
-                height: auto;opacity: 0;">
-                <app-image [src]="n.cover" style="position: absolute;" />
-                <div class="mezzanine"></div>
-              </div>
-              <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
-              <!-- <mat-checkbox class="checkbox" [color]="'primary'" [(ngModel)]="n.selected"></mat-checkbox> -->
-            </button>
+          <div class="item" *ngIf="is_compress">
+            <div>图像宽度:</div>
+            <input matInput [(ngModel)]="option.width" type="number" min="0">
+          </div>
+          <div class="item" *ngIf="is_compress">
+            <div>图像大小:</div>
+            <input matInput [(ngModel)]="option.size" type="number" min="0">
+          </div>
+          <div class="item" *ngIf="!option.size&&is_compress">
+            <div>图像质量:</div>
+            <input matInput [(ngModel)]="option.quality" type="number" min="0.2" max="1">
+          </div>
+          <div class="item" *ngIf="is_compress">
+            <div>图像类型:</div>
+            <mat-button-toggle-group appearance="legacy" [(ngModel)]="option.type" style="margin-left: 8px;">
+              <mat-button-toggle value="png">png</mat-button-toggle>
+              <mat-button-toggle value="jpeg">jpeg</mat-button-toggle>
+              <mat-button-toggle value="webp">webp</mat-button-toggle>
+            </mat-button-toggle-group>
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
+  <svg style="display: none;">
+    <filter id="vvvv" name="变灰" x="0%" y="0%" width="100%" height="100%">
+      <feColorMatrix type="matrix" [attr.values]="saturateMatrix" />
+    </filter>
+  </svg>
 </div>

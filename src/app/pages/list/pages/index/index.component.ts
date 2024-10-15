@@ -44,7 +44,7 @@ export class IndexComponent {
     public ComicsListConfig:ComicsListConfigService,
     public imageTo:ImageToService
   ) {
-    this.imageTo.open();
+    // this.imageTo.open();
     // ComicsListConfig.open();
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS: () => {

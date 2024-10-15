@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { WebFileService } from 'src/app/library/web-file/web-file.service';
 import { DownloadOptionService } from './download-option.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { WebFileService } from 'src/app/library/public-api';
 @Component({
   selector: 'app-download-option',
   templateUrl: './download-option.component.html',

@@ -1,8 +1,8 @@
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
 import { map, throttleTime, Subject, firstValueFrom } from 'rxjs';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, KeyboardEventService, LocalCachService } from 'src/app/library/public-api';
-import { WebFileService } from 'src/app/library/web-file/web-file.service';
+import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, KeyboardEventService, LocalCachService, WebFileService } from 'src/app/library/public-api';
+
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';

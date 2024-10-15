@@ -1,10 +1,9 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, QueryEventService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, QueryEventService, WebFileService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute, NavigationStart, ParamMap, Router } from '@angular/router';
 import { Subject, firstValueFrom, map, throttleTime } from 'rxjs';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { WebFileService } from 'src/app/library/web-file/web-file.service';
 import { CurrentService } from '../../services/current.service';
 import { ComicsListV2Service } from '../comics-list-v2/comics-list-v2.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';

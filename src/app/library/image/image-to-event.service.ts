@@ -13,15 +13,15 @@ export class ImageToEventService {
   _data = {};
 
   constructor() {
-     this.register({
-      id:'bvie',
-      name:'测试',
-      event:(blob)=>{
-        console.log(blob);
+    //  this.register({
+    //   id:'bvie',
+    //   name:'测试',
+    //   event:(blob)=>{
+    //     console.log(blob);
 
-        return blob
-      }
-     })
+    //     return blob
+    //   }
+    //  })
   }
 
   register = (option: Option) => {
