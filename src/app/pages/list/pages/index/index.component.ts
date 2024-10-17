@@ -16,6 +16,7 @@ import { TabToolbarService } from '../../components/tab-toolbar/tab-toolbar.serv
 import { DropDownMenuService } from '../../components/drop-down-menu/drop-down-menu.service';
 import { ComicsListConfigService } from '../../components/comics-list-config/comics-list-config.service';
 import { ImageToService } from '../../components/image-to/image-to.service';
+import { DownloadProgressService } from '../../components/download-progress/download-progress.service';
 
 @Component({
   selector: 'app-index',
@@ -42,8 +43,12 @@ export class IndexComponent {
     public TabToolbar:TabToolbarService,
     public DropDownMenu:DropDownMenuService,
     public ComicsListConfig:ComicsListConfigService,
-    public imageTo:ImageToService
+    public imageTo:ImageToService,
+    public DownloadProgress:DownloadProgressService,
   ) {
+    // this.DownloadProgress.open({
+    //   panelClass: "_double_page_thumbnail",
+    // });
     // this.imageTo.open();
     // ComicsListConfig.open();
     this.GamepadEvent.registerGlobalEvent({

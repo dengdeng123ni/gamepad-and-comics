@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DownloadOptionService } from './download-option.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WebFileService } from 'src/app/library/public-api';
+import { DownloadProgressService } from '../download-progress/download-progress.service';
 @Component({
   selector: 'app-download-option',
   templateUrl: './download-option.component.html',
@@ -13,6 +14,7 @@ export class DownloadOptionComponent {
   o123r=0;
   constructor(
     public DownloadOption:DownloadOptionService,
+    public DownloadProgress:DownloadProgressService,
     public WebFile: WebFileService,
     @Inject(MAT_DIALOG_DATA) public _data,
     private _snackBar: MatSnackBar
@@ -30,6 +32,30 @@ export class DownloadOptionComponent {
   list = [];
   typeChange() {
     this.option.type = this.types.filter(x => x.completed).map(x => x.name)
+  }
+  async download() {
+    const bool= await this.WebFile.open();
+    if(bool){
+      this.DownloadProgress.open({ panelClass: "_double_page_thumbnail",})
+      this.WebFile.downloadComicsAll(
+        {
+          list: this.list,
+          type: this.option.type,
+          isFirstPageCover: this.option.isFirstPageCover,
+          pageOrder: this.option.pageOrder,
+          page: this.option.page,
+          downloadChapterAtrer: x => {
+
+          }
+        }
+      )
+    }else{
+      this._snackBar.open('打开文件夹失败', '', {
+        duration:1500,
+        horizontalPosition:'center',
+        verticalPosition:'top',
+      });
+    }
   }
   async on() {
 

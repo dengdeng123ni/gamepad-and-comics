@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { WebFileService } from 'src/app/library/public-api';
+import { DownloadProgressService } from './download-progress.service';
 
 @Component({
   selector: 'app-download-progress',
@@ -7,4 +9,16 @@ import { Component } from '@angular/core';
 })
 export class DownloadProgressComponent {
 
+  list = [
+  ];
+  is_edit = false;
+  constructor(
+    public WebFile: WebFileService,
+    public DownloadProgress:DownloadProgressService
+  ) {
+
+  }
+  close(){
+     this.DownloadProgress.close();
+  }
 }

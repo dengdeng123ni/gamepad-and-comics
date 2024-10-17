@@ -53,7 +53,7 @@ export class DownloadService {
   }
 
   async jpg({ name, images = [''], pageOrder = false, isFirstPageCover = false, page }): Promise<Blob> {
-    const blobs = await this.zip({ name, images, pageOrder, isFirstPageCover, page })
+    const blobs = await this.zipService.createZip(images, { pageOrder, isFirstPageCover, page })
     return blobs
 
   }

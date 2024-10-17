@@ -1,1 +1,50 @@
-<p>download-progress works!</p>
+<div class="warp">
+  <div class="left">
+    <div class="title">
+      待处理列表
+    </div>
+    <div class="list">
+      <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
+        <button class="item" mat-button *ngFor="let n of WebFile.list;let index=index" [attr._id]="n.id" [attr.index]="index"
+          [attr.region]="'comics_item'" [attr.default]="false" [attr.select]="false" [matTooltipShowDelay]="3000"
+          [matTooltip]="n.title" [attr.content_menu_key]="'comics_item'" [attr.content_menu_value]="n.id"
+          [attr.multiple]="false">
+          <div class="img" style="    width: 72px;min-width: 72px;">
+            <img [attr.width]="720" [attr.height]="960" style="width: 100%;
+              height: auto;opacity: 0;">
+            <app-image [src]="n.cover" style="position: absolute;" />
+            <div class="mezzanine"></div>
+          </div>
+          <div class="info">
+            <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
+            <div class="progress" [attr.router_reader]="true" [attr.svg_filter]="'text_secondary'">{{n.download_status}}</div>
+            <mat-progress-bar mode="indeterminate" *ngIf="n.download_status=='下载中'" style="    width: 100%;
+              position: absolute;
+              bottom: 0px;"></mat-progress-bar>
+            <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="is_edit" [(ngModel)]="n.selected"></mat-checkbox>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="right" style="overflow: auto;">
+     <div class="box" style="display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     height: 100vh;
+     width: 100%;" *ngIf="WebFile.is_download_free">
+       <div class="title" style="font-size: 28px;
+    margin-bottom: 20px;">
+        下载完成
+       </div>
+       <button mat-button color="primary" [attr.region]="'item'"
+       (click)="close()">关闭</button>
+     </div>
+    <div class="list" style="display: flex;flex-direction: column;overflow: auto;height: 100%;">
+      <div class="item" *ngFor="let n of WebFile.logs" style="font-size: 14px;margin: 4px 0;">
+        {{n}}
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,8 @@ import { ImageService, WebFileService } from 'src/app/library/public-api';
 import { compress } from 'image-conversion';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OpenComicsListService } from './open-comics-list.service';
+import { DownloadProgressService } from '../download-progress/download-progress.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-image-to',
@@ -95,20 +97,18 @@ export class ImageToComponent {
   constructor(public image: ImageService,
     public WebFile: WebFileService,
     @Inject(MAT_DIALOG_DATA) public _data,
+    public DownloadProgress: DownloadProgressService,
+    private _snackBar: MatSnackBar,
     public OpenComicsList: OpenComicsListService
   ) {
     this.list = _data;
     this.cover = this.list[0].cover;
     this.init();
-
-
-
   }
 
-  open_comics_list(){
-    const node=document.querySelector("#comics_list_837")
-    const position=node.getBoundingClientRect();
-
+  open_comics_list() {
+    const node = document.querySelector("#comics_list_837")
+    const position = node.getBoundingClientRect();
     this.OpenComicsList.open({
       hasBackdrop: true,
       position: {
@@ -205,34 +205,41 @@ export class ImageToComponent {
   }
 
   async download() {
-    for (let index = 0; index < this.list.length; index++) {
-      const id = this.list[index].id;
-      await this.WebFile.downloadComics(id, {
-        type: 'JPG',
-        isFirstPageCover: false,
-        pageOrder: false,
-        page: 'one',
-        downloadChapterAtrer: x => {
+    const bool= await this.WebFile.open();
+    if(bool){
+      this.DownloadProgress.open({ panelClass: "_double_page_thumbnail",})
+      this.WebFile.downloadComicsAll(
+        {
+          list: this.list,
+          type: ['JPG'],
+          isFirstPageCover: false,
+          pageOrder: false,
+          page: 'one',
+          downloadChapterAtrer: x => {
 
-        },
-        imageChange: async blob => {
+          },
+          imageChange: async blob => {
 
-          let blob2 = await this.imageMatrix(blob, this.saturateMatrix);
-          let obj = {
-            mimeType: `image/${this.option.type}`,
-            size: this.option.size ?? undefined,
-            quality: this.option.size ? undefined : this.option.quality,
-            width: this.option.width ?? undefined
-          };
-          if (this.is_compress) blob2 = await compress(blob2, obj)
-          return blob2
+            let blob2 = await this.imageMatrix(blob, this.saturateMatrix);
+            let obj = {
+              mimeType: `image/${this.option.type}`,
+              size: this.option.size ?? undefined,
+              quality: this.option.size ? undefined : this.option.quality,
+              width: this.option.width ?? undefined
+            };
+            if (this.is_compress) blob2 = await compress(blob2, obj)
+            return blob2
 
+          }
         }
-      })
-
+      )
+    }else{
+      this._snackBar.open('打开文件夹失败', '', {
+        duration:1500,
+        horizontalPosition:'center',
+        verticalPosition:'top',
+      });
     }
-
-
   }
 
 
