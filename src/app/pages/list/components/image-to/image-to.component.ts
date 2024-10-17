@@ -207,7 +207,7 @@ export class ImageToComponent {
   async download() {
     const bool= await this.WebFile.open();
     if(bool){
-      this.DownloadProgress.open({ panelClass: "_double_page_thumbnail",})
+      this.DownloadProgress.open({ disableClose:true,panelClass: "_double_page_thumbnail",})
       this.WebFile.downloadComicsAll(
         {
           list: this.list,

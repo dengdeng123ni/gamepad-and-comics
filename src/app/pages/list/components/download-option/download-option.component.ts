@@ -36,17 +36,14 @@ export class DownloadOptionComponent {
   async download() {
     const bool= await this.WebFile.open();
     if(bool){
-      this.DownloadProgress.open({ panelClass: "_double_page_thumbnail",})
+      this.DownloadProgress.open({disableClose:true, panelClass: "_double_page_thumbnail",})
       this.WebFile.downloadComicsAll(
         {
           list: this.list,
           type: this.option.type,
           isFirstPageCover: this.option.isFirstPageCover,
           pageOrder: this.option.pageOrder,
-          page: this.option.page,
-          downloadChapterAtrer: x => {
-
-          }
+          page: this.option.page
         }
       )
     }else{
