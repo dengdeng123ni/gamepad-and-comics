@@ -100,8 +100,6 @@ export class ComicsListV2Component {
 
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
-      console.log(params);
-
       if (this.id) await this.put()
       const type = params.get('id')
       let origin = params.get('sid')
@@ -219,6 +217,7 @@ export class ComicsListV2Component {
         } else if (this.type == "history") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
+
         } else if (this.type == "local_cache") {
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
         } else {
@@ -230,7 +229,6 @@ export class ComicsListV2Component {
 
         this.zone.run(() => {
           setTimeout(async () => {
-
             await this.overflow()
             this.ListNode.nativeElement.scrollTop = data.scrollTop;
           })
@@ -531,23 +529,11 @@ export class ComicsListV2Component {
   async overflow() {
     if (this.list.length == 0) {
       await this.add_pages();
-
       return
     }
-    setTimeout(() => {
-      const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-      if (node.getBoundingClientRect().top < 100 || this.list.length < 5) {
-        this.is_one_party = true;
-      } else {
-        this.is_one_party = false;
-      }
-    })
+
     const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-    if (node.getBoundingClientRect().top < 100 || this.list.length < 5) {
-      this.is_one_party = true;
-    } else {
-      this.is_one_party = false;
-    }
+
     if (node && this.ListNode.nativeElement.clientHeight < node.getBoundingClientRect().y) {
 
     } else {
@@ -586,5 +572,6 @@ export class ComicsListV2Component {
       return
     }
     this.list = [...this.list, ...list]
+
   }
 }
