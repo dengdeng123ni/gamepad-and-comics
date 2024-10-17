@@ -405,4 +405,393 @@ export class ImagesService {
     }
     return arr
   }
+
+  getPageDoubleV2 = async (
+    arr:Array<any>,
+    list: Array<{ id: string, src: string, width: number, height: number }>,
+    option: { isFirstPageCover: boolean, pageOrder: boolean }
+  ) => {
+
+    if (option.pageOrder) {
+      await this.getPageDoubleNormalV2(arr,list, option.isFirstPageCover);
+    } else {
+      await this.getPageDoubleReverseV2(arr,list, option.isFirstPageCover);
+    }
+
+
+  }
+  getPageDoubleReverseV2 = async (arr:Array<any>,list: Array<{ id: string, src: string, width: number, height: number }>, isFirstPageCover: boolean) => {
+
+    arr = [];
+    for (let i = 0; i < list.length;) {
+      if (list[i]) {
+        const c = await this.loadImage(list[i].src)
+        list[i].width = c.width;
+        list[i].height = c.height;
+      }
+      if (list[i + 1]) {
+        const c1 = await this.loadImage(list[i + 1].src)
+        list[i + 1].width = c1.width;
+        list[i + 1].height = c1.height;
+      }
+      const img = list[i];
+      const img1 = list[i + 1];
+      if (img.height > img.width && img1 && img1.height > img1.width) {
+        if (i == 0 && isFirstPageCover == true) {
+          arr.push({
+            page: {
+              width: img.width * 2,
+              height: img.height
+            },
+            images: [{
+              x: 0,
+              y: 0,
+              id: img.id,
+              img: img.src,
+              width: img.width,
+              height: img.height,
+              index: i + 1
+            }]
+          })
+          i++;
+        } else {
+          arr.push({
+            page: {
+              width: img.width + img1.width,
+              height: ((img.height + img1.height) / 2)
+            },
+            images: [{
+              x: 0,
+              y: 0,
+              id: img1.id,
+              img: img1.src,
+              width: img1.width,
+              height: ((img.height + img1.height) / 2),
+              index: i + 2
+            }, {
+              x: img1.width,
+              y: 0,
+              id: img.id,
+              img: img.src,
+              width: img.width,
+              height: ((img.height + img1.height) / 2),
+              index: i + 1
+            }]
+          })
+          i++;
+          i++;
+        }
+      } else if (img.height < img.width && img1 && img1.height < img1.width) {
+        arr.push({
+          page: {
+            width: img.width,
+            height: img.height
+          },
+          images: [{
+            x: 0,
+            y: 0,
+            id: img.id,
+            img: img.src,
+            width: img.width,
+            height: img.height,
+            index: i + 1
+          }]
+        })
+        i++;
+        arr.push({
+          page: {
+            width: img1.width,
+            height: img1.height
+          },
+          images: [{
+            x: 0,
+            y: 0,
+            id: img1.id,
+            img: img1.src,
+            width: img1.width,
+            height: img1.height,
+            index: i + 1
+          }]
+        })
+        i++;
+      } else if (img.height > img.width && img1 && img1.height < img1.width) {
+        arr.push({
+          page: {
+            width: img.width * 2,
+            height: img.height
+          },
+          images: [{
+            x: 0,
+            y: 0,
+            id: img.id,
+            img: img.src,
+            width: img.width,
+            height: img.height,
+            index: i + 1
+          }]
+        })
+        i++;
+        arr.push({
+          page: {
+            width: img1.width,
+            height: img1.height
+          },
+          images: [{
+            x: 0,
+            y: 0,
+            id: img1.id,
+            img: img1.src,
+            width: img1.width,
+            height: img1.height,
+            index: i + 1
+          }]
+        })
+        i++;
+      } else {
+        if ((i + 1) == list.length) {
+          if (img.height < img.width) {
+            arr.push({
+              page: {
+                width: img.width,
+                height: img.height
+              },
+              images: [{
+                x: 0,
+                y: 0,
+                id: img.id,
+                img: img.src,
+                width: img.width,
+                height: img.height,
+                index: i + 1
+              }]
+            })
+            i++;
+          } else {
+            arr.push({
+              page: {
+                width: img.width * 2,
+                height: img.height
+              },
+              images: [{
+                x: img.width,
+                y: 0,
+                id: img.id,
+                img: img.src,
+                width: img.width,
+                height: img.height,
+                index: i + 1
+              }]
+            })
+            i++;
+          }
+        } else {
+          arr.push({
+            page: {
+              width: img.width,
+              height: img.height
+            },
+            images: [{
+              x: 0,
+              y: 0,
+              id: img.id,
+              img: img.src,
+              width: img.width,
+              height: img.height,
+              index: i + 1
+            }]
+          })
+          i++;
+        }
+      }
+    }
+
+
+
+  }
+  getPageDoubleNormalV2 = async (arr:Array<any>,list: Array<{ id: string, src: string, width: number, height: number }>, isFirstPageCover: boolean) => {
+
+    arr = [];
+    for (let i = 0; i < list.length;) {
+      if (list[i]) {
+        const c = await this.loadImage(list[i].src)
+        list[i].width = c.width;
+        list[i].height = c.height;
+      }
+      if (list[i + 1]) {
+        const c1 = await this.loadImage(list[i + 1].src)
+        list[i + 1].width = c1.width;
+        list[i + 1].height = c1.height;
+      }
+      const img = list[i];
+      const img1 = list[i + 1];
+      if (img.height > img.width && img1 && img1.height > img1.width) {
+        if (i == 0 && isFirstPageCover == true) {
+          arr.push({
+            page: {
+              width: img.width * 2,
+              height: img.height
+            },
+            images: [{
+              x: img.width,
+              y: 0,
+              img: img.src,
+              id: img.id,
+              width: img.width,
+              height: img.height,
+              index: i + 1
+            }]
+          })
+          i++;
+        } else {
+          arr.push({
+            page: {
+              width: img.width + img1.width,
+              height: ((img.height + img1.height) / 2)
+            },
+            images: [{
+              x: 0,
+              y: 0,
+              img: img.src,
+              id: img.id,
+              width: img.width,
+              index: i + 1,
+              height: ((img.height + img1.height) / 2)
+            }, {
+              x: img.width,
+              y: 0,
+              img: img1.src,
+              id: img1.id,
+              index: i + 2,
+              width: img1.width,
+              height: ((img.height + img1.height) / 2)
+            }]
+          })
+          i++;
+          i++;
+        }
+      } else if (img.height < img.width && img1 && img1.height < img1.width) {
+        arr.push({
+          page: {
+            width: img.width,
+            height: img.height
+          },
+          images: [{
+            x: 0,
+            y: 0,
+            img: img.src,
+            id: img.id,
+            index: i + 1,
+            width: img.width,
+            height: img.height
+          }]
+        })
+        i++;
+        arr.push({
+          page: {
+            width: img1.width,
+            height: img1.height
+          },
+          images: [{
+            x: 0,
+            y: 0,
+            id: img1.id,
+            img: img1.src,
+            index: i + 1,
+            width: img1.width,
+            height: img1.height
+          }]
+        })
+        i++;
+      } else if (img.height > img.width && img1 && img1.height < img1.width) {
+        arr.push({
+          page: {
+            width: img.width * 2,
+            height: img.height
+          },
+          images: [{
+            x: img.width,
+            y: 0,
+            id: img.id,
+            img: img.src,
+            index: i + 1,
+            width: img.width,
+            height: img.height
+          }]
+        })
+        i++;
+        arr.push({
+          page: {
+            width: img1.width,
+            height: img1.height
+          },
+          images: [{
+            x: 0,
+            y: 0,
+            id: img1.id,
+            img: img1.src,
+            index: i + 1,
+            width: img1.width,
+            height: img1.height
+          }]
+        })
+        i++;
+      } else {
+        if ((i + 1) == list.length) {
+          if (img.height < img.width) {
+            arr.push({
+              page: {
+                width: img.width,
+                height: img.height
+              },
+              images: [{
+                x: 0,
+                y: 0,
+                id: img.id,
+                img: img.src,
+                index: i + 1,
+                width: img.width,
+                height: img.height
+              }]
+            })
+            i++;
+          } else {
+            arr.push({
+              page: {
+                width: img.width * 2,
+                height: img.height
+              },
+              images: [{
+                x: 0,
+                y: 0,
+                id: img.id,
+                img: img.src,
+                index: i + 1,
+                width: img.width,
+                height: img.height
+              }]
+            })
+            i++;
+          }
+        } else {
+          arr.push({
+            page: {
+              width: img.width,
+              height: img.height
+            },
+            images: [{
+              x: 0,
+              y: 0,
+              id: img.id,
+              img: img.src,
+              index: i + 1,
+              width: img.width,
+              height: img.height
+            }]
+          })
+          i++;
+        }
+      }
+    }
+
+  }
 }

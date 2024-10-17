@@ -21,6 +21,11 @@ export class DoublePageThumbnailComponent {
 
   double_pages: any = [];
 
+  cover="";
+
+  is_loading_free=false;
+
+  opened=true;
   constructor(
     public utils: UtilsService,
     private zone: NgZone,
@@ -116,6 +121,7 @@ export class DoublePageThumbnailComponent {
     })
   }
   async init(_data?: DialogData) {
+    this.is_loading_free=false;
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
       this.page_index = this.data.page_index;
@@ -125,13 +131,17 @@ export class DoublePageThumbnailComponent {
     }
     const double_list = await this.getDoublePages(this.pages, this.page_index)
     this.double_pages = double_list;
+
     this.zone.run(() => {
       this.complete()
+
+      this.is_loading_free=true;
       setTimeout(() => this.complete(), 150)
     })
   }
 
   async init2(_data?: DialogData) {
+
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
       this.page_index = this.data.page_index;

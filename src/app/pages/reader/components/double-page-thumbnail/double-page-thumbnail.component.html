@@ -1,54 +1,87 @@
-<div class="warp opacity-0" id="double_page_thumbnail" (click)="close()">
-  <div class="list" [attr.page_order]="false" [attr.type]="'list'">
-    <button
-      mat-button
-      *ngFor="let n of double_pages; let index = index"
-      class="item"
-      [attr.region]="'double_page_thumbnail_item'"
-      [attr.select]="n.select"
-      (click)="on(n)"
-      [attr.content_menu_key]="'double_page_thumbnail_item'"
-      [attr.content_menu_value]="index"
-    >
-      <div *ngIf="n.images.length == 2" class="double">
-        <div class="img">
-          <app-image
-            [src]="n.images[0].img"
-            [width]="n.images[0].width"
-            loading="lazy"
-            [height]="n.images[0].height"
-            *ngIf="n.images[0]"
-          />
-          <div class="index">{{ n.images[0].index }}</div>
-        </div>
-        <div class="img">
-          <app-image
-            [src]="n.images[1].img"
-            [width]="n.images[1].width"
-            loading="lazy"
-            [height]="n.images[1].height"
-            *ngIf="n.images[1]"
-          />
-          <div class="index">{{ n.images[1].index }}</div>
-        </div>
+
+
+
+<mat-drawer-container autosize style="height: 100vh;">
+  <mat-drawer [opened]="opened" mode="side" style="min-width: 224px;" id="scroll">
+    <div class="menu">
+      <div class="title">
+        全部章节({{data.chapters.length}})
       </div>
-      <div
-        *ngIf="n.images.length == 1"
-        class="single"
-        [attr.page]="n.images[0].width < n.images[0].height ? 'p' : 'l'"
-        [attr.first]="index == 0"
+      <div class="list">
+        <button [matTooltipShowDelay]="3000" [matTooltip]="n.title" [id]="'_'+n.id" (click)="on(n)" class="item"
+          [attr.select]="n.id==data.chapter_id" [attr.region]="'reader_section'"
+          *ngFor="let n of data.chapters;let index=index" mat-button>
+          <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==data.chapter_id">
+            <span> {{n.title}}</span>
+            <!-- <mat-icon class="icon" *ngIf="is_locked&&n.is_locked">lock</mat-icon>
+            <mat-icon class="icon" *ngIf="is_locked&&!n.is_locked">lock_open</mat-icon> -->
+          </div>
+        </button>
+      </div>
+    </div>
+
+
+  </mat-drawer>
+  <div class="warp opacity-0" id="double_page_thumbnail" (click)="close()">
+    <div class="list" [attr.page_order]="false" [attr.type]="'list'">
+      <button
+        mat-button
+        *ngFor="let n of double_pages; let index = index"
+        class="item"
+        [attr.region]="'double_page_thumbnail_item'"
+        [attr.select]="n.select"
+        (click)="on(n)"
+        [attr.content_menu_key]="'double_page_thumbnail_item'"
+        [attr.content_menu_value]="index"
       >
-        <div class="img">
-          <app-image
-            [src]="n.images[0].img"
-            [width]="n.images[0].width"
-            loading="lazy"
-            [height]="n.images[0].height"
-            *ngIf="n.images[0]"
-          />
-          <div class="index">{{ n.images[0].index }}</div>
+        <div *ngIf="n.images.length == 2" class="double">
+          <div class="img">
+            <app-image
+              [src]="n.images[0].img"
+              [width]="n.images[0].width"
+              loading="lazy"
+              [height]="n.images[0].height"
+              *ngIf="n.images[0]"
+            />
+            <div class="index">{{ n.images[0].index }}</div>
+          </div>
+          <div class="img">
+            <app-image
+              [src]="n.images[1].img"
+              [width]="n.images[1].width"
+              loading="lazy"
+              [height]="n.images[1].height"
+              *ngIf="n.images[1]"
+            />
+            <div class="index">{{ n.images[1].index }}</div>
+          </div>
         </div>
-      </div>
-    </button>
+        <div
+          *ngIf="n.images.length == 1"
+          class="single"
+          [attr.page]="n.images[0].width < n.images[0].height ? 'p' : 'l'"
+          [attr.first]="index == 0"
+        >
+          <div class="img">
+            <app-image
+              [src]="n.images[0].img"
+              [width]="n.images[0].width"
+              loading="lazy"
+              [height]="n.images[0].height"
+              *ngIf="n.images[0]"
+            />
+            <div class="index">{{ n.images[0].index }}</div>
+          </div>
+        </div>
+      </button>
+    </div>
   </div>
-</div>
+  <div class="loading" style="position: fixed;
+  width: 100vw;
+  height: 100%;
+  justify-content: center;
+  top: 80vh;
+  display: flex;" *ngIf="!is_loading_free">
+    <mat-progress-bar mode="indeterminate" value="30" style="width: 33vw;"></mat-progress-bar>
+  </div>
+</mat-drawer-container>
