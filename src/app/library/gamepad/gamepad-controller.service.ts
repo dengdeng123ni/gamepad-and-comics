@@ -67,9 +67,9 @@ export class GamepadControllerService {
       subtree: false, //目标节点所有后代节点的attributes、childList、characterData变化
     };
 
-    let observe = new MutationObserver(() => this.execute());
-    observe.observe(document, config);
-
+    // let observe = new MutationObserver(() => this.execute());
+    // observe.observe(document, config);
+    this.execute()
     this.router.events.subscribe((event) => {
       // NavigationEnd,NavigationCancel,NavigationError,RoutesRecognized
       if (event instanceof NavigationStart) {
@@ -153,6 +153,7 @@ export class GamepadControllerService {
       setTimeout(resolve, duration);
     })
   }
+
   async execute() {
     // 检查是否符合执行条件
     if (document.body.getAttribute("pattern") !== "gamepad") return;
@@ -161,7 +162,7 @@ export class GamepadControllerService {
     this.isRunning = true;
     try {
       await this.getNodes();
-      await this.sleep(100);
+      await this.sleep(500);
       this.execute();
     } finally {
       // 清理状态，以便下次执行
