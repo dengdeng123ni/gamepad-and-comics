@@ -53,6 +53,11 @@ export class ReaderToolbarComponent {
 
     })
   }
+  filterOpen($event){
+    const node = ($event.target as HTMLElement);
+    const position = node.getBoundingClientRect();
+    this.filter.open({backdropClass:"_reader_config_bg",position:{right:"30px",top:`${position.top}px`}})
+  }
   menuObj: {
     list: any,
     type: string

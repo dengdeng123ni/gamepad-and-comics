@@ -86,7 +86,7 @@
         </div>
       </div>
   <div class="warp opacity-0" id="double_page_thumbnail" (click)="close()">
-    <div class="list"  style="padding-top: 0;" [attr.page_order]="false" [attr.type]="'list'">
+    <div class="list"  style="padding-top: 0;" [attr.page_order]="data.comics_config.is_double_page" [attr.type]="'list'">
       <button
         mat-button
         *ngFor="let n of double_pages; let index = index"
