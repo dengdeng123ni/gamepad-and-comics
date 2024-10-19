@@ -11,7 +11,6 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ExportSettingsComponent } from './components/export-settings/export-settings.component';
 import { EditToolbarComponent } from './components/edit-toolbar/edit-toolbar.component';
 import { LoadingComponent } from './components/loading/loading.component';
-import { DoublePageThumbnailComponent } from './components/double-page-thumbnail/double-page-thumbnail.component';
 import { UnlockComponent } from './components/unlock/unlock.component';
 import { ComicsOffprintDetailComponent } from './components/comics-offprint-detail/comics-offprint-detail.component';
 import { ComicsOffprintThumbnailComponent } from './components/comics-offprint-thumbnail/comics-offprint-thumbnail.component';
@@ -20,6 +19,7 @@ import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard
 import { ComicsToolbarComponent } from './components/comics-toolbar/comics-toolbar.component';
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 import { DropDownMenuComponent } from './components/drop-down-menu/drop-down-menu.component';
+import { DoublePageThumbnailComponent } from './components/double-page-thumbnail/double-page-thumbnail.component';
 
 
 @NgModule({

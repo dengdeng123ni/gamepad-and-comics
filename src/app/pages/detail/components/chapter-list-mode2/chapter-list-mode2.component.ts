@@ -57,8 +57,7 @@ export class ChapterListMode2Component {
           const id = e.value
           const index = await this.current._getChapterIndex(id);
           this.doublePageThumbnail.open({
-            chapter_id: id,
-            page_index: index
+            chapter_id: id
           })
 
         } else if (e.id == "ccccc") {

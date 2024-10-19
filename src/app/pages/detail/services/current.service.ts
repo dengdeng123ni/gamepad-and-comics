@@ -79,10 +79,201 @@ export class CurrentService {
     detail.chapters = detail.chapters.filter(x => x.id.toString() !== chapter_id.toString());
     await this.DbController.putWebDbDetail(comic_id, detail);
   }
-
-  async _getChapter(id: string) {
-    return await this.DbController.getPages(id, { origin: this.origin });
+  async _getChapter(id: string): Promise<Array<PagesItem>> {
+    // let list = [];
+    // if (this._chapters[id]) {
+    //   list = this._chapters[id]
+    // } else {
+    //   list = ;
+    //   this._chapters[id] = list;
+    // }
+    const c = await this.DbController.getPages(id, { origin: this.origin })
+    setTimeout(() => {
+      this.DbController.loadPages(id, { origin: this.origin })
+    }, 1000)
+    return c
   }
+
+
+
+
+
+
+
+  async _delPage(chapter_id: string, page_index: number) {
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+    pages.splice(page_index, 1)
+    await this.DbController.putWebDbPages(chapter_id, pages)
+  }
+  async _addPage(chapter_id: string, page_index: number, blob: Blob) {
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+    let c = `http://localhost:7700/chapter/insert_page/${page_index}_${new Date().getTime()}`
+    await this.DbController.addImage(c, blob)
+    pages.splice(page_index, 0, {
+      id: `${page_index}_${new Date().getTime()}`,
+      src: c,
+      width: 0,
+      height: 0
+    })
+    await this.DbController.putWebDbPages(chapter_id, pages)
+  }
+  async _insertWhitePage(chapter_id: string, page_index: number) {
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+    const blob = await this.DbController.getImage(pages[page_index].src, { origin: this.origin });
+    const blob2 = await this.getImageBase64(blob);
+    await this._addPage(chapter_id, page_index, blob2)
+  }
+  async _insertPage(chapter_id: string, page_index: number) {
+    const blob2 = await this._getFileImage();
+    if (blob2) {
+      await this._addPage(chapter_id, page_index, blob2)
+    }
+
+  }
+  async _getFileImage() {
+    const pickerOpts = {
+      types: [
+        {
+          description: "Images",
+          accept: {
+            "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+          },
+        },
+      ],
+      excludeAcceptAllOption: true,
+      multiple: false,
+    };
+
+    // 打开文件选择器
+    const [fileHandle] = await (window as any).showOpenFilePicker(pickerOpts);
+    // 获取文件内容
+    const fileData = await fileHandle.getFile();
+    return fileData
+  }
+  async _separatePage(chapter_id: string, page_index: number) {
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+    const blob = await this.DbController.getImage(pages[page_index].src, { origin: this.origin });
+    const image1 = await createImageBitmap(blob);
+    let canvas1 = document.createElement('canvas');
+    canvas1.width = (image1.width / 2);
+    canvas1.height = image1.height;
+    let context1 = canvas1.getContext('2d');
+    context1.rect(0, 0, canvas1.width, canvas1.height);
+    context1.drawImage(image1, 0, 0, image1.width, image1.height, 0, 0, image1.width, image1.height);
+    let canvas2 = document.createElement('canvas');
+    canvas2.width = (image1.width / 2);
+    canvas2.height = image1.height;
+    let context2 = canvas2.getContext('2d');
+    context2.rect(0, 0, canvas2.width, canvas2.height);
+    context2.drawImage(image1, canvas1.width, 0, image1.width, image1.height, 0, 0, image1.width, image1.height);
+    let dataURL1 = canvas1.toDataURL("image/png");
+    let dataURL2 = canvas2.toDataURL("image/png");
+    let c1 = `http://localhost:7700/chapter/insert_page/${page_index}_1_${new Date().getTime()}`
+    let c2 = `http://localhost:7700/chapter/insert_page/${page_index}_2_${new Date().getTime()}`
+    await this.DbController.addImage(c1, this.base64ToBlob(dataURL1))
+    await this.DbController.addImage(c2, this.base64ToBlob(dataURL2))
+    pages.splice(page_index, 0, {
+      id: `${page_index}_1_${new Date().getTime()}`,
+      src: c2,
+      width: 0,
+      height: 0
+    })
+    pages.splice(page_index + 1, 0, {
+      id: `${page_index}_2_${new Date().getTime()}`,
+      src: c1,
+      width: 0,
+      height: 0
+    })
+    pages.splice(page_index + 2, 1)
+    await this.DbController.putWebDbPages(chapter_id, pages)
+  }
+
+  async _mergePage(chapter_id: string, page_index1: number, page_index2: number) {
+    let pages = await this.DbController.getPages(chapter_id, { origin: this.origin })
+    const blob1 = await this.DbController.getImage(pages[page_index1].src, { origin: this.origin });
+    const blob2 = await this.DbController.getImage(pages[page_index2].src, { origin: this.origin });
+    const blob = await this.mergePage([blob1, blob2].reverse());
+    let c = `http://localhost:7700/chapter/insert_page/${page_index1}_${page_index2}_${new Date().getTime()}`
+    await this.DbController.addImage(c, blob)
+    pages.splice(page_index1, 0, {
+      id: `${page_index1}_${page_index2}_${new Date().getTime()}`,
+      src: c,
+      width: 0,
+      height: 0
+    })
+    pages.splice(page_index1 + 1, 1)
+    pages.splice(page_index2, 1)
+    await this.DbController.putWebDbPages(chapter_id, pages)
+  }
+
+  base64ToBlob = (data) => {
+    var parts = data.split(';base64,'),
+      contentType = parts[0].split(':')[1],
+      raw = window.atob(parts[1]),
+      length = raw.length,
+      arr = new Uint8Array(length);
+    for (var i = 0; i < length; i++) {
+      arr[i] = raw.charCodeAt(i);
+    }
+    var blob1 = new Blob([arr], { type: contentType });
+    return blob1
+  };
+  getImageBase64 = async (blob) => {
+    const image1 = await createImageBitmap(blob);
+    let canvas = document.createElement('canvas');
+    canvas.width = image1.width;
+    canvas.height = image1.height;
+    let context = canvas.getContext('2d');
+    context.drawImage(image1, 0, 0, image1.width, canvas.height);
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      imageData.data[i] = 255;
+      imageData.data[i + 1] = 255;
+      imageData.data[i + 2] = 255;
+      imageData.data[i + 3] = 255;
+    }
+    context.putImageData(imageData, 0, 0);
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = '#fff';
+    let dataURL = canvas.toDataURL("image/png", 0.1);
+    return this.base64ToBlob(dataURL)
+  }
+
+  async mergePage(blobs) {
+    const image1 = await createImageBitmap(blobs[0]);
+    const image2 = await createImageBitmap(blobs[1]);
+    let canvas = document.createElement('canvas');
+    canvas.width = image1.width + image2.width;
+    canvas.height = (image1.height + image2.height) / 2;
+    let context = canvas.getContext('2d');
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image1, 0, 0, (image1.width / image1.height) * canvas.height, canvas.height);
+    context.drawImage(image2, (image1.width / image1.height) * canvas.height, 0, (image2.width / image2.height) * canvas.height, canvas.height);
+    let dataURL = canvas.toDataURL("image/png", 1);
+    return this.base64ToBlob(dataURL)
+  }
+
+
+
+  async _getChapterFirstPageCover(chapter_id: string) {
+    return await firstValueFrom(this.webDb.getByID("chapter_first_page_cover", chapter_id.toString()))
+  }
+  async _setChapterFirstPageCover(chapter_id: string, is_first_page_cover: boolean) {
+    await firstValueFrom(this.webDb.update("chapter_first_page_cover", { 'chapter_id': chapter_id.toString(), "is_first_page_cover": is_first_page_cover }))
+  }
+  async _delChapterFirstPageCover(chapter_id: string) {
+    await firstValueFrom(this.webDb.deleteByKey("chapter_first_page_cover", chapter_id.toString()))
+  }
+
+  async _updateChapterRead(chapter_id: string) {
+    const index = this.data.chapters.findIndex(x => x.id.toString() == chapter_id.toString())
+    if (index <= -1) return
+    this.data.chapters[index].read = 1;
+    const chapters = this.data.chapters.map(x => ({ id: x.id, read: x.read }))
+    await firstValueFrom(this.webDb.update("read_comics_chapter", { 'comics_id': this.data.comics_id.toString(), chapters: chapters }))
+    await firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[index].id }))
+  }
+
   async _getChapterIndex(id: string): Promise<number> {
     const res: any = await firstValueFrom(this.webDb.getByID("last_read_chapter_page", id.toString()))
     if (res) {

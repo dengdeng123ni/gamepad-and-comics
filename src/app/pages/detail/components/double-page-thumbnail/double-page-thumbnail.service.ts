@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DoublePageThumbnailComponent } from './double-page-thumbnail.component';
+import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
 
 interface DialogData {
   chapter_id: string;
-  page_index: number
+  page_index?: number
 }
 
 @Injectable({
@@ -15,7 +16,14 @@ export class DoublePageThumbnailService {
   opened = false;
   constructor(
     public _dialog: MatDialog,
+    public GamepadEvent:GamepadEventService
   ) {
+    GamepadEvent.registerAreaEvent('double_page_thumbnail_item',{
+      B:()=>setTimeout(()=>this.close())
+    })
+    GamepadEvent.registerConfig('double_page_thumbnail_item', {
+      region: ['chapter_item'],
+    });
   }
   open(data?: DialogData) {
     if (this.opened == false) {

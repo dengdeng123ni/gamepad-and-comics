@@ -72,7 +72,14 @@ export class ChapterListMode1Component {
         if (this.data.chapters.filter(x => x.selected).length == 0) {
           this.data.chapters[index].selected = !this.data.chapters[index].selected;
         }
+        if (e.id == "thumbnail") {
+          const id = e.value
+          const index = await this.current._getChapterIndex(id);
+          this.doublePageThumbnail.open({
+            chapter_id: id
+          })
 
+        }
          if (e.id == "export") {
           const node = document.getElementById("menu_content");
           let { x, y, width, height } = node!.getBoundingClientRect();
