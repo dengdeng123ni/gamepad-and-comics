@@ -229,7 +229,8 @@
   position: absolute;
   bottom: 15px;
   left: 15px;
-  width: 30px;
+  button{
+    width: 30px;
   height: 30px;
   display: flex;
   justify-content: center;
@@ -237,6 +238,8 @@
   .icon{
     min-width: 24px;
   }
+  }
+
 }
 
 

@@ -63,7 +63,7 @@ export class IndexComponent {
     document.body.setAttribute("router", "list")
     document.body.setAttribute("locked_region",document.body.getAttribute("router"))
     // this.Current.init();
-    GamepadEvent.registerConfig("menu", { region: ["menu_item"] })
+    GamepadEvent.registerConfig("menu", { region: ["menu_item","item"] })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
 
     const b64_to_utf8 = (str: string) => {

@@ -82,7 +82,7 @@ export class MenuComponent {
     public route: ActivatedRoute,
     private zone: NgZone
   ) {
-
+    // this.ControllerSettings.open();
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
 

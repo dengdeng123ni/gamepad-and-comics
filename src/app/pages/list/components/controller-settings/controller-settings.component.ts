@@ -6,42 +6,161 @@ import { Component } from '@angular/core';
   styleUrl: './controller-settings.component.scss'
 })
 export class ControllerSettingsComponent {
-  gamepad = {
-    LEFT_ANALOG: "移动",
-    RIGHT_ANALOG: "移动",
-    UP: "向上移动",
-    RIGHT: "向右移动",
-    DOWN: "向下移动",
-    LEFT: "想左移动",
-    LEFT_ANALOG_PRESS: "手柄工具栏",
-    RIGHT_ANALOG_PRESS: "",
-    A: "点击",
-    B: "返回",
-    X: "右键菜单",
-    Y: "组合键",
-    LEFT_TRIGGER: "",
-    RIGHT_TRIGGER: "",
-    LEFT_BUMPER: "移动到上一个",
-    RIGHT_BUMPER: "移动到下一个",
-    SELECT: "",
-    START: "手柄按键说明",
-    SPECIAL: "",
-    UP_Y: "",
-    RIGHT_Y: "",
-    DOWN_Y: "",
-    LEFT_Y: "",
-    LEFT_ANALOG_PRESS_Y: "",
-    RIGHT_ANALOG_PRESS_Y: "",
-    A_Y: "",
-    B_Y: "",
-    X_Y: "",
-    Y_Y: "",
-    LEFT_TRIGGER_Y: "",
-    LEFT_BUMPER_Y: "移动到第一个",
-    RIGHT_TRIGGER_Y: "",
-    RIGHT_BUMPER_Y: "移动到最后一个",
-    SELECT_Y: "",
-    START_Y: "",
-    SPECIAL_Y: "",
-  }
+  list = [
+    {
+      id: "up",
+      name: "向上移动",
+      keyboard: {
+        edit:false,
+        key: "",
+        name: "↑"
+      },
+      gamepad:{
+        key: "UP",
+        name: "UP",
+        edit:false,
+      }
+    },
+    {
+      id: "down",
+      name: "向下移动",
+      keyboard: {
+        edit:false,
+        key: "",
+        name: "↓"
+      },
+      gamepad:{
+        key: "DOWN",
+        name: "DOWN",
+        edit:false,
+      }
+    },
+    {
+      id: "right",
+      name: "向右移动",
+      keyboard: {
+        edit:false,
+        key: "",
+        name: "→"
+      },
+      gamepad:{
+        key: "RIGHT",
+        name: "RIGHT",
+        edit:false,
+      }
+
+    },
+    {
+      id: "left",
+      name: "向左移动",
+      keyboard: {
+        edit:false,
+        key: "",
+        name: "←"
+      },
+      gamepad:{
+        key: "LEFT",
+        name: "LEFT",
+        edit:false,
+      }
+    },
+
+    {
+      id: "click",
+      name: "点击",
+      mouse:{
+        edit:false,
+        name:"鼠标左键"
+      },
+      keyboard: {
+        edit:false,
+        key: "",
+        name: "空格/Enter"
+      },
+      gamepad:{
+        key: "A",
+        name: "A",
+        edit:false,
+      }
+    },
+    {
+      id: "back",
+      name: "返回",
+      keyboard: {
+        edit:false,
+        key: "",
+        name: "Esc"
+      },
+      gamepad:{
+        key: "B",
+        name: "B",
+        edit:false,
+      }
+    },
+
+    {
+      id: "key_combinations",
+      name: "组合键",
+      keyboard: {
+        edit:false,
+        key: "Control",
+        name: "Control"
+      },
+      gamepad:{
+        key: "Y",
+        name: "Y",
+        edit:false,
+      }
+    },
+    {
+      id: "context_menu",
+      name: "右键菜单",
+      mouse:{
+        edit:false,
+        name:"鼠标右键"
+      },
+      keyboard: {
+        edit:false,
+        key: "SHIFT",
+        name: "⇧"
+      },
+      gamepad:{
+        key: "X",
+        name: "X",
+        edit:false,
+      }
+    },
+    {
+      id: "toolbar",
+      name: "工具栏",
+      keyboard: {
+        edit:false,
+        key: "P",
+        name: "P"
+      },
+      gamepad:{
+        key: "LEFT_ANALOG_PRESS",
+        name: "左摇杆键",
+        edit:false,
+      }
+    },
+    {
+      id: "previous",
+      name: "移动到上一个"
+    },
+    {
+      id: "next",
+      name: "移动到下一个"
+    },
+    {
+      id: "first",
+      name: "移动到第一个"
+    },
+    {
+      id: "last",
+      name: "移动到最后一个"
+    }
+  ]
+
+
 }

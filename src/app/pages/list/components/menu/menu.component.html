@@ -68,10 +68,13 @@
       </button>
     </div>
   </div>
-  <button [attr.menu_key]="'_gh_settings'" [attr.menu_value]="'_gh_settings'" mat-icon-button class="settings"
-    (click)="onMenu($event)">
+  <div class="settings">
+    <button [attr.menu_key]="'_gh_settings'" [attr.menu_value]="'_gh_settings'" mat-icon-button
+    (click)="onMenu($event)" [attr.region]="'item'" style="border-radius: 4px;">
     <mat-icon [attr.svg_filter]="'text_primary'" class="icon">settings</mat-icon>
   </button>
+  </div>
+
   <div class="switch_left_position" style="    position: absolute;
   right: -10px;
   top: 10vh;
