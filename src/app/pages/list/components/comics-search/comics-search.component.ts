@@ -1,5 +1,5 @@
-import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, QueryEventService, WebFileService } from 'src/app/library/public-api';
+import { Component, ElementRef, HostListener, NgZone, ViewChild } from '@angular/core';
+import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, GamepadEventService, HistoryService, QueryEventService, WebFileService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute, NavigationStart, ParamMap, Router } from '@angular/router';
 import { Subject, firstValueFrom, map, throttleTime } from 'rxjs';
@@ -7,6 +7,7 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { CurrentService } from '../../services/current.service';
 import { ComicsListV2Service } from '../comics-list-v2/comics-list-v2.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
+import { WhenInputtingService } from '../when-inputting/when-inputting.service';
 
 @Component({
   selector: 'app-comics-search',
@@ -14,6 +15,19 @@ import { ComicsSelectTypeService } from '../comics-select-type/comics-select-typ
   styleUrl: './comics-search.component.scss'
 })
 export class ComicsSearchComponent {
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown = (event: KeyboardEvent) => {
+
+
+    if (event.key == "Enter") {
+      if(document.activeElement.tagName=="INPUT"){
+        this.search();
+        this.WhenInputting.close();
+      }
+    }
+  }
+
   _keyword = "";
   get keyword() { return this._keyword };
   set keyword(value: string) {
@@ -23,6 +37,8 @@ export class ComicsSearchComponent {
 
     this.router.navigate(['/search', this.origin, this.utf8_to_b64(this.keyword)]);
   }
+
+
   obj = {};
   key: string = '';
   @ViewChild('listbox') ListNode: ElementRef;
@@ -61,9 +77,28 @@ export class ComicsSearchComponent {
     public DbEvent: DbEventService,
     public ComicsListV2: ComicsListV2Service,
     public ComicsSelectType: ComicsSelectTypeService,
+    public GamepadEvent: GamepadEventService,
     public history: HistoryService,
+    public WhenInputting:WhenInputtingService,
     public App: AppDataService
   ) {
+
+    GamepadEvent.registerAreaEvent("input", {
+      A: e => {
+        if(document.activeElement.tagName=="INPUT"){
+          this.search();
+          e.querySelector("input").blur();
+          this.WhenInputting.close();
+        }
+        this.WhenInputting.open();
+        e.querySelector("input").focus();
+
+      },
+      B: e => {
+        e.querySelector("input").blur();
+        this.WhenInputting.close();
+      }
+    })
 
     this.router.events.subscribe(event => {
 
@@ -77,15 +112,15 @@ export class ComicsSearchComponent {
       if (this.id) await this.put()
       const origin = params.get('id')
       let value = params.get('sid')
-      if(value) value=this.b64_to_utf8(value)
-      else value=''
-      this.id=`${origin}_${value}`
+      if (value) value = this.b64_to_utf8(value)
+      else value = ''
+      this.id = `${origin}_${value}`
       this.origin = origin;
       this.value = value;
-      this.keyword=value;
+      this.keyword = value;
       this.App.setOrigin(origin)
       const obj = this.DbEvent.Configs[origin].menu.find(x => x.id == 'search');
-     if( obj.query.page_size) this.page_size = obj.query.page_size;
+      if (obj.query.page_size) this.page_size = obj.query.page_size;
 
 
       const data: any = await this.get(this.id);
@@ -111,6 +146,16 @@ export class ComicsSearchComponent {
 
     })
   }
+  focus(){
+    this.WhenInputting.open();
+  }
+  blur(){
+    this.WhenInputting.close();
+
+
+
+  }
+
   private utf8_to_b64 = (str: string) => {
     return window.btoa(encodeURIComponent(str));
   }
@@ -195,7 +240,7 @@ export class ComicsSearchComponent {
   async init() {
     this.page_num = 1;
     this.ListNode.nativeElement.scrollTop = 0;
-    this.list = await this.initFiast({ page_num: this.page_num,page_size:this.page_size });
+    this.list = await this.initFiast({ page_num: this.page_num, page_size: this.page_size });
     this.overflow()
   }
   async overflow() {
@@ -237,7 +282,7 @@ export class ComicsSearchComponent {
   async add_pages() {
     if (this.is_destroy) return
     this.page_num++;
-    const list = await this.add({ page_num: this.page_num,page_size:this.page_size });
+    const list = await this.add({ page_num: this.page_num, page_size: this.page_size });
     if (list.length == 0) {
       this.page_num--;
       return

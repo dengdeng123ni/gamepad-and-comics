@@ -183,6 +183,7 @@ body[pattern=gamepad][locked_region=download_option]
 
 {
   [region=item][select=true],
+  [region=input][select=true],
   [region=one_page_item][select=true],
   [region=comics_option][select=true],
   [region=comics_item][select=true],
@@ -230,6 +231,7 @@ body[pattern=gamepad][locked_region=content_menu]{
   border: 2px solid #ffffff57;
   border-radius: 4px;
   top: 0;
+  // z-index: -1;
 }
 
 [type=checkbox][select=true]{

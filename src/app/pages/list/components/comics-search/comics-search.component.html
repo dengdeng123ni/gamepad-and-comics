@@ -2,33 +2,23 @@
 
 
 <div class="head">
-  <mat-form-field class="search">
-    <input type="text" matInput placeholder="搜索" [(ngModel)]="keyword">
-   <div class="llll icon" (click)="search()">
-    <mat-icon>search</mat-icon>
-   </div>
+  <mat-form-field class="search" style="flex-direction: initial;" [attr.region]="'input'"   [attr.select]="false">
+    <input type="text" id="input_v12" matInput placeholder="搜索" (focus)="focus()" (blur)="blur()" [(ngModel)]="keyword">
+    <div class="llll icon" (click)="search()">
+      <mat-icon>search</mat-icon>
+    </div>
   </mat-form-field>
 </div>
 
 
 
 <div class="warp">
-  <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'" (click)="on_list($event)">
-    <button
-      class="item"
-      mat-button
-      *ngFor="let n of list;let index=index"
-      [attr._id]="n.id"
-      [attr.index]="index"
-      [attr.region]="'comics_item'"
-      [attr.select]="n.id==''"
-      [matTooltipShowDelay]="3000"
-      [matTooltip]="n.title"
-
-      [attr.select]="n.id==data.currend_read_comics_id"
-      [attr.content_menu_key]="'comics_item'"
-      [attr.content_menu_value]="n.id"
-      [attr.multiple]="n.selected">
+  <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'"
+    (click)="on_list($event)">
+    <button class="item" mat-button *ngFor="let n of list;let index=index" [attr._id]="n.id" [attr.index]="index"
+      [attr.region]="'comics_item'" [attr.select]="n.id==''" [matTooltipShowDelay]="3000" [matTooltip]="n.title"
+      [attr.select]="false" [attr.content_menu_key]="'comics_item'"
+      [attr.content_menu_value]="n.id" [attr.multiple]="n.selected">
       <div class="img">
         <app-image class="w-full" [src]="n.cover" />
         <div class="mezzanine"></div>

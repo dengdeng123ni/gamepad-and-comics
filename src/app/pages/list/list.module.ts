@@ -28,6 +28,7 @@ import { ImageCompressionComponent } from './components/image-compression/image-
 import { ImageToComponent } from './components/image-to/image-to.component';
 import { CompositeModule } from 'src/app/composite/composite.module';
 import { DownloadProgressComponent } from './components/download-progress/download-progress.component';
+import { WhenInputtingComponent } from './components/when-inputting/when-inputting.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -56,7 +57,8 @@ import { DownloadProgressComponent } from './components/download-progress/downlo
     ComicsListConfigComponent,
     ImageCompressionComponent,
     ImageToComponent,
-    DownloadProgressComponent
+    DownloadProgressComponent,
+    WhenInputtingComponent
   ],
   imports: [
     CommonModule,

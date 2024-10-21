@@ -182,6 +182,8 @@ export class GamepadControllerService {
 
   isGamepadExplanationComponent = false;
   isVoiceComponet = false;
+
+  is_when_inputting=false;
   device(input: string) {
     let is_11=["LEFT_ANALOG_DOWN",
     "LEFT_ANALOG_RIGHT",
@@ -222,11 +224,19 @@ export class GamepadControllerService {
     if(!is_11) this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
   }
   device2(input: string) {
+    if(this.is_when_inputting){
+      if(input=="Enter"){
+
+      }else if(input=="Escape"){
+
+      }else{
+        return null
+      }
+    }
     this.getCurrentTarget();
     const region = this.current.region;
     if("Meta"==input) this.Y=true;
 
-    console.log(input);
     if (this.Y) {
       if (this.KeyboardEvent?.areaEventsY[region]?.[input]) {
         return this.KeyboardEvent.areaEventsY[region][input](this.nodes[this.current.index]);
