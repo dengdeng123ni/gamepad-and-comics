@@ -1,1 +1,60 @@
-<p>menu-search works!</p>
+<div class="warp">
+  <div class="head">
+    <mat-icon fontIcon="search" ></mat-icon>
+    <input type="text" placeholder="搜索"  [(ngModel)]="keyword">
+  </div>
+
+  <div>
+    <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
+      <button
+        class="item"
+        mat-button
+        *ngFor="let n of filter_comics_list;let index=index"
+        [attr._id]="n.id"
+        [attr.index]="index"
+        [attr.region]="'comics_item'"
+        [attr.default]="false"
+        [attr.select]="false"
+        [matTooltipShowDelay]="1000"
+        [matTooltip]="n.title"
+        [attr.content_menu_key]="'comics_item'"
+        [attr.content_menu_value]="n.id"
+        [attr.multiple]="false">
+        <div class="img"   style="    width: 24px;min-width: 24px;">
+          <img [attr.width]="720" [attr.height]="960" style="width: 100%;
+          height: auto;opacity: 0;" >
+          <app-image [src]="n.cover" style="position: absolute;" />
+          <div class="mezzanine"></div>
+        </div>
+        <div class="info">
+          <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
+        </div>
+      </button>
+    </div>
+    <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" *ngIf="keyword" [attr.section]="'comics_list'">
+      <button
+        class="item"
+        mat-button
+        *ngFor="let n of arr;let index=index"
+        [attr._id]="n.id"
+        [attr.index]="index"
+        [attr.region]="'comics_item'"
+        [attr.default]="false"
+        [attr.select]="false"
+        [matTooltipShowDelay]="1000"
+        [matTooltip]="n.name"
+        [attr.content_menu_key]="'comics_item'"
+        [attr.content_menu_value]="n.id"
+        [attr.multiple]="false">
+        <div class="img"   style="    width: 24px;min-width: 24px;">
+          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">folder_open</mat-icon>
+        </div>
+        <div class="info">
+          <div class="name" style="margin: 0;" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">使用 {{n.name}} 搜索</div>
+          <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">arrow_forward</mat-icon> -->
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+

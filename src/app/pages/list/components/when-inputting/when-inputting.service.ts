@@ -14,7 +14,9 @@ export class WhenInputtingService {
     public _dialog: MatDialog,
     public GamepadController: GamepadControllerService,
   ) {
+    this.open();
   }
+
   open() {
     if (this.opened == false) {
       this.opened = true;

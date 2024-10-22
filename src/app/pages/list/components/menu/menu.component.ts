@@ -102,7 +102,7 @@ export class MenuComponent {
         if (x == "local_cache") return
         let obj = {
           id: x,
-          icon: "home",
+          icon: "folder_open",
           name: this.DbEvent.Configs[x].name,
           submenu: [],
         };

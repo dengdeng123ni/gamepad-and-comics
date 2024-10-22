@@ -18,6 +18,7 @@ import { ComicsListConfigService } from '../../components/comics-list-config/com
 import { ImageToService } from '../../components/image-to/image-to.service';
 import { DownloadProgressService } from '../../components/download-progress/download-progress.service';
 import { WhenInputtingService } from '../../components/when-inputting/when-inputting.service';
+import { MenuSearchService } from '../../components/menu-search/menu-search.service';
 
 @Component({
   selector: 'app-index',
@@ -47,7 +48,14 @@ export class IndexComponent {
     public imageTo:ImageToService,
     public WhenInputting:WhenInputtingService,
     public DownloadProgress:DownloadProgressService,
+    public MenuSearch:MenuSearchService
   ) {
+    this.MenuSearch.open({
+      position:{
+        left:"10px",
+        top:"10px"
+      }
+    });
     // this.WhenInputting.open();
     // this.DownloadProgress.open({
     //   panelClass: "_double_page_thumbnail",
