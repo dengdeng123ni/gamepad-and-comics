@@ -18,13 +18,15 @@ export class ComicsSearchComponent {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
-
-
     if (event.key == "Enter") {
-      if(document.activeElement.tagName=="INPUT"){
-        this.search();
-        this.WhenInputting.close();
+      if(document.querySelector("#input_v1232").getAttribute("select")=="false"){
+        if(document.activeElement.tagName=="INPUT"){
+          this.search();
+          this.WhenInputting.close();
+        }
       }
+
+
     }
   }
 
@@ -92,6 +94,7 @@ export class ComicsSearchComponent {
         }
         this.WhenInputting.open();
         e.querySelector("input").focus();
+
 
       },
       B: e => {
