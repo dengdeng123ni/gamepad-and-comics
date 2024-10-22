@@ -75,15 +75,15 @@ export class IndexComponent {
     // this.LoadingCover.open();
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(params => {
-      if (params.get('origin')) {
-        this.App.setOrigin(params.get('origin'))
+      if (params.get('source')) {
+        this.App.setsource(params.get('source'))
         this.data.init();
-        this.current._init(params.get('origin'),params.get('id').toString() as string, params.get('sid').toString() as string)
+        this.current._init(params.get('source'),params.get('id').toString() as string, params.get('sid').toString() as string)
         this.filter.init();
         return
       }
       this.data.init();
-      this.current._init(this.App.origin,params.get('id').toString() as string, params.get('sid').toString() as string)
+      this.current._init(this.App.source,params.get('id').toString() as string, params.get('sid').toString() as string)
       this.filter.init();
     })
   }

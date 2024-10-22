@@ -8,7 +8,7 @@ import { AppDataService, ImageService, WorkerService } from 'src/app/library/pub
 })
 export class ImageComponent {
   @Input() src: string = "";
-  @Input() origin: string = "";
+  @Input() source: string = "";
   @Input() width: string | number | null = "";
   @Input() height: string | number | null = "";
   @Input() alt: string | number | null = "";

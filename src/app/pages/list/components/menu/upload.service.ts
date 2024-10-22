@@ -92,7 +92,7 @@ export class UploadService {
     let j = 0;
     this.list.forEach(x => {
       x.createTime = undefined;
-      x.origin = undefined;
+      x.source = undefined;
       x.size = undefined;
       x.createTime = undefined;
     })
@@ -193,7 +193,7 @@ export class UploadService {
         }
         comics.cover = comics.chapters[0].pages[0];
         state.chapter.id = comics.chapters[0].id;
-        comics.origin = "local_server";
+        comics.source = "local_server";
         comics.config = { id: id };
         state.isFirstPageCover = false;
         state.pageOrder = false;
@@ -219,7 +219,7 @@ export class UploadService {
         state.pageOrder = false;
         delete comics.id;
         delete comics.createTime;
-        delete comics.origin;
+        delete comics.source;
 
         const newComics = deepMerge(obj, comics);
         state.id = newComics.id;
@@ -287,7 +287,7 @@ export class UploadService {
       const id = new Date().getTime();
       let comics = {
         id:window.btoa(encodeURIComponent(pages[0].relativePath)),
-        origin: "local",
+        source: "local",
         title: name,
         size: size,
         createTime: this.chaptersId,
@@ -331,7 +331,7 @@ export class UploadService {
 
       let comics = {
         id: window.btoa(encodeURIComponent(pages[0].relativePath)),
-        origin: "local",
+        source: "local",
         title: name,
         size: size,
         createTime:this.chaptersId,
@@ -372,7 +372,7 @@ export class UploadService {
       const size = files.map(x => x.size).reduce((acr, cur) => acr + cur);
       let comics = {
         id: "",
-        origin: "local",
+        source: "local",
         size: size,
         title: name,
         createTime: this.chaptersId,
@@ -421,7 +421,7 @@ export class UploadService {
       const size = files.map(x => x.size).reduce((acr, cur) => acr + cur);
       let comics = {
         id: this.chaptersId,
-        origin: "local",
+        source: "local",
         title: name,
         size: size,
         createTime: this.chaptersId,
@@ -542,7 +542,7 @@ export class UploadService {
       } else {
         blob = file
       }
-      const pagesrc = `${window.location.origin}/image/${id}`;
+      const pagesrc = `${window.location.source}/image/${id}`;
       const request = new Request(pagesrc);
       const response = new Response(blob);
       await cache.put(request, response);

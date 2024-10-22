@@ -47,7 +47,7 @@
       right: 0;
       width: 51%;
       height: 51%;
-      transform-origin: 0% 100%;
+      transform-source: 0% 100%;
       z-index: 10;
       background: rgba(255, 255, 255, 0.1);
       /* border: 2px solid rgba(255, 255, 255, 0.38); */
@@ -95,7 +95,7 @@
   right: 0;
   width: 45.5%;
   height: 50%;
-  transform-origin: 0% 100%;
+  transform-source: 0% 100%;
   // border: 1px solid #303030;
 
   z-index: 10;

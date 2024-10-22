@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { DbEventService, GamepadEventService } from 'src/app/library/public-api';
+import { CurrentService } from '../../services/current.service';
+import { MenuSearchService } from './menu-search.service';
 
 @Component({
   selector: 'app-menu-search',
@@ -23,7 +25,9 @@ export class MenuSearchComponent {
 
   constructor(public webDb: NgxIndexedDBService,
     public DbEvent:DbEventService,
-    public GamepadEvent:GamepadEventService
+    public GamepadEvent:GamepadEventService,
+    public MenuSearch:MenuSearchService,
+    public current:CurrentService
   ) {
 
     Object.keys(DbEvent.Events).forEach(x=>{
@@ -50,5 +54,14 @@ export class MenuSearchComponent {
       }
     })
     return arr
+  }
+  on(e){
+    this.MenuSearch.close();
+    this.current.routerReader(e.source,e.id)
+  }
+  on2(e){
+    this.MenuSearch.close();
+
+    this.current.routerSourceSearch(e.id,window.btoa(encodeURIComponent(this.keyword)))
   }
 }

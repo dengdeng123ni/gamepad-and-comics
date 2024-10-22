@@ -21,7 +21,7 @@ export class ComicsCustomChoiceComponent {
   menu_id = null;
 
   option = {};
-  origin = '';
+  source = '';
   obj = {};
 
   uid = null;
@@ -43,7 +43,7 @@ export class ComicsCustomChoiceComponent {
       const id = params.get('id')
       const sid = params.get('sid')
       this.menu_id = sid;
-      this.origin = id;
+      this.source = id;
       const obj = this.DbEvent.Configs[id].menu.find(x => x.id == sid);
       this.uid = `choice_${id}_${sid}`;
 
@@ -64,12 +64,12 @@ export class ComicsCustomChoiceComponent {
           page_size:obj.query.page_size
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+            const list = await this.DbController.getList({ ...this.option, ...obj }, { source: this.source });
             return list
           },
           Init: async (obj) => {
             this.obj = obj;
-            const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+            const list = await this.DbController.getList({ ...this.option, ...obj }, { source: this.source });
             return list
           }
         })
@@ -88,7 +88,7 @@ export class ComicsCustomChoiceComponent {
       menu_id: this.menu_id,
       ...e,
     }
-    this.data.list = await this.DbController.getList({ ...this.option, ...this.obj }, { origin: this.origin });
+    this.data.list = await this.DbController.getList({ ...this.option, ...this.obj }, { source: this.source });
   }
   utf8_to_b64(str: string) {
     return window.btoa(unescape(encodeURIComponent(str)));

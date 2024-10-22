@@ -4,7 +4,7 @@ import { IndexComponent } from './pages/index/index.component';
 
 const routes: Routes = [
   { path: "detail/:id", component: IndexComponent,data: { animation: 'DetailPage' } },
-  { path: "detail/:origin/:id", component: IndexComponent,data: { animation: 'DetailPage' } },
+  { path: "detail/:source/:id", component: IndexComponent,data: { animation: 'DetailPage' } },
 ];
 
 @NgModule({

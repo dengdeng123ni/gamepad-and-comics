@@ -42,12 +42,12 @@ export class DbControllerService {
   }
 
   async getList(obj: any, option?: {
-    origin: string,
+    source: string,
     is_cache?: boolean,
   }): Promise<Array<Item>> {
     if (!option.is_cache) option.is_cache = true;
-    if (!option.origin) option.origin = this.AppData.origin;
-    const config = this.DbEvent.Configs[option.origin]
+    if (!option.source) option.source = this.AppData.source;
+    const config = this.DbEvent.Configs[option.source]
     const id = window.btoa(encodeURIComponent(JSON.stringify(obj)))
     if (this.lists[id]) {
       return JSON.parse(JSON.stringify(this.lists[id]))
@@ -59,7 +59,7 @@ export class DbControllerService {
         if (obj1) {
           res = obj1.data;
         } else {
-          const data = await this.DbEvent.Events[option.origin]["getList"](obj);
+          const data = await this.DbEvent.Events[option.source]["getList"](obj);
           firstValueFrom(this.webDb.update('list', JSON.parse(JSON.stringify({
             id: id,
             data: data,
@@ -70,10 +70,10 @@ export class DbControllerService {
         res.forEach(x => {
           this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
           x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
-          x.option = { origin: option.origin }
+          x.option = { source: option.source }
         })
       } else {
-        const data = await this.DbEvent.Events[option.origin]["getList"](obj);
+        const data = await this.DbEvent.Events[option.source]["getList"](obj);
         res = data;
       }
 
@@ -83,13 +83,13 @@ export class DbControllerService {
     }
   }
   async getDetail(id: string, option?: {
-    origin: string
+    source: string
   }) {
-    if (!option) option = { origin: this.AppData.origin }
-    if (!option.origin) option.origin = this.AppData.origin;
-    const config = this.DbEvent.Configs[option.origin]
+    if (!option) option = { source: this.AppData.source }
+    if (!option.source) option.source = this.AppData.source;
+    const config = this.DbEvent.Configs[option.source]
 
-    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["getDetail"]) {
+    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
       if (this.details[id]) {
         return JSON.parse(JSON.stringify(this.details[id]))
       } else {
@@ -105,8 +105,8 @@ export class DbControllerService {
               if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
             })
           } else {
-            res = await this.DbEvent.Events[option.origin]["getDetail"](id);
-            firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id,source:option.origin, data: res }))))
+            res = await this.DbEvent.Events[option.source]["getDetail"](id);
+            firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id,source:option.source, data: res }))))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
@@ -115,13 +115,13 @@ export class DbControllerService {
             })
           }
         } else {
-          res = await this.DbEvent.Events[option.origin]["getDetail"](id);
+          res = await this.DbEvent.Events[option.source]["getDetail"](id);
         }
 
         if (!Array.isArray(res.author)) {
           res.author = [{ name: res.author }]
         }
-        res.option = { origin: option.origin };
+        res.option = { source: option.source };
         this.details[id] = JSON.parse(JSON.stringify(res));
 
         return res
@@ -136,12 +136,12 @@ export class DbControllerService {
     await firstValueFrom(this.webDb.deleteByKey('details', id))
   }
   async Unlock(id, option?: {
-    origin: string
+    source: string
   }) {
-    if (!option) option = { origin: this.AppData.origin }
-    if (!option.origin) option.origin = this.AppData.origin;
-    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["Unlock"]) {
-      return await this.DbEvent.Events[option.origin]["Unlock"](id);
+    if (!option) option = { source: this.AppData.source }
+    if (!option.source) option.source = this.AppData.source;
+    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["Unlock"]) {
+      return await this.DbEvent.Events[option.source]["Unlock"](id);
     } else {
       return false
     }
@@ -160,11 +160,11 @@ export class DbControllerService {
   }
   load = {};
   async loadPages(id, option?: {
-    origin: string
+    source: string
   }) {
-    if (!option) option = { origin: this.AppData.origin }
-    if (!option.origin) option.origin = this.AppData.origin;
-    const config = this.DbEvent.Configs[option.origin];
+    if (!option) option = { source: this.AppData.source }
+    if (!option.source) option.source = this.AppData.source;
+    const config = this.DbEvent.Configs[option.source];
     if (!config.is_preloading || !config.is_cache) return
 
     if (this.load[id]) {
@@ -213,14 +213,14 @@ export class DbControllerService {
     const res = await this.caches.delete(id);
   }
   async getPages(id: string, option?: {
-    origin: string
+    source: string
   }) {
 
-    if (!option) option = { origin: this.AppData.origin }
-    if (!option.origin) option.origin = this.AppData.origin;
-    const config = this.DbEvent.Configs[option.origin]
+    if (!option) option = { source: this.AppData.source }
+    if (!option.source) option.source = this.AppData.source;
+    const config = this.DbEvent.Configs[option.source]
 
-    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["getPages"]) {
+    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
       // const is_wait = await this.waitForRepetition(id)
       if (this.pages[id]) {
         return JSON.parse(JSON.stringify(this.pages[id]))
@@ -239,15 +239,15 @@ export class DbControllerService {
               }
             })
           } else {
-            res = await this.DbEvent.Events[option.origin]["getPages"](id);
-            firstValueFrom(this.webDb.update('pages', { id,source:option.origin, data: JSON.parse(JSON.stringify(res)) }))
+            res = await this.DbEvent.Events[option.source]["getPages"](id);
+            firstValueFrom(this.webDb.update('pages', { id,source:option.source, data: JSON.parse(JSON.stringify(res)) }))
             res.forEach((x, i) => {
               this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
               if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
             })
           }
         } else {
-          res = await this.DbEvent.Events[option.origin]["getPages"](id);
+          res = await this.DbEvent.Events[option.source]["getPages"](id);
         }
         res.forEach((x, i) => {
           if (!x.id) x.id = `${id}_${i}`;
@@ -263,17 +263,17 @@ export class DbControllerService {
   }
   async delComicsAllImages(comics_id) {
     const c = await this.getDetail(comics_id)
-    const origin = this.AppData.origin;
+    const source = this.AppData.source;
     let list = [];
-    list.push(`http://localhost:7700/${origin}/comics/${comics_id}`)
+    list.push(`http://localhost:7700/${source}/comics/${comics_id}`)
     for (let index = 0; index < c.chapters.length; index++) {
       const x = c.chapters[index];
-      list.push(`http://localhost:7700/${origin}/chapter/${comics_id}/${x.id}`)
+      list.push(`http://localhost:7700/${source}/chapter/${comics_id}/${x.id}`)
       let res = (await firstValueFrom(this.webDb.getByID('pages', x.id)) as any)
       if (res) {
         res = res.data;
         res.forEach((x, i) => {
-          list.push(`http://localhost:7700/${origin}/page/${x.id}/${index}`)
+          list.push(`http://localhost:7700/${source}/page/${x.id}/${index}`)
         })
         this.delWebDbPages(x.id)
       }
@@ -304,15 +304,15 @@ export class DbControllerService {
     })
   }
   async getImage(id: string, option?: {
-    origin: string
+    source: string
   }) {
-    if (!option) option = { origin: this.AppData.origin }
-    if (!option.origin) option.origin = this.AppData.origin;
-    const config = this.DbEvent.Configs[option.origin]
+    if (!option) option = { source: this.AppData.source }
+    if (!option.source) option.source = this.AppData.source;
+    const config = this.DbEvent.Configs[option.source]
     let blob = new Blob([], {
       type: 'image/jpeg'
     });
-    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["getImage"]) {
+    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getImage"]) {
       if (id.substring(7, 21) == "localhost:7700") {
         let url = id;
         const getBlob = async () => {
@@ -330,7 +330,7 @@ export class DbControllerService {
               } else {
                 await this.waitForCondition()
 
-                let resc = await this.DbEvent.Events[option.origin]["getPages"](chapter_id);
+                let resc = await this.DbEvent.Events[option.source]["getPages"](chapter_id);
                 resc.forEach((x, i) => {
                   this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
                 })
@@ -344,7 +344,7 @@ export class DbControllerService {
                 return url
               } else {
                 await this.waitForCondition()
-                let res = await this.DbEvent.Events[option.origin]["getDetail"](comics_id);
+                let res = await this.DbEvent.Events[option.source]["getDetail"](comics_id);
                 this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                 res.chapters.forEach(x => {
                   this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
@@ -360,7 +360,7 @@ export class DbControllerService {
                 return url
               } else {
                 await this.waitForCondition()
-                let res = await this.DbEvent.Events[option.origin]["getDetail"](comics_id);
+                let res = await this.DbEvent.Events[option.source]["getDetail"](comics_id);
                 this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                 res.chapters.forEach(x => {
                   this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
@@ -376,7 +376,7 @@ export class DbControllerService {
 
           const id1 = await getImageURL(url);
 
-          const blob = await this.DbEvent.Events[option.origin]["getImage"](id1)
+          const blob = await this.DbEvent.Events[option.source]["getImage"](id1)
           const response = new Response(blob);
           const request = new Request(url);
           await this.caches.put(request, response);
@@ -402,7 +402,7 @@ export class DbControllerService {
           blob = await getBlob()
         }
       } else {
-        blob = await this.DbEvent.Events[option.origin]["getImage"](id)
+        blob = await this.DbEvent.Events[option.source]["getImage"](id)
       }
 
       return blob
@@ -413,14 +413,14 @@ export class DbControllerService {
     }
   }
   async Search(obj: any, option?: {
-    origin: string
+    source: string
   }): Promise<Array<Item>> {
 
-    if (!option) option = { origin: this.AppData.origin }
-    if (!option.origin) option.origin = this.AppData.origin;
-    const config = this.DbEvent.Configs[option.origin]
-    if (this.DbEvent.Events[option.origin] && this.DbEvent.Events[option.origin]["Search"]) {
-      let res = await this.DbEvent.Events[option.origin]["Search"](obj);
+    if (!option) option = { source: this.AppData.source }
+    if (!option.source) option.source = this.AppData.source;
+    const config = this.DbEvent.Configs[option.source]
+    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["Search"]) {
+      let res = await this.DbEvent.Events[option.source]["Search"](obj);
       res.forEach(x => {
         this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
         x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;

@@ -10,7 +10,7 @@ import { map } from 'rxjs';
 })
 export class HistoryComponent {
   list=[];
-  origin='';
+  source='';
   constructor(public data:DataService,
 
     public AppData:AppDataService,
@@ -20,7 +20,6 @@ export class HistoryComponent {
 
       let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get("id")));
       id$.subscribe(x=>{
-        origin=x;
 
       })
 

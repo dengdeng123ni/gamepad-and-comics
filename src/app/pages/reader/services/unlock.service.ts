@@ -31,11 +31,11 @@ export class UnlockService {
       region: ['item'],
     });
   }
-  async open(origin, chapter_id) {
+  async open(source, chapter_id) {
     this.chapter_id=chapter_id;
     if(this._data[chapter_id]) return
     else this._data[chapter_id]= chapter_id;
-    if (this.DbEvent.Events[origin]?.Unlock) {
+    if (this.DbEvent.Events[source]?.Unlock) {
       this.openUnlock();
     } else {
       this._snackBar.open('当前章节未解锁,需要到对应网站解锁.', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });

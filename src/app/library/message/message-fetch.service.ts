@@ -26,7 +26,7 @@ export class MessageFetchService {
         id: id,
         type: "website_proxy_request",
         proxy_request_website_url: option.proxy,
-        proxy_response_website_url: window.location.origin,
+        proxy_response_website_url: window.location.source,
         http: {
           url: url,
           option: {
@@ -40,7 +40,7 @@ export class MessageFetchService {
       window.postMessage({
         id: id,
         type: "pulg_proxy_request",
-        proxy_response_website_url: window.location.origin,
+        proxy_response_website_url: window.location.source,
         http: {
           url: url,
           option: {
@@ -94,7 +94,7 @@ export class MessageFetchService {
       id: id,
       type: "website_proxy_request_html",
       proxy_request_website_url: url,
-      proxy_response_website_url: window.location.origin
+      proxy_response_website_url: window.location.source
     });
     return new Promise((r, j) => {
       const getFile = () => {

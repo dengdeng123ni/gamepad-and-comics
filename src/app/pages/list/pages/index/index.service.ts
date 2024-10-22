@@ -32,10 +32,10 @@ export class IndexService {
       B: () => menu.close()
     })
 
-    AppData.origin$.subscribe((x: any) => {
+    AppData.source$.subscribe((x: any) => {
       this.updateComicsItem(x)
     })
-    // this.updateComicsItem(AppData.originConfig)
+    // this.updateComicsItem(AppData.sourceConfig)
 
 
   }

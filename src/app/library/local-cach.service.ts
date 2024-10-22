@@ -78,7 +78,7 @@ export class LocalCachService {
 }
 
   async save(id: any) {
-    this.DbEvent.Configs[this.AppData.origin].is_cache = true;
+    this.DbEvent.Configs[this.AppData.source].is_cache = true;
     let res = await this.DbController.getDetail(id);
     res.id = `7700_${res.id}`.toString();
     await this.DbController.getImage(res.cover)

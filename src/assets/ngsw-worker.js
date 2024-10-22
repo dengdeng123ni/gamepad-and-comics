@@ -22,27 +22,27 @@
 
   // bazel-out/darwin_arm64-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/worker/src/named-cache-storage.mjs
   var NamedCacheStorage = class {
-    constructor(original, cacheNamePrefix) {
-      this.original = original;
+    constructor(sourceal, cacheNamePrefix) {
+      this.sourceal = sourceal;
       this.cacheNamePrefix = cacheNamePrefix;
     }
     delete(cacheName) {
-      return this.original.delete(`${this.cacheNamePrefix}:${cacheName}`);
+      return this.sourceal.delete(`${this.cacheNamePrefix}:${cacheName}`);
     }
     has(cacheName) {
-      return this.original.has(`${this.cacheNamePrefix}:${cacheName}`);
+      return this.sourceal.has(`${this.cacheNamePrefix}:${cacheName}`);
     }
     async keys() {
       const prefix = `${this.cacheNamePrefix}:`;
-      const allCacheNames = await this.original.keys();
+      const allCacheNames = await this.sourceal.keys();
       const ownCacheNames = allCacheNames.filter((name) => name.startsWith(prefix));
       return ownCacheNames.map((name) => name.slice(prefix.length));
     }
     match(request, options) {
-      return this.original.match(request, options);
+      return this.sourceal.match(request, options);
     }
     async open(cacheName) {
-      const cache = await this.original.open(`${this.cacheNamePrefix}:${cacheName}`);
+      const cache = await this.sourceal.open(`${this.cacheNamePrefix}:${cacheName}`);
       return Object.assign(cache, { name: cacheName });
     }
   };
@@ -52,7 +52,7 @@
     constructor(scopeUrl, caches) {
       this.scopeUrl = scopeUrl;
       const parsedScopeUrl = this.parseUrl(this.scopeUrl);
-      this.origin = parsedScopeUrl.origin;
+      this.source = parsedScopeUrl.source;
       this.caches = new NamedCacheStorage(caches, `ngsw:${parsedScopeUrl.path}`);
     }
     newRequest(input, init) {
@@ -72,11 +72,11 @@
     }
     normalizeUrl(url) {
       const parsed = this.parseUrl(url, this.scopeUrl);
-      return parsed.origin === this.origin ? parsed.path : url;
+      return parsed.source === this.source ? parsed.path : url;
     }
     parseUrl(url, relativeTo) {
       const parsed = !relativeTo ? new URL(url) : new URL(url, relativeTo);
-      return { origin: parsed.origin, path: parsed.pathname, search: parsed.search };
+      return { source: parsed.source, path: parsed.pathname, search: parsed.search };
     }
     timeout(ms) {
       return new Promise((resolve) => {
@@ -1318,14 +1318,14 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         event.waitUntil(this.idle.trigger());
         return;
       }
-      if (requestUrlObj.origin.startsWith("http:") && scopeUrl.startsWith("https:")) {
+      if (requestUrlObj.source.startsWith("http:") && scopeUrl.startsWith("https:")) {
         this.debugger.log(`Ignoring passive mixed content request: Driver.fetch(${req.url})`);
         return;
       }
-      if (req.cache === "only-if-cached" && req.mode !== "same-origin") {
+      if (req.cache === "only-if-cached" && req.mode !== "same-source") {
         if (!this.loggedInvalidOnlyIfCachedRequest) {
           this.loggedInvalidOnlyIfCachedRequest = true;
-          this.debugger.log(`Ignoring invalid request: 'only-if-cached' can be set only with 'same-origin' mode`, `Driver.fetch(${req.url}, cache: ${req.cache}, mode: ${req.mode})`);
+          this.debugger.log(`Ignoring invalid request: 'only-if-cached' can be set only with 'same-source' mode`, `Driver.fetch(${req.url}, cache: ${req.cache}, mode: ${req.mode})`);
         }
         return;
       }
@@ -1747,7 +1747,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       }
     }
     async cleanupOldSwCaches() {
-      const caches = this.adapter.caches.original;
+      const caches = this.adapter.caches.sourceal;
       const cacheNames = await caches.keys();
       const oldSwCacheNames = cacheNames.filter((name) => /^ngsw:(?!\/)/.test(name));
       await Promise.all(oldSwCacheNames.map((name) => caches.delete(name)));

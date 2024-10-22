@@ -36,15 +36,15 @@ export class MenuComponent {
   on($event, data, parent: any = {}) {
     this.menu.current_menu_id = parent.id?`${parent.id}_${data.id}`:data.id;
 
-    if (parent.id) this.AppData.setOrigin(parent.id)
+    if (parent.id) this.AppData.setsource(parent.id)
     if (data.click) {
       data.click({
         ...data, $event: $event, parent
       })
-      if (parent.id) this.AppData.setOrigin(parent.id)
+      if (parent.id) this.AppData.setsource(parent.id)
 
     } else if (data.query) {
-      if (parent.id) this.AppData.setOrigin(parent.id)
+      if (parent.id) this.AppData.setsource(parent.id)
       if (data.query.type == "choice") {
 
         this.router.navigate(['/query', 'choice', parent.id, data.id]);
@@ -124,13 +124,13 @@ export class MenuComponent {
         this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })
-      this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==this.AppData.origin)
+      this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==this.AppData.source)
       this.data.menu.push({
         id: 'cached',
         icon: "cached",
         name: '缓存',
         click: (e) => {
-          this.AppData.setOrigin('local_cache')
+          this.AppData.setsource('local_cache')
           this.router.navigate(['query', 'local_cache']);
         }
       })
@@ -214,7 +214,7 @@ export class MenuComponent {
 
 
   }
-  async openOrigin(){
+  async opensource(){
     let list=[];
     Object.keys(this.DbEvent.Events).forEach(x => {
       if (x == "temporary_file") return
@@ -305,7 +305,7 @@ export class MenuComponent {
       icon: "subject",
       name: dirHandle["name"],
       click: e => {
-        this.AppData.setOrigin('temporary_file')
+        this.AppData.setsource('temporary_file')
         this.router.navigate(['query', 'temporary_file', 'temporary_file', e.id]);
       }
     })

@@ -54,7 +54,7 @@ export class ComicsListV2Component {
     name: ""
   }
   query_option = {};
-  origin = '';
+  source = '';
   menu_id = '';
 
   id = null;
@@ -102,14 +102,14 @@ export class ComicsListV2Component {
     id$.subscribe(async (params) => {
       if (this.id) await this.put()
       const type = params.get('id')
-      let origin = params.get('sid')
+      let source = params.get('sid')
       const sid = params.get('pid')
-      if (!origin) origin = type;
-      this.origin = origin;
+      if (!source) source = type;
+      this.source = source;
       this.type = type;
-      this.App.setOrigin(origin)
+      this.App.setsource(source)
       if (type == "history") {
-        this.id = `${type}_${origin}`;
+        this.id = `${type}_${source}`;
         this.key = this.id;
 
         ComicsListV2.register({
@@ -118,10 +118,10 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            return (await this.history.getAll() as any).filter(x => x.origin == origin).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
+            return (await this.history.getAll() as any).filter(x => x.source == source).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
           },
           Init: async (obj) => {
-            return (await this.history.getAll() as any).filter(x => x.origin == origin).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
+            return (await this.history.getAll() as any).filter(x => x.source == source).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
           }
         })
 
@@ -159,26 +159,26 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file', is_cache: false });
+            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
             return list
           },
           Init: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file', is_cache: false });
+            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
             return list
           }
         })
       } else if (sid) {
         this.menu_id = sid;
-        this.origin = origin;
-        const obj = this.DbEvent.Configs[origin].menu.find(x => x.id == sid);
-        this.id = `${type}_${origin}_${sid}`;
+        this.source = source;
+        const obj = this.DbEvent.Configs[source].menu.find(x => x.id == sid);
+        this.id = `${type}_${source}_${sid}`;
         if (obj.query.list) this.query.list = obj.query.list;
 
 
         if (obj.query.name) this.query.name = obj.query.name;
         else this.query.name = ''
         this.key = this.id;
-        this.App.setOrigin(this.origin);
+        this.App.setsource(this.source);
         const e: any = this.query.list[this.query.default_index];
         this.query_option = {
           menu_id: this.menu_id,
@@ -190,11 +190,11 @@ export class ComicsListV2Component {
           page_size: obj.query.page_size
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { origin: this.origin });
+            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
             return list
           },
           Init: async (obj) => {
-            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { origin: this.origin });
+            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
             return list
           }
         })
@@ -261,7 +261,7 @@ export class ComicsListV2Component {
     })
   }
 
-  initc(type, origin, menu_id) {
+  initc(type, source, menu_id) {
     if (type == "choice") {
 
     }
@@ -422,27 +422,27 @@ export class ComicsListV2Component {
         localStorage.setItem('list_url', window.location.href)
         const nodec: any = $event.target;
         if (this.data.config.click_type == 1) {
-          this.current.routerDetail(this.origin, data.id)
+          this.current.routerDetail(this.source, data.id)
         } else if (this.data.config.click_type == 2) {
 
-          this.current.routerReader(this.origin, data.id)
+          this.current.routerReader(this.source, data.id)
         }
         else if (this.data.config.click_type == 3) {
           if (nodec.getAttribute("router_reader")) {
-            this.current.routerReader(this.origin, data.id)
+            this.current.routerReader(this.source, data.id)
           } else {
-            this.current.routerDetail(this.origin, data.id)
+            this.current.routerDetail(this.source, data.id)
           }
         }
         else if (this.data.config.click_type == 2) {
           if (nodec.getAttribute("router_reader")) {
 
-            this.current.routerDetail(this.origin, data.id)
+            this.current.routerDetail(this.source, data.id)
           } else {
-            this.current.routerReader(this.origin, data.id)
+            this.current.routerReader(this.source, data.id)
           }
         } else {
-          this.current.routerDetail(this.origin, data.id)
+          this.current.routerDetail(this.source, data.id)
         }
 
       }

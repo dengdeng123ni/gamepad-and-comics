@@ -41,7 +41,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     public DbEvent:DbEventService,
     public RoutingController:RoutingControllerService
   ) {
-    this.title= DbEvent.Configs[current.origin].name;
+    this.title= DbEvent.Configs[current.source].name;
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {
       if (x == true) {
         this.chapter_index = data.chapters.findIndex(x => x.id == data.chapter_id)
@@ -76,7 +76,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.RoutingController.navigate('list')
   }
   routerDetail() {
-    this.router.navigate(['/detail',this.current.origin, this.data.comics_id]);
+    this.router.navigate(['/detail',this.current.source, this.data.comics_id]);
   }
 
   ngOnDestroy() {

@@ -20,7 +20,7 @@ export class HistoryService {
     if (res) {
       await firstValueFrom(this.webDb.update("history", { ...res, last_read_date: new Date().getTime() }))
     } else {
-      await firstValueFrom(this.webDb.update("history", { ...obj, origin: this.AppData.origin, last_read_date: new Date().getTime() }))
+      await firstValueFrom(this.webDb.update("history", { ...obj, source: this.AppData.source, last_read_date: new Date().getTime() }))
     }
 
   }

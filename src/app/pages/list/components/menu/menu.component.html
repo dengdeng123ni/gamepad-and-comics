@@ -7,7 +7,7 @@
   <div>
     <div *ngIf="data.menu_2_obj&&data.menu_2_obj.submenu&&menu.mode_1==1" [attr.type]="'expansion'">
       <button mat-button style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
-        [attr.default]="false" (click)="openOrigin()">
+        [attr.default]="false" (click)="opensource()">
         <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
         <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'" >
           {{data.menu_2_obj.name}}

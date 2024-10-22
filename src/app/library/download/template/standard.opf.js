@@ -44,7 +44,7 @@ const getText = () => `<?xml version="1.0" encoding="UTF-8"?>
 <meta property="ibooks:binding">false</meta>
 <meta property="ebpaj:guide-version">1.1</meta>
 <meta name="cover" content="cover"></meta>
-<meta name="original-resolution" content="{{width}}x{{height}}"/>
+<meta name="sourceal-resolution" content="{{width}}x{{height}}"/>
 <meta name="orientation-lock" content="none"/>
 
 <meta property="fixed-layout-jp:viewport">width={{width}}, height={{height}}</meta>

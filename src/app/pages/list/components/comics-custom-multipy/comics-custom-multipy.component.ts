@@ -22,7 +22,7 @@ export class ComicsCustomMultipyComponent {
   menu_id = null;
 
   option = {};
-  origin = '';
+  source = '';
   obj = {};
 
   uid = null;
@@ -41,7 +41,7 @@ export class ComicsCustomMultipyComponent {
       const id = params.get('id')
       const sid = params.get('sid')
       this.menu_id = sid;
-      this.origin = id;
+      this.source = id;
       this.uid = `multipy_${id}_${sid}`;
       const obj = this.DbEvent.Configs[id].menu.find(x => x.id == sid);
       this.lists = obj.query.list;
@@ -51,12 +51,12 @@ export class ComicsCustomMultipyComponent {
         page_size: obj.query.page_size
       }, {
         Add: async (obj) => {
-          const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+          const list = await this.DbController.getList({ ...this.option, ...obj }, { source: this.source });
           return list
         },
         Init: async (obj) => {
           this.obj = obj;
-          const list = await this.DbController.getList({ ...this.option, ...obj }, { origin: this.origin });
+          const list = await this.DbController.getList({ ...this.option, ...obj }, { source: this.source });
           return list
         }
       })
@@ -86,7 +86,7 @@ export class ComicsCustomMultipyComponent {
     const ic = await this.ComicsSelectType.getType(e.tag, index, { position: { top: `${y}px`, left: `${x}px` } }) as any
     this.lists[index].index = ic;
     this.getData();
-    this.data.list = await this.DbController.getList({ ...this.option, ...this.obj }, { origin: this.origin });
+    this.data.list = await this.DbController.getList({ ...this.option, ...this.obj }, { source: this.source });
   }
 
   getData() {

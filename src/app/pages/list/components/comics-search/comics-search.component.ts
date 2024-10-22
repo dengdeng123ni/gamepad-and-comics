@@ -37,7 +37,7 @@ export class ComicsSearchComponent {
   }
   async search() {
 
-    this.router.navigate(['/search', this.origin, this.utf8_to_b64(this.keyword)]);
+    this.router.navigate(['/search', this.source, this.utf8_to_b64(this.keyword)]);
   }
 
 
@@ -57,7 +57,7 @@ export class ComicsSearchComponent {
     name: ""
   }
   query_option = {};
-  origin = '';
+  source = '';
   menu_id = '';
 
   id = null;
@@ -113,16 +113,16 @@ export class ComicsSearchComponent {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
       if (this.id) await this.put()
-      const origin = params.get('id')
+      const source = params.get('id')
       let value = params.get('sid')
       if (value) value = this.b64_to_utf8(value)
       else value = ''
-      this.id = `${origin}_${value}`
-      this.origin = origin;
+      this.id = `${source}_${value}`
+      this.source = source;
       this.value = value;
       this.keyword = value;
-      this.App.setOrigin(origin)
-      const obj = this.DbEvent.Configs[origin].menu.find(x => x.id == 'search');
+      this.App.setsource(source)
+      const obj = this.DbEvent.Configs[source].menu.find(x => x.id == 'search');
       if (obj.query.page_size) this.page_size = obj.query.page_size;
 
 
@@ -188,9 +188,9 @@ export class ComicsSearchComponent {
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
 
-          this.current.routerReader(this.origin, data.id)
+          this.current.routerReader(this.source, data.id)
         } else {
-          this.current.routerDetail(this.origin, data.id)
+          this.current.routerDetail(this.source, data.id)
         }
       }
 
@@ -232,12 +232,12 @@ export class ComicsSearchComponent {
 
   async initFiast(obj) {
     if (this.value == '') return []
-    return await this.DbController.Search({ keyword: this.value, ...obj }, { origin: this.origin });
+    return await this.DbController.Search({ keyword: this.value, ...obj }, { source: this.source });
   }
 
   async add(obj) {
     if (this.value == '') return []
-    return await this.DbController.Search({ keyword: this.value, ...obj }, { origin: this.origin });
+    return await this.DbController.Search({ keyword: this.value, ...obj }, { source: this.source });
   }
 
   async init() {

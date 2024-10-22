@@ -7,38 +7,38 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AppDataService {
-  origin = ""
-  origin$ = new Subject();
+  source = ""
+  source$ = new Subject();
 
   is_pulg = false;
   is_pwa = false;
   is_web_worker=false;
 
-  originConfig={};
+  sourceConfig={};
   constructor(public DbEvent: DbEventService,
     public router: Router,
 
   ) {
-    this.origin = localStorage.getItem('origin');
+    this.source = localStorage.getItem('source');
   }
   init(){
-    const c = localStorage.getItem('origin');
+    const c = localStorage.getItem('source');
     if (c == "temporary_file") {
       this.router.navigate(['/']);
     }
     if (c) {
-      this.setOrigin(c)
+      this.setsource(c)
     }
   }
 
-  setOrigin(origin: string) {
-    this.origin = origin;
-    const x = this.DbEvent.Configs[origin];
-    if(x) this.originConfig=x;
-    this.origin$.next(x)
-    localStorage.setItem('origin', origin)
+  setsource(source: string) {
+    this.source = source;
+    const x = this.DbEvent.Configs[source];
+    if(x) this.sourceConfig=x;
+    this.source$.next(x)
+    localStorage.setItem('source', source)
   }
   getOption() {
-    return this.DbEvent.Configs[this.origin]
+    return this.DbEvent.Configs[this.source]
   }
 }

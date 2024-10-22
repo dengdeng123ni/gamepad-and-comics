@@ -5,8 +5,8 @@ import { IndexComponent } from './pages/index/index.component';
 const routes: Routes = [
   { path: "reader/:id", component: IndexComponent,data: { animation: 'ReaderPage' } },
   { path: ":id/:sid", component: IndexComponent,data: { animation: 'ReaderPage' } },
-  { path: "comics/:origin/:id/:sid", component: IndexComponent,data: { animation: 'ReaderPage' } },
-  { path: "comics/:origin/:id/:sid/:pid", component: IndexComponent,data: { animation: 'ReaderPage' } }
+  { path: "comics/:source/:id/:sid", component: IndexComponent,data: { animation: 'ReaderPage' } },
+  { path: "comics/:source/:id/:sid/:pid", component: IndexComponent,data: { animation: 'ReaderPage' } }
 ];
 
 @NgModule({

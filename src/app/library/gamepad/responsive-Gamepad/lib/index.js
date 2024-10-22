@@ -202,7 +202,7 @@ class ResponsiveGamepadService {
 
   _startInputChangeInterval() {
     // Start our InputChange Interval
-    // Originally going to use requestAnimationFrame, sine most people react to games
+    // sourceally going to use requestAnimationFrame, sine most people react to games
     // from visuals. But then I remembered you could totally react from sound.
     // Thus a setInterval of about 60fps should be fair.
     const intervalId = setInterval(this._inputChangeIntervalHandler.bind(this), 16);

@@ -42,7 +42,7 @@ export class ComicsInfoComponent {
   back() {
     this.RoutingController.navigate('list')
     // let url = localStorage.getItem('list_url');
-    // if (!url) url = window.location.origin
+    // if (!url) url = window.location.source
     // const urlObj = new URL(url);
     // let arr = [...urlObj.pathname.split("/")];
     // arr.shift()

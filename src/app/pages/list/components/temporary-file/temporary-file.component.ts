@@ -29,11 +29,11 @@ export class TemporaryFileComponent {
         uid: `temporary_file_${this.id}`,
       }, {
         Add: async (obj) => {
-          const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
+          const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file' });
           return list
         },
         Init: async (obj) => {
-          const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { origin: 'temporary_file' });
+          const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file' });
           return list
         }
       })
