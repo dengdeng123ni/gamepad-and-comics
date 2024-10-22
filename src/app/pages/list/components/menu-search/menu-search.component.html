@@ -1,7 +1,7 @@
 <div class="warp">
-  <div class="head">
+  <div class="head" [attr.region]="'menu_search_input'" [attr.select]="true">
     <mat-icon fontIcon="search" ></mat-icon>
-    <input id="input_v1c" type="text" placeholder="搜索" (focus)="focus()" (blur)="blur()"   [(ngModel)]="keyword">
+    <input id="input_v1c"  type="text" placeholder="搜索" (focus)="focus()" (blur)="blur()"   [(ngModel)]="keyword">
   </div>
 
   <div>
@@ -12,12 +12,12 @@
         *ngFor="let n of filter_comics_list;let index=index"
         [attr._id]="n.id"
         [attr.index]="index"
-        [attr.region]="'comics_item'"
+        [attr.region]="'menu_search_comics_item'"
         [attr.default]="false"
         [attr.select]="false"
         [matTooltipShowDelay]="1000"
         [matTooltip]="n.title"
-        [attr.content_menu_key]="'comics_item'"
+        [attr.content_menu_key]="'menu_search_comics_item'"
         [attr.content_menu_value]="n.id"
         [attr.multiple]="false" (click)="on(n)">
         <div class="img"   style="width: 24px;min-width: 24px;">
@@ -38,12 +38,12 @@
         *ngFor="let n of arr;let index=index"
         [attr._id]="n.id"
         [attr.index]="index"
-        [attr.region]="'comics_item'"
+        [attr.region]="'menu_search_comics_item'"
         [attr.default]="false"
         [attr.select]="false"
         [matTooltipShowDelay]="1000"
         [matTooltip]="n.name"
-        [attr.content_menu_key]="'comics_item'"
+        [attr.content_menu_key]="'menu_search_comics_item'"
         [attr.content_menu_value]="n.id"
         [attr.multiple]="false" (click)="on2(n)">
         <div class="img"   style="    width: 24px;min-width: 24px;">

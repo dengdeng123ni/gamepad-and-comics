@@ -39,6 +39,26 @@ export class MenuSearchComponent {
     });
     this.init();
     this.WhenInputting.open();
+
+    GamepadEvent.registerAreaEvent("menu_search_input", {
+      A: e => {
+        console.log(document.activeElement.tagName);
+
+        if(document.activeElement.tagName=="INPUT"){
+          e.querySelector("input").blur();
+          this.WhenInputting.close();
+        }
+        this.WhenInputting.open();
+        e.querySelector("input").focus();
+
+
+      },
+      B: e => {
+        e.querySelector("input").blur();
+        this.WhenInputting.close();
+      }
+    })
+
   }
 
 
@@ -47,10 +67,10 @@ export class MenuSearchComponent {
     this.filter_comics_list= this.comics_list.slice(0,20)
   }
   focus(){
-    //
+    this.WhenInputting.open();
   }
   blur(){
-    // this.WhenInputting.close();
+    this.WhenInputting.close();
   }
   filter(str) {
     if(!str) return []

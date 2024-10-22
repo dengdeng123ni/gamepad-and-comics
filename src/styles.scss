@@ -178,7 +178,7 @@ body[pattern=gamepad][locked_region=reset_reading_progress],
 body[pattern=gamepad][locked_region=export_settings],
 body[pattern=gamepad][locked_region=chapter_unlock],
 body[pattern=gamepad][locked_region=history_comics_list],
-
+body[pattern=gamepad][locked_region=menu_search],
 body[pattern=gamepad][locked_region=download_option]
 
 {
@@ -198,6 +198,8 @@ body[pattern=gamepad][locked_region=download_option]
   [region=one_page_thumbnail_mode3][select=true],
   [region=kyboard_toolbar_item][select=true],
   [region=reader_config_item][select=true],
+  [region=menu_search_input][select=true],
+  [region=menu_search_comics_item][select=true],
   [region=reset_reading_progress][select=true]
 
   {

@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 12px;
+    padding: 12px;
   }
   input{
     all: unset;
@@ -128,7 +128,7 @@
     padding: 0 12px;
     justify-content: end;
   }
-  [region=comics_item]{
+  [region=menu_search_comics_item]{
     .mdc-button__label {
       width: 100%;
       display: flex;
