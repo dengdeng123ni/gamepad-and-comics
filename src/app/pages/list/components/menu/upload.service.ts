@@ -542,7 +542,7 @@ export class UploadService {
       } else {
         blob = file
       }
-      const pagesrc = `${window.location.source}/image/${id}`;
+      const pagesrc = `${window.location.origin}/image/${id}`;
       const request = new Request(pagesrc);
       const response = new Response(blob);
       await cache.put(request, response);
