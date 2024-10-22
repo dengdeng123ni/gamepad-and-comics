@@ -20,7 +20,12 @@ declare const window: any;
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
+  _keyword="";
 
+  get keyword() { return this._keyword };
+  set keyword(value: string) {
+    this._keyword = value;
+  }
   myControl = new FormControl('');
 
   options: string[] = ['One', 'Two', 'Three'];
@@ -205,7 +210,7 @@ export class MenuComponent {
             }
           },
         ]
-      })
+    })
 
 
   }

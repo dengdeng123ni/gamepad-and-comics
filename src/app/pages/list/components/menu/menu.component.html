@@ -1,7 +1,8 @@
 <div class="list">
-  <mat-form-field style="width: 100%;
-  ">
-    <input type="text" matInput (click)="getClipboardContents()">
+  <mat-form-field style="    width: calc(100% - 20px) !important;
+    margin: 0 10px 4px;
+  " [attr.region]="'menu_input'" [attr.select]="true" (click)="getClipboardContents()">
+    <input type="text" matInput  [(ngModel)]="keyword">
   </mat-form-field>
   <div>
     <div *ngIf="data.menu_2_obj&&data.menu_2_obj.submenu&&menu.mode_1==1" [attr.type]="'expansion'">

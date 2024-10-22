@@ -29,6 +29,7 @@ import { ImageToComponent } from './components/image-to/image-to.component';
 import { CompositeModule } from 'src/app/composite/composite.module';
 import { DownloadProgressComponent } from './components/download-progress/download-progress.component';
 import { WhenInputtingComponent } from './components/when-inputting/when-inputting.component';
+import { MenuSearchComponent } from './components/menu-search/menu-search.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -58,7 +59,8 @@ import { WhenInputtingComponent } from './components/when-inputting/when-inputti
     ImageCompressionComponent,
     ImageToComponent,
     DownloadProgressComponent,
-    WhenInputtingComponent
+    WhenInputtingComponent,
+    MenuSearchComponent
   ],
   imports: [
     CommonModule,

@@ -116,9 +116,7 @@
 [selected=true] {
   background: rgba(255, 255, 255, .1);
 }
-[select=true] {
-  background: rgba(255, 255, 255, .1);
-}
+
 
 .list {
   min-width: 240px;
@@ -175,9 +173,10 @@
   }
 
   .mdc-text-field {
-    margin: 0 10px 4px;
-    width: calc(100% - 20px) !important;
+    // margin: 0 10px 4px;
+    // width: calc(100% - 20px) !important;
     border-radius: 4px;
+    padding: 0 10px;
   }
 
   .mat-mdc-form-field-bottom-align {
