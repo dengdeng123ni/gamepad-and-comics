@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { DbEventService, GamepadEventService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { MenuSearchService } from './menu-search.service';
+import { WhenInputtingService } from '../when-inputting/when-inputting.service';
 
 @Component({
   selector: 'app-menu-search',
@@ -27,6 +28,7 @@ export class MenuSearchComponent {
     public DbEvent:DbEventService,
     public GamepadEvent:GamepadEventService,
     public MenuSearch:MenuSearchService,
+    public WhenInputting:WhenInputtingService,
     public current:CurrentService
   ) {
 
@@ -36,15 +38,20 @@ export class MenuSearchComponent {
       }
     });
     this.init();
+    this.WhenInputting.open();
   }
 
 
   async init() {
     this.comics_list = await firstValueFrom(this.webDb.getAll('history'))
-    this.filter_comics_list= this.comics_list
+    this.filter_comics_list= this.comics_list.slice(0,20)
   }
-
-
+  focus(){
+    //
+  }
+  blur(){
+    // this.WhenInputting.close();
+  }
   filter(str) {
     if(!str) return []
     let arr=[];
@@ -63,5 +70,12 @@ export class MenuSearchComponent {
     this.MenuSearch.close();
 
     this.current.routerSourceSearch(e.id,window.btoa(encodeURIComponent(this.keyword)))
+  }
+
+  ngAfterViewInit(){
+
+   setTimeout(()=>{
+    (document.querySelector("#input_v1c") as any).focus();
+   },200)
   }
 }

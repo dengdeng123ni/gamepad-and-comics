@@ -1,7 +1,7 @@
 <div class="warp">
   <div class="head">
     <mat-icon fontIcon="search" ></mat-icon>
-    <input type="text" placeholder="搜索"  [(ngModel)]="keyword">
+    <input id="input_v1c" type="text" placeholder="搜索" (focus)="focus()" (blur)="blur()"   [(ngModel)]="keyword">
   </div>
 
   <div>
@@ -20,7 +20,7 @@
         [attr.content_menu_key]="'comics_item'"
         [attr.content_menu_value]="n.id"
         [attr.multiple]="false" (click)="on(n)">
-        <div class="img"   style="    width: 24px;min-width: 24px;">
+        <div class="img"   style="width: 24px;min-width: 24px;">
           <img [attr.width]="720" [attr.height]="960" style="width: 100%;
           height: auto;opacity: 0;" >
           <app-image [src]="n.cover" style="position: absolute;" />

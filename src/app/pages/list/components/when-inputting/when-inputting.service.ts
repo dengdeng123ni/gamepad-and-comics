@@ -14,7 +14,7 @@ export class WhenInputtingService {
     public _dialog: MatDialog,
     public GamepadController: GamepadControllerService,
   ) {
-    this.open();
+    // this.open();
   }
 
   open() {
@@ -27,6 +27,7 @@ export class WhenInputtingService {
         autoFocus:false,
         disableClose:true,
         delayFocusTrap:false,
+        restoreFocus:false,
         position:{
           right:"12px",
           top:"12px"

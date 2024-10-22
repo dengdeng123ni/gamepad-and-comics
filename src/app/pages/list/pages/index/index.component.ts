@@ -50,12 +50,12 @@ export class IndexComponent {
     public DownloadProgress:DownloadProgressService,
     public MenuSearch:MenuSearchService
   ) {
-    this.MenuSearch.open({
-      position:{
-        left:"10px",
-        top:"10px"
-      }
-    });
+    // this.MenuSearch.open({
+    //   position:{
+    //     left:"10px",
+    //     top:"10px"
+    //   }
+    // });
     // this.WhenInputting.open();
     // this.DownloadProgress.open({
     //   panelClass: "_double_page_thumbnail",

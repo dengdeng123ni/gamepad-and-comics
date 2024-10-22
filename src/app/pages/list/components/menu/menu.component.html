@@ -1,13 +1,28 @@
 <div class="list">
-  <mat-form-field style="    width: calc(100% - 20px) !important;
+  <!-- <mat-form-field style="    width: calc(100% - 20px) !important;
     margin: 0 10px 4px;
-  " [attr.region]="'menu_input'" [attr.select]="true" (click)="getClipboardContents()">
-    <input type="text" matInput  [(ngModel)]="keyword">
-  </mat-form-field>
+  " [attr.region]="'menu_input'" [attr.select]="true" (click)="openMenuSearch()">
+    <input type="text" matInput [disabled]="true" step=""  [(ngModel)]="keyword">
+  </mat-form-field> -->
+  <button   mat-button class=" " [attr.region]="'item'" [attr.default]="false" style="    backdrop-filter: brightness(0.92);
+  height: 30px;
+  /* margin: 10px; */
+  margin: 0 10px 4px;
+  color: rgba(255, 255, 255, .34);
+  width: calc(100% - 20px);
+  font-size: 24px;
+  position: relative;    overflow: hidden;
+    display: flex;
+    justify-content: start;"  (click)="openMenuSearch()">
+  <mat-icon class="icon" [attr.svg_filter]="'text_primary'">search</mat-icon>
+  <div class="name" style="color: rgba(255, 255, 255, 0.34);"  [attr.svg_filter]="'text_primary'" >
+    搜索
+  </div>
+</button>
   <div>
     <div *ngIf="data.menu_2_obj&&data.menu_2_obj.submenu&&menu.mode_1==1" [attr.type]="'expansion'">
       <button mat-button style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
-        [attr.default]="false" (click)="opensource()">
+         (click)="opensource()">
         <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
         <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'" >
           {{data.menu_2_obj.name}}

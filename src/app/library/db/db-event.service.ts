@@ -1272,6 +1272,8 @@ export class DbEventService {
         return blob
       },
       Search: async (obj) => {
+        console.log(obj);
+
         const res = await window._gh_getHtml(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
           "headers": {
             "accept": "application/json, text/plain, */*",
@@ -1281,11 +1283,21 @@ export class DbEventService {
           "body": null,
           "method": "GET"
         });
+        console.log(res);
+
         const text = await res.text();
+        console.log(text);
+
+        console.log(text);
+
         var parser = new DOMParser();
         var doc = parser.parseFromString(text, 'text/html');
+        console.log(doc);
+
         let data = [];
         let nodes = doc.querySelectorAll("body .comic-rows-videos-div")
+        console.log(nodes);
+
         for (let index = 0; index < nodes.length; index++) {
           const node = nodes[index];
           const id = node.querySelector("a").href.split("/").at(-1)
@@ -1293,6 +1305,8 @@ export class DbEventService {
           const title = node.textContent;
           data.push({ id, cover, title })
         }
+        console.log(data);
+
         return data
       },
       UrlToDetailId: async (id) => {

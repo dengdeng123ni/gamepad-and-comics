@@ -13,6 +13,7 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ControllerSettingsService } from '../controller-settings/controller-settings.service';
 import { UrlToComicsIdService } from '../url-to-comics-id/url-to-comics-id.service';
 import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
+import { MenuSearchService } from '../menu-search/menu-search.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -84,6 +85,7 @@ export class MenuComponent {
     public ControllerSettings: ControllerSettingsService,
     public DropDownMenu: DropDownMenuService,
     public UrlToComicsId: UrlToComicsIdService,
+    public MenuSearch:MenuSearchService,
     public route: ActivatedRoute,
     private zone: NgZone
   ) {
@@ -213,6 +215,17 @@ export class MenuComponent {
     })
 
 
+  }
+
+  async openMenuSearch(){
+    console.log(123);
+
+    this.MenuSearch.open({
+      position:{
+        left:"8px",
+        top:"8px"
+      }
+    });
   }
   async opensource(){
     let list=[];
