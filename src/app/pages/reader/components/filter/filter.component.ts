@@ -17,15 +17,18 @@ export class FilterComponent {
   }
   init() {
     const node: any = document.querySelector("#svg_1")
+    console.log(this.svg.data);
     this.svg.data.forEach((x, index) => {
+
+
       this.list.push({
         id: `filter_${index}`,
         name: x.name
       })
-      this.svg.add(x.name, `filter_${index}`, node)
     })
   }
   on(index) {
+    this.del();
     this.Filter.post({
       innerHTML: this.svg.data[index].innerHTML,
       id: this.svg.data[index].id

@@ -14,7 +14,7 @@ export class HistoryService {
   async update(obj: {
     id: string,
     title: string,
-    cover: string
+    cover: string,
   }) {
     const res: any = await firstValueFrom(this.webDb.getByID("history", obj.id))
     if (res) {

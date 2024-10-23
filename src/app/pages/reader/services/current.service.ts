@@ -146,7 +146,12 @@ export class CurrentService {
     })
     setTimeout(() => {
       this._updateChapterRead(this.data.chapter_id)
-
+      firstValueFrom(this.webDb.update('read_record',{
+        id:new Date().getTime(),
+        source:this.source,
+        comics_id:this.data.comics_id,
+        chapter_id:this.data.chapter_id
+      }))
     }, 1000)
   }
 
@@ -689,15 +694,7 @@ export class CurrentService {
 
     if (chapter.is_locked && option.page_index == 0) this.unlock.open(this.source, option.chapter_id);
     const pages = await this._getChapter(option.chapter_id)
-    if(true){
-      firstValueFrom(this.webDb.update('read_record',{
-        id:new Date().getTime(),
-        source:this.source,
-        comics_id:this.data.comics_id,
-        chapter_id:option.chapter_id,
-        page_index:option.page_index
-      }))
-    }
+
     if (option.page_index > pages.length) option.page_index = pages.length - 1;
 
     this.data.page_index = option.page_index;
