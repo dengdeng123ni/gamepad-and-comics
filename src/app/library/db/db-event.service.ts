@@ -799,6 +799,7 @@ export class DbEventService {
       ],
       is_cache: true,
       is_download: true,
+      is_locked:true,
       is_preloading: true
     }, {
       getList: async (obj) => {

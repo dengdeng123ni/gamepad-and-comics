@@ -13,8 +13,8 @@
           *ngFor="let n of data.chapters;let index=index" mat-button>
           <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==chapter_id">
             <span> {{n.title}}</span>
-            <!-- <mat-icon class="icon" *ngIf="is_locked&&n.is_locked">lock</mat-icon>
-            <mat-icon class="icon" *ngIf="is_locked&&!n.is_locked">lock_open</mat-icon> -->
+            <mat-icon class="icon" *ngIf="data.is_locked&&n.is_locked">lock</mat-icon>
+            <mat-icon class="icon" *ngIf="data.is_locked&&!n.is_locked">lock_open</mat-icon>
           </div>
         </button>
       </div>
@@ -86,7 +86,7 @@
         </div>
       </div>
   <div class="warp opacity-0" id="double_page_thumbnail" (click)="close()">
-    <div class="list"  style="padding-top: 0;" [attr.page_order]="data.comics_config.is_double_page" [attr.type]="'list'">
+    <div class="list"  style="padding-top: 0;" [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
       <button
         mat-button
         *ngFor="let n of double_pages; let index = index"

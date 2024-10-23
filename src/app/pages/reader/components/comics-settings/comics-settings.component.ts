@@ -26,6 +26,10 @@ export class ComicsSettingsComponent {
     this.get();
 
   }
+  init(){
+
+  }
+
   async getDoublePages(pages,is_first_page_cover) {
     const list = pages.map((x: any) => ({
       id: x.id,
