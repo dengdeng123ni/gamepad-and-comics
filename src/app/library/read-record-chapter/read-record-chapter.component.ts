@@ -35,19 +35,21 @@ export class ReadRecordChapterComponent {
     })
     const days = [...new Set(list.map(x => x.day))].reverse();
     let arr = [];
+    console.log(days);
+
     days.forEach(x => {
+      let  csd=[];
+      this.uniqueFunc(list.filter(c => c.day == x), 'chapter_id').sort((a,b)=>b.id-a.id).forEach(c=>{
+        let obj=JSON.parse(JSON.stringify(c))
+        obj.data.chapter=obj.data.chapters.find(e=>e.id.toString()==obj.chapter_id.toString());
+        obj.data.chapter.cover = `http://localhost:7700/${obj.source}/comics/${obj.data.id}`;
+        csd.push(obj)
+      })
       arr.unshift( {
         day: x,
-        list:  this.uniqueFunc(list.filter(c => c.day == x), 'chapter_id').sort((a,b)=>b.id-a.id).map(x=>{
-          const index=x.data.chapters.findIndex(c=>c.id==x.chapter_id);
-          x.data.chapter=x.data.chapters[index];
-          x.data.chapter.cover = `http://localhost:7700/${x.source}/comics/${x.data.id}`;
-          return x
-        })
+        list: csd
       })
     })
-    console.log(arr);
-
     this.list = arr;
   }
   uniqueFunc(arr, uniId) {

@@ -103,7 +103,6 @@ export class SvgService {
     if (node) node.remove();
   }
   register(str) {
-    console.log(str);
 
     const text = str;
     var parser = new DOMParser();
@@ -118,7 +117,6 @@ export class SvgService {
         name: name,
         innerHTML: text
       })
-      console.log(this.data);
 
     }
 

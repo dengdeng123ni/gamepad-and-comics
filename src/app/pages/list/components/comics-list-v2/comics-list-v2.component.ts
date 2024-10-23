@@ -118,10 +118,10 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            return (await this.history.getAll() as any).filter(x => x.source == source).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
+            return (await this.history.getAll() as any).sort((a, b) => b.last_read_date - a.last_read_date).filter(x => x.source == source).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
           },
           Init: async (obj) => {
-            return (await this.history.getAll() as any).filter(x => x.source == source).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
+            return (await this.history.getAll() as any).sort((a, b) => b.last_read_date - a.last_read_date).filter(x => x.source == source).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
           }
         })
 
