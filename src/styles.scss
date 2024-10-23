@@ -320,8 +320,8 @@ body[pattern=gamepad][locked_region=content_menu]{
 //   background: transparent !important;
 //   backdrop-filter:url("#background_primary");
 // }
-// [svg_filter=background_accent]{
-// }
+[svg_filter=background_accent]{
+}
 // .mat-bottom-sheet-container,.mdc-dialog__surface,.mat-mdc-menu-panel,.mat-drawer-inner-container{
 //   @extend [svg_filter=background_secondary];
 // }

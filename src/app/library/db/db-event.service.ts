@@ -120,12 +120,14 @@ export class DbEventService {
         var parser = new DOMParser();
         var doc: any = parser.parseFromString(text, 'text/html');
         const nodes = doc.querySelectorAll(".ptt a");
+
+
         let arr = []
         for (let index = 0; index < nodes.length; index++) {
           const element = nodes[index];
           arr.push(element.href)
         }
-        arr.pop()
+       if(arr.length>1) arr.pop()
 
         let arr2 = [];
         for (let index = 0; index < arr.length; index++) {
