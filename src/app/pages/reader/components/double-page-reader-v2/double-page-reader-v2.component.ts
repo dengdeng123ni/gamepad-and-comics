@@ -45,7 +45,7 @@ export class DoublePageReaderV2Component {
 
     GamepadEvent.registerAreaEvent('page_reader', {
       "LEFT": () => {
-        this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_LEFT");
+        this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_RIGHT");
       },
       "UP": () => {
         this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_UP");
@@ -54,7 +54,7 @@ export class DoublePageReaderV2Component {
         this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_DOWN");
       },
       "RIGHT": () => {
-        this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_RIGHT");
+        this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_LEFT");
       },
       "X": () => {
         this.pageToggle();
