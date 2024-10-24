@@ -194,6 +194,7 @@ export class DoublePageReaderV2DefaultComponent {
     })
   }
   async updata() {
+    // if(!this.swiper.slides[this.swiper.activeIndex]) return
     const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
@@ -203,6 +204,7 @@ export class DoublePageReaderV2DefaultComponent {
     const index = indexs.sort((a, b) => b - a)[0] - 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const list = await this.current._getChapter(chapter_id);
+
     this.current._change('changePage', {
       chapter_id: chapter_id,
       page_index: index,
@@ -237,6 +239,8 @@ export class DoublePageReaderV2DefaultComponent {
     }
   }
   async previous() {
+    console.log(123);
+
     const nodes = this.swiper.slides[0].querySelectorAll("[current_page]");
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
@@ -244,10 +248,11 @@ export class DoublePageReaderV2DefaultComponent {
       indexs.push(parseInt(node.getAttribute("index")))
     }
     const index = indexs.sort((a, b) => a - b)[0] - 1;
+
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
 
-    if (index <= 0) {
+    if (index <= -1) {
       const next_chapter_id = await this.current._getPreviousChapterId(chapter_id);
 
       if (next_chapter_id) {
@@ -269,6 +274,7 @@ export class DoublePageReaderV2DefaultComponent {
 
   is_1 = false;
   async addNextSlide(chapter_id, list, index: number) {
+
     if (index < 0) index = 0;
 
     if (this.objNextHtml[`${chapter_id}_${index}`]) return
@@ -317,6 +323,7 @@ export class DoublePageReaderV2DefaultComponent {
     }
   }
   async addPreviousSlide(chapter_id, list, index: number) {
+
     if (this.objPreviousHtml[`${chapter_id}_${index}`]) return
     else this.objPreviousHtml[`${chapter_id}_${index}`] = true;
     const getPreviousPages = async (list: Array<PagesItem>, index: number) => {

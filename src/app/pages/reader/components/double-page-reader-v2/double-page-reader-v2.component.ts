@@ -198,7 +198,7 @@ export class DoublePageReaderV2Component {
     })
   }
   async updata() {
-
+    if(!this.swiper.slides[this.swiper.activeIndex]) return
     if (this.swiper.slides[this.swiper.activeIndex]) {
       const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
       let indexs = [];
@@ -332,6 +332,7 @@ export class DoublePageReaderV2Component {
     }
   }
   async addPreviousSlide(chapter_id, list, index: number) {
+
     if (this.objPreviousHtml[`${chapter_id}_${index}`]) return
     else this.objPreviousHtml[`${chapter_id}_${index}`] = true;
     const getPreviousPages = async (list: Array<PagesItem>, index: number) => {
