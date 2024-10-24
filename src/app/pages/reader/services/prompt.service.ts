@@ -10,6 +10,8 @@ import { DataService } from './data.service';
 export class PromptService {
   obj = {};
 
+
+  ooo="";
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -17,21 +19,29 @@ export class PromptService {
     public i18n: I18nService
   ) {
     current.pageStatu$.subscribe(async (x) => {
-      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
+      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") {
+        if (x == "page") {
+          this.obj = {};
+           const ooo=`${this.data.page_index}_${this.data.pages.length}`;
+           if(this.ooo==ooo){
+
+           }else{
+            this._snackBar.open(`页码: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+            this.ooo=ooo;
+          }
+
+        }
+        return
+      }
       if (!this.obj[x]) this.obj[x] = 0;
       this.obj[x]++;
       Object.keys(this.obj).forEach(x => {
         if (this.obj[x] == 1) {
-          if (x == "page_first") {
-            // 创建一个观察器实例并传入回调函数
-            const node = document.querySelector(".swiper-slide-active [index='0']");
-            if (node) {
-              this._snackBar.open("第一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-            }
-          }
+          if (x == "page_first")   this._snackBar.open("第一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
           if (x == "page_last") this._snackBar.open("最后一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
           if (x == "chapter_first") this._snackBar.open("第一章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
           if (x == "chapter_last") this._snackBar.open("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+          // if (x == "page") this._snackBar.open("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
           this.obj[x] = 0;
         }
       })
@@ -39,10 +49,7 @@ export class PromptService {
         const obj = this.data.chapters.find(x => x.id == this.data.chapter_id)
         if (obj) this._snackBar.open(obj.title, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
       }
-      if (x == "page") {
-        this.obj = {};
-        // this._snackBar.open(`页码: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
-      }
+
     })
   }
 
