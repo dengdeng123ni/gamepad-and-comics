@@ -36,11 +36,12 @@ export class CurrentService {
     })
     this.change$.subscribe(e => {
       const index = this.data.chapters.findIndex(x => x.id == e.chapter_id)
+
       if (index == 0) {
-        if (e.page_index == 0) this.pageStatu$.next("page_first")
+        if (e.page_index == 0&&e.type=="previousPage") this.pageStatu$.next("page_first")
       }
       if (index == this.data.chapters.length - 1) {
-        if (e.page_index == e.pages.length - 2) this.pageStatu$.next("page_last")
+        if (e.page_index == e.pages.length - 2&&e.type=="nextPage") this.pageStatu$.next("page_last")
       }
 
       if (e.type == "changeChapter") {

@@ -8,7 +8,7 @@ import { DataService } from './data.service';
   providedIn: 'root'
 })
 export class PromptService {
-  obj={};
+  obj = {};
 
   constructor(
     public current: CurrentService,
@@ -16,17 +16,23 @@ export class PromptService {
     private _snackBar: MatSnackBar,
     public i18n: I18nService
   ) {
-    current.pageStatu$.subscribe(x => {
+    current.pageStatu$.subscribe(async (x) => {
       if (document.body.getAttribute('locked_region') == "reader_navbar_bar") return
-      if(!this.obj[x]) this.obj[x]=0;
+      if (!this.obj[x]) this.obj[x] = 0;
       this.obj[x]++;
-      Object.keys(this.obj).forEach(x=>{
-        if(this.obj[x]==2){
-          // if (x == "page_first") this._snackBar.open("第一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-          // if (x == "page_last") this._snackBar.open("最后一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+      Object.keys(this.obj).forEach(x => {
+        if (this.obj[x] == 1) {
+          if (x == "page_first") {
+            // 创建一个观察器实例并传入回调函数
+            const node = document.querySelector(".swiper-slide-active [index='0']");
+            if (node) {
+              this._snackBar.open("第一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
+            }
+          }
+          if (x == "page_last") this._snackBar.open("最后一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
           if (x == "chapter_first") this._snackBar.open("第一章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
           if (x == "chapter_last") this._snackBar.open("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
-          this.obj[x]=1;
+          this.obj[x] = 0;
         }
       })
       if (x == "chapter") {
@@ -34,7 +40,7 @@ export class PromptService {
         if (obj) this._snackBar.open(obj.title, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
       }
       if (x == "page") {
-        this.obj={};
+        this.obj = {};
         // this._snackBar.open(`页码: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
       }
     })
@@ -51,5 +57,37 @@ export class PromptService {
   firstPrompt() {
 
   }
+  async observeElementVisibility(element, callback, options) {
+    // 定义 IntersectionObserver 的回调函数
+    await this.sleep(200)
+    const observerCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (callback && typeof callback === 'function') {
+                // 将元素是否可见和元素本身传递给回调函数
+                console.log(entry);
 
+                callback(entry.isIntersecting, entry.target);
+            }
+        });
+    };
+
+    // 创建 IntersectionObserver 实例
+    const observer = new IntersectionObserver(observerCallback, {
+        root: options.root || null,           // 默认为视口
+        rootMargin: options.rootMargin || '0px', // 默认为无边距
+        threshold: options.threshold || 0.1    // 默认为 10% 可见时触发
+    });
+
+    // 开始观察传入的元素
+    observer.observe(element);
+
+    // 返回 observer 以便后续可以手动停止观察
+    return observer;
+}
+
+  sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
+  }
 }
