@@ -36,6 +36,7 @@ export class DoublePageThumbnailComponent {
     public current: CurrentService,
     @Inject(MAT_DIALOG_DATA) public _data: DialogData,
     public doublePageThumbnail: DoublePageThumbnailService,
+
     public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init(_data);

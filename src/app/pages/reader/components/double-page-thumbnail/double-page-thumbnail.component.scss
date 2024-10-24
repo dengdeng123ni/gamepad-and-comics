@@ -29,6 +29,12 @@
   }
 
 }
+[is_head_show=true] .list{
+  padding-top: 0 !important;
+}
+[is_head_show=false]{
+
+}
 [opened=true]:hover {
   .switch_left {
     .left {
