@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { ChaptersItem, DbControllerService, HistoryService, ImageService, MessageFetchService, PagesItem } from 'src/app/library/public-api';
+import { AppDataService, ChaptersItem, DbControllerService, HistoryService, ImageService, MessageFetchService, PagesItem } from 'src/app/library/public-api';
 import { Subject, firstValueFrom } from 'rxjs';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { UnlockService } from './unlock.service';
@@ -27,6 +27,7 @@ export class CurrentService {
     public history: HistoryService,
     public unlock: UnlockService,
     private _snackBar: MatSnackBar,
+    public App: AppDataService,
   ) {
     this.reader_mode_change$.subscribe(x => {
       if (this.reader_modes.includes(x)) this.data.comics_config.reader_mode = x;
@@ -38,10 +39,10 @@ export class CurrentService {
       const index = this.data.chapters.findIndex(x => x.id == e.chapter_id)
 
       if (index == 0) {
-        if (e.page_index == 0&&e.type=="previousPage") this.pageStatu$.next("page_first")
+        if (e.page_index == 0 && e.type == "previousPage") this.pageStatu$.next("page_first")
       }
       if (index == this.data.chapters.length - 1) {
-        if (e.page_index == e.pages.length - 2&&e.type=="nextPage") this.pageStatu$.next("page_last")
+        if (e.page_index == e.pages.length - 2 && e.type == "nextPage") this.pageStatu$.next("page_last")
       }
 
       if (e.type == "changeChapter") {
@@ -683,6 +684,15 @@ export class CurrentService {
     z = (z > 0.008856) ? Math.pow(z, 1 / 3) : (7.787 * z) + 16 / 116;
     return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
   }
+  async _getImage(src) {
+    if (this.App.is_pwa && src.substring(7, 21) == "localhost:7700") {
+      await this.image.getImageBlob(src)
+      return src
+    } else {
+      return await this.image.getImageBase64(src)
+    }
+
+  }
   async _change(type: string, option: {
     page_index: number,
     chapter_id: string,
@@ -722,9 +732,9 @@ export class CurrentService {
     const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id)
     if (this.data.chapters.length > 1) this.history.update_progress(this.data.comics_id, `${this.data.is_offprint ? Math.ceil((this.data.page_index / this.data.pages.length) * 100) : Math.ceil((index / this.data.chapters.length) * 100)}%`)
     else {
-      const length=document.querySelectorAll(".swiper-slide-active img").length ?? 1;
+      const length = document.querySelectorAll(".swiper-slide-active img").length ?? 1;
 
-      this.history.update_progress(this.data.comics_id, `${Math.ceil(((this.data.page_index+length) / this.data.pages.length) * 100)}%` )
+      this.history.update_progress(this.data.comics_id, `${Math.ceil(((this.data.page_index + length) / this.data.pages.length) * 100)}%`)
     }
   }
 

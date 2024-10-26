@@ -155,6 +155,7 @@ export class AppComponent {
 
     MessageEvent.service_worker_register('init', async (event: any) => {
       document.body.setAttribute("pwa", "true")
+      this.App.is_pwa=true;
       this.App.is_pulg = true;
     })
 

@@ -386,7 +386,6 @@ export class DoublePageReaderV2DefaultComponent {
   }
 
   loadImage = async (url: string) => {
-    url = await this.image.getImageBase64(url)
     return new Promise<any>((resolve, reject) => {
       if (url) {
         const img = new Image();
@@ -400,8 +399,8 @@ export class DoublePageReaderV2DefaultComponent {
   }
 
   isWideImage = async (primary: any, secondary: any) => {
-    if (primary) primary.src = await this.image.getImageBase64(primary.src)
-    if (secondary) secondary.src = await this.image.getImageBase64(secondary.src)
+    if (primary) primary.src = await this.current._getImage(primary.src)
+    if (secondary) secondary.src = await this.current._getImage(secondary.src)
 
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
 

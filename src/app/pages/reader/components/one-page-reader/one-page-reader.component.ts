@@ -344,7 +344,6 @@ export class OnePageReaderComponent {
   }
 
   loadImage = async (url: string) => {
-    url = await this.image.getImageBase64(url)
     return new Promise<any>((resolve, reject) => {
       if (url) {
         const img = new Image();
