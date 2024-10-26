@@ -17,6 +17,7 @@ import { MenuSearchService } from '../menu-search/menu-search.service';
 import { SoundEffectsService } from '../sound-effects/sound-effects.service';
 import { AboutSoftwareService } from '../about-software/about-software.service';
 import { PlugInInstructionsService } from '../plug-in-instructions/plug-in-instructions.service';
+import { CachePageService } from '../cache-page/cache-page.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -93,6 +94,7 @@ export class MenuComponent {
     public SoundEffects:SoundEffectsService,
     public AboutSoftware:AboutSoftwareService,
     public PlugInInstructions:PlugInInstructionsService,
+    public CachePage:CachePageService,
     // public
     private zone: NgZone
   ) {
@@ -238,13 +240,13 @@ export class MenuComponent {
               })
             }
           },
-          {
-            id: "ope3",
-            name: "缓存",
-            click: () => {
+          // {
+          //   id: "ope3",
+          //   name: "缓存",
+          //   click: () => {
 
-            }
-          },
+          //   }
+          // },
 
           {
             id: "ope",

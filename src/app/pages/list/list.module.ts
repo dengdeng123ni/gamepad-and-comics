@@ -34,6 +34,7 @@ import { ComicsListV3Component } from './components/comics-list-v3/comics-list-v
 import { SoundEffectsComponent } from './components/sound-effects/sound-effects.component';
 import { AboutSoftwareComponent } from './components/about-software/about-software.component';
 import { PlugInInstructionsComponent } from './components/plug-in-instructions/plug-in-instructions.component';
+import { CachePageComponent } from './components/cache-page/cache-page.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -68,7 +69,8 @@ import { PlugInInstructionsComponent } from './components/plug-in-instructions/p
     ComicsListV3Component,
     SoundEffectsComponent,
     AboutSoftwareComponent,
-    PlugInInstructionsComponent
+    PlugInInstructionsComponent,
+    CachePageComponent
   ],
   imports: [
     CommonModule,

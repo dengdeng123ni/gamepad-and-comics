@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-about-software',
-  templateUrl: './about-software.component.html',
-  styleUrl: './about-software.component.scss'
+  selector: 'app-cache-page',
+  templateUrl: './cache-page.component.html',
+  styleUrl: './cache-page.component.scss'
 })
-export class AboutSoftwareComponent {
-  size=0;
+export class CachePageComponent {
   constructor() {
     navigator.storage.estimate().then(estimate => {
       console.log(estimate);
@@ -20,7 +19,7 @@ export class AboutSoftwareComponent {
 
       // console.log(`Usage details: `, estimate.usageDetails);
 
-      this.size= this.formatSizeUnits(estimate.usage)
+
     });
   }
   formatSizeUnits(bytes) {

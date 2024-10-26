@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AboutSoftwareComponent } from './about-software.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GamepadEventService } from 'src/app/library/public-api';
+import { CachePageComponent } from './cache-page.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AboutSoftwareService {
+export class CachePageService {
 
   public opened=false;
   constructor(
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
+    // this.open({})
     GamepadEvent.registerAreaEvent('menu_search', {
       B: () => setTimeout(() => this.close())
     })
@@ -24,7 +25,7 @@ export class AboutSoftwareService {
     if (this.opened == false) {
       this.opened = true;
 
-      const dialogRef = this._dialog.open(AboutSoftwareComponent, {
+      const dialogRef = this._dialog.open(CachePageComponent, {
         panelClass: "_controller_settings",
         ...config
       });

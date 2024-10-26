@@ -1,0 +1,18 @@
+.warp{
+  width: 240px;
+  padding: 12px;
+  .title{
+    font-size: 18px;
+    opacity: 0.34;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .name{
+      color: rgba(255, 255, 255, .34);
+    }
+  }
+}
