@@ -69,7 +69,7 @@ export class GamepadControllerService {
 
     // let observe = new MutationObserver(() => this.execute());
     // observe.observe(document, config);
-    this.execute()
+    // this.execute()
     this.router.events.subscribe((event) => {
       // NavigationEnd,NavigationCancel,NavigationError,RoutesRecognized
       if (event instanceof NavigationStart) {

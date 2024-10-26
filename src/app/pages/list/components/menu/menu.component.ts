@@ -15,6 +15,8 @@ import { UrlToComicsIdService } from '../url-to-comics-id/url-to-comics-id.servi
 import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 import { MenuSearchService } from '../menu-search/menu-search.service';
 import { SoundEffectsService } from '../sound-effects/sound-effects.service';
+import { AboutSoftwareService } from '../about-software/about-software.service';
+import { PlugInInstructionsService } from '../plug-in-instructions/plug-in-instructions.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -89,6 +91,9 @@ export class MenuComponent {
     public MenuSearch:MenuSearchService,
     public route: ActivatedRoute,
     public SoundEffects:SoundEffectsService,
+    public AboutSoftware:AboutSoftwareService,
+    public PlugInInstructions:PlugInInstructionsService,
+    // public
     private zone: NgZone
   ) {
     // this.ControllerSettings.open();
@@ -179,12 +184,34 @@ export class MenuComponent {
           e.click()
         },
         menu: [
-          // {
-          //   id: "javasciprt",
-          //   name: "主题",
-          //   click: () => {
-          //   }
-          // },
+          {
+            id: "javasciprt",
+            name: "主题",
+            click: () => {
+            }
+          },
+          {
+            id: "ope3",
+            name: "蓝牙",
+            click: () => {
+
+            }
+          },
+          {
+            id: "ope3",
+            name: "URL使用指南",
+            click: () => {
+
+            }
+          },
+          {
+            id: "ope3",
+            name: "插件说明",
+            click: () => {
+              this.PlugInInstructions.open({});
+
+            }
+          },
           {
             id: "javasciprt",
             name: "脚本",
@@ -213,16 +240,17 @@ export class MenuComponent {
           },
           {
             id: "ope3",
-            name: "清理缓存",
+            name: "缓存",
             click: () => {
 
             }
           },
+
           {
             id: "ope",
             name: "关于软件",
             click: () => {
-              ControllerSettings.open()
+              AboutSoftware.open({})
             }
           }
         ]

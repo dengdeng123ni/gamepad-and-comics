@@ -33,6 +33,7 @@ import { MenuSearchComponent } from './components/menu-search/menu-search.compon
 import { ComicsListV3Component } from './components/comics-list-v3/comics-list-v3.component';
 import { SoundEffectsComponent } from './components/sound-effects/sound-effects.component';
 import { AboutSoftwareComponent } from './components/about-software/about-software.component';
+import { PlugInInstructionsComponent } from './components/plug-in-instructions/plug-in-instructions.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -66,7 +67,8 @@ import { AboutSoftwareComponent } from './components/about-software/about-softwa
     MenuSearchComponent,
     ComicsListV3Component,
     SoundEffectsComponent,
-    AboutSoftwareComponent
+    AboutSoftwareComponent,
+    PlugInInstructionsComponent
   ],
   imports: [
     CommonModule,

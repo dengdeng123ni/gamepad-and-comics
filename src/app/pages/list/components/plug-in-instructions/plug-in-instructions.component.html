@@ -1,0 +1,22 @@
+<div class="warp" style="padding: 12px;">
+  <div class="title">
+    插件使用说明
+  </div>
+  <div class="content">
+    <div class="left">
+      <button mat-icon-button [disabled]="true" style="     width: 184px;
+      height: 184px;
+      transform: scale(4.5);
+  ">
+        <mat-icon>extension</mat-icon>
+      </button>
+      <button mat-button>下载插件</button>
+    </div>
+    <div class="right">
+       <div class="list">
+        <div class="item" *ngFor="let n of list;let index=index">{{index+1}}.{{n}}</div>
+       </div>
+    </div>
+  </div>
+
+</div>
