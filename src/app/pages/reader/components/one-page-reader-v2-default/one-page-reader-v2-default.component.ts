@@ -29,11 +29,15 @@ export class OnePageReaderV2DefaultComponent {
     public zoom:ZoomService
 
   ) {
+    KeyboardEvent.registerAreaEvent('page_reader', {
+      "c": () => {
+        this.GamepadInput.down$.next("X")
+      },
+    })
     GamepadEvent.registerAreaEventY("page_reader", {
       "LEFT_BUMPER": () => this.zoom.zoom(1),
       "RIGHT_BUMPER": () => this.zoom.zoom(2),
     })
-
     GamepadEvent.registerAreaEvent('page_reader', {
       "LEFT": () => {
         this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_LEFT");
@@ -63,6 +67,7 @@ export class OnePageReaderV2DefaultComponent {
       },
 
     })
+
     // GamepadEvent.registerAreaEventY('double_page_reader', {
     //   "UP": () => {
     //     current._pagePrevious();
@@ -106,9 +111,9 @@ export class OnePageReaderV2DefaultComponent {
       } else if (x.type == "changeChapter") {
         this.change(x.chapter_id, x.pages, x.page_index)
       } else if (x.type == "nextPage") {
-        this.swiper.slidePrev();
-      } else if (x.type == "previousPage") {
         this.swiper.slideNext();
+      } else if (x.type == "previousPage") {
+        this.swiper.slidePrev();
       }
     })
     this.event$ = this.current.event().subscribe(x => {
@@ -142,15 +147,22 @@ export class OnePageReaderV2DefaultComponent {
     this.event$.unsubscribe();
   }
   isSwitch = false;
-  pageToggle() {
-    if (this.data.page_index == 0) {
-      this.current._pageChange(this.data.page_index);
+  async pageToggle() {
+    const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
+
+    let indexs = [];
+    for (let index = 0; index < nodes.length; index++) {
+      const node = nodes[index];
+      indexs.push(parseInt(node.getAttribute("index")))
+    }
+    const index = indexs.sort((a, b) => b - a)[0] - 1 ;
+    if (index == 0) {
+      this.current._pageChange(index);
     } else {
-      if (this.data.page_index == this.data.pages.length - 1) {
-        this.current._pageChange(this.isSwitch ? this.data.page_index - 1 : this.data.page_index - 1);
-        // this.isSwitch = !this.isSwitch;
+      if (index >= (this.data.pages.length-2)) {
+        this.current._pageChange( index - (3-nodes.length) );
       } else {
-        this.current._pageChange(this.isSwitch ? this.data.page_index - 1 : this.data.page_index + 1);
+        this.current._pageChange(this.isSwitch ? index - 1 : index + 1);
       }
     }
     this.isSwitch = !this.isSwitch;
@@ -178,6 +190,7 @@ export class OnePageReaderV2DefaultComponent {
     })
   }
   async updata() {
+    // if(!this.swiper.slides[this.swiper.activeIndex]) return
     const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
@@ -187,6 +200,7 @@ export class OnePageReaderV2DefaultComponent {
     const index = indexs.sort((a, b) => b - a)[0] - 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const list = await this.current._getChapter(chapter_id);
+
     this.current._change('changePage', {
       chapter_id: chapter_id,
       page_index: index,
@@ -204,12 +218,13 @@ export class OnePageReaderV2DefaultComponent {
     const index = indexs.sort((a, b) => b - a)[0] + 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
-    if (index >= pages.length - (nodes.length - 1)) {
+    if (index >= pages.length) {
       const next_chapter_id = await this.current._getNextChapterId(chapter_id);
 
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
         this.addNextSlide(next_chapter_id, res, 0);
+        this.isSwitch=false;
         return
       } else {
         return
@@ -227,10 +242,11 @@ export class OnePageReaderV2DefaultComponent {
       indexs.push(parseInt(node.getAttribute("index")))
     }
     const index = indexs.sort((a, b) => a - b)[0] - 1;
+
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
 
-    if (index >= pages.length - (nodes.length - 1)) {
+    if (index <= -1) {
       const next_chapter_id = await this.current._getPreviousChapterId(chapter_id);
 
       if (next_chapter_id) {
@@ -252,6 +268,7 @@ export class OnePageReaderV2DefaultComponent {
 
   is_1 = false;
   async addNextSlide(chapter_id, list, index: number) {
+
     if (index < 0) index = 0;
 
     if (this.objNextHtml[`${chapter_id}_${index}`]) return
@@ -263,23 +280,11 @@ export class OnePageReaderV2DefaultComponent {
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
       const obj = await this.isWideImage(list[index], list[index + 1]);
-      if (obj?.primary?.width == obj?.secondary?.width && !this.is_1) {
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(obj.primary.width / res.primary.height) * window.innerHeight }px`);
-        this.is_1 = true
-      }
       obj.secondary = undefined;
-      if (this.isPageFirst) {
-        this.isPageFirst = false;
-        if (this.is_first_page_cover == true && index == 0) {
-          obj.secondary = undefined;
-        }
-      } else {
-        if (index == 0 && !this.isSwitch && this.is_first_page_cover == true) {
-          obj.secondary = undefined;
-        }
-        if (index == 0 && this.isSwitch && this.is_first_page_cover == false) {
-          obj.secondary = undefined;
-        }
+      if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
+        obj.secondary = undefined;
+      }else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
+        obj.secondary = undefined;
       }
       if (index >= (total - 1) && !obj.secondary) {
         if (obj.primary.width < obj.primary.height) page.primary.end = true;
@@ -292,17 +297,25 @@ export class OnePageReaderV2DefaultComponent {
       }
       return page
     }
+
+    const is_first_page_cover= await this.current._getChapter_IsFirstPageCover(chapter_id);
     const res = await getNextPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
+    if (res?.primary?.width == res?.secondary?.width && !this.is_1) {
+      document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(res.primary.width / res.primary.height) * window.innerHeight }px`);
+      this.is_1 = true
+    }
 
-    if (res.primary.src) current = current + `<img  style="width:100%;height: fit-content;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.primary.src) current = current + `<img  style=" height: 100%;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = current;
       this.prependSlide(current)
     }
   }
   async addPreviousSlide(chapter_id, list, index: number) {
+
     if (this.objPreviousHtml[`${chapter_id}_${index}`]) return
     else this.objPreviousHtml[`${chapter_id}_${index}`] = true;
     const getPreviousPages = async (list: Array<PagesItem>, index: number) => {
@@ -312,8 +325,12 @@ export class OnePageReaderV2DefaultComponent {
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
       const obj = await this.isWideImage(list[index], list[index - 1]);
-       obj.secondary = undefined;
-      if (index == 0) obj.secondary = undefined;
+  obj.secondary = undefined;
+      if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
+        obj.secondary = undefined;
+      }else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
+        obj.secondary = undefined;
+      }
 
       if (index >= (total - 1) && !obj.secondary) {
         if (obj.primary.width < obj.primary.height) page.primary.end = true;
@@ -325,10 +342,12 @@ export class OnePageReaderV2DefaultComponent {
       }
       return page
     }
+    const is_first_page_cover= await this.current._getChapter_IsFirstPageCover(chapter_id);
     const res = await getPreviousPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
-    if (res.primary.src) current = current + `<img  style="width:100%;height: fit-content;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+
+    if (res.primary.src) current = current + `<img  style=" height: 100%;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = current;
       this.appendSlide(current)
@@ -338,7 +357,7 @@ export class OnePageReaderV2DefaultComponent {
     if (
       !!src
     ) {
-      this.swiper.prependSlide
+      this.swiper.appendSlide
         (`
      <div class="swiper-slide" style="display: flex;">
      ${src}
@@ -349,7 +368,7 @@ export class OnePageReaderV2DefaultComponent {
   }
   appendSlide(src: string) {
     if (!!src) {
-      this.swiper.appendSlide
+      this.swiper.prependSlide
         (`
      <div class="swiper-slide" style="display: flex;">
      ${src}
@@ -392,8 +411,8 @@ export class OnePageReaderV2DefaultComponent {
   }
 
   ngAfterViewInit() {
-    this.zoom.zoom(1);
-    this.swiper = new Swiper(".mySwiper5", {
+    this.zoom.init();
+    this.swiper = new Swiper(".mySwiper7", {
       speed:300,
       mousewheel: {
         thresholdDelta: 20,
@@ -418,20 +437,20 @@ export class OnePageReaderV2DefaultComponent {
       if (!this.ccc) {
         this.ccc = true;
 
-        await this.next()
+        await this.previous()
 
         this.ccc = false;
         setTimeout(() => {
-          this.next()
+          this.previous()
         }, 0)
       }
     });
     this.swiper.on('slideChange', async () => {
       if (!this.ppp) {
         this.ppp = true;
-
+        this.zoom.zoom(1)
         await this.updata()
-        this.zoom.zoom(1);
+
         this.ppp = false;
       }
     })
@@ -440,11 +459,11 @@ export class OnePageReaderV2DefaultComponent {
       if (!this.ccc) {
         this.ccc = true;
 
-        await this.previous()
+        await this.next()
 
         this.ccc = false;
         setTimeout(() => {
-          this.previous()
+          this.next()
         }, 0)
       }
     });
