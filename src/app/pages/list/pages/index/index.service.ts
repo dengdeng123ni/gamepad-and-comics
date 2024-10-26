@@ -58,8 +58,6 @@ export class IndexService {
         },
         {
           name: "图像处理", id: "image_to", click: async (list) => {
-
-
             await this.ImageTo.open({
               data:list
             });

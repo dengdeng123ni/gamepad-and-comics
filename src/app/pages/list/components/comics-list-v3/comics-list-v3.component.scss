@@ -28,15 +28,15 @@
 }
 
 .grid {
-  display: grid;
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+
   overflow: auto;
-  grid-template-columns:repeat(auto-fill, minmax(168px, 1fr));
+  // grid-template-columns:1fr;
 
   justify-content: start;
   grid-gap: 4px;
-  height: auto;
+  // height: auto;
   max-height: 100%;
   width: 100%;
   grid-template-rows: min-content;
@@ -72,24 +72,51 @@
 
   }
 
-  .name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    margin-top: 6px;
-    margin-bottom: 2px;
-    color: rgba(255, 255, 255, .87);
-    width: 100%;
-    text-align: left;
-    transition: 10s all;
 
-    &:hover {
-      color: rgba(255, 255, 255, .87);
+
+  // .name {
+  //   overflow: hidden;
+  //   text-overflow: ellipsis;
+  //   white-space: nowrap;
+  //   font-size: 0.875rem;
+  //   line-height: 1.25rem;
+  //   color: rgba(255, 255, 255, .87);
+  //   width: 100%;
+  //   text-align: left;
+  //   transition: 10s all;
+
+  //   &:hover {
+  //     color: rgba(255, 255, 255, .87);
+  //   }
+  // }
+  .info {
+    position: relative;
+
+
+    .author {
+      // margin-bottom: 12px;
+      color: rgba(232, 230, 227, 0.56);
+    }
+
+    .intro {
+      color: rgba(255, 255, 255, .56);
+      overflow: auto;
+      max-height: 180px;
+    }
+    .styles{
+     color: rgba(232, 230, 227, 0.34);
+      // margin-bottom: 12px;
+    }
+    .button {
+      position: absolute;
+      bottom: 0;
+    }
+    .item1:last-child{
+      .dividing{
+        display:none;
+      }
     }
   }
-
   .progress {
     font-size: 0.75rem;
     line-height: 1rem;
@@ -114,23 +141,7 @@
   }
 }
 
-@media screen and (min-width: 0px) and (max-width: 720px) {
-  .grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(calc(96px + 0.4rem), calc(124px + 0.6rem)), 1fr));
-    .item {
-      padding: 0.4rem;
-    }
-  }
-}
 
-@media screen and (min-width: 720px) and (max-width: 1080px) {
-  .grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(calc(124px + 0.6rem), calc(144px + 0.6rem)), 1fr));
-    .item {
-      padding: 0.6rem;
-    }
-  }
-}
 
 .head {
   .choice {
@@ -343,10 +354,7 @@
     .mdc-button__label {
       width: 100%;
       display: flex;
-      flex-direction: column;
       height: 100%;
-      align-items: center;
-      justify-content: end;
     }
   }
 

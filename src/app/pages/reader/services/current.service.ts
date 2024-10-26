@@ -689,6 +689,8 @@ export class CurrentService {
     trigger?: string
   }) {
 
+
+
     if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
     const chapter = this.data.chapters.find(x => x.id == option.chapter_id);
@@ -707,6 +709,7 @@ export class CurrentService {
 
     } else if (type == "changeChapter") {
       this._setWebDbComicsConfig(this.data.comics_id);
+      history.replaceState(null, "", `comics/${this.source}/${this.data.comics_id}/${this.data.chapter_id}`);
     }
     this._updateChapterRead(this.data.chapter_id);
     const types = ['initPage', 'closePage', 'changePage', 'nextPage', 'previousPage', 'nextChapter', 'previousChapter', 'changeChapter'];

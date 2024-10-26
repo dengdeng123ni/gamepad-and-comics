@@ -8,6 +8,7 @@ import { ComicsCustomChoiceComponent } from './components/comics-custom-choice/c
 import { ComicsCustomMultipyComponent } from './components/comics-custom-multipy/comics-custom-multipy.component';
 import { ComicsSearchComponent } from './components/comics-search/comics-search.component';
 import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
+import { ComicsListV3Component } from './components/comics-list-v3/comics-list-v3.component';
 
 const routes: Routes = [
   {

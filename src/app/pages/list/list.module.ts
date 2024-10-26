@@ -30,6 +30,7 @@ import { CompositeModule } from 'src/app/composite/composite.module';
 import { DownloadProgressComponent } from './components/download-progress/download-progress.component';
 import { WhenInputtingComponent } from './components/when-inputting/when-inputting.component';
 import { MenuSearchComponent } from './components/menu-search/menu-search.component';
+import { ComicsListV3Component } from './components/comics-list-v3/comics-list-v3.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -60,7 +61,8 @@ import { MenuSearchComponent } from './components/menu-search/menu-search.compon
     ImageToComponent,
     DownloadProgressComponent,
     WhenInputtingComponent,
-    MenuSearchComponent
+    MenuSearchComponent,
+    ComicsListV3Component
   ],
   imports: [
     CommonModule,

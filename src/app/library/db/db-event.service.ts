@@ -1252,7 +1252,9 @@ export class DbEventService {
           }
 
           obj["id"] = `${id}_${index}`;
-          obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
+          // obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
+          obj["src"] =nodes[index].getAttribute("data-srcset")
+
           data.push(obj)
         }
         return data

@@ -1,3 +1,4 @@
+
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
 import { map, throttleTime, Subject, firstValueFrom } from 'rxjs';
@@ -6,17 +7,17 @@ import { AppDataService, ContextMenuEventService, DbControllerService, DbEventSe
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { ComicsListV2Service } from './comics-list-v2.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
 import { DownloadOptionService } from '../download-option/download-option.service';
 import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
+import { ComicsListV2Service } from '../comics-list-v2/comics-list-v2.service';
 
 @Component({
-  selector: 'app-comics-list-v2',
-  templateUrl: './comics-list-v2.component.html',
-  styleUrl: './comics-list-v2.component.scss'
+  selector: 'app-comics-list-v3',
+  templateUrl: './comics-list-v3.component.html',
+  styleUrl: './comics-list-v3.component.scss'
 })
-export class ComicsListV2Component {
+export class ComicsListV3Component {
   key: string = '';
 
   is_all = false;
@@ -41,11 +42,58 @@ export class ComicsListV2Component {
     if (event.key == "Control") this._ctrl = false;
     return true
   }
+
   _ctrl = false;
   page_num = 1;
   page_size = 20;
   list = [];
 
+
+  author = [{
+    name: "ENCHI",
+    href:""
+  }];
+
+  styles = [
+    {
+      name: "奇幻",
+      href:""
+    },
+    {
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },{
+      name: "奇幻",
+      href:""
+    },
+  ];
 
   query = {
     id: "",
