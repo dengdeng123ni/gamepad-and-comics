@@ -14,6 +14,7 @@ import { ControllerSettingsService } from '../controller-settings/controller-set
 import { UrlToComicsIdService } from '../url-to-comics-id/url-to-comics-id.service';
 import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 import { MenuSearchService } from '../menu-search/menu-search.service';
+import { SoundEffectsService } from '../sound-effects/sound-effects.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -87,6 +88,7 @@ export class MenuComponent {
     public UrlToComicsId: UrlToComicsIdService,
     public MenuSearch:MenuSearchService,
     public route: ActivatedRoute,
+    public SoundEffects:SoundEffectsService,
     private zone: NgZone
   ) {
     // this.ControllerSettings.open();
@@ -177,12 +179,12 @@ export class MenuComponent {
           e.click()
         },
         menu: [
-          {
-            id: "javasciprt",
-            name: "主题",
-            click: () => {
-            }
-          },
+          // {
+          //   id: "javasciprt",
+          //   name: "主题",
+          //   click: () => {
+          //   }
+          // },
           {
             id: "javasciprt",
             name: "脚本",
@@ -197,20 +199,32 @@ export class MenuComponent {
               ControllerSettings.open()
             }
           },
-          // {
-          //   id: "ope1",
-          //   name: "链接",
-          //   click: () => {
-
-          //   }
-          // },
+          {
+            id: "ope",
+            name: "音频",
+            click: () => {
+              SoundEffects.open({
+                position:{
+                  left:"10px",
+                  bottom:"10px"
+                }
+              })
+            }
+          },
           {
             id: "ope3",
-            name: "清理全部缓存",
+            name: "清理缓存",
             click: () => {
 
             }
           },
+          {
+            id: "ope",
+            name: "关于软件",
+            click: () => {
+              ControllerSettings.open()
+            }
+          }
         ]
     })
 
@@ -218,8 +232,6 @@ export class MenuComponent {
   }
 
   async openMenuSearch(){
-    console.log(123);
-
     this.MenuSearch.open({
       position:{
         left:"8px",

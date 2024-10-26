@@ -31,6 +31,8 @@ import { DownloadProgressComponent } from './components/download-progress/downlo
 import { WhenInputtingComponent } from './components/when-inputting/when-inputting.component';
 import { MenuSearchComponent } from './components/menu-search/menu-search.component';
 import { ComicsListV3Component } from './components/comics-list-v3/comics-list-v3.component';
+import { SoundEffectsComponent } from './components/sound-effects/sound-effects.component';
+import { AboutSoftwareComponent } from './components/about-software/about-software.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -62,7 +64,9 @@ import { ComicsListV3Component } from './components/comics-list-v3/comics-list-v
     DownloadProgressComponent,
     WhenInputtingComponent,
     MenuSearchComponent,
-    ComicsListV3Component
+    ComicsListV3Component,
+    SoundEffectsComponent,
+    AboutSoftwareComponent
   ],
   imports: [
     CommonModule,
