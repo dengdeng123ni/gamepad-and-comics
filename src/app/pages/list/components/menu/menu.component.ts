@@ -18,6 +18,7 @@ import { SoundEffectsService } from '../sound-effects/sound-effects.service';
 import { AboutSoftwareService } from '../about-software/about-software.service';
 import { PlugInInstructionsService } from '../plug-in-instructions/plug-in-instructions.service';
 import { CachePageService } from '../cache-page/cache-page.service';
+import { UrlUsageGuideService } from '../url-usage-guide/url-usage-guide.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -95,7 +96,7 @@ export class MenuComponent {
     public AboutSoftware:AboutSoftwareService,
     public PlugInInstructions:PlugInInstructionsService,
     public CachePage:CachePageService,
-    // public
+    public UrlUsageGuide:UrlUsageGuideService,
     private zone: NgZone
   ) {
     // this.ControllerSettings.open();
@@ -201,9 +202,9 @@ export class MenuComponent {
           },
           {
             id: "ope3",
-            name: "URL使用指南",
+            name: "支持的网站",
             click: () => {
-
+              this.UrlUsageGuide.open({});
             }
           },
           {
