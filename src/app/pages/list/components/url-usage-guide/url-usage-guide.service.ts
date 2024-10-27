@@ -13,6 +13,7 @@ export class UrlUsageGuideService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
+    this.open({})
     GamepadEvent.registerAreaEvent('menu_search', {
       B: () => setTimeout(() => this.close())
     })
@@ -26,7 +27,6 @@ export class UrlUsageGuideService {
 
       const dialogRef = this._dialog.open(UrlUsageGuideComponent, {
         panelClass: "_controller_settings",
-        backdropClass:"_reader_config_bg",
         ...config
       });
       document.body.setAttribute("locked_region", "menu_search")
