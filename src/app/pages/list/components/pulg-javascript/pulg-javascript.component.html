@@ -1,5 +1,12 @@
 <div class="warp">
-  <div class="title">全部脚本</div>
+  <div class="title" style="display: flex;
+  justify-content: space-between;
+  align-items: center;">
+    <span>全部脚本</span>
+    <button mat-icon-button style="zoom: 0.7;">
+      <mat-icon>help</mat-icon>
+    </button>
+  </div>
   <div class="list">
     <div class="box"  *ngFor="let n of list;let index=index">
       <div class="name" style="cursor: pointer;" (click)="on(n)">

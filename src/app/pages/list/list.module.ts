@@ -35,6 +35,7 @@ import { SoundEffectsComponent } from './components/sound-effects/sound-effects.
 import { AboutSoftwareComponent } from './components/about-software/about-software.component';
 import { PlugInInstructionsComponent } from './components/plug-in-instructions/plug-in-instructions.component';
 import { CachePageComponent } from './components/cache-page/cache-page.component';
+import { UrlUsageGuideComponent } from './components/url-usage-guide/url-usage-guide.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -70,7 +71,8 @@ import { CachePageComponent } from './components/cache-page/cache-page.component
     SoundEffectsComponent,
     AboutSoftwareComponent,
     PlugInInstructionsComponent,
-    CachePageComponent
+    CachePageComponent,
+    UrlUsageGuideComponent
   ],
   imports: [
     CommonModule,
