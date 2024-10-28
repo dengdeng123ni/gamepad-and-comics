@@ -1,9 +1,20 @@
 <div class="warp">
-  <div class="title" style="display: flex;justify-content: space-between;">
-    <button mat-button [disabled]="true" style="    display: flex;  justify-content: start; ">控制</button>
-    <button mat-button       [attr.region]="'item'"
-    [attr.default]="true"
-    [attr.select]="true" (click)="reset()">恢复默认配置</button>
+  <div class="title" style="display: flex; justify-content: center;">
+    <div style="   display: flex;
+
+    font-size: 24px;
+    opacity: 0.24;
+    margin: 12px 0;">-控制-</div>
+  </div>
+  <div class="toolbar">
+
+    <div style="display: flex;justify-content: space-between;">
+      <button mat-button [disabled]="true" (click)="reset()">语音控制</button>
+      <mat-slide-toggle [attr.region]="'item'"   [attr.select]="false"
+        [attr.type]="'slide'" [(ngModel)]="GamepadController.is_voice_controller"></mat-slide-toggle>
+    </div>
+    <button mat-button [attr.region]="'item'" [attr.default]="true" [attr.select]="true"
+    (click)="reset()" cdkFocusInitial>恢复默认配置</button>
   </div>
   <div class="content">
 
@@ -15,30 +26,40 @@
           background: #fff;"></div>
         </div>
         <div class="right">
-         <div class="icon" style="display: flex; justify-content: center;">
-          <button mat-icon-button [disabled]="true">
-            <mat-icon>keyboard</mat-icon>
-          </button>
-         </div>
-         <div class="icon" style="display: flex; justify-content: center;">
-          <button mat-icon-button [disabled]="true" style="    transform: scale(.82) translateY(0px);">
-            <mat-icon>mouse</mat-icon>
-          </button>
-         </div>
-         <div class="icon" style="display: flex; justify-content: center;">
-          <button mat-icon-button [disabled]="true">
-            <mat-icon>sports_esports</mat-icon>
-          </button>
-         </div>
+          <div class="icon" style="display: flex; justify-content: center;">
+            <button mat-icon-button [disabled]="true">
+              <mat-icon>keyboard</mat-icon>
+            </button>
+          </div>
+          <div class="icon" style="display: flex; justify-content: center;">
+            <button mat-icon-button [disabled]="true" style="    transform: scale(.82) translateY(0px);">
+              <mat-icon>mouse</mat-icon>
+            </button>
+          </div>
+          <div class="icon" style="display: flex; justify-content: center;">
+            <button mat-icon-button [disabled]="true">
+              <mat-icon>sports_esports</mat-icon>
+            </button>
+          </div>
+          <div class="icon" style="display: flex; justify-content: center;">
+            <button mat-icon-button [disabled]="true">
+              <mat-icon>mic</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
       <!-- ↓ ← → -->
       <div class="item" *ngFor="let n of list;let index=index">
         <div class="left">{{n.name}}</div>
         <div class="right">
-          <button mat-button [attr.region]="'item'" [attr.select]="false" [disabled]="!n.keyboard?.edit" (click)="on(n.id)">{{n.keyboard?.name?n.keyboard?.name:'-'}}</button>
-          <button mat-button [attr.region]="'item'" [attr.select]="false" [disabled]="!n.mouse?.edit">{{n.mouse?.name?n.mouse?.name:'-'}}</button>
-          <button mat-button [attr.region]="'item'" [attr.select]="false" [disabled]="!n.gamepad?.edit">{{n.gamepad?.name?n.gamepad?.name:'-'}}</button>
+          <button mat-button [attr.region]="'item'" [attr.select]="false" [disabled]="!n.keyboard?.edit"
+            (click)="on(n.id)">{{n.keyboard?.name?n.keyboard?.name:'-'}}</button>
+          <button mat-button [attr.region]="'item'" [attr.select]="false"
+            [disabled]="!n.mouse?.edit">{{n.mouse?.name?n.mouse?.name:'-'}}</button>
+          <button mat-button [attr.region]="'item'" [attr.select]="false"
+            [disabled]="!n.gamepad?.edit">{{n.gamepad?.name?n.gamepad?.name:'-'}}</button>
+          <button mat-button [attr.region]="'item'" [attr.select]="false"
+            [disabled]="!n.voice?.edit">{{n.voice?.name?n.voice?.name:'-'}}</button>
         </div>
       </div>
     </div>

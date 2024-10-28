@@ -26,20 +26,26 @@ export class GamepadVioceComponent {
     this.speechRecognition.start();
     // 正确识别单词或短语时的事件处理程序1
     this.speechRecognition.onresult = (event) => {
-
       this.recognition$.next(event)
     };
     this.speechRecognition.onend = (event) => {
       this.speechRecognition.start();
     };
     this.recognition$.subscribe((x: any) => {
-      console.log(x);
-
       this.text = x.results[x.results.length - 1][0].transcript;
+
     })
     this.recognition$.pipe(debounceTime(50)).subscribe(x => {
-      console.log(x);
 
+      if(this.text.length<4){
+        if(this.text.substring(0,1)=="洪"||this.text.substring(0,1)=="空"){
+          this.text="红中"
+        }
+        if(this.text.substring(0,1)=="妖"||this.text.substring(0,1)=="1"){
+          this.text="幺鸡"
+        }
+      }
+      // if(this.text.length<20)
       this.gamepadvioce.init(this.text)
       setTimeout(() => {
         this.text = "";

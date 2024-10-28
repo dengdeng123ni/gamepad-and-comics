@@ -36,6 +36,16 @@ export class GamepadVoiceService {
     START: '菜单按钮',
     SPECIAL: '配置文件按钮'
   }
+  mahjong = {
+    UP: '北风',
+    RIGHT: '东风',
+    DOWN: '南风',
+    LEFT: '西风',
+    A: '红中',
+    B: '白板',
+    X: '发财',
+    LEFT_ANALOG_PRESS: '幺鸡',
+  }
   constructor(
     public GamepadEvent: GamepadEventService,
     public GamepadInput: GamepadInputService
@@ -122,9 +132,14 @@ export class GamepadVoiceService {
 
       const gamepad = this.fuzzyQuery(Object.keys(this.gamepad).map(x => this.gamepad[x]), _str)[0];
 
+      const mahjong = this.fuzzyQuery(Object.keys(this.mahjong).map(x => this.mahjong[x]), _str)[0];
+
       if (gamepad) {
         const gamepadKey = Object.keys(this.gamepad).filter(x => this.gamepad[x] == gamepad)[0];
         this.GamepadInput.down$.next(gamepadKey)
+      }else if(mahjong){
+        const mahjongKey = Object.keys(this.mahjong).filter(x => this.mahjong[x] == mahjong)[0];
+        this.GamepadInput.down$.next(mahjongKey)
       } else {
         let list = [];
         for (let i = 0; i < nodes.length; i++) {

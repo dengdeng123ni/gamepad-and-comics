@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
-import { KeyboardControllerService, KeyboardEventService } from 'src/app/library/public-api';
+import { GamepadControllerService, KeyboardControllerService, KeyboardEventService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -12,7 +12,7 @@ export class ControllerSettingsComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     if (this.is_key_capture) {
-      if(event.key=="Enter"||event.key=="c"||event.key=="Tab"){
+      if (event.key == "Enter" || event.key == "c" || event.key == "Tab") {
         this._snackBar.open(`${event.key} 内置快捷键,不可选择`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
         return
       }
@@ -28,7 +28,25 @@ export class ControllerSettingsComponent {
       this.is_key_capture = false;
     }
   }
-
+  voice = {
+    UP: '上/北风',
+    RIGHT: '右/东风',
+    DOWN: '下/南风',
+    LEFT: '左/西风',
+    LEFT_ANALOG_PRESS: '幺鸡',
+    RIGHT_ANALOG_PRESS: '右摇杆按钮',
+    A: '点击/红中',
+    B: '退出/白板/返回',
+    X: '右键菜单/发财',
+    Y: '',
+    LEFT_TRIGGER: '左缓冲键',
+    LEFT_BUMPER: '左扳机键',
+    RIGHT_TRIGGER: '右缓冲键',
+    RIGHT_BUMPER: '右扳机键',
+    SELECT: '视图按钮',
+    START: '菜单按钮',
+    SPECIAL: '配置文件按钮'
+  }
   list = [
     {
       id: "UP",
@@ -40,6 +58,10 @@ export class ControllerSettingsComponent {
       gamepad: {
         key: "UP",
         name: "UP",
+        edit: false,
+      },
+      voice: {
+        name: "",
         edit: false,
       }
     },
@@ -115,6 +137,25 @@ export class ControllerSettingsComponent {
       }
     },
 
+
+    {
+      id: "X",
+      name: "右键菜单",
+      mouse: {
+        edit: false,
+        name: "鼠标右键"
+      },
+      keyboard: {
+        edit: true,
+        key: "SHIFT",
+        name: "⇧"
+      },
+      gamepad: {
+        key: "X",
+        name: "X",
+        edit: false,
+      }
+    },
     {
       id: "Y",
       name: "组合键",
@@ -126,24 +167,6 @@ export class ControllerSettingsComponent {
       gamepad: {
         key: "Y",
         name: "Y",
-        edit: false,
-      }
-    },
-    {
-      id: "X",
-      name: "右键菜单",
-      mouse: {
-        edit: true,
-        name: "鼠标右键"
-      },
-      keyboard: {
-        edit: true,
-        key: "SHIFT",
-        name: "⇧"
-      },
-      gamepad: {
-        key: "X",
-        name: "X",
         edit: false,
       }
     },
@@ -185,6 +208,7 @@ export class ControllerSettingsComponent {
   timeout = null;
   constructor(
     public GetKeyboardKey: GetKeyboardKeyService,
+    public GamepadController: GamepadControllerService,
     private _snackBar: MatSnackBar,
     public KeyboardController: KeyboardControllerService
   ) {
@@ -200,34 +224,52 @@ export class ControllerSettingsComponent {
         if (x.keyboard.name == "ArrowLeft") x.keyboard.name = "←";
         if (x.keyboard.name == "ArrowRight") x.keyboard.name = "→";
         if (x.keyboard.name == "Space") x.keyboard.name = "空格";
-        if(x.id=="A")  x.keyboard.name =`${x.keyboard.name}/Enter`;
+        if (x.id == "A") x.keyboard.name = `${x.keyboard.name}/Enter`;
 
-      }else{
+      } else {
 
-        if(x.keyboard)  {
-          x.keyboard.name=""
+        if (x.keyboard) {
+          x.keyboard.name = ""
         }
-        if(x.id=="A")  x.keyboard.name = "Enter";
+        if (x.id == "A") x.keyboard.name = "Enter";
+      }
+    })
+    this.list.forEach(x => {
+      x.voice = {
+        edit: false,
+        name: ""
+      }
+      if (this.voice[x.id]) {
+        x.voice.name = this.voice[x.id];
+
+      } else {
+
+
       }
     })
   }
 
   on(id) {
-   setTimeout(()=>{
-    this.is_key_capture = true;
-    this.key = id;
-    this.GetKeyboardKey.open();
-    this.timeout = setTimeout(() => {
-      if (this.is_key_capture) {
-        this.GetKeyboardKey.close();
-        this.is_key_capture = false;
-      }
-    }, 2899)
-   },100)
+    setTimeout(() => {
+      this.is_key_capture = true;
+      this.key = id;
+      this.GetKeyboardKey.open();
+      this.timeout = setTimeout(() => {
+        if (this.is_key_capture) {
+          this.GetKeyboardKey.close();
+          this.is_key_capture = false;
+        }
+      }, 2899)
+    }, 100)
 
   }
-  reset(){
+  reset() {
     this.KeyboardController.reset();
     this.init();
+  }
+
+  ngOnDestroy() {
+    if (this.GamepadController.is_voice_controller) localStorage.setItem('is_voice_controller', 'open')
+    else localStorage.removeItem('is_voice_controller')
   }
 }
