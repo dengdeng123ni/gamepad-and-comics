@@ -3,16 +3,24 @@
   justify-content: space-between;
   align-items: center;">
     <span>全部脚本</span>
-    <button mat-icon-button style="zoom: 0.7;">
+    <button mat-icon-button style="padding: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;" [attr.region]="'item'"
+    [attr.default]="true"
+    [attr.select]="true">
       <mat-icon>help</mat-icon>
     </button>
   </div>
   <div class="list">
     <div class="box"  *ngFor="let n of list;let index=index">
-      <div class="name" style="cursor: pointer;" (click)="on(n)">
+      <button mat-button class="name" style="cursor: pointer;" (click)="on(n)" [attr.region]="'item'">
         {{n.name}}
-      </div>
-      <button mat-button class="item" style="width: 60px;" (click)="del(n.url)">
+      </button>
+      <button mat-button class="item" style="width: 60px;" [attr.region]="'item'"
+      [attr.select]="false" (click)="del(n.url)">
         <div class="name">
            删除
         </div>
@@ -20,7 +28,8 @@
     </div>
 
   </div>
-  <button mat-button class="item" (click)="add()" cdkFocusInitial>
+  <button mat-button class="item" [attr.region]="'item'"
+  [attr.select]="false" (click)="add()" cdkFocusInitial>
     <mat-icon class="icon">add</mat-icon>
     <div class="name">
        脚本

@@ -211,7 +211,7 @@ export class MenuComponent {
           },
           {
             id: "ope3",
-            name: "插件说明",
+            name: "扩展安装说明",
             click: () => {
               this.PlugInInstructions.open({});
 

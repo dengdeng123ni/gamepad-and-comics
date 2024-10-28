@@ -21,4 +21,22 @@ export class PlugInInstructionsComponent {
   constructor() {
 
   }
+
+  on() {
+    const c = document.querySelector("base").href + 'assets/zip/extended.zip';
+    this.downloadFile(c, '手柄与漫画插件')
+  }
+
+  downloadFile(url, fileName) {
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        link.target = "_blank"; // 可选，如果希望在新窗口中下载文件，请取消注释此行
+        link.click();
+      });
+  }
+
 }
