@@ -15,7 +15,7 @@ export class UrlToComicsIdService {
     public GamepadEvent: GamepadEventService,
     public DbEvent: DbEventService,
   ) {
-    GamepadEvent.registerAreaEvent('url_to_comics_id', {
+    GamepadEvent.registerAreaEvent('item', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('url_to_comics_id', {

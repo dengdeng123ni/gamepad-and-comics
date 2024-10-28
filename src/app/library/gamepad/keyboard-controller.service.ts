@@ -32,6 +32,26 @@ export class KeyboardControllerService {
     "SPECIAL": "配置文件按钮"
   }
 
+  public _config = {
+    "UP": "ArrowUp",
+    "RIGHT": "ArrowRight",
+    "DOWN": "ArrowDown",
+    "LEFT": "ArrowLeft",
+    "LEFT_ANALOG_PRESS": "p",
+    "RIGHT_ANALOG_PRESS": "右摇杆按钮",
+    "A": "Space",
+    "B": "Alt",
+    "X": "Shift",
+    "Y": "Control",
+    "LEFT_TRIGGER": "左缓冲键",
+    "LEFT_BUMPER": "左扳机键",
+    "RIGHT_TRIGGER": "右缓冲键",
+    "RIGHT_BUMPER": "右扳机键",
+    "SELECT": "视图按钮",
+    "START": "菜单按钮",
+    "SPECIAL": "配置文件按钮"
+  }
+
 
 
   constructor(
@@ -58,6 +78,15 @@ export class KeyboardControllerService {
       obj[this.config[x]] = () => this.GamepadInput.down$.next(x)
     })
     this.KeyboardEvent.registerGlobalEvent(obj)
+  }
+
+  reset(){
+    this.config=this._config;
+    firstValueFrom(this.webDb.update('data', {
+      id: this.key,
+      data: this.config
+    }))
+    this.register();
   }
 
 

@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
 import { KeyboardControllerService, KeyboardEventService } from 'src/app/library/public-api';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-controller-settings',
@@ -11,6 +12,10 @@ export class ControllerSettingsComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     if (this.is_key_capture) {
+      if(event.key=="Enter"||event.key=="c"||event.key=="Tab"){
+        this._snackBar.open(`${event.key} 内置快捷键,不可选择`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+        return
+      }
       if (event.code == "Space") {
         this.KeyboardController.setKeyConfig(this.key, "Space")
       } else {
@@ -180,6 +185,7 @@ export class ControllerSettingsComponent {
   timeout = null;
   constructor(
     public GetKeyboardKey: GetKeyboardKeyService,
+    private _snackBar: MatSnackBar,
     public KeyboardController: KeyboardControllerService
   ) {
     this.init();
@@ -194,11 +200,14 @@ export class ControllerSettingsComponent {
         if (x.keyboard.name == "ArrowLeft") x.keyboard.name = "←";
         if (x.keyboard.name == "ArrowRight") x.keyboard.name = "→";
         if (x.keyboard.name == "Space") x.keyboard.name = "空格";
+        if(x.id=="A")  x.keyboard.name =`${x.keyboard.name}/Enter`;
+
       }else{
 
         if(x.keyboard)  {
           x.keyboard.name=""
         }
+        if(x.id=="A")  x.keyboard.name = "Enter";
       }
     })
   }
@@ -217,5 +226,8 @@ export class ControllerSettingsComponent {
    },100)
 
   }
-
+  reset(){
+    this.KeyboardController.reset();
+    this.init();
+  }
 }

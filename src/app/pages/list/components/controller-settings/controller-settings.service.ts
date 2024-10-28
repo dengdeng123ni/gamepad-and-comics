@@ -13,7 +13,7 @@ export class ControllerSettingsService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('controller_settings',{
+    GamepadEvent.registerAreaEvent('item',{
       B:()=>setTimeout(()=>this.close())
     })
     GamepadEvent.registerConfig('controller_settings', {

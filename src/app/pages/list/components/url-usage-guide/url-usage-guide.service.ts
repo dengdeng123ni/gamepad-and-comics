@@ -13,7 +13,7 @@ export class UrlUsageGuideService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('url_usage_guide', {
+    GamepadEvent.registerAreaEvent('item', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('url_usage_guide', {

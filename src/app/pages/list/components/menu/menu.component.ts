@@ -226,7 +226,7 @@ export class MenuComponent {
           },
           {
             id: "ope",
-            name: "按键说明",
+            name: "控制",
             click: () => {
               ControllerSettings.open()
             }

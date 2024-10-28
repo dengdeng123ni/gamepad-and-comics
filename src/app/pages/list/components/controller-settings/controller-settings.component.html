@@ -3,7 +3,7 @@
     <button mat-button [disabled]="true" style="    display: flex;  justify-content: start; ">控制</button>
     <button mat-button       [attr.region]="'item'"
     [attr.default]="true"
-    [attr.select]="true">恢复默认配置</button>
+    [attr.select]="true" (click)="reset()">恢复默认配置</button>
   </div>
   <div class="content">
 

@@ -68,40 +68,7 @@ export class GamepadControllerService {
       subtree: false, //目标节点所有后代节点的attributes、childList、characterData变化
     };
     this.KeyboardEvent.registerGlobalEvent({
-      // "l": () => this.GamepadInput.down$.next("B"),
-      // "j": () => this.GamepadInput.down$.next("A"),
-      // "k": () => this.GamepadInput.down$.next("X"),
-      // "w": () => this.GamepadInput.down$.next("UP"),
-      // "s": () => this.GamepadInput.down$.next("DOWN"),
-      // "d": () => this.GamepadInput.down$.next("RIGHT"),
-      // "a": () => this.GamepadInput.down$.next("LEFT"),
-      // "u": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-      // "i": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-      // "[": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-      // "]": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-      // "<": () => this.GamepadInput.down$.next("LEFT_BUMPER"),
-      // ">": () => this.GamepadInput.down$.next("RIGHT_BUMPER"),
-      // "Alt": () => {
-      //   this.Y=true;
-      // },
-      // "Space": () => {
-      //   this.GamepadInput.down$.next("A")
-      // },
-      // "Enter": () => { this.GamepadInput.down$.next("A") },
-      // "Escape": () => { this.GamepadInput.down$.next("B") },
-      // "Shift": () => { this.GamepadInput.down$.next("X") },
-      // "ArrowLeft": () => {
-      //   this.GamepadInput.down$.next("LEFT")
-      // },
-      // "ArrowRight": () => {
-      //   this.GamepadInput.down$.next("RIGHT")
-      // },
-      // "ArrowUp": () => {
-      //   this.GamepadInput.down$.next("UP")
-      // },
-      // "ArrowDown": () => {
-      //   this.GamepadInput.down$.next("DOWN")
-      // },
+      "Enter": () => { this.GamepadInput.down$.next("A") },
     })
     // let observe = new MutationObserver(() => this.execute());
     // observe.observe(document, config);

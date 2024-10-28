@@ -13,7 +13,7 @@ export class DownloadOptionService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('download_option', {
+    GamepadEvent.registerAreaEvent('item', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('download_option', {
