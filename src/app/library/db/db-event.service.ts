@@ -16,6 +16,7 @@ interface Config {
   id: string,
   name?: string,
   menu?: Array<any>;
+  href?:string,
   is_locked?: boolean;
   is_download?: boolean;
   is_cache?: boolean;
@@ -489,6 +490,7 @@ export class DbEventService {
     window._gh_register({
       id: "bilibili",
       name: "哔哩哔哩漫画",
+      href:"https://manga.bilibili.com/",
       menu: [
         {
           id: 'search',
@@ -1108,6 +1110,8 @@ export class DbEventService {
       UrlToDetailId: async (id) => {
         const obj = new URL(id);
         if (obj.host == "manga.bilibili.com") {
+          console.log(obj.pathname.split("/").at(-1).replace("mc", ""));
+
           return obj.pathname.split("/").at(-1).replace("mc", "");
         } else {
           return null

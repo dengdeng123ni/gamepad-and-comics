@@ -13,12 +13,11 @@ export class UrlUsageGuideService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    this.open({})
-    GamepadEvent.registerAreaEvent('menu_search', {
+    GamepadEvent.registerAreaEvent('url_usage_guide', {
       B: () => setTimeout(() => this.close())
     })
-    GamepadEvent.registerConfig('menu_search', {
-      region: ['menu_search_input','menu_search_comics_item'],
+    GamepadEvent.registerConfig('url_usage_guide', {
+      region: ['item'],
     });
   }
   open(config:MatDialogConfig) {
@@ -29,9 +28,9 @@ export class UrlUsageGuideService {
         panelClass: "_controller_settings",
         ...config
       });
-      document.body.setAttribute("locked_region", "menu_search")
+      document.body.setAttribute("locked_region", "url_usage_guide")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "menu_search" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+        if (document.body.getAttribute("locked_region") == "url_usage_guide" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }

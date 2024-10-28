@@ -179,14 +179,15 @@ body[pattern=gamepad][locked_region=export_settings],
 body[pattern=gamepad][locked_region=chapter_unlock],
 body[pattern=gamepad][locked_region=history_comics_list],
 body[pattern=gamepad][locked_region=menu_search],
-body[pattern=gamepad][locked_region=download_option]
-
+body[pattern=gamepad][locked_region=download_option],
+body[pattern=gamepad][locked_region=url_usage_guide],
+body[pattern=gamepad][locked_region=plug_in_instructions],
+body[pattern=gamepad][locked_region=dialog]
 {
   [region=item][select=true],
   [region=input][select=true],
   [region=one_page_item][select=true],
   [region=comics_option][select=true],
-  [region=comics_item][select=true],
   [region=chapter_item][select=true],
   [region=continue][select=true],
   [region=back][select=true],
@@ -210,6 +211,26 @@ body[pattern=gamepad][locked_region=download_option]
     }
   }
 }
+
+body[pattern=gamepad][locked_region=list]
+{
+  [region=input][select=true],
+  [region=comics_option][select=true],
+  [region=comics_item][select=true],
+  [region=menu_input][select=true],
+  [region=settings][select=true]
+
+  {
+    position: relative;
+
+    &::after {
+      @extend .default_frame;
+    }
+  }
+}
+
+
+
 
 body[pattern=gamepad][locked_region=content_menu]{
 

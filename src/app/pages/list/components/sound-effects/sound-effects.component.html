@@ -8,7 +8,7 @@
       <div class="name">
          操作音效
       </div>
-      <mat-slide-toggle></mat-slide-toggle>
+      <mat-slide-toggle (toggleChange)="change($event)" [(ngModel)]="is"></mat-slide-toggle>
     </div>
   </div>
 </div>

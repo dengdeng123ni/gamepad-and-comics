@@ -70,6 +70,7 @@ export class RoutingControllerService {
           const t = await f.text()
           if (t.substring(0, 4) == "http") {
             const obj = await this.UrlToComicsId(t);
+            console.log(obj);
 
             if (obj) {
               this.routerReader(obj.oright, obj.id)

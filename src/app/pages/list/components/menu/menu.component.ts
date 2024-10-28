@@ -187,19 +187,19 @@ export class MenuComponent {
           e.click()
         },
         menu: [
-          {
-            id: "javasciprt",
-            name: "主题",
-            click: () => {
-            }
-          },
-          {
-            id: "ope3",
-            name: "蓝牙",
-            click: () => {
+          // {
+          //   id: "javasciprt",
+          //   name: "主题",
+          //   click: () => {
+          //   }
+          // },
+          // {
+          //   id: "ope3",
+          //   name: "蓝牙",
+          //   click: () => {
 
-            }
-          },
+          //   }
+          // },
           {
             id: "ope3",
             name: "支持的网站",

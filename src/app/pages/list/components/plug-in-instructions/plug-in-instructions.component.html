@@ -10,7 +10,9 @@
   ">
         <mat-icon>extension</mat-icon>
       </button>
-      <button mat-button>下载插件</button>
+      <button mat-button [attr.region]="'item'"
+      [attr.default]="true"
+      [attr.select]="true">下载插件</button>
     </div>
     <div class="right">
        <div class="list">

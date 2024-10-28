@@ -4,7 +4,7 @@
   " [attr.region]="'menu_input'" [attr.select]="true" (click)="openMenuSearch()">
     <input type="text" matInput [disabled]="true" step=""  [(ngModel)]="keyword">
   </mat-form-field> -->
-  <button   mat-button class=" " [attr.region]="'item'" [attr.default]="false" style="    backdrop-filter: brightness(0.92);
+  <button   mat-button class=" " [attr.region]="'menu_input'" [attr.default]="false" style="    backdrop-filter: brightness(0.92);
   height: 30px;
   /* margin: 10px; */
   margin: 0 10px 4px;
@@ -86,7 +86,7 @@
   </div>
   <div class="settings">
     <button [attr.menu_key]="'_gh_settings'" [attr.menu_value]="'_gh_settings'" mat-icon-button
-    (click)="onMenu($event)" [attr.region]="'item'" style="border-radius: 4px;">
+    (click)="onMenu($event)" [attr.region]="'settings'" style="border-radius: 4px;">
     <mat-icon [attr.svg_filter]="'text_primary'" class="icon">settings</mat-icon>
   </button>
   </div>
