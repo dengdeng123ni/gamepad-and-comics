@@ -19,6 +19,7 @@ import { AboutSoftwareService } from '../about-software/about-software.service';
 import { PlugInInstructionsService } from '../plug-in-instructions/plug-in-instructions.service';
 import { CachePageService } from '../cache-page/cache-page.service';
 import { UrlUsageGuideService } from '../url-usage-guide/url-usage-guide.service';
+import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -84,6 +85,7 @@ export class MenuComponent {
     public menu: MenuService,
     public router: Router,
     public pulg: PulgService,
+    public GetKeyboardKey:GetKeyboardKeyService,
     public PulgJavascript: PulgJavascriptService,
     public ContextMenuController: ContextMenuControllerService,
     public ContextMenuEvent: ContextMenuEventService,

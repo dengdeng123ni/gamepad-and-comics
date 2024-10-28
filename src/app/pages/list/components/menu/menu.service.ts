@@ -19,7 +19,6 @@ export class MenuService {
 
   constructor(public data: DataService,
     public webDb: NgxIndexedDBService,
-
   ) {
 
 

@@ -54,16 +54,16 @@ export class IndexComponent {
     })
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS:()=>{
-        this.GamepadToolbar.isToggle()
+        this.KeyboardToolbar.isToggle()
       }
     })
-    this.KeyboardEvent.registerGlobalEvent({
-      "p": () => this.KeyboardToolbar.isToggle(),
+    // this.KeyboardEvent.registerGlobalEvent({
+    //   "p": () => this.KeyboardToolbar.isToggle(),
 
-    })
-    this.KeyboardEvent.registerAreaEvent("double_page_reader",{
-      "Tab": () => this.KeyboardToolbar.isToggle(),
-    })
+    // })
+    // this.KeyboardEvent.registerAreaEvent("double_page_reader",{
+    //   "Tab": () => this.KeyboardToolbar.isToggle(),
+    // })
     // space
     // setTimeout(()=>{
     //   KeyboardToolbar.open()

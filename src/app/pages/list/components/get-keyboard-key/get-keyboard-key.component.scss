@@ -1,0 +1,18 @@
+.warp{
+
+  width: 40vw;
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .title{
+    font-size: 22px;
+    margin-bottom: 20px;
+    opacity: 0.34;
+  }
+  span{
+    font-size: 20px;
+    opacity: 0.87;
+  }
+}

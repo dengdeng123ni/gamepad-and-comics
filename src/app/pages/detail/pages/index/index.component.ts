@@ -31,12 +31,12 @@ export class IndexComponent {
     //
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS:()=>{
-        this.GamepadToolbar.isToggle()
+        this.KeyboardToolbar.isToggle()
       }
     })
-    this.KeyboardEvent.registerGlobalEvent({
-      "p": () => this.KeyboardToolbar.isToggle()
-    })
+    // this.KeyboardEvent.registerGlobalEvent({
+    //   "p": () => this.KeyboardToolbar.isToggle()
+    // })
 
 
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));

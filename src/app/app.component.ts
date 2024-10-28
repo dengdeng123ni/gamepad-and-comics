@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService,WebFileService, ReadRecordService, ImageToControllerService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService,WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -97,6 +97,7 @@ export class AppComponent {
   //
   constructor(
     public GamepadController: GamepadControllerService,
+    public KeyboardController:KeyboardControllerService,
     public GamepadEvent: GamepadEventService,
     public MessageController: MessageControllerService,
     public MessageEvent: MessageEventService,
@@ -120,19 +121,19 @@ export class AppComponent {
     public App: AppDataService
   ) {
     // this.testService.open();
-    this.KeyboardEvent.registerGlobalEvent({
-      "/": () => this.HistoryComicsList.isToggle(),
+    // this.KeyboardEvent.registerGlobalEvent({
+    //   "/": () => this.HistoryComicsList.isToggle(),
 
-    })
-    this.KeyboardEvent.registerGlobalEvent({
-      ".": () => this.readRecord.isToggle(),
-    })
-    this.KeyboardEvent.registerGlobalEvent({
-      "m": () => this.readRecord.isToggle(),
-    })
-    this.KeyboardEvent.registerGlobalEvent({
-      "n": () => this.ReadRecordChapter.isToggle(),
-    })
+    // })
+    // this.KeyboardEvent.registerGlobalEvent({
+    //   ".": () => this.readRecord.isToggle(),
+    // })
+    // this.KeyboardEvent.registerGlobalEvent({
+    //   "m": () => this.readRecord.isToggle(),
+    // })
+    // this.KeyboardEvent.registerGlobalEvent({
+    //   "n": () => this.ReadRecordChapter.isToggle(),
+    // })
 
     //  setTimeout(async ()=>{
     //   const device = await (navigator as any).bluetooth.requestDevice({

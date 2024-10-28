@@ -64,13 +64,13 @@ export class IndexComponent {
     // ComicsListConfig.open();
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS: () => {
-        this.GamepadToolbar.isToggle()
+        this.KeyboardToolbar.isToggle()
       }
     })
-    this.KeyboardEvent.registerGlobalEvent({
-      "p": () => this.KeyboardToolbar.isToggle(),
-      "o": () => this.TabToolbar.isToggle(),
-    })
+    // this.KeyboardEvent.registerGlobalEvent({
+    //   "p": () => this.KeyboardToolbar.isToggle(),
+    //   "o": () => this.TabToolbar.isToggle(),
+    // })
     document.body.setAttribute("router", "list")
     document.body.setAttribute("locked_region",document.body.getAttribute("router"))
     // this.Current.init();

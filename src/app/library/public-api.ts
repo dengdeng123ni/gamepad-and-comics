@@ -16,6 +16,7 @@ export * from './gamepad/gamepad-event.service';
 export * from './gamepad/gamepad-input.service';
 export * from './gamepad/gamepad-sound.service';
 export * from './gamepad/keyboard-event.service';
+export * from './gamepad/keyboard-controller.service';
 
 // export * from './cache/cache.service';
 export * from './download/download.service';

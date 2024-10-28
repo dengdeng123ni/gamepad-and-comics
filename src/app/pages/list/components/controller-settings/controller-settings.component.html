@@ -1,7 +1,9 @@
 <div class="warp">
   <div class="title" style="display: flex;justify-content: space-between;">
     <button mat-button [disabled]="true" style="    display: flex;  justify-content: start; ">控制</button>
-    <button mat-button [disabled]="true">恢复默认配置</button>
+    <button mat-button       [attr.region]="'item'"
+    [attr.default]="true"
+    [attr.select]="true">恢复默认配置</button>
   </div>
   <div class="content">
 
@@ -34,9 +36,9 @@
       <div class="item" *ngFor="let n of list;let index=index">
         <div class="left">{{n.name}}</div>
         <div class="right">
-          <button mat-button [disabled]="!n.keyboard?.edit">{{n.keyboard?.name?n.keyboard?.name:'-'}}</button>
-          <button mat-button [disabled]="!n.mouse?.edit">{{n.mouse?.name?n.mouse?.name:'-'}}</button>
-          <button mat-button [disabled]="!n.gamepad?.edit">{{n.gamepad?.name?n.gamepad?.name:'-'}}</button>
+          <button mat-button [attr.region]="'item'" [attr.select]="false" [disabled]="!n.keyboard?.edit" (click)="on(n.id)">{{n.keyboard?.name?n.keyboard?.name:'-'}}</button>
+          <button mat-button [attr.region]="'item'" [attr.select]="false" [disabled]="!n.mouse?.edit">{{n.mouse?.name?n.mouse?.name:'-'}}</button>
+          <button mat-button [attr.region]="'item'" [attr.select]="false" [disabled]="!n.gamepad?.edit">{{n.gamepad?.name?n.gamepad?.name:'-'}}</button>
         </div>
       </div>
     </div>

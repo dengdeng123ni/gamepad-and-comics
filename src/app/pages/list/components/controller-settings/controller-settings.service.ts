@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ControllerSettingsComponent } from './controller-settings.component';
+import { GamepadEventService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,14 @@ export class ControllerSettingsService {
   public opened=false;
   constructor(
     public _dialog: MatDialog,
+    public GamepadEvent:GamepadEventService
   ) {
+    GamepadEvent.registerAreaEvent('controller_settings',{
+      B:()=>setTimeout(()=>this.close())
+    })
+    GamepadEvent.registerConfig('controller_settings', {
+      region: ['item'],
+    });
   }
   open(data?: any) {
     if (this.opened == false) {

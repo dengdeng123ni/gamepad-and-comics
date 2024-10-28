@@ -8,12 +8,16 @@ export class KeyboardEventService {
   public areaEventsY: Record<string, { [key: string]: Function }> = {};
   public globalEvents: { [key: string]: Function } = {};
   public globalEventsY: { [key: string]: Function } = {};
+
+
+
   constructor(
   ) {
 
-
-
   }
+
+
+
 
   // Register Y, area event as the first trigger
   registerAreaEventY(key: string, events: { [key: string]: Function }): void {
