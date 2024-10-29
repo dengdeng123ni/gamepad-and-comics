@@ -1,10 +1,11 @@
 # 手柄与漫画
 
-使用手柄阅读漫画软件
+#### 手柄与漫画是漫画阅读阅读器,一次访问完全离线使用的漫画阅读阅读器,支持键盘,手柄,鼠标,语音多种方式来控制,可以方便的阅读本地漫画,对于在线漫画,需要下载相关[浏览器插件]("https://github.com/dengdeng123ni/gamepad-and-comics-v3/blob/main/src/assets/zip"),使用[API]("https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js")可以进行对接处理,便可以阅读相关漫画,漫画阅读模式一共有双页阅读,单页阅读,滚动阅读,左右滚动阅读,支持漫画的编辑,可以方便相关漫画转换PDF,PPT,EPUB格式.
 
+##### 地址:https://dengdeng123ni.github.io/gamepad-and-comics-v3/
 
+##### 浏览器插件:https://github.com/dengdeng123ni/gamepad-and-comics-v3/blob/main/src/assets/zip
 
-代理访问
+##### API:https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js
 
-1.本网站通过,浏览器插件代理访问其他网站,拿到我们想要的数据,对数据进行处理
-2.
+#### 支持作者:https://store.steampowered.com/app/2070500/Gamepad_and_Comics/
