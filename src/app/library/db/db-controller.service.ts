@@ -201,7 +201,6 @@ export class DbControllerService {
           this.processTasks(); // 继续处理下一个任务
         })
         .catch(error => {
-          console.log(123);
           this.concurrent--; // 任务完成，减少并发计数
           this.processTasks(); // 继续处理下一个任务
         });
@@ -382,14 +381,9 @@ export class DbControllerService {
           const id1 = await getImageURL(url);
 
           let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
-          console.log(blob);
-
           if(blob.size < 1000){
              blob = await this.DbEvent.Events[option.source]["getImage"](id1)
-             console.log(1,blob);
-
           }
-
           const response = new Response(blob);
           const request = new Request(url);
           if(blob.size > 1000) await this.caches.put(request, response);
