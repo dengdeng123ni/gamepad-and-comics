@@ -6,7 +6,7 @@
       <div class="item">
         <div class="name">类型</div>
         <div class="select">
-          <mat-checkbox [attr.region]="'item'" [attr.type]="'checkbox'" *ngFor="let n of types"
+          <mat-checkbox [attr.region]="'item'" [attr.select]="index==0" [attr.type]="'checkbox'" *ngFor="let n of types;let index=index"
             [(ngModel)]="n.completed" (ngModelChange)="typeChange()">{{n.name}}</mat-checkbox>
         </div>
       </div>

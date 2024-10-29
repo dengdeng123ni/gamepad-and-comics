@@ -6,6 +6,7 @@ import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
 import { TestService } from './composite/test/test.service';
+import { bufferCount, Subject } from 'rxjs';
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [
@@ -44,6 +45,8 @@ export class AppComponent {
   is_data_source = true;
   keys = [];
   is_tab = false;
+
+  keydown=new Subject()
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     let key = "";
@@ -59,6 +62,7 @@ export class AppComponent {
     else key = event.key;
     const obj = this.keys.find(x => x == key)
     if (obj) {
+      this.keydown.next(key)
       return false
     } else {
       const bool = this.GamepadController.device2(key);
@@ -74,6 +78,8 @@ export class AppComponent {
       }
     }
   }
+
+
 
   @HostListener('window:keyup', ['$event'])
   handleKeyUp = (event: KeyboardEvent) => {
@@ -120,6 +126,10 @@ export class AppComponent {
     public testService:TestService,
     public App: AppDataService
   ) {
+
+   this.keydown.pipe(bufferCount(2)).subscribe((e:any) => {
+    this.GamepadController.device2(e.at(-1))
+    });
     // this.testService.open();
     // this.KeyboardEvent.registerGlobalEvent({
     //   "/": () => this.HistoryComicsList.isToggle(),
@@ -175,7 +185,9 @@ export class AppComponent {
     this.init();
 
   }
-
+  ngOnDestroy() {
+    this.keydown.unsubscribe();
+  }
   async init() {
     await this.pulg.init();
     setTimeout(() => {

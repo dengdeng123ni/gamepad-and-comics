@@ -69,6 +69,7 @@ export class GamepadControllerService {
     };
     this.KeyboardEvent.registerGlobalEvent({
       "Enter": () => { this.GamepadInput.down$.next("A") },
+      "Escape": () => { this.GamepadInput.down$.next("B") },
     })
     // let observe = new MutationObserver(() => this.execute());
     // observe.observe(document, config);

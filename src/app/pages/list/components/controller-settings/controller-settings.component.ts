@@ -12,7 +12,7 @@ export class ControllerSettingsComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     if (this.is_key_capture) {
-      if (event.key == "Enter" || event.key == "c" || event.key == "Tab") {
+      if (event.key == "Enter" || event.key == "c" || event.key == "Tab"||event.key == "Escape") {
         this._snackBar.open(`${event.key} 内置快捷键,不可选择`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
         return
       }

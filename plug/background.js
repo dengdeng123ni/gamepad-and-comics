@@ -26,15 +26,26 @@ chrome.runtime.onMessage.addListener(
       res.type = "proxy_response";
       sendMessageToTargetContentScript(res, res.proxy_response_website_url)
     } else if (request.type == "page_load_complete") {
-      const index = data.findIndex(x => x.tab.pendingUrl == request.url)
-      if (index > -1) {
-        const obj = data[index];
+      const list = data.filter(x => x.tab.pendingUrl == request.url)
+      if (list.length == 1) {
+        const obj = list[0];
         setTimeout(() => {
           if (obj.data && obj.data.type && "website_proxy_response_html" == obj.data.type) chrome.tabs.remove(obj.tab.id)
         }, 5000)
         chrome.tabs.sendMessage(obj.tab.id, obj.data);
-        data = [];
+        setTimeout(() => {
+          chrome.tabs.remove(obj.tab.id)
+        }, 120000)
+      } else {
+        list.forEach(obj => {
+          chrome.tabs.sendMessage(obj.tab.id, obj.data);
+        })
+        setTimeout(() => {
+          chrome.tabs.remove(list[0].tab.id)
+        }, 120000)
       }
+
+      data = data.filter(x => x.tab.pendingUrl != request.url);
     }
   }
 );
@@ -109,9 +120,49 @@ function sendMessageToContentScript(message) {
   });
 }
 let data = [];
+
+
+let message_data = [];
+
 function sendMessageToTargetContentScript(message, url) {
+  if (message_data.find(x => x.url == url)) {
+    message_data.push({
+      url,
+      message
+    })
+  } else {
+    message_data.push({
+      url,
+      message
+    })
+    chrome.tabs.query({}, function (tabs) {
+      const list = tabs.filter(x => x.url.substring(0, url.length) == url);
+      if (list.length == 0) {
+        chrome.tabs.create({
+          active: false,
+          url: url
+        }, (tab) => {
+          message_data.forEach(x => {
+            data.push({ tab: tab, data: x.message })
+          })
+          message_data = message_data.filter(x => x.url != url)
+        })
+      } else {
+        for (let index = 0; index < list.length; index++) {
+          chrome.tabs.sendMessage(list[index].id, message);
+        }
+        message_data = message_data.filter(x => x.url != url)
+      }
+    });
+  }
+
+}
+
+
+
+function sendMessageToTargetHtml(message, url) {
   chrome.tabs.query({}, function (tabs) {
-    const list = tabs.filter(x => x.url.substring(0, url.length) == url);
+    const list = tabs.filter(x => x.url == url);
     if (list.length == 0) {
       chrome.tabs.create({
         active: false,
@@ -119,60 +170,22 @@ function sendMessageToTargetContentScript(message, url) {
       }, (tab) => {
         data.push({ tab: tab, data: message })
       })
-    }else{
+    } else {
       for (let index = 0; index < list.length; index++) {
         chrome.tabs.sendMessage(list[index].id, message);
       }
     }
   });
 }
-let is=false;
- function  sendMessageToTargetHtml(message, url) {
-  if(is){
-    setTimeout(()=>{
-      chrome.tabs.query({}, function (tabs) {
-        const list = tabs.filter(x => x.url== url);
-        if (list.length == 0) {
-          chrome.tabs.create({
-            active: false,
-            url: url
-          }, (tab) => {
-            data.push({ tab: tab, data: message })
-
-          })
-        }else{
-          for (let index = 0; index < list.length; index++) {
-            chrome.tabs.sendMessage(list[index].id, message);
-          }
-        }
-      });
-    },1000)
-  }else{
-    is=true;
-    chrome.tabs.query({}, function (tabs) {
-      const list = tabs.filter(x => x.url== url);
-      if (list.length == 0) {
-        chrome.tabs.create({
-          active: false,
-          url: url
-        }, (tab) => {
-          data.push({ tab: tab, data: message })
-
-        })
-      }else{
-        for (let index = 0; index < list.length; index++) {
-          chrome.tabs.sendMessage(list[index].id, message);
-        }
-      }
-    });
-
-  }
-
-}
-
 
 sleep = (duration) => {
   return new Promise(resolve => {
     setTimeout(resolve, duration);
   })
 }
+
+const init = () => {
+
+}
+
+init();
