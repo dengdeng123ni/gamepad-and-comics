@@ -164,7 +164,7 @@ export class ComicsListComponent {
     let scrollHeight = Math.max(node.scrollHeight, node.scrollHeight);
     let scrollTop = e.target.scrollTop;
     let clientHeight = node.innerHeight || Math.min(node.clientHeight, node.clientHeight);
-    if (clientHeight + scrollTop + 50 >= scrollHeight) {
+    if (clientHeight + scrollTop + 300 >= scrollHeight) {
       await this.add_pages();
     }
   }

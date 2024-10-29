@@ -42,7 +42,7 @@ export class MenuComponent {
   current_menu_id = null;
   on($event, data, parent: any = {}) {
     this.menu.current_menu_id = parent.id?`${parent.id}_${data.id}`:data.id;
-
+    this.menu.post();
     if (parent.id) this.AppData.setsource(parent.id)
     if (data.click) {
       data.click({

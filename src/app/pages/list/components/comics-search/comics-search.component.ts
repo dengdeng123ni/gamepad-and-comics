@@ -277,7 +277,6 @@ export class ComicsSearchComponent {
     }
   }
   ngOnDestroy() {
-    this.put();
     this.is_destroy = true;
     this.scroll$.unsubscribe();
   }
@@ -290,6 +289,6 @@ export class ComicsSearchComponent {
       this.page_num--;
       return
     }
-    this.list = [...this.list, ...list]
+    this.list = [...new Set([...this.list, ...list])]
   }
 }

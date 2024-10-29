@@ -60,6 +60,7 @@ export class DbControllerService {
 
         if (obj1&&(obj1.create_time+millisecondsInOneDay)<new Date().getTime()) {
           res = obj1.data;
+
         } else {
           const data = await this.DbEvent.Events[option.source]["getList"](obj);
           firstValueFrom(this.webDb.update('list', JSON.parse(JSON.stringify({

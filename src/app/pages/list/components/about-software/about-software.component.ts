@@ -45,7 +45,7 @@ export class AboutSoftwareComponent {
     window.open('https://qm.qq.com/q/Dc2xkSPgMo')
 
   }
-  del() {
+  async del() {
 
 
     if (confirm("你确定要清除所有缓存吗？")) {
@@ -55,11 +55,10 @@ export class AboutSoftwareComponent {
 
       // 清除 Service Worker 缓存
       if ('caches' in window) {
-        caches.keys().then((cacheNames) => {
-          cacheNames.forEach((cacheName) => {
-            caches.delete(cacheName);
-          });
-        });
+        const cacheNames = await caches.keys()
+        for (let index = 0; index < cacheNames.length; index++) {
+          await caches.delete(cacheNames[index]);
+        }
       }
 
       // 清除所有 IndexedDB 数据库
