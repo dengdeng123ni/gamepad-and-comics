@@ -7,5 +7,5 @@
 #### API:https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js
 #### 支持作者:https://store.steampowered.com/app/2070500/Gamepad_and_Comics/
 
->> 加入QQ群
-
+>> 加入官方QQ群 639294484 有什么问题或者建议,可以找群主
+ 
