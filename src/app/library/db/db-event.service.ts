@@ -869,6 +869,8 @@ export class DbEventService {
           }
         },
         getPages: async (id) => {
+          console.log(id);
+
           const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/GetImageIndex?device=pc&platform=web", {
             "headers": {
               "accept": "application/json, text/plain, */*",
@@ -881,6 +883,8 @@ export class DbEventService {
             proxy: "https://manga.bilibili.com/"
           });
           const json = await res.json();
+          console.log(json);
+
           let data = [];
           for (let index = 0; index < json.data.images.length; index++) {
             let x = json.data.images[index];

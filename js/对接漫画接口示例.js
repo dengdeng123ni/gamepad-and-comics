@@ -861,8 +861,6 @@ window._gh_register({
           "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
         },
         mode: "cors"
-      }, {
-        proxy: "https://manga.bilibili.com/"
       })
       const blob = await res.blob();
       return blob
@@ -1069,10 +1067,8 @@ window._gh_register({
     var doc = parser.parseFromString(text, 'text/html');
 
     let data = [];
-    let nodes = doc.querySelectorAll(".comics-thumbnail-wrapper img")
+    let nodes = doc.querySelectorAll(".comics-thumbnail-wrapper a")
     for (let index = 0; index < nodes.length; index++) {
-      let _id = nodes[index].dataset.srcset.split("/").at(-2)
-      let type = nodes[index].dataset.srcset.split("/").at(-1).split(".").at(-1)
       let obj = {
         id: "",
         src: "",
@@ -1085,14 +1081,15 @@ window._gh_register({
 
       obj["id"] = `${id}_${index}`;
       // obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
-      obj["src"] =nodes[index].getAttribute("data-srcset")
-
+      obj["src"] =window.btoa(encodeURIComponent(nodes[index].getAttribute("href")))
+      // window.btoa(encodeURIComponent(nodes[index].href.replace("http://localhost:4200","https://nhentai.net")))
       data.push(obj)
     }
     return data
   },
   getImage: async (id) => {
-    const getImageUrl = async (id) => {
+
+    if (id.substring(0, 4) == "http") {
       const res = await window._gh_fetch(id, {
         method: "GET",
         headers: {
@@ -1101,12 +1098,40 @@ window._gh_register({
           "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
         },
         mode: "cors"
-      });
+      })
+      const blob = await res.blob();
+      return blob
+    }else{
+
+      const getHtmlUrl = async (url) => {
+        const res = await window._gh_getHtml(url, {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(text, 'text/html');
+        return doc.querySelector("#current-page-image").src
+      }
+      const src=await getHtmlUrl(decodeURIComponent(window.atob(id)));
+
+      const res = await window._gh_fetch(src, {
+        method: "GET",
+        headers: {
+          "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+          "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+          "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+        },
+        mode: "cors"
+      })
       const blob = await res.blob();
       return blob
     }
-    const blob = await getImageUrl(id);
-    return blob
   },
   Search: async (obj) => {
     const res = await window._gh_getHtml(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
@@ -1331,7 +1356,6 @@ window._gh_register({
 
 
       const src=await getHtmlUrl(decodeURIComponent(window.atob(id)));
-      console.log(src);
 
       const blob = await getImageUrl(src);
       return blob

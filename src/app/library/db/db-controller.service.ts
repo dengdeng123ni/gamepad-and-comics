@@ -54,9 +54,11 @@ export class DbControllerService {
     } else {
       let res;
 
-      if (false) {
+      if (config.is_cache) {
         const obj1 = await firstValueFrom(this.webDb.getByID('list', id)) as any;
-        if (obj1) {
+        const millisecondsInOneDay = 12 * 60 * 60 * 1000;
+
+        if (obj1&&(obj1.create_time+millisecondsInOneDay)<new Date().getTime()) {
           res = obj1.data;
         } else {
           const data = await this.DbEvent.Events[option.source]["getList"](obj);
@@ -67,18 +69,21 @@ export class DbControllerService {
           }))))
           res = data;
         }
-        res.forEach(x => {
-          this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
-          x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
-          x.option = { source: option.source }
-        })
+
       } else {
         const data = await this.DbEvent.Events[option.source]["getList"](obj);
         res = data;
       }
-
+      res.forEach(x => {
+        this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
+        x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
+        x.option = { source: option.source }
+      })
 
       this.lists[id] = JSON.parse(JSON.stringify(res));
+
+
+
       return res
     }
   }
@@ -376,10 +381,18 @@ export class DbControllerService {
 
           const id1 = await getImageURL(url);
 
-          const blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+          let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+          console.log(blob);
+
+          if(blob.size < 1000){
+             blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+             console.log(1,blob);
+
+          }
+
           const response = new Response(blob);
           const request = new Request(url);
-          await this.caches.put(request, response);
+          if(blob.size > 1000) await this.caches.put(request, response);
           const res2 = await caches.match(url);
           if (res2) {
             const blob2 = await res2.blob()
@@ -391,8 +404,6 @@ export class DbControllerService {
         const res = await caches.match(url);
 
         if (res) {
-          // console.log(`${url}?size=small`);
-          // console.log(`${url}?size=mini`);
 
           blob = await res.blob()
           if (blob.size < 1000) {

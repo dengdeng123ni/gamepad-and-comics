@@ -136,6 +136,7 @@ export class ImageService {
   processTasks() {
     while (this.concurrent < this.maxConcurrent && this.tasks.length > 0) {
       const task = this.tasks.shift(); // 从队列中取出一个任务
+
       task()
         .then(() => {
           this.concurrent--; // 任务完成，减少并发计数

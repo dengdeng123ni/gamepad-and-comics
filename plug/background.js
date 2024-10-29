@@ -1,6 +1,8 @@
 
 chrome.runtime.onMessage.addListener(
   async function (request, sender, sendResponse) {
+    console.log(request);
+
     if (request.type == "proxy_request") {
       const rsponse = await fetch(request.data.url)
       const data = await readStreamToString(rsponse.body)
@@ -27,25 +29,28 @@ chrome.runtime.onMessage.addListener(
       sendMessageToTargetContentScript(res, res.proxy_response_website_url)
     } else if (request.type == "page_load_complete") {
       const list = data.filter(x => x.tab.pendingUrl == request.url)
-      if (list.length == 1) {
-        const obj = list[0];
-        setTimeout(() => {
-          if (obj.data && obj.data.type && "website_proxy_response_html" == obj.data.type) chrome.tabs.remove(obj.tab.id)
-        }, 5000)
-        chrome.tabs.sendMessage(obj.tab.id, obj.data);
-        setTimeout(() => {
-          chrome.tabs.remove(obj.tab.id)
-        }, 120000)
-      } else {
-        list.forEach(obj => {
+      if (list.length) {
+        if (list.length == 1) {
+          const obj = list[0];
+          setTimeout(() => {
+            if (obj.data && obj.data.type && "website_proxy_response_html" == obj.data.type) chrome.tabs.remove(obj.tab.id)
+          }, 5000)
           chrome.tabs.sendMessage(obj.tab.id, obj.data);
-        })
-        setTimeout(() => {
-          chrome.tabs.remove(list[0].tab.id)
-        }, 120000)
-      }
+          setTimeout(() => {
+            chrome.tabs.remove(obj.tab.id)
+          }, 20000)
+        } else {
+          list.forEach(obj => {
+            chrome.tabs.sendMessage(obj.tab.id, obj.data);
+          })
+          const obj = list[0];
+          setTimeout(() => {
+            chrome.tabs.remove(obj.tab.id)
+          }, 20000)
+        }
 
-      data = data.filter(x => x.tab.pendingUrl != request.url);
+        data = data.filter(x => x.tab.pendingUrl != request.url);
+      }
     }
   }
 );

@@ -76,14 +76,14 @@ export class MessageFetchService {
           } else {
             if (bool) getData()
           }
-        }, 33)
+        }, 66)
       }
       getData()
       setTimeout(() => {
         bool = false;
         r(new Response(""))
         j(new Response(""))
-      }, 30000)
+      }, 40000)
     })
   }
 
