@@ -6,6 +6,7 @@ import { DownloadOptionService } from '../../components/download-option/download
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { ImageToService } from '../../components/image-to/image-to.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class IndexService {
     public LocalCach: LocalCachService,
     public DbController: DbControllerService,
     public webDb: NgxIndexedDBService,
+    public router: Router,
     public ImageTo:ImageToService,
   ) {
     // this.ImageTo.open();
@@ -61,7 +63,6 @@ export class IndexService {
             await this.ImageTo.open({
               data:list
             });
-
           }
         },
 
@@ -73,6 +74,7 @@ export class IndexService {
     } else {
       this.ContextMenuEvent.logoutMenu('comics_item', 'download')
       this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
+      this.ContextMenuEvent.logoutMenu('comics_item', 'image_to')
     }
     this.ContextMenuEvent.registerMenu('comics_item', [
       {
@@ -129,17 +131,23 @@ export class IndexService {
                }
             }
           },
-          {
-            name: "删除", id: "delete", click: async (list) => {
-
-              for (let index = 0; index < list.length; index++) {
-                await this.delCaches(list[index].id)
-              }
-            }
-          },
         ]
       }
     ])
+    if(x.id=="local_cache"){
+      this.ContextMenuEvent.registerMenu('comics_item', [{
+        name: "删除", id: "delete", click: async (list) => {
+
+          for (let index = 0; index < list.length; index++) {
+            let node= document.querySelector(`[_id='${list[index].id}']`)
+            if(node) node.remove();
+            await this.delCaches(list[index].id)
+          }
+        }
+      }])
+    }else{
+      this.ContextMenuEvent.logoutMenu('comics_item', 'delete')
+    }
 
   }
 

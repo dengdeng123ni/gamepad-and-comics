@@ -30,8 +30,8 @@ export class DoublePageThumbnailComponent {
 
   is_loading_free = false;
 
-  opened = true;
-  is_head_show = true;
+  opened = false;
+  is_head_show = false;
 
   is_init_free=false;
 

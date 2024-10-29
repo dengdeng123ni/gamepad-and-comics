@@ -1,7 +1,7 @@
 
 
 
-<mat-drawer-container autosize style="height: 100vh;background: transparent;">
+<mat-drawer-container autosize style="height: 100vh;background: transparent;" *ngIf="is_init_free">
   <mat-drawer [opened]="opened" mode="side" style="min-width: 224px;" id="scroll">
     <div class="menu">
       <div class="title">
@@ -34,7 +34,7 @@
           justify-content: center;
           align-items: center;
           cursor: pointer;
-        "  (click)="opened=!opened" [attr.opened]="opened" [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
+        "  (click)="opened=!opened" [attr.opened]="opened" [matTooltipShowDelay]="300" [matTooltip]="'切换侧边栏'"
         [matTooltipPosition]="'right'">
         <div class="switch_left">
           <div class="left"></div>
@@ -44,13 +44,12 @@
     </div>
     <div class="edge_corner" style="right: 0px; top: 0px"  >
       <div class="button">
-        <div class="triangle" style="clip-path: polygon(0 0, 100% 0%, 100% 100%);"    [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
-          [matTooltipPosition]="'right'"></div>
+        <div class="triangle" style="clip-path: polygon(0 0, 100% 0%, 100% 100%);" (click)="is_head_show=!is_head_show"></div>
       </div>
     </div>
     <div class="edge_corner" style="left: 0px; top: 0px">
       <div class="button">
-        <div class="triangle" style="clip-path: polygon(0 0, 100% 0%, 0% 100%);"   [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
+        <div class="triangle" style="clip-path: polygon(0 0, 100% 0%, 0% 100%);"   (click)="is_head_show=!is_head_show"  [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
           [matTooltipPosition]="'right'"></div>
       </div>
     </div>
@@ -67,8 +66,8 @@
       </div>
     </div>
 
-<div style="width: 100%;height: 100%;overflow: auto;">
-  <div class="head" style=" margin: 0 24px;
+<div style="width: 100%;height: 100%;overflow: auto;" [attr.is_head_show]="is_head_show">
+  <div class="head" *ngIf="is_head_show" style=" margin: 0 24px;
   padding: 0px;
   font-size: 16px;
   color: rgba(255, 255, 255, .34);
@@ -86,7 +85,7 @@
         </div>
       </div>
   <div class="warp opacity-0" id="double_page_thumbnail" (click)="close()">
-    <div class="list"  style="padding-top: 0;" [attr.page_order]="false" [attr.type]="'list'">
+    <div class="list"    [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
       <button
         mat-button
         *ngFor="let n of double_pages; let index = index"

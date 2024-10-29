@@ -4,30 +4,36 @@ import { DoublePageThumbnailService } from './double-page-thumbnail.service';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
 import { ContextMenuEventService, UtilsService } from 'src/app/library/public-api';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { firstValueFrom } from 'rxjs';
 interface DialogData {
   chapter_id: string;
   page_index?: number
 }
+// const KEY='double_page_thumbnail';
 @Component({
   selector: 'app-double-page-thumbnail',
   templateUrl: './double-page-thumbnail.component.html',
   styleUrls: ['./double-page-thumbnail.component.scss']
 })
 export class DoublePageThumbnailComponent {
-
+  KEY = 'double_page_thumbnail_detail';
   pages: any = [];
   page_index = 0;
   chapter_id = "";
-  chapter_index=0;
-  is_first_page_cover=false;
+  chapter_index = 0;
+  is_first_page_cover = false;
 
   double_pages: any = [];
 
-  cover="";
+  cover = "";
 
-  is_loading_free=false;
+  is_loading_free = false;
 
-  opened=true;
+  opened = true;
+  is_head_show = true;
+
+  is_init_free=false;
 
   constructor(
     public utils: UtilsService,
@@ -36,10 +42,11 @@ export class DoublePageThumbnailComponent {
     public current: CurrentService,
     @Inject(MAT_DIALOG_DATA) public _data: DialogData,
     public doublePageThumbnail: DoublePageThumbnailService,
-
+    public webDb: NgxIndexedDBService,
     public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init(_data);
+    this.get()
     ContextMenuEvent.register('double_page_thumbnail_item', {
       send: ($event, data) => {
         let index_arr = [];
@@ -91,7 +98,7 @@ export class DoublePageThumbnailComponent {
             this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
           })
         } else if (e.id == "separate_page") {
-          this.current._separatePage(this.data.chapter_id,this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+          this.current._separatePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
             this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
           })
 
@@ -103,7 +110,7 @@ export class DoublePageThumbnailComponent {
           this.current._insertWhitePage(this.data.chapter_id, e.data).then(() => {
             this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
           })
-        }else if (e.id == "insertPageBefore") {
+        } else if (e.id == "insertPageBefore") {
           this.current._insertPage(this.data.chapter_id, e.data - 1).then(() => {
             this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
           })
@@ -124,19 +131,35 @@ export class DoublePageThumbnailComponent {
       ]
     })
   }
+  async post() {
+    return await firstValueFrom(this.webDb.update("data", {
+      id: this.KEY,
+      opened: this.opened,
+      is_head_show: this.is_head_show
+    }))
+  }
+
+  async get() {
+    const res: any = await firstValueFrom(this.webDb.getByKey("data", this.KEY))
+    if (res) {
+      this.opened = res.opened;
+      this.is_head_show = res.is_head_show;
+    }
+    this.is_init_free=true;
+  }
   async init(_data?: DialogData) {
-    this.double_pages=[];
-    this.is_loading_free=false;
+    this.double_pages = [];
+    this.is_loading_free = false;
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
       this.page_index = await this.current._getChapterIndex(_data.chapter_id)
-      this.chapter_id=_data.chapter_id;
-      this.chapter_index=this.data.chapters.findIndex(x=>x.id==_data.chapter_id);
+      this.chapter_id = _data.chapter_id;
+      this.chapter_index = this.data.chapters.findIndex(x => x.id == _data.chapter_id);
     } else {
       this.pages = this.data.pages as any;
       this.page_index = this.data.page_index;
-      this.chapter_id= this.data.chapter_id;
-      this.chapter_index=this.data.chapters.findIndex(x=>x.id==this.data.chapter_id);
+      this.chapter_id = this.data.chapter_id;
+      this.chapter_index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
     }
 
     const double_list = await this.getDoublePages(this.pages, this.page_index)
@@ -145,7 +168,7 @@ export class DoublePageThumbnailComponent {
     this.zone.run(() => {
       this.complete()
 
-      this.is_loading_free=true;
+      this.is_loading_free = true;
       setTimeout(() => this.complete(), 150)
     })
   }
@@ -155,13 +178,13 @@ export class DoublePageThumbnailComponent {
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
       this.page_index = await this.current._getChapterIndex(_data.chapter_id)
-      this.chapter_id=_data.chapter_id;
-      this.chapter_index=this.data.chapters.findIndex(x=>x.id==_data.chapter_id);
+      this.chapter_id = _data.chapter_id;
+      this.chapter_index = this.data.chapters.findIndex(x => x.id == _data.chapter_id);
     } else {
       this.pages = this.data.pages as any;
       this.page_index = this.data.page_index;
-      this.chapter_id= this.data.chapter_id;
-      this.chapter_index=this.data.chapters.findIndex(x=>x.id==this.data.chapter_id);
+      this.chapter_id = this.data.chapter_id;
+      this.chapter_index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
     }
 
     const double_list = await this.getDoublePages(this.pages, this.page_index)
@@ -176,9 +199,8 @@ export class DoublePageThumbnailComponent {
       src: x.src
     }))
     const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.chapter_id);
-    console.log(is_first_page_cover);
 
-    this.is_first_page_cover=is_first_page_cover;
+    this.is_first_page_cover = is_first_page_cover;
     const double_list = await this.utils.Images.getPageDouble(list, { isFirstPageCover: is_first_page_cover, pageOrder: this.data.comics_config.is_page_order });
     double_list.forEach((x: any) => {
       x.images.forEach((c: any) => {
@@ -190,9 +212,13 @@ export class DoublePageThumbnailComponent {
   ngAfterViewInit() {
 
   }
-  async change(id){
-      await this.current._setChapterFirstPageCover(this.chapter_id, this.is_first_page_cover)
-      await this.init2({chapter_id:this.chapter_id})
+  ngOnDestroy() {
+
+    this.post();
+  }
+  async change(id) {
+    await this.current._setChapterFirstPageCover(this.chapter_id, this.is_first_page_cover)
+    await this.init2({ chapter_id: this.chapter_id })
 
   }
   complete = () => {
@@ -227,8 +253,8 @@ export class DoublePageThumbnailComponent {
   }
 
 
-  on2(e){
-    this.init({chapter_id:e.id});
+  on2(e) {
+    this.init({ chapter_id: e.id });
 
   }
 

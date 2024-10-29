@@ -800,7 +800,7 @@ export class DbEventService {
         }
       ],
       is_cache: true,
-      is_download: true,
+      is_download: false,
       is_locked:true,
       is_preloading: true
     }, {
