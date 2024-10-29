@@ -8,7 +8,7 @@
       <div class="name">
         已使用缓存空间{{this.size}}
       </div>
-      <button mat-button>清除</button>
+      <button mat-button (click)="del()">清除</button>
     </div>
     <div class="item">
       <div class="name">
@@ -27,13 +27,13 @@
       <div class="name">
         github
       </div>
-      <button mat-button>打开</button>
+      <button mat-button (click)="opeo()">打开</button>
     </div>
     <div class="item">
       <div class="name">
         赞助作者
       </div>
-      <button mat-button>赞助</button>
+      <button mat-button (click)="open2()">赞助</button>
     </div>
   </div>
 </div>

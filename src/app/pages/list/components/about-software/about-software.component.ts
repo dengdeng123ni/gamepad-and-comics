@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './about-software.component.scss'
 })
 export class AboutSoftwareComponent {
-  size=0;
+  size = 0;
   constructor() {
     navigator.storage.estimate().then(estimate => {
       console.log(estimate);
@@ -20,7 +20,7 @@ export class AboutSoftwareComponent {
 
       // console.log(`Usage details: `, estimate.usageDetails);
 
-      this.size= this.formatSizeUnits(estimate.usage)
+      this.size = this.formatSizeUnits(estimate.usage)
     });
   }
   formatSizeUnits(bytes) {
@@ -31,5 +31,45 @@ export class AboutSoftwareComponent {
     else if (bytes == 1) { bytes = bytes + " byte"; }
     else { bytes = "0 bytes"; }
     return bytes;
+  }
+
+  opeo() {
+    window.open('https://github.com/dengdeng123ni/gamepad-and-comics-v3')
+  }
+
+  open2() {
+    window.open('https://store.steampowered.com/app/2070500/Gamepad_and_Comics/')
+
+  }
+
+  del() {
+
+
+    if (confirm("你确定要清除所有缓存吗？")) {
+      // 清除 LocalStorage 和 SessionStorage
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // 清除 Service Worker 缓存
+      if ('caches' in window) {
+        caches.keys().then((cacheNames) => {
+          cacheNames.forEach((cacheName) => {
+            caches.delete(cacheName);
+          });
+        });
+      }
+
+      // 清除所有 IndexedDB 数据库
+      if (window.indexedDB && indexedDB.databases) {
+        indexedDB.databases().then((dbs) => {
+          dbs.forEach((db) => {
+            indexedDB.deleteDatabase(db.name);
+          });
+        });
+      }
+      location.reload();
+    } else {
+      console.log("用户选择了取消");
+    }
   }
 }
