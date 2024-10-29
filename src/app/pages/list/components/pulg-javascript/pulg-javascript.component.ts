@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PulgService } from 'src/app/library/public-api';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-pulg-javascript',
@@ -8,7 +9,7 @@ import { PulgService } from 'src/app/library/public-api';
 })
 export class PulgJavascriptComponent {
   list = [];
-  constructor(public pulg: PulgService) {
+  constructor(public pulg: PulgService,public data:DataService) {
     this.init();
   }
   async init() {
@@ -25,7 +26,14 @@ export class PulgJavascriptComponent {
   }
 
   async add() {
+
     await this.pulg.openFile();
+    this.data.menu=[];
+    this.data.is_init_free=false;
+    setTimeout(()=>{
+      this.data.is_init_free=true;
+    },100)
+
     await this.init();
   }
   async on(e) {
