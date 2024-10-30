@@ -30,10 +30,22 @@ export class MessageControllerService {
     window.addEventListener("message", function (event) {
 
       if (event.data.type == "proxy_response") {
-        http._data_proxy_response[event.data.id]=event.data;
+
+        let rsponse = event.data.data;
+        const flatArray = rsponse.body.flat()
+        const blob = new Blob([new Uint8Array(flatArray)]);
+        delete rsponse.body;
+        const headers = new Headers();
+        rsponse.headers.forEach((x: { name: string; value: string; }) => {
+          headers.append(x.name, x.value);
+        })
+        rsponse.headers = headers;
+        http._data_proxy_response[event.data.id]= new Response(blob, rsponse)
         setTimeout(()=>{
-          if(http._data_proxy_response[event.data.id]) delete http._data_proxy_response[event.data.id]
-        },300)
+          http._data_proxy_response[event.data.id]=undefined;
+          http._data_proxy_request[event.data.id]=undefined;
+        },30000)
+
         if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage(event.data)
       }else if (event.data.type == "specify_link") {
         MessageEvent.OtherEvents['specify_link'](event.data.data)

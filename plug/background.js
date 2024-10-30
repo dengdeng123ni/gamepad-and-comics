@@ -18,12 +18,16 @@ chrome.runtime.onMessage.addListener(
       sendMessageToTargetContentScript(request, request.proxy_response_website_url)
     } else if (request.type == "pulg_proxy_request") {
       if (request.http.option.body) request.http.option.body = await stringToReadStream(request.http.option.body);
+
+
       const rsponse = await fetch(request.http.url, request.http.option)
+      console.log(rsponse);
       const data = await readStreamToString(rsponse.body)
       let headers = [];
       rsponse.headers.forEach(function (value, name) { headers.push({ value, name }) });
       const res = { id: request.id, proxy_response_website_url: request.proxy_response_website_url, type: "website_proxy_response", data: { body: data, bodyUsed: rsponse.bodyUsed, headers: headers, ok: rsponse.ok, redirected: rsponse.redirected, status: rsponse.status, statusText: rsponse.statusText, type: rsponse.type, url: rsponse.url } }
       res.type = "proxy_response";
+
       sendMessageToTargetContentScript(res, res.proxy_response_website_url)
     } else if (request.type == "page_load_complete") {
       const index = data.findIndex(x => x.tab.pendingUrl == request.url)

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import CryptoJS from 'crypto-js'
 declare let window: any;
 @Injectable({
   providedIn: 'root'
 })
 export class MessageFetchService {
   _data_proxy_response: any = {};
-
+  _data_proxy_request: any = {};
 
   constructor() {
     window._gh_fetch = this.fetch;
@@ -22,11 +23,11 @@ export class MessageFetchService {
     const b64_to_utf8 = (str: string) => {
       return JSON.parse(decodeURIComponent(escape(window.atob(str))));
     }
-    const id = Math.round(Math.random() * 1000000000000);
+    let id = ''
     let bool = true;
-    if (option&&option.proxy) {
-      window.postMessage({
-        id: id,
+    if (option && option.proxy) {
+
+      id = CryptoJS.MD5(JSON.stringify({
         type: "website_proxy_request",
         proxy_request_website_url: option.proxy,
         proxy_response_website_url: window.location.origin,
@@ -38,10 +39,29 @@ export class MessageFetchService {
             "method": init.method
           }
         }
-      });
+      })).toString().toLowerCase()
+      if (!this._data_proxy_request[id]) {
+        this._data_proxy_request[id]=true;
+        console.log(id);
+
+        window.postMessage({
+          id: id,
+          type: "website_proxy_request",
+          proxy_request_website_url: option.proxy,
+          proxy_response_website_url: window.location.origin,
+          http: {
+            url: url,
+            option: {
+              "headers": init.headers,
+              "body": body,
+              "method": init.method
+            }
+          }
+        });
+      }
+
     } else {
-      window.postMessage({
-        id: id,
+      id = CryptoJS.MD5(JSON.stringify({
         type: "pulg_proxy_request",
         proxy_response_website_url: window.location.origin,
         http: {
@@ -52,30 +72,30 @@ export class MessageFetchService {
             "method": init.method
           }
         }
-      });
+      })).toString().toLowerCase()
+      if (!this._data_proxy_request[id]) {
+        this._data_proxy_request[id]=true;
+        console.log(1,id);
+        window.postMessage({
+          id: id,
+          type: "pulg_proxy_request",
+          proxy_response_website_url: window.location.origin,
+          http: {
+            url: url,
+            option: {
+              "headers": init.headers,
+              "body": body,
+              "method": init.method
+            }
+          }
+        });
+      }
     }
-
     return new Promise((r, j) => {
       const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
-            let rsponse = this._data_proxy_response[id].data;
-            const readableStream = new ReadableStream({
-              start(controller) {
-                for (const data of rsponse.body) {
-                  controller.enqueue(Uint8Array.from(data));
-                }
-                controller.close();
-              },
-            });
-            delete rsponse.body;
-            const headers = new Headers();
-            rsponse.headers.forEach((x: { name: string; value: string; }) => {
-              headers.append(x.name, x.value);
-            })
-            rsponse.headers = headers
-            delete this._data_proxy_response[id]
-            r(new Response(readableStream, rsponse))
+            r(this._data_proxy_response[id].clone())
           } else {
             if (bool) getData()
           }

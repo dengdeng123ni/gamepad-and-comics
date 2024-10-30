@@ -7,6 +7,7 @@ import { animate, animateChild, group, query, style, transition, trigger } from 
 import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
 import { TestService } from './composite/test/test.service';
 import { bufferCount, Subject } from 'rxjs';
+import CryptoJS from 'crypto-js'
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [

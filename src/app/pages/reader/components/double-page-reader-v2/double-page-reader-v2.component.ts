@@ -18,7 +18,7 @@ export class DoublePageReaderV2Component {
   }
   change$;
   event$;
-  is_destroy=false;
+  is_destroy = false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -151,7 +151,7 @@ export class DoublePageReaderV2Component {
   ngOnDestroy() {
     this.change$.unsubscribe();
     this.event$.unsubscribe();
-    this.is_destroy=true;
+    this.is_destroy = true;
   }
   isSwitch = false;
   async pageToggle() {
@@ -198,7 +198,7 @@ export class DoublePageReaderV2Component {
     })
   }
   async updata() {
-    if(!this.swiper.slides[this.swiper.activeIndex]) return
+    if (!this.swiper.slides[this.swiper.activeIndex]) return
     if (this.swiper.slides[this.swiper.activeIndex]) {
       const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
       let indexs = [];
@@ -214,7 +214,7 @@ export class DoublePageReaderV2Component {
         trigger: 'double_page_reader_v2'
       });
     } else {
-      if(this.is_destroy) return
+      if (this.is_destroy) return
       setTimeout(() => {
         this.updata();
       }, 50)
@@ -235,7 +235,15 @@ export class DoublePageReaderV2Component {
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
     console.log(index);
-
+    if (index > 5 && (index + 3) >= pages.length) {
+      setTimeout(async () => {
+        const list = await this.current._getNextChapterId(chapter_id);
+        this.isWideImage(list[0], list[1]);
+        setTimeout(() => {
+          this.isWideImage(list[2], list[3]);
+        })
+      },300)
+    }
     if (index >= pages.length) {
       const next_chapter_id = await this.current._getNextChapterId(chapter_id);
 
@@ -298,6 +306,11 @@ export class DoublePageReaderV2Component {
       }
 
       const obj = await this.isWideImage(list[index], list[index + 1]);
+
+      setTimeout(() => {
+        this.isWideImage(list[index + 2], list[index + 3]);
+      }, 2000)
+
       if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
       if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
         obj.secondary = undefined;

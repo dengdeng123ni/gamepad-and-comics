@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "@angular/service-worker": "^17.3.0",
+    "crypto-js": "^4.2.0",
     "image-conversion": "^2.1.1",
     "material-icons": "^1.13.12",
     "ngx-indexed-db": "^17.1.0",
