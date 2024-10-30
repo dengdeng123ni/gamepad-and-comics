@@ -7,6 +7,7 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { ImageToService } from '../../components/image-to/image-to.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,12 @@ export class IndexService {
     public DbController: DbControllerService,
     public webDb: NgxIndexedDBService,
     public router: Router,
-    public ImageTo:ImageToService,
+    public ImageTo: ImageToService,
+    private _snackBar: MatSnackBar,
   ) {
     // this.ImageTo.open();
 
-    GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option","menu_item",'input',"menu_input",'settings'] })
+    GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option", "menu_item", 'input', "menu_input", 'settings'] })
     GamepadEvent.registerConfig("comics_type", { region: ["comics_type_item"] })
 
     GamepadEvent.registerAreaEvent("menu", {
@@ -61,7 +63,7 @@ export class IndexService {
         {
           name: "图像处理", id: "image_to", click: async (list) => {
             await this.ImageTo.open({
-              data:list
+              data: list
             });
           }
         },
@@ -76,6 +78,7 @@ export class IndexService {
       this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
       this.ContextMenuEvent.logoutMenu('comics_item', 'image_to')
     }
+
     this.ContextMenuEvent.registerMenu('comics_item', [
       {
         name: "数据", id: "data", submenu: [
@@ -84,37 +87,42 @@ export class IndexService {
 
               for (let index = 0; index < list.length; index++) {
                 await this.resetReadingProgress(list[index].id)
+                this._snackBar.open(`${list[index].title}`, '重置阅读进度已完成', { duration: 1000 })
               }
+
             }
           },
           {
             name: "重置数据", id: "reset_data", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 this.DbController.delWebDbDetail(list[index].id)
-                const res= await this.DbController.getDetail(list[index].id)
+                const res = await this.DbController.getDetail(list[index].id)
                 for (let index = 0; index < res.chapters.length; index++) {
-                 const chapter_id=res.chapters[index].id;
-                 await this.DbController.delWebDbPages(chapter_id)
-                 const pages = await this.DbController.getPages(chapter_id)
-                 for (let index = 0; index < pages.length; index++) {
-                   await this.DbController.delWebDbImage(pages[index].src)
-                   await this.DbController.getImage(pages[index].src)
-                 }
+                  const chapter_id = res.chapters[index].id;
+                  await this.DbController.delWebDbPages(chapter_id)
+                  const pages = await this.DbController.getPages(chapter_id)
+                  for (let index = 0; index < pages.length; index++) {
+                    await this.DbController.delWebDbImage(pages[index].src)
+                  }
                 }
-               }
+                this._snackBar.open(`${list[index].title}`, '重置数据已完成', { duration: 1000 })
+              }
             }
           },
           {
             name: "提前加载", id: "load", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
-               const res= await this.DbController.getDetail(list[index].id)
-               for (let index = 0; index < res.chapters.length; index++) {
-                const chapter_id=res.chapters[index].id;
-                const pages = await this.DbController.getPages(chapter_id)
-                for (let index = 0; index < pages.length; index++) {
-                  await this.DbController.getImage(pages[index].src)
+                const res = await this.DbController.getDetail(list[index].id)
+                for (let index = 0; index < res.chapters.length; index++) {
+                  const chapter_id = res.chapters[index].id;
+                  const pages = await this.DbController.getPages(chapter_id)
+                  for (let index2 = 0; index2 < pages.length; index2++) {
+                    await this.DbController.getImage(pages[index2].src)
+                    this._snackBar.open(`${res.chapters[index].title} 第${index2 + 1}页/${pages.length}页`, '提前加载完成')
+                  }
+                  this._snackBar.open(`${res.chapters[index].title}`, '提前加载完成')
                 }
-               }
+                this._snackBar.open(`${list[index].title}`, '提前加载已完成', { duration: 1000 })
               }
             }
           },
@@ -122,36 +130,37 @@ export class IndexService {
             name: "重新获取", id: "reset_get", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 this.DbController.delWebDbDetail(list[index].id)
-                const res= await this.DbController.getDetail(list[index].id)
+                const res = await this.DbController.getDetail(list[index].id)
                 for (let index = 0; index < res.chapters.length; index++) {
-                 const chapter_id=res.chapters[index].id;
-                 await this.DbController.delWebDbPages(chapter_id)
-                 const pages = await this.DbController.getPages(chapter_id)
+                  const chapter_id = res.chapters[index].id;
+                  await this.DbController.delWebDbPages(chapter_id)
+                  const pages = await this.DbController.getPages(chapter_id)
                 }
-               }
+                this._snackBar.open(`${list[index].title}`, '重新获取已完成', { duration: 1000 })
+              }
             }
           },
         ]
       }
     ])
-    if(x.id=="local_cache"){
+    if (x.id == "local_cache") {
       this.ContextMenuEvent.registerMenu('comics_item', [{
         name: "删除", id: "delete", click: async (list) => {
 
           for (let index = 0; index < list.length; index++) {
-            let node= document.querySelector(`[_id='${list[index].id}']`)
-            if(node) node.remove();
+            let node = document.querySelector(`[_id='${list[index].id}']`)
+            if (node) node.remove();
             await this.delCaches(list[index].id)
           }
         }
       }])
-    }else{
+    } else {
       this.ContextMenuEvent.logoutMenu('comics_item', 'delete')
     }
-    if(!x.is_cache) this.ContextMenuEvent.logoutMenu('chapter_item', 'data')
+    if (!x.is_cache) this.ContextMenuEvent.logoutMenu('chapter_item', 'data')
   }
 
-  data(){
+  data() {
 
   }
 

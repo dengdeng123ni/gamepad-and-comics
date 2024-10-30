@@ -6,6 +6,7 @@ import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page
 import { CurrentService } from '../../services/current.service';
 import { Router } from '@angular/router';
 import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 interface Item {
   id: string | number,
   cover: string,
@@ -58,7 +59,8 @@ export class ChapterListMode1Component {
     public exportSettings: ExportSettingsService,
     public DbController: DbControllerService,
     public DropDownMenu: DropDownMenuService,
-    public AppData:AppDataService
+    private _snackBar: MatSnackBar,
+    public AppData: AppDataService
   ) {
     AppData.source$.subscribe((x: any) => {
       ContextMenuEvent.register('chapter_item', {
@@ -82,7 +84,7 @@ export class ChapterListMode1Component {
             })
 
           }
-           if (e.id == "export") {
+          if (e.id == "export") {
             const node = document.getElementById("menu_content");
             let { x, y, width, height } = node!.getBoundingClientRect();
             if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
@@ -97,7 +99,7 @@ export class ChapterListMode1Component {
               backdropClass: "reader_settings_buttom_backdrop"
             })
           } else {
-            const list =  this.data.chapters.filter(x => x.selected);
+            const list = this.data.chapters.filter(x => x.selected);
             (e as any).click(list)
           }
         },
@@ -114,20 +116,27 @@ export class ChapterListMode1Component {
                     const pages = await this.DbController.getPages(chapter_id)
                     for (let index = 0; index < pages.length; index++) {
                       await this.DbController.delWebDbImage(pages[index].src)
-                      await this.DbController.getImage(pages[index].src)
                     }
+                    this._snackBar.open(`重置数据已完成`, '', {
+                      duration: 1000
+                    })
                   }
                 }
               },
               {
                 name: "提前加载", id: "load", click: async (list) => {
                   for (let index = 0; index < list.length; index++) {
-                    const chapter_id = list.id;
+                    const chapter_id = list[index].id;
                     const pages = await this.DbController.getPages(chapter_id)
-                    for (let index = 0; index < pages.length; index++) {
-                      await this.DbController.getImage(pages[index].src)
+                    for (let ccc = 0; ccc < pages.length; ccc++) {
+                      await this.DbController.getImage(pages[ccc].src)
+                      this._snackBar.open(`${list[index].title} 第${ccc + 1}页/${pages.length}页`,'提前加载完成')
                     }
+                    this._snackBar.open(`${list[index].title}`,'提前加载完成')
                   }
+                  this._snackBar.open(`提前加载已完成`, '', {
+                    duration: 1000
+                  })
                 }
               },
               {
@@ -137,6 +146,9 @@ export class ChapterListMode1Component {
                     await this.DbController.delWebDbPages(chapter_id)
                     const pages = await this.DbController.getPages(chapter_id)
                   }
+                  this._snackBar.open(`重新获取已完成`, '', {
+                    duration: 1000
+                  })
                 }
               },
               {
@@ -155,7 +167,7 @@ export class ChapterListMode1Component {
         ]
 
       })
-      if(!x.is_download) this.ContextMenuEvent.logoutMenu('chapter_item', 'export')
+      if (!x.is_download) this.ContextMenuEvent.logoutMenu('chapter_item', 'export')
       // if(!x.is_cache) this.ContextMenuEvent.logoutMenu('chapter_item', 'data')
     })
 
@@ -170,7 +182,7 @@ export class ChapterListMode1Component {
     if (this.data.chapters[0].is_locked === undefined) this.is_locked = false;
 
   }
-  updateComicsItem(x){
+  updateComicsItem(x) {
 
   }
   async all() {
@@ -253,20 +265,27 @@ export class ChapterListMode1Component {
             const pages = await this.DbController.getPages(chapter_id)
             for (let index = 0; index < pages.length; index++) {
               await this.DbController.delWebDbImage(pages[index].src)
-              await this.DbController.getImage(pages[index].src)
             }
+            this._snackBar.open(`重置数据已完成`, '', {
+              duration: 1000
+            })
           }
         }
       },
       {
         name: "提前加载", id: "load", click: async (list) => {
           for (let index = 0; index < list.length; index++) {
-            const chapter_id = list.id;
+            const chapter_id = list[index].id;
             const pages = await this.DbController.getPages(chapter_id)
-            for (let index = 0; index < pages.length; index++) {
-              await this.DbController.getImage(pages[index].src)
+            for (let ccc = 0; ccc < pages.length; ccc++) {
+              await this.DbController.getImage(pages[ccc].src)
+              this._snackBar.open(`${list[index].title} 第${ccc + 1}页/${pages.length}页`,'提前加载完成')
             }
+            this._snackBar.open(`${list[index].title}`,'提前加载完成')
           }
+          this._snackBar.open(`提前加载已完成`, '', {
+            duration: 1000
+          })
         }
       },
       {
@@ -276,6 +295,9 @@ export class ChapterListMode1Component {
             await this.DbController.delWebDbPages(chapter_id)
             const pages = await this.DbController.getPages(chapter_id)
           }
+          this._snackBar.open(`重新获取已完成`, '', {
+            duration: 1000
+          })
         }
       },
       {
@@ -290,7 +312,7 @@ export class ChapterListMode1Component {
       },
     ])
     if (e) {
-      const list =  this.data.chapters.filter(x => x.selected);
+      const list = this.data.chapters.filter(x => x.selected);
       (e as any).click(list)
     }
 

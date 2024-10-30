@@ -7,7 +7,7 @@
       </div>
       <div class="right">
         <mat-checkbox style="margin-right: 24px;"  [(ngModel)]="is_all" (change)="all()">全选</mat-checkbox>
-        <button mat-flat-button style="margin-right: 12px;" id="download123" [disabled]="!selected_length" (click)="download()">下载</button>
+        <button mat-flat-button style="margin-right: 12px;" *ngIf="data.is_download" id="download123" [disabled]="!selected_length" (click)="download()">下载</button>
         <button mat-flat-button style="margin-right: 12px;" [disabled]="!selected_length" (click)=" DropDownMenuOpen()">数据</button>
         <button mat-flat-button (click)="closeEdit()">完成</button>
       </div>

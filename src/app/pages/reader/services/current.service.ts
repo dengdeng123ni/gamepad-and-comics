@@ -691,13 +691,6 @@ export class CurrentService {
       await this.image.getImageBlob(src)
       return src
     } else {
-      console.log(this.image.getImageBase64(src));
-      console.log(src);
-
-      this.image.getImageBase64(src)
-      this.image.getImageBase64(src)
-      this.image.getImageBase64(src)
-      this.image.getImageBase64(src)
       return await this.image.getImageBase64(src)
     }
 
