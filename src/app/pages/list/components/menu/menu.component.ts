@@ -138,7 +138,13 @@ export class MenuComponent {
         this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })
-      this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==this.AppData.source)
+      if(['local_cache','temporary_file'].includes(this.AppData.source)){
+        this.data.menu_2_obj=this.data.menu_2[0]
+
+      }else{
+        this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==this.AppData.source)
+      }
+
       this.data.menu.push({
         id: 'cached',
         icon: "cached",
