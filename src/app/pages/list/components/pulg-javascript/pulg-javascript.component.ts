@@ -14,8 +14,9 @@ export class PulgJavascriptComponent {
   }
   async init() {
     const res: any = await this.pulg.getAll()
+
     this.list = res.map(x => ({
-      name: x.url.slice('http://localhost:7700/script/'.length, 1000),
+      name:decodeURI(x.url).slice('http://localhost:7700/script/'.length, 1000),
       url: x.url
     }))
   }
@@ -48,5 +49,9 @@ export class PulgJavascriptComponent {
       document.body.removeChild(a);
     }
     download(e.name,url)
+  }
+
+  open(){
+    window.open('https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js')
   }
 }
