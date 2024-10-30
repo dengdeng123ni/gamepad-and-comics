@@ -572,7 +572,11 @@ export class ComicsListV2Component {
       this.page_num--;
       return
     }
-    this.list = [...this.list, ...list]
+    this.list =  [...this.list, ...list].filter((item, index, self) =>
+      index === self.findIndex((t) => (
+          t.id === item.id
+      ))
+  );
 
   }
 }
