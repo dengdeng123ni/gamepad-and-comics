@@ -17,7 +17,6 @@ export class FilterComponent {
   }
   init() {
     const node: any = document.querySelector("#svg_1")
-    console.log(this.svg.data);
     this.svg.data.forEach((x, index) => {
 
 

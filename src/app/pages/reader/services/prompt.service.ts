@@ -71,7 +71,6 @@ export class PromptService {
         entries.forEach(entry => {
             if (callback && typeof callback === 'function') {
                 // 将元素是否可见和元素本身传递给回调函数
-                console.log(entry);
 
                 callback(entry.isIntersecting, entry.target);
             }

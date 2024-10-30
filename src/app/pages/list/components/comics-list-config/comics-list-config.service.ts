@@ -66,7 +66,6 @@ export class ComicsListConfigService {
 
   async get() {
     const res: any = await firstValueFrom(this.webDb.getByKey("data", this.key))
-    console.log(res);
 
     if (res) {
       this.data.config.click_type = res.click_type;

@@ -33,7 +33,6 @@ export class CurrentService {
   }
 
   async routerSourceSearch(source,keywords) {
-console.log(source, keywords);
 
     this.router.navigate(['/search', source, keywords]);
   }

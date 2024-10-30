@@ -35,8 +35,6 @@ export class ReadRecordChapterComponent {
     })
     const days = [...new Set(list.map(x => x.day))].reverse();
     let arr = [];
-    console.log(days);
-
     days.forEach(x => {
       let  csd=[];
       this.uniqueFunc(list.filter(c => c.day == x), 'chapter_id').sort((a,b)=>b.id-a.id).forEach(c=>{

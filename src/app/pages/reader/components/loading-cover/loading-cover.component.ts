@@ -13,7 +13,6 @@ export class LoadingCoverComponent {
 
 
   constructor(private data: DataService) {
-    console.log(this.data);
 
     this.cover = this.data.details.cover;
   }

@@ -79,29 +79,57 @@ export class LocalCachService {
 
   async save(id: any) {
     this.DbEvent.Configs[this.AppData.source].is_cache = true;
-    let res = await this.DbController.getDetail(id);
-    res.id = `7700_${res.id}`.toString();
-    await this.DbController.getImage(res.cover)
-    for (let index = 0; index < res.chapters.length; index++) {
-      let x = res.chapters[index];
-      await this.DbController.getImage(x.cover)
-      const pages = await this.DbController.getPages(x.id)
-      await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),6)
-      await firstValueFrom(this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(), data: pages }))
-      x.id= `7700_${x.id}`.toString();
-      let chapters = res.chapters.slice(0, index + 1);
-      firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, chapters } }))))
-      this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
-        duration: 3000,
+    if(this.AppData.source=='temporary_file'){
+      let res = await this.DbController.getDetail(id);
+      res.id = `${res.id}`.toString();
+      await this.DbController.getImage(res.cover)
+      for (let index = 0; index < res.chapters.length; index++) {
+        let x = res.chapters[index];
+        await this.DbController.getImage(x.cover)
+        const pages = await this.DbController.getPages(x.id)
+        await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),6)
+        await firstValueFrom(this.webDb.update("local_pages", { id: `${x.id}`.toString(), data: pages }))
+        x.id= `${x.id}`.toString();
+        let chapters = res.chapters.slice(0, index + 1);
+        firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, chapters } }))))
+        this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      }
+      this._snackBar.open(`${res.title} 缓存完成`, '', {
+        duration: 5000,
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom',
+      });
+    }else{
+      let res = await this.DbController.getDetail(id);
+      res.id = `7700_${res.id}`.toString();
+      await this.DbController.getImage(res.cover)
+      for (let index = 0; index < res.chapters.length; index++) {
+        let x = res.chapters[index];
+        await this.DbController.getImage(x.cover)
+        const pages = await this.DbController.getPages(x.id)
+        await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),6)
+        await firstValueFrom(this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(), data: pages }))
+        x.id= `7700_${x.id}`.toString();
+        let chapters = res.chapters.slice(0, index + 1);
+        firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, chapters } }))))
+        this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      }
+      this._snackBar.open(`${res.title} 缓存完成`, '', {
+        duration: 5000,
         horizontalPosition: 'end',
         verticalPosition: 'bottom',
       });
     }
-    this._snackBar.open(`${res.title} 缓存完成`, '', {
-      duration: 5000,
-      horizontalPosition: 'end',
-      verticalPosition: 'bottom',
-    });
+
+
   }
 
 }

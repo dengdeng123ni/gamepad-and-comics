@@ -23,7 +23,7 @@ export class HistoryComicsListComponent {
   }
   async init() {
     this.list = (await this.history.getAll()).sort((a: any, b: any) => a.last_read_date - b.last_read_date).reverse();
-    console.log(this.list);
+
   }
   on_list(e) {
 

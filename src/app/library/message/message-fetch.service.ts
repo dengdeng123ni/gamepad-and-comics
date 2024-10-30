@@ -42,7 +42,6 @@ export class MessageFetchService {
       })).toString().toLowerCase()
       if (!this._data_proxy_request[id]) {
         this._data_proxy_request[id]=true;
-        console.log(id);
 
         window.postMessage({
           id: id,
@@ -75,7 +74,6 @@ export class MessageFetchService {
       })).toString().toLowerCase()
       if (!this._data_proxy_request[id]) {
         this._data_proxy_request[id]=true;
-        console.log(1,id);
         window.postMessage({
           id: id,
           type: "pulg_proxy_request",

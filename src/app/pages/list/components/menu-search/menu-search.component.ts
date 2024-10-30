@@ -42,7 +42,6 @@ export class MenuSearchComponent {
 
     GamepadEvent.registerAreaEvent("menu_search_input", {
       A: e => {
-        console.log(document.activeElement.tagName);
 
         if(document.activeElement.tagName=="INPUT"){
           e.querySelector("input").blur();
