@@ -222,6 +222,8 @@ export class DoublePageReaderV2DefaultComponent {
     const index = indexs.sort((a, b) => b - a)[0] + 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
+
+
     if (index >= pages.length) {
       const next_chapter_id = await this.current._getNextChapterId(chapter_id);
 
@@ -249,7 +251,15 @@ export class DoublePageReaderV2DefaultComponent {
 
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
-
+    if (index > 5 && (index + 3) >= pages.length) {
+      setTimeout(async () => {
+        const list = await this.current._getNextChapterId(chapter_id);
+        this.isWideImage(list[0], list[1]);
+        setTimeout(() => {
+          this.isWideImage(list[2], list[3]);
+        })
+      },300)
+    }
     if (index <= -1) {
       const next_chapter_id = await this.current._getPreviousChapterId(chapter_id);
 
@@ -284,6 +294,10 @@ export class DoublePageReaderV2DefaultComponent {
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
       const obj = await this.isWideImage(list[index], list[index + 1]);
+
+      setTimeout(() => {
+        this.isWideImage(list[index + 2], list[index + 3]);
+      }, 2000)
       if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
       if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
         obj.secondary = undefined;

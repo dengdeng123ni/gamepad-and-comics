@@ -234,7 +234,6 @@ export class DoublePageReaderV2Component {
     const index = indexs.sort((a, b) => b - a)[0] + 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
-    console.log(index);
     if (index > 5 && (index + 3) >= pages.length) {
       setTimeout(async () => {
         const list = await this.current._getNextChapterId(chapter_id);
