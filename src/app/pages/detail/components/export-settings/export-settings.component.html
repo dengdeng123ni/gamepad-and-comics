@@ -44,6 +44,14 @@
       <div class="options">
         <mat-slide-toggle [matTooltip]="i18n.config.first_page_cover" [attr.type]="'slide'" [attr.region]="'item'"
           [(ngModel)]="isFirstPageCover"></mat-slide-toggle>
+
+      </div>
+    </div>
+    <div class="item" *ngIf="page=='double'&&type=='EPUB'">
+      <div class="name">{{i18n.config.first_page_cover}}</div>
+      <div class="options">
+        <mat-slide-toggle [matTooltip]="i18n.config.first_page_cover" [attr.type]="'slide'" [attr.region]="'item'"
+          [disabled]="true"  [(ngModel)]="isFirstPageCoverEPUB"></mat-slide-toggle>
       </div>
     </div>
   </div>

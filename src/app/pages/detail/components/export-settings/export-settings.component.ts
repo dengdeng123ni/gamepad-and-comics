@@ -23,6 +23,7 @@ export class ExportSettingsComponent {
     this.pageOrder = this.data.comics_config.is_page_order;
   }
   isFirstPageCover=true;
+  isFirstPageCoverEPUB=true;
   pageOrder = false;
   page = "double"; //  double one
   type = "PDF";

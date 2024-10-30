@@ -138,16 +138,20 @@ export class ComicsListV2Component {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
               x = x.data
-              return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
-            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
+              return { id: x.id, cover: x.cover, title: x.title,creation_time:x.creation_time, subTitle: `${x.chapters[0].title}` }
+            }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
           },
           Init: async (obj) => {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
               x = x.data
-              return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
-            }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
+
+
+              return { id: x.id, cover: x.cover, title: x.title,creation_time:x.creation_time, subTitle: `${x.chapters[0].title}` }
+            }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
+            console.log(list);
+
             return list
           }
         })
@@ -204,6 +208,8 @@ export class ComicsListV2Component {
 
       const data: any = await this.get(this.id);
       if (data) {
+        console.log(this.type,this.id );
+
         data.list.forEach(x => {
           x.selected = false;
         })
@@ -220,7 +226,8 @@ export class ComicsListV2Component {
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
 
         } else if (this.type == "local_cache") {
-          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
+
+          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000});
         } else {
           this.list = data.list;
         }

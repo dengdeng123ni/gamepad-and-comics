@@ -19,14 +19,14 @@ export class LocalCachService {
 
     DbEvent.register({
       id: "local_cache",
-      name:"本地缓存",
+      name: "本地缓存",
       is_download: true,
-      is_cache:true
+      is_cache: true
     }, {
       getList: async (obj: any) => {
         const res = await firstValueFrom(this.webDb.getAll("local_comics"))
         const list = res.map((x: any) => {
-          x=x.data
+          x = x.data
           return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
         }).slice((obj.page_num - 1) * obj.page_size, obj.page_size);
         return list
@@ -52,46 +52,51 @@ export class LocalCachService {
   private b64_to_utf8 = (str: string) => {
     return decodeURIComponent(window.atob(str));
   }
-  async  limitPromiseAll(promises, limit) {
+  async limitPromiseAll(promises, limit) {
     const results = [];
     let currentIndex = 0;
 
     async function executeNext() {
-        if (currentIndex >= promises.length) return;
+      if (currentIndex >= promises.length) return;
 
-        const currentPromiseIndex = currentIndex++;
-        const currentPromise = promises[currentPromiseIndex];
+      const currentPromiseIndex = currentIndex++;
+      const currentPromise = promises[currentPromiseIndex];
 
-        try {
-            results[currentPromiseIndex] = await currentPromise();
-        } catch (error) {
-            results[currentPromiseIndex] = error;
-        }
+      try {
+        results[currentPromiseIndex] = await currentPromise();
+      } catch (error) {
+        results[currentPromiseIndex] = error;
+      }
 
-        await executeNext();
+      await executeNext();
     }
 
     // 启动并发执行
     await Promise.all(Array.from({ length: limit }, executeNext));
 
     return results;
-}
+  }
 
   async save(id: any) {
     this.DbEvent.Configs[this.AppData.source].is_cache = true;
-    if(this.AppData.source=='temporary_file'){
+    if (this.AppData.source == 'temporary_file') {
       let res = await this.DbController.getDetail(id);
       res.id = `${res.id}`.toString();
       await this.DbController.getImage(res.cover)
       for (let index = 0; index < res.chapters.length; index++) {
         let x = res.chapters[index];
         await this.DbController.getImage(x.cover)
-        const pages = await this.DbController.getPages(x.id)
-        await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),6)
+        let pages = await this.DbController.getPages(x.id)
+        for (let index = 0; index < pages.length; index++) {
+          const images = await createImageBitmap(await this.DbController.getImage(pages[index].src))
+          pages[index].width = images.width;
+          pages[index].height = images.height;
+        }
+
         await firstValueFrom(this.webDb.update("local_pages", { id: `${x.id}`.toString(), data: pages }))
-        x.id= `${x.id}`.toString();
+        x.id = `${x.id}`.toString();
         let chapters = res.chapters.slice(0, index + 1);
-        firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, chapters } }))))
+        firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res,creation_time:new Date().getTime(), chapters } }))))
         this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
           duration: 3000,
           horizontalPosition: 'end',
@@ -103,19 +108,23 @@ export class LocalCachService {
         horizontalPosition: 'end',
         verticalPosition: 'bottom',
       });
-    }else{
+    } else {
       let res = await this.DbController.getDetail(id);
       res.id = `7700_${res.id}`.toString();
       await this.DbController.getImage(res.cover)
       for (let index = 0; index < res.chapters.length; index++) {
         let x = res.chapters[index];
         await this.DbController.getImage(x.cover)
-        const pages = await this.DbController.getPages(x.id)
-        await this.limitPromiseAll(pages.map(x => this.DbController.getImage(x.src)),6)
+        let pages = await this.DbController.getPages(x.id)
+        for (let index = 0; index < pages.length; index++) {
+          const images = await createImageBitmap(await this.DbController.getImage(pages[index].src))
+          pages[index].width = images.width;
+          pages[index].height = images.height;
+        }
         await firstValueFrom(this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(), data: pages }))
-        x.id= `7700_${x.id}`.toString();
+        x.id = `7700_${x.id}`.toString();
         let chapters = res.chapters.slice(0, index + 1);
-        firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, chapters } }))))
+        firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res,creation_time:new Date().getTime(), chapters } }))))
         this._snackBar.open(`${res.title} ${x.title} 缓存完成`, '', {
           duration: 3000,
           horizontalPosition: 'end',

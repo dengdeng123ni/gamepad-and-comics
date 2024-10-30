@@ -41,7 +41,7 @@ export class EpubService {
     pageFit: 'stretch',
     pageBackgroundColor: 'white',
     pageDirection: 'right',
-    coverPosition: 'first-page',// first-page
+    coverPosition: 'first-page',//  alone
     pages: [],
     savedSets: []
   }
@@ -57,7 +57,7 @@ export class EpubService {
 
   blobs = [];
 
-  constructor(public image:ImageService) { }
+  constructor(public image: ImageService) { }
 
 
 
@@ -76,6 +76,7 @@ export class EpubService {
       this.book.pageSize[1] = height;
     }
     let arr = [];
+    console.log(list);
 
     if (pageOrder) arr = await this.pageDouble(list, false)
     else arr = await this.pageDouble_reverse(list, false)
@@ -85,29 +86,16 @@ export class EpubService {
     } else {
       this.book.pageDirection = 'right'
     }
+    console.log(arr);
+
     for (let index = 0; index < arr.length; index++) {
       const x = arr[index];
-      // if (index == 0 && x.images.length == 2) {
-      //   let bolb = this.createCover();
-      //   this.blobs.push(bolb)
-      // }
 
-      // if (index == 0){
-      //   var img = await this.createImage(x.images[0].img) as any;
-      //   let canvas = document.createElement('canvas');
-      //   canvas.width = x.page.width;
-      //   canvas.height = x.page.height;
-      //   let context = canvas.getContext('2d');
-      //   context.rect(0, 0, canvas.width, canvas.height);
-      //   context.fillStyle = "rgb(255,255,255)";
-      //   context.fillRect(0, 0, canvas.width, canvas.height);
-      //   context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
-      //   let dataURL = canvas.toDataURL("image/jpeg");
-      //   let blob=this.base64ToBlob(dataURL,'jpeg');
-      //   this.blobs.push(blob)
-      // }
 
-      if (x.images.length == 1) {
+      if (index == 0&&x.images.length == 1) {
+        let blob = await this.separate123(x.images[0].img)
+        this.blobs.push(blob)
+      } else if (x.images.length == 1) {
         var img = await this.createImage(x.images[0].img) as any;
         let canvas = document.createElement('canvas');
         canvas.width = x.page.width;
@@ -116,8 +104,10 @@ export class EpubService {
         context.rect(0, 0, canvas.width, canvas.height);
         context.fillStyle = "rgb(255,255,255)";
         context.fillRect(0, 0, canvas.width, canvas.height);
+        console.log(canvas.width, canvas.height);
+
         context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
-        let dataURL = canvas.toDataURL("image/jpeg");
+        let dataURL = canvas.toDataURL("image/png");
         let blobs = await this.separateImage(dataURL);
         if (pageOrder) {
           this.blobs.push(blobs[0])
@@ -135,9 +125,11 @@ export class EpubService {
           context.rect(0, 0, canvas.width, canvas.height);
           context.fillStyle = "rgb(255,255,255)";
           context.fillRect(0, 0, canvas.width, canvas.height);
+          console.log(canvas.width, canvas.height);
+
           context.drawImage(img, 0, 0, img.width, img.height);
-          let dataURL = canvas.toDataURL("image/jpeg",0.92);
-          const blob = this.base64ToBlob(dataURL, "jpeg");
+          let dataURL = canvas.toDataURL("image/png");
+          const blob = this.base64ToBlob(dataURL, "png");
           return blob
         }
         var img = await this.createImage(x.images[0].img) as any;
@@ -155,6 +147,7 @@ export class EpubService {
 
       // images.push(blob);
     }
+
     for (let i = 0; i < this.blobs.length; i++) {
       this.book.pages.push({
         index: i,
@@ -166,6 +159,30 @@ export class EpubService {
     this.blobs = [];
     this.book.pages = [];
     return blob
+  }
+  async separate123(src) {
+    const img: any = await this.createImage(src);
+    let canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = this.book.pageSize[0];
+    canvas.height = this.book.pageSize[1];
+
+    const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+
+    // 计算缩放后的宽高
+    const drawWidth = img.width * scale;
+    const drawHeight = img.height * scale;
+
+    // 计算绘制的起始位置以居中
+    const x = (canvas.width - drawWidth) / 2;
+    const y = (canvas.height - drawHeight) / 2;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgb(255,255,255)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, x, y, drawWidth, drawHeight);
+    let dataURL1 = canvas.toDataURL("image/png");
+    const blob1 = this.base64ToBlob(dataURL1, "png")
+    return blob1
   }
   async getImageAllWH(list) {
     let width_s = [];
@@ -197,7 +214,7 @@ export class EpubService {
     let context4 = canvas4.getContext('2d');
     context4.rect(0, 0, canvas4.width, canvas4.height);
     let dataURL1 = canvas4.toDataURL("image/png");
-    const blob1 = this.base64ToBlob(dataURL1, "png")
+    const blob1 = this.base64ToBlob(dataURL1, "png");
     return blob1
   }
   async separateImage(src) {
@@ -238,8 +255,8 @@ export class EpubService {
 
     let dataURL3 = canvas3.toDataURL("image/png");
     let dataURL4 = canvas4.toDataURL("image/png");
-    const blob1 = this.base64ToBlob(dataURL3, "png")
-    const blob2 = this.base64ToBlob(dataURL4, "png")
+    const blob1 = this.base64ToBlob(dataURL3, "png");
+    const blob2 = this.base64ToBlob(dataURL4, "png");
 
     return [blob1, blob2]
   }
@@ -450,7 +467,7 @@ export class EpubService {
     let context = canvas.getContext('2d');
     context.rect(0, 0, canvas.width, canvas.height);
     context.drawImage(image1, 0, 0, canvas.width, canvas.height);
-    let dataURL = canvas.toDataURL("image/jpeg");
+    let dataURL = canvas.toDataURL("image/png");
     return new Promise((r, j) => {
       var img = new Image();
       img.src = dataURL;
@@ -466,14 +483,14 @@ export class EpubService {
       const img: any = await this.compressImage(list[i]);
       const img1: any = await this.compressImage(list[i + 1]);
       if (img.height > img.width && img1.height > img1.width) {
-        if (i == 0 && isFirstPageCover == true) {
+        if (i == 0) {
           arr.push({
             page: {
-              width: img.width * 2,
+              width: img.width,
               height: img.height
             },
             images: [{
-              x: img.width,
+              x: 0,
               y: 0,
               img: img.src,
               width: img.width,
@@ -621,10 +638,10 @@ export class EpubService {
       const img: any = await this.compressImage(list[i]);
       const img1: any = await this.compressImage(list[i + 1]);
       if (img.height > img.width && img1.height > img1.width) {
-        if (i == 0 && isFirstPageCover == true) {
+        if (i == 0) {
           arr.push({
             page: {
-              width: img.width * 2,
+              width: img.width,
               height: img.height
             },
             images: [{
