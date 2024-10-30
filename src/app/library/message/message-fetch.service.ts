@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 declare let window: any;
 @Injectable({
   providedIn: 'root'
 })
 export class MessageFetchService {
   _data_proxy_response: any = {};
+
+
   constructor() {
     window._gh_fetch = this.fetch;
     window._gh_getHtml = this.getHtml;
@@ -76,7 +79,7 @@ export class MessageFetchService {
           } else {
             if (bool) getData()
           }
-        }, 66)
+        }, 33)
       }
       getData()
       setTimeout(() => {
@@ -120,7 +123,7 @@ export class MessageFetchService {
           } else {
             if (bool) getFile()
           }
-        }, 0)
+        }, 33)
       }
       getFile()
       setTimeout(() => {

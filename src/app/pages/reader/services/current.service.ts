@@ -246,9 +246,9 @@ export class CurrentService {
     //   this._chapters[id] = list;
     // }
     const c = await this.DbController.getPages(id, { source: this.source })
-    setTimeout(() => {
-      this.DbController.loadPages(id, { source: this.source })
-    }, 1000)
+    // setTimeout(() => {
+    //   this.DbController.loadPages(id, { source: this.source })
+    // }, 1000)
     return c
   }
 
@@ -685,10 +685,19 @@ export class CurrentService {
     return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
   }
   async _getImage(src) {
+    console.log(src);
+
     if (this.App.is_pwa && src.substring(7, 21) == "localhost:7700") {
       await this.image.getImageBlob(src)
       return src
     } else {
+      console.log(this.image.getImageBase64(src));
+      console.log(src);
+
+      this.image.getImageBase64(src)
+      this.image.getImageBase64(src)
+      this.image.getImageBase64(src)
+      this.image.getImageBase64(src)
       return await this.image.getImageBase64(src)
     }
 

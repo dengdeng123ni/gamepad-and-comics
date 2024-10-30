@@ -224,6 +224,8 @@ export class DoublePageReaderV2Component {
 
   async next() {
     const nodes = this.swiper.slides[0].querySelectorAll("[current_page]");
+    console.log(nodes);
+
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
       const node = nodes[index];
@@ -232,6 +234,8 @@ export class DoublePageReaderV2Component {
     const index = indexs.sort((a, b) => b - a)[0] + 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
+    console.log(index);
+
     if (index >= pages.length) {
       const next_chapter_id = await this.current._getNextChapterId(chapter_id);
 
@@ -292,6 +296,7 @@ export class DoublePageReaderV2Component {
         primary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false },
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
+
       const obj = await this.isWideImage(list[index], list[index + 1]);
       if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
       if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
@@ -329,6 +334,7 @@ export class DoublePageReaderV2Component {
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.prependSlide(current)
+
     }
   }
   async addPreviousSlide(chapter_id, list, index: number) {

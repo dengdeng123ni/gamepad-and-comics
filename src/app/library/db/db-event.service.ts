@@ -16,7 +16,7 @@ interface Config {
   id: string,
   name?: string,
   menu?: Array<any>;
-  href?:string,
+  href?: string,
   is_locked?: boolean;
   is_download?: boolean;
   is_cache?: boolean;
@@ -48,7 +48,8 @@ export class DbEventService {
   ) {
 
     window._gh_register = this.register;
-    if(location.hostname=="localhost"){
+    if (location.hostname == "localhost") {
+
       window._gh_register({
         id: "ehentai",
         tab: {
@@ -128,7 +129,7 @@ export class DbEventService {
             const element = nodes[index];
             arr.push(element.href)
           }
-         if(arr.length>1) arr.pop()
+          if (arr.length > 1) arr.pop()
 
           let arr2 = [];
           for (let index = 0; index < arr.length; index++) {
@@ -369,7 +370,7 @@ export class DbEventService {
       window._gh_register({
         id: "bilibili",
         name: "哔哩哔哩漫画",
-        href:"https://manga.bilibili.com/",
+        href: "https://manga.bilibili.com/",
         menu: [
           {
             id: 'search',
@@ -680,7 +681,7 @@ export class DbEventService {
         ],
         is_cache: true,
         is_download: false,
-        is_locked:true,
+        is_locked: true,
         is_preloading: true
       }, {
         getList: async (obj) => {
@@ -869,8 +870,6 @@ export class DbEventService {
           }
         },
         getPages: async (id) => {
-          console.log(id);
-
           const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/GetImageIndex?device=pc&platform=web", {
             "headers": {
               "accept": "application/json, text/plain, */*",
@@ -882,9 +881,10 @@ export class DbEventService {
           }, {
             proxy: "https://manga.bilibili.com/"
           });
+
+
           const json = await res.json();
           console.log(json);
-
           let data = [];
           for (let index = 0; index < json.data.images.length; index++) {
             let x = json.data.images[index];
@@ -915,8 +915,6 @@ export class DbEventService {
                 "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
               },
               mode: "cors"
-            }, {
-              proxy: "https://manga.bilibili.com/"
             })
             const blob = await res.blob();
             return blob
@@ -934,7 +932,11 @@ export class DbEventService {
                 }, {
                   proxy: "https://manga.bilibili.com/"
                 });
+                console.log(res);
+
                 const json = await res.json();
+                console.log(json);
+
                 return `${json.data[0].url}?token=${json.data[0].token}`
               } catch (error) {
                 return await getImageUrl(id)
@@ -1123,10 +1125,8 @@ export class DbEventService {
           var doc = parser.parseFromString(text, 'text/html');
 
           let data = [];
-          let nodes = doc.querySelectorAll(".comics-thumbnail-wrapper img")
+          let nodes = doc.querySelectorAll(".comics-thumbnail-wrapper a")
           for (let index = 0; index < nodes.length; index++) {
-            let _id = nodes[index].dataset.srcset.split("/").at(-2)
-            let type = nodes[index].dataset.srcset.split("/").at(-1).split(".").at(-1)
             let obj = {
               id: "",
               src: "",
@@ -1139,14 +1139,15 @@ export class DbEventService {
 
             obj["id"] = `${id}_${index}`;
             // obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
-            obj["src"] =nodes[index].getAttribute("data-srcset")
-
+            obj["src"] = window.btoa(encodeURIComponent(nodes[index].getAttribute("href")))
+            // window.btoa(encodeURIComponent(nodes[index].href.replace("http://localhost:4200","https://nhentai.net")))
             data.push(obj)
           }
           return data
         },
         getImage: async (id) => {
-          const getImageUrl = async (id) => {
+
+          if (id.substring(0, 4) == "http") {
             const res = await window._gh_fetch(id, {
               method: "GET",
               headers: {
@@ -1155,12 +1156,40 @@ export class DbEventService {
                 "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
               },
               mode: "cors"
-            });
+            })
+            const blob = await res.blob();
+            return blob
+          } else {
+
+            const getHtmlUrl = async (url) => {
+              const res = await window._gh_getHtml(url, {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              return doc.querySelector("#current-page-image").src
+            }
+            const src = await getHtmlUrl(decodeURIComponent(window.atob(id)));
+
+            const res = await window._gh_fetch(src, {
+              method: "GET",
+              headers: {
+                "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+              },
+              mode: "cors"
+            })
             const blob = await res.blob();
             return blob
           }
-          const blob = await getImageUrl(id);
-          return blob
         },
         Search: async (obj) => {
           const res = await window._gh_getHtml(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
@@ -1329,7 +1358,7 @@ export class DbEventService {
             }
 
             obj["id"] = `${index}`;
-            obj["src"] = window.btoa(encodeURIComponent(nodes[index].href.replace("http://localhost:4200","https://nhentai.net")))
+            obj["src"] = window.btoa(encodeURIComponent(nodes[index].href.replace("http://localhost:4200", "https://nhentai.net")))
             data.push(obj)
           }
 
@@ -1349,7 +1378,7 @@ export class DbEventService {
             })
             const blob = await res.blob();
             return blob
-          }else{
+          } else {
             const getImageUrl = async (id) => {
               const res = await window._gh_fetch(id, {
                 method: "GET",
@@ -1384,8 +1413,7 @@ export class DbEventService {
             }
 
 
-            const src=await getHtmlUrl(decodeURIComponent(window.atob(id)));
-            console.log(src);
+            const src = await getHtmlUrl(decodeURIComponent(window.atob(id)));
 
             const blob = await getImageUrl(src);
             return blob
@@ -1425,6 +1453,8 @@ export class DbEventService {
           }
         }
       });
+
+
     }
 
 
