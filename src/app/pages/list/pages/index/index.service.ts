@@ -73,76 +73,82 @@ export class IndexService {
       if (x.id == "local_cache") {
         this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
       }
+
     } else {
       this.ContextMenuEvent.logoutMenu('comics_item', 'download')
       this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
       this.ContextMenuEvent.logoutMenu('comics_item', 'image_to')
     }
+    if(x.is_cache){
+      this.ContextMenuEvent.registerMenu('comics_item', [
+        {
+          name: "数据", id: "data", submenu: [
+            {
+              name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
 
-    this.ContextMenuEvent.registerMenu('comics_item', [
-      {
-        name: "数据", id: "data", submenu: [
-          {
-            name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
+                for (let index = 0; index < list.length; index++) {
+                  await this.resetReadingProgress(list[index].id)
+                  this._snackBar.open(`${list[index].title}`, '重置阅读进度已完成', { duration: 1000 })
+                }
 
-              for (let index = 0; index < list.length; index++) {
-                await this.resetReadingProgress(list[index].id)
-                this._snackBar.open(`${list[index].title}`, '重置阅读进度已完成', { duration: 1000 })
               }
-
-            }
-          },
-          {
-            name: "重置数据", id: "reset_data", click: async (list) => {
-              for (let index = 0; index < list.length; index++) {
-                this.DbController.delWebDbDetail(list[index].id)
-                const res = await this.DbController.getDetail(list[index].id)
-                for (let index = 0; index < res.chapters.length; index++) {
-                  const chapter_id = res.chapters[index].id;
-                  await this.DbController.delWebDbPages(chapter_id)
-                  const pages = await this.DbController.getPages(chapter_id)
-                  for (let index = 0; index < pages.length; index++) {
-                    await this.DbController.delWebDbImage(pages[index].src)
+            },
+            {
+              name: "重置数据", id: "reset_data", click: async (list) => {
+                for (let index = 0; index < list.length; index++) {
+                  this.DbController.delWebDbDetail(list[index].id)
+                  const res = await this.DbController.getDetail(list[index].id)
+                  for (let index = 0; index < res.chapters.length; index++) {
+                    const chapter_id = res.chapters[index].id;
+                    await this.DbController.delWebDbPages(chapter_id)
+                    const pages = await this.DbController.getPages(chapter_id)
+                    for (let index = 0; index < pages.length; index++) {
+                      await this.DbController.delWebDbImage(pages[index].src)
+                    }
                   }
+                  this._snackBar.open(`${list[index].title}`, '重置数据已完成', { duration: 1000 })
                 }
-                this._snackBar.open(`${list[index].title}`, '重置数据已完成', { duration: 1000 })
               }
-            }
-          },
-          {
-            name: "提前加载", id: "load", click: async (list) => {
-              for (let index = 0; index < list.length; index++) {
-                const res = await this.DbController.getDetail(list[index].id)
-                for (let index = 0; index < res.chapters.length; index++) {
-                  const chapter_id = res.chapters[index].id;
-                  const pages = await this.DbController.getPages(chapter_id)
-                  for (let index2 = 0; index2 < pages.length; index2++) {
-                    await this.DbController.getImage(pages[index2].src)
-                    this._snackBar.open(`${res.chapters[index].title} 第${index2 + 1}页/${pages.length}页`, '提前加载完成')
+            },
+            {
+              name: "提前加载", id: "load", click: async (list) => {
+                for (let index = 0; index < list.length; index++) {
+                  const res = await this.DbController.getDetail(list[index].id)
+                  for (let index = 0; index < res.chapters.length; index++) {
+                    const chapter_id = res.chapters[index].id;
+                    const pages = await this.DbController.getPages(chapter_id)
+                    for (let index2 = 0; index2 < pages.length; index2++) {
+                      await this.DbController.getImage(pages[index2].src)
+                      this._snackBar.open(`${res.chapters[index].title} 第${index2 + 1}页/${pages.length}页`, '提前加载完成')
+                    }
+                    this._snackBar.open(`${res.chapters[index].title}`, '提前加载完成')
                   }
-                  this._snackBar.open(`${res.chapters[index].title}`, '提前加载完成')
+                  this._snackBar.open(`${list[index].title}`, '提前加载已完成', { duration: 1000 })
                 }
-                this._snackBar.open(`${list[index].title}`, '提前加载已完成', { duration: 1000 })
               }
-            }
-          },
-          {
-            name: "重新获取", id: "reset_get", click: async (list) => {
-              for (let index = 0; index < list.length; index++) {
-                this.DbController.delWebDbDetail(list[index].id)
-                const res = await this.DbController.getDetail(list[index].id)
-                for (let index = 0; index < res.chapters.length; index++) {
-                  const chapter_id = res.chapters[index].id;
-                  await this.DbController.delWebDbPages(chapter_id)
-                  const pages = await this.DbController.getPages(chapter_id)
+            },
+            {
+              name: "重新获取", id: "reset_get", click: async (list) => {
+                for (let index = 0; index < list.length; index++) {
+                  this.DbController.delWebDbDetail(list[index].id)
+                  const res = await this.DbController.getDetail(list[index].id)
+                  for (let index = 0; index < res.chapters.length; index++) {
+                    const chapter_id = res.chapters[index].id;
+                    await this.DbController.delWebDbPages(chapter_id)
+                    const pages = await this.DbController.getPages(chapter_id)
+                  }
+                  this._snackBar.open(`${list[index].title}`, '重新获取已完成', { duration: 1000 })
                 }
-                this._snackBar.open(`${list[index].title}`, '重新获取已完成', { duration: 1000 })
               }
-            }
-          },
-        ]
-      }
-    ])
+            },
+          ]
+        }
+      ])
+    }else{
+      this.ContextMenuEvent.logoutMenu('comics_item', 'data')
+
+    }
+
     if (x.id == "local_cache") {
       this.ContextMenuEvent.registerMenu('comics_item', [{
         name: "删除", id: "delete", click: async (list) => {

@@ -56,5 +56,6 @@ export class DataService {
     this.is_locked = obj.is_locked;
 
     this.is_cache = obj.is_cache;
+    this.is_download=obj.is_download;
   }
 }

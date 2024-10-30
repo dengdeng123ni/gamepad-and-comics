@@ -47,89 +47,94 @@ export class DoublePageThumbnailComponent {
   ) {
     this.init(_data);
     this.get()
-    ContextMenuEvent.register('double_page_thumbnail_item', {
-      send: ($event, data) => {
-        let index_arr = [];
-        $event.querySelectorAll(".index").forEach(node => {
-          index_arr.push(parseInt(node.textContent))
-        })
-        index_arr.sort();
-        const delete_index = data.findIndex(x => x.id == "delete");
-        data[delete_index].submenu = index_arr.map(x => ({ name: x, id: `delete`, data: x }));
+    if(data.is_cache){
+      ContextMenuEvent.register('double_page_thumbnail_item', {
+        send: ($event, data) => {
+          let index_arr = [];
+          $event.querySelectorAll(".index").forEach(node => {
+            index_arr.push(parseInt(node.textContent))
+          })
+          index_arr.sort();
+          const delete_index = data.findIndex(x => x.id == "delete");
+          data[delete_index].submenu = index_arr.map(x => ({ name: x, id: `delete`, data: x }));
 
-        const insertPage_index = data.findIndex(x => x.id == "insertPage");
-        data[insertPage_index].submenu = [];
-        index_arr.forEach(x => {
-          data[insertPage_index].submenu.push({ name: `${x}页之前插入`, id: `insertPageBefore`, data: x })
-          data[insertPage_index].submenu.push({ name: `${x}页之后插入`, id: `insertPageAfter`, data: x })
-        });
+          const insertPage_index = data.findIndex(x => x.id == "insertPage");
+          data[insertPage_index].submenu = [];
+          index_arr.forEach(x => {
+            data[insertPage_index].submenu.push({ name: `${x}页之前插入`, id: `insertPageBefore`, data: x })
+            data[insertPage_index].submenu.push({ name: `${x}页之后插入`, id: `insertPageAfter`, data: x })
+          });
 
-        const insertPage_index2 = data.findIndex(x => x.id == "insertWhitePage");
-        data[insertPage_index2].submenu = [];
-        index_arr.forEach(x => {
-          data[insertPage_index2].submenu.push({ name: `${x}页之前插入`, id: `insertWhitePageBefore`, data: x })
-          data[insertPage_index2].submenu.push({ name: `${x}页之后插入`, id: `insertWhitePageAfter`, data: x })
-        });
-        const index = data.findIndex(x => x.id == "separate_page")
-        if (index > -1) {
-          data.splice(index, 1)
-        }
-        const index2 = data.findIndex(x => x.id == "merge_page")
-        if (index2 > -1) {
-          data.splice(index2, 1)
-        }
-        if (index_arr.length == 1) {
-          const obj = { name: "分页", "id": "separate_page" };
-          data.splice(1, 0, obj)
-        } else {
-          const obj = { name: "合页", "id": "merge_page" };
-          data.splice(1, 0, obj)
-        }
-        return data
-      },
-      on: async e => {
-        if (e.id == "delete") {
-          this.current._delPage(this.data.chapter_id, e.data - 1).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
-          })
-        }
-        else if (e.id == "merge_page") {
-          this.current._mergePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
-          })
-        } else if (e.id == "separate_page") {
-          this.current._separatePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
-          })
-
-        } else if (e.id == "insertWhitePageBefore") {
-          this.current._insertWhitePage(this.data.chapter_id, e.data - 1).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
-          })
-        } else if (e.id == "insertWhitePageAfter") {
-          this.current._insertWhitePage(this.data.chapter_id, e.data).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
-          })
-        } else if (e.id == "insertPageBefore") {
-          this.current._insertPage(this.data.chapter_id, e.data - 1).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
-          })
-        } else if (e.id == "insertPageAfter") {
-          this.current._insertPage(this.data.chapter_id, e.data).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
-          })
-        }
-      },
-      menu: [
-        {
-          name: "插入", "id": "insertPage"
+          const insertPage_index2 = data.findIndex(x => x.id == "insertWhitePage");
+          data[insertPage_index2].submenu = [];
+          index_arr.forEach(x => {
+            data[insertPage_index2].submenu.push({ name: `${x}页之前插入`, id: `insertWhitePageBefore`, data: x })
+            data[insertPage_index2].submenu.push({ name: `${x}页之后插入`, id: `insertWhitePageAfter`, data: x })
+          });
+          const index = data.findIndex(x => x.id == "separate_page")
+          if (index > -1) {
+            data.splice(index, 1)
+          }
+          const index2 = data.findIndex(x => x.id == "merge_page")
+          if (index2 > -1) {
+            data.splice(index2, 1)
+          }
+          if (index_arr.length == 1) {
+            const obj = { name: "分页", "id": "separate_page" };
+            data.splice(1, 0, obj)
+          } else {
+            const obj = { name: "合页", "id": "merge_page" };
+            data.splice(1, 0, obj)
+          }
+          return data
         },
-        {
-          name: "插入空白页", "id": "insertWhitePage"
+        on: async e => {
+          if (e.id == "delete") {
+            this.current._delPage(this.data.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            })
+          }
+          else if (e.id == "merge_page") {
+            this.current._mergePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            })
+          } else if (e.id == "separate_page") {
+            this.current._separatePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            })
+
+          } else if (e.id == "insertWhitePageBefore") {
+            this.current._insertWhitePage(this.data.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            })
+          } else if (e.id == "insertWhitePageAfter") {
+            this.current._insertWhitePage(this.data.chapter_id, e.data).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            })
+          } else if (e.id == "insertPageBefore") {
+            this.current._insertPage(this.data.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            })
+          } else if (e.id == "insertPageAfter") {
+            this.current._insertPage(this.data.chapter_id, e.data).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            })
+          }
         },
-        { name: "删除", id: "delete" },
-      ]
-    })
+        menu: [
+          {
+            name: "插入", "id": "insertPage"
+          },
+          {
+            name: "插入空白页", "id": "insertWhitePage"
+          },
+          { name: "删除", id: "delete" },
+        ]
+      })
+    }else{
+      ContextMenuEvent.register('double_page_thumbnail_item', {})
+    }
+
   }
   async post() {
     return await firstValueFrom(this.webDb.update("data", {

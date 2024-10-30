@@ -12,8 +12,7 @@ export class CurrentService {
   private _chapters: any = {};
   private _chapters_IsFirstPageCover: any = {};
   public init$ = new Subject<any>();
-
-  private source;
+  public source;
   constructor(
     public DbController: DbControllerService,
     public data: DataService,

@@ -26,52 +26,57 @@ export class OnePageThumbnailMode1Component {
     public ContextMenuEvent:ContextMenuEventService
   ) {
     this.init(this._data);
-    ContextMenuEvent.register('one_page_item', {
-      on: async e => {
+    if(data.is_cache){
+      ContextMenuEvent.register('one_page_item', {
+        on: async e => {
 
-        if (e.id == "delete") {
-          this.current._delPage(this.data.chapter_id, parseInt(e.value)).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
-          })
-        }else if (e.id == "insertPageBefore") {
-          this.current._insertPage(this.data.chapter_id, parseInt(e.value)).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
-          })
-        } else if (e.id == "insertPageAfter") {
-          this.current._insertPage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
-          })
-        }else if (e.id == "insertWhitePageBefore") {
-          this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value)).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
-          })
-        } else if (e.id == "insertWhitePageAfter") {
-          this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
-            this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
-          })
-        }
-      },
-      menu: [
-        {
-          name: "插入空白页", "id": "insertWhitePage",submenu:[
-            { name: "前", "id": "insertWhitePageBefore"},
-            {
-              name: "后", "id": "insertWhitePageAfter"
-            },
-          ]
+          if (e.id == "delete") {
+            this.current._delPage(this.data.chapter_id, parseInt(e.value)).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+            })
+          }else if (e.id == "insertPageBefore") {
+            this.current._insertPage(this.data.chapter_id, parseInt(e.value)).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+            })
+          } else if (e.id == "insertPageAfter") {
+            this.current._insertPage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+            })
+          }else if (e.id == "insertWhitePageBefore") {
+            this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value)).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+            })
+          } else if (e.id == "insertWhitePageAfter") {
+            this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+            })
+          }
         },
-        {
-          name: "插入", "id": "insertPage",submenu:[
-            { name: "前", "id": "insertPageBefore"},
-            {
-              name: "后", "id": "insertPageAfter"
-            },
-          ]
-        },
+        menu: [
+          {
+            name: "插入空白页", "id": "insertWhitePage",submenu:[
+              { name: "前", "id": "insertWhitePageBefore"},
+              {
+                name: "后", "id": "insertWhitePageAfter"
+              },
+            ]
+          },
+          {
+            name: "插入", "id": "insertPage",submenu:[
+              { name: "前", "id": "insertPageBefore"},
+              {
+                name: "后", "id": "insertPageAfter"
+              },
+            ]
+          },
 
-        { name: "删除", id: "delete" },
-      ]
-    })
+          { name: "删除", id: "delete" },
+        ]
+      })
+    }else{
+       ContextMenuEvent.register('one_page_item',{})
+    }
+
   }
 
   async init(_data?: DialogData) {

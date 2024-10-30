@@ -1,6 +1,6 @@
 <div class="warp">
   <button mat-icon-button [attr.svg_filter]="'text_primary'" matTooltipPosition="below" class="icon" id="back" [attr.region]="'back'" (click)="back($event)">
     <mat-icon >chevron_left</mat-icon></button>
-  <button [disabled]="!data.chapters.length" mat-button [attr.svg_filter]="'text_primary'" [attr.region]="'continue'" id="continue" [attr.select]="true" [attr.default]="true"
+  <button  mat-button [attr.svg_filter]="'text_primary'" [attr.region]="'continue'" id="continue" [attr.select]="true" [attr.default]="true"
     (click)="continue()" cdkFocusInitial>继续</button>
 </div>

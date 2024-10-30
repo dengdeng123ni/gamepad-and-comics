@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
-
+import CryptoJS from 'crypto-js'
 @Injectable({
   providedIn: 'root'
 })
@@ -18,10 +18,13 @@ export class PulgService {
     const url = document.querySelector("base").href + 'assets/js/jspdf.umd.min.js'
     const url1 = document.querySelector("base").href + 'assets/js/jszip.min.js'
     const url2 = document.querySelector("base").href + 'assets/js/pptxgen.min.js'
+    await fetch(url)
+    await fetch(url1)
+    await fetch(url2)
     this.loadJS(url)
     this.loadJS(url1)
     this.loadJS(url2)
-    await this.sleep(100)
+    await this.sleep(300)
   }
   async load2(e) {
     if ("browser-image-compression" == e || "图片压缩" == e) {

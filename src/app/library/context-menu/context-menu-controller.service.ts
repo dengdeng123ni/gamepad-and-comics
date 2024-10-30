@@ -70,12 +70,15 @@ export class ContextMenuControllerService {
         const node = e.path[i];
         if (node.getAttribute && node.getAttribute('content_menu_key')) {
           e.preventDefault();
+
           const key = node.getAttribute('content_menu_key');
+          let menu = this.contextMenuEvent.menu[key];
+          if(!menu)  break;
           if (this.contextMenuEvent.openEvent[key]) this.contextMenuEvent.openEvent[key](node);
           this.currentNode = node;
           (this.currentNode as any).setAttribute('content_menu_select', 'true');
           const value = node.getAttribute('content_menu_value');
-          let menu = this.contextMenuEvent.menu[key];
+
           if (menu && menu.length) {
             if (this.contextMenuEvent.sendEvent[key]) menu = this.contextMenuEvent.sendEvent[key](node, menu)
               document.body.setAttribute('locked_region', 'content_menu');
