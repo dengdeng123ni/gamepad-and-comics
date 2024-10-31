@@ -13,9 +13,10 @@ export class TallImageService {
   async download(imagePaths, direction) {
     let blob
     if (direction == 'down') blob = await this.down(imagePaths)
-    if (direction == 'up') blob = await this.up(imagePaths)
-    if (direction == 'right') blob = await this.right(imagePaths)
-    if (direction == 'left') blob = await this.left(imagePaths)
+    else if (direction == 'up') blob = await this.up(imagePaths)
+      else if (direction == 'right') blob = await this.right(imagePaths)
+        else if (direction == 'left') blob = await this.left(imagePaths)
+else  blob = await this.down(imagePaths)
     return blob
   }
   // 从上往下 长图片
@@ -116,7 +117,7 @@ export class TallImageService {
     });
   }
   // 从左到右 长图片
-  async right(imagePaths) {
+  async left(imagePaths) {
     console.log(imagePaths);
 
     let images = [];
@@ -164,7 +165,7 @@ export class TallImageService {
     });
   }
   // 从右到左 长图片
-  async left(imagePaths) {
+  async right(imagePaths) {
     console.log(imagePaths);
 
     let images = [];
