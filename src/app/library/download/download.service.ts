@@ -4,6 +4,7 @@ import { PdfService } from './pdf.service';
 import { PptService } from './ppt.service';
 import { ZipService } from './zip.service';
 import { EpubService } from './epub.service';
+import { TallImageService } from './tall-image.service';
 import { PulgService } from '../public-api';
 declare const JSZip: any;
 @Injectable({
@@ -16,6 +17,7 @@ export class DownloadService {
     public pptService: PptService,
     public zipService: ZipService,
     public epubService: EpubService,
+    public tallImage:TallImageService,
     public pulg: PulgService
   ) {
 
@@ -60,13 +62,13 @@ export class DownloadService {
 
   async ImageToTypeBlob({ type, name, images = [''], pageOrder = false, isFirstPageCover = false, page }) {
     await this.pulg.load()
-    console.log(name, images, pageOrder, isFirstPageCover, page);
-
-    if (type == "PDF") return await this.pdf({ name, images, pageOrder, isFirstPageCover, page })
-    if (type == "PPT") return await this.ppt({ name, images, pageOrder, isFirstPageCover, page })
-    if (type == "ZIP") return await this.zip({ name, images, pageOrder, isFirstPageCover, page })
-    if (type == "EPUB") return await this.epub({ name, images, pageOrder, isFirstPageCover, page })
-    if (type == "JPG") return await this.jpg({ name, images, pageOrder, isFirstPageCover, page })
+    this.downloadTallImage(name,images)
+    // if (type == "PDF") return await this.pdf({ name, images, pageOrder, isFirstPageCover, page })
+    // if (type == "PDF") return await this.pdf({ name, images, pageOrder, isFirstPageCover, page })
+    // if (type == "PPT") return await this.ppt({ name, images, pageOrder, isFirstPageCover, page })
+    // if (type == "ZIP") return await this.zip({ name, images, pageOrder, isFirstPageCover, page })
+    // if (type == "EPUB") return await this.epub({ name, images, pageOrder, isFirstPageCover, page })
+    // if (type == "JPG") return await this.jpg({ name, images, pageOrder, isFirstPageCover, page })
   }
   async download({ type, name, images = [''], pageOrder = false, isFirstPageCover = false, page }) {
 
@@ -103,6 +105,8 @@ export class DownloadService {
       const blob = await this.epub({ name, images, pageOrder, isFirstPageCover, page })
       this.saveAs(blob, `${name}.epub`);
     }
+
+
   }
   saveAs(blob, fileName) {
     // data为blob格式
@@ -115,4 +119,10 @@ export class DownloadService {
     document.body.removeChild(downloadElement);
     URL.revokeObjectURL(href);
   }
+  //长图片从上往下
+  async downloadTallImage(name,images){
+     const blob= await this.tallImage.loadImagesAndMerge4(images);;
+     this.saveAs(blob, `${name}.jpeg`);
+  }
+
 }
