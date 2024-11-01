@@ -1,0 +1,45 @@
+<div class="detail_section" [attr.hide]="false" (click)="close()">
+  <div class="title">
+    全部章节
+  </div>
+  <div class="warp">
+    <div class="edit" *ngIf="data.is_edit" style="display: flex;justify-content: space-between;margin-left: 8px;align-items: center; height: 36px;">
+      <div class="left" style="color: rgba(255, 255, 255, 0.34);font-size: 16px;">
+        <span> 已选择 {{selected_length}} 个</span>
+      </div>
+      <div class="right">
+        <mat-checkbox style="margin-right: 24px;"  [(ngModel)]="is_all" (change)="all()">全选</mat-checkbox>
+        <button mat-flat-button style="margin-right: 12px;" *ngIf="data.is_download" id="download123" [disabled]="!selected_length" (click)="download()">下载</button>
+        <!-- <button mat-flat-button style="margin-right: 12px;" [disabled]="!selected_length" (click)=" DropDownMenuOpen()">数据</button> -->
+        <button mat-flat-button (click)="closeEdit()">完成</button>
+      </div>
+
+    </div>
+
+    <div *ngIf="pattern=='index'" class="abbreviated" [attr.list_type]="'index'" [attr.type]="'list'" (click)="on($event)">
+      <button class="item" [id]="n.id" [attr._id]="'novels_chapter_item_' + n.id" [attr.region]="'novels_chapter_item'"
+        [attr.multiple]="n.selected" [attr.content_menu_key]="'novels_chapter_item'" [attr.content_menu_value]="n.id"
+        [matTooltipShowDelay]="5000" [matTooltip]="n.title" mat-button *ngFor="let n of data.chapters;let index=index"
+        [attr.index]="index" [attr.current]="data.chapter_id==n.id" [attr.read]="!!n.read">
+        <span [attr.read]="!!n.read" [attr.current]="data.chapter_id==n.id">
+          {{ index + 1 }}
+        </span>
+      </button>
+
+
+    </div>
+
+    <div *ngIf="pattern=='title'" class="list" [attr.list_type]="'title'" [attr.type]="'list'" (click)="on($event)">
+      <button class="item" [id]="n.id" [attr._id]="'novels_chapter_item_' + n.id" [attr.region]="'novels_chapter_item'"
+        [attr.multiple]="n.selected" [attr.content_menu_key]="'novels_chapter_item'" [attr.content_menu_value]="n.id"
+        [matTooltipShowDelay]="5000" [matTooltip]="n.title" mat-button *ngFor="let n of data.chapters;let index=index"
+        [attr.index]="index" [attr.current]="data.chapter_id==n.id" [attr.read]="!!n.read">
+        <span [attr.read]="!!n.read" [attr.current]="data.chapter_id==n.id">
+          {{ n.title }}
+        </span>
+      </button>
+
+
+    </div>
+</div>
+

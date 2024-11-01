@@ -14,6 +14,7 @@ interface Events {
 }
 interface Config {
   id: string,
+  type?: string,
   name?: string,
   menu?: Array<any>;
   href?: string,
@@ -1458,20 +1459,134 @@ export class DbEventService {
     }
 
 
+    this.novels_register({
+      id: "biquge",
+      name: "笔趣阁[小说]",
+      is_cache: true,
+      is_download: true
+    }, {
+      getList: async (obj) => {
+        let list = [];
+        return [
+          {
+            id: "",
+            cover: "",
+            title: "",
+            subTitle: ""
+          }
+        ]
+      },
+      getDetail: async (novel_id) => {
+        const res = await this._http.getHtml('https://www.biqgg.cc/book/44197/', {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(text, 'text/html');
 
+        let obj = {
+          id: novel_id,
+          cover: "",
+          title: "",
+          author: "",
+          intro: "",
+          category: "",
+          chapters: [
 
+          ],
+        }
 
+        obj.cover = doc.querySelector("body .cover img").src;
+        obj.title = doc.querySelector(".info h1").textContent.trim();
+        obj.intro = doc.querySelector(".info dd").textContent.trim();
+        obj.author = doc.querySelector(".info > div.small > span:nth-child(1)").textContent.trim();
+        const nodes = doc.querySelectorAll(".listmain dd");
+        for (let index = 0; index < nodes.length; index++) {
+          const x = nodes[index];
+          if (!x.className) {
+            obj.chapters.push(
+              {
+                id: x.children[0].href,
+                title: x.children[0].textContent.trim()
+              }
+            )
+          }
 
+        }
+        console.log(obj);
+
+        return obj
+      },
+      getPages: async (chapter_id) => {
+
+        return [
+          {
+            id: "",
+            text: ""
+          }
+        ]
+      },
+      getImage: async (id) => {
+        const getImageUrl = async (id) => {
+          const res = await window._gh_fetch(id, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          });
+          const blob = await res.blob();
+          return blob
+        }
+        const blob = await getImageUrl(id);
+        return blob
+      },
+      UrlToDetailId: async (id) => {
+        const obj = new URL(id);
+        if (obj.host == "www.biqgg.cc") {
+          return window.btoa(encodeURIComponent(id))
+        } else {
+          return null
+        }
+      }
+    });
   }
+  // https://www.biqgg.cc/book/44197/
 
   register = (config: Config, events: Events) => {
     const key = config.id;
     config = {
       name: key,
+      type: 'comics',
       is_cache: false,
       is_download: false,
       is_preloading: false,
       is_load_free: false,
+      ...config
+    }
+    if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };
+    else this.Events[key] = events;
+    if (this.Events[key]) this.Configs[key] = { ...this.Configs[key], ...config };
+    else this.Configs[key] = config;
+
+    this.change$.next(config)
+  }
+
+  novels_register = (config: Config, events: Events) => {
+    const key = config.id;
+    config = {
+      name: key,
+      type: 'novels',
+      is_cache: false,
+      is_download: false,
       ...config
     }
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };

@@ -35,7 +35,7 @@ export class AppDataService {
     this.source = source;
     const x = this.DbEvent.Configs[source];
     if(x) this.sourceConfig=x;
-    this.source$.next(x)
+    if(x) this.source$.next(x)
     localStorage.setItem('source', source)
   }
   getOption() {

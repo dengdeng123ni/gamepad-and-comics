@@ -1,0 +1,23 @@
+<div class="warp">
+  <div class="img"  (click)="continue()">
+    <app-image [objectFit]="'cover'" loading="lazy" [width]="224" [height]="298" [src]="info.cover" alt="" />
+  </div>
+  <div class="info">
+    <div class="title" [attr.svg_filter]="'text_primary'" [attr.size]="info.title.length>20" [attr.href]="info.href" (click)="on($event)">{{info.title}}</div>
+    <div class="author" (click)="on($event)">
+      <div class="item" *ngFor="let item of info.author" (click)="on($event)">
+        <span class="name" [attr.svg_filter]="'text_secondary'" [attr.href]="item.href">{{item.name}}</span>
+        <span class="dividing">,</span>
+      </div>
+    </div>
+    <div class="styles" *ngIf="info.styles">
+      <div class="item" *ngFor="let item of info.styles" (click)="on($event)">
+        <span class="name" [attr.svg_filter]="'text_secondary'" [attr.href]="item.href">{{item.name}}</span>
+        <span class="dividing">,</span>
+      </div>
+    </div>
+    <div class="intro" [attr.svg_filter]="'text_secondary'">
+      {{info.intro}}
+    </div>
+  </div>
+</div>

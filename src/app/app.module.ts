@@ -15,10 +15,11 @@ import { ListModule } from './pages/list/list.module';
 import { ReaderModule } from './pages/reader/reader.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { CompositeModule } from './composite/composite.module';
+import { NovelsDetailModule } from './pages/novels-detail/novels-detail.module';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 30,
+  version: 31,
   objectStoresMeta: [
     {
       store: 'data',
@@ -48,6 +49,28 @@ const dbConfig: DBConfig = {
         { name: 'id', keypath: 'id', options: { unique: false } },
       ]
     },
+    {
+      store: 'novels_list',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+    {
+      store: 'novels_details',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+    {
+      store: 'novels_pages',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+
     {
       store: 'history',
       storeConfig: { keyPath: 'id', autoIncrement: false },
@@ -210,7 +233,8 @@ const dbConfig: DBConfig = {
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    NovelsDetailModule
   ],
   providers: [
     provideAnimationsAsync()

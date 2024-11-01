@@ -125,16 +125,30 @@ export class MenuComponent {
             obj.submenu.push(this.DbEvent.Configs[x].menu[index])
           }
         }
-        obj.submenu.push(
-          {
-            id: "history",
-            icon: "history",
-            name: "历史记录",
-            click: (e) => {
-              this.router.navigate(['query', 'history', e.parent.id]);
+        if(this.DbEvent.Configs[x].type=="comics"){
+          obj.submenu.push(
+            {
+              id: "history",
+              icon: "history",
+              name: "历史记录",
+              click: (e) => {
+                this.router.navigate(['query', 'history', e.parent.id]);
+              }
             }
-          }
-        )
+          )
+        }else{
+          obj.submenu.push(
+            {
+              id: "history",
+              icon: "history",
+              name: "历史记录",
+              click: (e) => {
+                this.router.navigate(['novel_query', 'history', e.parent.id]);
+              }
+            }
+          )
+        }
+
         this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })

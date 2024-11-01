@@ -37,6 +37,7 @@ import { PlugInInstructionsComponent } from './components/plug-in-instructions/p
 import { CachePageComponent } from './components/cache-page/cache-page.component';
 import { UrlUsageGuideComponent } from './components/url-usage-guide/url-usage-guide.component';
 import { GetKeyboardKeyComponent } from './components/get-keyboard-key/get-keyboard-key.component';
+import { NovelsListComponent } from './components/novels-list/novels-list.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -74,7 +75,8 @@ import { GetKeyboardKeyComponent } from './components/get-keyboard-key/get-keybo
     PlugInInstructionsComponent,
     CachePageComponent,
     UrlUsageGuideComponent,
-    GetKeyboardKeyComponent
+    GetKeyboardKeyComponent,
+    NovelsListComponent
   ],
   imports: [
     CommonModule,

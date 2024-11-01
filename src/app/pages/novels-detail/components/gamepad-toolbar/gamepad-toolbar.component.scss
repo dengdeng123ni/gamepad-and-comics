@@ -1,0 +1,306 @@
+.circularity_toolabr {
+  zoom: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #424242;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 11px 15px -7px, rgb(0 0 0 / 14%) 0px 24px 38px 3px, rgb(0 0 0 / 12%) 0px 9px 46px 8px;
+}
+
+.outer {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.38);
+  box-shadow: var(--mdc-dialog-container-elevation, 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12));
+  background: #424242;
+
+  .outer-wire {
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    background: rgba(255, 255, 255, 0.38);
+  }
+
+  .outer-select {
+    width: 200px;
+    height: 200px;
+    border: 0;
+    transform: rotate(138deg);
+    position: relative;
+    padding: 0;
+    border-radius: 100%;
+    list-style: none;
+    overflow: hidden;
+    transform: rotate(45deg);
+    transition: all 0.3s;
+
+    .triangle {
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 51%;
+      height: 51%;
+      transform-source: 0% 100%;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.1);
+      /* border: 2px solid rgba(255, 255, 255, 0.38); */
+      /* border-bottom: 2.7px solid rgba(255, 255, 255, 0.38); */
+      transform: rotate(-45.5deg) skewY(-58.5deg);
+    }
+  }
+}
+
+.inner {
+  // transform: scale(1.5);
+  width: 140px;
+  height: 140px;
+  // zoom: 1.5;
+  // box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
+  // width: 11rem;
+  // height: 11rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // animation: turn 1s linear infinite;
+  position: relative;
+  border-radius: 50%;
+  background: #424242;
+  // border: 2px solid rgba(255, 255, 255, 0.38);
+}
+
+.inner-select {
+  position: relative;
+  padding: 0;
+  width: 10em;
+  height: 10em;
+  border-radius: 100%;
+  list-style: none;
+  overflow: hidden;
+  transform: rotate(0deg);
+  transition: all 0.3s;
+  border: 2px solid rgba(255, 255, 255, 0.38);
+}
+
+.inner-triangle {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45.5%;
+  height: 50%;
+  transform-source: 0% 100%;
+  // border: 1px solid #303030;
+
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.38);
+  border-bottom: 2.7px solid rgba(255, 255, 255, 0.38);
+  transform: rotate(-46deg) skewY(-44deg);
+  // &:hover {
+  //   background: rgba(255, 255, 255, 0.1);
+  //   // border: 2px solid  rgba(255, 255, 255, 0.38);
+  // }
+}
+
+#gamepad_reader_circle_toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.global_toolabr {
+  background: #424242;
+  position: absolute;
+  right: 4vw;
+  width: 40px;
+  height: 288px;
+  border-radius: 4px;
+}
+
+.name {
+  position: absolute;
+  left: 22px;
+    bottom: 22px;
+  font-size: 26px;
+  color: rgba(255, 255, 255, .87);
+
+  box-shadow: var(--mdc-dialog-container-elevation, 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12));
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mat-icon {
+  height: 18px;
+  width: 18px;
+  font-size: 18px;
+  overflow: inherit;
+}
+
+.icon-1 {
+  position: absolute;
+  z-index: 14;
+  left: 37px;
+  top: 9px;
+  // transform: scale(1.2);
+}
+
+.icon-2 {
+  position: absolute;
+  z-index: 14;
+  left: 10px;
+  top: 38px;
+}
+
+.icon-8 {
+  position: absolute;
+  z-index: 14;
+  left: 77px;
+  top: 9px;
+}
+
+.icon-7 {
+  position: absolute;
+  z-index: 14;
+  left: 107px;
+  top: 38px;
+}
+
+.icon-6 {
+  position: absolute;
+  z-index: 14;
+  left: 107px;
+    top: 77px;
+}
+
+.icon-3 {
+  position: absolute;
+  z-index: 14;
+  left: 10px;
+  top: 77px;
+}
+
+.icon-4 {
+  position: absolute;
+  z-index: 14;
+  left: 37px;
+    top: 105px;
+}
+
+.icon-5 {
+  position: absolute;
+  z-index: 14;
+  left: 77px;
+  top: 105px;
+}
+
+
+
+
+
+
+
+
+.mat-divider{
+  width: 100%;
+    margin-top: 4px;
+}
+
+
+
+
+
+:host ::ng-deep {
+  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+    border-radius: 4px;
+  }
+
+  .mat-mdc-icon-button .mat-mdc-button-touch-target {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    height: 30px;
+    background: #3c3c3c;
+    padding: 0 12px;
+    justify-content: end;
+  }
+
+
+}
+
+.list {
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border-radius: 4px;
+    margin-top: 4px;
+
+    .mat-icon {
+      height: 18px;
+      width: 18px;
+      font-size: 18px;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+      border-radius: 4px;
+    }
+  }
+}
+
+.list {
+
+  box-shadow: var(--mdc-dialog-container-elevation, 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12));
+  height: min-content;
+  // height: 100%;
+  width: 100%;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 0;
+  background: #424242;
+  min-width: 36px;
+  width: 36px;
+  // height:calc(100% - 5vh);
+
+  margin: 2.5vh 12px;
+  border-radius: 4px;
+}
+
+.gamepad_reader_circle_toolbar_left {
+  position: fixed;
+
+  top: 10px;
+  left: 10px;
+}
+
+.gamepad_reader_circle_toolbar_right {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}

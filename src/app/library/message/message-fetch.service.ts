@@ -118,32 +118,16 @@ export class MessageFetchService {
       proxy_response_website_url: window.location.origin
     });
     return new Promise((r, j) => {
-      const getFile = () => {
+      const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
-            let rsponse = this._data_proxy_response[id].data;
-            const readableStream = new ReadableStream({
-              start(controller) {
-                for (const data of rsponse.body) {
-                  controller.enqueue(Uint8Array.from(data));
-                }
-                controller.close();
-              },
-            });
-            delete rsponse.body;
-            const headers = new Headers();
-            rsponse.headers.forEach((x: { name: string; value: string; }) => {
-              headers.append(x.name, x.value);
-            })
-            rsponse.headers = headers
-            delete this._data_proxy_response[id]
-            r(new Response(readableStream, rsponse))
+            r(this._data_proxy_response[id].clone())
           } else {
-            if (bool) getFile()
+            if (bool) getData()
           }
         }, 33)
       }
-      getFile()
+      getData()
       setTimeout(() => {
         bool = false;
         r(new Response(""))

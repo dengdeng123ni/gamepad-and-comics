@@ -13,6 +13,7 @@
       </div>
 
     </div>
+
     <div class="list" [attr.list_type]="'image'" *ngIf="pattern=='image'" [attr.type]="'list'" (click)="on($event)">
       <button class="item" [id]="n.id" [attr._id]="'chapter_item_' + n.id" [attr.region]="'chapter_item'"
         [attr.multiple]="n.selected" [attr.content_menu_key]="'chapter_item'" [attr.content_menu_value]="n.id"
