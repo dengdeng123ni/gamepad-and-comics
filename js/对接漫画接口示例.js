@@ -1276,7 +1276,7 @@ window._gh_comics_register({
     }
   }
 });
-window.novels_register({
+window._gh_novels_register({
   id: "biquge",
   name: "笔趣阁[小说]",
   is_cache: true,
