@@ -53,7 +53,7 @@ export class DbEventService {
 
 
     window._gh_comics_register = this.comics_register;
-    window._gh_comics_register = this.novels_register;
+    window._gh_novels_register = this.novels_register;
     if (location.hostname == "localhost") {
 
       window._gh_comics_register({
@@ -1464,7 +1464,7 @@ console.log(data);
           }
         }
       });
-      window.novels_register({
+      window._gh_novels_register({
         id: "biquge",
         name: "笔趣阁[小说]",
         is_cache: true,
