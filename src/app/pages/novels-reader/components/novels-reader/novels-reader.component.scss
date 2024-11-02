@@ -54,3 +54,13 @@ span {
   position: fixed;
 
 }
+
+:host ::ng-deep {
+  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+    border-radius: 4px;
+  }
+
+
+
+
+}

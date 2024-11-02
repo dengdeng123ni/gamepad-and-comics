@@ -29,7 +29,7 @@ export class IndexService {
   ) {
     // this.ImageTo.open();
 
-    GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option", "menu_item", 'input', "menu_input", 'settings'] })
+    GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option", "menu_item", 'input', "menu_input", 'settings','novels_item'] })
     GamepadEvent.registerConfig("comics_type", { region: ["comics_type_item"] })
 
     GamepadEvent.registerAreaEvent("menu", {

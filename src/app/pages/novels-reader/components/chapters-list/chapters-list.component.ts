@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { CurrentService } from '../../services/current.service';
+import { ChaptersListService } from './chapters-list.service';
 
 @Component({
   selector: 'app-chapters-list',
@@ -9,19 +11,23 @@ import { DataService } from '../../services/data.service';
 export class ChaptersListComponent {
 
 
-  constructor(public data:DataService){
+  constructor(public data:DataService,
+    public current:CurrentService,
+    public ChaptersList:ChaptersListService
+
+  ){
 
   }
 
   on(e){
-
+  this.current._chapterChange(e)
+  this.ChaptersList.close()
   }
   scrollNode() {
     const node = document.getElementById(`${this.data.chapter_id}`)
 
 
     if (node) {
-      console.log(node);
       node!.scrollIntoView({ behavior: 'instant', block: 'center' })
       node?.focus()
     } else {

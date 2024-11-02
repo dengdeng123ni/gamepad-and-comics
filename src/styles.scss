@@ -204,6 +204,7 @@ body[pattern=gamepad][locked_region=dialog]
   [region=reader_config_item][select=true],
   [region=menu_search_input][select=true],
   [region=menu_search_comics_item][select=true],
+  [region=novels_chapter_item][select=true],
   [region=reset_reading_progress][select=true]
 
   {
@@ -221,7 +222,8 @@ body[pattern=gamepad][locked_region=list]
   [region=comics_option][select=true],
   [region=comics_item][select=true],
   [region=menu_input][select=true],
-  [region=settings][select=true]
+  [region=settings][select=true],
+  [region=novels_item][select=true]
 
   {
     position: relative;

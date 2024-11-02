@@ -26,6 +26,8 @@ export class NovelsReaderComponent {
     left: 0,
     width: 0
   }
+  change$
+  is_destroy=false;
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -34,6 +36,22 @@ export class NovelsReaderComponent {
   ) {
     this.init();
 
+
+
+    this.change$ = this.current.change().subscribe(x => {
+
+      if (x.trigger == 'novels_reader_v1') return
+      if(x.type == "changeChapter") {
+
+        this.change(x.chapter_id)
+      }
+
+    })
+
+  }
+  ngOnDestroy() {
+    this.change$.unsubscribe();
+    this.is_destroy = true;
   }
   open() {
     this.ChaptersList.open({ width: `${this.position.width}px` })
@@ -46,6 +64,10 @@ export class NovelsReaderComponent {
     const index = await this.getReadIndex(this.novels_id)
     const id = this.data.chapters[index].id
     await this.addPages(id)
+  }
+  async change(chapter_id){
+    this.list=[];
+    await this.addPages(chapter_id);
   }
 
 
@@ -125,7 +147,10 @@ export class NovelsReaderComponent {
   }
 
   async saveRead(id, index: number) {
-    this.data.chapter_id = this.data.chapters[index].id;
+    this.current._change('changePage', {
+      chapter_id:  this.data.chapters[index].id,
+      trigger: 'novels_reader_v1'
+    });
     await firstValueFrom(this.webDb.update("read_novels", { 'id': id.toString(), "index": index }))
   }
 
