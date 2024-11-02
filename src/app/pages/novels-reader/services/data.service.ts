@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { PagesItem, ChaptersItem, ComicsInfo, AppDataService } from 'src/app/library/public-api';
-
+import { ChaptersItem, ComicsInfo, AppDataService } from 'src/app/library/public-api';
+interface PagesItem{
+  content:string
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +14,7 @@ export class DataService {
   details={
     cover: '',
     title: '',
-    author: '',
+    author: [],
     styles: [],
     intro: ""
   };

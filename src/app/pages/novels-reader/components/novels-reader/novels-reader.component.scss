@@ -1,27 +1,56 @@
-.chapter{
+.chapter {
   width: 50vw;
+  min-width: 720px;
   margin: auto;
-  height: 100%;
   background: #303030;
   padding: 24px;
+  overflow: hidden;
+
 }
-.warp{
+
+
+.reader-content {
+  width: 50vw;
+  min-width: 720px;
+  overflow: hidden;
+}
+
+.warp {
   width: 100vw;
   height: 100vh;
-
   background: #424242;
   overflow: auto;
 }
 
-.title{
+.title {
   color: #fff;
   font-size: 24px;
   margin: 24px;
+  opacity: 0.74;
 }
 
-span{
+.other {
+  color: #fff;
+  opacity: 0.34;
+
+  margin: 0 24px;
+}
+
+
+span {
   display: flex;
   margin: 24px;
   font-size: 18px;
   line-height: 36px;
+  opacity: 0.74;
+}
+
+
+.toolbar {
+  margin-left: 12px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+
 }

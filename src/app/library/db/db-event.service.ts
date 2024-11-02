@@ -52,10 +52,11 @@ export class DbEventService {
 
 
 
-    window._gh_register = this.register;
+    window._gh_comics_register = this.comics_register;
+    window._gh_comics_register = this.novels_register;
     if (location.hostname == "localhost") {
 
-      window._gh_register({
+      window._gh_comics_register({
         id: "ehentai",
         tab: {
           url: "https://hanime1.me/comic/",
@@ -247,7 +248,7 @@ console.log(data);
           }
         }
       });
-      window._gh_register({
+      window._gh_comics_register({
         id: "baozimhw",
         is_cache: true,
         is_download: true
@@ -377,7 +378,7 @@ console.log(data);
           }
         }
       });
-      window._gh_register({
+      window._gh_comics_register({
         id: "bilibili",
         name: "哔哩哔哩漫画",
         href: "https://manga.bilibili.com/",
@@ -1013,7 +1014,7 @@ console.log(data);
           }
         }
       });
-      window._gh_register({
+      window._gh_comics_register({
         id: "hanime1",
         is_cache: true,
         is_download: true,
@@ -1239,7 +1240,7 @@ console.log(data);
           }
         }
       });
-      window._gh_register({
+      window._gh_comics_register({
         id: "nhentai",
         is_cache: true,
         is_download: true,
@@ -1463,127 +1464,121 @@ console.log(data);
           }
         }
       });
+      window.novels_register({
+        id: "biquge",
+        name: "笔趣阁[小说]",
+        is_cache: true,
+        is_download: true
+      }, {
+        getList: async (obj) => {
+          let list = [];
+          return [
+          ]
+        },
+        getDetail: async (novel_id) => {
 
+          const res = await window._gh_getHtml(decodeURIComponent(window.atob(novel_id)), {
+            "headers": {
+              "accept": "application/json, text/plain, */*",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "content-type": "application/json;charset=UTF-8"
+            },
+            "body": null,
+            "method": "GET"
+          });
+          const text = await res.text();
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(text, 'text/html');
+
+          let obj = {
+            id: novel_id,
+            cover: "",
+            title: "",
+            author: "",
+            intro: "",
+            category: "",
+            chapters: [
+
+            ],
+          }
+
+          obj.cover = doc.querySelector("body .cover img").src;
+          obj.title = doc.querySelector(".info h1").textContent.trim();
+          obj.intro = doc.querySelector(".info dd").textContent.trim();
+          obj.author = doc.querySelector(".info > div.small > span:nth-child(1)").textContent.trim();
+          const nodes = doc.querySelectorAll(".listmain dd");
+          for (let index = 0; index < nodes.length; index++) {
+            const x = nodes[index];
+            if (!x.className) {
+              obj.chapters.push(
+                {
+                  id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.children[0].getAttribute("href"))),
+                  title: x.children[0].textContent.trim()
+                }
+              )
+            }
+
+          }
+
+          return obj
+        },
+        getPages: async (chapter_id) => {
+
+          const res = await window._gh_fetch(decodeURIComponent(window.atob(chapter_id)), {
+            "headers": {
+              "accept": "application/json, text/plain, */*",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "content-type": "application/json;charset=UTF-8"
+            },
+            "body": null,
+            "method": "GET"
+          });
+          const text = await res.text();
+
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(text, 'text/html');
+          const text1 = doc.querySelector("#chaptercontent").innerHTML
+          let arr = text1.split("<br><br>");
+          arr.pop();
+          arr.pop();
+
+          return arr.map(x => ({ content: x }))
+        },
+        getImage: async (id) => {
+          const getImageUrl = async (id) => {
+            const res = await window._gh_fetch(id, {
+              method: "GET",
+              headers: {
+                "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+              },
+              mode: "cors"
+            });
+            const blob = await res.blob();
+            return blob
+          }
+          const blob = await getImageUrl(id);
+          return blob
+        },
+        UrlToDetailId: async (id) => {
+          const obj = new URL(id);
+          if (obj.host == "www.biqgg.cc") {
+            return window.btoa(encodeURIComponent(id))
+          } else {
+            return null
+          }
+        }
+      });
 
     }
 
 
-    this.novels_register({
-      id: "biquge",
-      name: "笔趣阁[小说]",
-      is_cache: true,
-      is_download: true
-    }, {
-      getList: async (obj) => {
-        let list = [];
-        return [
-          {
-            id: "",
-            cover: "",
-            title: "",
-            subTitle: ""
-          }
-        ]
-      },
-      getDetail: async (novel_id) => {
 
-        const res = await this._http.getHtml(decodeURIComponent(window.atob(novel_id)), {
-          "headers": {
-            "accept": "application/json, text/plain, */*",
-            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "content-type": "application/json;charset=UTF-8"
-          },
-          "body": null,
-          "method": "GET"
-        });
-        const text = await res.text();
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(text, 'text/html');
-
-        let obj = {
-          id: novel_id,
-          cover: "",
-          title: "",
-          author: "",
-          intro: "",
-          category: "",
-          chapters: [
-
-          ],
-        }
-
-        obj.cover = doc.querySelector("body .cover img").src;
-        obj.title = doc.querySelector(".info h1").textContent.trim();
-        obj.intro = doc.querySelector(".info dd").textContent.trim();
-        obj.author = doc.querySelector(".info > div.small > span:nth-child(1)").textContent.trim();
-        const nodes = doc.querySelectorAll(".listmain dd");
-        for (let index = 0; index < nodes.length; index++) {
-          const x = nodes[index];
-          if (!x.className) {
-            obj.chapters.push(
-              {
-                id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.children[0].getAttribute("href"))),
-                title: x.children[0].textContent.trim()
-              }
-            )
-          }
-
-        }
-
-        return obj
-      },
-      getPages: async (chapter_id) => {
-
-        const res = await this._http.fetch(decodeURIComponent(window.atob(chapter_id)), {
-          "headers": {
-            "accept": "application/json, text/plain, */*",
-            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "content-type": "application/json;charset=UTF-8"
-          },
-          "body": null,
-          "method": "GET"
-        });
-        const text = await res.text();
-
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(text, 'text/html');
-        const text1 = doc.querySelector("#chaptercontent").innerHTML
-        let arr = text1.split("<br><br>");
-        arr.pop();
-        arr.pop();
-
-        return arr.map(x => ({ content: x }))
-      },
-      getImage: async (id) => {
-        const getImageUrl = async (id) => {
-          const res = await window._gh_fetch(id, {
-            method: "GET",
-            headers: {
-              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-            },
-            mode: "cors"
-          });
-          const blob = await res.blob();
-          return blob
-        }
-        const blob = await getImageUrl(id);
-        return blob
-      },
-      UrlToDetailId: async (id) => {
-        const obj = new URL(id);
-        if (obj.host == "www.biqgg.cc") {
-          return window.btoa(encodeURIComponent(id))
-        } else {
-          return null
-        }
-      }
-    });
   }
   // https://www.biqgg.cc/book/44197/
 
-  register = (config: Config, events: Events) => {
+  comics_register = (config: Config, events: Events) => {
     const key = config.id;
     config = {
       name: key,

@@ -1,15 +1,30 @@
-<div class="warp">
-  <div class="chapter" *ngFor="let n of list">
+<div class="warp" id="novels_reader_v1">
+  <div class="chapter" *ngFor="let n of list;" [attr.index]="n.index">
     <div class="title">
       {{n.title}}
     </div>
     <div class="other">
-      {{n}}
+      {{title}}
+      {{author}}
+      {{n.length}}
     </div>
     <div class="content">
       <span *ngFor="let c of n.pages">
-       {{c.content}}
+        {{c.content}}
       </span>
     </div>
+    <mat-divider style="margin-top: 64px;"></mat-divider>
   </div>
+
+  <div class="toolbar" [style]="'left:'+ (position.left-72)+'px;top: 0px;'">
+    <button mat-icon-button class="icon" style="background: #303030;border-radius:5px;margin-bottom: 12px;" (click)="back()">
+      <!-- <mat-icon>radio_button_unchecked</mat-icon> -->
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+    <button mat-icon-button class="icon" style="background: #303030;border-radius:5px ;" (click)="ChaptersList.open()">
+      <!-- <mat-icon>radio_button_unchecked</mat-icon> -->
+      <mat-icon>subject</mat-icon>
+    </button>
+  </div>
+
 </div>
