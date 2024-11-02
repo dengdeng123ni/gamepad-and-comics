@@ -16,7 +16,7 @@ import { ReaderModule } from './pages/reader/reader.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { CompositeModule } from './composite/composite.module';
 import { NovelsDetailModule } from './pages/novels-detail/novels-detail.module';
-import { NovelsReaderRoutingModule } from './pages/novels-reader/novels-reader-routing.module';
+import { NovelsRdeaderModule } from './pages/novels-reader/novels-reader.module';
 
 const dbConfig: DBConfig = {
   name: 'db',
@@ -236,7 +236,7 @@ const dbConfig: DBConfig = {
       registrationStrategy: 'registerWhenStable:30000'
     }),
     NovelsDetailModule,
-    NovelsReaderRoutingModule
+    NovelsRdeaderModule
   ],
   providers: [
     provideAnimationsAsync()

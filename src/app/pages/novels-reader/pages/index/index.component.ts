@@ -56,6 +56,7 @@ export class IndexComponent {
         this.App.setsource(params.get('source'))
         this.data.init();
         this.current._init(params.get('source'),params.get('id').toString() as string, params.get('sid').toString() as string)
+       console.log(123);
 
         return
       }
@@ -73,7 +74,7 @@ export class IndexComponent {
     this.current.close();
   }
   ngAfterViewInit() {
-    this.getIsImage();
+
   }
   close() {
 

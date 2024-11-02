@@ -1,0 +1,27 @@
+.chapter{
+  width: 50vw;
+  margin: auto;
+  height: 100%;
+  background: #303030;
+  padding: 24px;
+}
+.warp{
+  width: 100vw;
+  height: 100vh;
+
+  background: #424242;
+  overflow: auto;
+}
+
+.title{
+  color: #fff;
+  font-size: 24px;
+  margin: 24px;
+}
+
+span{
+  display: flex;
+  margin: 24px;
+  font-size: 18px;
+  line-height: 36px;
+}

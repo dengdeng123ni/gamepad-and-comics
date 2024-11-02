@@ -1,0 +1,15 @@
+<div class="warp">
+  <div class="chapter" *ngFor="let n of list">
+    <div class="title">
+      {{n.title}}
+    </div>
+    <div class="other">
+      {{n}}
+    </div>
+    <div class="content">
+      <span *ngFor="let c of n.pages">
+       {{c.content}}
+      </span>
+    </div>
+  </div>
+</div>

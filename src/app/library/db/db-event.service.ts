@@ -134,6 +134,8 @@ export class DbEventService {
             const element = nodes[index];
             arr.push(element.href)
           }
+          console.log(arr);
+
           if (arr.length > 1) arr.pop()
 
           let arr2 = [];
@@ -150,12 +152,13 @@ export class DbEventService {
             const text = await res.text();
             var parser = new DOMParser();
             var doc = parser.parseFromString(text, 'text/html');
-            const nodes = doc.querySelectorAll(".gdtm a")
+            const nodes = doc.querySelectorAll("#gdt a")
 
             for (let index = 0; index < nodes.length; index++) {
               const element = nodes[index];
               arr2.push(element.href)
             }
+console.log(arr2);
 
           }
 
@@ -176,10 +179,12 @@ export class DbEventService {
             obj["src"] = `${utf8_to_b64(arr2[index])}`
             data.push(obj)
           }
+console.log(data);
 
           return data
         },
         getImage: async (id) => {
+    console.log(id);
 
           if (id.substring(0, 4) == "http") {
             const res = await window._gh_fetch(id, {

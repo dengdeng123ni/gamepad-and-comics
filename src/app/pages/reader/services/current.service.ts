@@ -155,6 +155,8 @@ export class CurrentService {
         chapter_id: this.data.chapter_id
       }))
     }, 1000)
+    console.log(this.data);
+
   }
 
   async _getWebDbComicsConfig(id: string) {
