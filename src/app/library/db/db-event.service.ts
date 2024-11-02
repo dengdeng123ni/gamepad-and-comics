@@ -1597,6 +1597,8 @@ console.log(data);
     this.change$.next(config)
   }
 
+
+
   novels_register = (config: Config, events: Events) => {
     const key = config.id;
     config = {
