@@ -45,96 +45,109 @@ export class DbControllerService {
     source: string,
     is_cache?: boolean,
   }): Promise<Array<Item>> {
-    if (!option.is_cache) option.is_cache = true;
-    if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source]
-    const id = window.btoa(encodeURIComponent(JSON.stringify(obj)))
-    if (this.lists[id]) {
-      return JSON.parse(JSON.stringify(this.lists[id]))
-    } else {
-      let res;
+    try {
+      if (!option.is_cache) option.is_cache = true;
+      if (!option.source) option.source = this.AppData.source;
+      const config = this.DbEvent.Configs[option.source]
+      const id = window.btoa(encodeURIComponent(JSON.stringify(obj)))
+      if (this.lists[id]) {
+        return JSON.parse(JSON.stringify(this.lists[id]))
+      } else {
+        let res;
 
-      if (config.is_cache) {
-        const obj1 = await firstValueFrom(this.webDb.getByID('list', id)) as any;
-        const millisecondsInOneDay = 12 * 60 * 60 * 1000;
+        if (config.is_cache) {
+          const obj1 = await firstValueFrom(this.webDb.getByID('list', id)) as any;
+          const millisecondsInOneDay = 12 * 60 * 60 * 1000;
 
-        if (obj1&&(obj1.create_time+millisecondsInOneDay)<new Date().getTime()) {
-          res = obj1.data;
+          if (obj1&&(obj1.create_time+millisecondsInOneDay)<new Date().getTime()) {
+            res = obj1.data;
+
+          } else {
+            const data = await this.DbEvent.Events[option.source]["getList"](obj);
+            firstValueFrom(this.webDb.update('list', JSON.parse(JSON.stringify({
+              id: id,
+              data: data,
+              create_time: new Date().getTime()
+            }))))
+            res = data;
+          }
 
         } else {
           const data = await this.DbEvent.Events[option.source]["getList"](obj);
-          firstValueFrom(this.webDb.update('list', JSON.parse(JSON.stringify({
-            id: id,
-            data: data,
-            create_time: new Date().getTime()
-          }))))
           res = data;
         }
+        res.forEach(x => {
+          this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
+          x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
+          x.option = { source: option.source }
+        })
 
-      } else {
-        const data = await this.DbEvent.Events[option.source]["getList"](obj);
-        res = data;
+        this.lists[id] = JSON.parse(JSON.stringify(res));
+
+
+
+        return res
       }
-      res.forEach(x => {
-        this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
-        x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
-        x.option = { source: option.source }
-      })
+    } catch (error) {
+      console.log(error);
+      return []
 
-      this.lists[id] = JSON.parse(JSON.stringify(res));
-
-
-
-      return res
     }
+
   }
   async getDetail(id: string, option?: {
     source: string
   }) {
-    if (!option) option = { source: this.AppData.source }
-    if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source]
+    try {
+      if (!option) option = { source: this.AppData.source }
+      if (!option.source) option.source = this.AppData.source;
+      const config = this.DbEvent.Configs[option.source]
 
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
-      if (this.details[id]) {
-        return JSON.parse(JSON.stringify(this.details[id]))
-      } else {
-        let res;
-        if (config.is_cache) {
-          res = await firstValueFrom(this.webDb.getByID('details', id))
-          if (res) {
-            res = res.data;
-            if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-            if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
-            res.chapters.forEach(x => {
-              if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-              if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
-            })
+      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
+        if (this.details[id]) {
+          return JSON.parse(JSON.stringify(this.details[id]))
+        } else {
+          let res;
+          if (config.is_cache) {
+            res = await firstValueFrom(this.webDb.getByID('details', id))
+            if (res) {
+              res = res.data;
+              if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+              if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
+              res.chapters.forEach(x => {
+                if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+              })
+            } else {
+              res = await this.DbEvent.Events[option.source]["getDetail"](id);
+              firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id,source:option.source, data: res }))))
+              this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+              if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
+              res.chapters.forEach(x => {
+                this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+              })
+            }
           } else {
             res = await this.DbEvent.Events[option.source]["getDetail"](id);
-            firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id,source:option.source, data: res }))))
-            this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-            if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
-            res.chapters.forEach(x => {
-              this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-              if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
-            })
           }
-        } else {
-          res = await this.DbEvent.Events[option.source]["getDetail"](id);
-        }
 
-        if (!Array.isArray(res.author)) {
-          res.author = [{ name: res.author }]
-        }
-        res.option = { source: option.source };
-        this.details[id] = JSON.parse(JSON.stringify(res));
+          if (!Array.isArray(res.author)) {
+            res.author = [{ name: res.author }]
+          }
+          res.option = { source: option.source };
+          this.details[id] = JSON.parse(JSON.stringify(res));
 
-        return res
+          return res
+        }
+      } else {
+        return null
       }
-    } else {
-      return []
+    } catch (error) {
+      console.log(error);
+      return null
     }
+
   }
 
   async delWebDbDetail(id) {
@@ -311,108 +324,114 @@ export class DbControllerService {
   async getImage(id: string, option?: {
     source: string
   }) {
-    if (!option) option = { source: this.AppData.source }
-    if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source]
-    let blob = new Blob([], {
-      type: 'image/jpeg'
-    });
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getImage"]) {
-      if (id.substring(7, 21) == "localhost:7700") {
-        let url = id;
-        const getBlob = async () => {
+    try {
+      if (!option) option = { source: this.AppData.source }
+      if (!option.source) option.source = this.AppData.source;
+      const config = this.DbEvent.Configs[option.source]
+      let blob = new Blob([], {
+        type: 'image/jpeg'
+      });
+      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getImage"]) {
+        if (id.substring(7, 21) == "localhost:7700") {
+          let url = id;
+          const getBlob = async () => {
 
-          const getImageURL = async (id: string) => {
-            const arr = id.split("/")
-            const name = arr[3];
-            const type = arr[4];
-            if (type == "page") {
-              const chapter_id = arr[5];
-              const index = arr[6];
-              const url = this.image_url[`${name}_page_${chapter_id}_${index}`];
-              if (url) {
-                return url
-              } else {
-                await this.waitForCondition()
+            const getImageURL = async (id: string) => {
+              const arr = id.split("/")
+              const name = arr[3];
+              const type = arr[4];
+              if (type == "page") {
+                const chapter_id = arr[5];
+                const index = arr[6];
+                const url = this.image_url[`${name}_page_${chapter_id}_${index}`];
+                if (url) {
+                  return url
+                } else {
+                  await this.waitForCondition()
 
-                let resc = await this.DbEvent.Events[option.source]["getPages"](chapter_id);
-                resc.forEach((x, i) => {
-                  this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
-                })
-                this.isConditionMet = false;
-                return this.image_url[`${name}_page_${chapter_id}_${index}`];
-              }
-            } else if (type == "comics") {
-              const comics_id = arr[5];
-              const url = this.image_url[`${name}_comics_${comics_id}`];
-              if (url) {
-                return url
+                  let resc = await this.DbEvent.Events[option.source]["getPages"](chapter_id);
+                  resc.forEach((x, i) => {
+                    this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
+                  })
+                  this.isConditionMet = false;
+                  return this.image_url[`${name}_page_${chapter_id}_${index}`];
+                }
+              } else if (type == "comics") {
+                const comics_id = arr[5];
+                const url = this.image_url[`${name}_comics_${comics_id}`];
+                if (url) {
+                  return url
+                } else {
+                  await this.waitForCondition()
+                  let res = await this.DbEvent.Events[option.source]["getDetail"](comics_id);
+                  this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+                  res.chapters.forEach(x => {
+                    this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                  })
+                  this.isConditionMet = false;
+                  return this.image_url[`${name}_comics_${comics_id}`];
+                }
+              } else if (type == "chapter") {
+                const comics_id = arr[5];
+                const chapter_id = arr[6];
+                const url = this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
+                if (url) {
+                  return url
+                } else {
+                  await this.waitForCondition()
+                  let res = await this.DbEvent.Events[option.source]["getDetail"](comics_id);
+                  this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+                  res.chapters.forEach(x => {
+                    this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                  })
+                  this.isConditionMet = false;
+                  return this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
+                }
               } else {
-                await this.waitForCondition()
-                let res = await this.DbEvent.Events[option.source]["getDetail"](comics_id);
-                this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-                res.chapters.forEach(x => {
-                  this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-                })
-                this.isConditionMet = false;
-                return this.image_url[`${name}_comics_${comics_id}`];
+                return ""
               }
-            } else if (type == "chapter") {
-              const comics_id = arr[5];
-              const chapter_id = arr[6];
-              const url = this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
-              if (url) {
-                return url
-              } else {
-                await this.waitForCondition()
-                let res = await this.DbEvent.Events[option.source]["getDetail"](comics_id);
-                this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-                res.chapters.forEach(x => {
-                  this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-                })
-                this.isConditionMet = false;
-                return this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
-              }
-            } else {
-              return ""
+
             }
 
-          }
+            const id1 = await getImageURL(url);
 
-          const id1 = await getImageURL(url);
-
-          let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
-          if(blob.size < 1000){
-             blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+            let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+            if(blob.size < 1000){
+               blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+            }
+            const response = new Response(blob);
+            const request = new Request(url);
+            if(blob.size > 1000) await this.caches.put(request, response);
+            const res2 = await caches.match(url);
+            if (res2) {
+              const blob2 = await res2.blob()
+              return blob2
+            } else {
+              return blob
+            }
           }
-          const response = new Response(blob);
-          const request = new Request(url);
-          if(blob.size > 1000) await this.caches.put(request, response);
-          const res2 = await caches.match(url);
-          if (res2) {
-            const blob2 = await res2.blob()
-            return blob2
+          const res = await caches.match(url);
+
+          if (res) {
+
+            blob = await res.blob()
+            if (blob.size < 1000) {
+              blob = await getBlob()
+            }
           } else {
-            return blob
-          }
-        }
-        const res = await caches.match(url);
-
-        if (res) {
-
-          blob = await res.blob()
-          if (blob.size < 1000) {
             blob = await getBlob()
           }
         } else {
-          blob = await getBlob()
+          blob = await this.DbEvent.Events[option.source]["getImage"](id)
         }
-      } else {
-        blob = await this.DbEvent.Events[option.source]["getImage"](id)
-      }
 
-      return blob
-    } else {
+        return blob
+      } else {
+        return new Blob([], {
+          type: 'image/jpeg'
+        })
+      }
+    } catch (error) {
       return new Blob([], {
         type: 'image/jpeg'
       })

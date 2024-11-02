@@ -27,12 +27,12 @@ export class NovelsDownloadComponent {
   }
 
 
-  download() {
-
+  async download() {
     for (let index = 0; index < this.list.length; index++) {
       const x = this.list[index];
+      await this.load(this.source, x.id)
       if (this.type == 'txt') {
-        this.txt(this.source, x.id)
+      await  this.txt(this.source, x.id)
       }else if(this.type == 'md') {
         this.md(this.source, x.id)
       }else if(this.type == 'json') {
@@ -41,13 +41,29 @@ export class NovelsDownloadComponent {
     }
   }
 
+  async load(source, id){
+    const obj = await this.DbNovelsController.getDetail(id, {
+      source: source
+    })
+
+    let chapters = obj.chapters
+    for (let i = 0; i < chapters.length; i += 6) {
+      const batch = chapters.slice(i, i + 6);
+      const pagesPromises = batch.map(x =>
+        this.DbNovelsController.getPages(x.id, { source: source })
+      );
+
+      const pages = await Promise.all(pagesPromises);
+    }
+  }
   async txt(source, id) {
 
     const obj = await this.DbNovelsController.getDetail(id, {
       source: source
     })
 
-    let arr1 = obj.chapters.slice(0, 100)
+    let arr1 = obj.chapters
+
     let novelContent = '';
     novelContent = novelContent + `${obj.title}\n\n`
 

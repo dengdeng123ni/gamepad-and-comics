@@ -1533,9 +1533,8 @@ console.log(data);
         return obj
       },
       getPages: async (chapter_id) => {
-        console.log(decodeURIComponent(window.atob(chapter_id)));
 
-        const res = await this._http.getHtml(decodeURIComponent(window.atob(chapter_id)), {
+        const res = await this._http.fetch(decodeURIComponent(window.atob(chapter_id)), {
           "headers": {
             "accept": "application/json, text/plain, */*",
             "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1545,7 +1544,6 @@ console.log(data);
           "method": "GET"
         });
         const text = await res.text();
-        console.log(text);
 
         var parser = new DOMParser();
         var doc = parser.parseFromString(text, 'text/html');

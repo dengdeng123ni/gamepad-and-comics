@@ -50,11 +50,7 @@ export class DbNovelsControllerService {
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
 
           } else {
-            console.log(id);
-
             res = await this.DbEvent.Events[option.source]["getDetail"](id);
-            console.log(res);
-
             firstValueFrom(this.webDb.update('novels_details', JSON.parse(JSON.stringify({ id: id,source:option.source, data: res }))))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
@@ -118,7 +114,7 @@ export class DbNovelsControllerService {
   async getPages(id: string, option?: {
     source: string
   }) {
-
+   try {
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;
     const config = this.DbEvent.Configs[option.source]
@@ -153,6 +149,10 @@ export class DbNovelsControllerService {
     } else {
       return []
     }
+   } catch (error) {
+    return []
+   }
+
   }
 
 
