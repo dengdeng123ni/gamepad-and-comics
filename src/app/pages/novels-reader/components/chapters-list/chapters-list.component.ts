@@ -16,4 +16,27 @@ export class ChaptersListComponent {
   on(e){
 
   }
+  scrollNode() {
+    const node = document.getElementById(`${this.data.chapter_id}`)
+
+
+    if (node) {
+      console.log(node);
+      node!.scrollIntoView({ behavior: 'instant', block: 'center' })
+      node?.focus()
+    } else {
+      setTimeout(() => {
+        this.scrollNode()
+      }, 33)
+    }
+
+  }
+  ngAfterViewInit() {
+    this.scrollNode();
+    // const warp = document.querySelector(".detail_section")
+    // warp.setAttribute('hide', 'false')
+
+
+    // warp.setAttribute('hide', 'false')
+  }
 }

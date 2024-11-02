@@ -23,18 +23,21 @@ export class NovelsReaderComponent {
 
 
   position = {
-    left: 0
+    left: 0,
+    width: 0
   }
   constructor(
     public data: DataService,
     public current: CurrentService,
     public webDb: NgxIndexedDBService,
-    public ChaptersList:ChaptersListService
+    public ChaptersList: ChaptersListService
   ) {
     this.init();
 
   }
-
+  open() {
+    this.ChaptersList.open({ width: `${this.position.width}px` })
+  }
 
   async init() {
     this.title = this.data.details.title;
@@ -112,16 +115,17 @@ export class NovelsReaderComponent {
     nodes.forEach(node => observer.observe(node))
   }
 
-  updageRead(){
-    if(document.getElementById("novels_reader_v1")){
+  updageRead() {
+    if (document.getElementById("novels_reader_v1")) {
       this.getCurrentPage();
-      setTimeout(()=>{
+      setTimeout(() => {
         this.updageRead();
-      },5000)
+      }, 5000)
     }
   }
 
   async saveRead(id, index: number) {
+    this.data.chapter_id = this.data.chapters[index].id;
     await firstValueFrom(this.webDb.update("read_novels", { 'id': id.toString(), "index": index }))
   }
 

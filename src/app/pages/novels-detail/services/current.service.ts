@@ -33,12 +33,12 @@ export class CurrentService {
     if (this.data.is_local_record) {
       this.data.chapters = res.chapters;
       const chapters = await this._getChapterRead(this.data.comics_id);
-      const comics = await this._getComicsRead(this.data.comics_id);
+      const index = await this._getComicsRead(this.data.comics_id);
       for (let index = 0; index < this.data.chapters.length; index++) {
         if (chapters[index]) this.data.chapters[index].read = chapters[index].read;
         else this.data.chapters[index].read = 0;
       }
-      this.data.chapter_id = comics.chapter_id;
+      this.data.chapter_id = this.data.chapters[index].id;
     } else {
       this.data.chapters = res.chapters;
       this.data.chapter_id = this.data.comics_info.chapter_id;
@@ -296,11 +296,11 @@ export class CurrentService {
     }
   }
   async _getComicsRead(comics_id: string) {
-    const res: any = await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))
+    const res: any = await firstValueFrom(this.webDb.getByID("read_novels", comics_id.toString()))
     if (res) {
-      return res
+      return res.index
     } else {
-      return { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[0].id }
+      return 0
     }
   }
   async _getImageHW(id) {

@@ -40,7 +40,6 @@ export class CurrentService {
   public change$ = new Subject<{
     type: string,
     pages: Array<PagesItem>,
-    page_index: number,
     chapter: ChaptersItem,
     chapter_id?: string,
     trigger?: string
@@ -202,7 +201,6 @@ export class CurrentService {
     if (obj) {
       const id = obj.id;
       const index = await this._getChapterIndex(id);
-      await this._chapterPageChange(id, index);
       return true
     } else {
       await this.pageStatu$.next("chapter_last")
@@ -216,7 +214,6 @@ export class CurrentService {
     if (obj) {
       const id = obj.id;
       const index = await this._getChapterIndex(id);
-      await this._chapterPageChange(id, index);
       return true
     } else {
       await this.pageStatu$.next("chapter_first")
@@ -224,34 +221,14 @@ export class CurrentService {
     }
   }
 
-  async _pageNext() {
-    this._change("nextPage", { page_index: this.data.page_index, chapter_id: this.data.chapter_id })
-  }
-
-  async _pagePrevious() {
-    this._change("previousPage", { page_index: this.data.page_index, chapter_id: this.data.chapter_id })
-  }
 
 
-
-
-
-
-
-  async _chapterPageChange(chapter_id: string, page_index: number) {
-    const pages = await this._setChapter(chapter_id);
-    this._change('changeChapter', { chapter_id, page_index })
-  }
   async _chapterChange(chapter_id: string) {
     const pages = await this._setChapter(chapter_id);
     let page_index = await this._getChapterIndex(chapter_id);
     if (pages.length - 2 < page_index) page_index = 0;
-    this._change('changeChapter', { chapter_id, page_index })
+    this._change('changeChapter', { chapter_id })
   }
-  async _pageChange(page_index: number) {
-    this._change('changePage', { chapter_id: this.data.chapter_id, page_index })
-  }
-
   async _getChapterIndex(id: string): Promise<number> {
     const res: any = await firstValueFrom(this.webDb.getByID("last_read_chapter_page", id.toString()))
     if (res) {
@@ -321,7 +298,6 @@ export class CurrentService {
   }
 
   async _change(type: string, option: {
-    page_index: number,
     chapter_id: string,
     trigger?: string
   }) {
@@ -329,26 +305,21 @@ export class CurrentService {
 
 
     if (!option.chapter_id) return
-    if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
     const chapter = this.data.chapters.find(x => x.id == option.chapter_id);
 
     const pages = await this._getChapter(option.chapter_id)
 
-    if (option.page_index > pages.length) option.page_index = pages.length - 1;
 
-    this.data.page_index = option.page_index;
     this.data.pages = pages;
     this.data.chapter_id = option.chapter_id;
 
     if (type == "changePage") {
-      this._setChapterIndex(this.data.chapter_id.toString(), option.page_index)
 
     } else if (type == "changeChapter") {
-      this._setWebDbComicsConfig(this.data.comics_id);
       history.replaceState(null, "", `comics/${this.source}/${this.data.comics_id}/${this.data.chapter_id}`);
     }
     this._updateChapterRead(this.data.chapter_id);
-    const types = ['initPage', 'closePage', 'changePage', 'nextPage', 'previousPage', 'nextChapter', 'previousChapter', 'changeChapter'];
+    const types = ['nextChapter', 'previousChapter', 'changeChapter'];
     this.change$.next({ ...option, pages, type, chapter })
   }
 

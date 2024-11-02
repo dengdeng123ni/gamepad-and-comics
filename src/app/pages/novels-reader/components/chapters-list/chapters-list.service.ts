@@ -20,7 +20,8 @@ export class ChaptersListService {
   open(config?:MatDialogConfig) {
     if (this.opened == false) {
       const dialogRef = this._dialog.open(ChaptersListComponent,{
-        ...config
+        ...config,
+        autoFocus:false
       });
       document.body.setAttribute("locked_region","chapters_list");
 
