@@ -12,6 +12,7 @@ import { ComicsSelectTypeService } from '../comics-select-type/comics-select-typ
 import { DownloadOptionService } from '../download-option/download-option.service';
 import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 import { NovelsListService } from './novels-list.service';
+import { NovelsDownloadService } from '../novels-download/novels-download.service';
 
 @Component({
   selector: 'app-novels-list',
@@ -85,6 +86,7 @@ export class NovelsListComponent {
     public DownloadOption: DownloadOptionService,
     public App: AppDataService,
     public DropDownMenu: DropDownMenuService,
+    public NovelsDownload: NovelsDownloadService,
     public LocalCach: LocalCachService
   ) {
     KeyboardEvent.registerGlobalEventY({
@@ -140,7 +142,7 @@ export class NovelsListComponent {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
               x = x.data
-              return { id: x.id, cover: x.cover, title: x.title,creation_time:x.creation_time, subTitle: `${x.chapters[0].title}` }
+              return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0].title}` }
             }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
           },
@@ -150,7 +152,7 @@ export class NovelsListComponent {
               x = x.data
 
 
-              return { id: x.id, cover: x.cover, title: x.title,creation_time:x.creation_time, subTitle: `${x.chapters[0].title}` }
+              return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0].title}` }
             }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             console.log(list);
 
@@ -210,7 +212,7 @@ export class NovelsListComponent {
 
       const data: any = await this.get(this.id);
       if (data) {
-        console.log(this.type,this.id );
+        console.log(this.type, this.id);
 
         data.list.forEach(x => {
           x.selected = false;
@@ -229,7 +231,7 @@ export class NovelsListComponent {
 
         } else if (this.type == "local_cache") {
 
-          this.list = await this.NovelsList.Events[this.id].Init({ page_num: 1, page_size: 1000});
+          this.list = await this.NovelsList.Events[this.id].Init({ page_num: 1, page_size: 1000 });
         } else {
           this.list = data.list;
         }
@@ -259,15 +261,42 @@ export class NovelsListComponent {
 
     })
 
-    ContextMenuEvent.register('comics_item', {
+    ContextMenuEvent.register('novels_item', {
+      open: () => {
+        // this.close()
+      },
+      close: (e: any) => {
+
+      },
       on: async (e: any) => {
+
         const index = this.list.findIndex(x => x.id.toString() == e.value.toString());
         if (this.list.filter(x => x.selected).length == 0) {
           this.list[index].selected = !this.list[index].selected;
         }
         const list = this.getSelectedData();
         e.click(list)
-      }
+      },
+      menu: [
+        {
+          name: "下载",
+          id: "export",
+          click: (e) => {
+            this.NovelsDownload.open(
+              {data:{
+                list:e,
+                source:this.source
+              }
+
+
+              }
+            )
+          }
+        },
+
+
+      ]
+
     })
   }
 
@@ -291,7 +320,7 @@ export class NovelsListComponent {
     this.DownloadOption.open(list)
   }
   async DropDownMenuOpen() {
-    const e = await this.DropDownMenu.open([      {
+    const e = await this.DropDownMenu.open([{
       name: "数据", id: "data", submenu: [
         {
           name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
@@ -396,19 +425,19 @@ export class NovelsListComponent {
     }
     this.getIsAll();
   }
-  async routerReader(source,comics_id) {
-    this.data.currend_read_comics_id=comics_id;
+  async routerReader(source, comics_id) {
+    this.data.currend_read_comics_id = comics_id;
     const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
     if (_res[1]) {
-      this.router.navigate(['/novels',source, comics_id, _res[1].chapter_id])
+      this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {
-      this.router.navigate(['/novels',source, comics_id, _res[0].chapters[0].id])
+      this.router.navigate(['/novels', source, comics_id, _res[0].chapters[0].id])
     }
   }
 
-  async routerDetail(source,comics_id) {
-    this.data.currend_read_comics_id=comics_id;
-    this.router.navigate(['/novels_detail',source, comics_id]);
+  async routerDetail(source, comics_id) {
+    this.data.currend_read_comics_id = comics_id;
+    this.router.navigate(['/novels_detail', source, comics_id]);
   }
 
   async getIsAll() {
@@ -595,11 +624,11 @@ export class NovelsListComponent {
       this.page_num--;
       return
     }
-    this.list =  [...this.list, ...list].filter((item, index, self) =>
+    this.list = [...this.list, ...list].filter((item, index, self) =>
       index === self.findIndex((t) => (
-          t.id === item.id
+        t.id === item.id
       ))
-  );
+    );
 
   }
 }

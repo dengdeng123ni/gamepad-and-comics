@@ -48,6 +48,10 @@ export class DbEventService {
     public _http: MessageFetchService,
   ) {
 
+
+
+
+
     window._gh_register = this.register;
     if (location.hostname == "localhost") {
 
@@ -1477,7 +1481,8 @@ export class DbEventService {
         ]
       },
       getDetail: async (novel_id) => {
-        const res = await this._http.getHtml('https://www.biqgg.cc/book/44197/', {
+
+        const res = await this._http.getHtml(decodeURIComponent(window.atob(novel_id)), {
           "headers": {
             "accept": "application/json, text/plain, */*",
             "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1512,25 +1517,39 @@ export class DbEventService {
           if (!x.className) {
             obj.chapters.push(
               {
-                id: x.children[0].href,
+                id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.children[0].getAttribute("href"))),
                 title: x.children[0].textContent.trim()
               }
             )
           }
 
         }
-        console.log(obj);
 
         return obj
       },
       getPages: async (chapter_id) => {
+        console.log(decodeURIComponent(window.atob(chapter_id)));
 
-        return [
-          {
-            id: "",
-            text: ""
-          }
-        ]
+        const res = await this._http.getHtml(decodeURIComponent(window.atob(chapter_id)), {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/json;charset=UTF-8"
+          },
+          "body": null,
+          "method": "GET"
+        });
+        const text = await res.text();
+        console.log(text);
+
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(text, 'text/html');
+        const text1 = doc.querySelector("#chaptercontent").innerHTML
+        let arr = text1.split("<br><br>");
+        arr.pop();
+        arr.pop();
+
+        return arr.map(x => ({ content: x }))
       },
       getImage: async (id) => {
         const getImageUrl = async (id) => {

@@ -109,14 +109,22 @@ export class MessageFetchService {
   }
 
   getHtml = async (url: RequestInfo | URL): Promise<Response> => {
-    const id = Math.round(Math.random() * 1000000000000);
+    let id = ''
     let bool = true;
-    window.postMessage({
-      id: id,
+    id = CryptoJS.MD5(JSON.stringify({
       type: "website_proxy_request_html",
       proxy_request_website_url: url,
       proxy_response_website_url: window.location.origin
-    });
+    })).toString().toLowerCase()
+    if (!this._data_proxy_request[id]) {
+      this._data_proxy_request[id]=true;
+      window.postMessage({
+        id: id,
+        type: "website_proxy_request_html",
+        proxy_request_website_url: url,
+        proxy_response_website_url: window.location.origin
+      });
+    }
     return new Promise((r, j) => {
       const getData = () => {
         setTimeout(() => {
