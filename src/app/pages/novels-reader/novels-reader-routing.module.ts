@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './pages/index/index.component';
 
 const routes: Routes = [
-  { path: "novels_comics/:source/:id/:sid", component: IndexComponent,data: { animation: 'NovelsReaderPage' } },
-  { path: "novels_comics/:source/:id/:sid/:pid", component: IndexComponent,data: { animation: 'NovelsReaderPage' } }
+  { path: "novels/:source/:id/:sid", component: IndexComponent,data: { animation: 'NovelsReaderPage' } },
+  { path: "novels/:source/:id/:sid/:pid", component: IndexComponent,data: { animation: 'NovelsReaderPage' } }
 ];
 
 @NgModule({

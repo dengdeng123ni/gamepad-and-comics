@@ -56,30 +56,16 @@ export class IndexComponent {
         this.App.setsource(params.get('source'))
         this.data.init();
         this.current._init(params.get('source'),params.get('id').toString() as string, params.get('sid').toString() as string)
-        this.init( params.get('id').toString())
+
         return
       }
       this.data.init();
-      this.init( params.get('id').toString())
       this.current._init(this.App.source,params.get('id').toString() as string, params.get('sid').toString() as string)
 
     })
   }
 
-  async init(id){
-    console.log(id);
-    const obj=await this.DbNovelsController.getDetail(id);
-    for (let index = 0; index < obj.chapters.length; index++) {
-      const x=obj.chapters[index]
-      console.log(x.id);
 
-      const pages= await this.DbNovelsController.getPages(x.id)
-      console.log(pages);
-
-    }
-    console.log(obj);
-
-  }
   on($event: MouseEvent) {
     this.current.on$.next($event)
   }

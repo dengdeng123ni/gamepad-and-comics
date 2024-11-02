@@ -489,6 +489,6 @@ export class CurrentService {
   }
 
   async routerReader(comics_id,chapter_id) {
-    this.router.navigate(['/comics',this.source, comics_id, chapter_id])
+    this.router.navigate(['/novels',this.source, comics_id, chapter_id])
   }
 }
