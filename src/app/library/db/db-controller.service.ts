@@ -407,14 +407,11 @@ export class DbControllerService {
 
 
             const id1 = await getImageURL(url);
-            console.log(id1,url);
             let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
-            console.log(id1,url,blob);
 
-            if (blob.size < 1000) {
+            if (blob.size < 5000&&blob.type.split("/")[0]=="image") {
               blob = await this.DbEvent.Events[option.source]["getImage"](id1)
             }
-            console.log(blob);
 
             const response = new Response(blob);
             const request = new Request(url);
@@ -444,7 +441,6 @@ export class DbControllerService {
         } else {
           blob = await this.DbEvent.Events[option.source]["getImage"](id)
         }
-        console.log(blob);
         return blob
       } else {
         return new Blob([], {

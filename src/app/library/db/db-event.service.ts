@@ -135,7 +135,6 @@ export class DbEventService {
             const element = nodes[index];
             arr.push(element.href)
           }
-          console.log(arr);
 
           if (arr.length > 1) arr.pop()
 
@@ -159,7 +158,6 @@ export class DbEventService {
               const element = nodes[index];
               arr2.push(element.href)
             }
-console.log(arr2);
 
           }
 
@@ -180,12 +178,10 @@ console.log(arr2);
             obj["src"] = `${utf8_to_b64(arr2[index])}`
             data.push(obj)
           }
-console.log(data);
 
           return data
         },
         getImage: async (id) => {
-    console.log(id);
 
           if (id.substring(0, 4) == "http") {
             const res = await window._gh_fetch(id, {
@@ -367,10 +363,8 @@ console.log(data);
         },
         UrlToDetailId: async (id) => {
           const obj = new URL(id);
-          console.log(obj);
 
           if (obj.host == "www.baozimhw.com") {
-            console.log(obj.pathname.split("/").at(-1).split(".").at(-1));
 
             return obj.pathname.split("/").at(-1).split(".")[0]
           } else {
@@ -895,7 +889,6 @@ console.log(data);
 
 
           const json = await res.json();
-          console.log(json);
           let data = [];
           for (let index = 0; index < json.data.images.length; index++) {
             let x = json.data.images[index];
@@ -944,7 +937,6 @@ console.log(data);
                   proxy: "https://manga.bilibili.com/"
                 });
                 const json = await res.json();
-               console.log(json);
 
                 return `${json.data[0].complete_url}`
               } catch (error) {
@@ -1004,7 +996,6 @@ console.log(data);
         UrlToDetailId: async (id) => {
           const obj = new URL(id);
           if (obj.host == "manga.bilibili.com") {
-            console.log(obj.pathname.split("/").at(-1).replace("mc", ""));
 
             return obj.pathname.split("/").at(-1).replace("mc", "");
           } else {
@@ -1374,7 +1365,6 @@ console.log(data);
           return data
         },
         getImage: async (id) => {
-          console.log(id);
           if (id.substring(0, 4) == "http") {
             const res = await window._gh_fetch(id, {
               method: "GET",
@@ -1402,7 +1392,6 @@ console.log(data);
               return blob
             }
             const getHtmlUrl = async (url) => {
-              console.log(url);
 
               const res = await window._gh_getHtml(url, {
                 "headers": {
@@ -1416,7 +1405,6 @@ console.log(data);
               const text = await res.text();
               var parser = new DOMParser();
               var doc = parser.parseFromString(text, 'text/html');
-              console.log(doc.querySelector("#image-container > a > img").src);
 
               return doc.querySelector("#image-container > a > img").src
             }
