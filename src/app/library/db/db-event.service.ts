@@ -1467,6 +1467,7 @@ console.log(data);
       window._gh_novels_register({
         id: "biquge",
         name: "笔趣阁[小说]",
+        href:"https://www.biqgg.cc",
         is_cache: true,
         is_download: true
       }, {
