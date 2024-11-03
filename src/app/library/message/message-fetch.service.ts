@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
+import { DomSanitizer } from '@angular/platform-browser';
 declare let window: any;
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,18 @@ declare let window: any;
 export class MessageFetchService {
   _data_proxy_response: any = {};
   _data_proxy_request: any = {};
+  caches!: Cache;
 
-  constructor() {
+  _blob_urls={
+
+  }
+  constructor(private sanitizer: DomSanitizer) {
     window._gh_fetch = this.fetch;
     window._gh_getHtml = this.getHtml;
   }
-
+  async init() {
+    this.caches = await caches.open('assets');
+  }
   fetch = async (url: RequestInfo | URL, init: RequestInit, option?: {
     proxy?: string
   }): Promise<Response> => {
@@ -41,7 +48,7 @@ export class MessageFetchService {
         }
       })).toString().toLowerCase()
       if (!this._data_proxy_request[id]) {
-        this._data_proxy_request[id]=true;
+        this._data_proxy_request[id] = true;
 
         window.postMessage({
           id: id,
@@ -73,7 +80,7 @@ export class MessageFetchService {
         }
       })).toString().toLowerCase()
       if (!this._data_proxy_request[id]) {
-        this._data_proxy_request[id]=true;
+        this._data_proxy_request[id] = true;
         window.postMessage({
           id: id,
           type: "pulg_proxy_request",
@@ -117,7 +124,7 @@ export class MessageFetchService {
       proxy_response_website_url: window.location.origin
     })).toString().toLowerCase()
     if (!this._data_proxy_request[id]) {
-      this._data_proxy_request[id]=true;
+      this._data_proxy_request[id] = true;
       window.postMessage({
         id: id,
         type: "website_proxy_request_html",
@@ -154,4 +161,50 @@ export class MessageFetchService {
     }
     return result;
   }
+
+  cacheFetch = async (url: RequestInfo | URL): Promise<Response> => {
+    if (!this.caches) return await fetch(url)
+    const res = await this.caches.match(url)
+    if (res) {
+      return res
+    } else {
+      const response = await fetch(url)
+      const request = new Request(url);
+      if (response.ok) await this.caches.put(request, response);
+      return await fetch(url)
+    }
+  }
+
+  cacheFetchBlobUrl = async (url:string): Promise<string> => {
+    const id=window.btoa(encodeURIComponent(url))
+    if(this._blob_urls[id]) return this._blob_urls[id]
+    if (!this.caches) {
+      const res =await fetch(url)
+      const blob = await res.blob();
+      let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      bloburl=bloburl.changingThisBreaksApplicationSecurity;
+      this._blob_urls[id]=bloburl;
+      return bloburl
+    }
+    const res = await this.caches.match(url)
+    if (res) {
+      const blob = await res.blob();
+      let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      bloburl=bloburl.changingThisBreaksApplicationSecurity;
+      this._blob_urls[id]=bloburl;
+      return bloburl
+    } else {
+      const response = await fetch(url)
+      const request = new Request(url);
+      if (response.ok) await this.caches.put(request, response);
+      const res =await fetch(url)
+      const blob = await res.blob();
+      let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      bloburl=bloburl.changingThisBreaksApplicationSecurity;
+      this._blob_urls[id]=bloburl;
+      return bloburl
+    }
+  }
+
+
 }

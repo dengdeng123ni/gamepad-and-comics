@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService,WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService,WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -107,6 +107,7 @@ export class AppComponent {
     public KeyboardController:KeyboardControllerService,
     public GamepadEvent: GamepadEventService,
     public MessageController: MessageControllerService,
+    public MessageFetch:MessageFetchService,
     public MessageEvent: MessageEventService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
@@ -190,12 +191,15 @@ export class AppComponent {
     this.keydown.unsubscribe();
   }
   async init() {
+    await this.MessageFetch.init();
     await this.pulg.init();
+
     setTimeout(() => {
       if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
       this.getPulgLoadingFree();
       this.is_loading_page = true;
       this.GamepadController.init();
+
       this.svg.init();
       setTimeout(() => {
         this.App.init();

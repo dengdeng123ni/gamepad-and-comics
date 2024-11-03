@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MessageFetchService } from '../public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +8,8 @@ export class GamepadSoundService {
   async loadSound(url) {
     if (!this.opened) return
     var audio = new Audio();
-    await fetch(url);
-    audio.src = url;
+    const bloburl= await this.MessageFetch.cacheFetchBlobUrl(url);
+    audio.src = bloburl;
     audio.load();
     audio.play();
   }
@@ -17,15 +18,13 @@ export class GamepadSoundService {
     if (!this.opened) return
     if (this.audio&&!this.audio.paused) return
     this.audio = new Audio();
-    await fetch(url);
-    this.audio.src = url;
+    const bloburl= await this.MessageFetch.cacheFetchBlobUrl(url);
+    this.audio.src = bloburl;
     this.audio.load();
     this.audio.play();
-
-
   }
   opened = true;
-  constructor() {
+  constructor(public MessageFetch:MessageFetchService) {
     window.addEventListener('click', e => {
       var sound = this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/tick.wav");
     })
