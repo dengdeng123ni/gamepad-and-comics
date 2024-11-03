@@ -411,6 +411,8 @@ export class DbControllerService {
             }
             const response = new Response(blob);
             const request = new Request(url);
+            console.log(response);
+
             if (blob.size > 1000) await this.caches.put(request, response);
             const res2 = await caches.match(url);
             if (res2) {

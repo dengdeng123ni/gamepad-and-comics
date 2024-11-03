@@ -45,7 +45,26 @@ export class PulgService {
     const url = document.querySelector("base").href + 'assets/js/swiper-bundle.min.js'
     this.loadJS(url)
     this.loadCss(document.querySelector("base").href + 'assets/css/swiper-bundle.min.css')
+    setTimeout(() => {
+      this.loadAllAssets();
+    }, 100)
   }
+
+  async loadAllAssets() {
+    const res = await fetch(document.querySelector("base").href + 'ngsw.json')
+    if(!res.ok) return
+    const json = await res.json();
+    console.log(json);
+    for (let index = 0; index < json.assetGroups.length; index++) {
+      const x = json.assetGroups[index];
+      for (let f = 0; f < x.urls.length; f++) {
+        const c = x.urls[f];
+        console.log(document.querySelector("base").href.slice(0, -1) + c);
+        await fetch(document.querySelector("base").href.slice(0, -1) + c)
+      }
+    }
+  }
+
   async openFile() {
     const files = await (window as any).showOpenFilePicker()
     const blob = await files[0].getFile();

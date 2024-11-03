@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
-import { DbEventService, GamepadEventService } from 'src/app/library/public-api';
+import { DbControllerService, DbEventService, GamepadEventService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { MenuSearchService } from './menu-search.service';
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-search',
@@ -29,6 +30,8 @@ export class MenuSearchComponent {
     public GamepadEvent:GamepadEventService,
     public MenuSearch:MenuSearchService,
     public WhenInputting:WhenInputtingService,
+    public DbController:DbControllerService,
+    public router: Router,
     public current:CurrentService
   ) {
 
@@ -82,8 +85,26 @@ export class MenuSearchComponent {
     return arr
   }
   on(e){
-    this.MenuSearch.close();
-    this.current.routerReader(e.source,e.id)
+    if(this.DbEvent.Configs[e.source].type=="comics"){
+      this.MenuSearch.close();
+      this.current.routerReader(e.source,e.id)
+    }else if(this.DbEvent.Configs[e.source].type=="novels"){
+      this.MenuSearch.close();
+      this.routerNovelsReader(e.source,e.id)
+    }else{
+      this.MenuSearch.close();
+      this.current.routerReader(e.source,e.id)
+    }
+
+
+  }
+  async routerNovelsReader(source, comics_id) {
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
+    if (_res[1]) {
+      this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
+    } else {
+      this.router.navigate(['/novels', source, comics_id, _res[0].chapters[0].id])
+    }
   }
   on2(e){
     this.MenuSearch.close();
