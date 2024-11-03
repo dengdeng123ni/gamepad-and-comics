@@ -263,6 +263,7 @@ export class EpubService {
     const blob1 = this.base64ToBlob(dataURL3, "jpeg");
     const blob2 = this.base64ToBlob(dataURL4, "jpeg");
 
+
     return [blob1, blob2]
   }
   base64ToBlob(urlData, type) {

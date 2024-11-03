@@ -943,12 +943,10 @@ console.log(data);
                 }, {
                   proxy: "https://manga.bilibili.com/"
                 });
-                console.log(res);
-
                 const json = await res.json();
-                console.log(json);
+               console.log(json);
 
-                return `${json.data[0].url}?token=${json.data[0].token}`
+                return `${json.data[0].complete_url}`
               } catch (error) {
                 return await getImageUrl(id)
               }
