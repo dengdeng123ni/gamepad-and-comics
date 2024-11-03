@@ -59,7 +59,7 @@ export class DbControllerService {
           const obj1 = await firstValueFrom(this.webDb.getByID('list', id)) as any;
           const millisecondsInOneDay = 12 * 60 * 60 * 1000;
 
-          if (obj1&&(obj1.create_time+millisecondsInOneDay)<new Date().getTime()) {
+          if (obj1 && (obj1.create_time + millisecondsInOneDay) < new Date().getTime()) {
             res = obj1.data;
 
           } else {
@@ -96,12 +96,14 @@ export class DbControllerService {
 
   }
   async getDetail(id: string, option?: {
-    source: string
+    source: string,
+    is_cache?: boolean
   }) {
     try {
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
-      const config = this.DbEvent.Configs[option.source]
+      let config = this.DbEvent.Configs[option.source]
+      if (option && option.is_cache) config.is_cache = true
 
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
         if (this.details[id]) {
@@ -120,7 +122,7 @@ export class DbControllerService {
               })
             } else {
               res = await this.DbEvent.Events[option.source]["getDetail"](id);
-              firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id,source:option.source, data: res }))))
+              firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
               this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
               if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
               res.chapters.forEach(x => {
@@ -231,53 +233,59 @@ export class DbControllerService {
     const res = await this.caches.delete(id);
   }
   async getPages(id: string, option?: {
-    source: string
+    source: string,
+    is_cache?: boolean
   }) {
+    try {
+      if (!option) option = { source: this.AppData.source }
+      if (!option.source) option.source = this.AppData.source;
+      let config = this.DbEvent.Configs[option.source]
+      if (option && option.is_cache) config.is_cache = true
+      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
+        // const is_wait = await this.waitForRepetition(id)
+        if (this.pages[id]) {
+          return JSON.parse(JSON.stringify(this.pages[id]))
+        } else {
+          let res;
+          if (config.is_cache) {
+            res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
+            if (res) {
+              res = res.data;
 
-    if (!option) option = { source: this.AppData.source }
-    if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source]
-
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
-      // const is_wait = await this.waitForRepetition(id)
-      if (this.pages[id]) {
-        return JSON.parse(JSON.stringify(this.pages[id]))
-      } else {
-        let res;
-        if (config.is_cache) {
-          res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
-          if (res) {
-            res = res.data;
-
-            res.forEach((x, i) => {
-              if (x.src.substring(7, 21) == "localhost:7700") {
-              } else {
-                if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
+              res.forEach((x, i) => {
+                if (x.src.substring(7, 21) == "localhost:7700") {
+                } else {
+                  if (x.src.substring(0, 4) == "http") this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
+                  if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
+                }
+              })
+            } else {
+              res = await this.DbEvent.Events[option.source]["getPages"](id);
+              firstValueFrom(this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
+              res.forEach((x, i) => {
+                this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
                 if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
-              }
-            })
+              })
+            }
           } else {
             res = await this.DbEvent.Events[option.source]["getPages"](id);
-            firstValueFrom(this.webDb.update('pages', { id,source:option.source, data: JSON.parse(JSON.stringify(res)) }))
-            res.forEach((x, i) => {
-              this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
-              if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
-            })
           }
-        } else {
-          res = await this.DbEvent.Events[option.source]["getPages"](id);
+          res.forEach((x, i) => {
+            if (!x.id) x.id = `${id}_${i}`;
+            if (!x.uid) x.uid = `${id}_${i}`;
+            x.index = i;
+          })
+          this.pages[id] = JSON.parse(JSON.stringify(res));
+          return res
         }
-        res.forEach((x, i) => {
-          if (!x.id) x.id = `${id}_${i}`;
-          if (!x.uid) x.uid = `${id}_${i}`;
-          x.index = i;
-        })
-        this.pages[id] = JSON.parse(JSON.stringify(res));
-        return res
+      } else {
+        return []
       }
-    } else {
-      return []
+    } catch (error) {
+       console.log(error);
+       return []
     }
+
   }
   async delComicsAllImages(comics_id) {
     const c = await this.getDetail(comics_id)
@@ -322,12 +330,14 @@ export class DbControllerService {
     })
   }
   async getImage(id: string, option?: {
-    source: string
+    source: string,
+    is_cache?: boolean
   }) {
     try {
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
-      const config = this.DbEvent.Configs[option.source]
+      let config = this.DbEvent.Configs[option.source]
+      if (option && option.is_cache) config.is_cache = true
       let blob = new Blob([], {
         type: 'image/jpeg'
       });
@@ -396,12 +406,12 @@ export class DbControllerService {
             const id1 = await getImageURL(url);
 
             let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
-            if(blob.size < 1000){
-               blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+            if (blob.size < 1000) {
+              blob = await this.DbEvent.Events[option.source]["getImage"](id1)
             }
             const response = new Response(blob);
             const request = new Request(url);
-            if(blob.size > 1000) await this.caches.put(request, response);
+            if (blob.size > 1000) await this.caches.put(request, response);
             const res2 = await caches.match(url);
             if (res2) {
               const blob2 = await res2.blob()
