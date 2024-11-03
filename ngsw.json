@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1730633046611,
+  "timestamp": 1730640736659,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -15,7 +15,7 @@
         "/chunk-HDFSM3FT.js",
         "/favicon.ico",
         "/index.html",
-        "/main-UISJ66G5.js",
+        "/main-4QDMNRM4.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
         "/styles-CY25OYT6.css",
@@ -107,7 +107,7 @@
     "/assets/js/jszip.min.js": "c1df5c3b3207a84b827b000941ddf671c6dd1d88",
     "/assets/js/pptxgen.min.js": "e1c54301c51b379b9edd28dfe0eb77f904777508",
     "/assets/js/swiper-bundle.min.js": "4ba5ea2ce5d1c20a1fcee79977ec2c2e1fd58824",
-    "/assets/ngsw-worker.js": "49ff0c04d4d5e700acc4116392c4471de6c6371b",
+    "/assets/ngsw-worker.js": "20040baf8eecc3d71b5db17c610b160470d3a23d",
     "/assets/sound/nintendo_switch/album.wav": "0773a49243d7614a14aaa20278073afd90ab39f4",
     "/assets/sound/nintendo_switch/bing.wav": "b19bce39bcb4f597971867318fff0c3dd1a8e837",
     "/assets/sound/nintendo_switch/border.wav": "bc4bd07e24d5688ecba98ba9970f6f1aa0f09892",
@@ -142,9 +142,9 @@
     "/chunk-64BSWU7Q.js": "899771da07563a8993e4e9b31f7aec9b19acb70d",
     "/chunk-HDFSM3FT.js": "9bc729302d8d911831c260166d3470b860b30554",
     "/favicon.ico": "2ae48b5d996342712800fa187b4fabe8b9710f05",
-    "/index.html": "4d06b32b24797af212dcd56d3140fe15413a0b88",
-    "/main-UISJ66G5.js": "c0984e1824e635ec21f3b6c641dfd4e5dd36ec6d",
-    "/manifest.webmanifest": "2449f284d392db726b2587c575a2e81c2a174a3a",
+    "/index.html": "a5b81b1a41a6e3898abcd8d0d206c50c23c64d0f",
+    "/main-4QDMNRM4.js": "64d918ae888d56ed0b509c176b569cc9abd05dea",
+    "/manifest.webmanifest": "4cb38f697fe86d2f9127a2c837a48cbda5f7a4e4",
     "/media/material-icons-JLIDJUWE.woff": "e4bb7c1e40d3febee58df963db276b2bf68c117b",
     "/media/material-icons-LEZCGFVT.woff2": "0bc0c675480d94ec7e8609dda6227f88c5d08d2c",
     "/media/material-icons-outlined-7BWLPMFK.woff2": "2f9e28ab559782402f27332633c843c40209d95a",
