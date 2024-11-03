@@ -1469,7 +1469,18 @@ console.log(data);
         name: "笔趣阁[小说]",
         href:"https://www.biqgg.cc",
         is_cache: true,
-        is_download: true
+        is_download: true,
+        menu: [
+          {
+            id: 'search',
+            icon: 'search',
+            name: '搜索',
+            query: {
+              type: 'search',
+              page_size: 30
+            }
+          }
+        ],
       }, {
         getList: async (obj) => {
           let list = [];
@@ -1569,7 +1580,29 @@ console.log(data);
           } else {
             return null
           }
-        }
+        },
+        Search: async (obj) => {
+          const res = await window._gh_fetch(`https://www.biqgg.cc/user/search.html?q=${obj.keyword}`, {
+            "headers": {
+              "accept": "application/json, text/plain, */*",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "content-type": "application/json;charset=UTF-8"
+            },
+            "body": null,
+            "method": "GET"
+          });
+          const json = await res.json();
+          let data=[];
+          for (let index = 0; index < json.length; index++) {
+            const x = json[index];
+            data.push({
+              id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.url_list)),
+              title: x.articlename,
+              cover:x.url_img
+            })
+          }
+          return data
+        },
       });
 
     }
