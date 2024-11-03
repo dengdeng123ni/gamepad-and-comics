@@ -1271,7 +1271,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       this.image_cache = await caches.open('image');
       await this.broadcast({ type: "init" })
     }
-    getImage = async (url) => {
+     getImage=async (url)=> {
       const res = await this.image_cache.match(url);
       if (res) {
         return res
@@ -1299,49 +1299,11 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         })
       }
     }
-
-    onProxy(event) {
-      // 尝试从缓存中匹配请求
-      caches.match(event.request)
-        .then((cachedResponse) => {
-          // 如果找到了缓存的响应，直接返回
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-
-          // 如果没有缓存响应，则发起网络请求
-          return fetch(event.request).then((networkResponse) => {
-            // 检查网络响应是否有效
-            if (!networkResponse || networkResponse.status !== 200) {
-              return networkResponse; // 如果网络请求失败，返回网络响应
-            }
-
-            // 可选：将网络响应缓存起来
-            const clonedResponse = networkResponse.clone();
-            caches.open('assets').then((cache) => {
-              cache.put(event.request, clonedResponse);
-            });
-
-            return networkResponse; // 返回网络响应
-          });
-        })
-        .catch(() => {
-          // 网络请求和缓存都失败时，返回一个默认响应（可选）
-          return new Response('离线状态，无法访问资源。', {
-            status: 404,
-            statusText: 'Not Found',
-          });
-        })
-    }
     onFetch(event) {
       const req = event.request;
-
       if (req.url.substring(0, 21) == "http://localhost:7700") {
         event.respondWith(this.getImage(req.url))
-        return;
-      } else if (req.url.includes('/gamepad-and-comics-v3/')) {
-        event.respondWith(this.onProxy(event))
-        return;
+         return;
       }
       const scopeUrl = this.scope.registration.scope;
       const requestUrlObj = this.adapter.parseUrl(req.url, scopeUrl);
