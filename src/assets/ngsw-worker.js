@@ -1271,7 +1271,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       this.image_cache = await caches.open('image');
       await this.broadcast({ type: "init" })
     }
-     getImage=async (url)=> {
+    getImage = async (url) => {
       const res = await this.image_cache.match(url);
       if (res) {
         return res
@@ -1288,7 +1288,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
               } else {
                 if (bool) getFile()
               }
-            }, 33)
+            }, 66)
           }
           getFile()
           setTimeout(() => {
@@ -1303,7 +1303,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       const req = event.request;
       if (req.url.substring(0, 21) == "http://localhost:7700") {
         event.respondWith(this.getImage(req.url))
-         return;
+        return;
       }
       const scopeUrl = this.scope.registration.scope;
       const requestUrlObj = this.adapter.parseUrl(req.url, scopeUrl);
