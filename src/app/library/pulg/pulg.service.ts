@@ -80,7 +80,6 @@ export class PulgService {
       const x = json.assetGroups[index];
       for (let f = 0; f < x.urls.length; f++) {
         const c = x.urls[f];
-        console.log(document.querySelector("base").href.slice(0, -1) + c);
         await this.MessageFetch.cacheFetch(document.querySelector("base").href.slice(0, -1) + c)
       }
     }
