@@ -61,9 +61,9 @@ export class NovelsReaderComponent {
     this.title = this.data.details.title;
     this.author = this.data.details.author.map(x => x.name).toString();
     this.novels_id = this.data.comics_id;
-    const index = await this.getReadIndex(this.novels_id)
-    const id = this.data.chapters[index].id
-    await this.addPages(id)
+    // const index = await this.getReadIndex(this.novels_id)
+    // const id = this.data.chapters[index].id
+    await this.addPages(this.data.chapter_id)
   }
   async change(chapter_id){
     this.list=[];

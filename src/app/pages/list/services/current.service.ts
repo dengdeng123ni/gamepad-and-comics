@@ -27,6 +27,7 @@ export class CurrentService {
     }
   }
 
+
   async routerDetail(source,comics_id) {
     this.data.currend_read_comics_id=comics_id;
     this.router.navigate(['/detail',source, comics_id]);

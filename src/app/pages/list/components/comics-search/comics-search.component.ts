@@ -188,14 +188,40 @@ export class ComicsSearchComponent {
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
 
-          this.current.routerReader(this.source, data.id)
+          if(this.DbEvent.Configs[this.source].type=="comics"){
+            this.current.routerReader(this.source,data.id)
+          }else if(this.DbEvent.Configs[this.source].type=="novels"){
+            this.routerNovelsReader(this.source,data.id)
+          }else{
+            this.current.routerReader(this.source,data.id)
+          }
         } else {
-          this.current.routerDetail(this.source, data.id)
+          if(this.DbEvent.Configs[this.source].type=="comics"){
+            this.current.routerReader(this.source,data.id)
+          }else if(this.DbEvent.Configs[this.source].type=="novels"){
+            this.routerNovelsDetail(this.source,data.id)
+          }else{
+            this.current.routerReader(this.source,data.id)
+          }
         }
       }
 
     }
   }
+
+  async routerNovelsDetail(source, comics_id) {
+    this.router.navigate(['/novels_detail', source, comics_id])
+  }
+
+
+async routerNovelsReader(source, comics_id) {
+  const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
+  if (_res[1]) {
+    this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
+  } else {
+    this.router.navigate(['/novels', source, comics_id, _res[0].chapters[0].id])
+  }
+}
 
 
   async put() {
