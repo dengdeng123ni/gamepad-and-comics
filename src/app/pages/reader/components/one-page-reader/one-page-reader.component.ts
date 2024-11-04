@@ -361,7 +361,8 @@ export class OnePageReaderComponent {
     if (secondary) secondary.src = await this.image.getImageBase64(secondary.src)
 
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
-
+    if (primary&&imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
+    if (secondary&&imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
     if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
       return {
         'primary': { ...primary, width: imgPrimary.width, height: imgPrimary.height },

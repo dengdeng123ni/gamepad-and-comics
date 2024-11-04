@@ -944,7 +944,7 @@ export class DbEventService {
               }
             }
             const url = await getImageUrl(id);
-            console.log(id,url);
+            // console.log(id,url);
 
             const res = await window._gh_fetch(url, {
               method: "GET",

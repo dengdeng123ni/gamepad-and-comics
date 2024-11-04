@@ -155,7 +155,7 @@ export class CurrentService {
         chapter_id: this.data.chapter_id
       }))
     }, 1000)
-    console.log(this.data);
+    this.is_destroy = false;
 
   }
 
@@ -687,23 +687,48 @@ export class CurrentService {
     return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
   }
   async _getImage(src) {
-
     if (this.App.is_pwa && src.substring(7, 21) == "localhost:7700") {
       await this.image.getImageBlob(src)
       return src
     } else {
       return await this.image.getImageBase64(src)
     }
-
   }
+
+  await_load_pages = [];
+  is_load_image = false;
+  is_destroy = false;
+  async _loadPages(chapter_id) {
+    this.await_load_pages = await this._getChapter(chapter_id)
+    this._loadImage2();
+  }
+
+  async _loadImage2() {
+    if (!this.is_load_image && !this.is_destroy) {
+      this.is_load_image = true;
+      if (this.await_load_pages.length == 1) {
+        const url = this.await_load_pages[0].src;
+        await this.DbController.getImage(url, { source: this.source })
+        this.await_load_pages = this.await_load_pages.filter(x => x.src != url);
+      } else {
+        if(this.await_load_pages.length){
+          const url = this.await_load_pages[0].src;
+          const url1 = this.await_load_pages[1].src;
+          await Promise.all([this.DbController.getImage(url, { source: this.source }), this.DbController.getImage(url1, { source: this.source })])
+          this.await_load_pages = this.await_load_pages.filter(x => x.src != url);
+          this.await_load_pages = this.await_load_pages.filter(x => x.src != url1);
+        }
+      }
+      this.is_load_image = false;
+      this._loadImage2();
+    }
+  }
+
   async _change(type: string, option: {
     page_index: number,
     chapter_id: string,
     trigger?: string
   }) {
-
-
-
     if (!option.chapter_id) return
     if (Number.isNaN(option.page_index) || option.page_index < 0) option.page_index = 0;
     const chapter = this.data.chapters.find(x => x.id == option.chapter_id);
@@ -730,6 +755,7 @@ export class CurrentService {
   }
 
   close() {
+    this.is_destroy = true;
     this._setWebDbComicsConfig(this.data.comics_id);
     this.data.is_init_free = false;
     const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id)

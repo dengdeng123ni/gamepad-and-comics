@@ -177,6 +177,7 @@ export class DoublePageReaderV2DefaultComponent {
     await this.previous();
     setTimeout(async () => {
       await this.next();
+      this.current._loadPages(this.data.chapter_id)
     })
   }
 
@@ -254,6 +255,7 @@ export class DoublePageReaderV2DefaultComponent {
     if (index > 5 && (index + 3) >= pages.length) {
       setTimeout(async () => {
         const list = await this.current._getNextChapterId(chapter_id);
+        this.current._loadPages(chapter_id)
         this.isWideImage(list[0], list[1]);
         setTimeout(() => {
           this.isWideImage(list[2], list[3]);
@@ -417,7 +419,8 @@ export class DoublePageReaderV2DefaultComponent {
     if (secondary) secondary.src = await this.current._getImage(secondary.src)
 
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
-
+    if (primary&&imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
+    if (secondary&&imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
     if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
       return {
         'primary': { ...primary, width: imgPrimary.width, height: imgPrimary.height },
