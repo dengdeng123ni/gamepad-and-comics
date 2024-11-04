@@ -119,7 +119,7 @@ export class MenuComponent {
           icon: "folder_open",
           name: this.DbEvent.Configs[x].name,
           submenu: [],
-          expanded:false
+          expanded:true
         };
         if (this.DbEvent.Configs[x].menu) {
           for (let index = 0; index < this.DbEvent.Configs[x].menu.length; index++) {
