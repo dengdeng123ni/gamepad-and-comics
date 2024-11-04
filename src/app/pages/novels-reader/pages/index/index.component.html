@@ -2,7 +2,7 @@
   <!-- <mat-drawer [opened]="left.opened" mode="side" style="min-width: 192px;" id="scroll">
     <app-one-page-thumbnail-mode2 *ngIf="left.opened"></app-one-page-thumbnail-mode2>
   </mat-drawer> -->
-  <div [attr.region]="'page_reader'" id="_reader_pages"  class="_reader" [attr.svg_filter]="'background_primary'">
+  <div id="_reader_pages"  class="_reader" [attr.svg_filter]="'background_primary'">
     <div style="width: 100vw;height: 100vh;"  (click)="on($event)" *ngIf="data.is_init_free">
       <app-novels-reader></app-novels-reader>
     </div>

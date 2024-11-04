@@ -1,6 +1,6 @@
 .list[list_type=title] {
   display: grid;
-  padding-top: 8px;
+  padding-bottom: 8px;
   grid-template-columns:1fr 1fr;
 
   // grid-template-rows: repeat(100vw, minmax(320px, 1fr));
@@ -16,8 +16,9 @@
   .item {
 
 
-    text-align: left;
-
+    // text-align: left;
+    display: flex;
+    justify-content: start;
     span {
       color: rgba(255, 255, 255, 0.87);
       display: block;
@@ -39,8 +40,8 @@
 }
 
 .warp{
-  padding: 24px;
-  height: 100vh;
+  padding: 12px;
+  height: calc(100vh - 24px);
   overflow: auto;
 }
 .title{

@@ -4,6 +4,7 @@ import { CurrentService } from '../../services/current.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { ChaptersListService } from '../chapters-list/chapters-list.service';
+import { GamepadEventService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-novels-reader',
@@ -32,11 +33,36 @@ export class NovelsReaderComponent {
     public data: DataService,
     public current: CurrentService,
     public webDb: NgxIndexedDBService,
-    public ChaptersList: ChaptersListService
+    public ChaptersList: ChaptersListService,
+    public GamepadEvent:GamepadEventService,
   ) {
     this.init();
 
+    this.GamepadEvent.registerAreaEvent("novels_reader_v1", {
+      "UP": () => {
+        this.move("UP");
+      },
+      "DOWN": () => {
+        this.move("DOWN");
+      },
+      "LEFT": () => {
+        this.move("LEFT");
+      },
+      "RIGHT": () => {
+        this.move("RIGHT");
+      },
+      "LEFT_BUMPER": () => {
 
+      },
+      "RIGHT_BUMPER": () => {
+      },
+      "B": () => this.back(),
+      "A": () => {
+        let node = document.querySelector("#novels_reader_v1");
+        node.scrollTop = node.scrollTop + window.innerHeight;
+      },
+      "X": () => this.open(),
+    })
 
     this.change$ = this.current.change().subscribe(x => {
 
@@ -56,7 +82,23 @@ export class NovelsReaderComponent {
   open() {
     this.ChaptersList.open({ width: `${this.position.width}px` })
   }
+  move = (move) => {
+    let node = document.querySelector("#novels_reader_v1");
 
+    if (move == "UP" || move == "LEFT") {
+      for (let i = 1; i < 41; i++) {
+        setTimeout(() => {
+          node.scrollTop = node.scrollTop - 5;
+        }, 10 * i)
+      }
+    } else if (move == "DOWN" || move == "RIGHT") {
+      for (let i = 1; i < 41; i++) {
+        setTimeout(() => {
+          node.scrollTop = node.scrollTop + 5;
+        }, 10 * i)
+      }
+    }
+  }
   async init() {
     this.title = this.data.details.title;
     this.author = this.data.details.author.map(x => x.name).toString();
@@ -109,7 +151,7 @@ export class NovelsReaderComponent {
       const container = document.getElementById("novels_reader_v1")
       container.addEventListener("scroll", (event) => {
         const { scrollTop, clientHeight, scrollHeight } = document.getElementById("novels_reader_v1");
-        if ((scrollTop + clientHeight) >= (scrollHeight - 100)) { // 当滚动接近底部时
+        if ((scrollTop + clientHeight) >= (scrollHeight - 200)) { // 当滚动接近底部时
           this.next();
         }
       });

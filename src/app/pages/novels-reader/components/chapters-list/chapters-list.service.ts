@@ -9,11 +9,11 @@ import { ChaptersListComponent } from './chapters-list.component';
 export class ChaptersListService {
 
   constructor( public _dialog: MatDialog, public GamepadEvent: GamepadEventService) {
-    GamepadEvent.registerAreaEvent('chapters_list', {
+    GamepadEvent.registerAreaEvent('novels_chapter_item', {
       B: () => setTimeout(() => this.close())
     })
-    GamepadEvent.registerConfig('chapters_list', {
-      region: ['item'],
+    GamepadEvent.registerConfig('novels_chapters_list', {
+      region: ['novels_chapter_item'],
     });
   }
   public opened: boolean = false;
@@ -23,10 +23,10 @@ export class ChaptersListService {
         ...config,
         autoFocus:false
       });
-      document.body.setAttribute("locked_region","chapters_list");
+      document.body.setAttribute("locked_region","novels_chapters_list");
 
       dialogRef.afterClosed().subscribe(() => {
-        if(document.body.getAttribute("locked_region")=="chapters_list"&&this.opened) document.body.setAttribute("locked_region","reader")
+        if(document.body.getAttribute("locked_region")=="novels_chapters_list"&&this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
       this.opened=true;

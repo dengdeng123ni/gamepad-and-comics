@@ -1,10 +1,10 @@
 <div class="warp">
-  <div class="title">
+  <!-- <div class="title">
     目录
     <span style="font-size: 14px;opacity: 0.34;">共{{data.chapters.length}}章</span>
-  </div>
+  </div> -->
   <div  class="list" [attr.list_type]="'title'" [attr.type]="'list'" >
-    <button class="item" [id]="n.id" [attr._id]="'novels_chapter_item_' + n.id" [attr.region]="'item'"
+    <button class="item" [id]="n.id" [attr._id]="'novels_chapter_item_' + n.id" [attr.region]="'novels_chapter_item'"
       [attr.multiple]="n.selected" [attr.content_menu_key]="'novels_chapter_item'" [attr.content_menu_value]="n.id"
       [matTooltipShowDelay]="5000" [matTooltip]="n.title" mat-button *ngFor="let n of data.chapters;let index=index"
       [attr.index]="index" [attr.current]="data.chapter_id==n.id"

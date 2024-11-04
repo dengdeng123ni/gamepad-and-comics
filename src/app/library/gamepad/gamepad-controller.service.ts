@@ -129,7 +129,7 @@ export class GamepadControllerService {
     this.isRunning = true;
     try {
       await this.getNodes();
-      await this.sleep(500);
+      await this.sleep(1000);
       this.execute();
     } finally {
       // 清理状态，以便下次执行

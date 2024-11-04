@@ -1,6 +1,7 @@
-<div class="warp" id="novels_reader_v1">
-  <div class="chapter" *ngFor="let n of list;" [attr.index]="n.index">
-    <div class="title">
+<div class="warp" id="novels_reader_v1" [attr.region]="'novels_reader_v1'" [attr.default]="true"
+[attr.select]="true">
+  <div class="chapter" *ngFor="let n of list;let index=index" [attr.index]="n.index">
+    <div class="title" >
       {{n.title}}
     </div>
     <div class="other">
@@ -8,8 +9,8 @@
       {{author}}
       {{n.length}}
     </div>
-    <div class="content">
-      <span *ngFor="let c of n.pages">
+    <div class="content"  >
+      <span *ngFor="let c of n.pages"  >
         {{c.content}}
       </span>
     </div>

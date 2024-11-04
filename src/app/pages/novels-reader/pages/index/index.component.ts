@@ -33,7 +33,8 @@ export class IndexComponent {
         // this.KeyboardToolbar.isToggle()
       }
     })
-
+    GamepadEvent.registerConfig("novels_reader", { region: ["novels_reader_v1"] })
+    GamepadEvent.registerConfig("comics_type", { region: ["comics_type_item"] })
     // this.KeyboardEvent.registerGlobalEvent({
     //   "p": () => this.KeyboardToolbar.isToggle(),
 
@@ -45,7 +46,7 @@ export class IndexComponent {
     // setTimeout(()=>{
     //   KeyboardToolbar.open()
     // },1000)
-    document.body.setAttribute("router", "reader")
+    document.body.setAttribute("router", "novels_reader")
     document.body.setAttribute("locked_region",document.body.getAttribute("router"))
 
     // ReaderConfig.open();
@@ -56,7 +57,7 @@ export class IndexComponent {
         this.App.setsource(params.get('source'))
         this.data.init();
         this.current._init(params.get('source'),params.get('id').toString() as string, params.get('sid').toString() as string)
-       console.log(123);
+
 
         return
       }
