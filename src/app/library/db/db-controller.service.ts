@@ -119,6 +119,7 @@ export class DbControllerService {
               res.chapters.forEach(x => {
                 if (x?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
                 if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+                if(!x.cover) x.cover =res.cover;
               })
             } else {
               res = await this.DbEvent.Events[option.source]["getDetail"](id);
@@ -128,6 +129,7 @@ export class DbControllerService {
               res.chapters.forEach(x => {
                 this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
                 if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+                if(!x.cover) x.cover =res.cover;
               })
             }
           } else {
