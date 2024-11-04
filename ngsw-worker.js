@@ -1,3 +1,4 @@
+
 (() => {
   var __defProp = Object.defineProperty;
   var __defProps = Object.defineProperties;
@@ -152,7 +153,7 @@
 
   // bazel-out/darwin_arm64-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/worker/src/api.mjs
   var UpdateCacheStatus;
-  (function(UpdateCacheStatus2) {
+  (function (UpdateCacheStatus2) {
     UpdateCacheStatus2[UpdateCacheStatus2["NOT_CACHED"] = 0] = "NOT_CACHED";
     UpdateCacheStatus2[UpdateCacheStatus2["CACHED_BUT_UNUSED"] = 1] = "CACHED_BUT_UNUSED";
     UpdateCacheStatus2[UpdateCacheStatus2["CACHED"] = 2] = "CACHED";
@@ -223,7 +224,7 @@ ${error.stack}`;
     return a << count | a >>> 32 - count;
   }
   var Endian;
-  (function(Endian2) {
+  (function (Endian2) {
     Endian2[Endian2["Little"] = 0] = "Little";
     Endian2[Endian2["Big"] = 1] = "Big";
   })(Endian || (Endian = {}));
@@ -1215,7 +1216,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
     "vibrate"
   ];
   var DriverReadyState;
-  (function(DriverReadyState2) {
+  (function (DriverReadyState2) {
     DriverReadyState2[DriverReadyState2["NORMAL"] = 0] = "NORMAL";
     DriverReadyState2[DriverReadyState2["EXISTING_CLIENTS_ONLY"] = 1] = "EXISTING_CLIENTS_ONLY";
     DriverReadyState2[DriverReadyState2["SAFE_MODE"] = 2] = "SAFE_MODE";
@@ -1260,9 +1261,50 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       this.scope.addEventListener("notificationclick", (event) => this.onClick(event));
       this.debugger = new DebugHandler(this, this.adapter);
       this.idle = new IdleScheduler(this.adapter, IDLE_DELAY, MAX_IDLE_DELAY, this.debugger);
+
+      this._data_images = {};
+      this.image_cache = null;
+      this.init();
+
+    }
+    async init() {
+      this.image_cache = await caches.open('image');
+      await this.broadcast({ type: "init" })
+    }
+    getImage = async (url) => {
+      const res = await this.image_cache.match(url);
+      if (res) {
+        return res
+      } else {
+        await this.broadcast({ type: "local_image", id: url })
+        let bool = true;
+        return new Promise((r, j) => {
+          const getFile = () => {
+            setTimeout(async () => {
+              if (this._data_images[url]) {
+                delete this._data_images[url]
+                const res = await this.image_cache.match(url);
+                return r(res)
+              } else {
+                if (bool) getFile()
+              }
+            }, 66)
+          }
+          getFile()
+          setTimeout(() => {
+            bool = false;
+            r(new Response(""))
+            j(new Response(""))
+          }, 30000)
+        })
+      }
     }
     onFetch(event) {
       const req = event.request;
+      if (req.url.substring(0, 21) == "http://localhost:7700") {
+        event.respondWith(this.getImage(req.url))
+        return;
+      }
       const scopeUrl = this.scope.registration.scope;
       const requestUrlObj = this.adapter.parseUrl(req.url, scopeUrl);
       if (req.headers.has("ngsw-bypass") || /[?&]ngsw-bypass(?:[=&]|$)/i.test(requestUrlObj.search)) {
@@ -1294,6 +1336,16 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         return;
       }
       const data = event.data;
+      if (data && data.type && data.type == "local_image") {
+        this._data_images[data.id] = data;
+        return;
+      }
+
+      if (data && data.type && data.type == "_init") {
+        this.broadcast({ type: "init" })
+        return;
+      }
+
       if (!data || !data.action) {
         return;
       }
