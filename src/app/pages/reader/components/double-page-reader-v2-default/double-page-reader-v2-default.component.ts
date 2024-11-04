@@ -114,6 +114,7 @@ export class DoublePageReaderV2DefaultComponent {
         this.change(x.chapter_id, x.pages, x.page_index)
       } else if (x.type == "changeChapter") {
         this.change(x.chapter_id, x.pages, x.page_index)
+        this.current._loadPages(x.chapter_id)
       } else if (x.type == "nextPage") {
         this.swiper.slideNext();
       } else if (x.type == "previousPage") {

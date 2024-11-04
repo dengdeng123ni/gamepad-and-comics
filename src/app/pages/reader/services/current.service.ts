@@ -704,6 +704,7 @@ export class CurrentService {
   }
 
   async _loadImage2() {
+    if(this.await_load_pages.length==0) return
     if (!this.is_load_image && !this.is_destroy) {
       this.is_load_image = true;
       if (this.await_load_pages.length == 1) {
@@ -711,13 +712,11 @@ export class CurrentService {
         await this.DbController.getImage(url, { source: this.source })
         this.await_load_pages = this.await_load_pages.filter(x => x.src != url);
       } else {
-        if(this.await_load_pages.length){
-          const url = this.await_load_pages[0].src;
-          const url1 = this.await_load_pages[1].src;
-          await Promise.all([this.DbController.getImage(url, { source: this.source }), this.DbController.getImage(url1, { source: this.source })])
-          this.await_load_pages = this.await_load_pages.filter(x => x.src != url);
-          this.await_load_pages = this.await_load_pages.filter(x => x.src != url1);
-        }
+        const url = this.await_load_pages[0].src;
+        const url1 = this.await_load_pages[1].src;
+        await Promise.all([this.DbController.getImage(url, { source: this.source }), this.DbController.getImage(url1, { source: this.source })])
+        this.await_load_pages = this.await_load_pages.filter(x => x.src != url);
+        this.await_load_pages = this.await_load_pages.filter(x => x.src != url1);
       }
       this.is_load_image = false;
       this._loadImage2();
