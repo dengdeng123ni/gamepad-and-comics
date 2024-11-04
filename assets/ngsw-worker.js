@@ -1288,7 +1288,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
               } else {
                 if (bool) getFile()
               }
-            }, 33)
+            }, 66)
           }
           getFile()
           setTimeout(() => {
