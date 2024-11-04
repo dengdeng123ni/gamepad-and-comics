@@ -185,6 +185,24 @@ export class AppComponent {
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     this.init();
+    // GamepadEvent.areaEvents("content_menu",{
+    //   UP:()=>
+    // })
+
+    // this.GamepadEvent.registerAreaEvent("content_menu", {
+    //   "UP": () => {
+    //     this.GamepadController.setMoveTargetPrevious();
+    //   },
+    //   "DOWN": () => {
+    //     this.GamepadController.setMoveTargetNext();
+    //   },
+    //   "LEFT": () => {
+    //     this.GamepadController.setMoveTargetPrevious();
+    //   },
+    //   "RIGHT": () => {
+    //     this.GamepadController.setMoveTargetNext();
+    //   }
+    // })
 
   }
   ngOnDestroy() {

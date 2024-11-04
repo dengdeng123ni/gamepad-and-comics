@@ -14,9 +14,6 @@
         [attr.select]="index == 0"
         [attr.default]="index == 0"
         [attr.region]="'content_menu'"
-        [attr.gamepad_movable_region]="
-          { left: 'content_menu_submenu', right: 'content_menu_submenu' } | json
-        "
         (click)="
           item.submenu
             ? submenuOpen($event)
@@ -37,7 +34,6 @@
         [attr.select]="index == 0"
         [attr.default]="index == 0"
         [attr.region]="'content_menu'"
-        [attr.gamepad_movable_region]="{} | json"
         [attr.svg_filter]="'text_primary'"
         (click)="contextMenu.afterClosed$.next(item.arg)"
         [matTooltipShowDelay]="10000"
@@ -58,7 +54,6 @@
             [attr.select]="false"
             [attr.default]="false"
             [attr.region]="'content_menu_submenu'"
-            [attr.gamepad_movable_region]="{'left':'content_menu','right':'content_menu'} | json"
             (click)="contextMenu.afterClosed$.next(item.arg)"
             [matTooltipShowDelay]="10000"
             [matTooltip]="item.text ? item.name :item.name | translate"
@@ -74,9 +69,6 @@
         [attr.default]="false"
         [attr.svg_filter]="'text_primary'"
         [attr.region]="'content_menu_submenu'"
-        [attr.gamepad_movable_region]="
-          { left: 'content_menu', right: 'content_menu_children' } | json
-        "
         (click)="
           item.submenu
             ? submenuOpen($event)
@@ -96,9 +88,6 @@
         [attr.select]="false"
         [attr.default]="false"
         [attr.region]="'content_menu_submenu'"
-        [attr.gamepad_movable_region]="
-          { left: 'content_menu', right: 'content_menu' } | json
-        "
         [attr.svg_filter]="'text_primary'"
         (click)="contextMenu.afterClosed$.next(item.arg)"
         [matTooltipShowDelay]="10000"
@@ -119,9 +108,6 @@
       [attr.select]="false"
       [attr.default]="false"
       [attr.region]="'content_menu_children'"
-      [attr.gamepad_movable_region]="
-        { left: 'content_menu_submenu', right: 'content_menu_submenu' } | json
-      "
       (click)="contextMenu.afterClosed$.next(item.arg)"
       [matTooltipShowDelay]="10000"
       [matTooltip]="item.text ? item.name : item.name"
