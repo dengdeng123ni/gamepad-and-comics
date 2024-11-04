@@ -233,14 +233,12 @@ export class DoublePageReaderV2Component {
     const index = indexs.sort((a, b) => b - a)[0] + 1;
     const chapter_id = nodes[0].getAttribute("chapter_id");
     const pages = await this.current._getChapter(chapter_id);
+    console.log(index > 5 && (index + 3) >= pages.length);
+
     if (index > 5 && (index + 3) >= pages.length) {
       setTimeout(async () => {
-        const list = await this.current._getNextChapterId(chapter_id);
-        this.current._loadPages(chapter_id)
-        this.isWideImage(list[0], list[1]);
-        setTimeout(() => {
-          this.isWideImage(list[2], list[3]);
-        })
+        const next_chapter_id = await this.current._getNextChapterId(chapter_id);
+        this.current._loadPages(next_chapter_id)
       }, 300)
     }
     if (index >= pages.length) {
