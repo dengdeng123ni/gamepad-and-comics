@@ -66,6 +66,7 @@ export class MenuSearchComponent {
 
   async init() {
     this.comics_list =( await firstValueFrom(this.webDb.getAll('history')) as any).sort((a, b) => b.last_read_date - a.last_read_date)
+    this.comics_list= this.comics_list.filter(x=>x.source!="temporary_file")
     this.filter_comics_list= this.comics_list.slice(0,20)
   }
   focus(){

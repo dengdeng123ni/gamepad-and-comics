@@ -49,21 +49,33 @@ export class MessageFetchService {
       })).toString().toLowerCase()
       if (!this._data_proxy_request[id]) {
         this._data_proxy_request[id] = true;
-
-        window.postMessage({
-          id: id,
-          type: "website_proxy_request",
-          proxy_request_website_url: option.proxy,
-          proxy_response_website_url: window.location.origin,
-          http: {
-            url: url,
-            option: {
-              "headers": init.headers,
-              "body": body,
-              "method": init.method
+        const send=()=>{
+          window.postMessage({
+            id: id,
+            type: "website_proxy_request",
+            proxy_request_website_url: option.proxy,
+            proxy_response_website_url: window.location.origin,
+            http: {
+              url: url,
+              option: {
+                "headers": init.headers,
+                "body": body,
+                "method": init.method
+              }
             }
+          });
+        }
+        send();
+        setTimeout(()=>{
+          if (!this._data_proxy_response[id]) {
+            send();
           }
-        });
+        },10000)
+        setTimeout(()=>{
+          if (!this._data_proxy_response[id]) {
+            send();
+          }
+        },20000)
       }
 
     } else {
@@ -81,20 +93,29 @@ export class MessageFetchService {
       })).toString().toLowerCase()
       if (!this._data_proxy_request[id]) {
         this._data_proxy_request[id] = true;
-        window.postMessage({
-          id: id,
-          type: "pulg_proxy_request",
-          proxy_response_website_url: window.location.origin,
-          http: {
-            url: url,
-            option: {
-              "headers": init.headers,
-              "body": body,
-              "method": init.method
+        const send=()=>{
+          window.postMessage({
+            id: id,
+            type: "pulg_proxy_request",
+            proxy_response_website_url: window.location.origin,
+            http: {
+              url: url,
+              option: {
+                "headers": init.headers,
+                "body": body,
+                "method": init.method
+              }
             }
+          });
+        }
+        send();
+        setTimeout(()=>{
+          if (!this._data_proxy_response[id]) {
+            send();
           }
-        });
+        },20000)
       }
+
     }
     return new Promise((r, j) => {
       const getData = () => {
@@ -107,11 +128,14 @@ export class MessageFetchService {
         }, 33)
       }
       getData()
+
       setTimeout(() => {
         bool = false;
         r(new Response(""))
         j(new Response(""))
+        this._data_proxy_request[id]=undefined;
       }, 40000)
+
     })
   }
 

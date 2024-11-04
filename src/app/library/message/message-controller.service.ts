@@ -44,9 +44,7 @@ export class MessageControllerService {
         setTimeout(()=>{
           http._data_proxy_response[event.data.id]=undefined;
           http._data_proxy_request[event.data.id]=undefined;
-        },30000)
-
-
+        },40000)
       }else if (event.data.type == "specify_link") {
         MessageEvent.OtherEvents['specify_link'](event.data.data)
       }

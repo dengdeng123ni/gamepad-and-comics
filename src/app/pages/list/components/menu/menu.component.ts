@@ -119,6 +119,7 @@ export class MenuComponent {
           icon: "folder_open",
           name: this.DbEvent.Configs[x].name,
           submenu: [],
+          expanded:false
         };
         if (this.DbEvent.Configs[x].menu) {
           for (let index = 0; index < this.DbEvent.Configs[x].menu.length; index++) {
@@ -157,6 +158,8 @@ export class MenuComponent {
 
       }else{
         this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==this.AppData.source)
+        const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
+        this.data.menu[index].expanded=true;
       }
 
       this.data.menu.push({
@@ -281,6 +284,20 @@ export class MenuComponent {
         ]
     })
 
+
+  }
+  async is_on(e){
+    console.log(e);
+
+    // this.data.menu.forEach(x=>{
+    //   if(x.id==e.id) {
+    //     // x.expanded=true;
+    //   }else{
+    //     x.expanded=false;
+    //   }
+    // })
+    // const index= this.data.menu.findIndex(x=>x.id==e.id)
+    // this.data.menu[index].expanded=true;
 
   }
 

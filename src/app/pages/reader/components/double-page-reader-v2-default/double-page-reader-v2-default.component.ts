@@ -404,7 +404,7 @@ export class DoublePageReaderV2DefaultComponent {
       if (url) {
         const img = new Image();
         img.onload = () => resolve(img);
-        img.onerror = () => reject({ width: 0, height: 0 });
+        img.onerror = () => resolve({ width: 0, height: 0 });
         img.src = url;
       } else {
         resolve({ width: 0, height: 0 });

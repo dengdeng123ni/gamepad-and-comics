@@ -171,12 +171,11 @@ export class MultiplePageReaderMode1Component {
     this.is_load = false;
   }
   loadImage = async (url: string) => {
-    url = await this.image.getImageBase64(url)
     return new Promise<any>((resolve, reject) => {
       if (url) {
         const img = new Image();
         img.onload = () => resolve(img);
-        img.onerror = () => reject({ width: 0, height: 0 });
+        img.onerror = () => resolve({ width: 0, height: 0 });
         img.src = url;
       } else {
         resolve({ width: 0, height: 0 });

@@ -240,7 +240,7 @@ export class DoublePageReaderV2Component {
         setTimeout(() => {
           this.isWideImage(list[2], list[3]);
         })
-      },300)
+      }, 300)
     }
     if (index >= pages.length) {
       const next_chapter_id = await this.current._getNextChapterId(chapter_id);
@@ -414,7 +414,7 @@ export class DoublePageReaderV2Component {
       if (url) {
         const img = new Image();
         img.onload = () => resolve(img);
-        img.onerror = () => reject({ width: 0, height: 0 });
+        img.onerror = () => resolve({ width: 0, height: 0 });
         img.src = url;
       } else {
         resolve({ width: 0, height: 0 });
@@ -422,11 +422,14 @@ export class DoublePageReaderV2Component {
     });
   }
 
+
+
   isWideImage = async (primary: any, secondary: any) => {
     if (primary) primary.src = await this.current._getImage(primary.src)
     if (secondary) secondary.src = await this.current._getImage(secondary.src)
-
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
+    if (imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
+    if (imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
 
     if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
       return {

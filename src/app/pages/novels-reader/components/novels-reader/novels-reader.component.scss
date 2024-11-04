@@ -23,15 +23,13 @@
 }
 
 .title {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.74);
   font-size: 24px;
   margin: 24px;
-  opacity: 0.74;
 }
 
 .other {
-  color: #fff;
-  opacity: 0.34;
+  color: rgba(255, 255, 255, 0.34);
 
   margin: 0 24px;
 }
@@ -53,6 +51,7 @@ span {
   flex-direction: column;
   position: fixed;
 
+  color: rgba(255, 255, 255, 0.74);
 }
 
 :host ::ng-deep {

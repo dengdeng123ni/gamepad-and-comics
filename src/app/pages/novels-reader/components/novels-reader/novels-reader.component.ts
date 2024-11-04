@@ -76,17 +76,22 @@ export class NovelsReaderComponent {
     const obj = this.data.chapters[index];
     const id = obj.id;
     const pages = await this.current._getChapter(id);
-    const lengths = pages.map(x => x.content.length)
-    let length = 0;
-    lengths.forEach(x => {
-      length = length + x;
-    })
-    this.list.push({
-      ...obj,
-      index: index,
-      pages: pages,
-      length: length
-    })
+    console.log(this.list.find(x=>x.id!=id));
+
+    if(!this.list.find(x=>x.id==id)){
+      const lengths = pages.map(x => x.content.length)
+      let length = 0;
+      lengths.forEach(x => {
+        length = length + x;
+      })
+      this.list.push({
+        ...obj,
+        index: index,
+        pages: pages,
+        length: length
+      })
+    }
+
 
     setTimeout(() => {
       this.position = document.querySelector(".chapter").getBoundingClientRect();
