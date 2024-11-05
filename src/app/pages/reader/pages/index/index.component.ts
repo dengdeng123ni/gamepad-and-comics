@@ -49,6 +49,7 @@ export class IndexComponent {
     public Prompt: PromptService
   ) {
 
+
     GamepadEvent.registerAreaEvent('page_reader', {
       B:()=>window.history.back()
     })
@@ -70,6 +71,7 @@ export class IndexComponent {
     // },1000)
     document.body.setAttribute("router", "reader")
     document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+
 
     // ReaderConfig.open();
     // this.LoadingCover.open();
@@ -96,6 +98,7 @@ export class IndexComponent {
   }
   ngAfterViewInit() {
     this.getIsImage();
+
   }
   close() {
 

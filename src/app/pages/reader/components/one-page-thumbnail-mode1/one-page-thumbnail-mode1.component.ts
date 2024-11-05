@@ -4,6 +4,7 @@ import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { ContextMenuEventService } from 'src/app/library/public-api';
+import { MatSnackBar } from '@angular/material/snack-bar';
 interface DialogData {
   chapter_id: string;
   page_index: number
@@ -23,47 +24,48 @@ export class OnePageThumbnailMode1Component {
     public OnePageThumbnailMode1: OnePageThumbnailMode1Service,
     @Inject(MAT_BOTTOM_SHEET_DATA) public _data: DialogData,
     private zone: NgZone,
-    public ContextMenuEvent:ContextMenuEventService
+    private _snackBar: MatSnackBar,
+    public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init(this._data);
-    if(data.is_cache){
+    if (data.is_cache) {
       ContextMenuEvent.register('one_page_item', {
         on: async e => {
 
           if (e.id == "delete") {
             this.current._delPage(this.data.chapter_id, parseInt(e.value)).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+              this.init2({ chapter_id: this.data.chapter_id, page_index: parseInt(e.value) })
             })
-          }else if (e.id == "insertPageBefore") {
+          } else if (e.id == "insertPageBefore") {
             this.current._insertPage(this.data.chapter_id, parseInt(e.value)).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+              this.init2({ chapter_id: this.data.chapter_id, page_index: parseInt(e.value) })
             })
           } else if (e.id == "insertPageAfter") {
-            this.current._insertPage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+            this.current._insertPage(this.data.chapter_id, parseInt(e.value) + 1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: parseInt(e.value) })
             })
-          }else if (e.id == "insertWhitePageBefore") {
+          } else if (e.id == "insertWhitePageBefore") {
             this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value)).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+              this.init2({ chapter_id: this.data.chapter_id, page_index: parseInt(e.value) })
             })
           } else if (e.id == "insertWhitePageAfter") {
-            this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value)+1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index:  parseInt(e.value) })
+            this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value) + 1).then(() => {
+              this.init2({ chapter_id: this.data.chapter_id, page_index: parseInt(e.value) })
             })
           }
         },
         menu: [
           {
-            name: "插入空白页", "id": "insertWhitePage",submenu:[
-              { name: "前", "id": "insertWhitePageBefore"},
+            name: "插入空白页", "id": "insertWhitePage", submenu: [
+              { name: "前", "id": "insertWhitePageBefore" },
               {
                 name: "后", "id": "insertWhitePageAfter"
               },
             ]
           },
           {
-            name: "插入", "id": "insertPage",submenu:[
-              { name: "前", "id": "insertPageBefore"},
+            name: "插入", "id": "insertPage", submenu: [
+              { name: "前", "id": "insertPageBefore" },
               {
                 name: "后", "id": "insertPageAfter"
               },
@@ -73,25 +75,36 @@ export class OnePageThumbnailMode1Component {
           { name: "删除", id: "delete" },
         ]
       })
-    }else{
-       ContextMenuEvent.register('one_page_item',{})
+    } else {
+      ContextMenuEvent.register('one_page_item', {})
     }
 
   }
 
   async init(_data?: DialogData) {
+    let bool=false;
+
+    setTimeout(()=>{
+      if(!bool){
+        this._snackBar.open("图片数据缓冲中,请稍后再试", null, { panelClass: "_chapter_prompt",
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+        this.OnePageThumbnailMode1.close();
+      }
+    },1000)
+    bool=await this.current._loadPagesFree(this.data.chapter_id)
 
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
-
       this.page_index = this.data.page_index;
     } else {
       this.pages = this.data.pages as any;
-
       this.page_index = this.data.page_index;
     }
+
     this.zone.run(() => {
-      setTimeout(()=>{
+      setTimeout(() => {
         if (this.data.page_index || this.page_index === 0) {
           let container = document.querySelector("#one_page") as any;
           let node = document.querySelector(`[_id=one_page_item_${this.page_index}]`);
@@ -99,14 +112,14 @@ export class OnePageThumbnailMode1Component {
             changes => {
               changes.forEach(x => {
                 if (x.intersectionRatio != 1) {
-                  node!.scrollIntoView({ behavior: 'instant',block: "center", inline: "center" })
+                  node!.scrollIntoView({ behavior: 'instant', block: "center", inline: "center" })
                   container.classList.remove("opacity-0");
                 }
-                if(node) observer.unobserve(node);
+                if (node) observer.unobserve(node);
               });
             }
           );
-          if(node) observer.observe(node);
+          if (node) observer.observe(node);
         }
       })
     })
@@ -133,7 +146,7 @@ export class OnePageThumbnailMode1Component {
 
   }
   on(index: number) {
-    this.page_index=index;
+    this.page_index = index;
     this.current._pageChange(index)
     this.OnePageThumbnailMode1.close();
   }

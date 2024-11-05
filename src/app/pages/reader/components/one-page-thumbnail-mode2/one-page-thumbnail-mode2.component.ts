@@ -3,6 +3,7 @@ import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { OnePageThumbnailMode2Service } from './one-page-thumbnail-mode2.service';
 import { ContextMenuEventService } from 'src/app/library/public-api';
+import { MatSnackBar } from '@angular/material/snack-bar';
 interface DialogData {
   chapter_id: string;
   page_index: number
@@ -26,6 +27,7 @@ export class OnePageThumbnailMode2Component {
     public data: DataService,
     public OnePageThumbnailMode2: OnePageThumbnailMode2Service,
     private zone: NgZone,
+    private _snackBar: MatSnackBar,
     public ContextMenuEvent:ContextMenuEventService
   ) {
     this.change$ = this.current.change().subscribe(x => {
@@ -88,6 +90,8 @@ export class OnePageThumbnailMode2Component {
 
   }
   async init2(_data?: DialogData) {
+    await this.current._loadPagesFree(this.data.chapter_id)
+
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
       this.page_index = this.data.page_index;
@@ -99,6 +103,18 @@ export class OnePageThumbnailMode2Component {
 
   }
   async init(_data?: DialogData) {
+    let bool=false;
+
+    setTimeout(()=>{
+      if(!bool){
+        this._snackBar.open("图片数据缓冲中,请稍后再试", null, { panelClass: "_chapter_prompt",
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+        this.OnePageThumbnailMode2.close();
+      }
+    },1000)
+    bool=await this.current._loadPagesFree(this.data.chapter_id)
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
       this.page_index = this.data.page_index;

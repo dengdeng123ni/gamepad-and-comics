@@ -707,12 +707,23 @@ export class CurrentService {
     this._loadImage2();
   }
 
+  async _loadPagesFree(chapter_id) {
+    const pages = await this._getChapter(chapter_id)
+    for (let index = 0; index < pages.length; index++) {
+      const x = pages[index];
+      const c = await caches.match(x.src);
+      if (!c) {
+        await this._getImage(x.src)
+      }
+    }
+    return true
+  }
+
   async _loadImage2() {
 
-    if(this.await_load_pages.length==0) return
+    if (this.await_load_pages.length == 0) return
     if (!this.is_load_image && !this.is_destroy) {
       this.is_load_image = true;
-      console.log(this.await_load_pages);
 
       if (this.await_load_pages.length == 1) {
         const url = this.await_load_pages[0].src;
