@@ -161,8 +161,8 @@ export class MenuComponent {
 
       }else{
         this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==this.AppData.source)
-        const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
-        this.data.menu[index].expanded=true;
+        // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
+        // this.data.menu[index].expanded=true;
       }
 
       this.data.menu.push({
