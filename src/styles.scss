@@ -317,31 +317,37 @@ body[pattern=gamepad][locked_region=content_menu]{
   }
 }
 
-[svg_filter=background_secondary]{
-  background: yellow !important;
-}
-[svg_filter=background_primary]{
-  background: #000000 !important;
+// [svg_filter=background_secondary]{
+//   background: yellow !important;
+// }
+// [svg_filter=background_primary]{
+//   background: #000000 !important;
+//   .swiper-slide {
+//     background:#000000;
+//   }
 
-}
-[svg_filter=background_accent]{
-  background: #c2185b !important;
+// }
+// [svg_filter=background_accent]{
+//   background: #c2185b !important;
 
-}
+// }
 
-[svg_filter=text_primary]{
-  color: blue !important;
-}
-[svg_filter=text_secondary]{
-  color: red !important;
-  opacity: 1 !important;
-}
-[svg_filter=text_accent]{
-  color: yellow !important;
-}
-.mat-mdc-menu-panel,.mat-mdc-dialog-container .mdc-dialog__surface,.mat-bottom-sheet-container{
-  background: yellow !important;
-}
+// [svg_filter=text_primary]{
+//   color: blue !important;
+// }
+// [svg_filter=text_secondary]{
+//   color: red !important;
+//   opacity: 1 !important;
+// }
+// [svg_filter=text_accent]{
+//   color: yellow !important;
+// }
+
+// .mat-mdc-menu-panel,.mat-mdc-dialog-container .mdc-dialog__surface,.mat-bottom-sheet-container{
+//   background: yellow !important;
+// }
+
+
 // .mat-mdc-button .mat-mdc-button-persistent-ripple::before{
 //   background-// color: #c2185b;
 //   opacity: 0.2 !;

@@ -1,19 +1,19 @@
 <div class="warp">
-  <div class="title">
+  <div class="title" [attr.svg_filter]="'text_secondary'">
     滤镜
   </div>
   <div class="list">
     <button (click)="del()" class="item"
     [attr.select]="true" [attr.region]="'item'"
      mat-button>
-    <div class="name"  >
+    <div class="name"  [attr.svg_filter]="'text_primary'">
       <span>原图</span>
     </div>
   </button>
     <button [id]="'_'+n.id" (click)="on(index)" class="item"
       [attr.select]="false" [attr.region]="'item'"
       *ngFor="let n of list;let index=index" mat-button>
-      <div class="name"  >
+      <div class="name"  [attr.svg_filter]="'text_primary'">
         <span> {{n.name}}</span>
       </div>
     </button>
