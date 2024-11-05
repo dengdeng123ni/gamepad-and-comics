@@ -1,33 +1,42 @@
-<div class="warp">
+<div class="warp" [attr.svg_filter]="'background_primary'">
   <div class="list">
-    <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="menu1.isToggle();close();">
-      <mat-icon>menu_open</mat-icon>
-      </button>
-      <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();">
-        <mat-icon></mat-icon>
-        </button>
-        <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();">
-          <mat-icon></mat-icon>
-          </button>
-          <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();">
-            <mat-icon></mat-icon>
-            </button>
-            <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="true"  class="item" (click)="close();">
-              <mat-icon></mat-icon>
-              </button>
-              <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();">
-                <mat-icon></mat-icon>
-                </button>
-                <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();">
-                  <mat-icon></mat-icon>
-                  </button>
-                  <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();">
-                    <mat-icon></mat-icon>
-                    </button>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="false" class="item" (click)="menu1.isToggle();close();">
+      <mat-icon [attr.svg_filter]="'text_primary'">menu_open</mat-icon>
+    </button>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="false" class="item" (click)="close();">
+      <mat-icon [attr.svg_filter]="'text_primary'"></mat-icon>
+    </button>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="false" class="item" (click)="close();">
+      <mat-icon [attr.svg_filter]="'text_primary'"></mat-icon>
+    </button>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="false" class="item" (click)="close();">
+      <mat-icon [attr.svg_filter]="'text_primary'"></mat-icon>
+    </button>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="true" class="item" (click)="close();">
+      <mat-icon [attr.svg_filter]="'text_primary'"></mat-icon>
+    </button>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="false" class="item" (click)="close();">
+      <mat-icon [attr.svg_filter]="'text_primary'"></mat-icon>
+    </button>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="false" class="item" (click)="close();powerSettingsNew()">
+      <mat-icon [attr.svg_filter]="'text_primary'">power_settings_new</mat-icon>
+    </button>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="false" class="item" (click)="close();">
+      <mat-icon [attr.svg_filter]="'text_primary'"></mat-icon>
+    </button>
 
-   <button mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="close();isFullChange()">
-      <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
-        <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
+    <button mat-icon-button [attr.svg_filter]="'background_secondary'" [attr.region]="'kyboard_toolbar_item'"
+      [attr.select]="false" class="item" (click)="close();isFullChange()">
+      <mat-icon [attr.svg_filter]="'text_primary'" *ngIf="isfullscreen">fullscreen_exit</mat-icon>
+      <mat-icon [attr.svg_filter]="'text_primary'" *ngIf="!isfullscreen">fullscreen</mat-icon>
     </button>
   </div>
 </div>
