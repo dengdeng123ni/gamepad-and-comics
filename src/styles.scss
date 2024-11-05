@@ -1,5 +1,6 @@
 @import "@angular/material/prebuilt-themes/pink-bluegrey.css";
 @import "./app/styles/index.scss";
+
 html,
 body {
   height: 100%;
@@ -16,10 +17,12 @@ body {
   color: rgba(255, 255, 255, 0.87);
   font-size: 14px;
 }
+
 .mat-mdc-button-touch-target {
   height: 100% !important;
   width: 100% !important;
 }
+
 .mat-mdc-menu-item {
   height: 30px !important;
   line-height: 30px !important;
@@ -46,13 +49,10 @@ body {
     font-weight: 400 !important;
   }
 }
-._comics_select_type{
 
-}
+._comics_select_type {}
 
-._comics_select_type_bg{
-
-}
+._comics_select_type_bg {}
 
 
 
@@ -72,6 +72,7 @@ body {
     box-shadow: none !important;
   }
 }
+
 ._history_comics_list {
   max-width: none;
   width: 100%;
@@ -91,6 +92,7 @@ body {
 .opacity-0 {
   opacity: 0;
 }
+
 //
 ._section {
   .mat-bottom-sheet-container {
@@ -110,19 +112,29 @@ body {
     // max-height: 100% !important;
   }
 }
-img, svg, video, canvas, audio, iframe, embed, object {
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
   display: block;
   vertical-align: middle;
 }
-app-image{
+
+app-image {
   display: block;
   position: relative;
 }
 
 
-[opacity_0]{
+[opacity_0] {
   filter: brightness(0) invert(1);
 }
+
 [opacity_0]::before {
   position: absolute;
   top: 0;
@@ -134,16 +146,19 @@ app-image{
   background-size: cover;
   background: #303030
 }
+
 .swiper-slide {
   background: #303030;
   display: flex;
   justify-content: center;
 }
-._loading_cover_bg{
+
+._loading_cover_bg {
   background: rgba(0, 0, 0, 0.32);
   backdrop-filter: brightness(0.5) blur(10px);
 
 }
+
 ._loading_cover {
   max-width: none;
   width: 100%;
@@ -160,7 +175,9 @@ app-image{
 
 
 
-body[pattern=gamepad][locked_region=list],
+
+html{
+  body[pattern=gamepad][locked_region=list],
 body[pattern=gamepad][locked_region=detail],
 body[pattern=gamepad][locked_region=reader],
 body[pattern=gamepad][locked_region=chapters_thumbnail],
@@ -186,8 +203,8 @@ body[pattern=gamepad][locked_region=controller_settings],
 body[pattern=gamepad][locked_region=sound_effects],
 body[pattern=gamepad][locked_region=pulg_javascript],
 body[pattern=gamepad][locked_region=dialog],
-body[pattern=gamepad][locked_region=novels_chapters_list]
-{
+body[pattern=gamepad][locked_region=novels_chapters_list] {
+
   [region=item][select=true],
   [region=input][select=true],
   [region=one_page_item][select=true],
@@ -206,10 +223,7 @@ body[pattern=gamepad][locked_region=novels_chapters_list]
   [region=menu_search_input][select=true],
   [region=menu_search_comics_item][select=true],
   [region=novels_chapter_item][select=true],
-  [region=reset_reading_progress][select=true]
-  [region=novels_chapters_item][select=true]
-
-  {
+  [region=reset_reading_progress][select=true] [region=novels_chapters_item][select=true] {
     position: relative;
 
     &::after {
@@ -218,16 +232,14 @@ body[pattern=gamepad][locked_region=novels_chapters_list]
   }
 }
 
-body[pattern=gamepad][locked_region=list]
-{
+body[pattern=gamepad][locked_region=list] {
+
   [region=input][select=true],
   [region=comics_option][select=true],
   [region=comics_item][select=true],
   [region=menu_input][select=true],
   [region=settings][select=true],
-  [region=novels_item][select=true]
-
-  {
+  [region=novels_item][select=true] {
     position: relative;
 
     &::after {
@@ -236,14 +248,10 @@ body[pattern=gamepad][locked_region=list]
   }
 }
 
-
-
-
-body[pattern=gamepad][locked_region=content_menu]{
+body[pattern=gamepad][locked_region=content_menu] {
 
   [region=content_menu][select=true],
-  [region=content_menu_submenu][select=true]
-  {
+  [region=content_menu_submenu][select=true] {
     position: relative;
 
     &::after {
@@ -251,103 +259,207 @@ body[pattern=gamepad][locked_region=content_menu]{
     }
   }
 }
-
-.default_frame {
-  content: "";
-  position: absolute;
-  width: calc(100% - 4px);
-  height: calc(100% - 4px);
-  left: 0;
-  border: 2px solid #ffffff57;
-  border-radius: 4px;
-  top: 0;
-  // z-index: -1;
+  .default_frame {
+    content: "";
+    position: absolute;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    left: 0;
+    border: 2px solid #ffffff57;
+    border-radius: 4px;
+    top: 0;
+    // z-index: -1;
+  }
 }
 
-[type=checkbox][select=true]{
+
+[type=checkbox][select=true] {
   &::after {
     width: calc(100% + 6px) !important;
     top: 0px !important;
   }
 }
 
-.item123,[region=item123]{
-  position: relative;
 
-    &::after {
-      @extend .default_frame;
+
+
+html[theme=yeshu] {
+  [svg_filter=background_secondary] {
+    background: yellow !important;
+  }
+
+  [svg_filter=background_primary] {
+    background: #000000 !important;
+
+    .swiper-slide {
+      background: #000000;
     }
+
+  }
+
+  [svg_filter=background_accent] {
+    background: #c2185b !important;
+
+  }
+
+  [svg_filter=text_primary] {
+    color: blue !important;
+  }
+
+  [svg_filter=text_secondary] {
+    color: red !important;
+    opacity: 1 !important;
+  }
+
+  [svg_filter=text_accent] {
+    color: yellow !important;
+  }
+
+  .mat-mdc-menu-submenu-icon {
+    color: red !important;
+  }
+
+  .mat-mdc-menu-panel,
+  .mat-mdc-dialog-container .mdc-dialog__surface,
+  .mat-bottom-sheet-container {
+    background: yellow !important;
+  }
+
+  body[pattern=gamepad][locked_region=list],
+  body[pattern=gamepad][locked_region=detail],
+  body[pattern=gamepad][locked_region=reader],
+  body[pattern=gamepad][locked_region=chapters_thumbnail],
+  body[pattern=gamepad][locked_region=double_page_thumbnail],
+  body[pattern=gamepad][locked_region=gamepad_left_circle_toolbar],
+  body[pattern=gamepad][locked_region=menu],
+  body[pattern=gamepad][locked_region=one_page_mode1],
+  body[pattern=gamepad][locked_region=comics_type],
+  body[pattern=gamepad][locked_region=thumbnail_sidebar_left],
+  body[pattern=gamepad][locked_region=one_page_mode3],
+  body[pattern=gamepad][locked_region=kyboard_toolbar],
+  body[pattern=gamepad][locked_region=reader_config],
+  body[pattern=gamepad][locked_region=chapters_list],
+  body[pattern=gamepad][locked_region=reset_reading_progress],
+  body[pattern=gamepad][locked_region=export_settings],
+  body[pattern=gamepad][locked_region=chapter_unlock],
+  body[pattern=gamepad][locked_region=history_comics_list],
+  body[pattern=gamepad][locked_region=menu_search],
+  body[pattern=gamepad][locked_region=download_option],
+  body[pattern=gamepad][locked_region=url_usage_guide],
+  body[pattern=gamepad][locked_region=plug_in_instructions],
+  body[pattern=gamepad][locked_region=controller_settings],
+  body[pattern=gamepad][locked_region=sound_effects],
+  body[pattern=gamepad][locked_region=pulg_javascript],
+  body[pattern=gamepad][locked_region=dialog],
+  body[pattern=gamepad][locked_region=novels_chapters_list] {
+
+    [region=item][select=true],
+    [region=input][select=true],
+    [region=one_page_item][select=true],
+    [region=comics_option][select=true],
+    [region=chapter_item][select=true],
+    [region=continue][select=true],
+    [region=back][select=true],
+    [region=double_page_thumbnail_item][select=true],
+    [region=gamepad_toolabr_right][select=true],
+    [region=menu_item][select=true],
+    [region=comics_type_item][select=true],
+    [region=one_page_thumbnail_mode2][select=true],
+    [region=one_page_thumbnail_mode3][select=true],
+    [region=kyboard_toolbar_item][select=true],
+    [region=reader_config_item][select=true],
+    [region=menu_search_input][select=true],
+    [region=menu_search_comics_item][select=true],
+    [region=novels_chapter_item][select=true],
+    [region=reset_reading_progress][select=true] [region=novels_chapters_item][select=true] {
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+
+  body[pattern=gamepad][locked_region=list] {
+
+    [region=input][select=true],
+    [region=comics_option][select=true],
+    [region=comics_item][select=true],
+    [region=menu_input][select=true],
+    [region=settings][select=true],
+    [region=novels_item][select=true] {
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+
+
+
+
+  body[pattern=gamepad][locked_region=content_menu] {
+
+    [region=content_menu][select=true],
+    [region=content_menu_submenu][select=true] {
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+
+  .default_frame {
+    content: "";
+    position: absolute;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    left: 0;
+    border: 2px solid red !important;
+    border-radius: 4px;
+    top: 0;
+    // z-index: -1;
+  }
+
 }
 
 
-
-
-
-.edge_corner{
+.edge_corner {
   position: absolute;
-  .button{
-   width: 24px;
-   height: 24px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   cursor: pointer;
+
+  .button {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 
 
-   .triangle{
-     transition: 0.3s all;
-     // opacity: 0;
-     min-width: 12px;
-     height: 12px;
-     max-width: 12px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     cursor: pointer;
-     border-radius: 2px;
-   }
-   &:hover{
-     .triangle{
-       // opacity: 1;
-       background: #c2185b;
-       transform:scale(1.25);
-     }
+    .triangle {
+      transition: 0.3s all;
+      // opacity: 0;
+      min-width: 12px;
+      height: 12px;
+      max-width: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 2px;
+    }
 
-   }
+    &:hover {
+      .triangle {
+        // opacity: 1;
+        background: #c2185b;
+        transform: scale(1.25);
+      }
+
+    }
   }
-}
-
-[svg_filter=background_secondary]{
-  background: yellow !important;
-}
-[svg_filter=background_primary]{
-  background: #000000 !important;
-  .swiper-slide {
-    background:#000000;
-  }
-
-}
-[svg_filter=background_accent]{
-  background: #c2185b !important;
-
-}
-
-[svg_filter=text_primary]{
-  color: blue !important;
-}
-[svg_filter=text_secondary]{
-  color: red !important;
-  opacity: 1 !important;
-}
-[svg_filter=text_accent]{
-  color: yellow !important;
-}
-.mat-mdc-menu-submenu-icon{
-  color: red !important;
-}
-
-.mat-mdc-menu-panel,.mat-mdc-dialog-container .mdc-dialog__surface,.mat-bottom-sheet-container{
-  background: yellow !important;
 }
 
 
@@ -363,14 +475,11 @@ body[pattern=gamepad][locked_region=content_menu]{
 //   background: transparent !important;
 //   backdrop-filter:url("#background_primary");
 // }
-[svg_filter=background_accent]{
-}
+[svg_filter=background_accent] {}
+
 // .mat-bottom-sheet-container,.mdc-dialog__surface,.mat-mdc-menu-panel,.mat-drawer-inner-container{
 //   @extend [svg_filter=background_secondary];
 // }
-._read_record{
+._read_record {
   max-width: none !important;
 }
-
-
-

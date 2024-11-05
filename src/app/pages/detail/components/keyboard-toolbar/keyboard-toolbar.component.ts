@@ -36,5 +36,7 @@ export class KeyboardToolbarComponent {
       }
     }
   }
-
+  back() {
+    window.history.back()
+  }
 }

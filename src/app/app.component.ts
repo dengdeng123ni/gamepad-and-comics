@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService,WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -47,7 +47,7 @@ export class AppComponent {
   keys = [];
   is_tab = false;
 
-  keydown=new Subject()
+  keydown = new Subject()
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     let key = "";
@@ -104,10 +104,10 @@ export class AppComponent {
   //
   constructor(
     public GamepadController: GamepadControllerService,
-    public KeyboardController:KeyboardControllerService,
+    public KeyboardController: KeyboardControllerService,
     public GamepadEvent: GamepadEventService,
     public MessageController: MessageControllerService,
-    public MessageFetch:MessageFetchService,
+    public MessageFetch: MessageFetchService,
     public MessageEvent: MessageEventService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
@@ -119,18 +119,18 @@ export class AppComponent {
     public RoutingController: RoutingControllerService,
     public LocalCach: LocalCachService,
     public tab: TabService,
-    public svg:SvgService,
-    public HistoryComicsList:HistoryComicsListService,
-    public KeyboardEvent:KeyboardEventService,
-    public readRecord:ReadRecordService,
-    public ReadRecordChapter:ReadRecordChapterService,
-    public ImageToController:ImageToControllerService,
-    public testService:TestService,
+    public svg: SvgService,
+    public HistoryComicsList: HistoryComicsListService,
+    public KeyboardEvent: KeyboardEventService,
+    public readRecord: ReadRecordService,
+    public ReadRecordChapter: ReadRecordChapterService,
+    public ImageToController: ImageToControllerService,
+    public testService: TestService,
     public App: AppDataService
   ) {
 
-   this.keydown.pipe(bufferCount(2)).subscribe((e:any) => {
-    this.GamepadController.device2(e.at(-1))
+    this.keydown.pipe(bufferCount(2)).subscribe((e: any) => {
+      this.GamepadController.device2(e.at(-1))
     });
     // this.testService.open();
     // this.KeyboardEvent.registerGlobalEvent({
@@ -168,7 +168,7 @@ export class AppComponent {
 
     MessageEvent.service_worker_register('init', async (event: any) => {
       document.body.setAttribute("pwa", "true")
-      this.App.is_pwa=true;
+      this.App.is_pwa = true;
       this.App.is_pulg = true;
     })
 
@@ -208,6 +208,12 @@ export class AppComponent {
   ngOnDestroy() {
     this.keydown.unsubscribe();
   }
+  ngAfterViewInit() {
+    const id = localStorage.getItem('theme')
+    if (id) {
+      document.documentElement.setAttribute('theme', id)
+    }
+  }
   async init() {
     await this.MessageFetch.init();
     await this.pulg.init();
@@ -225,11 +231,11 @@ export class AppComponent {
           if (document.hidden) {
 
           } else {
-            let nn=0;
+            let nn = 0;
             const gg = () => {
               if (document.hasFocus()) this.RoutingController.getClipboardContents();
               setTimeout(() => {
-                if(nn<10) {
+                if (nn < 10) {
                   gg();
                   nn++;
                 }

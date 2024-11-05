@@ -20,6 +20,7 @@ import { PlugInInstructionsService } from '../plug-in-instructions/plug-in-instr
 import { CachePageService } from '../cache-page/cache-page.service';
 import { UrlUsageGuideService } from '../url-usage-guide/url-usage-guide.service';
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
+import { PageThemeService } from '../page-theme/page-theme.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -99,8 +100,10 @@ export class MenuComponent {
     public PlugInInstructions:PlugInInstructionsService,
     public CachePage:CachePageService,
     public UrlUsageGuide:UrlUsageGuideService,
+    public PageTheme:PageThemeService,
     private zone: NgZone
   ) {
+
     // this.ControllerSettings.open();
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -212,12 +215,20 @@ export class MenuComponent {
           e.click()
         },
         menu: [
-          // {
-          //   id: "javasciprt",
-          //   name: "主题",
-          //   click: () => {
-          //   }
-          // },
+          {
+            id: "javasciprt",
+            name: "主题",
+            click: () => {
+              this.PageTheme.open({
+                position:{
+                  left:"10px",
+                  bottom:"100px"
+                },
+                panelClass: "_controller_settings",
+                backdropClass:"_reader_config_bg",
+              });
+            }
+          },
           // {
           //   id: "ope3",
           //   name: "蓝牙",
