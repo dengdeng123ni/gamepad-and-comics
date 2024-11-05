@@ -5,20 +5,20 @@
   </div>
   <div class="right">
     <div class="info">
-      <div class="title" [attr.size]="info.title.length>20" [attr.href]="info.href" (click)="on($event)">{{info.title}}</div>
-      <div class="author" (click)="on($event)">
+      <div class="title" [attr.svg_filter]="'text_primary'" [attr.size]="info.title.length>20" [attr.href]="info.href" (click)="on($event)">{{info.title}}</div>
+      <div class="author" (click)="on($event)"  [attr.svg_filter]="'text_secondary'">
         <div class="item" *ngFor="let item of info.author" (click)="on($event)">
           <span class="name" [attr.href]="item.href">{{item.name}}</span>
           <span class="dividing">,</span>
         </div>
       </div>
-      <div class="styles" *ngIf="info.styles">
+      <div class="styles" *ngIf="info.styles"  [attr.svg_filter]="'text_secondary'">
         <div class="item" *ngFor="let item of info.styles" (click)="on($event)">
           <span class="name" [attr.href]="item.href">{{item.name}}</span>
           <span class="dividing">,</span>
         </div>
       </div>
-      <div class="intro">
+      <div class="intro"  [attr.svg_filter]="'text_secondary'">
         {{info.intro}}
       </div>
     </div>
