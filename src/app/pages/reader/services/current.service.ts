@@ -699,6 +699,8 @@ export class CurrentService {
   await_load_pages = [];
   is_load_image = false;
   is_destroy = false;
+
+
   async _loadPages(chapter_id) {
     this.await_load_pages = await this._getChapter(chapter_id)
 

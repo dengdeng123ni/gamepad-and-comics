@@ -80,11 +80,14 @@ export class OnePageThumbnailMode1Component {
   }
 
   async init(_data?: DialogData) {
+
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
+
       this.page_index = this.data.page_index;
     } else {
       this.pages = this.data.pages as any;
+
       this.page_index = this.data.page_index;
     }
     this.zone.run(() => {
