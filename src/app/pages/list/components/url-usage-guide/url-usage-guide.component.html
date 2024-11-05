@@ -1,5 +1,5 @@
 <div class="warp">
-  <div class="title">
+  <div class="title"  [attr.svg_filter]="'text_secondary'" >
     支持的网站
   </div>
   <div class="list">
@@ -7,18 +7,18 @@
     justify-content: space-between;
     justify-content: start;
     align-items: center;" *ngFor="let n of list;let index=index"    >
-      <div class="name" style="margin-right: 12px;">
+      <div class="name" style="margin-right: 12px;"  [attr.svg_filter]="'text_secondary'" >
         {{n.name}}
       </div>
       <button mat-button class="link" [attr.region]="'item'"
       [attr.default]="index==0"
-      [attr.select]="index==0" (click)="on(n.href)">
+      [attr.select]="index==0" (click)="on(n.href)"  [attr.svg_filter]="'text_primary'" >
         {{n.href}}
       </button>
     </div>
   </div>
   <mat-divider style="margin: 12px 0;"></mat-divider>
-  <div style="display: flex;flex-direction: column;">
+  <div style="display: flex;flex-direction: column;"  [attr.svg_filter]="'text_secondary'" >
     <span>
       1.打开网站
     </span>
@@ -33,7 +33,7 @@
     </span>
   </div>
   <mat-divider style="margin: 12px 0;"></mat-divider>
-  <div>
+  <div  [attr.svg_filter]="'text_secondary'" >
      添加对应支持网站,需要通过脚本进行添加
   </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="warp">
   <div class="list">
     <div class="item">
-      <div class="left">
+      <div class="left" [attr.svg_filter]="'text_secondary'">
         阅读模式
       </div>
       <div class="right">
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'">
-      <div class="left">
+      <div class="left" [attr.svg_filter]="'text_secondary'">
         页面模式
       </div>
       <div class="right">
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
-      <div class="left">
+      <div class="left" [attr.svg_filter]="'text_secondary'">
         翻页方向
       </div>
       <div class="right">

@@ -1,19 +1,19 @@
 <div class="reader_toolbar_left">
   <div class="list top">
     <div class="item">
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="back()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="back()">
         <mat-icon>keyboard_return</mat-icon>
       </button>
     </div>
     <div class="item mt-5">
-      <button matTooltipPosition="right" tabIndex="-1" *ngIf="data.comics_config.reader_mode=='double_page_reader'" mat-icon-button class="icon" (click)="ComicsSettings.open()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" *ngIf="data.comics_config.reader_mode=='double_page_reader'" mat-icon-button class="icon" (click)="ComicsSettings.open()">
         <!-- <mat-icon>radio_button_unchecked</mat-icon> -->
         <mat-icon>radio_button_checked</mat-icon>
       </button>
-      <button matTooltipPosition="right" *ngIf="data.comics_config.reader_mode=='double_page_reader'" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" *ngIf="data.comics_config.reader_mode=='double_page_reader'" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage()">
         <mat-icon>swap_horiz</mat-icon>
       </button>
-      <button matTooltipPosition="right" *ngIf="data.comics_config.reader_mode=='left_right_page_reader'" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage2()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" *ngIf="data.comics_config.reader_mode=='left_right_page_reader'" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage2()">
         <mat-icon>swap_horiz</mat-icon>
       </button>
       <!-- <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="togglePage()">
@@ -24,33 +24,33 @@
 
   <div class="list bottom">
     <div class="item">
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="imageRotation()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="imageRotation()">
         <mat-icon>screen_rotation</mat-icon>
       </button>
     </div>
     <div class="item mt-5" id="reader_toolbar_page" *ngIf="data.is_edit">
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="separatePage()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="separatePage()">
         <mat-icon>call_split</mat-icon>
       </button>
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="mergePage()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="mergePage()">
         <mat-icon>merge</mat-icon>
       </button>
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="insertPage()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="insertPage()">
         <mat-icon>insert_page_break</mat-icon>
       </button>
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon delete"
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon delete"
         (click)="openDeleteMenu($event)">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
     <div class="item mt-5" id="reader_toolbar_section">
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button (click)="openList($event)" class="icon subject">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button (click)="openList($event)" class="icon subject">
         <mat-icon>subject</mat-icon>
       </button>
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="previous()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="previous()">
         <mat-icon>chevron_left</mat-icon>
       </button>
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="next()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="next()">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
@@ -60,17 +60,17 @@
   class="reader_toolbar_right">
   <div class="list top">
     <div class="item">
-      <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="chaptersThumbnail.open()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="chaptersThumbnail.open()">
         <mat-icon>subject</mat-icon>
       </button>
-      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left"tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="doublePageThumbnail.open()">
         <mat-icon>grid_view</mat-icon>
       </button>
       <!-- <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="openReaderChangeView($event)">
         <mat-icon>chrome_reader_mode</mat-icon>
       </button> -->
-      <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="openReaderSettings($event)">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="openReaderSettings($event)">
         <mat-icon>settings</mat-icon>
       </button>
       <!-- <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="onePageThumbnailMode2.open()">
@@ -81,21 +81,21 @@
       </button> -->
     </div>
     <div class="item mt-5">
-      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left"tabIndex="-1" mat-icon-button
       class="icon filter_image_list" (click)="filterOpen($event)">
       <mat-icon>filter</mat-icon>
     </button>
     </div>
     <div class="item mt-5">
-      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left"tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="onePageThumbnailMode2.isToggle()">
         <mat-icon  style="transform: rotate(180deg) scale(1.35) rotateY(36deg);">view_sidebar</mat-icon>
       </button>
-      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left"tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="onePageThumbnailMode1.open()">
         <mat-icon style="transform: rotate(90deg) scale(1.35) rotateY(36deg);">view_sidebar</mat-icon>
       </button>
-      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left"tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="onePageThumbnailMode3.open()">
         <mat-icon>view_comfy</mat-icon>
       </button>
@@ -105,7 +105,7 @@
       </button> -->
     </div>
     <div class="item mt-5">
-      <button matTooltipPosition="left"tabIndex="-1" mat-icon-button
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left"tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="resetReadingProgress.open()">
         <mat-icon>restart_alt</mat-icon>
       </button>
@@ -129,14 +129,14 @@
     </div> -->
 
     <div class="flex flex-col item mt-5 bottom">
-      <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="OpenComicsDetail($event)">
         <mat-icon>info</mat-icon>
       </button>
     </div>
 
     <div class="flex flex-col item mt-5 bottom">
-      <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="isFullChange()">
         <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
         <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
@@ -157,13 +157,13 @@
     </div> -->
     <div *ngIf="type=='list'" style="max-height: 40vh;">
       <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
-        (click)="onItem(item.id)" [attr._id]="'_menu_item_'+item.id">
-        <mat-icon class="icon" style="    width: 18px;
+        (click)="onItem(item.id)" [attr._id]="'_menu_item_'+item.id" [attr.svg_filter]="'text_primary'">
+        <mat-icon [attr.svg_filter]="'text_primary'" class="icon" style="    width: 18px;
         height: 18px;
         line-height: 18px;
         font-size: 18px;
         margin-right: 10px;" *ngIf="is_locked&&item.is_locked">lock</mat-icon>
-        <mat-icon class="icon" style="    width: 18px;
+        <mat-icon [attr.svg_filter]="'text_primary'" class="icon" style="    width: 18px;
         height: 18px;
         line-height: 18px;
         font-size: 18px;

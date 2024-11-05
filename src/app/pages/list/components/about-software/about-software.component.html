@@ -1,45 +1,45 @@
 <div class="warp">
-  <div class="title">
+  <div class="title" [attr.svg_filter]="'text_secondary'">
     关于软件
   </div>
 
   <div class="list">
     <div class="item">
-      <div class="name">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
         已使用缓存空间{{this.size}}
       </div>
-      <button mat-button (click)="del()">清除</button>
+      <button mat-button (click)="del()" [attr.svg_filter]="'text_primary'">清除</button>
     </div>
     <div class="item">
-      <div class="name">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
         软件版本
       </div>
-      <button mat-button [disabled]="true">2.01</button>
+      <button mat-button [disabled]="true" [attr.svg_filter]="'text_primary'">2.01</button>
     </div>
     <div class="item">
-      <div class="name">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
         插件版本
       </div>
-      <button mat-button [disabled]="true">2.01</button>
+      <button mat-button [disabled]="true" [attr.svg_filter]="'text_primary'" >2.01</button>
     </div>
 
     <div class="item">
-      <div class="name">
-        官方QQ群 639294484
+      <div class="name" [attr.svg_filter]="'text_secondary'">
+        交流群 639294484
       </div>
-      <button mat-button (click)="open3()">打开</button>
+      <button mat-button (click)="open3()" [attr.svg_filter]="'text_primary'">打开</button>
     </div>
     <div class="item">
-      <div class="name">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
         github
       </div>
-      <button mat-button (click)="opeo()">打开</button>
+      <button mat-button (click)="opeo()" [attr.svg_filter]="'text_primary'">打开</button>
     </div>
     <div class="item">
-      <div class="name">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
         赞助作者
       </div>
-      <button mat-button (click)="open2()">赞助</button>
+      <button mat-button (click)="open2()" [attr.svg_filter]="'text_primary'">赞助</button>
     </div>
   </div>
 </div>

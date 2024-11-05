@@ -2,7 +2,7 @@
   <div class="title" style="display: flex;
   justify-content: space-between;
   align-items: center;">
-    <span>全部脚本</span>
+    <span [attr.svg_filter]="'text_secondary'">全部脚本</span>
     <button mat-icon-button style="padding: 0;
     width: 36px;
     height: 36px;
@@ -10,18 +10,18 @@
     justify-content: center;
     align-items: center;" [attr.region]="'item'"
     [attr.default]="true"
-    [attr.select]="true" (click)="open()">
+    [attr.select]="true" (click)="open()" [attr.svg_filter]="'text_secondary'">
       <mat-icon>help</mat-icon>
     </button>
   </div>
   <div class="list">
     <div class="box"  *ngFor="let n of list;let index=index">
-      <button mat-button class="name" style="cursor: pointer;" (click)="on(n)" [attr.region]="'item'">
+      <button mat-button [attr.svg_filter]="'text_primary'" class="name" style="cursor: pointer;" (click)="on(n)" [attr.region]="'item'">
         {{n.name}}
       </button>
       <button mat-button class="item" style="width: 60px;" [attr.region]="'item'"
       [attr.select]="false" (click)="del(n.url)">
-        <div class="name">
+        <div class="name" [attr.svg_filter]="'text_primary'">
            删除
         </div>
       </button>
@@ -29,9 +29,9 @@
 
   </div>
   <button mat-button class="item" [attr.region]="'item'"
-  [attr.select]="false" (click)="add()" cdkFocusInitial>
-    <mat-icon class="icon">add</mat-icon>
-    <div class="name">
+  [attr.select]="false" (click)="add()" cdkFocusInitial [attr.svg_filter]="'text_primary'">
+    <mat-icon class="icon"  >add</mat-icon>
+    <div class="name" [attr.svg_filter]="'text_primary'">
        脚本
     </div>
   </button>

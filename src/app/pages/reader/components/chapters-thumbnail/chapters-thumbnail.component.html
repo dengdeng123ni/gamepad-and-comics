@@ -15,11 +15,11 @@
         </div>
       </div>
       <div class="info">
-        <div class="name" [attr.read]="!!n.read" [attr.current]="n.id == data.chapter_id">
+        <div class="name"  [attr.svg_filter]="'text_primary'" [attr.read]="!!n.read" [attr.current]="n.id == data.chapter_id">
           {{ n.title }}
         </div>
         <div class="bottom">
-          <div class="sub_title" *ngIf="n.pub_time">
+          <div class="sub_title" *ngIf="n.pub_time"  [attr.svg_filter]="'text_secondary'">
             {{n.pub_time | date:'YYYY-MM-dd'}}
           </div>
         </div>
