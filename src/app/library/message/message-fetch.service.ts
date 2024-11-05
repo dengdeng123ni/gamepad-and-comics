@@ -156,6 +156,8 @@ export class MessageFetchService {
         proxy_response_website_url: window.location.origin
       });
     }
+
+
     return new Promise((r, j) => {
       const getData = () => {
         setTimeout(() => {

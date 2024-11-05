@@ -176,3 +176,16 @@ sleep = (duration) => {
     setTimeout(resolve, duration);
   })
 }
+
+
+const dynamicCode = `
+  console.log('这段代码是通过字符串执行的！');
+`;
+
+// 执行代码
+chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tabs[0].id },
+    func: new Function(dynamicCode) // 使用 Function 构造函数
+  });
+});

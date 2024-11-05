@@ -127,6 +127,7 @@ export class CurrentService {
     this.data.comics_config = _res[3];
     this.data.pages = list;
     if (this.data.page_index >= this.data.pages.length) this.data.page_index = 0;
+
     if (this.data.is_local_record) {
       this.data.chapters = res.chapters;
       const chapters = await this._getChapterRead(this.data.comics_id);
@@ -700,13 +701,17 @@ export class CurrentService {
   is_destroy = false;
   async _loadPages(chapter_id) {
     this.await_load_pages = await this._getChapter(chapter_id)
+
     this._loadImage2();
   }
 
   async _loadImage2() {
+
     if(this.await_load_pages.length==0) return
     if (!this.is_load_image && !this.is_destroy) {
       this.is_load_image = true;
+      console.log(this.await_load_pages);
+
       if (this.await_load_pages.length == 1) {
         const url = this.await_load_pages[0].src;
         await this.DbController.getImage(url, { source: this.source })

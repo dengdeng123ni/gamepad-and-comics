@@ -28,6 +28,7 @@ export class MessageControllerService {
 
 
     window.addEventListener("message", function (event) {
+      // console.log(event);
 
       if (event.data.type == "proxy_response") {
         if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage(event.data)

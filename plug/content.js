@@ -67,6 +67,7 @@ async function readStreamToString(stream) {
   return result;
 }
 
+
 async function stringToReadStream(string) {
   const readableStream = new ReadableStream({
     start(controller) {
@@ -87,7 +88,6 @@ async function init() {
     'type': 'page_load_complete',
     'url':window.location.href
   });
-
 }
 
 init();
