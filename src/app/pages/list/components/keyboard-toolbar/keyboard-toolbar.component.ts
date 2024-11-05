@@ -39,6 +39,8 @@ export class KeyboardToolbarComponent {
     }
   }
   powerSettingsNew(){
-    window.close();
+    window.postMessage({
+      type: "current_tab_close"
+    });
   }
 }

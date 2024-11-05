@@ -53,6 +53,10 @@ window.addEventListener("message", async function (e) {
 
   }
 
+  if (e.data && e.data.type == "current_tab_close") {
+    await chrome.runtime.sendMessage({ type: "current_tab_close" });
+  }
+
 }, false);
 
 
@@ -83,10 +87,9 @@ async function stringToReadStream(string) {
 }
 
 async function init() {
-  document.body.setAttribute("pulg", "true");
   chrome.runtime.sendMessage({
     'type': 'page_load_complete',
-    'url':window.location.href
+    'url': window.location.href
   });
 }
 

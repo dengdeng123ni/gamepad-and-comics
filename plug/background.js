@@ -36,6 +36,10 @@ chrome.runtime.onMessage.addListener(
         chrome.tabs.sendMessage(obj.tab.id, obj.data);
         data = [];
       }
+    }else if(request.type == "current_tab_close"){
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.remove(tabs[0].id);
+      });
     }
   }
 );
@@ -177,15 +181,3 @@ sleep = (duration) => {
   })
 }
 
-
-const dynamicCode = `
-  console.log('这段代码是通过字符串执行的！');
-`;
-
-// 执行代码
-chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  chrome.scripting.executeScript({
-    target: { tabId: tabs[0].id },
-    func: new Function(dynamicCode) // 使用 Function 构造函数
-  });
-});
