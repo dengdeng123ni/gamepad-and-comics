@@ -86,15 +86,15 @@ export class NovelsReaderComponent {
     let node = document.querySelector("#novels_reader_v1");
 
     if (move == "UP" || move == "LEFT") {
-      for (let i = 1; i < 41; i++) {
+      for (let i = 1; i < 21; i++) {
         setTimeout(() => {
-          node.scrollTop = node.scrollTop - 5;
+          node.scrollLeft = node.scrollLeft - 10;
         }, 10 * i)
       }
     } else if (move == "DOWN" || move == "RIGHT") {
-      for (let i = 1; i < 41; i++) {
+      for (let i = 1; i < 21; i++) {
         setTimeout(() => {
-          node.scrollTop = node.scrollTop + 5;
+          node.scrollLeft = node.scrollLeft + 10;
         }, 10 * i)
       }
     }
