@@ -219,21 +219,7 @@
   }
 }
 
-@media (max-width: 480px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-    padding: 0.4rem;
 
-    .item {
-      padding: 0.75rem;
-
-      .img {
-        // height: fit-content !important;
-      }
-    }
-
-  }
-}
 
 .head {
   .choice {

@@ -114,23 +114,7 @@
   }
 }
 
-@media screen and (min-width: 0px) and (max-width: 720px) {
-  .grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(calc(96px + 0.4rem), calc(124px + 0.6rem)), 1fr));
-    .item {
-      padding: 0.4rem;
-    }
-  }
-}
 
-@media screen and (min-width: 720px) and (max-width: 1080px) {
-  .grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(calc(124px + 0.6rem), calc(144px + 0.6rem)), 1fr));
-    .item {
-      padding: 0.6rem;
-    }
-  }
-}
 
 .head {
   .choice {
