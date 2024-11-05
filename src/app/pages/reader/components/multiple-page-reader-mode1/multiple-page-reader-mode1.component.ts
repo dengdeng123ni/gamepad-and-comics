@@ -24,12 +24,16 @@ export class MultiplePageReaderMode1Component {
   ) {
     GamepadEvent.registerAreaEvent('page_reader', {
       "LEFT": () => {
+        this.move("LEFT")
       },
       "UP": () => {
+        this.move("UP")
       },
       "DOWN": () => {
+       this.move("DOWN")
       },
       "RIGHT": () => {
+        this.move("RIGHT")
       },
       "A": () => {
         const container = document.getElementById("multiple_page_reader_mode1")
@@ -120,6 +124,23 @@ export class MultiplePageReaderMode1Component {
       }
     })
 
+  }
+  move = (move) => {
+    let node = document.querySelector("#multiple_page_reader_mode1");
+
+    if (move == "UP" || move == "LEFT") {
+      for (let i = 1; i < 21; i++) {
+        setTimeout(() => {
+          node.scrollTop = node.scrollTop - 10;
+        }, 10 * i)
+      }
+    } else if (move == "DOWN" || move == "RIGHT") {
+      for (let i = 1; i < 21; i++) {
+        setTimeout(() => {
+          node.scrollTop = node.scrollTop + 10;
+        }, 10 * i)
+      }
+    }
   }
   ngOnDestroy() {
     this.change$.unsubscribe();
