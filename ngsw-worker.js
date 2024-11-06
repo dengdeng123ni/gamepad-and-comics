@@ -1330,6 +1330,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         }
         return;
       }
+      console.log(123)
       event.respondWith(this.handleFetch(event));
     }
     onMessage(event) {
