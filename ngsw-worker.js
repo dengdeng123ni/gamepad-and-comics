@@ -1483,9 +1483,10 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       return true;
     }
     async handleFetch(event) {
-            console.log(123);
+            console.log(123,(event.request.method,event.request.mode));
 
       try {
+ 
         const res = await caches.match(event.request.url, { ignoreSearch: true }) 
         if(res) return res;
         
