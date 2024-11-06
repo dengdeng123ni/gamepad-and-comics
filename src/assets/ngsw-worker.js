@@ -1269,6 +1269,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
     }
     async init() {
       this.image_cache = await caches.open('image');
+
       await this.broadcast({ type: "init" })
     }
     getImage = async (url) => {
@@ -1481,7 +1482,13 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       return true;
     }
     async handleFetch(event) {
+      if(event.request.method === "GET" && event.request.mode === "navigate"){
+        const res = await caches.match(new URL(event.request.url).origin+"/gamepad-and-comics-v3/index.html", { ignoreSearch: true })
+        if (res) return res;
+      }
       try {
+        const res = await caches.match(event.request.url, { ignoreSearch: true })
+        if (res) return res;
         await this.ensureInitialized(event);
       } catch (e) {
         return this.safeFetch(event.request);
