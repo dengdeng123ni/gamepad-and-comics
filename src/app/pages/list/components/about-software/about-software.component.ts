@@ -55,10 +55,7 @@ export class AboutSoftwareComponent {
 
       // 清除 Service Worker 缓存
       if ('caches' in window) {
-        const cacheNames = await caches.keys()
-        for (let index = 0; index < cacheNames.length; index++) {
-          await caches.delete(cacheNames[index]);
-        }
+        await caches.delete('image');
       }
 
       // 清除所有 IndexedDB 数据库
@@ -72,6 +69,14 @@ export class AboutSoftwareComponent {
       location.reload();
     } else {
       console.log("用户选择了取消");
+    }
+  }
+  async update222() {
+    if (confirm("你确定要强制更新吗?")) {
+      await caches.delete('assets');
+      location.reload();
+    } else {
+
     }
   }
 }

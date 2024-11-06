@@ -10,7 +10,7 @@
       </div>
       <button mat-button (click)="del()" [attr.svg_filter]="'text_primary'">清除</button>
     </div>
-    <div class="item">
+    <!-- <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
         软件版本
       </div>
@@ -21,8 +21,13 @@
         插件版本
       </div>
       <button mat-button [disabled]="true" [attr.svg_filter]="'text_primary'" >2.01</button>
+    </div> -->
+    <div class="item">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
+        强制更新版本
+      </div>
+      <button mat-button [attr.svg_filter]="'text_primary'" (click)="update222()">更新</button>
     </div>
-
     <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
         交流群 639294484
