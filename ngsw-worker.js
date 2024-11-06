@@ -1485,7 +1485,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       console.log(event);
 
       if(event.request.method === "GET" && event.request.mode === "navigate"){
-        const res = await caches.match(new URL(event.request.url).origin+"/index.html", { ignoreSearch: true })
+        const res = await caches.match(new URL(event.request.url).origin+"/gamepad-and-comics-v3/index.html", { ignoreSearch: true })
         if (res) return res;
       }
       try {
