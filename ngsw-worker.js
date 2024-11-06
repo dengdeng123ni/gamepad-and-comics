@@ -1483,7 +1483,13 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       return true;
     }
     async handleFetch(event) {
+            console.log(123);
+
       try {
+        const res=await caches.match(event.request.url)
+        console.log(res);
+
+        if(res) return res;
         await this.ensureInitialized(event);
       } catch (e) {
         return this.safeFetch(event.request);
