@@ -1300,6 +1300,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       }
     }
     onFetch(event) {
+      console.log(event)
       const req = event.request;
       if (req.url.substring(0, 21) == "http://localhost:7700") {
         event.respondWith(this.getImage(req.url))
