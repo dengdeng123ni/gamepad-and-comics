@@ -1269,6 +1269,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
     }
     async init() {
       this.image_cache = await caches.open('image');
+
       await this.broadcast({ type: "init" })
     }
     getImage = async (url) => {
@@ -1300,7 +1301,6 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       }
     }
     onFetch(event) {
-      console.log(event)
       const req = event.request;
       if (req.url.substring(0, 21) == "http://localhost:7700") {
         event.respondWith(this.getImage(req.url))
@@ -1330,7 +1330,6 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         }
         return;
       }
-      console.log(123)
       event.respondWith(this.handleFetch(event));
     }
     onMessage(event) {
@@ -1483,13 +1482,15 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
       return true;
     }
     async handleFetch(event) {
-            console.log(123,(event.request.method,event.request.mode));
+      console.log(event);
 
+      if(event.request.method === "GET" && event.request.mode === "navigate"){
+        const res = await caches.match(new URL(event.request.url).origin+"/index.html", { ignoreSearch: true })
+        if (res) return res;
+      }
       try {
- 
-        const res = await caches.match(event.request.url, { ignoreSearch: true }) 
-        if(res) return res;
-        
+        const res = await caches.match(event.request.url, { ignoreSearch: true })
+        if (res) return res;
         await this.ensureInitialized(event);
       } catch (e) {
         return this.safeFetch(event.request);
