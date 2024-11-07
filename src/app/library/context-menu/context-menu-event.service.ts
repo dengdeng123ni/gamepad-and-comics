@@ -6,6 +6,9 @@ interface MenuItem {
   click?: Function,
   submenu?: MenuItem[];
 }
+
+declare let window: any;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +21,7 @@ export class ContextMenuEventService {
 
   public menu: { [key: string]: any } = {};
   constructor() {
-
+    window._gh_menu_register = this.registerMenu;
   }
 
   register(key: string, { close, open, menu, send, on }: { close?: Function, open?: Function, menu?: Array<MenuItem>, send?: Function, on?: Function }) {
@@ -29,7 +32,7 @@ export class ContextMenuEventService {
     if (menu) this.onMenu(key, menu)
   }
 
-  registerMenu(key: string, menu: Array<MenuItem>) {
+  registerMenu = (key: string, menu: Array<MenuItem>) => {
     if (!this.menu[key]) this.menu[key] = [];
     for (let index = 0; index < menu.length; index++) {
       this.logoutMenu(key, menu[index].id)
