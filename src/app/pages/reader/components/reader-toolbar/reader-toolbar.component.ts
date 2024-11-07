@@ -76,7 +76,7 @@ export class ReaderToolbarComponent {
   }
 
   imageRotation() {
-    const node: any = document.querySelector(".swiper-slide-active")
+    const node: any = document.querySelector(".swiper-wrapper")
     const rotate = node.getAttribute("rotate");
     const nodes: any = document.querySelectorAll(".swiper-slide-active img")
     if (nodes.length == 1) {
