@@ -326,13 +326,11 @@ export class CurrentService {
     await firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': id.toString(), "page_index": index }))
   }
   async _getChapter_IsFirstPageCover(id: string): Promise<boolean> {
-    if (this._chapters_IsFirstPageCover[id]) {
-      return this._chapters_IsFirstPageCover[id]
+    const res: any = await this._getChapterFirstPageCover(id);
+    if (res) {
+      return res.is_first_page_cover
     } else {
-      const pages = await this._getChapter(id)
-      const is_first_page_cover = await this._getIsFirstPageCover(pages);
-      this._chapters_IsFirstPageCover[id] = is_first_page_cover;
-      return is_first_page_cover
+      return true
     }
   }
   async _getIsFirstPageCover(pages: Array<PagesItem>): Promise<boolean> {

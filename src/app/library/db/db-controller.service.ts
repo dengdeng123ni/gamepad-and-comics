@@ -50,7 +50,7 @@ export class DbControllerService {
       if (!option.source) option.source = this.AppData.source;
       const config = this.DbEvent.Configs[option.source]
       const id = window.btoa(encodeURIComponent(JSON.stringify(obj)))
-      if (this.lists[id]) {
+      if (this.lists[id]&&config.is_cache) {
         return JSON.parse(JSON.stringify(this.lists[id]))
       } else {
         let res;
@@ -106,7 +106,7 @@ export class DbControllerService {
       if (option && option.is_cache) config.is_cache = true
 
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
-        if (this.details[id]) {
+        if (this.details[id]&&config.is_cache) {
           return JSON.parse(JSON.stringify(this.details[id]))
         } else {
           let res;

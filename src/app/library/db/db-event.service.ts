@@ -1611,6 +1611,35 @@ export class DbEventService {
       is_load_free: false,
       ...config
     }
+
+    events={
+      getList: async () => {
+        let list = [];
+        return [
+        ]
+      },
+      UrlToDetailId: async () => {
+        return null
+      },
+      getImage: async (id) => {
+        const getImageUrl = async (id) => {
+          const res = await window._gh_fetch(id, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          });
+          const blob = await res.blob();
+          return blob
+        }
+        const blob = await getImageUrl(id);
+        return blob
+      },
+      ...events
+    }
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };
     else this.Events[key] = events;
     if (this.Events[key]) this.Configs[key] = { ...this.Configs[key], ...config };
@@ -1623,12 +1652,41 @@ export class DbEventService {
 
   novels_register = (config: Config, events: Events) => {
     const key = config.id;
+
     config = {
       name: key,
       type: 'novels',
       is_cache: false,
       is_download: false,
       ...config
+    }
+    events={
+      getList: async () => {
+        let list = [];
+        return [
+        ]
+      },
+      UrlToDetailId: async () => {
+        return null
+      },
+      getImage: async (id) => {
+        const getImageUrl = async (id) => {
+          const res = await window._gh_fetch(id, {
+            method: "GET",
+            headers: {
+              "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+            },
+            mode: "cors"
+          });
+          const blob = await res.blob();
+          return blob
+        }
+        const blob = await getImageUrl(id);
+        return blob
+      },
+      ...events
     }
     if (this.Events[key]) this.Events[key] = { ...this.Events[key], ...events };
     else this.Events[key] = events;

@@ -169,11 +169,21 @@ export class DoublePageThumbnailComponent {
     const double_list = await this.getDoublePages(this.pages, this.page_index)
     this.double_pages = double_list;
 
+
+
     this.zone.run(() => {
       this.complete()
-
       this.is_loading_free = true;
-      setTimeout(() => this.complete(), 150)
+      setTimeout(() => {
+        this.is_loading_free = true;
+        this.complete()
+      }, 150)
+    })
+  }
+
+  sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
     })
   }
 

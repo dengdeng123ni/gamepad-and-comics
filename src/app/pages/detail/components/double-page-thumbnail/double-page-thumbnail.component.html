@@ -64,7 +64,7 @@
       </div>
     </div>
 
-<div style="width: 100%;height: 100%;overflow: auto;"  [attr.is_head_show]="is_head_show">
+<div style="width: 100%;height: 100%;overflow: auto;"  [attr.is_head_show]="is_head_show" *ngIf="is_loading_free">
   <div class="head" *ngIf="is_head_show" style=" margin: 0 24px;
   padding: 0px;
   font-size: 16px;
@@ -76,7 +76,7 @@
   align-items: center;
   justify-content: space-between;">
         <div  >
-          {{ data.chapters[this.chapter_index].title }}
+          {{ data.chapters[chapter_index]?.title }}
         </div>
         <div class="toolbar">
           <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'double_page_thumbnail_item'" (change)="change(chapter_id)" [(ngModel)]="is_first_page_cover" style="padding-right: 12px;">第一页是否封面</mat-checkbox>
@@ -137,13 +137,14 @@
     </div>
   </div>
 </div>
-    <!-- <div class="loading" style="position:absolute;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    top: 80vh;
-    display: flex;"  >
-      <mat-progress-bar mode="indeterminate" value="30" style="width: 33vw;"></mat-progress-bar>
-    </div> -->
+<div class="loading" *ngIf="!is_loading_free" style="position:absolute;
+width: 100%;
+height: 100%;
+justify-content: center;
+top: 80vh;
+display: flex;"  >
+  <mat-progress-bar mode="indeterminate" value="30" style="width: 33vw;"></mat-progress-bar>
+</div>
+
   </div>
 </mat-drawer-container>

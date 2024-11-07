@@ -30,8 +30,8 @@ export class DoublePageThumbnailComponent {
 
   is_loading_free = false;
 
-  opened = true;
-  is_head_show = true;
+  opened = false;
+  is_head_show = false;
 
   is_init_free=false;
 
@@ -134,7 +134,6 @@ export class DoublePageThumbnailComponent {
     }else{
       ContextMenuEvent.register('double_page_thumbnail_item', {})
     }
-
   }
   async post() {
     return await firstValueFrom(this.webDb.update("data", {
@@ -170,11 +169,21 @@ export class DoublePageThumbnailComponent {
     const double_list = await this.getDoublePages(this.pages, this.page_index)
     this.double_pages = double_list;
 
+
+
     this.zone.run(() => {
       this.complete()
-
       this.is_loading_free = true;
-      setTimeout(() => this.complete(), 150)
+      setTimeout(() => {
+        this.is_loading_free = true;
+        this.complete()
+      }, 150)
+    })
+  }
+
+  sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
     })
   }
 
@@ -204,6 +213,7 @@ export class DoublePageThumbnailComponent {
       src: x.src
     }))
     const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.chapter_id);
+  console.log(this.chapter_id,is_first_page_cover);
 
     this.is_first_page_cover = is_first_page_cover;
     const double_list = await this.utils.Images.getPageDouble(list, { isFirstPageCover: is_first_page_cover, pageOrder: this.data.comics_config.is_page_order });
@@ -222,6 +232,8 @@ export class DoublePageThumbnailComponent {
     this.post();
   }
   async change(id) {
+    console.log(this.chapter_id,this.is_first_page_cover);
+
     await this.current._setChapterFirstPageCover(this.chapter_id, this.is_first_page_cover)
     await this.init2({ chapter_id: this.chapter_id })
 
