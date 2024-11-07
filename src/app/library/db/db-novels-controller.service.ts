@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { AppDataService } from '../public-api';
 import { DbEventService } from './db-event.service';
 
+declare let window: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -27,18 +28,19 @@ export class DbNovelsControllerService {
     private DbEvent: DbEventService,
     private webDb: NgxIndexedDBService,
   ) {
-
+    window._gh_novels_get_detail = this.getDetail;
+    window._gh_novels_get_pages = this.getPages;
   }
 
-  async getDetail(id: string, option?: {
+  getDetail = async (id: string, option?: {
     source: string
-  }) {
+  }) => {
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;
     const config = this.DbEvent.Configs[option.source]
 
     if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
-      if (this.details[id]) {
+      if (this.details[id] && config.is_cache) {
         return JSON.parse(JSON.stringify(this.details[id]))
       } else {
         let res;
@@ -51,7 +53,7 @@ export class DbNovelsControllerService {
 
           } else {
             res = await this.DbEvent.Events[option.source]["getDetail"](id);
-            firstValueFrom(this.webDb.update('novels_details', JSON.parse(JSON.stringify({ id: id,source:option.source, data: res }))))
+            firstValueFrom(this.webDb.update('novels_details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
           }
@@ -71,7 +73,49 @@ export class DbNovelsControllerService {
       return []
     }
   }
+  getPages = async (id: string, option?: {
+    source: string
+  }) => {
+    try {
+      if (!option) option = { source: this.AppData.source }
+      if (!option.source) option.source = this.AppData.source;
+      const config = this.DbEvent.Configs[option.source]
 
+      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
+        // const is_wait = await this.waitForRepetition(id)
+        if (this.pages[id]) {
+          return JSON.parse(JSON.stringify(this.pages[id]))
+        } else {
+          let res;
+          if (config.is_cache) {
+            res = (await firstValueFrom(this.webDb.getByID('novels_pages', id)) as any)
+            if (res) {
+              res = res.data;
+
+            } else {
+              res = await this.DbEvent.Events[option.source]["getPages"](id);
+              firstValueFrom(this.webDb.update('novels_pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
+
+            }
+          } else {
+            res = await this.DbEvent.Events[option.source]["getPages"](id);
+          }
+          res.forEach((x, i) => {
+            if (!x.id) x.id = `${i}`;
+            if (!x.uid) x.uid = `${i}`;
+            x.index = i;
+          })
+          this.pages[id] = JSON.parse(JSON.stringify(res));
+          return res
+        }
+      } else {
+        return []
+      }
+    } catch (error) {
+      return []
+    }
+
+  }
   async delWebDbDetail(id) {
     this.details[id] = null;
     await firstValueFrom(this.webDb.deleteByKey('novels_details', id))
@@ -111,49 +155,7 @@ export class DbNovelsControllerService {
   async delWebDbImage(id) {
     const res = await this.caches.delete(id);
   }
-  async getPages(id: string, option?: {
-    source: string
-  }) {
-   try {
-    if (!option) option = { source: this.AppData.source }
-    if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source]
 
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
-      // const is_wait = await this.waitForRepetition(id)
-      if (this.pages[id]) {
-        return JSON.parse(JSON.stringify(this.pages[id]))
-      } else {
-        let res;
-        if (config.is_cache) {
-          res = (await firstValueFrom(this.webDb.getByID('novels_pages', id)) as any)
-          if (res) {
-            res = res.data;
-
-          } else {
-            res = await this.DbEvent.Events[option.source]["getPages"](id);
-            firstValueFrom(this.webDb.update('novels_pages', { id,source:option.source, data: JSON.parse(JSON.stringify(res)) }))
-
-          }
-        } else {
-          res = await this.DbEvent.Events[option.source]["getPages"](id);
-        }
-        res.forEach((x, i) => {
-          if (!x.id) x.id = `${i}`;
-          if (!x.uid) x.uid = `${i}`;
-          x.index = i;
-        })
-        this.pages[id] = JSON.parse(JSON.stringify(res));
-        return res
-      }
-    } else {
-      return []
-    }
-   } catch (error) {
-    return []
-   }
-
-  }
 
 
 
