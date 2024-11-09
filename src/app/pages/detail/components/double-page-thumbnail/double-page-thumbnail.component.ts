@@ -119,6 +119,8 @@ export class DoublePageThumbnailComponent {
             this.current._insertPage(this.data.chapter_id, e.data).then(() => {
               this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
+          }else{
+            e.click(this.double_pages[parseInt(e.value)].images)
           }
         },
         menu: [
@@ -132,7 +134,11 @@ export class DoublePageThumbnailComponent {
         ]
       })
     }else{
-      ContextMenuEvent.register('double_page_thumbnail_item', {})
+      ContextMenuEvent.register('double_page_thumbnail_item', {
+        on:async e => {
+          e.click(this.double_pages[parseInt(e.value)].images)
+        }
+      })
     }
   }
   async post() {

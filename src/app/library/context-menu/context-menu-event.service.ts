@@ -22,16 +22,61 @@ export class ContextMenuEventService {
   public menu: { [key: string]: any } = {};
   constructor() {
     window._gh_menu_register = this.registerMenu;
-    (window as any)._gh_menu_register('comics_item',[
+    window._gh_menu_register('comics_item', [
       {
-        name:"测试点击",
-        id:"123",
-        click:(e)=>{
+        name: "测试点击",
+        id: "1223",
+        click: (e) => {
           console.log(e);
 
         }
       }
     ])
+    window._gh_menu_register('chapter_item', [
+      {
+        name: "测试点击",
+        id: "123",
+        click: (e) => {
+          console.log(e);
+
+        }
+      }
+    ])
+    window._gh_menu_register('one_page_thumbnail_item', [
+      {
+        name: "测试点击",
+        id: "123",
+        click: (e) => {
+          console.log(e);
+
+        }
+      }
+    ])
+    window._gh_menu_register('double_page_thumbnail', [
+      {
+        name: "测试点击",
+        id: "123",
+        click: (e) => {
+          console.log(e);
+
+        }
+      }
+    ])
+
+    window._gh_menu_register('double_page_thumbnail_item', [
+      {
+        name: "测试点击",
+        id: "123",
+        click: (e) => {
+          console.log(e);
+
+        }
+      }
+    ])
+
+
+
+
   }
 
   register(key: string, { close, open, menu, send, on }: { close?: Function, open?: Function, menu?: Array<MenuItem>, send?: Function, on?: Function }) {
@@ -50,17 +95,17 @@ export class ContextMenuEventService {
     this.menu[key] = [...this.menu[key], ...menu]
   }
 
-  logoutMenu(key: string, menuId: string) {
+  logoutMenu = (key: string, menuId: string) => {
     if (!this.menu[key]) return
     this.menu[key] = this.menu[key].filter(x => x.id != menuId)
   }
 
-  onMenu(key: string, content: Array<MenuItem>) {
+  onMenu = (key: string, content: Array<MenuItem>) => {
     if (!this.menu[key]) this.menu[key] = [];
     for (let index = 0; index < content.length; index++) {
       this.logoutMenu(key, content[index].id)
     }
-    this.menu[key] = [...content,...this.menu[key]]
+    this.menu[key] = [...content, ...this.menu[key]]
   }
 
 

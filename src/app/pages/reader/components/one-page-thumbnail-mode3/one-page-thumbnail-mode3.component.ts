@@ -29,7 +29,7 @@ export class OnePageThumbnailMode3Component {
   ) {
     this.init(this._data);
     if (data.is_cache) {
-      ContextMenuEvent.register('one_page_thumbnail_mode3', {
+      ContextMenuEvent.register('one_page_thumbnail_item', {
         on: async e => {
           if (e.id == "delete") {
             this.current._delPage(this.data.chapter_id, parseInt(e.value)).then(() => {
@@ -51,6 +51,8 @@ export class OnePageThumbnailMode3Component {
             this.current._insertWhitePage(this.data.chapter_id, parseInt(e.value) + 1).then(() => {
               this.init2({ chapter_id: this.data.chapter_id, page_index: parseInt(e.value) })
             })
+          }else{
+            e.click(this.data.pages[parseInt(e.value)])
           }
         },
         menu: [
@@ -72,10 +74,11 @@ export class OnePageThumbnailMode3Component {
           },
 
           { name: "删除", id: "delete" },
+
         ]
       })
     } else {
-      ContextMenuEvent.register('one_page_thumbnail_mode3', {})
+      ContextMenuEvent.register('one_page_thumbnail_item', {})
     }
 
   }
