@@ -213,7 +213,6 @@ export class DoublePageThumbnailComponent {
       src: x.src
     }))
     const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.chapter_id);
-  console.log(this.chapter_id,is_first_page_cover);
 
     this.is_first_page_cover = is_first_page_cover;
     const double_list = await this.utils.Images.getPageDouble(list, { isFirstPageCover: is_first_page_cover, pageOrder: this.data.comics_config.is_page_order });
@@ -232,7 +231,6 @@ export class DoublePageThumbnailComponent {
     this.post();
   }
   async change(id) {
-    console.log(this.chapter_id,this.is_first_page_cover);
 
     await this.current._setChapterFirstPageCover(this.chapter_id, this.is_first_page_cover)
     await this.init2({ chapter_id: this.chapter_id })

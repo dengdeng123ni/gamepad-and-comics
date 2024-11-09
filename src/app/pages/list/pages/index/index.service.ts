@@ -38,6 +38,7 @@ export class IndexService {
 
     AppData.source$.subscribe((x: any) => {
       this.updateComicsItem(x)
+
     })
     // this.updateComicsItem(AppData.sourceConfig)
 
@@ -47,6 +48,7 @@ export class IndexService {
   updateComicsItem(x) {
 
     if (x.is_download) {
+
       this.ContextMenuEvent.registerMenu('comics_item', [
         {
           name: "下载", id: "download", click: async (list) => {
@@ -164,6 +166,8 @@ export class IndexService {
       this.ContextMenuEvent.logoutMenu('comics_item', 'delete')
     }
     if (!x.is_cache) this.ContextMenuEvent.logoutMenu('chapter_item', 'data')
+
+
   }
 
   data() {
