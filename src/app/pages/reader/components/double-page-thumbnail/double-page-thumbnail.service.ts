@@ -22,7 +22,7 @@ export class DoublePageThumbnailService {
       B:()=>setTimeout(()=>this.close())
     })
     GamepadEvent.registerConfig('double_page_thumbnail_item', {
-      region: ['chapter_item'],
+      region: ['chapter_items'],
     });
   }
   open(data?: DialogData) {

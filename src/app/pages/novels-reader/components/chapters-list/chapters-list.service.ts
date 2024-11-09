@@ -9,11 +9,11 @@ import { ChaptersListComponent } from './chapters-list.component';
 export class ChaptersListService {
 
   constructor( public _dialog: MatDialog, public GamepadEvent: GamepadEventService) {
-    GamepadEvent.registerAreaEvent('novels_chapter_item', {
+    GamepadEvent.registerAreaEvent('novels_chapter_items', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('novels_chapters_list', {
-      region: ['novels_chapter_item'],
+      region: ['novels_chapter_items'],
     });
   }
   public opened: boolean = false;

@@ -94,7 +94,7 @@ export class ChapterListMode1Component {
 
     } else {
       const getTargetNode = (node: HTMLElement): HTMLElement => {
-        if (node.getAttribute("region") == "novels_chapter_item") {
+        if (node.getAttribute("region") == "novels_chapter_items") {
           return node
         } else {
           return getTargetNode(node.parentNode as HTMLElement)

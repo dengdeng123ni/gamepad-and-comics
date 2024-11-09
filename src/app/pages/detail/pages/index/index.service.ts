@@ -9,11 +9,11 @@ export class IndexService {
   constructor(public GamepadEvent: GamepadEventService) {
 
 
-    GamepadEvent.registerConfig("detail", { region: ["continue", "back", "chapter_item"] })
+    GamepadEvent.registerConfig("detail", { region: ["continue", "back", "chapter_items"] })
 
     GamepadEvent.registerAreaEvent('continue', { B: () => this.back() })
     GamepadEvent.registerAreaEvent('back', { B: () => this.back() })
-    GamepadEvent.registerAreaEvent('chapter_item', { B: () => this.back()})
+    GamepadEvent.registerAreaEvent('chapter_items', { B: () => this.back()})
   }
   back() {
     window.history.back()

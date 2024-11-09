@@ -47,7 +47,7 @@ export class ChapterListMode1Component {
     public AppData: AppDataService
   ) {
     if(data.is_cache&&data.is_download){
-      ContextMenuEvent.register('chapter_item', {
+      ContextMenuEvent.register('chapter_items', {
         open: () => {
           // this.close()
         },
@@ -152,7 +152,7 @@ export class ChapterListMode1Component {
 
       })
     }else if(!data.is_cache&&data.is_download){
-      ContextMenuEvent.register('chapter_item', {
+      ContextMenuEvent.register('chapter_items', {
         open: () => {
           // this.close()
         },
@@ -201,7 +201,7 @@ export class ChapterListMode1Component {
       })
     }else if(data.is_cache&&!data.is_download){
 
-      ContextMenuEvent.register('chapter_item', {
+      ContextMenuEvent.register('chapter_items', {
         open: () => {
           // this.close()
         },
@@ -305,7 +305,7 @@ export class ChapterListMode1Component {
 
       })
     }else{
-      ContextMenuEvent.register('chapter_item', {
+      ContextMenuEvent.register('chapter_items', {
         open: () => {
           // this.close()
         },
@@ -404,7 +404,7 @@ export class ChapterListMode1Component {
 
     } else {
       const getTargetNode = (node: HTMLElement): HTMLElement => {
-        if (node.getAttribute("region") == "chapter_item") {
+        if (node.getAttribute("region") == "chapter_items") {
           return node
         } else {
           return getTargetNode(node.parentNode as HTMLElement)

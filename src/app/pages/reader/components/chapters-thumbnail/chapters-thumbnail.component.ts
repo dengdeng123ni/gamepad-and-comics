@@ -24,7 +24,7 @@ export class ChaptersThumbnailComponent {
 
   }
   change() {
-    let node = document.querySelector(`[_id=chapter_item_${this.data.chapter_id}]`);
+    let node = document.querySelector(`[_id=chapter_items_${this.data.chapter_id}]`);
     node!.scrollIntoView({behavior: 'instant', block: "center", inline: "center" })
   }
   ngOnDestroy() {
