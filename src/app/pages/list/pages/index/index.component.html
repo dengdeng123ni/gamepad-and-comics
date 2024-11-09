@@ -4,7 +4,7 @@
     <app-menu></app-menu>
   </mat-drawer>
   <div class="container" [attr.svg_filter]="'background_secondary'" [attr.is_fixed]="false" [attr.edit]="data.is_edit">
-    <div class="content" (mouseleave)="mouseleave($event)" [attr.svg_filter]="'background_primary'">
+    <div class="content" (mouseleave)="mouseleave($event)" [attr.svg_filter]="'background_primary'"  >
       <router-outlet></router-outlet>
       <app-index-toolbar></app-index-toolbar>
     </div>

@@ -1,87 +1,89 @@
+<div id="comics_list_v2" [attr.content_menu_key]="'comics_list'">
+  <div class="head" *ngIf="!data.is_edit">
 
-<div class="head" *ngIf="!data.is_edit">
-
-  <div class="choice" *ngIf="type=='single'" [attr.justify_content]="!query.name">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
-  </div>
-  <div class="choice" *ngIf="type=='choice'" [attr.justify_content]="!query.name">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
-    <div class="list">
-      <button [attr.region]="'comics_option'" mat-button *ngFor="let c of query.list;let index=index"
-        class="item"
-        [attr.svg_filter]="query.default_index==index?'text_accent':'text_primary'"
-        [attr._id]="c.index"
-        [attr.selected]="query.default_index==index"
-        [attr.current]="false"
-        (click)="on(index)"
-        >
-        {{c.name}}
-      </button>
+    <div class="choice" *ngIf="type=='single'" [attr.justify_content]="!query.name">
+      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
     </div>
-  </div>
-  <div class="multipy" *ngIf="type=='multipy'">
-    <div class="list" *ngFor="let c of query.list;let c_index=index">
-      <div class="title" style="color:rgba(255,255,255,.34)">{{c.name}}</div>
-      <button [attr.region]="'comics_option'" mat-button *ngFor="let n of c.tag;let n_index=index"  (click)="on2($event,c,c_index)" class="item"  [attr.current]="n.index==c.index">
-        {{n.name}}
-      </button>
-    </div>
-  </div>
-  <div class="choice" *ngIf="type=='local_cache'">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">缓存</div>
-  </div>
-  <div class="choice" *ngIf="type=='history'">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">历史记录</div>
-  </div>
-  <div class="choice" *ngIf="type=='temporary_file'">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">全部漫画</div>
-  </div>
-</div>
-<div class="edit" *ngIf="data.is_edit" style="display: flex;justify-content: space-between;margin: 12px 22px 0;align-items: center; height: 36px;">
-  <div class="left" style="color: rgba(255, 255, 255, 0.34);font-size: 16px;">
-    <span> 已选择 {{selected_length}} 个</span>
-  </div>
-  <div class="right">
-    <mat-checkbox  [attr.region]="'comics_item'" [attr.type]="'checkbox'" style="margin-right: 24px;height: 36px;
-    line-height: 36px;"  [(ngModel)]="is_all" (change)="all()">全选</mat-checkbox>
-    <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
-    line-height: 36px;" [disabled]="!selected_length" *ngIf="data.is_download" (click)="download()">下载</button>
-    <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
-    line-height: 36px;" [disabled]="!selected_length" *ngIf="data.is_download" (click)="cache()">缓存</button>
-    <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
-    line-height: 36px;" [disabled]="!selected_length" (click)=" DropDownMenuOpen()">数据</button>
-    <button mat-flat-button  [attr.region]="'comics_item'" style="height: 36px;
-    line-height: 36px;" (click)="closeEdit()">完成</button>
-  </div>
-
-</div>
-
-
-<div class="warp">
-  <div class="grid"  #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'" (click)="on_list($event)">
-    <button
-      class="item"
-      mat-button
-      *ngFor="let n of list;let index=index"
-      [attr._id]="n.id"
-      [attr.index]="index"
-      [attr.region]="'comics_item'"
-      [attr.default]="n.id==data.currend_read_comics_id"
-      [attr.select]="n.id==data.currend_read_comics_id"
-      [matTooltipShowDelay]="1000"
-      [matTooltip]="n.title"
-      [attr.content_menu_key]="'comics_item'"
-      [attr.content_menu_value]="n.id"
-      [attr.multiple]="n.selected">
-      <div class="img">
-        <img [attr.width]="720" [attr.height]="960" style="width: 100%;
-        height: auto;opacity: 0;" >
-        <app-image [src]="n.cover" style="position: absolute;" />
-        <div class="mezzanine"></div>
+    <div class="choice" *ngIf="type=='choice'" [attr.justify_content]="!query.name">
+      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
+      <div class="list">
+        <button [attr.region]="'comics_option'" mat-button *ngFor="let c of query.list;let index=index"
+          class="item"
+          [attr.svg_filter]="query.default_index==index?'text_accent':'text_primary'"
+          [attr._id]="c.index"
+          [attr.selected]="query.default_index==index"
+          [attr.current]="false"
+          (click)="on(index)"
+          >
+          {{c.name}}
+        </button>
       </div>
-      <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
-      <div class="progress" [attr.router_reader]="true" [attr.svg_filter]="'text_secondary'">{{n.subTitle}}</div>
-      <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="data.is_edit" [(ngModel)]="n.selected"></mat-checkbox>
-    </button>
+    </div>
+    <div class="multipy" *ngIf="type=='multipy'">
+      <div class="list" *ngFor="let c of query.list;let c_index=index">
+        <div class="title" style="color:rgba(255,255,255,.34)">{{c.name}}</div>
+        <button [attr.region]="'comics_option'" mat-button *ngFor="let n of c.tag;let n_index=index"  (click)="on2($event,c,c_index)" class="item"  [attr.current]="n.index==c.index">
+          {{n.name}}
+        </button>
+      </div>
+    </div>
+    <div class="choice" *ngIf="type=='local_cache'">
+      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">缓存</div>
+    </div>
+    <div class="choice" *ngIf="type=='history'">
+      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">历史记录</div>
+    </div>
+    <div class="choice" *ngIf="type=='temporary_file'">
+      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">全部漫画</div>
+    </div>
   </div>
+  <div class="edit" *ngIf="data.is_edit" style="display: flex;justify-content: space-between;margin: 12px 22px 0;align-items: center; height: 36px;">
+    <div class="left" style="color: rgba(255, 255, 255, 0.34);font-size: 16px;">
+      <span> 已选择 {{selected_length}} 个</span>
+    </div>
+    <div class="right">
+      <mat-checkbox  [attr.region]="'comics_item'" [attr.type]="'checkbox'" style="margin-right: 24px;height: 36px;
+      line-height: 36px;"  [(ngModel)]="is_all" (change)="all()">全选</mat-checkbox>
+      <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
+      line-height: 36px;" [disabled]="!selected_length" *ngIf="data.is_download" (click)="download()">下载</button>
+      <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
+      line-height: 36px;" [disabled]="!selected_length" *ngIf="data.is_download" (click)="cache()">缓存</button>
+      <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
+      line-height: 36px;" [disabled]="!selected_length" (click)=" DropDownMenuOpen()">数据</button>
+      <button mat-flat-button  [attr.region]="'comics_item'" style="height: 36px;
+      line-height: 36px;" (click)="closeEdit()">完成</button>
+    </div>
+
+  </div>
+
+
+  <div class="warp">
+    <div class="grid"  #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.id]="'comics_list'" (click)="on_list($event)">
+      <button
+        class="item"
+        mat-button
+        *ngFor="let n of list;let index=index"
+        [attr._id]="n.id"
+        [attr.index]="index"
+        [attr.region]="'comics_item'"
+        [attr.default]="n.id==data.currend_read_comics_id"
+        [attr.select]="n.id==data.currend_read_comics_id"
+        [matTooltipShowDelay]="1000"
+        [matTooltip]="n.title"
+        [attr.content_menu_key]="'comics_item'"
+        [attr.content_menu_value]="n.id"
+        [attr.multiple]="n.selected">
+        <div class="img">
+          <img [attr.width]="720" [attr.height]="960" style="width: 100%;
+          height: auto;opacity: 0;" >
+          <app-image [src]="n.cover" style="position: absolute;" />
+          <div class="mezzanine"></div>
+        </div>
+        <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
+        <div class="progress" [attr.router_reader]="true" [attr.svg_filter]="'text_secondary'">{{n.subTitle}}</div>
+        <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="data.is_edit" [(ngModel)]="n.selected"></mat-checkbox>
+      </button>
+    </div>
+  </div>
+
 </div>

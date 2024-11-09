@@ -165,7 +165,7 @@ export class IndexService {
     } else {
       this.ContextMenuEvent.logoutMenu('comics_item', 'delete')
     }
-    if (!x.is_cache) this.ContextMenuEvent.logoutMenu('chapter_items', 'data')
+    if (!x.is_cache) this.ContextMenuEvent.logoutMenu('chapter_item', 'data')
 
 
   }

@@ -42,6 +42,18 @@ export class ComicsListV2Component {
     if (event.key == "Control") this._ctrl = false;
     return true
   }
+
+  @HostListener('window:click', ['$event'])
+  windowClick(event: PointerEvent) {
+    if (this.data.is_edit || this._ctrl) {
+
+    } else {
+      this.list.forEach(x => x.selected = false)
+    }
+
+
+    return true
+  }
   _ctrl = false;
   page_num = 1;
   page_size = 20;
@@ -88,7 +100,6 @@ export class ComicsListV2Component {
     KeyboardEvent.registerGlobalEventY({
       "a": () => {
         this.all()
-
       }
     })
     this.router.events.subscribe(event => {
@@ -138,7 +149,7 @@ export class ComicsListV2Component {
             const res = await firstValueFrom(this.webDb.getAll("local_comics"))
             const list = res.map((x: any) => {
               x = x.data
-              return { id: x.id, cover: x.cover, title: x.title,creation_time:x.creation_time, subTitle: `${x.chapters[0].title}` }
+              return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0].title}` }
             }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             return list
           },
@@ -148,7 +159,7 @@ export class ComicsListV2Component {
               x = x.data
 
 
-              return { id: x.id, cover: x.cover, title: x.title,creation_time:x.creation_time, subTitle: `${x.chapters[0].title}` }
+              return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0].title}` }
             }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
             console.log(list);
 
@@ -208,7 +219,7 @@ export class ComicsListV2Component {
 
       const data: any = await this.get(this.id);
       if (data) {
-        console.log(this.type,this.id );
+        console.log(this.type, this.id);
 
         data.list.forEach(x => {
           x.selected = false;
@@ -227,7 +238,7 @@ export class ComicsListV2Component {
 
         } else if (this.type == "local_cache") {
 
-          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000});
+          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000 });
         } else {
           this.list = data.list;
         }
@@ -267,6 +278,22 @@ export class ComicsListV2Component {
         e.click(list)
       }
     })
+
+    ContextMenuEvent.register('comics_list', {
+      on: async (e: any) => {
+        e.click(this.list)
+      },
+      menu: [
+        {
+          id: "edit",
+          name: "编辑",
+          click: e => {
+
+          }
+        }
+      ]
+    })
+
   }
 
   initc(type, source, menu_id) {
@@ -289,7 +316,7 @@ export class ComicsListV2Component {
     this.DownloadOption.open(list)
   }
   async DropDownMenuOpen() {
-    const e = await this.DropDownMenu.open([      {
+    const e = await this.DropDownMenu.open([{
       name: "数据", id: "data", submenu: [
         {
           name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
@@ -579,11 +606,11 @@ export class ComicsListV2Component {
       this.page_num--;
       return
     }
-    this.list =  [...this.list, ...list].filter((item, index, self) =>
+    this.list = [...this.list, ...list].filter((item, index, self) =>
       index === self.findIndex((t) => (
-          t.id === item.id
+        t.id === item.id
       ))
-  );
+    );
 
   }
 }

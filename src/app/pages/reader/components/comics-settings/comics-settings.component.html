@@ -6,9 +6,9 @@
       <div class="item">
         <div class="name">第一页封面</div>
         <mat-radio-group [(ngModel)]="mode">
-          <mat-radio-button [attr.region]="'chapter_items'" (click)="change(1)" [value]="1" style="display: flex;">是</mat-radio-button>
-          <mat-radio-button [attr.region]="'chapter_items'" [attr.select]="true" (click)="change(2)" [value]="2" style="display: flex;">否</mat-radio-button>
-          <mat-radio-button [attr.region]="'chapter_items'" (click)="change(3)" [value]="3" style="display: flex;">详细设置</mat-radio-button>
+          <mat-radio-button [attr.region]="'chapter_item'" (click)="change(1)" [value]="1" style="display: flex;">是</mat-radio-button>
+          <mat-radio-button [attr.region]="'chapter_item'" [attr.select]="true" (click)="change(2)" [value]="2" style="display: flex;">否</mat-radio-button>
+          <mat-radio-button [attr.region]="'chapter_item'" (click)="change(3)" [value]="3" style="display: flex;">详细设置</mat-radio-button>
         </mat-radio-group>
       </div>
     </div>
@@ -18,9 +18,9 @@
     color: rgba(255, 255, 255, .34);display: flex;align-items: center;    justify-content: space-between;">
 
       <div class="toolbar">
-        <button mat-button [attr.region]="'chapter_items'" (click)="all()">全选</button>
-        <button mat-button [attr.region]="'chapter_items'" (click)="rev()">反选</button>
-        <button mat-button [attr.region]="'chapter_items'" (click)="all()">自动推断</button>
+        <button mat-button [attr.region]="'chapter_item'" (click)="all()">全选</button>
+        <button mat-button [attr.region]="'chapter_item'" (click)="rev()">反选</button>
+        <button mat-button [attr.region]="'chapter_item'" (click)="all()">自动推断</button>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
               {{n.title}}
           </div>
           <div class="toolbar">
-            <mat-checkbox style="padding-right: 12px;" [attr.region]="'chapter_items'" (change)="gefa(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">第一页是否封面</mat-checkbox>
+            <mat-checkbox style="padding-right: 12px;" [attr.region]="'chapter_item'" (change)="gefa(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">第一页是否封面</mat-checkbox>
           </div>
         </div>
         <div class="content">

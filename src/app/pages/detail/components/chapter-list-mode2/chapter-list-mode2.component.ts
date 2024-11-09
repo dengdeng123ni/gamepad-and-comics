@@ -39,7 +39,7 @@ export class ChapterListMode2Component {
     public exportSettings: ExportSettingsService,
   ) {
 
-    ContextMenuEvent.register('chapter_items', {
+    ContextMenuEvent.register('chapter_item', {
       open: () => {
         // this.close()
       },
@@ -106,7 +106,7 @@ export class ChapterListMode2Component {
 
     } else {
       const getTargetNode = (node: HTMLElement): HTMLElement => {
-        if (node.getAttribute("region") == "chapter_items") {
+        if (node.getAttribute("region") == "chapter_item") {
           return node
         } else {
           return getTargetNode(node.parentNode as HTMLElement)

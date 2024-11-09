@@ -1,8 +1,8 @@
 <div class="warp">
   <div class="list">
-    <button mat-button class="item" *ngFor="let n of data.chapters; let index = index" [attr._id]="'chapter_items_' + n.id"
-      [attr.select]="n.id == data.chapter_id" [attr.default]="n.id == data.chapter_id" [attr.region]="'chapter_items'"
-      [id]="'chapter_items_' + n.id" [style]="
+    <button mat-button class="item" *ngFor="let n of data.chapters; let index = index" [attr._id]="'chapter_item_' + n.id"
+      [attr.select]="n.id == data.chapter_id" [attr.default]="n.id == data.chapter_id" [attr.region]="'chapter_item'"
+      [id]="'chapter_item_' + n.id" [style]="
         n.id == data.chapter_id
           ? 'background: rgba(255, 255, 255, .1);color:rgba(255, 255, 255, .87);border-radius: 4px;'
           : null
