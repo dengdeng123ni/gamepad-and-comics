@@ -2,6 +2,9 @@
 chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
     window.postMessage(request, '*');
+
+    executeScript('console.log(123)')
+
   }
 );
 
@@ -93,4 +96,28 @@ async function init() {
   });
 }
 
+function executeScript(code) {
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    const messageName = "error_" + Math.floor(Math.random() * 100000);
+    const handler = (e) => reject((e).detail);
+    window.addEventListener(messageName, handler);
+    script.textContent = `(function(){
+        try {
+          ${code}
+        } catch(e) {
+          window.dispatchEvent(new CustomEvent('${messageName}', { detail: e }));
+        }
+    })()`;
+
+    document.body.appendChild(script);
+    document.body.removeChild(script);
+    window.removeEventListener(messageName, handler);
+    resolve(true);
+  });
+}
+
 init();
+
+
