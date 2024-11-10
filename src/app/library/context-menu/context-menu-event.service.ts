@@ -22,7 +22,7 @@ export class ContextMenuEventService {
   public menu: { [key: string]: any } = {};
   constructor() {
     window._gh_menu_register = this.registerMenu;
-    // ['comics_item','chapter_items','one_page_thumbnail_item','double_page_thumbnail_item']
+    // ['comics_item','chapters_items','one_page_thumbnail_item','double_page_thumbnail_item']
     // window._gh_menu_register('comics_list', [
     //   {
     //     name: "测试点击",

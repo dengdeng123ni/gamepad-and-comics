@@ -19,7 +19,7 @@ export class ComicsListConfigService {
     public webDb: NgxIndexedDBService,
     private zone: NgZone,
   ) {
-    GamepadEvent.registerAreaEvent('chapter_item', {
+    GamepadEvent.registerAreaEvent('chapters_item', {
       B: () => setTimeout(() => this.close())
     })
     this.init();

@@ -30,7 +30,7 @@ export class IndexService {
 
     GamepadEvent.registerConfig('reader', { region: ['double_page_reader', 'page_reader'] });
     GamepadEvent.registerConfig('chapters_thumbnail', {
-      region: ['chapter_item'],
+      region: ['chapters_item'],
     });
     GamepadEvent.registerConfig('double_page_thumbnail', {
       region: ['double_page_thumbnail_item'],

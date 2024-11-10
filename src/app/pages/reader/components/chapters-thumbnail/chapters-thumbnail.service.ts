@@ -14,7 +14,7 @@ export class ChaptersThumbnailService {
     public GamepadEvent:GamepadEventService,
     private zone: NgZone,
   ) {
-    GamepadEvent.registerAreaEvent('chapter_item',{
+    GamepadEvent.registerAreaEvent('chapters_item',{
       B:()=>setTimeout(()=>this.close())
     })
   }

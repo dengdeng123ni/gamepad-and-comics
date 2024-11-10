@@ -37,7 +37,7 @@ export class ChaptersListComponent {
 
     } else {
       const getTargetNode = (node: HTMLElement): HTMLElement => {
-        if (node.getAttribute("region") == "chapter_item") {
+        if (node.getAttribute("region") == "chapters_item") {
           return node
         } else {
           return getTargetNode(node.parentNode as HTMLElement)

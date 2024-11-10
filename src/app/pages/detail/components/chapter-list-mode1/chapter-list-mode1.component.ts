@@ -45,7 +45,7 @@ export class ChapterListMode1Component {
     public AppData: AppDataService
   ) {
     if (data.is_cache && data.is_download) {
-      ContextMenuEvent.register('chapter_item', {
+      ContextMenuEvent.register('chapters_item', {
         open: () => {
           // this.close()
         },
@@ -53,7 +53,6 @@ export class ChapterListMode1Component {
 
         },
         on: async (e: any) => {
-console.log(e);
 
           if (e.value) {
             const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
@@ -165,7 +164,7 @@ console.log(e);
 
       })
     } else if (!data.is_cache && data.is_download) {
-      ContextMenuEvent.register('chapter_item', {
+      ContextMenuEvent.register('chapters_item', {
         open: () => {
           // this.close()
         },
@@ -193,19 +192,25 @@ console.log(e);
 
           }
           if (e.id == "export") {
-            const node = document.getElementById("menu_content");
-            let { x, y, width, height } = node!.getBoundingClientRect();
-            if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
-            if (window.innerHeight < (y + 212)) y = window.innerHeight - 212
-            this.exportSettings.open({
-              position: {
-                top: `${y}px`,
-                left: `${x}px`
-              },
-              delayFocusTrap: false,
-              panelClass: "reader_settings_buttom",
-              backdropClass: "reader_settings_buttom_backdrop"
-            })
+            if(e.value){
+              const node = document.getElementById("menu_content");
+              let { x, y, width, height } = node!.getBoundingClientRect();
+              if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
+              if (window.innerHeight < (y + 212)) y = window.innerHeight - 212
+              this.exportSettings.open({
+                position: {
+                  top: `${y}px`,
+                  left: `${x}px`
+                },
+                delayFocusTrap: false,
+                panelClass: "reader_settings_buttom",
+                backdropClass: "reader_settings_buttom_backdrop"
+              })
+            }else{
+              this.exportSettings.open({
+                delayFocusTrap: false,
+              })
+            }
           } else {
             const list = this.data.chapters.filter(x => x.selected);
             (e as any).click(list)
@@ -220,7 +225,7 @@ console.log(e);
       })
     } else if (data.is_cache && !data.is_download) {
 
-      ContextMenuEvent.register('chapter_item', {
+      ContextMenuEvent.register('chapters_item', {
         open: () => {
           // this.close()
         },
@@ -250,19 +255,25 @@ console.log(e);
 
           }
           if (e.id == "export") {
-            const node = document.getElementById("menu_content");
-            let { x, y, width, height } = node!.getBoundingClientRect();
-            if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
-            if (window.innerHeight < (y + 212)) y = window.innerHeight - 212
-            this.exportSettings.open({
-              position: {
-                top: `${y}px`,
-                left: `${x}px`
-              },
-              delayFocusTrap: false,
-              panelClass: "reader_settings_buttom",
-              backdropClass: "reader_settings_buttom_backdrop"
-            })
+            if(e.value){
+              const node = document.getElementById("menu_content");
+              let { x, y, width, height } = node!.getBoundingClientRect();
+              if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
+              if (window.innerHeight < (y + 212)) y = window.innerHeight - 212
+              this.exportSettings.open({
+                position: {
+                  top: `${y}px`,
+                  left: `${x}px`
+                },
+                delayFocusTrap: false,
+                panelClass: "reader_settings_buttom",
+                backdropClass: "reader_settings_buttom_backdrop"
+              })
+            }else{
+              this.exportSettings.open({
+                delayFocusTrap: false,
+              })
+            }
           } else {
             const list = this.data.chapters.filter(x => x.selected);
             (e as any).click(list)
@@ -332,7 +343,7 @@ console.log(e);
 
       })
     } else {
-      ContextMenuEvent.register('chapter_item', {
+      ContextMenuEvent.register('chapters_item', {
         open: () => {
           // this.close()
         },
@@ -382,6 +393,20 @@ console.log(e);
       })
     }
 
+    ContextMenuEvent.register('chapters_list', {
+      on: async (e: any) => {
+        e.click(this.data.chapters)
+      },
+      menu: [
+        {
+          id: "edit",
+          name: "编辑",
+          click: e => {
+             this.data.is_edit=!this.data.is_edit;
+          }
+        }
+      ]
+    })
     //
 
     if (this.data.chapters[0].cover) this.pattern = 'image';
@@ -433,7 +458,7 @@ console.log(e);
 
     } else {
       const getTargetNode = (node: HTMLElement): HTMLElement => {
-        if (node.getAttribute("region") == "chapter_item") {
+        if (node.getAttribute("region") == "chapters_item") {
           return node
         } else {
           return getTargetNode(node.parentNode as HTMLElement)

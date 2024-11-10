@@ -209,7 +209,7 @@ body[pattern=gamepad][locked_region=novels_chapters_list] {
   [region=input][select=true],
   [region=one_page_item][select=true],
   [region=comics_option][select=true],
-  [region=chapter_item][select=true],
+  [region=chapters_item][select=true],
   [region=continue][select=true],
   [region=back][select=true],
   [region=double_page_thumbnail_item][select=true],
@@ -222,7 +222,7 @@ body[pattern=gamepad][locked_region=novels_chapters_list] {
   [region=reader_config_item][select=true],
   [region=menu_search_input][select=true],
   [region=menu_search_comics_item][select=true],
-  [region=novels_chapter_item][select=true],
+  [region=novels_chapters_item][select=true],
   [region=reset_reading_progress][select=true] [region=novels_chapters_item][select=true] {
     position: relative;
 
@@ -357,7 +357,7 @@ html[theme=yeshu] {
     [region=input][select=true],
     [region=one_page_item][select=true],
     [region=comics_option][select=true],
-    [region=chapter_item][select=true],
+    [region=chapters_item][select=true],
     [region=continue][select=true],
     [region=back][select=true],
     [region=double_page_thumbnail_item][select=true],
@@ -370,7 +370,7 @@ html[theme=yeshu] {
     [region=reader_config_item][select=true],
     [region=menu_search_input][select=true],
     [region=menu_search_comics_item][select=true],
-    [region=novels_chapter_item][select=true],
+    [region=novels_chapters_item][select=true],
     [region=reset_reading_progress][select=true] [region=novels_chapters_item][select=true] {
       position: relative;
 
