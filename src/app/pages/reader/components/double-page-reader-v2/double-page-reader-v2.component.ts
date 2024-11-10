@@ -338,8 +338,8 @@ export class DoublePageReaderV2Component {
     }
 
     if (res.primary.end) current = current + `<img type="none" style="opacity: 0;width:50%"  src="${res.primary.src}" />`;
-    if (res.secondary.src) current = current + `<img style="width: 50%;height: auto;object-fit: contain;object-position: right;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
-    if (res.primary.src) current = current + `<img  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: left;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
+    if (res.primary.src) current = current + `<img content_menu_key="pages_item" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: left;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (res.primary.start) current = current + `<img type="none" style="opacity: 0;width:50%"  src="${res.primary.src}" />`;
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
@@ -375,8 +375,8 @@ export class DoublePageReaderV2Component {
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
     if (res.primary.end) current = current + `<img type="none" style="opacity: 0;width50%" src="${res.primary.src}" />`;
-    if (res.primary.src) current = current + `<img  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: right;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`
-    if (res.secondary.src) current = current + `<img style="width: 50%;height: auto;object-fit: contain;object-position: left;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
+    if (res.primary.src) current = current + `<img content_menu_key="pages_item"  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: right;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`
+    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: left;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
     if (res.primary.start) current = current + `<img type="none" style="opacity: 0;width50%"  src="${res.primary.src}" />`;
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;

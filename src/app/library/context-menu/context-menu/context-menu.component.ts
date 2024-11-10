@@ -38,6 +38,9 @@ export class ContextMenuComponent implements OnInit {
       this.menu.openMenu();
     })
   }
+  on($event,data){
+   this.contextMenu.afterClosed$.next({...data,PointerEvent:$event,'trigger':"contextmenu"})
+  }
   submenuOpen(e:any) {
     e.stopPropagation();
     e.target.children[0].click();

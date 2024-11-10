@@ -307,7 +307,7 @@ export class OnePageReaderV2DefaultComponent {
       this.is_1 = true
     }
 
-    if (res.primary.src) current = current + `<img  style=" height: 100%;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.primary.src) current = current + `<img content_menu_key="pages_item" style=" height: 100%;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
 
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = current;
@@ -347,7 +347,7 @@ export class OnePageReaderV2DefaultComponent {
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
 
-    if (res.primary.src) current = current + `<img  style=" height: 100%;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.primary.src) current = current + `<img content_menu_key="pages_item"  style=" height: 100%;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = current;
       this.appendSlide(current)

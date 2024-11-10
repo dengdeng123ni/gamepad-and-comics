@@ -17,7 +17,7 @@
         (click)="
           item.submenu
             ? submenuOpen($event)
-            : contextMenu.afterClosed$.next(item.arg)
+            : on($event,item.arg)
         "
         [attr.svg_filter]="'text_primary'"
         mat-menu-item
@@ -35,7 +35,7 @@
         [attr.default]="index == 0"
         [attr.region]="'content_menu'"
         [attr.svg_filter]="'text_primary'"
-        (click)="contextMenu.afterClosed$.next(item.arg)"
+        (click)="on($event,item.arg)"
         [matTooltipShowDelay]="10000"
         [matTooltip]="item.text ? item.name : item.name"
         mat-menu-item
@@ -54,7 +54,7 @@
             [attr.select]="false"
             [attr.default]="false"
             [attr.region]="'content_menu_submenu'"
-            (click)="contextMenu.afterClosed$.next(item.arg)"
+            (click)="on($event,item.arg)"
             [matTooltipShowDelay]="10000"
             [matTooltip]="item.text ? item.name :item.name | translate"
             >
@@ -72,7 +72,7 @@
         (click)="
           item.submenu
             ? submenuOpen($event)
-            : contextMenu.afterClosed$.next(item.arg)
+            : on($event,item.arg)
         "
         mat-menu-item
         *ngIf="item.submenu"
@@ -89,7 +89,7 @@
         [attr.default]="false"
         [attr.region]="'content_menu_submenu'"
         [attr.svg_filter]="'text_primary'"
-        (click)="contextMenu.afterClosed$.next(item.arg)"
+        (click)="on($event,item.arg)"
         [matTooltipShowDelay]="10000"
         [matTooltip]="item.text ? item.name : item.name"
         mat-menu-item
@@ -108,7 +108,7 @@
       [attr.select]="false"
       [attr.default]="false"
       [attr.region]="'content_menu_children'"
-      (click)="contextMenu.afterClosed$.next(item.arg)"
+      (click)="on($event,item.arg)"
       [matTooltipShowDelay]="10000"
       [matTooltip]="item.text ? item.name : item.name"
       mat-menu-item

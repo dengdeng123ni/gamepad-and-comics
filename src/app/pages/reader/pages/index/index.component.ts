@@ -30,7 +30,7 @@ export class IndexComponent {
     public data: DataService,
     public router: Router,
     public route: ActivatedRoute,
-    public App:AppDataService,
+    public App: AppDataService,
     public left: OnePageThumbnailMode2Service,
     public ChaptersList: ChaptersListService,
     public index: IndexService,
@@ -41,20 +41,20 @@ export class IndexComponent {
     public ComicsDetail: ComicsDetailService,
     public KeyboardToolbar: KeyboardToolbarService,
     public KeyboardEvent: KeyboardEventService,
-    public GamepadToolbar:GamepadToolbarService,
-    public GamepadEvent:GamepadEventService,
-    public ComicsSettings:ComicsSettingsService,
+    public GamepadToolbar: GamepadToolbarService,
+    public GamepadEvent: GamepadEventService,
+    public ComicsSettings: ComicsSettingsService,
     public ContextMenuEvent: ContextMenuEventService,
-    public filter:FilterService,
+    public filter: FilterService,
     public Prompt: PromptService
   ) {
 
 
     GamepadEvent.registerAreaEvent('page_reader', {
-      B:()=>window.history.back()
+      B: () => window.history.back()
     })
     this.GamepadEvent.registerGlobalEvent({
-      LEFT_ANALOG_PRESS:()=>{
+      LEFT_ANALOG_PRESS: () => {
         this.KeyboardToolbar.isToggle()
       }
     })
@@ -70,7 +70,7 @@ export class IndexComponent {
     //   KeyboardToolbar.open()
     // },1000)
     document.body.setAttribute("router", "reader")
-    document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+    document.body.setAttribute("locked_region", document.body.getAttribute("router"))
 
 
     // ReaderConfig.open();
@@ -80,12 +80,12 @@ export class IndexComponent {
       if (params.get('source')) {
         this.App.setsource(params.get('source'))
         this.data.init();
-        this.current._init(params.get('source'),params.get('id').toString() as string, params.get('sid').toString() as string)
+        this.current._init(params.get('source'), params.get('id').toString() as string, params.get('sid').toString() as string)
         this.filter.init();
         return
       }
       this.data.init();
-      this.current._init(this.App.source,params.get('id').toString() as string, params.get('sid').toString() as string)
+      this.current._init(this.App.source, params.get('id').toString() as string, params.get('sid').toString() as string)
       this.filter.init();
     })
   }

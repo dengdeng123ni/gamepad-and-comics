@@ -519,4 +519,9 @@ export class ChapterListMode1Component {
 
     // warp.setAttribute('hide', 'false')
   }
+
+  ngOnDestroy() {
+     if(this.data.is_edit) this.data.is_edit=false;
+
+  }
 }

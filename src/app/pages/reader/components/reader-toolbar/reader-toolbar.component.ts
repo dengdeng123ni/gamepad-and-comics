@@ -12,7 +12,7 @@ import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { ComicsDetailService } from '../comics-detail/comics-detail.service';
 import { ComicsSettingsService } from '../comics-settings/comics-settings.service';
-import { DbControllerService, RoutingControllerService } from 'src/app/library/public-api';
+import { ContextMenuEventService, DbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
@@ -26,7 +26,7 @@ import { FilterService } from '../filter/filter.service';
 export class ReaderToolbarComponent {
   isfullscreen = !!document.fullscreenElement;
   isMobile = (navigator as any).userAgentData.mobile;
-  is_locked=true;
+  is_locked = true;
   double_page_reader: any = {}
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
@@ -37,26 +37,114 @@ export class ReaderToolbarComponent {
     public onePageThumbnailMode1: OnePageThumbnailMode1Service,
     public onePageThumbnailMode2: OnePageThumbnailMode2Service,
     public onePageThumbnailMode3: OnePageThumbnailMode3Service,
-    public SetChapterFirstPageCover:SetChapterFirstPageCoverService,
+    public SetChapterFirstPageCover: SetChapterFirstPageCoverService,
     public ReaderChange: ReaderChangeService,
-    public ReaderConfig:ReaderConfigService,
-    public ComicsDetail:ComicsDetailService,
-    public ComicsSettings:ComicsSettingsService,
-    public DbController:DbControllerService,
+    public ReaderConfig: ReaderConfigService,
+    public ComicsDetail: ComicsDetailService,
+    public ComicsSettings: ComicsSettingsService,
+    public DbController: DbControllerService,
     public webDb: NgxIndexedDBService,
-    public filter:FilterService,
-    public resetReadingProgress:ResetReadingProgressService,
-    public RoutingController:RoutingControllerService
+    public filter: FilterService,
+    public resetReadingProgress: ResetReadingProgressService,
+    public ContextMenuEvent: ContextMenuEventService,
+    public RoutingController: RoutingControllerService
   ) {
-    current.init$.subscribe(x=>{
+
+    ContextMenuEvent.register('comics_reader', {
+      on: async (e: any) => {
+        e.click(e.PointerEvent)
+      },
+      menu: [
+        {
+          id: "bcak",
+          name: "返回",
+          click: e => {
+            this.back()
+          }
+        },
+        {
+          id: "toggle_page",
+          name: "切页",
+          click: e => {
+            this.togglePage()
+          }
+        },
+        {
+          id: "fiast_page",
+          name: "设置第一页为封面",
+          click: e => {
+            this.ComicsSettings.open();
+          }
+        },
+        {
+          id: "chapters_thumbnail",
+          name: "章节",
+          click: e => {
+            this.chaptersThumbnail.isToggle()
+          }
+        },
+
+        {
+          id: "double_page_thumbnail",
+          name: "双页缩略图",
+          click: e => {
+            this.doublePageThumbnail.isToggle();
+          }
+        },
+        {
+          id: "one_page_thumbnail",
+          name: "单页缩略图",
+          click: e => {
+            this.onePageThumbnailMode3.isToggle();
+          }
+        },
+        {
+          id: "filter",
+          name: "滤镜",
+          click: e => {
+
+            const left = ((window.innerWidth / 2) - e.clientX > 0)
+            const top = ((window.innerHeight / 2) - e.clientY > 0)
+            let position = { };
+            position[left ? 'left' : 'right'] = left ? `${e.clientX}px` : `${(window.innerWidth - e.clientX)}px`
+            position[top ? 'top' : 'bottom'] = top ? `${e.clientY}px` : `${(window.innerHeight - e.clientY)}px`
+            this.filter.open({
+              backdropClass: "_reader_config_bg",
+              position: position
+            });
+
+          }
+        },
+        {
+          id: "settings",
+          name: "设置",
+          click: e => {
+            const left = ((window.innerWidth / 2) - e.clientX > 0)
+            const top = ((window.innerHeight / 2) - e.clientY > 0)
+            let position = { };
+            position[left ? 'left' : 'right'] = left ? `${e.clientX}px` : `${(window.innerWidth - e.clientX)}px`
+            position[top ? 'top' : 'bottom'] = top ? `${e.clientY}px` : `${(window.innerHeight - e.clientY)}px`
+            this.ReaderConfig.open(position)
+          }
+        },
+        {
+          id: "full",
+          name: "全屏",
+          click: e => {
+            this.isFullChange();
+          }
+        },
+      ]
+    })
+    current.init$.subscribe(x => {
       if (this.data.chapters[0].is_locked === undefined || !this.data.is_locked) this.is_locked = false;
 
     })
   }
-  filterOpen($event){
+  filterOpen($event) {
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
-    this.filter.open({backdropClass:"_reader_config_bg",position:{right:"30px",top:`${position.top}px`}})
+    this.filter.open({ backdropClass: "_reader_config_bg", position: { right: "30px", top: `${position.top}px` } })
   }
   menuObj: {
     list: any,
@@ -152,11 +240,11 @@ export class ReaderToolbarComponent {
     node.style.left = `${p.x + p.width + 4}px`;
     setTimeout(() => {
       this.menu.openMenu();
-      setTimeout(()=>{
-        const node:any= document.querySelector(`[_id=_menu_item_${this.data.chapter_id}]`)
+      setTimeout(() => {
+        const node: any = document.querySelector(`[_id=_menu_item_${this.data.chapter_id}]`)
         node!.scrollIntoView({ block: "center", inline: "center" })
-        if(node) node?.focus()
-      },0)
+        if (node) node?.focus()
+      }, 0)
     }, 0)
 
   }
@@ -205,20 +293,20 @@ export class ReaderToolbarComponent {
     const x = window.innerWidth - (position.x - 15);
     const y = (window.innerHeight - 512) / 2;
     // this.uploadSelect.open({ x, y });
-    this.SetChapterFirstPageCover.open({position:{ top: `${y}px`, left: `${70}px` },delayFocusTrap:false,})
+    this.SetChapterFirstPageCover.open({ position: { top: `${y}px`, left: `${70}px` }, delayFocusTrap: false, })
   }
 
 
-  openReaderSettings($event){
+  openReaderSettings($event) {
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
-    this.ReaderConfig.open({right:"30px",top:`${position.top}px`})
+    this.ReaderConfig.open({ right: "30px", top: `${position.top}px` })
   }
 
-  OpenComicsDetail($event){
+  OpenComicsDetail($event) {
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
-    this.ComicsDetail.open({right:"30px",bottom:`30px`})
+    this.ComicsDetail.open({ right: "30px", bottom: `30px` })
   }
 
 

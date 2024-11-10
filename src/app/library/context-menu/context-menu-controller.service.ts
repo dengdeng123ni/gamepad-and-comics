@@ -93,6 +93,7 @@ export class ContextMenuControllerService {
 
     this.contextMenu.afterClosed().subscribe((command: any) => {
       if (command.key) {
+
         if (this.contextMenuEvent.onEvent[command.key]) this.contextMenuEvent.onEvent[command.key](command);
       }
     });
