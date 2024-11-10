@@ -13,7 +13,6 @@ import { ComicsListV2Service } from '../../components/comics-list-v2/comics-list
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
 import { UrlToComicsIdService } from '../../components/url-to-comics-id/url-to-comics-id.service';
 import { TabToolbarService } from '../../components/tab-toolbar/tab-toolbar.service';
-import { DropDownMenuService } from '../../components/drop-down-menu/drop-down-menu.service';
 import { ComicsListConfigService } from '../../components/comics-list-config/comics-list-config.service';
 import { ImageToService } from '../../components/image-to/image-to.service';
 import { DownloadProgressService } from '../../components/download-progress/download-progress.service';
@@ -43,7 +42,6 @@ export class IndexComponent {
     public ComicsListV2: ComicsListV2Service,
     public UrlToComicsId: UrlToComicsIdService,
     public TabToolbar:TabToolbarService,
-    public DropDownMenu:DropDownMenuService,
     public ComicsListConfig:ComicsListConfigService,
     public imageTo:ImageToService,
     public WhenInputting:WhenInputtingService,

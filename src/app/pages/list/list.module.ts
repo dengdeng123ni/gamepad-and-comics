@@ -22,7 +22,6 @@ import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 import { UrlToComicsIdComponent } from './components/url-to-comics-id/url-to-comics-id.component';
 import { TabToolbarComponent } from './components/tab-toolbar/tab-toolbar.component';
-import { DropDownMenuComponent } from './components/drop-down-menu/drop-down-menu.component';
 import { ComicsListConfigComponent } from './components/comics-list-config/comics-list-config.component';
 import { ImageCompressionComponent } from './components/image-compression/image-compression.component';
 import { ImageToComponent } from './components/image-to/image-to.component';
@@ -64,7 +63,6 @@ import { PageThemeComponent } from './components/page-theme/page-theme.component
     GamepadToolbarComponent,
     UrlToComicsIdComponent,
     TabToolbarComponent,
-    DropDownMenuComponent,
     ComicsListConfigComponent,
     ImageCompressionComponent,
     ImageToComponent,

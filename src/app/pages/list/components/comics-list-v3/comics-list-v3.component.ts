@@ -9,7 +9,6 @@ import { DataService } from '../../services/data.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
 import { DownloadOptionService } from '../download-option/download-option.service';
-import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 import { ComicsListV2Service } from '../comics-list-v2/comics-list-v2.service';
 
 @Component({
@@ -128,7 +127,6 @@ export class ComicsListV3Component {
     public history: HistoryService,
     public DownloadOption: DownloadOptionService,
     public App: AppDataService,
-    public DropDownMenu: DropDownMenuService,
     public LocalCach: LocalCachService
   ) {
     KeyboardEvent.registerGlobalEventY({
@@ -327,76 +325,7 @@ export class ComicsListV3Component {
     const list = this.getSelectedData();
     this.DownloadOption.open(list)
   }
-  async DropDownMenuOpen() {
-    const e = await this.DropDownMenu.open([
-      {
-        name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
 
-          for (let index = 0; index < list.length; index++) {
-            await this.resetReadingProgress(list[index].id)
-          }
-        }
-      },
-      {
-        name: "重置数据", id: "reset_data", click: async (list) => {
-          for (let index = 0; index < list.length; index++) {
-            this.DbController.delWebDbDetail(list[index].id)
-            const res = await this.DbController.getDetail(list[index].id)
-            for (let index = 0; index < res.chapters.length; index++) {
-              const chapter_id = res.chapters[index].id;
-              await this.DbController.delWebDbPages(chapter_id)
-              const pages = await this.DbController.getPages(chapter_id)
-              for (let index = 0; index < pages.length; index++) {
-                await this.DbController.delWebDbImage(pages[index].src)
-                await this.DbController.getImage(pages[index].src)
-              }
-            }
-          }
-        }
-      },
-      {
-        name: "提前加载", id: "load", click: async (list) => {
-          for (let index = 0; index < list.length; index++) {
-            const res = await this.DbController.getDetail(list[index].id)
-            for (let index = 0; index < res.chapters.length; index++) {
-              const chapter_id = res.chapters[index].id;
-              const pages = await this.DbController.getPages(chapter_id)
-              for (let index = 0; index < pages.length; index++) {
-                await this.DbController.getImage(pages[index].src)
-              }
-            }
-          }
-        }
-      },
-      {
-        name: "重新获取", id: "reset_get", click: async (list) => {
-          for (let index = 0; index < list.length; index++) {
-            this.DbController.delWebDbDetail(list[index].id)
-            const res = await this.DbController.getDetail(list[index].id)
-            for (let index = 0; index < res.chapters.length; index++) {
-              const chapter_id = res.chapters[index].id;
-              await this.DbController.delWebDbPages(chapter_id)
-              const pages = await this.DbController.getPages(chapter_id)
-            }
-          }
-        }
-      },
-      {
-        name: "删除", id: "delete", click: async (list) => {
-
-          for (let index = 0; index < list.length; index++) {
-            await this.delCaches(list[index].id)
-          }
-        }
-      },
-    ])
-    if (e) {
-      const list = this.getSelectedData();
-      (e as any).click(list)
-    }
-
-
-  }
   async resetReadingProgress(comics_id) {
     const detail = await this.DbController.getDetail(comics_id)
     for (let index = 0; index < detail.chapters.length; index++) {

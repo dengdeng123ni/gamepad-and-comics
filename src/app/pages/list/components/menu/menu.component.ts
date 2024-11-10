@@ -4,7 +4,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { TemporaryFileService } from './temporary-file.service';
-import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, LocalCachService, PulgService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, LocalCachService, PulgService } from 'src/app/library/public-api';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
@@ -12,7 +12,6 @@ import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.servic
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ControllerSettingsService } from '../controller-settings/controller-settings.service';
 import { UrlToComicsIdService } from '../url-to-comics-id/url-to-comics-id.service';
-import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 import { MenuSearchService } from '../menu-search/menu-search.service';
 import { SoundEffectsService } from '../sound-effects/sound-effects.service';
 import { AboutSoftwareService } from '../about-software/about-software.service';

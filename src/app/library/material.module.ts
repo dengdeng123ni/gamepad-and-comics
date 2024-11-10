@@ -51,6 +51,8 @@ import { ImageComponent } from './image/image.component';
 import { HistoryComicsListComponent } from './history-comics-list/history-comics-list.component';
 import { ReadRecordComponent } from './read-record/read-record.component';
 import { ReadRecordChapterComponent } from './read-record-chapter/read-record-chapter.component';
+import { ContextMenuEditComponent } from './context-menu/context-menu-edit/context-menu-edit.component';
+import { DropDownMenuComponent } from './context-menu/drop-down-menu/drop-down-menu.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -149,12 +151,16 @@ import { ReadRecordChapterComponent } from './read-record-chapter/read-record-ch
     PortalModule,
     ScrollingModule,
     ImageComponent,
+    ContextMenuEditComponent,
+    DropDownMenuComponent
   ],
   declarations: [
     ImageComponent,
     HistoryComicsListComponent,
     ReadRecordComponent,
-    ReadRecordChapterComponent
+    ReadRecordChapterComponent,
+    ContextMenuEditComponent,
+    DropDownMenuComponent
   ]
 })
 export class MaterialModule {

@@ -18,7 +18,6 @@ import { IndexToolbarComponent } from './components/index-toolbar/index-toolbar.
 import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard-toolbar.component';
 import { ComicsToolbarComponent } from './components/comics-toolbar/comics-toolbar.component';
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
-import { DropDownMenuComponent } from './components/drop-down-menu/drop-down-menu.component';
 import { DoublePageThumbnailComponent } from './components/double-page-thumbnail/double-page-thumbnail.component';
 
 
@@ -40,7 +39,6 @@ import { DoublePageThumbnailComponent } from './components/double-page-thumbnail
     KeyboardToolbarComponent,
     ComicsToolbarComponent,
     GamepadToolbarComponent,
-    DropDownMenuComponent
   ],
   imports: [
     CommonModule,

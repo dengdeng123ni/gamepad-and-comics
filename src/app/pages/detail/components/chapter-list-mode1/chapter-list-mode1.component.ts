@@ -5,7 +5,6 @@ import { ExportSettingsService } from '../export-settings/export-settings.servic
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { CurrentService } from '../../services/current.service';
 import { Router } from '@angular/router';
-import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 interface Item {
   id: string | number,
@@ -42,11 +41,10 @@ export class ChapterListMode1Component {
     public ContextMenuEvent: ContextMenuEventService,
     public exportSettings: ExportSettingsService,
     public DbController: DbControllerService,
-    public DropDownMenu: DropDownMenuService,
     private _snackBar: MatSnackBar,
     public AppData: AppDataService
   ) {
-    if(data.is_cache&&data.is_download){
+    if (data.is_cache && data.is_download) {
       ContextMenuEvent.register('chapter_item', {
         open: () => {
           // this.close()
@@ -55,33 +53,48 @@ export class ChapterListMode1Component {
 
         },
         on: async (e: any) => {
+console.log(e);
 
-          const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
-          if (this.data.chapters.filter(x => x.selected).length == 0) {
-            this.data.chapters[index].selected = !this.data.chapters[index].selected;
+          if (e.value) {
+            const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
+            if (this.data.chapters.filter(x => x.selected).length == 0) {
+              this.data.chapters[index].selected = !this.data.chapters[index].selected;
+            }
           }
           if (e.id == "thumbnail") {
-            const id = e.value
-            const index = await this.current._getChapterIndex(id);
-            this.doublePageThumbnail.open({
-              chapter_id: id
-            })
-
+            if(e.value){
+              const id = e.value
+              const index = await this.current._getChapterIndex(id);
+              this.doublePageThumbnail.open({
+                chapter_id: id
+              })
+            }else{
+              this.doublePageThumbnail.open({
+                chapter_id:this.data.chapter_id
+              })
+            }
           }
           if (e.id == "export") {
-            const node = document.getElementById("menu_content");
-            let { x, y, width, height } = node!.getBoundingClientRect();
-            if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
-            if (window.innerHeight < (y + 212)) y = window.innerHeight - 212
-            this.exportSettings.open({
-              position: {
-                top: `${y}px`,
-                left: `${x}px`
-              },
-              delayFocusTrap: false,
-              panelClass: "reader_settings_buttom",
-              backdropClass: "reader_settings_buttom_backdrop"
-            })
+            if(e.value){
+              const node = document.getElementById("menu_content");
+              let { x, y, width, height } = node!.getBoundingClientRect();
+              if (window.innerWidth < (x + 262)) x = window.innerWidth - 262
+              if (window.innerHeight < (y + 212)) y = window.innerHeight - 212
+              this.exportSettings.open({
+                position: {
+                  top: `${y}px`,
+                  left: `${x}px`
+                },
+                delayFocusTrap: false,
+                panelClass: "reader_settings_buttom",
+                backdropClass: "reader_settings_buttom_backdrop"
+              })
+            }else{
+              this.exportSettings.open({
+                delayFocusTrap: false,
+              })
+            }
+
           } else {
             const list = this.data.chapters.filter(x => x.selected);
             (e as any).click(list)
@@ -114,9 +127,9 @@ export class ChapterListMode1Component {
                     const pages = await this.DbController.getPages(chapter_id)
                     for (let ccc = 0; ccc < pages.length; ccc++) {
                       await this.DbController.getImage(pages[ccc].src)
-                      this._snackBar.open(`${list[index].title} 第${ccc + 1}页/${pages.length}页`,'提前加载完成')
+                      this._snackBar.open(`${list[index].title} 第${ccc + 1}页/${pages.length}页`, '提前加载完成')
                     }
-                    this._snackBar.open(`${list[index].title}`,'提前加载完成')
+                    this._snackBar.open(`${list[index].title}`, '提前加载完成')
                   }
                   this._snackBar.open(`提前加载已完成`, '', {
                     duration: 1000
@@ -151,7 +164,7 @@ export class ChapterListMode1Component {
         ]
 
       })
-    }else if(!data.is_cache&&data.is_download){
+    } else if (!data.is_cache && data.is_download) {
       ContextMenuEvent.register('chapter_item', {
         open: () => {
           // this.close()
@@ -161,16 +174,22 @@ export class ChapterListMode1Component {
         },
         on: async (e: any) => {
 
-          const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
-          if (this.data.chapters.filter(x => x.selected).length == 0) {
-            this.data.chapters[index].selected = !this.data.chapters[index].selected;
+          if (e.value) {
+            const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
+            if (this.data.chapters.filter(x => x.selected).length == 0) {
+              this.data.chapters[index].selected = !this.data.chapters[index].selected;
+            }
           }
           if (e.id == "thumbnail") {
-            const id = e.value
-            const index = await this.current._getChapterIndex(id);
-            this.doublePageThumbnail.open({
-              chapter_id: id
-            })
+            if(e.value){
+              const id = e.value
+              const index = await this.current._getChapterIndex(id);
+              this.doublePageThumbnail.open({
+                chapter_id: id
+              })
+            }else{
+              this.doublePageThumbnail.open()
+            }
 
           }
           if (e.id == "export") {
@@ -199,7 +218,7 @@ export class ChapterListMode1Component {
         ]
 
       })
-    }else if(data.is_cache&&!data.is_download){
+    } else if (data.is_cache && !data.is_download) {
 
       ContextMenuEvent.register('chapter_item', {
         open: () => {
@@ -210,16 +229,24 @@ export class ChapterListMode1Component {
         },
         on: async (e: any) => {
 
-          const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
-          if (this.data.chapters.filter(x => x.selected).length == 0) {
-            this.data.chapters[index].selected = !this.data.chapters[index].selected;
+          if (e.value) {
+            const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
+            if (this.data.chapters.filter(x => x.selected).length == 0) {
+              this.data.chapters[index].selected = !this.data.chapters[index].selected;
+            }
           }
           if (e.id == "thumbnail") {
-            const id = e.value
-            const index = await this.current._getChapterIndex(id);
-            this.doublePageThumbnail.open({
-              chapter_id: id
-            })
+
+            if(e.value){
+              const id = e.value
+              const index = await this.current._getChapterIndex(id);
+              this.doublePageThumbnail.open({
+                chapter_id: id
+              })
+            }else{
+              this.doublePageThumbnail.open()
+            }
+
 
           }
           if (e.id == "export") {
@@ -267,9 +294,9 @@ export class ChapterListMode1Component {
                     const pages = await this.DbController.getPages(chapter_id)
                     for (let ccc = 0; ccc < pages.length; ccc++) {
                       await this.DbController.getImage(pages[ccc].src)
-                      this._snackBar.open(`${list[index].title} 第${ccc + 1}页/${pages.length}页`,'提前加载完成')
+                      this._snackBar.open(`${list[index].title} 第${ccc + 1}页/${pages.length}页`, '提前加载完成')
                     }
-                    this._snackBar.open(`${list[index].title}`,'提前加载完成')
+                    this._snackBar.open(`${list[index].title}`, '提前加载完成')
                   }
                   this._snackBar.open(`提前加载已完成`, '', {
                     duration: 1000
@@ -304,7 +331,7 @@ export class ChapterListMode1Component {
         ]
 
       })
-    }else{
+    } else {
       ContextMenuEvent.register('chapter_item', {
         open: () => {
           // this.close()
@@ -314,9 +341,11 @@ export class ChapterListMode1Component {
         },
         on: async (e: any) => {
 
-          const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
-          if (this.data.chapters.filter(x => x.selected).length == 0) {
-            this.data.chapters[index].selected = !this.data.chapters[index].selected;
+          if (e.value) {
+            const index = this.data.chapters.findIndex(x => x.id.toString() == e.value.toString());
+            if (this.data.chapters.filter(x => x.selected).length == 0) {
+              this.data.chapters[index].selected = !this.data.chapters[index].selected;
+            }
           }
           if (e.id == "thumbnail") {
             const id = e.value
@@ -438,69 +467,7 @@ export class ChapterListMode1Component {
     this.exportSettings.open({
     })
   }
-  async DropDownMenuOpen() {
-    const e = await this.DropDownMenu.open([
-      {
-        name: "重置数据", id: "reset_data", click: async (list) => {
-          for (let index = 0; index < list.length; index++) {
-            const chapter_id = list[index].id;
-            await this.DbController.delWebDbPages(chapter_id)
-            const pages = await this.DbController.getPages(chapter_id)
-            for (let index = 0; index < pages.length; index++) {
-              await this.DbController.delWebDbImage(pages[index].src)
-            }
-            this._snackBar.open(`重置数据已完成`, '', {
-              duration: 1000
-            })
-          }
-        }
-      },
-      {
-        name: "提前加载", id: "load", click: async (list) => {
-          for (let index = 0; index < list.length; index++) {
-            const chapter_id = list[index].id;
-            const pages = await this.DbController.getPages(chapter_id)
-            for (let ccc = 0; ccc < pages.length; ccc++) {
-              await this.DbController.getImage(pages[ccc].src)
-              this._snackBar.open(`${list[index].title} 第${ccc + 1}页/${pages.length}页`,'提前加载完成')
-            }
-            this._snackBar.open(`${list[index].title}`,'提前加载完成')
-          }
-          this._snackBar.open(`提前加载已完成`, '', {
-            duration: 1000
-          })
-        }
-      },
-      {
-        name: "重新获取", id: "reset_get", click: async (list) => {
-          for (let index = 0; index < list.length; index++) {
-            const chapter_id = list[index].id;
-            await this.DbController.delWebDbPages(chapter_id)
-            const pages = await this.DbController.getPages(chapter_id)
-          }
-          this._snackBar.open(`重新获取已完成`, '', {
-            duration: 1000
-          })
-        }
-      },
-      {
-        name: "删除", id: "delete", click: async (list) => {
 
-          for (let index = 0; index < list.length; index++) {
-            await this.current._delChapter(this.data.comics_id, list[index].id)
-            const r = await this.DbController.getDetail(this.data.comics_id);
-            this.data.chapters = r.chapters;
-          }
-        }
-      },
-    ])
-    if (e) {
-      const list = this.data.chapters.filter(x => x.selected);
-      (e as any).click(list)
-    }
-
-
-  }
   close() {
     if (this.data.is_edit) return
     if (this._ctrl) return

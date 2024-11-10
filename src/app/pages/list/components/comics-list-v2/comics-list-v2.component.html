@@ -37,26 +37,8 @@
       <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">全部漫画</div>
     </div>
   </div>
-  <div class="edit" *ngIf="data.is_edit" style="display: flex;justify-content: space-between;margin: 12px 22px 0;align-items: center; height: 36px;">
-    <div class="left" style="color: rgba(255, 255, 255, 0.34);font-size: 16px;">
-      <span> 已选择 {{selected_length}} 个</span>
-    </div>
-    <div class="right">
-      <mat-checkbox  [attr.region]="'comics_item'" [attr.type]="'checkbox'" style="margin-right: 24px;height: 36px;
-      line-height: 36px;"  [(ngModel)]="is_all" (change)="all()">全选</mat-checkbox>
-      <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
-      line-height: 36px;" [disabled]="!selected_length" *ngIf="data.is_download" (click)="download()">下载</button>
-      <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
-      line-height: 36px;" [disabled]="!selected_length" *ngIf="data.is_download" (click)="cache()">缓存</button>
-      <button mat-flat-button  [attr.region]="'comics_item'" style="margin-right: 12px;height: 36px;
-      line-height: 36px;" [disabled]="!selected_length" (click)=" DropDownMenuOpen()">数据</button>
-      <button mat-flat-button  [attr.region]="'comics_item'" style="height: 36px;
-      line-height: 36px;" (click)="closeEdit()">完成</button>
-    </div>
 
-  </div>
-
-
+   <context-menu-edit style="margin: 12px 22px 0;"  *ngIf="data.is_edit"  [context_menu_key]="'comics_item'" [list]="list" (close)="closeEdit()"></context-menu-edit>
   <div class="warp">
     <div class="grid"  #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.id]="'comics_list'" (click)="on_list($event)">
       <button

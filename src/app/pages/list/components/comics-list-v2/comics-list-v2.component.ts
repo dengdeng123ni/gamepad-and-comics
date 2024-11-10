@@ -9,7 +9,6 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ComicsListV2Service } from './comics-list-v2.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
 import { DownloadOptionService } from '../download-option/download-option.service';
-import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -45,6 +44,7 @@ export class ComicsListV2Component {
 
   @HostListener('window:click', ['$event'])
   windowClick(event: PointerEvent) {
+
     if (this.data.is_edit || this._ctrl) {
 
     } else {
@@ -94,7 +94,6 @@ export class ComicsListV2Component {
     private _snackBar: MatSnackBar,
     public DownloadOption: DownloadOptionService,
     public App: AppDataService,
-    public DropDownMenu: DropDownMenuService,
     public LocalCach: LocalCachService
   ) {
     KeyboardEvent.registerGlobalEventY({
@@ -270,9 +269,11 @@ export class ComicsListV2Component {
 
     ContextMenuEvent.register('comics_item', {
       on: async (e: any) => {
-        const index = this.list.findIndex(x => x.id.toString() == e.value.toString());
-        if (this.list.filter(x => x.selected).length == 0) {
-          this.list[index].selected = !this.list[index].selected;
+        if (e.value) {
+          const index = this.list.findIndex(x => x.id.toString() == e.value.toString());
+          if (this.list.filter(x => x.selected).length == 0) {
+            this.list[index].selected = !this.list[index].selected;
+          }
         }
         const list = this.getSelectedData();
         e.click(list)
@@ -288,7 +289,7 @@ export class ComicsListV2Component {
           id: "edit",
           name: "编辑",
           click: e => {
-
+             this.data.is_edit=!this.data.is_edit;
           }
         }
       ]
@@ -315,76 +316,7 @@ export class ComicsListV2Component {
     const list = this.getSelectedData();
     this.DownloadOption.open(list)
   }
-  async DropDownMenuOpen() {
-    const e = await this.DropDownMenu.open([{
-      name: "数据", id: "data", submenu: [
-        {
-          name: "重置阅读进度", id: "reset_reading_progress", click: async (list) => {
 
-            for (let index = 0; index < list.length; index++) {
-              await this.resetReadingProgress(list[index].id)
-              this._snackBar.open(`${list[index].title}`, '重置阅读进度已完成', { duration: 1000 })
-            }
-
-          }
-        },
-        {
-          name: "重置数据", id: "reset_data", click: async (list) => {
-            for (let index = 0; index < list.length; index++) {
-              this.DbController.delWebDbDetail(list[index].id)
-              const res = await this.DbController.getDetail(list[index].id)
-              for (let index = 0; index < res.chapters.length; index++) {
-                const chapter_id = res.chapters[index].id;
-                await this.DbController.delWebDbPages(chapter_id)
-                const pages = await this.DbController.getPages(chapter_id)
-                for (let index = 0; index < pages.length; index++) {
-                  await this.DbController.delWebDbImage(pages[index].src)
-                }
-              }
-              this._snackBar.open(`${list[index].title}`, '重置数据已完成', { duration: 1000 })
-            }
-          }
-        },
-        {
-          name: "提前加载", id: "load", click: async (list) => {
-            for (let index = 0; index < list.length; index++) {
-              const res = await this.DbController.getDetail(list[index].id)
-              for (let index = 0; index < res.chapters.length; index++) {
-                const chapter_id = res.chapters[index].id;
-                const pages = await this.DbController.getPages(chapter_id)
-                for (let index2 = 0; index2 < pages.length; index2++) {
-                  await this.DbController.getImage(pages[index2].src)
-                  this._snackBar.open(`${res.chapters[index].title} 第${index2 + 1}页/${pages.length}页`, '提前加载完成')
-                }
-                this._snackBar.open(`${res.chapters[index].title}`, '提前加载完成')
-              }
-              this._snackBar.open(`${list[index].title}`, '提前加载已完成', { duration: 1000 })
-            }
-          }
-        },
-        {
-          name: "重新获取", id: "reset_get", click: async (list) => {
-            for (let index = 0; index < list.length; index++) {
-              this.DbController.delWebDbDetail(list[index].id)
-              const res = await this.DbController.getDetail(list[index].id)
-              for (let index = 0; index < res.chapters.length; index++) {
-                const chapter_id = res.chapters[index].id;
-                await this.DbController.delWebDbPages(chapter_id)
-                const pages = await this.DbController.getPages(chapter_id)
-              }
-              this._snackBar.open(`${list[index].title}`, '重新获取已完成', { duration: 1000 })
-            }
-          }
-        },
-      ]
-    }])
-    if (e) {
-      const list = this.getSelectedData();
-      (e as any).click(list)
-    }
-
-
-  }
   async resetReadingProgress(comics_id) {
     const detail = await this.DbController.getDetail(comics_id)
     for (let index = 0; index < detail.chapters.length; index++) {
