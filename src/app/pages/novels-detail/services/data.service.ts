@@ -6,7 +6,7 @@ import { AppDataService, ChaptersItem, ComicsInfo, PagesItem } from 'src/app/lib
 export class DataService {
   pages: Array<PagesItem> = [];
   chapters: Array<ChaptersItem> = [];
-  comics_info: ComicsInfo = {
+  details: ComicsInfo = {
     cover: '',
     title: '',
     author: '',

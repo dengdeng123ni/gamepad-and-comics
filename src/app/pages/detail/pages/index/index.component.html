@@ -5,7 +5,7 @@
   border-color: #ffffff1f;
   margin: 4px;
   " [opened]="data.is_left_drawer_opened" (mouseleave)="drawer_mouseleave($event)" [mode]="data.left_drawer_mode" class="example-sidenav" mode="side">
-   <app-comics-info [info]="data.comics_info" (on_back)="back()" (on_continue)="continue()"></app-comics-info>
+   <app-comics-info [info]="data.details" (on_back)="back()" (on_continue)="continue()"></app-comics-info>
 </mat-drawer> -->
 <mat-drawer  style="    border: 0;" [opened]="menu.opened" [position]="menu.position" [attr.svg_filter]="'background_secondary'" [autoFocus]="false" (openedChange)="openedChange($event)" class="example-sidenav" mode="side">
   <div class="left" style="    margin-left: 0.4rem;">

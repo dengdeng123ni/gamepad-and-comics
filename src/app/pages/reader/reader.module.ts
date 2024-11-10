@@ -37,6 +37,8 @@ import { ChaptersFirstCoverSettingsComponent } from './components/chapters-first
 import { ComicsSettingsComponent } from './components/comics-settings/comics-settings.component';
 import { ResetReadingProgressComponent } from './components/reset-reading-progress/reset-reading-progress.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { ExportSettingsComponent } from './components/export-settings/export-settings.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { FilterComponent } from './components/filter/filter.component';
     ChaptersFirstCoverSettingsComponent,
     ComicsSettingsComponent,
     ResetReadingProgressComponent,
-    FilterComponent
+    FilterComponent,
+    LoadingComponent,
+    ExportSettingsComponent
   ],
   imports: [
     CommonModule,

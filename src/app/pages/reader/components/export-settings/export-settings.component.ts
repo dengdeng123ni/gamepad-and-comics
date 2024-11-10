@@ -42,7 +42,7 @@ export class ExportSettingsComponent {
   async on($event) {
     this.loading.open();
 
-    const chapters = this.data.chapters.filter(x => x.selected);
+    const chapters = this.data.chapters.filter(x => x.id==this.data.chapter_id);
 
     if (chapters.length == 0) return
     for (let index = 0; index < chapters.length; index++) {

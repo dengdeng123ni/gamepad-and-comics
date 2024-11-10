@@ -18,7 +18,7 @@ export class ComicsOffprintDetailComponent {
     public router: Router,
     public image: ImageService,
   ) {
-    this.info = this.data.comics_info;
+    this.info = this.data.details;
     this.init();
   }
   async init() {

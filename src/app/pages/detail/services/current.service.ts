@@ -41,20 +41,20 @@ export class CurrentService {
       this.data.chapter_id = comics.chapter_id;
     } else {
       this.data.chapters = res.chapters;
-      this.data.chapter_id = this.data.comics_info.chapter_id;
+      this.data.chapter_id = this.data.details.chapter_id;
     }
     delete res.chapters;
     if (this.data.chapters.length && this.data.chapters[0]) {
       if (this.data.chapters[0].cover) this.data.chapter_config.is_cover_exist = true;
     }
 
-    this.data.comics_info = res;
+    this.data.details = res;
     this.data.is_init_free = true;
     this.init$.next(this.data)
     this.history.update({
       id: comic_id,
-      title: this.data.comics_info.title,
-      cover: this.data.comics_info.cover
+      title: this.data.details.title,
+      cover: this.data.details.cover
     })
   }
 

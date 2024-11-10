@@ -69,11 +69,12 @@ export class ContextMenuControllerService {
       for (let i = 0; i < e.path.length; i++) {
         const node = e.path[i];
         if (node.getAttribute && node.getAttribute('content_menu_key')) {
-          e.preventDefault();
+
 
           const key = node.getAttribute('content_menu_key');
           let menu = this.contextMenuEvent.menu[key];
           if(!menu)  break;
+          e.preventDefault();
           if (this.contextMenuEvent.openEvent[key]) this.contextMenuEvent.openEvent[key](node);
           this.currentNode = node;
           (this.currentNode as any).setAttribute('content_menu_select', 'true');

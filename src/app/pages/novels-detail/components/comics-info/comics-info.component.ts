@@ -24,7 +24,7 @@ export class ComicsInfoComponent {
     public image: ImageService,
     public RoutingController:RoutingControllerService,
   ) {
-    this.info = this.data.comics_info;
+    this.info = this.data.details;
     this.init();
   }
   async init() {

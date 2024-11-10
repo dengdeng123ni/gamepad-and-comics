@@ -135,6 +135,13 @@
       </button>
     </div>
 
+    <div class="flex flex-col item mt-5 bottom" *ngIf="data.is_download">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+        (click)="openExportSettings($event)">
+        <mat-icon>file_download</mat-icon>
+      </button>
+    </div>
+
     <div class="flex flex-col item mt-5 bottom">
       <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="isFullChange()">

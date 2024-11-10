@@ -50,11 +50,11 @@ export class ExportSettingsComponent {
       const pages = await this.DbController.getPages(x.id);
       const isFirstPageCover = this.isFirstPageCover;
       if (this.type == "IMAGES") {
-        await this.download.downloadTallImage(`${this.data.comics_info.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), pages.map((x: { src: any; }) => x.src), this.direction)
+        await this.download.downloadTallImage(`${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), pages.map((x: { src: any; }) => x.src), this.direction)
 
       } else {
-        const blob = await this.download.ImageToTypeBlob({ type: this.type, name: `${this.data.comics_info.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), images: pages.map((x: { src: any; }) => x.src), pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page })
-        this.download.saveAs(blob, `${this.data.comics_info.title}_${x.title}`)
+        const blob = await this.download.ImageToTypeBlob({ type: this.type, name: `${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), images: pages.map((x: { src: any; }) => x.src), pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page })
+        this.download.saveAs(blob, `${this.data.details.title}_${x.title}`)
       }
 
 
