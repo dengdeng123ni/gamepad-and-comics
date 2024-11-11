@@ -300,7 +300,7 @@ export class CurrentService {
     if (res) {
       return res
     } else {
-      return { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[0].id }
+      return { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[0]?.id }
     }
   }
   async _getImageHW(id) {

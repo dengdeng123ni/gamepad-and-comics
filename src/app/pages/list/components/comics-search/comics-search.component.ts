@@ -189,7 +189,7 @@ export class ComicsSearchComponent {
         if (nodec.getAttribute("router_reader")) {
 
           if(this.DbEvent.Configs[this.source].type=="comics"){
-            this.current.routerReader(this.source,data.id)
+            this.current.routerDetail(this.source,data.id)
           }else if(this.DbEvent.Configs[this.source].type=="novels"){
             this.routerNovelsReader(this.source,data.id)
           }else{
@@ -197,7 +197,7 @@ export class ComicsSearchComponent {
           }
         } else {
           if(this.DbEvent.Configs[this.source].type=="comics"){
-            this.current.routerReader(this.source,data.id)
+            this.current.routerDetail(this.source,data.id)
           }else if(this.DbEvent.Configs[this.source].type=="novels"){
             this.routerNovelsDetail(this.source,data.id)
           }else{

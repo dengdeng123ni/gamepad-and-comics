@@ -96,6 +96,10 @@ export class ComicsListV2Component {
     public App: AppDataService,
     public LocalCach: LocalCachService
   ) {
+    setTimeout(()=>{
+      console.log(this.list);
+
+    },3000)
     KeyboardEvent.registerGlobalEventY({
       "a": () => {
         this.all()
@@ -528,6 +532,8 @@ export class ComicsListV2Component {
     this.put();
     this.is_destroy = true;
     this.scroll$.unsubscribe();
+
+
   }
   is_end = false;
   async add_pages() {

@@ -18,7 +18,7 @@ export class HistoryService {
   }) {
     const res: any = await firstValueFrom(this.webDb.getByID("history", obj.id))
     if (res) {
-      await firstValueFrom(this.webDb.update("history", { ...res, last_read_date: new Date().getTime() }))
+      await firstValueFrom(this.webDb.update("history", { ...res,...obj,last_read_date: new Date().getTime() }))
     } else {
       await firstValueFrom(this.webDb.update("history", { ...obj, first_read_data: new Date().getTime(), source: this.AppData.source, last_read_date: new Date().getTime() }))
     }

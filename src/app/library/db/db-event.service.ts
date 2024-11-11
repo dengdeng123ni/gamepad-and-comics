@@ -1544,6 +1544,8 @@ export class DbEventService {
   return arr
 })()
         `)
+        console.log(arr);
+
           return arr
         },
         UrlToDetailId: async (id) => {
@@ -1555,7 +1557,7 @@ export class DbEventService {
           }
         },
         Search: async (obj) => {
-          const res = await window._gh_fetch(`https://www.biqgg.cc/user/search.html?q=${obj.keyword}`, {
+          const res = await window._gh_fetch(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num-1)*obj.page_size}&platform=2&limit=${obj.page_size}&q=${obj.keyword}q_type=`,{
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1563,15 +1565,18 @@ export class DbEventService {
             },
             "body": null,
             "method": "GET"
-          });
+          })
+
+
           const json = await res.json();
           let data = [];
-          for (let index = 0; index < json.length; index++) {
-            const x = json[index];
+          for (let index = 0; index < json.results.list.length; index++) {
+            const x = json.results.list[index];
             data.push({
-              id: window.btoa(encodeURIComponent(`https://www.biqgg.cc` + x.url_list)),
-              title: x.articlename,
-              cover: x.url_img
+              id: window.btoa(encodeURIComponent(`https://www.mangacopy.com/comic/${x.path_word}`)),
+              title: x.name,
+              cover: x.cover,
+              subTitle:x.author.map(x=>x.name).toString()
             })
           }
           return data

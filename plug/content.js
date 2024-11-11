@@ -23,6 +23,7 @@ window.addEventListener("message", async function (e) {
   }
 
   if (e.data && e.data.type == "website_proxy_response_html") {
+    await sleep(500)
     const src = document.body.innerHTML;
     var myBlob = new Blob([src], {
       type: "application/text"
@@ -34,7 +35,6 @@ window.addEventListener("message", async function (e) {
     rsponse.headers.forEach(function (value, name) { headers.push({ value, name }) });
     await chrome.runtime.sendMessage({ id: e.data.id, proxy_response_website_url: e.data.proxy_response_website_url, type: "website_proxy_response", data: { body: data, bodyUsed: rsponse.bodyUsed, headers: headers, ok: rsponse.ok, redirected: rsponse.redirected, status: rsponse.status, statusText: rsponse.statusText, type: rsponse.type, url: rsponse.url } });
     await chrome.runtime.sendMessage({ type: "tab_close", tab_id: e.data.tab.id })
-
   }
 
 
@@ -70,8 +70,6 @@ window.addEventListener("message", async function (e) {
   }
 
   if (e.data && e.data.type == "new_page") {
-    console.log({ type: "new_page",url:e.data.url });
-
     await chrome.runtime.sendMessage({ type: "new_page",url:e.data.url });
   }
 
