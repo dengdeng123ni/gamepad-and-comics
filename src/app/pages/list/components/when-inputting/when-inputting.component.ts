@@ -8,11 +8,22 @@ import { WhenInputtingService } from './when-inputting.service';
 })
 export class WhenInputtingComponent {
 
-  constructor(public whenInputting:WhenInputtingService){
+  constructor(public whenInputting: WhenInputtingService) {
+    this.auto();
+  }
+
+  auto() {
+    setTimeout(() => {
+      if (document.activeElement.tagName == "INPUT") {
+        this.auto();
+      } else {
+        this.whenInputting.close();
+      }
+    }, 1000)
 
   }
 
-  on(){
+  on() {
     this.whenInputting.close();
   }
 
