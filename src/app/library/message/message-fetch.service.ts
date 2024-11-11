@@ -192,7 +192,7 @@ export class MessageFetchService {
 
     window.postMessage({
       id: id,
-      type: "website_request_execute_eval",
+      type: "website_request_execute_script",
       proxy_request_website_url: url,
       proxy_response_website_url: window.location.origin,
       javascript:javascript

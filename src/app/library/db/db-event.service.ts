@@ -1520,7 +1520,7 @@ export class DbEventService {
               setTimeout(resolve, duration);
             })
           }
-          await sleep(300)
+          await sleep(1000)
           const arr=await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
         `
 (async function() {
@@ -1544,6 +1544,7 @@ export class DbEventService {
   return arr
 })()
         `)
+
           let data=[];
           for (let index = 0; index < arr.length; index++) {
             let obj = {
@@ -1750,6 +1751,7 @@ export class DbEventService {
       is_download: false,
       is_preloading: false,
       is_load_free: false,
+      images_concurrency_limit:1,
       ...config
     }
 
@@ -1799,6 +1801,7 @@ export class DbEventService {
       type: 'novels',
       is_cache: false,
       is_download: false,
+      images_concurrency_limit:1,
       ...config
     }
     events = {

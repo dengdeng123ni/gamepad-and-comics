@@ -35,9 +35,6 @@ chrome.runtime.onMessage.addListener(
       const index = data.findIndex(x => x.tab.pendingUrl == request.url)
       if (index > -1) {
         const obj = data[index];
-        // setTimeout(() => {
-        //   if (obj.data && obj.data.type && "website_proxy_response_html" == obj.data.type) chrome.tabs.remove(obj.tab.id)
-        // }, 20000)
         chrome.tabs.sendMessage(obj.tab.id, obj.data);
         data = [];
       }
