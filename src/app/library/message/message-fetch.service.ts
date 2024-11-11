@@ -17,6 +17,8 @@ export class MessageFetchService {
   constructor(private sanitizer: DomSanitizer) {
     window._gh_fetch = this.fetch;
     window._gh_getHtml = this.getHtml;
+    window._gh_execute_eval = this.execute_eval;
+
   }
   async init() {
     this.caches = await caches.open('assets');
@@ -142,10 +144,6 @@ export class MessageFetchService {
   }
 
   getHtml = async (url: RequestInfo | URL,
-    opiton:{
-      javascript?:string,
-      sleep?:number
-    }
   ): Promise<Response> => {
     let id = ''
     let bool = true;
@@ -156,22 +154,12 @@ export class MessageFetchService {
     })).toString().toLowerCase()
     if (!this._data_proxy_request[id]) {
       this._data_proxy_request[id] = true;
-      console.log({
-        id: id,
-        type: "website_proxy_request_html",
-        proxy_request_website_url: url,
-        proxy_response_website_url: window.location.origin,
-        javascript:opiton.javascript,
-        sleep:opiton.sleep
-      });
 
       window.postMessage({
         id: id,
         type: "website_proxy_request_html",
         proxy_request_website_url: url,
-        proxy_response_website_url: window.location.origin,
-        javascript:opiton.javascript,
-        sleep:opiton.sleep
+        proxy_response_website_url: window.location.origin
       });
     }
 
@@ -195,12 +183,41 @@ export class MessageFetchService {
     })
   }
 
-  execute_script(url,javascript){
-    window.postMessage({
-      type: "website_request_execute_script",
+  execute_eval=async (url,javascript)=>{
+    const id = CryptoJS.MD5(JSON.stringify({
+      type: "website_request_execute_eval",
       proxy_request_website_url: url,
+      proxy_response_website_url: window.location.origin
+    })).toString().toLowerCase()
+
+    window.postMessage({
+      id: id,
+      type: "website_request_execute_eval",
+      proxy_request_website_url: url,
+      proxy_response_website_url: window.location.origin,
       javascript:javascript
     });
+    let bool = true;
+    return new Promise((r, j) => {
+      const getData = () => {
+        setTimeout(() => {
+          if (this._data_proxy_response[id]) {
+            r(this._data_proxy_response[id])
+          } else {
+            if (bool) getData()
+          }
+        }, 33)
+      }
+      getData()
+
+      setTimeout(() => {
+        bool = false;
+        r(new Response(""))
+        j(new Response(""))
+        this._data_proxy_request[id]=undefined;
+      }, 40000)
+
+    })
   }
 
 

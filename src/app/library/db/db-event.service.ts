@@ -1520,22 +1520,32 @@ export class DbEventService {
               setTimeout(resolve, duration);
             })
           }
-          await sleep(2000)
-          const res = await window._gh_getHtml(decodeURIComponent(window.atob(id)), {
-            javascript:`
-         for (let index = 0; index < 100; index++) {
+          await sleep(300)
+          const arr=await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+        `
+(async function() {
+  const sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
+  }
+  for (let index = 0; index < 100; index++) {
+    document.querySelector("html").scrollTop = document.querySelector("html").scrollTop + 30;
+    await sleep(40)
+  }
+  const nodes = document.querySelectorAll(".comicContent-list li img");
+  let arr=[];
+  for (let index = 0; index < nodes.length; index++) {
+    arr.push(nodes[index].getAttribute('data-src'))
+  }
   setTimeout(()=>{
-    document.querySelector("html").scrollTop= document.querySelector("html").scrollTop+30;
-  },40*index)
-}
-          `, sleep:5000
-          });
-          const text = await res.text();
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(text, 'text/html');
-          const nodes = doc.querySelectorAll(".comicContent-list li img");
+    window.close()
+  },500)
+  return arr
+})()
+        `)
           let data=[];
-          for (let index = 0; index < nodes.length; index++) {
+          for (let index = 0; index < arr.length; index++) {
             let obj = {
               id: "",
               src: "",
@@ -1545,14 +1555,10 @@ export class DbEventService {
             const utf8_to_b64 = (str) => {
               return window.btoa(encodeURIComponent(str));
             }
-
             obj["id"] = `${id}_${index}`;
-            // obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
-            obj["src"] =  `${nodes[index].getAttribute('data-src')}`
-            // window.btoa(encodeURIComponent(nodes[index].href.replace("http://localhost:4200","https://nhentai.net")))
+            obj["src"] =  `${arr[index]}`
             data.push(obj)
           }
-          console.log(data);
 
           return data
         },

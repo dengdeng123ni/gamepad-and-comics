@@ -16,8 +16,10 @@ chrome.runtime.onMessage.addListener(
     } else if (request.type == "website_request_execute_script") {
       request.type = "website_response_execute_script";
       sendMessageToTargetHtml(request, request.proxy_request_website_url)
-    }
-    else if (request.type == "website_proxy_response") {
+    }else if(request.type == "website_response_execute_script"){
+      request.type = "execute_script_data";
+      sendMessageToTargetContentScript(request, request.proxy_response_website_url)
+    }else if (request.type == "website_proxy_response") {
       request.type = "proxy_response";
       sendMessageToTargetContentScript(request, request.proxy_response_website_url)
     } else if (request.type == "pulg_proxy_request") {
@@ -26,9 +28,8 @@ chrome.runtime.onMessage.addListener(
       const data = await readStreamToString(rsponse.body)
       let headers = [];
       rsponse.headers.forEach(function (value, name) { headers.push({ value, name }) });
-      const res = { id: request.id, proxy_response_website_url: request.proxy_response_website_url, type: "website_proxy_response", data: { body: data, bodyUsed: rsponse.bodyUsed, headers: headers, ok: rsponse.ok, redirected: rsponse.redirected, status: rsponse.status, statusText: rsponse.statusText, type: rsponse.type, url: rsponse.url } }
+      let res = { id: request.id, proxy_response_website_url: request.proxy_response_website_url, type: "website_proxy_response", data: { body: data, bodyUsed: rsponse.bodyUsed, headers: headers, ok: rsponse.ok, redirected: rsponse.redirected, status: rsponse.status, statusText: rsponse.statusText, type: rsponse.type, url: rsponse.url } }
       res.type = "proxy_response";
-
       sendMessageToTargetContentScript(res, res.proxy_response_website_url)
     } else if (request.type == "page_load_complete") {
       const index = data.findIndex(x => x.tab.pendingUrl == request.url)

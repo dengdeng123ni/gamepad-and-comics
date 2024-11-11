@@ -28,8 +28,6 @@ export class MessageControllerService {
 
 
     window.addEventListener("message", function (event) {
-      // console.log(event);
-
       if (event.data.type == "proxy_response") {
         if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage(event.data)
         let rsponse = event.data.data;
@@ -45,6 +43,11 @@ export class MessageControllerService {
         setTimeout(()=>{
           http._data_proxy_response[event.data.id]=undefined;
           http._data_proxy_request[event.data.id]=undefined;
+        },40000)
+      }else if(event.data.type=="execute_script_data"){
+        http._data_proxy_response[event.data.id]= event.data.data;
+        setTimeout(()=>{
+          http._data_proxy_response[event.data.id]=undefined;
         },40000)
       }else if (event.data.type == "specify_link") {
         MessageEvent.OtherEvents['specify_link'](event.data.data)

@@ -23,8 +23,6 @@ window.addEventListener("message", async function (e) {
   }
 
   if (e.data && e.data.type == "website_proxy_response_html") {
-    if(e.data.javascript) executeScript(e.data.javascript)
-    if(e.data.sleep) await sleep(e.data.sleep)
     const src = document.body.innerHTML;
     var myBlob = new Blob([src], {
       type: "application/text"
@@ -35,7 +33,7 @@ window.addEventListener("message", async function (e) {
     let headers = [];
     rsponse.headers.forEach(function (value, name) { headers.push({ value, name }) });
     await chrome.runtime.sendMessage({ id: e.data.id, proxy_response_website_url: e.data.proxy_response_website_url, type: "website_proxy_response", data: { body: data, bodyUsed: rsponse.bodyUsed, headers: headers, ok: rsponse.ok, redirected: rsponse.redirected, status: rsponse.status, statusText: rsponse.statusText, type: rsponse.type, url: rsponse.url } });
-    await chrome.runtime.sendMessage({ type: "tab_close",tab_id:e.data.tab.id })
+    await chrome.runtime.sendMessage({ type: "tab_close", tab_id: e.data.tab.id })
 
   }
 
@@ -59,13 +57,12 @@ window.addEventListener("message", async function (e) {
   }
 
   if (e.data && e.data.type == "website_request_execute_script") {
-
     await chrome.runtime.sendMessage(e.data);
   }
 
   if (e.data && e.data.type == "website_response_execute_script") {
-    if(e.data.javascript) executeScript(e.data.javascript)
-
+    const data = await executeEval(e.data.javascript);
+    await chrome.runtime.sendMessage({ id: e.data.id, proxy_response_website_url: e.data.proxy_response_website_url, type: "website_response_execute_script", data: data });
   }
 
   if (e.data && e.data.type == "current_tab_close") {
@@ -121,13 +118,19 @@ function executeScript(code) {
           window.dispatchEvent(new CustomEvent('${messageName}', { detail: e }));
         }
     })()`;
-
     document.body.appendChild(script);
     document.body.removeChild(script);
+
     window.removeEventListener(messageName, handler);
     resolve(true);
   });
+
 }
+
+async function executeEval(code) {
+  return eval(code)
+}
+
 
 
 const sleep = (duration) => {
