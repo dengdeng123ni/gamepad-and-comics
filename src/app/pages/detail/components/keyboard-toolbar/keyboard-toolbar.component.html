@@ -2,7 +2,7 @@
 <div class="warp" [attr.svg_filter]="'background_primary'">
   <div class="list">
    <button [attr.svg_filter]="'background_secondary'"  [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();">
-        <mat-icon *ngIf="true" [attr.svg_filter]="'text_primary'"> </mat-icon>
+        <mat-icon *ngIf="true" [attr.svg_filter]="'text_primary'">menu_open</mat-icon>
     </button>
    <button [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="close();">
       <mat-icon [attr.svg_filter]="'text_primary'"> </mat-icon>
@@ -10,8 +10,8 @@
    <button [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="close();">
       <mat-icon [attr.svg_filter]="'text_primary'"> </mat-icon>
     </button>
-   <button [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="close(); ">
-      <mat-icon [attr.svg_filter]="'text_primary'"> </mat-icon>
+   <button [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="openEdit();close(); ">
+      <mat-icon [attr.svg_filter]="'text_primary'"> edit</mat-icon>
     </button>
    <button [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="true" cdkFocusInitial class="item" (click)="close();back()">
       <mat-icon [attr.svg_filter]="'text_primary'">keyboard_return</mat-icon>

@@ -1,7 +1,7 @@
 
 
 
-<mat-drawer-container autosize style="height: 100vh;background: transparent;" *ngIf="is_init_free">
+<mat-drawer-container autosize style="height: 100vh;background: transparent;" *ngIf="is_init_free"  >
   <mat-drawer [opened]="opened" mode="side" style="min-width: 224px;" id="scroll" [attr.svg_filter]="'background_secondary'">
     <div class="menu">
       <div class="title" [attr.svg_filter]="'text_secondary'">
@@ -137,7 +137,7 @@
     </div>
   </div>
 </div>
-<div class="loading" *ngIf="!is_loading_free" style="position:absolute;
+<div class="loading" *ngIf="!is_loading_free"  (click)="close()" style="position:absolute;
 width: 100%;
 height: 100%;
 justify-content: center;

@@ -38,6 +38,9 @@ export class KeyboardToolbarComponent {
       }
     }
   }
+  openSettings(){
+    this.data.is_edit=!this.data.is_edit;
+  }
   powerSettingsNew(){
     window.postMessage({
       type: "current_tab_close"

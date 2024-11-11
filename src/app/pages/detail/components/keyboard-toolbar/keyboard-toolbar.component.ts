@@ -39,4 +39,7 @@ export class KeyboardToolbarComponent {
   back() {
     window.history.back()
   }
+  openEdit(){
+    this.data.is_edit=!this.data.is_edit;
+  }
 }
