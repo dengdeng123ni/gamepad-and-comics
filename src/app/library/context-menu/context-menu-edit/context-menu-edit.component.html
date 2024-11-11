@@ -3,11 +3,11 @@
     <span> 已选择 {{selected_length}} 个</span>
   </div>
   <div class="right">
-    <mat-checkbox [attr.region]="'comics_item'" [attr.type]="'checkbox'" style="margin-right: 24px;height: 36px;
+    <mat-checkbox [attr.region]="'context_menu_edit_item'" [attr.type]="'checkbox'" style="margin-right: 24px;height: 36px;
       line-height: 36px;" [(ngModel)]="is_all" (change)="all()">全选</mat-checkbox>
-    <button mat-button [attr.region]="'comics_item'" *ngFor="let n of context_menu" style="margin-right: 12px;height: 36px;
+    <button mat-button [attr.region]="'context_menu_edit_item'" *ngFor="let n of context_menu" style="margin-right: 12px;height: 36px;
     line-height: 36px;" (click)="on(n)">{{n.name}}</button>
-    <button mat-button [attr.region]="'comics_item'" style="height: 36px;
+    <button mat-button [attr.region]="'context_menu_edit_item'" style="height: 36px;
     line-height: 36px;" (click)="closeEdit()">完成</button>
   </div>
 

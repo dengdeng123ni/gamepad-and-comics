@@ -234,6 +234,7 @@ body[pattern=gamepad][locked_region=novels_chapters_list] {
 
 body[pattern=gamepad][locked_region=list] {
 
+  [region=context_menu_edit_item][select=true],
   [region=input][select=true],
   [region=comics_option][select=true],
   [region=comics_item][select=true],
@@ -352,7 +353,7 @@ html[theme=yeshu] {
   body[pattern=gamepad][locked_region=pulg_javascript],
   body[pattern=gamepad][locked_region=dialog],
   body[pattern=gamepad][locked_region=novels_chapters_list] {
-
+    [region=context_menu_edit_item][select=true],
     [region=item][select=true],
     [region=input][select=true],
     [region=one_page_item][select=true],
@@ -381,7 +382,7 @@ html[theme=yeshu] {
   }
 
   body[pattern=gamepad][locked_region=list] {
-
+    [region=context_menu_edit_item][select=true],
     [region=input][select=true],
     [region=comics_option][select=true],
     [region=comics_item][select=true],
