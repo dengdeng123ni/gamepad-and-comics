@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
     window.postMessage(request, '*');
 
-    executeScript('console.log(123)')
+
 
   }
 );
@@ -23,6 +23,8 @@ window.addEventListener("message", async function (e) {
   }
 
   if (e.data && e.data.type == "website_proxy_response_html") {
+    if(e.data.javascript) executeScript(e.data.javascript)
+    if(e.data.sleep) await sleep(e.data.sleep)
     const src = document.body.innerHTML;
     var myBlob = new Blob([src], {
       type: "application/text"
@@ -33,13 +35,13 @@ window.addEventListener("message", async function (e) {
     let headers = [];
     rsponse.headers.forEach(function (value, name) { headers.push({ value, name }) });
     await chrome.runtime.sendMessage({ id: e.data.id, proxy_response_website_url: e.data.proxy_response_website_url, type: "website_proxy_response", data: { body: data, bodyUsed: rsponse.bodyUsed, headers: headers, ok: rsponse.ok, redirected: rsponse.redirected, status: rsponse.status, statusText: rsponse.statusText, type: rsponse.type, url: rsponse.url } });
+    await chrome.runtime.sendMessage({ type: "tab_close",tab_id:e.data.tab.id })
+
   }
 
 
   if (e.data && e.data.type == "pulg_proxy_request") {
-    // e.data);
     await chrome.runtime.sendMessage(e.data);
-
   }
 
   if (e.data && e.data.type == "website_proxy_response") {
@@ -53,6 +55,16 @@ window.addEventListener("message", async function (e) {
   }
 
   if (e.data && e.data.type == "proxy_response") {
+
+  }
+
+  if (e.data && e.data.type == "website_request_execute_script") {
+
+    await chrome.runtime.sendMessage(e.data);
+  }
+
+  if (e.data && e.data.type == "website_response_execute_script") {
+    if(e.data.javascript) executeScript(e.data.javascript)
 
   }
 
@@ -97,7 +109,6 @@ async function init() {
 }
 
 function executeScript(code) {
-
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     const messageName = "error_" + Math.floor(Math.random() * 100000);
@@ -117,6 +128,14 @@ function executeScript(code) {
     resolve(true);
   });
 }
+
+
+const sleep = (duration) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, duration);
+  })
+}
+
 
 init();
 

@@ -13,7 +13,11 @@ chrome.runtime.onMessage.addListener(
     } else if (request.type == "website_proxy_request_html") {
       request.type = "website_proxy_response_html";
       sendMessageToTargetHtml(request, request.proxy_request_website_url)
-    } else if (request.type == "website_proxy_response") {
+    } else if (request.type == "website_request_execute_script") {
+      request.type = "website_response_execute_script";
+      sendMessageToTargetHtml(request, request.proxy_request_website_url)
+    }
+    else if (request.type == "website_proxy_response") {
       request.type = "proxy_response";
       sendMessageToTargetContentScript(request, request.proxy_response_website_url)
     } else if (request.type == "pulg_proxy_request") {
@@ -30,13 +34,15 @@ chrome.runtime.onMessage.addListener(
       const index = data.findIndex(x => x.tab.pendingUrl == request.url)
       if (index > -1) {
         const obj = data[index];
-        setTimeout(() => {
-          if (obj.data && obj.data.type && "website_proxy_response_html" == obj.data.type) chrome.tabs.remove(obj.tab.id)
-        }, 5000)
+        // setTimeout(() => {
+        //   if (obj.data && obj.data.type && "website_proxy_response_html" == obj.data.type) chrome.tabs.remove(obj.tab.id)
+        // }, 20000)
         chrome.tabs.sendMessage(obj.tab.id, obj.data);
         data = [];
       }
-    }else if(request.type == "current_tab_close"){
+    } else if (request.type == "tab_close") {
+      chrome.tabs.remove(request.tab_id);
+    } else if (request.type == "current_tab_close") {
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.remove(tabs[0].id);
       });
@@ -121,51 +127,75 @@ function sendMessageToTargetContentScript(message, url) {
         active: false,
         url: url
       }, (tab) => {
-        data.push({ tab: tab, data: message })
+        data.push({
+          tab: tab, data: {
+            tab: tab,
+            ...message
+          }
+        })
       })
-    }else{
+    } else {
       for (let index = 0; index < list.length; index++) {
-        chrome.tabs.sendMessage(list[index].id, message);
+        chrome.tabs.sendMessage(list[index].id, {
+          tab: list[index],
+          ...message
+        });
       }
     }
   });
 }
-let is=false;
- function  sendMessageToTargetHtml(message, url) {
-  if(is){
-    setTimeout(()=>{
+let is = false;
+function sendMessageToTargetHtml(message, url) {
+  if (is) {
+    setTimeout(() => {
       chrome.tabs.query({}, function (tabs) {
-        const list = tabs.filter(x => x.url== url);
+        const list = tabs.filter(x => x.url == url);
         if (list.length == 0) {
           chrome.tabs.create({
             active: false,
             url: url
           }, (tab) => {
-            data.push({ tab: tab, data: message })
+            data.push({
+              tab: tab, data: {
+                tab: tab,
+                ...message
+              }
+            })
 
           })
-        }else{
+        } else {
           for (let index = 0; index < list.length; index++) {
-            chrome.tabs.sendMessage(list[index].id, message);
+            chrome.tabs.sendMessage(list[index].id, {
+              tab: list[index],
+              ...message
+            });
           }
         }
       });
-    },1000)
-  }else{
-    is=true;
+    }, 1000)
+  } else {
+    is = true;
     chrome.tabs.query({}, function (tabs) {
-      const list = tabs.filter(x => x.url== url);
+      const list = tabs.filter(x => x.url == url);
       if (list.length == 0) {
         chrome.tabs.create({
           active: false,
           url: url
         }, (tab) => {
-          data.push({ tab: tab, data: message })
+          data.push({
+            tab: tab, data: {
+              tab: tab,
+              ...message
+            }
+          })
 
         })
-      }else{
+      } else {
         for (let index = 0; index < list.length; index++) {
-          chrome.tabs.sendMessage(list[index].id, message);
+          chrome.tabs.sendMessage(list[index].id, {
+            tab: list[index],
+            ...message
+          });
         }
       }
     });

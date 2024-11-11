@@ -1455,8 +1455,8 @@ export class DbEventService {
       window._gh_comics_register({
         id: "kaobei",
         name: "拷贝漫画",
-        href:"https://www.mangacopy.com/",
-        is_cache: false,
+        href: "https://www.mangacopy.com/",
+        is_cache: true,
         is_download: true,
         menu: [
           {
@@ -1484,7 +1484,6 @@ export class DbEventService {
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
-          console.log(doc);
 
           let obj = {
             id: novel_id,
@@ -1503,41 +1502,59 @@ export class DbEventService {
           obj.intro = doc.querySelector(".comicParticulars-synopsis p").textContent.trim();
           obj.author = doc.querySelector(".comicParticulars-title-right > ul > li:nth-child(3) > span:nth-child(1)").textContent.trim();
           const nodes = doc.querySelectorAll("#default全部 > ul:nth-child(1) a");
-          console.log(nodes);
 
           for (let index = 0; index < nodes.length; index++) {
             const node = nodes[index];
-            const id =  window.btoa(encodeURIComponent(`https://www.mangacopy.com${node.getAttribute("href")}`))
+            const id = window.btoa(encodeURIComponent(`https://www.mangacopy.com${node.getAttribute("href")}`))
             const title = node.getAttribute("title")
             obj.chapters.push({ id, title })
           }
+          console.log(obj);
+
           return obj
         },
-        getPages: async (chapter_id) => {
-
-          const res = await window._gh_fetch(decodeURIComponent(window.atob(chapter_id)), {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": null,
-            "method": "GET"
+        getPages: async (id) => {
+          window.open(decodeURIComponent(window.atob(id)))
+          const sleep = (duration) => {
+            return new Promise(resolve => {
+              setTimeout(resolve, duration);
+            })
+          }
+          await sleep(2000)
+          const res = await window._gh_getHtml(decodeURIComponent(window.atob(id)), {
+            javascript:`
+         for (let index = 0; index < 100; index++) {
+  setTimeout(()=>{
+    document.querySelector("html").scrollTop= document.querySelector("html").scrollTop+30;
+  },40*index)
+}
+          `, sleep:5000
           });
           const text = await res.text();
-
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
-
-          const nodes = doc.querySelectorAll("#default全部 > ul:nth-child(1) a");
-
+          const nodes = doc.querySelectorAll(".comicContent-list li img");
+          let data=[];
           for (let index = 0; index < nodes.length; index++) {
-            const node = nodes[index];
-            const id =  window.btoa(encodeURIComponent(`https://www.mangacopy.com${node.getAttribute("href")}`))
-            const title = node.getAttribute("title")
-            obj.chapters.push({ id, title })
+            let obj = {
+              id: "",
+              src: "",
+              width: 0,
+              height: 0
+            };
+            const utf8_to_b64 = (str) => {
+              return window.btoa(encodeURIComponent(str));
+            }
+
+            obj["id"] = `${id}_${index}`;
+            // obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
+            obj["src"] =  `${nodes[index].getAttribute('data-src')}`
+            // window.btoa(encodeURIComponent(nodes[index].href.replace("http://localhost:4200","https://nhentai.net")))
+            data.push(obj)
           }
-          return obj
+          console.log(data);
+
+          return data
         },
         UrlToDetailId: async (id) => {
           const obj = new URL(id);
@@ -1558,13 +1575,13 @@ export class DbEventService {
             "method": "GET"
           });
           const json = await res.json();
-          let data=[];
+          let data = [];
           for (let index = 0; index < json.length; index++) {
             const x = json[index];
             data.push({
-              id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.url_list)),
+              id: window.btoa(encodeURIComponent(`https://www.biqgg.cc` + x.url_list)),
               title: x.articlename,
-              cover:x.url_img
+              cover: x.url_img
             })
           }
           return data
@@ -1573,7 +1590,7 @@ export class DbEventService {
       window._gh_novels_register({
         id: "biquge",
         name: "笔趣阁[小说]",
-        href:"https://www.biqgg.cc",
+        href: "https://www.biqgg.cc",
         is_cache: true,
         is_download: true,
         menu: [
@@ -1630,7 +1647,7 @@ export class DbEventService {
             if (!x.className) {
               obj.chapters.push(
                 {
-                  id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.children[0].getAttribute("href"))),
+                  id: window.btoa(encodeURIComponent(`https://www.biqgg.cc` + x.children[0].getAttribute("href"))),
                   title: x.children[0].textContent.trim()
                 }
               )
@@ -1698,13 +1715,13 @@ export class DbEventService {
             "method": "GET"
           });
           const json = await res.json();
-          let data=[];
+          let data = [];
           for (let index = 0; index < json.length; index++) {
             const x = json[index];
             data.push({
-              id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.url_list)),
+              id: window.btoa(encodeURIComponent(`https://www.biqgg.cc` + x.url_list)),
               title: x.articlename,
-              cover:x.url_img
+              cover: x.url_img
             })
           }
           return data
@@ -1730,7 +1747,7 @@ export class DbEventService {
       ...config
     }
 
-    events={
+    events = {
       getList: async () => {
         let list = [];
         return [
@@ -1778,7 +1795,7 @@ export class DbEventService {
       is_download: false,
       ...config
     }
-    events={
+    events = {
       getList: async () => {
         let list = [];
         return [

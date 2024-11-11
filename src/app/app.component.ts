@@ -129,6 +129,9 @@ export class AppComponent {
     public App: AppDataService
   ) {
 
+
+
+
     this.keydown.pipe(bufferCount(2)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))
     });

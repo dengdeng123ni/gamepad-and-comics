@@ -64,6 +64,8 @@ export class MessageFetchService {
               }
             }
           });
+
+
         }
         send();
         setTimeout(()=>{
@@ -139,7 +141,12 @@ export class MessageFetchService {
     })
   }
 
-  getHtml = async (url: RequestInfo | URL): Promise<Response> => {
+  getHtml = async (url: RequestInfo | URL,
+    opiton:{
+      javascript?:string,
+      sleep?:number
+    }
+  ): Promise<Response> => {
     let id = ''
     let bool = true;
     id = CryptoJS.MD5(JSON.stringify({
@@ -149,11 +156,22 @@ export class MessageFetchService {
     })).toString().toLowerCase()
     if (!this._data_proxy_request[id]) {
       this._data_proxy_request[id] = true;
+      console.log({
+        id: id,
+        type: "website_proxy_request_html",
+        proxy_request_website_url: url,
+        proxy_response_website_url: window.location.origin,
+        javascript:opiton.javascript,
+        sleep:opiton.sleep
+      });
+
       window.postMessage({
         id: id,
         type: "website_proxy_request_html",
         proxy_request_website_url: url,
-        proxy_response_website_url: window.location.origin
+        proxy_response_website_url: window.location.origin,
+        javascript:opiton.javascript,
+        sleep:opiton.sleep
       });
     }
 
@@ -176,6 +194,15 @@ export class MessageFetchService {
       }, 30000)
     })
   }
+
+  execute_script(url,javascript){
+    window.postMessage({
+      type: "website_request_execute_script",
+      proxy_request_website_url: url,
+      javascript:javascript
+    });
+  }
+
 
   async readStreamToString(stream: ReadableStream<Uint8Array>) {
     const reader = stream.getReader();
