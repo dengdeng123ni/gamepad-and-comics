@@ -17,7 +17,7 @@ export class MenuService {
 
   ) {
 
-
+    this.init();
   }
 
   async init() {

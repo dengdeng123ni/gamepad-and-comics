@@ -1,7 +1,7 @@
 
 <div class="warp" [attr.svg_filter]="'background_primary'">
   <div class="list">
-   <button [attr.svg_filter]="'background_secondary'"  [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="close();">
+   <button [attr.svg_filter]="'background_secondary'"  [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false"  class="item" (click)="openMenu();close();">
         <mat-icon *ngIf="true" [attr.svg_filter]="'text_primary'">menu_open</mat-icon>
     </button>
    <button [attr.svg_filter]="'background_secondary'" mat-icon-button [attr.region]="'kyboard_toolbar_item'" [attr.select]="false" class="item" (click)="close();">
