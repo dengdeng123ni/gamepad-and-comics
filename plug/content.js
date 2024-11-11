@@ -69,6 +69,12 @@ window.addEventListener("message", async function (e) {
     await chrome.runtime.sendMessage({ type: "current_tab_close" });
   }
 
+  if (e.data && e.data.type == "new_page") {
+    console.log({ type: "new_page",url:e.data.url });
+
+    await chrome.runtime.sendMessage({ type: "new_page",url:e.data.url });
+  }
+
 }, false);
 
 

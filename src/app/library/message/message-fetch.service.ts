@@ -11,14 +11,14 @@ export class MessageFetchService {
   _data_proxy_request: any = {};
   caches!: Cache;
 
-  _blob_urls={
+  _blob_urls = {
 
   }
   constructor(private sanitizer: DomSanitizer) {
     window._gh_fetch = this.fetch;
     window._gh_getHtml = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
-
+    window._gh_new_page = this.new_page;
   }
   async init() {
     this.caches = await caches.open('assets');
@@ -51,7 +51,7 @@ export class MessageFetchService {
       })).toString().toLowerCase()
       if (!this._data_proxy_request[id]) {
         this._data_proxy_request[id] = true;
-        const send=()=>{
+        const send = () => {
           window.postMessage({
             id: id,
             type: "website_proxy_request",
@@ -70,16 +70,16 @@ export class MessageFetchService {
 
         }
         send();
-        setTimeout(()=>{
+        setTimeout(() => {
           if (!this._data_proxy_response[id]) {
             send();
           }
-        },10000)
-        setTimeout(()=>{
+        }, 10000)
+        setTimeout(() => {
           if (!this._data_proxy_response[id]) {
             send();
           }
-        },20000)
+        }, 20000)
       }
 
     } else {
@@ -97,7 +97,7 @@ export class MessageFetchService {
       })).toString().toLowerCase()
       if (!this._data_proxy_request[id]) {
         this._data_proxy_request[id] = true;
-        const send=()=>{
+        const send = () => {
           window.postMessage({
             id: id,
             type: "pulg_proxy_request",
@@ -113,11 +113,11 @@ export class MessageFetchService {
           });
         }
         send();
-        setTimeout(()=>{
+        setTimeout(() => {
           if (!this._data_proxy_response[id]) {
             send();
           }
-        },20000)
+        }, 20000)
       }
 
     }
@@ -137,7 +137,7 @@ export class MessageFetchService {
         bool = false;
         r(new Response(""))
         j(new Response(""))
-        this._data_proxy_request[id]=undefined;
+        this._data_proxy_request[id] = undefined;
       }, 40000)
 
     })
@@ -183,7 +183,7 @@ export class MessageFetchService {
     })
   }
 
-  execute_eval=async (url,javascript)=>{
+  execute_eval = async (url, javascript) => {
     const id = CryptoJS.MD5(JSON.stringify({
       type: "website_request_execute_eval",
       proxy_request_website_url: url,
@@ -195,7 +195,7 @@ export class MessageFetchService {
       type: "website_request_execute_script",
       proxy_request_website_url: url,
       proxy_response_website_url: window.location.origin,
-      javascript:javascript
+      javascript: javascript
     });
     let bool = true;
     return new Promise((r, j) => {
@@ -214,12 +214,18 @@ export class MessageFetchService {
         bool = false;
         r(new Response(""))
         j(new Response(""))
-        this._data_proxy_request[id]=undefined;
+        this._data_proxy_request[id] = undefined;
       }, 40000)
 
     })
   }
 
+  new_page = async (url) => {
+    window.postMessage({
+      type: "new_page",
+      url: url
+    });
+  }
 
   async readStreamToString(stream: ReadableStream<Uint8Array>) {
     const reader = stream.getReader();
@@ -245,33 +251,33 @@ export class MessageFetchService {
     }
   }
 
-  cacheFetchBlobUrl = async (url:string): Promise<string> => {
-    const id=window.btoa(encodeURIComponent(url))
-    if(this._blob_urls[id]) return this._blob_urls[id]
+  cacheFetchBlobUrl = async (url: string): Promise<string> => {
+    const id = window.btoa(encodeURIComponent(url))
+    if (this._blob_urls[id]) return this._blob_urls[id]
     if (!this.caches) {
-      const res =await fetch(url)
+      const res = await fetch(url)
       const blob = await res.blob();
       let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      bloburl=bloburl.changingThisBreaksApplicationSecurity;
-      this._blob_urls[id]=bloburl;
+      bloburl = bloburl.changingThisBreaksApplicationSecurity;
+      this._blob_urls[id] = bloburl;
       return bloburl
     }
     const res = await this.caches.match(url)
     if (res) {
       const blob = await res.blob();
       let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      bloburl=bloburl.changingThisBreaksApplicationSecurity;
-      this._blob_urls[id]=bloburl;
+      bloburl = bloburl.changingThisBreaksApplicationSecurity;
+      this._blob_urls[id] = bloburl;
       return bloburl
     } else {
       const response = await fetch(url)
       const request = new Request(url);
       if (response.ok) await this.caches.put(request, response);
-      const res =await fetch(url)
+      const res = await fetch(url)
       const blob = await res.blob();
       let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      bloburl=bloburl.changingThisBreaksApplicationSecurity;
-      this._blob_urls[id]=bloburl;
+      bloburl = bloburl.changingThisBreaksApplicationSecurity;
+      this._blob_urls[id] = bloburl;
       return bloburl
     }
   }

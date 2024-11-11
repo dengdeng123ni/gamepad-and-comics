@@ -1514,7 +1514,7 @@ export class DbEventService {
           return obj
         },
         getPages: async (id) => {
-          window.open(decodeURIComponent(window.atob(id)))
+          window._gh_new_page(decodeURIComponent(window.atob(id)))
           const sleep = (duration) => {
             return new Promise(resolve => {
               setTimeout(resolve, duration);
@@ -1544,24 +1544,7 @@ export class DbEventService {
   return arr
 })()
         `)
-
-          let data=[];
-          for (let index = 0; index < arr.length; index++) {
-            let obj = {
-              id: "",
-              src: "",
-              width: 0,
-              height: 0
-            };
-            const utf8_to_b64 = (str) => {
-              return window.btoa(encodeURIComponent(str));
-            }
-            obj["id"] = `${id}_${index}`;
-            obj["src"] =  `${arr[index]}`
-            data.push(obj)
-          }
-
-          return data
+          return arr
         },
         UrlToDetailId: async (id) => {
           const obj = new URL(id);

@@ -179,7 +179,6 @@ export class DbControllerService {
             res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
             if (res) {
               res = res.data;
-
               res.forEach((x, i) => {
                 if (x.src.substring(7, 21) == "localhost:7700") {
                 } else {
@@ -189,6 +188,20 @@ export class DbControllerService {
               })
             } else {
               res = await this.DbEvent.Events[option.source]["getPages"](id);
+              if (typeof res[0] === 'string') {
+                let arr = res;
+                let data = [];
+                for (let index = 0; index < arr.length; index++) {
+                  let obj = {
+                    id: "",
+                    src: ""
+                  };
+                  obj["id"] = `${index}`;
+                  obj["src"] = `${arr[index]}`
+                  data.push(obj)
+                }
+                res = data;
+              }
               firstValueFrom(this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
               res.forEach((x, i) => {
                 this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
@@ -201,6 +214,8 @@ export class DbControllerService {
           res.forEach((x, i) => {
             if (!x.id) x.id = `${id}_${i}`;
             if (!x.uid) x.uid = `${id}_${i}`;
+            if (!x.width) x.width = 0;
+            if (!x.height) x.height = 0;
             x.index = i;
           })
           this.pages[id] = JSON.parse(JSON.stringify(res));

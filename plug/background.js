@@ -44,6 +44,8 @@ chrome.runtime.onMessage.addListener(
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.remove(tabs[0].id);
       });
+    } else if(request.type == "new_page"){
+      newPage(request.url)
     }
   }
 );
@@ -139,6 +141,26 @@ function sendMessageToTargetContentScript(message, url) {
           ...message
         });
       }
+    }
+  });
+}
+
+function newPage(url) {
+  chrome.tabs.query({}, function (tabs) {
+    const list = tabs.filter(x => x.url.substring(0, url.length) == url);
+    if (list.length == 0) {
+      chrome.tabs.create({
+        active: true,
+        url: url
+      })
+    } else {
+      for (let index = 0; index < list.length; index++) {
+        chrome.tabs.remove(list[index].id);
+      }
+      chrome.tabs.create({
+        active: true,
+        url: url
+      })
     }
   });
 }
