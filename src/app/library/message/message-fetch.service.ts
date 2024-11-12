@@ -20,6 +20,7 @@ export class MessageFetchService {
     window._gh_execute_eval = this.execute_eval;
     window._gh_new_page = this.new_page;
 
+
   }
   async init() {
     this.caches = await caches.open('assets');
@@ -215,17 +216,44 @@ export class MessageFetchService {
         bool = false;
         r(new Response(""))
         j(new Response(""))
-        this._data_proxy_request[id] = undefined;
       }, 40000)
 
     })
   }
 
   new_page = async (url) => {
-    window.postMessage({
+    const id = CryptoJS.MD5(JSON.stringify({
       type: "new_page",
-      url: url
+      proxy_response_website_url: window.location.origin,
+      proxy_request_website_url: url
+    })).toString().toLowerCase()
+
+    window.postMessage({
+      id:id,
+      type: "new_page",
+      proxy_response_website_url: window.location.origin,
+      proxy_request_website_url: url
     });
+    let bool = true;
+    return new Promise((r, j) => {
+      const getData = () => {
+        setTimeout(() => {
+          if (this._data_proxy_response[id]) {
+            r(this._data_proxy_response[id])
+          } else {
+            if (bool) getData()
+          }
+        }, 33)
+      }
+      getData()
+
+      setTimeout(() => {
+        bool = false;
+        r(new Response(""))
+        j(new Response(""))
+      }, 40000)
+
+    })
   }
 
   async readStreamToString(stream: ReadableStream<Uint8Array>) {

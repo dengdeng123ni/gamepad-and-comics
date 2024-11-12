@@ -1509,12 +1509,11 @@ export class DbEventService {
             const title = node.getAttribute("title")
             obj.chapters.push({ id, title })
           }
-          console.log(obj);
 
           return obj
         },
         getPages: async (id) => {
-          window._gh_new_page(decodeURIComponent(window.atob(id)))
+          await window._gh_new_page(decodeURIComponent(window.atob(id)))
           const sleep = (duration) => {
             return new Promise(resolve => {
               setTimeout(resolve, duration);
@@ -1529,7 +1528,7 @@ export class DbEventService {
       setTimeout(resolve, duration);
     })
   }
-  for (let index = 0; index < 100; index++) {
+  for (let index = 0; index < 30; index++) {
     document.querySelector("html").scrollTop = document.querySelector("html").scrollTop + 30;
     await sleep(40)
   }

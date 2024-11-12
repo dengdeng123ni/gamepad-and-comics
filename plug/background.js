@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener(
         chrome.tabs.remove(tabs[0].id);
       });
     } else if (request.type == "new_page") {
-      newPage(request.url)
+      newPage(request)
     }
   }
 );
@@ -92,58 +92,33 @@ function sendMessageToContentScript(message) {
 }
 let data = [];
 function sendMessageToTargetContentScript(message, url) {
-  chrome.windows.get(createdWindowId, { populate: true }, function (window) {
-    if (window) {
-      chrome.tabs.query({}, function (tabs) {
-        const list = tabs.filter(x => x.url.substring(0, url.length) == url);
-        if (list.length == 0) {
-          chrome.tabs.create({
-            active: false,
-            windowId: createdWindowId,
-            url: url
-          }, (tab) => {
-            data.push({
-              tab: tab, data: {
-                tab: tab,
-                ...message
-              }
-            })
-          })
-        } else {
-          for (let index = 0; index < list.length; index++) {
-            chrome.tabs.sendMessage(list[index].id, {
-              tab: list[index],
-              ...message
-            });
+  chrome.tabs.query({}, function (tabs) {
+    const list = tabs.filter(x => x.url.substring(0, url.length) == url);
+    if (list.length == 0) {
+      chrome.tabs.create({
+        active: false,
+        url: url
+      }, (tab) => {
+        data.push({
+          tab: tab, data: {
+            tab: tab,
+            ...message
           }
-        }
-      });
-    } else {
-      chrome.windows.create({
-        url: url,
-        type: 'normal',
-        focused: false,
-      }, function (newWindow) {
-        createdWindowId = newWindow.id;
-        chrome.tabs.create({
-          active: false,
-          windowId: createdWindowId,
-          url: url
-        }, (tab) => {
-          data.push({
-            tab: tab, data: {
-              tab: tab,
-              ...message
-            }
-          })
         })
-      });
-
+      })
+    } else {
+      for (let index = 0; index < list.length; index++) {
+        chrome.tabs.sendMessage(list[index].id, {
+          tab: list[index],
+          ...message
+        });
+      }
     }
   });
 }
 let createdWindowId = 123;
-function newPage(url) {
+function newPage(request) {
+  let url=request.proxy_request_website_url;
   chrome.windows.get(createdWindowId, { populate: true }, function (window) {
     if (window) {
       chrome.tabs.query({}, function (tabs) {
@@ -153,6 +128,12 @@ function newPage(url) {
             active: true,
             windowId: createdWindowId,
             url: url
+          }, (tab) => {
+            sendMessageToTargetContentScript( {
+              id:request.id,
+              type:"execute_script_data",
+              data:tab
+            },request.proxy_response_website_url)
           })
         } else {
           for (let index = 0; index < list.length; index++) {
@@ -162,16 +143,32 @@ function newPage(url) {
             active: true,
             windowId: createdWindowId,
             url: url
+          }, (tab) => {
+            sendMessageToTargetContentScript( {
+              id:request.id,
+              type:"execute_script_data",
+              data:tab
+            },request.proxy_response_website_url)
           })
         }
       });
     } else {
       chrome.windows.create({
-        url: url,
         type: 'normal',
         focused: false,
       }, function (newWindow) {
         createdWindowId = newWindow.id;
+        chrome.tabs.create({
+          active: true,
+          windowId: createdWindowId,
+          url: url
+        }, (tab) => {
+          sendMessageToTargetContentScript( {
+            id:request.id,
+            type:"execute_script_data",
+            data:tab
+          },request.proxy_response_website_url)
+        })
       });
     }
   });

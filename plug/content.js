@@ -70,7 +70,7 @@ window.addEventListener("message", async function (e) {
   }
 
   if (e.data && e.data.type == "new_page") {
-    await chrome.runtime.sendMessage({ type: "new_page",url:e.data.url });
+    await chrome.runtime.sendMessage(e.data);
   }
 
 }, false);
