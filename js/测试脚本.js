@@ -1,11 +1,15 @@
 await (async function () {
-  let nodes=document.querySelectorAll(".ptt a");
-  let arr=nodes[nodes.length-2].href.split("/?p=");
-  let length=parseInt(arr[1])
-  let data=[];
-  data.push(arr[0])
+  const meta = document.createElement('meta');
+  meta.httpEquiv = "Content-Security-Policy";
+  meta.content = "img-src 'none'";
+  document.head.appendChild(meta);
+  const length=parseInt(document.querySelector(".tp").textContent)
+  const hr=document.querySelector("#fimg").getAttribute("data-src").split("/")
+  const type=hr.pop().split(".")[1]
+  const c=hr.join("/")+"/"
+  let arr = [];
   for (let index = 0; index < length; index++) {
-     data.push(`${arr[0]}/?p=${index+1}`)
+     arr.push(c+(index+1)+"."+type)
   }
-  return data
+  return arr
 })()

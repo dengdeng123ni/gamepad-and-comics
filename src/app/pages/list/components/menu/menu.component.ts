@@ -139,6 +139,16 @@ export class MenuComponent {
               }
             }
           )
+          obj.submenu.push(
+            {
+              id: "developer",
+              icon: "code",
+              name: "API 测试菜单",
+              click: (e) => {
+                this.router.navigate(['developer', e.parent.id]);
+              }
+            }
+          )
         }else{
           obj.submenu.push(
             {

@@ -39,6 +39,7 @@ import { GetKeyboardKeyComponent } from './components/get-keyboard-key/get-keybo
 import { NovelsListComponent } from './components/novels-list/novels-list.component';
 import { NovelsDownloadComponent } from './components/novels-download/novels-download.component';
 import { PageThemeComponent } from './components/page-theme/page-theme.component';
+import { DeveloperPageComponent } from './components/developer-page/developer-page.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 
 
@@ -78,7 +79,8 @@ import { PageThemeComponent } from './components/page-theme/page-theme.component
     GetKeyboardKeyComponent,
     NovelsListComponent,
     NovelsDownloadComponent,
-    PageThemeComponent
+    PageThemeComponent,
+    DeveloperPageComponent
   ],
   imports: [
     CommonModule,

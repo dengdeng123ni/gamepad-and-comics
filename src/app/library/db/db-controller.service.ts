@@ -178,7 +178,9 @@ export class DbControllerService {
           if (config.is_cache) {
             res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
             if (res) {
+              console.log(JSON.parse(JSON.stringify(res)));
               res = res.data;
+
               res.forEach((x, i) => {
                 if (x.src.substring(7, 21) == "localhost:7700") {
                 } else {
@@ -202,7 +204,9 @@ export class DbControllerService {
                 }
                 res = data;
               }
-              firstValueFrom(this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
+              console.log(res);
+
+              await firstValueFrom(this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
               res.forEach((x, i) => {
                 this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
                 if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
@@ -370,6 +374,12 @@ export class DbControllerService {
     } else {
       return []
     }
+  }
+  UrlToDetailId = async (url: any, option?: {
+    source: string
+  }) => {
+    let res = await this.DbEvent.Events[option.source]["UrlToDetailId"](url);
+    return res
   }
   async delWebDbDetail(id) {
     this.details[id] = null;

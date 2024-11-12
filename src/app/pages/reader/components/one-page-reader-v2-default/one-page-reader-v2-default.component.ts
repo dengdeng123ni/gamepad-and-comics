@@ -302,7 +302,7 @@ export class OnePageReaderV2DefaultComponent {
     const res = await getNextPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
-    if (res?.primary?.width == res?.secondary?.width && !this.is_1) {
+    if (!this.is_1) {
       document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(res.primary.width / res.primary.height) * window.innerHeight }px`);
       this.is_1 = true
     }

@@ -1125,6 +1125,9 @@ export class DbEventService {
               arr.push(document.querySelector("#current-page-image").src)
               document.querySelector(".arrow-right").click();
             }
+                setTimeout(()=>{
+    window.close()
+  },500)
             return arr
           })()
         `)
@@ -1432,6 +1435,99 @@ export class DbEventService {
         UrlToDetailId: async (id) => {
           const obj = new URL(id);
           if (obj.host == "nhentai.net") {
+            return window.btoa(encodeURIComponent(id))
+          } else {
+            return null
+          }
+        }
+      });
+      window._gh_comics_register({
+        id: "nhentai_xxx",
+        is_cache: true,
+        is_download: true,
+        is_preloading: true,
+        menu: [
+        ],
+      }, {
+        getDetail: async (id) => {
+
+
+          const b64_to_utf8 = (str) => {
+            return decodeURIComponent(window.atob(str));
+          }
+          console.log(b64_to_utf8(id));
+          const res = await window._gh_getHtml(b64_to_utf8(id));
+          console.log(res);
+
+          const text = await res.text();
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(text, 'text/html');
+          console.log(doc);
+
+          let obj = {
+            id: id,
+            cover: "",
+            title: "",
+            author: "",
+            href: b64_to_utf8(id),
+            author_href: "",
+            intro: "",
+            chapters: [
+
+            ],
+            chapter_id: id,
+            styles: []
+          }
+          const utf8_to_b64 = (str) => {
+            return window.btoa(encodeURIComponent(str));
+          }
+
+          obj.title = doc.querySelector(".info > h1").textContent.trim()
+          obj.cover = doc.querySelector(".cover > a > img").src;
+
+
+          obj.chapters.push({
+            id: utf8_to_b64(`https://nhentai.xxx${doc.querySelectorAll(".gt_th a")[0].getAttribute("href")}`),
+            title: obj.title,
+            cover: obj.cover,
+          })
+          return obj
+        },
+        getPages: async (id) => {
+          await window._gh_new_page(decodeURIComponent(window.atob(id)))
+          const sleep = (duration) => {
+            return new Promise(resolve => {
+              setTimeout(resolve, duration);
+            })
+          }
+          await sleep(1000)
+          const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+            `
+      (async function () {
+  const meta = document.createElement('meta');
+  meta.httpEquiv = "Content-Security-Policy";
+  meta.content = "img-src 'none'";
+  document.head.appendChild(meta);
+  const length=parseInt(document.querySelector(".tp").textContent)
+  const hr=document.querySelector("#fimg").getAttribute("data-src").split("/")
+  const type=hr.pop().split(".")[1]
+  const c=hr.join("/")+"/"
+  let arr = [];
+  for (let index = 0; index < length; index++) {
+     arr.push(c+(index+1)+"."+type)
+  }
+  setTimeout(()=>{
+    window.close()
+  },500)
+  return arr
+})()
+        `)
+
+          return arr
+        },
+        UrlToDetailId: async (id) => {
+          const obj = new URL(id);
+          if (obj.host == "nhentai.xxx") {
             return window.btoa(encodeURIComponent(id))
           } else {
             return null

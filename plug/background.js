@@ -179,40 +179,26 @@ let is = false;
 function sendMessageToTargetHtml(message, url) {
   chrome.windows.get(createdWindowId, { populate: true }, function (window) {
     if (window) {
-      chrome.tabs.query({}, function (tabs) {
-        const list = tabs.filter(x => x.url == url);
-        if (list.length == 0) {
-          chrome.tabs.create({
-            active: false,
-            windowId: createdWindowId,
-            url: url
-          }, (tab) => {
-            data.push({
-              tab: tab, data: {
-                tab: tab,
-                ...message
-              }
-            })
-
-          })
-        } else {
-          for (let index = 0; index < list.length; index++) {
-            chrome.tabs.sendMessage(list[index].id, {
-              tab: list[index],
-              ...message
-            });
+      chrome.tabs.create({
+        active: true,
+        windowId: createdWindowId,
+        url: url
+      }, (tab) => {
+        data.push({
+          tab: tab, data: {
+            tab: tab,
+            ...message
           }
-        }
-      });
+        })
+      })
     } else {
       chrome.windows.create({
-        url: url,
         type: 'normal',
         focused: false,
       }, function (newWindow) {
         createdWindowId = newWindow.id;
         chrome.tabs.create({
-          active: false,
+          active: true,
           windowId: createdWindowId,
           url: url
         }, (tab) => {
@@ -224,7 +210,6 @@ function sendMessageToTargetHtml(message, url) {
           })
         })
       });
-
     }
   });
 

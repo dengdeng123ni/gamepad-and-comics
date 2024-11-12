@@ -9,6 +9,7 @@ import { ComicsCustomMultipyComponent } from './components/comics-custom-multipy
 import { ComicsSearchComponent } from './components/comics-search/comics-search.component';
 import { ComicsListV2Component } from './components/comics-list-v2/comics-list-v2.component';
 import { ComicsListV3Component } from './components/comics-list-v3/comics-list-v3.component';
+import { DeveloperPageComponent } from './components/developer-page/developer-page.component';
 import { NovelsListComponent } from './components/novels-list/novels-list.component';
 
 const routes: Routes = [
@@ -68,6 +69,10 @@ const routes: Routes = [
       {
         path: 'multipy/:id/:sid', // child route path
         component: ComicsCustomMultipyComponent, // child route component that the router renders
+      },
+      {
+        path: 'developer/:id', // child route path
+        component: DeveloperPageComponent, // child route component that the router renders
       },
     ]
   },

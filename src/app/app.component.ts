@@ -230,25 +230,25 @@ export class AppComponent {
       this.svg.init();
       setTimeout(() => {
         this.App.init();
-        window.addEventListener('visibilitychange', () => {
-          if (document.hidden) {
+        // window.addEventListener('visibilitychange', () => {
+        //   if (document.hidden) {
 
-          } else {
-            let nn = 0;
-            const gg = () => {
-              if (document.hasFocus()) this.RoutingController.getClipboardContents();
-              setTimeout(() => {
-                if (nn < 10) {
-                  gg();
-                  nn++;
-                }
-              }, 2000)
-            }
-            gg();
-          }
-        });
+        //   } else {
+        //     let nn = 0;
+        //     const gg = () => {
+        //       if (document.hasFocus()) this.RoutingController.getClipboardContents();
+        //       setTimeout(() => {
+        //         if (nn < 10) {
+        //           gg();
+        //           nn++;
+        //         }
+        //       }, 2000)
+        //     }
+        //     gg();
+        //   }
+        // });
 
-        if (document.hasFocus()) this.RoutingController.getClipboardContents();
+        // if (document.hasFocus()) this.RoutingController.getClipboardContents();
       }, 50)
     }, 200)
     // this.getPulgLoadingFree();

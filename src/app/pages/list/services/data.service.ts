@@ -51,6 +51,7 @@ export class DataService {
 
   left_drawer_mode: any = 'over';
 
+  is_developer_mode=true;
 
   config={
     click_type:1,

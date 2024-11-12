@@ -294,7 +294,10 @@ export class OnePageReaderV2Component {
         primary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false },
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
-      const obj = await this.isWideImage(list[index], list[index + 1]);
+      let obj = await this.isWideImage(list[index], list[index + 1]);
+      console.log(obj?.primary?.width , obj?.secondary?.width);
+
+
       if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
       if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
         obj.secondary = undefined;
@@ -320,11 +323,11 @@ export class OnePageReaderV2Component {
     const res = await getNextPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
-    if (res?.primary?.width == res?.secondary?.width && !this.is_1) {
+
+    if (!this.is_1) {
       document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(res.primary.width / res.primary.height) * window.innerHeight }px`);
       this.is_1 = true
     }
-
 
     if (res.primary.src) current = current + `<img content_menu_key="pages_item"  style=" height: 100%;margin: auto"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (!!current) {
