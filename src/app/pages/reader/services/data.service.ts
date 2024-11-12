@@ -34,6 +34,7 @@ export class DataService {
     is_page_order: false,
     is_page_direction: true,
     is_double_page: true,
+    background_color:"#303030"
   }
 
   is_init_free = false;

@@ -48,8 +48,8 @@ export class ChapterListMode1Component {
     let menu: any = [{ name: "缩略图", id: "thumbnail" },];
     if (data.is_download) {
       menu.push({ name: "下载", id: "export" },)
-    }else{
-      ContextMenuEvent.logoutMenu("chapters_item","export")
+    } else {
+      ContextMenuEvent.logoutMenu("chapters_item", "export")
     }
     if (data.is_cache) {
       menu.push({
@@ -73,11 +73,16 @@ export class ChapterListMode1Component {
             name: "提前加载", id: "load", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 const chapter_id = list[index].id;
-                const pages = await this.DbController.getPages(chapter_id)
-                for (let ccc = 0; ccc < pages.length; ccc++) {
-                  await this.DbController.getImage(pages[ccc].src)
-                  this._snackBar.open(`${list[index].title} 第${ccc + 1}页/${pages.length}页`, '提前加载完成')
+                let pages = await this.DbController.getPages(chapter_id)
+                for (let i = 0; i < pages.length; i += data.images_concurrency_limit) {
+                  const batch = pages.slice(i, i + data.images_concurrency_limit);
+                  const pagesPromises = batch.map(x =>
+                    this.DbController.getImage(x.src)
+                  );
+                  await Promise.all(pagesPromises);
+                  this._snackBar.open(`${list[index].title} 第${i + 1}页/${pages.length}页`, '提前加载完成')
                 }
+
                 this._snackBar.open(`${list[index].title}`, '提前加载完成')
               }
               this._snackBar.open(`提前加载已完成`, '', {
@@ -110,8 +115,8 @@ export class ChapterListMode1Component {
         ]
       })
 
-    }else{
-      ContextMenuEvent.logoutMenu("chapters_item","data")
+    } else {
+      ContextMenuEvent.logoutMenu("chapters_item", "data")
     }
 
     ContextMenuEvent.register('chapters_item', {
@@ -194,9 +199,9 @@ export class ChapterListMode1Component {
     })
     //
 
-    if (this.data.chapters[0].cover&&this.data.chapters[0].title) {
+    if (this.data.chapters[0].cover && this.data.chapters[0].title) {
       this.pattern = 'image';
-      if(this.data.chapters[0].cover==this.data.details.cover) this.pattern = 'title';
+      if (this.data.chapters[0].cover == this.data.details.cover) this.pattern = 'title';
     }
     else if (this.data.chapters[0].title) this.pattern = 'title';
     else this.pattern = 'index';

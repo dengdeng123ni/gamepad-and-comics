@@ -11,13 +11,13 @@ import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { ComicsDetailService } from '../comics-detail/comics-detail.service';
-import { ComicsSettingsService } from '../comics-settings/comics-settings.service';
 import { ContextMenuEventService, DbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
 import { FilterService } from '../filter/filter.service';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
+import { ChaptersFirstCoverSettingsService } from '../chapters-first-cover-settings/chapters-first-cover-settings.service';
 
 @Component({
   selector: 'app-reader-toolbar',
@@ -29,6 +29,16 @@ export class ReaderToolbarComponent {
   isMobile = (navigator as any).userAgentData.mobile;
   is_locked = true;
   double_page_reader: any = {}
+
+
+  arr=[];
+  get color() { return this.data.comics_config.background_color};
+  set color(e: string) {
+    this.data.comics_config.background_color=e;
+    document.documentElement.style.setProperty('--reader-background-color',this.data.comics_config.background_color)
+
+  }
+
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
     public current: CurrentService,
@@ -42,16 +52,16 @@ export class ReaderToolbarComponent {
     public ReaderChange: ReaderChangeService,
     public ReaderConfig: ReaderConfigService,
     public ComicsDetail: ComicsDetailService,
-    public ComicsSettings: ComicsSettingsService,
+    public ChaptersFirstCoverSettings : ChaptersFirstCoverSettingsService,
     public DbController: DbControllerService,
     public webDb: NgxIndexedDBService,
     public filter: FilterService,
     public resetReadingProgress: ResetReadingProgressService,
-    public ExportSettings: ExportSettingsService,
+    public ExportSettings:ExportSettingsService,
     public ContextMenuEvent: ContextMenuEventService,
     public RoutingController: RoutingControllerService
   ) {
-    let menu = [
+    let menu=[
       {
         id: "bcak",
         name: "返回",
@@ -70,7 +80,7 @@ export class ReaderToolbarComponent {
         id: "fiast_page",
         name: "设置第一页为封面",
         click: e => {
-          this.ComicsSettings.open();
+          this.ChaptersFirstCoverSettings.open();
         }
       },
       {
@@ -102,7 +112,7 @@ export class ReaderToolbarComponent {
 
           const left = ((window.innerWidth / 2) - e.clientX > 0)
           const top = ((window.innerHeight / 2) - e.clientY > 0)
-          let position = {};
+          let position = { };
           position[left ? 'left' : 'right'] = left ? `${e.clientX}px` : `${(window.innerWidth - e.clientX)}px`
           position[top ? 'top' : 'bottom'] = top ? `${e.clientY}px` : `${(window.innerHeight - e.clientY)}px`
           this.filter.open({
@@ -118,7 +128,7 @@ export class ReaderToolbarComponent {
         click: e => {
           const left = ((window.innerWidth / 2) - e.clientX > 0)
           const top = ((window.innerHeight / 2) - e.clientY > 0)
-          let position = {};
+          let position = { };
           position[left ? 'left' : 'right'] = left ? `${e.clientX}px` : `${(window.innerWidth - e.clientX)}px`
           position[top ? 'top' : 'bottom'] = top ? `${e.clientY}px` : `${(window.innerHeight - e.clientY)}px`
           this.ReaderConfig.open(position)
@@ -127,15 +137,15 @@ export class ReaderToolbarComponent {
 
 
     ];
-    if (data.is_download) {
-      menu.push({
+    if(data.is_download){
+      menu.push( {
         id: "export_settings",
         name: "下载",
         click: e => {
 
           const left = ((window.innerWidth / 2) - e.clientX > 0)
           const top = ((window.innerHeight / 2) - e.clientY > 0)
-          let position = {};
+          let position = { };
           position[left ? 'left' : 'right'] = left ? `${e.clientX}px` : `${(window.innerWidth - e.clientX)}px`
           position[top ? 'top' : 'bottom'] = top ? `${e.clientY}px` : `${(window.innerHeight - e.clientY)}px`
           this.ExportSettings.open({
@@ -145,10 +155,10 @@ export class ReaderToolbarComponent {
 
         }
       })
-    } else {
-      ContextMenuEvent.logoutMenu('comics_reader', 'export_settings')
+    }else{
+      ContextMenuEvent.logoutMenu('comics_reader','export_settings')
     }
-    menu.push({
+    menu.push(  {
       id: "full",
       name: "全屏",
       click: e => {
@@ -187,6 +197,9 @@ export class ReaderToolbarComponent {
   }
   firstPageCoverChange() {
     this.current.event$.next({ key: "double_page_reader_FirstPageToggle", value: null })
+  }
+  on_input_color(e){
+   ( document.querySelector("#background_input_color") as any).click();
   }
 
   imageRotation() {
@@ -332,7 +345,7 @@ export class ReaderToolbarComponent {
   openExportSettings($event) {
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
-    this.ExportSettings.open({ position: { right: "30px", bottom: `${30}px` } })
+    this.ExportSettings.open({position:{ right: "30px", bottom: `${30}px` }})
   }
 
   OpenComicsDetail($event) {

@@ -47,6 +47,10 @@ export class ReaderConfigComponent {
   change2(e){
     this.data.comics_config.is_page_order=e;
   }
+  change3(e){
+    this.data.comics_config.background_color=e;
+    document.documentElement.style.setProperty('--reader-background-color',this.data.comics_config.background_color)
+  }
   // reader_mode = "";
   // is_double_page = true;
   // is_page_order = true;

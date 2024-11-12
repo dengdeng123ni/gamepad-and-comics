@@ -22,6 +22,7 @@ interface Config {
   is_download?: boolean;
   is_cache?: boolean;
   is_preloading?: boolean;
+  images_concurrency_limit?: number
 }
 interface Tab {
   url: string,
@@ -47,30 +48,9 @@ export class DbEventService {
     private webDb: NgxIndexedDBService,
     public _http: MessageFetchService,
   ) {
-
-  setTimeout(async ()=>{
-    const res= await window._gh_fetch("https://e-hentai.org/g/2241584/b0d4dd8704/", {
-      method: "GET",
-      headers: {
-        "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-        "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-      },
-      mode: "cors"
-    });
-    const text = await res.text();
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(text, 'text/html');
-    console.log(res,doc);
-
-  },3000)
-
-
-
     window._gh_comics_register = this.comics_register;
     window._gh_novels_register = this.novels_register;
     if (location.hostname == "localhost") {
-
       window._gh_comics_register({
         id: "ehentai",
         name: "ehentai",
@@ -139,19 +119,19 @@ export class DbEventService {
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
-          const nodes = doc.querySelectorAll(".ptt a");
+          let nodes = doc.querySelectorAll(".ptt a");
 
-          let arr = []
-          for (let index = 0; index < nodes.length; index++) {
-            const element = nodes[index];
-            arr.push(element.href)
+          let arr = nodes[nodes.length - 2].href.split("/?p=");
+          let length = parseInt(arr[1])
+          let data1 = [];
+          data1.push(arr[0])
+          for (let index = 0; index < length; index++) {
+            data1.push(`${arr[0]}/?p=${index + 1}`)
           }
-
-          if (arr.length > 1) arr.pop()
-
           let arr2 = [];
-          for (let index = 0; index < arr.length; index++) {
-            const res = await window._gh_fetch(arr[index], {
+
+          for (let index = 0; index < data1.length; index++) {
+            const res = await window._gh_fetch(data1[index], {
               "headers": {
                 "accept": "application/json, text/plain, */*",
                 "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -189,6 +169,7 @@ export class DbEventService {
             obj["src"] = `${utf8_to_b64(arr2[index])}`
             data.push(obj)
           }
+          console.log(data);
 
           return data
         },
@@ -1131,8 +1112,8 @@ export class DbEventService {
             })
           }
           await sleep(1000)
-          const arr=await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
-        `
+          const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+            `
          (async function () {
             const meta = document.createElement('meta');
             meta.httpEquiv = "Content-Security-Policy";
@@ -1525,8 +1506,8 @@ export class DbEventService {
             })
           }
           await sleep(1000)
-          const arr=await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
-        `
+          const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+            `
 (async function() {
   const sleep = (duration) => {
     return new Promise(resolve => {
@@ -1548,7 +1529,7 @@ export class DbEventService {
   return arr
 })()
         `)
-        console.log(arr);
+          console.log(arr);
 
           return arr
         },
@@ -1561,7 +1542,7 @@ export class DbEventService {
           }
         },
         Search: async (obj) => {
-          const res = await window._gh_fetch(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num-1)*obj.page_size}&platform=2&limit=${obj.page_size}&q=${obj.keyword}q_type=`,{
+          const res = await window._gh_fetch(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num - 1) * obj.page_size}&platform=2&limit=${obj.page_size}&q=${obj.keyword}q_type=`, {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1580,7 +1561,7 @@ export class DbEventService {
               id: window.btoa(encodeURIComponent(`https://www.mangacopy.com/comic/${x.path_word}`)),
               title: x.name,
               cover: x.cover,
-              subTitle:x.author.map(x=>x.name).toString()
+              subTitle: x.author.map(x => x.name).toString()
             })
           }
           return data
@@ -1726,7 +1707,6 @@ export class DbEventService {
           return data
         },
       });
-
     }
 
 
@@ -1743,7 +1723,7 @@ export class DbEventService {
       is_download: false,
       is_preloading: false,
       is_load_free: false,
-      images_concurrency_limit:1,
+      images_concurrency_limit: 3,
       ...config
     }
 
@@ -1793,7 +1773,7 @@ export class DbEventService {
       type: 'novels',
       is_cache: false,
       is_download: false,
-      images_concurrency_limit:1,
+      images_concurrency_limit: 3,
       ...config
     }
     events = {

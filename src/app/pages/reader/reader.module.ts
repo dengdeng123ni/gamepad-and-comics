@@ -39,6 +39,7 @@ import { ResetReadingProgressComponent } from './components/reset-reading-progre
 import { FilterComponent } from './components/filter/filter.component';
 import { ExportSettingsComponent } from './components/export-settings/export-settings.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { ReaderBackgroundSettingsComponent } from './components/reader-background-settings/reader-background-settings.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     ResetReadingProgressComponent,
     FilterComponent,
     LoadingComponent,
-    ExportSettingsComponent
+    ExportSettingsComponent,
+    ReaderBackgroundSettingsComponent
   ],
   imports: [
     CommonModule,

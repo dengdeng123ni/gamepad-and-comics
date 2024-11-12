@@ -12,7 +12,7 @@ import { OnePageThumbnailMode3Service } from '../one-page-thumbnail-mode3/one-pa
 import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
-import { ComicsSettingsService } from '../comics-settings/comics-settings.service';
+import { ChaptersFirstCoverSettingsService } from '../chapters-first-cover-settings/chapters-first-cover-settings.service';
 
 @Component({
   selector: 'app-gamepad-toolbar',
@@ -38,7 +38,7 @@ export class GamepadToolbarComponent {
     public ReaderConfig:ReaderConfigService,
     public ComicsDetail:ComicsDetailService,
     public GamepadToolbar:GamepadToolbarService,
-    public comicsSettings:ComicsSettingsService
+    public chaptersFirstCoverSettings:ChaptersFirstCoverSettingsService
   ) {
   }
   close(){
@@ -57,8 +57,8 @@ export class GamepadToolbarComponent {
   firstPageCoverChange() {
     this.current.event$.next({ key: "double_page_reader_FirstPageToggle", value: null })
   }
-  comicsSettingsOpen(){
-    this.comicsSettings.open()
+  chaptersFirstCoverSettingsOpen(){
+    this.chaptersFirstCoverSettings.open()
   }
   imageRotation() {
     const node: any = document.querySelector(".swiper-slide-active")

@@ -27,5 +27,19 @@
     width: 100%;
     height: 100%;
     backdrop-filter: url(#background_primary);
+
+  }
+}
+
+// @import 'swiper/css';
+:root {
+  --reader-background-color: #303030;
+
+}
+// palette
+:host ::ng-deep {
+  .swiper-slide,._reader {
+    background: var(--reader-background-color);
+    // background: #0c1222;
   }
 }

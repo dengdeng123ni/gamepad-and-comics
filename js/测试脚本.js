@@ -1,13 +1,11 @@
 await (async function () {
-  const meta = document.createElement('meta');
-  meta.httpEquiv = "Content-Security-Policy";
-  meta.content = "img-src 'none'";
-  document.head.appendChild(meta);
-  const length=parseInt(document.querySelector(".current-page-number").parentNode.textContent.split("/").at(-1))
-  let arr = [];
+  let nodes=document.querySelectorAll(".ptt a");
+  let arr=nodes[nodes.length-2].href.split("/?p=");
+  let length=parseInt(arr[1])
+  let data=[];
+  data.push(arr[0])
   for (let index = 0; index < length; index++) {
-    arr.push(document.querySelector("#current-page-image").src)
-    document.querySelector(".arrow-right").click();
+     data.push(`${arr[0]}/?p=${index+1}`)
   }
-  return arr
+  return data
 })()

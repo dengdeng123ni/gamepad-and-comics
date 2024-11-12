@@ -6,7 +6,7 @@
       </button>
     </div>
     <div class="item mt-5">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" *ngIf="data.comics_config.reader_mode=='double_page_reader'" mat-icon-button class="icon" (click)="ComicsSettings.open()">
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" *ngIf="data.comics_config.reader_mode=='double_page_reader'" mat-icon-button class="icon" (click)="ChaptersFirstCoverSettings.open()">
         <!-- <mat-icon>radio_button_unchecked</mat-icon> -->
         <mat-icon>radio_button_checked</mat-icon>
       </button>
@@ -73,6 +73,11 @@
       <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="openReaderSettings($event)">
         <mat-icon>settings</mat-icon>
       </button>
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="on_input_color($event)">
+        <mat-icon>palette</mat-icon>
+      </button>
+      <input type="color" style="opacity: 0;width: 0;height: 0;" [(ngModel)]="color" id="background_input_color" name="body"/>
+
       <!-- <button matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon" (click)="onePageThumbnailMode2.open()">
         <mat-icon>filter</mat-icon>
       </button>

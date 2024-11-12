@@ -12,7 +12,7 @@ import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
 import { KeyboardToolbarService } from './keyboard-toolbar.service';
-import { ComicsSettingsService } from '../comics-settings/comics-settings.service';
+import { ChaptersFirstCoverSettingsService } from '../chapters-first-cover-settings/chapters-first-cover-settings.service';
 
 @Component({
   selector: 'app-keyboard-toolbar',
@@ -38,7 +38,7 @@ export class KeyboardToolbarComponent {
     public ReaderConfig:ReaderConfigService,
     public ComicsDetail:ComicsDetailService,
     public KeyboardToolbar:KeyboardToolbarService,
-    public comicsSettings:ComicsSettingsService
+    public chaptersFirstCoverSettings:ChaptersFirstCoverSettingsService
   ) {
   }
   close(){

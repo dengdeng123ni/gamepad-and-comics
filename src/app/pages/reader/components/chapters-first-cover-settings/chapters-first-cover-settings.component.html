@@ -1,1 +1,105 @@
-<p>chapters-first-cover-settings works!</p>
+<div class="warp" id="download_option">
+  <div class="comics_option" style="height: 80vh;">
+    <div class="title"> {{data.details.title}}</div>
+    <mat-divider style="margin: 4px 0;"></mat-divider>
+    <div class="list">
+      <div class="item">
+        <div class="name">第一页封面</div>
+        <mat-radio-group [(ngModel)]="mode">
+          <mat-radio-button [attr.region]="'chapters_item'" (click)="change(1)" [value]="1" style="display: flex;">是</mat-radio-button>
+          <mat-radio-button [attr.region]="'chapters_item'" [attr.select]="true" (click)="change(2)" [value]="2" style="display: flex;">否</mat-radio-button>
+          <mat-radio-button [attr.region]="'chapters_item'" (click)="change(3)" [value]="3" style="display: flex;">详细设置</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="comics_content" *ngIf="mode==3">
+    <div class="title" style="font-size: 22px;margin: 12px;
+    color: rgba(255, 255, 255, .34);display: flex;align-items: center;    justify-content: space-between;">
+
+      <div class="toolbar">
+        <button mat-button [attr.region]="'chapters_item'" (click)="all()">全选</button>
+        <button mat-button [attr.region]="'chapters_item'" (click)="rev()">反选</button>
+        <button mat-button [attr.region]="'chapters_item'" (click)="all()">自动推断</button>
+      </div>
+    </div>
+
+    <div class="list">
+      <div class="item" *ngFor="let n of list">
+        <div class="head" style="    padding: 0 12px;
+        font-size: 16px;
+        color: rgba(255, 255, 255, .34);
+        background: #424242;
+        border-radius: 4px;
+        margin-left:12px;">
+          <div class="title">
+              {{n.title}}
+          </div>
+          <div class="toolbar">
+            <mat-checkbox style="padding-right: 12px;" [attr.region]="'chapters_item'" (change)="gefa(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">第一页是否封面</mat-checkbox>
+          </div>
+        </div>
+        <div class="content">
+          <div class="double_page" style="display: nine;" [attr.page_order]="false" [attr.type]="'list'">
+            <button
+              mat-button
+              *ngFor="let n of lists[n.id]; let index = index"
+              class="item"
+              disabled
+              [attr.select]="n.select"
+              [attr.region]="'double_page_thumbnail_item'"
+              [attr.content_menu_value]="index"
+            >
+              <div *ngIf="n.images.length == 2" class="double">
+                <div class="img">
+                  <app-image
+                    [src]="n.images[0].img"
+                    [width]="n.images[0].width"
+                    loading="lazy"
+                    [height]="n.images[0].height"
+                    *ngIf="n.images[0]"
+                  />
+                  <div class="index">{{ n.images[0].index }}</div>
+                </div>
+                <div class="img">
+                  <app-image
+                    [src]="n.images[1].img"
+                    [width]="n.images[1].width"
+                    loading="lazy"
+                    [height]="n.images[1].height"
+                    *ngIf="n.images[1]"
+                  />
+                  <div class="index">{{ n.images[1].index }}</div>
+                </div>
+              </div>
+              <div
+                *ngIf="n.images.length == 1"
+                class="single"
+                [attr.page]="n.images[0].width < n.images[0].height ? 'p' : 'l'"
+                [attr.first]="index == 0"
+              >
+                <div class="img">
+                  <app-image
+                    [src]="n.images[0].img"
+                    [width]="n.images[0].width"
+                    loading="lazy"
+                    [height]="n.images[0].height"
+                    *ngIf="n.images[0]"
+                  />
+                  <div class="index">{{ n.images[0].index }}</div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <!-- <mat-button-toggle-group si name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle value="bold">待下载</mat-button-toggle>
+    <mat-button-toggle value="italic">下载中</mat-button-toggle>
+    <mat-button-toggle value="underline">已完成</mat-button-toggle>
+  </mat-button-toggle-group> -->
+    </div>
+  </div>
+</div>

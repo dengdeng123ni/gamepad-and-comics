@@ -45,6 +45,9 @@ export class DataService {
 
   left_drawer_mode: any = 'over';
 
+  images_concurrency_limit = 1;
+
+
   constructor(public AppData: AppDataService) {
 
 
@@ -54,8 +57,8 @@ export class DataService {
     const obj = this.AppData.getOption();
 
     this.is_locked = obj.is_locked;
-
+    this.images_concurrency_limit = obj.images_concurrency_limit;
     this.is_cache = obj.is_cache;
-    this.is_download=obj.is_download;
+    this.is_download = obj.is_download;
   }
 }

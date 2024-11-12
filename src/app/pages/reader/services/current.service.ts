@@ -124,7 +124,8 @@ export class CurrentService {
     const res = _res[1];
     if (Number.isNaN(_res[2]) || _res[2] < 0) this.data.page_index = 0;
     this.data.page_index = _res[2];
-    this.data.comics_config = _res[3];
+    this.data.comics_config ={ ...this.data.comics_config,..._res[3]};
+
     this.data.pages = list;
     if (this.data.page_index >= this.data.pages.length) this.data.page_index = 0;
 
@@ -147,6 +148,7 @@ export class CurrentService {
       title: this.data.details.title,
       cover: this.data.details.cover
     })
+    document.documentElement.style.setProperty('--reader-background-color',this.data.comics_config.background_color)
     setTimeout(() => {
       this._updateChapterRead(this.data.chapter_id)
       firstValueFrom(this.webDb.update('read_record', {
