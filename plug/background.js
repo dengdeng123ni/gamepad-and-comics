@@ -16,10 +16,10 @@ chrome.runtime.onMessage.addListener(
     } else if (request.type == "website_request_execute_script") {
       request.type = "website_response_execute_script";
       sendMessageToTargetHtml(request, request.proxy_request_website_url)
-    }else if(request.type == "website_response_execute_script"){
+    } else if (request.type == "website_response_execute_script") {
       request.type = "execute_script_data";
       sendMessageToTargetContentScript(request, request.proxy_response_website_url)
-    }else if (request.type == "website_proxy_response") {
+    } else if (request.type == "website_proxy_response") {
       request.type = "proxy_response";
       sendMessageToTargetContentScript(request, request.proxy_response_website_url)
     } else if (request.type == "pulg_proxy_request") {
@@ -44,39 +44,11 @@ chrome.runtime.onMessage.addListener(
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.remove(tabs[0].id);
       });
-    } else if(request.type == "new_page"){
+    } else if (request.type == "new_page") {
       newPage(request.url)
     }
   }
 );
-const gamepad_and_comics_url = "http://localhost:3202/"
-chrome.commands.onCommand.addListener((command) => {
-  const utf8_to_b64 = (str) => {
-    return btoa(encodeURIComponent(str));
-  }
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    const url2 = tabs[0].url;
-    const url = `${gamepad_and_comics_url}/specify_link/${utf8_to_b64(tabs[0].url)}`
-    chrome.tabs.query({}, function (tabs) {
-      const index = tabs.findIndex(x => x.title == "GamepadAndComicsV2")
-      if (index > -1) {
-        chrome.tabs.sendMessage(tabs[index].id, {
-          type: "specify_link",
-          data: {
-            url: url2
-          }
-        });
-      } else {
-        chrome.tabs.create({
-          active: true,
-          url: url
-        })
-      }
-    })
-
-  });
-});
-
 
 async function stringToReadStream(string) {
   const readableStream = new ReadableStream({
@@ -120,59 +92,102 @@ function sendMessageToContentScript(message) {
 }
 let data = [];
 function sendMessageToTargetContentScript(message, url) {
-  chrome.tabs.query({}, function (tabs) {
-    const list = tabs.filter(x => x.url.substring(0, url.length) == url);
-    if (list.length == 0) {
-      chrome.tabs.create({
-        active: false,
-        url: url
-      }, (tab) => {
-        data.push({
-          tab: tab, data: {
-            tab: tab,
-            ...message
+  chrome.windows.get(createdWindowId, { populate: true }, function (window) {
+    if (window) {
+      chrome.tabs.query({}, function (tabs) {
+        const list = tabs.filter(x => x.url.substring(0, url.length) == url);
+        if (list.length == 0) {
+          chrome.tabs.create({
+            active: false,
+            windowId: createdWindowId,
+            url: url
+          }, (tab) => {
+            data.push({
+              tab: tab, data: {
+                tab: tab,
+                ...message
+              }
+            })
+          })
+        } else {
+          for (let index = 0; index < list.length; index++) {
+            chrome.tabs.sendMessage(list[index].id, {
+              tab: list[index],
+              ...message
+            });
           }
-        })
-      })
+        }
+      });
     } else {
-      for (let index = 0; index < list.length; index++) {
-        chrome.tabs.sendMessage(list[index].id, {
-          tab: list[index],
-          ...message
-        });
-      }
+      chrome.windows.create({
+        url: url,
+        type: 'normal',
+        focused: false,
+      }, function (newWindow) {
+        createdWindowId = newWindow.id;
+        chrome.tabs.create({
+          active: false,
+          windowId: createdWindowId,
+          url: url
+        }, (tab) => {
+          data.push({
+            tab: tab, data: {
+              tab: tab,
+              ...message
+            }
+          })
+        })
+      });
+
     }
   });
 }
-
+let createdWindowId = 123;
 function newPage(url) {
-  chrome.tabs.query({}, function (tabs) {
-    const list = tabs.filter(x => x.url.substring(0, url.length) == url);
-    if (list.length == 0) {
-      chrome.tabs.create({
-        active: true,
-        url: url
-      })
+  chrome.windows.get(createdWindowId, { populate: true }, function (window) {
+    if (window) {
+      chrome.tabs.query({}, function (tabs) {
+        const list = tabs.filter(x => x.url.substring(0, url.length) == url);
+        if (list.length == 0) {
+          chrome.tabs.create({
+            active: true,
+            windowId: createdWindowId,
+            url: url
+          })
+        } else {
+          for (let index = 0; index < list.length; index++) {
+            chrome.tabs.remove(list[index].id);
+          }
+          chrome.tabs.create({
+            active: true,
+            windowId: createdWindowId,
+            url: url
+          })
+        }
+      });
     } else {
-      for (let index = 0; index < list.length; index++) {
-        chrome.tabs.remove(list[index].id);
-      }
-      chrome.tabs.create({
-        active: true,
-        url: url
-      })
+      chrome.windows.create({
+        url: url,
+        type: 'normal',
+        focused: false,
+      }, function (newWindow) {
+        createdWindowId = newWindow.id;
+      });
     }
   });
+
+
 }
 let is = false;
 function sendMessageToTargetHtml(message, url) {
-  if (is) {
-    setTimeout(() => {
+  chrome.windows.get(createdWindowId, { populate: true }, function (window) {
+    if (window) {
       chrome.tabs.query({}, function (tabs) {
         const list = tabs.filter(x => x.url == url);
         if (list.length == 0) {
           chrome.tabs.create({
             active: false,
+            windowId: createdWindowId,
             url: url
           }, (tab) => {
             data.push({
@@ -192,14 +207,16 @@ function sendMessageToTargetHtml(message, url) {
           }
         }
       });
-    }, 1000)
-  } else {
-    is = true;
-    chrome.tabs.query({}, function (tabs) {
-      const list = tabs.filter(x => x.url == url);
-      if (list.length == 0) {
+    } else {
+      chrome.windows.create({
+        url: url,
+        type: 'normal',
+        focused: false,
+      }, function (newWindow) {
+        createdWindowId = newWindow.id;
         chrome.tabs.create({
           active: false,
+          windowId: createdWindowId,
           url: url
         }, (tab) => {
           data.push({
@@ -208,19 +225,12 @@ function sendMessageToTargetHtml(message, url) {
               ...message
             }
           })
-
         })
-      } else {
-        for (let index = 0; index < list.length; index++) {
-          chrome.tabs.sendMessage(list[index].id, {
-            tab: list[index],
-            ...message
-          });
-        }
-      }
-    });
+      });
 
-  }
+    }
+  });
+
 
 }
 
@@ -231,3 +241,17 @@ sleep = (duration) => {
   })
 }
 
+
+
+const init = () => {
+  // chrome.windows.create({
+  //   url: 'about:blank',  // 初始页面，可以是空白页面
+  //   type: 'normal',       // 窗口类型，可选择 "normal", "popup", "panel", "detached_panel"
+  //   focused: false,       // 创建后是否聚焦
+  // }, function(newWindow) {
+  //   console.log(newWindow);
+
+  // });
+}
+
+init();

@@ -19,6 +19,7 @@ export class MessageFetchService {
     window._gh_getHtml = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
     window._gh_new_page = this.new_page;
+
   }
   async init() {
     this.caches = await caches.open('assets');
