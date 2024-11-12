@@ -1106,46 +1106,40 @@ export class DbEventService {
           }
 
           obj.chapters.push({
-            id: obj.id,
+            id: utf8_to_b64(`https://hanime1.me/comic/${obj.id}/1`),
             title: obj.title,
             cover: obj.cover,
           })
           return obj
         },
         getPages: async (id) => {
-          const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": null,
-            "method": "GET"
-          });
-          const text = await res.text();
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(text, 'text/html');
-
-          let data = [];
-          let nodes = doc.querySelectorAll(".comics-thumbnail-wrapper a")
-          for (let index = 0; index < nodes.length; index++) {
-            let obj = {
-              id: "",
-              src: "",
-              width: 0,
-              height: 0
-            };
-            const utf8_to_b64 = (str) => {
-              return window.btoa(encodeURIComponent(str));
-            }
-
-            obj["id"] = `${id}_${index}`;
-            // obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
-            obj["src"] = window.btoa(encodeURIComponent(nodes[index].getAttribute("href")))
-            // window.btoa(encodeURIComponent(nodes[index].href.replace("http://localhost:4200","https://nhentai.net")))
-            data.push(obj)
+          await window._gh_new_page(decodeURIComponent(window.atob(id)))
+          const sleep = (duration) => {
+            return new Promise(resolve => {
+              setTimeout(resolve, duration);
+            })
           }
-          return data
+          await sleep(1000)
+          const arr=await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+        `
+         (async function () {
+            const meta = document.createElement('meta');
+            meta.httpEquiv = "Content-Security-Policy";
+            meta.content = "img-src 'none'";
+            document.head.appendChild(meta);
+            const length=parseInt(document.querySelector(".current-page-number").parentNode.textContent.split("/").at(-1))
+            let arr = [];
+            for (let index = 0; index < length; index++) {
+              arr.push(document.querySelector("#current-page-image").src)
+              document.querySelector(".arrow-right").click();
+            }
+            return arr
+          })()
+        `)
+          return arr
+
+
+
         },
         getImage: async (id) => {
 

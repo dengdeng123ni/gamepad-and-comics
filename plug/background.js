@@ -231,14 +231,11 @@ function sendMessageToTargetHtml(message, url) {
 
 }
 
-
 sleep = (duration) => {
   return new Promise(resolve => {
     setTimeout(resolve, duration);
   })
 }
-
-
 
 const init = () => {
   // chrome.windows.create({
