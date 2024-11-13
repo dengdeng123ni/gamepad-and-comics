@@ -376,7 +376,7 @@ export class DbEventService {
             name: '搜索',
             query: {
               type: 'search',
-              page_size: 5
+              page_size: 20
             }
           },
           {
@@ -983,6 +983,43 @@ export class DbEventService {
           const json = await res.json();
           const list = json.data.list.map(x => ({ id: x.id, title: x.real_title, cover: httpUrlToHttps(x.vertical_cover), subTitle: x.is_finish ? "已完结" : "连载中" }))
           return list
+        },
+        getReplies: async (obj) => {
+          const href = `https://manga.bilibili.com/detail/mc${obj.comics_id}`;
+          await window._gh_new_page(href)
+          const sleep = (duration) => {
+            return new Promise(resolve => {
+              setTimeout(resolve, duration);
+            })
+          }
+          await sleep(2000)
+          const arr = await window._gh_execute_eval(href,
+            `(async function () {
+              const meta = document.createElement('meta');
+              meta.httpEquiv = "Content-Security-Policy";
+              meta.content = "img-src 'none'";
+              document.head.appendChild(meta);
+              const nodes = document.querySelectorAll(".reply-item")
+              let arr = [];
+              for (let index = 0; index < nodes.length; index++) {
+                const node = nodes[index];
+                let obj = {};
+                const name = node.querySelector(".user-name").textContent;
+                const message = node.querySelector(".reply-content").textContent;
+                const date = node.querySelector(".reply-time").textContent;
+                obj["name"] = name;
+                obj["message"] = message;
+                obj["date"] = date;
+                arr.push(obj)
+              }
+              setTimeout(() => {
+                window.close();
+              }, 500)
+              return arr
+            })()
+            `
+          )
+          return arr
         },
         Unlock: async () => {
 

@@ -3,17 +3,26 @@ await (async function () {
   meta.httpEquiv = "Content-Security-Policy";
   meta.content = "img-src 'none'";
   document.head.appendChild(meta);
-  const length=document.querySelectorAll("#page-select option").length
+  const nodes=document.querySelectorAll(".reply-item")
   let arr = [];
   const sleep = (duration) => {
     return new Promise(resolve => {
       setTimeout(resolve, duration);
     })
   }
-  for (let index = 0; index < length; index++) {
-    arr.push(document.querySelector("#app img").src)
-    document.querySelector("#app > nav > div > button:nth-child(5)").click();
-    await sleep(10)
+
+  for (let index = 0; index < nodes.length; index++) {
+    const node=nodes[index];
+    let obj={};
+
+    const name= node.querySelector(".user-name").textContent;
+    const message= node.querySelector(".reply-content").textContent;
+    const date= node.querySelector(".reply-time").textContent;
+    obj["name"]=name;
+    obj["message"]=message;
+    obj["date"]=date;
+arr.push(obj)
+
   }
   return arr
 })()

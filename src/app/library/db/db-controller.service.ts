@@ -381,12 +381,14 @@ export class DbControllerService {
     is_cache?: boolean
   }) => {
     try {
+
       const id=`${obj.comics_id}_${obj.page_index}`
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
       if (option && option.is_cache === true) config.is_cache = true
       if (option && option.is_cache === false) config.is_cache = false
+      config.is_cache = false
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getReplies"]) {
         if (this.replies[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.replies[id]))
@@ -396,14 +398,13 @@ export class DbControllerService {
             res = await firstValueFrom(this.webDb.getByID('replies', id))
             if (res) {
               res = res.data;
-
             } else {
-              res = await this.DbEvent.Events[option.source]["getReplies"](id);
+              res = await this.DbEvent.Events[option.source]["getReplies"](obj);
               firstValueFrom(this.webDb.update('replies', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
 
             }
           } else {
-            res = await this.DbEvent.Events[option.source]["getReplies"](id);
+            res = await this.DbEvent.Events[option.source]["getReplies"](obj);
           }
 
 
