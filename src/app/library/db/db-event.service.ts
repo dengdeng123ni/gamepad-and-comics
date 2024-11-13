@@ -52,319 +52,7 @@ export class DbEventService {
     window._gh_comics_register = this.comics_register;
     window._gh_novels_register = this.novels_register;
     if (location.hostname == "localhost") {
-      window._gh_comics_register({
-        id: "ehentai",
-        name: "ehentai",
-        is_cache: true,
-        is_download: true,
-        is_preloading: true
-      }, {
-        getList: async (obj) => {
-          let list = [];
-          return list
-        },
-        getDetail: async (id) => {
-          const b64_to_utf8 = (str) => {
-            return decodeURIComponent(window.atob(str));
-          }
-          const res = await window._gh_fetch(b64_to_utf8(id), {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": null,
-            "method": "GET"
-          });
-          const text = await res.text();
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(text, 'text/html');
 
-          let obj = {
-            id: id,
-            cover: "",
-            title: "",
-            author: "",
-            intro: "",
-            chapters: [
-
-            ],
-            chapter_id: id
-          }
-          const utf8_to_b64 = (str) => {
-            return window.btoa(encodeURIComponent(str));
-          }
-          obj.title = doc.querySelector("#gn").textContent.trim()
-          obj.cover = doc.querySelector("#gd1 > div").style.background.split('"')[1];
-          obj.chapters.push({
-            id: obj.id,
-            title: obj.title,
-            cover: obj.cover,
-          })
-
-          return obj
-        },
-        getPages: async (id) => {
-          const b64_to_utf8 = (str) => {
-            return decodeURIComponent(window.atob(str));
-          }
-          const res = await window._gh_fetch(b64_to_utf8(id), {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": null,
-            "method": "GET"
-          });
-          const text = await res.text();
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(text, 'text/html');
-          let nodes = doc.querySelectorAll(".ptt a");
-
-          let arr = nodes[nodes.length - 2].href.split("/?p=");
-          let length = parseInt(arr[1])
-          let data1 = [];
-          data1.push(arr[0])
-          for (let index = 0; index < length; index++) {
-            data1.push(`${arr[0]}/?p=${index + 1}`)
-          }
-          let arr2 = [];
-
-          for (let index = 0; index < data1.length; index++) {
-            const res = await window._gh_fetch(data1[index], {
-              "headers": {
-                "accept": "application/json, text/plain, */*",
-                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                "content-type": "application/json;charset=UTF-8"
-              },
-              "body": null,
-              "method": "GET"
-            });
-            const text = await res.text();
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(text, 'text/html');
-            const nodes = doc.querySelectorAll("#gdt a")
-
-            for (let index = 0; index < nodes.length; index++) {
-              const element = nodes[index];
-              arr2.push(element.href)
-            }
-
-          }
-
-          let data = [];
-          for (let index = 0; index < arr2.length; index++) {
-            let obj = {
-              id: "",
-              src: "",
-              width: 0,
-              height: 0
-            };
-            const utf8_to_b64 = (str) => {
-              return window.btoa(encodeURIComponent(str));
-            }
-
-
-            obj["id"] = `${id}_${index}`;
-            obj["src"] = `${utf8_to_b64(arr2[index])}`
-            data.push(obj)
-          }
-          console.log(data);
-
-          return data
-        },
-        getImage: async (id) => {
-
-          if (id.substring(0, 4) == "http") {
-            const res = await window._gh_fetch(id, {
-              method: "GET",
-              headers: {
-                "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-              },
-              mode: "cors"
-            })
-            const blob = await res.blob();
-            return blob
-          } else {
-            const b64_to_utf8 = (str) => {
-              return decodeURIComponent(window.atob(str));
-            }
-            const _id = b64_to_utf8(id);
-            const getHtmlUrl = async (url) => {
-              const res = await window._gh_fetch(url, {
-                "headers": {
-                  "accept": "application/json, text/plain, */*",
-                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                  "content-type": "application/json;charset=UTF-8"
-                },
-                "body": null,
-                "method": "GET"
-              });
-              const text = await res.text();
-              var parser = new DOMParser();
-              var doc = parser.parseFromString(text, 'text/html');
-              return doc.querySelector("#img").src
-            }
-            const getImageUrl = async (id) => {
-              const res = await window._gh_fetch(id, {
-                method: "GET",
-                headers: {
-                  "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                  "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-                },
-                mode: "cors"
-              });
-              const blob = await res.blob();
-              return blob
-            }
-            const url = await getHtmlUrl(_id)
-
-            const blob = await getImageUrl(url);
-            return blob
-          }
-
-        },
-        UrlToDetailId: async (id) => {
-          const obj = new URL(id);
-          if (obj.host == "e-hentai.org") {
-            return window.btoa(encodeURIComponent(id))
-          } else {
-            return null
-          }
-        }
-      });
-      window._gh_comics_register({
-        id: "baozimhw",
-        is_cache: true,
-        is_download: true
-      }, {
-        getList: async (obj) => {
-          let list = [];
-          return list
-        },
-        getDetail: async (id) => {
-
-          const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/${id}.html`, {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": null,
-            "method": "GET"
-          });
-          const text = await res.text();
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(text, 'text/html');
-          let obj = {
-            id: id,
-            cover: "",
-            title: "",
-            author: "",
-            href: `https://hanime1.me/comic/${id}`,
-            author_href: "",
-            intro: "",
-            chapters: [
-
-            ],
-            chapter_id: id,
-            styles: []
-          }
-          const utf8_to_b64 = (str) => {
-            return window.btoa(encodeURIComponent(str));
-          }
-          obj.title = doc.querySelector("body > section.ptm-content.ptm-card.pt-infopage > div.s71.d905 > div.baseinfo > div.pt-novel > h1 > a").textContent.trim()
-          obj.cover = doc.querySelector("body > section.ptm-content.ptm-card.pt-infopage > div.s71.d905 > div.baseinfo > img").src
-          const nodes = doc.querySelectorAll("#chapterlist a")
-          // const nodes1 = doc.querySelectorAll("h5:nth-child(2) .hover-lighter .no-select");
-          // const nodes2 = doc.querySelectorAll("h5:nth-child(3) .hover-lighter .no-select");
-          let styles = []
-
-          // if (nodes1.length > nodes.length) {
-          //   for (let index = 0; index < nodes1.length; index++) {
-          //     obj.styles.push({ name: nodes1[index].textContent, href: nodes1[index].parentNode.href })
-          //   }
-          //   obj.author = [{name:nodes2[0].textContent,href:nodes2[0].parentNode.href}];
-          // } else {
-          //   for (let index = 0; index < nodes.length; index++) {
-          //     obj.styles.push({ name: nodes[index].textContent, href: nodes1[index]?.parentNode?.href })
-          //   }
-          //   obj.author = [{name:nodes1[0].textContent,href:nodes1[0].parentNode.href}];
-          // }
-          for (let index = 0; index < nodes.length; index++) {
-            obj.styles.push({ name: nodes[index].textContent, href: nodes[index].parentNode.href })
-            obj.chapters.push({
-              id: nodes[index].getAttribute("href").split("/").at(-1),
-              title: nodes[index].textContent,
-            })
-          }
-
-          return obj
-        },
-        getPages: async (id) => {
-          const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/capter/${id}`, {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": null,
-            "method": "GET"
-          });
-          const text = await res.text();
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(text, 'text/html');
-
-          let data = [];
-          let nodes = doc.querySelectorAll(".padding5 img")
-          for (let index = 0; index < nodes.length; index++) {
-            let obj = {
-              id: "",
-              src: "",
-              width: 0,
-              height: 0
-            };
-
-            obj["id"] = `123123${index}`;
-            obj["src"] = `${nodes[index].src}`
-            data.push(obj)
-          }
-
-          return data
-        },
-        getImage: async (id) => {
-
-          const getImageUrl = async (id) => {
-            const res = await window._gh_fetch(id, {
-              method: "GET",
-              headers: {
-                "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-              },
-              mode: "cors"
-            });
-            const blob = await res.blob();
-            return blob
-          }
-          const blob = await getImageUrl(id);
-          return blob
-        },
-        UrlToDetailId: async (id) => {
-          const obj = new URL(id);
-
-          if (obj.host == "www.baozimhw.com") {
-
-            return obj.pathname.split("/").at(-1).split(".")[0]
-          } else {
-            return null
-          }
-        }
-      });
       window._gh_comics_register({
         id: "bilibili",
         name: "哔哩哔哩漫画",
@@ -1037,6 +725,7 @@ export class DbEventService {
       });
       window._gh_comics_register({
         id: "hanime1",
+        href:"https://hanime1.me/comics",
         is_cache: true,
         is_download: true,
         is_preloading: true,
@@ -1259,34 +948,18 @@ export class DbEventService {
         }
       });
       window._gh_comics_register({
-        id: "nhentai",
+        id: "ehentai",
+        name: "ehentai",
+        href:"https://e-hentai.org/",
         is_cache: true,
         is_download: true,
-        is_preloading: true,
-        menu: [
-          {
-            id: 'search',
-            icon: 'search',
-            name: '搜索',
-            query: {
-              type: 'search',
-              page_size: 30
-            }
-          },
-          {
-            id: 'latestUpload',
-            icon: 'fiber_new',
-            name: '最新上傳',
-            page_size: 30,
-            query: {
-              type: 'single',
-              name: '最新上傳'
-            }
-          }
-        ],
+        is_preloading: true
       }, {
-        getList: async (obj) => {
-          const res = await window._gh_getHtml(`https://hanime1.me/comics?page=${obj.page_num}`, {
+        getDetail: async (id) => {
+          const b64_to_utf8 = (str) => {
+            return decodeURIComponent(window.atob(str));
+          }
+          const res = await window._gh_fetch(b64_to_utf8(id), {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1298,17 +971,223 @@ export class DbEventService {
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
-          let data = [];
-          let nodes = doc.querySelectorAll("body .comic-rows-videos-div")
-          for (let index = 0; index < nodes.length; index++) {
-            const node = nodes[index];
-            const id = node.querySelector("a").href.split("/").at(-1)
-            const cover = node.querySelector("img").getAttribute("data-srcset");
-            const title = node.textContent;
-            data.push({ id, cover, title })
+
+          let obj = {
+            id: id,
+            cover: "",
+            title: "",
+            href:b64_to_utf8(id),
+            author: "",
+            intro: "",
+            chapters: [
+
+            ],
+            chapter_id: id
           }
+          const utf8_to_b64 = (str) => {
+            return window.btoa(encodeURIComponent(str));
+          }
+          obj.title = doc.querySelector("#gn").textContent.trim()
+          obj.cover = doc.querySelector("#gd1 > div").style.background.split('"')[1];
+          obj.chapters.push({
+            id: obj.id,
+            title: obj.title,
+            cover: obj.cover,
+          })
+
+          return obj
+        },
+        getPages: async (id) => {
+          const b64_to_utf8 = (str) => {
+            return decodeURIComponent(window.atob(str));
+          }
+          const res = await window._gh_fetch(b64_to_utf8(id), {
+            "headers": {
+              "accept": "application/json, text/plain, */*",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "content-type": "application/json;charset=UTF-8"
+            },
+            "body": null,
+            "method": "GET"
+          });
+          const text = await res.text();
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(text, 'text/html');
+          let nodes = doc.querySelectorAll(".ptt a");
+
+          let arr = nodes[nodes.length - 2].href.split("/?p=");
+          let length = parseInt(arr[1])
+          let data1 = [];
+          data1.push(arr[0])
+          for (let index = 0; index < length; index++) {
+            data1.push(`${arr[0]}/?p=${index + 1}`)
+          }
+          let arr2 = [];
+
+          for (let index = 0; index < data1.length; index++) {
+            const res = await window._gh_fetch(data1[index], {
+              "headers": {
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "content-type": "application/json;charset=UTF-8"
+              },
+              "body": null,
+              "method": "GET"
+            });
+            const text = await res.text();
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(text, 'text/html');
+            const nodes = doc.querySelectorAll("#gdt a")
+
+            for (let index = 0; index < nodes.length; index++) {
+              const element = nodes[index];
+              arr2.push(element.href)
+            }
+
+          }
+
+          let data = [];
+          for (let index = 0; index < arr2.length; index++) {
+            let obj = {
+              id: "",
+              src: "",
+              width: 0,
+              height: 0
+            };
+            const utf8_to_b64 = (str) => {
+              return window.btoa(encodeURIComponent(str));
+            }
+
+
+            obj["id"] = `${id}_${index}`;
+            obj["src"] = `${utf8_to_b64(arr2[index])}`
+            data.push(obj)
+          }
+          console.log(data);
+
           return data
         },
+        UrlToDetailId: async (id) => {
+          const obj = new URL(id);
+          if (obj.host == "e-hentai.org") {
+            return window.btoa(encodeURIComponent(id))
+          } else {
+            return null
+          }
+        }
+      });
+      window._gh_comics_register({
+        id: "baozimhw",
+        href:"https://www.baozimhw.com/",
+        is_cache: true,
+        is_download: true
+      }, {
+        getDetail: async (id) => {
+          const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/${id}.html`, {
+            "headers": {
+              "accept": "application/json, text/plain, */*",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "content-type": "application/json;charset=UTF-8"
+            },
+            "body": null,
+            "method": "GET"
+          });
+          const text = await res.text();
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(text, 'text/html');
+          let obj = {
+            id: id,
+            cover: "",
+            title: "",
+            author: "",
+            href: `https://www.baozimhw.com/manhua/${id}.html`,
+            author_href: "",
+            intro: "",
+            chapters: [
+
+            ],
+            chapter_id: id,
+            styles: []
+          }
+          const utf8_to_b64 = (str) => {
+            return window.btoa(encodeURIComponent(str));
+          }
+          obj.title = doc.querySelector("body > section.ptm-content.ptm-card.pt-infopage > div.s71.d905 > div.baseinfo > div.pt-novel > h1 > a").textContent.trim()
+          obj.cover = doc.querySelector("body > section.ptm-content.ptm-card.pt-infopage > div.s71.d905 > div.baseinfo > img").src
+          const nodes = doc.querySelectorAll("#chapterlist a")
+          // const nodes1 = doc.querySelectorAll("h5:nth-child(2) .hover-lighter .no-select");
+          // const nodes2 = doc.querySelectorAll("h5:nth-child(3) .hover-lighter .no-select");
+          let styles = []
+
+          // if (nodes1.length > nodes.length) {
+          //   for (let index = 0; index < nodes1.length; index++) {
+          //     obj.styles.push({ name: nodes1[index].textContent, href: nodes1[index].parentNode.href })
+          //   }
+          //   obj.author = [{name:nodes2[0].textContent,href:nodes2[0].parentNode.href}];
+          // } else {
+          //   for (let index = 0; index < nodes.length; index++) {
+          //     obj.styles.push({ name: nodes[index].textContent, href: nodes1[index]?.parentNode?.href })
+          //   }
+          //   obj.author = [{name:nodes1[0].textContent,href:nodes1[0].parentNode.href}];
+          // }
+          for (let index = 0; index < nodes.length; index++) {
+            obj.styles.push({ name: nodes[index].textContent, href: nodes[index].parentNode.href })
+            obj.chapters.push({
+              id: nodes[index].getAttribute("href").split("/").at(-1),
+              title: nodes[index].textContent,
+            })
+          }
+
+          return obj
+        },
+        getPages: async (id) => {
+          const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/capter/${id}`, {
+            "headers": {
+              "accept": "application/json, text/plain, */*",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "content-type": "application/json;charset=UTF-8"
+            },
+            "body": null,
+            "method": "GET"
+          });
+          const text = await res.text();
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(text, 'text/html');
+
+          let data = [];
+          let nodes = doc.querySelectorAll(".padding5 img")
+          for (let index = 0; index < nodes.length; index++) {
+            let obj = {
+              id: "",
+              src: "",
+              width: 0,
+              height: 0
+            };
+
+            obj["id"] = `123123${index}`;
+            obj["src"] = `${nodes[index].src}`
+            data.push(obj)
+          }
+
+          return data
+        },
+        UrlToDetailId: async (id) => {
+          const obj = new URL(id);
+          if (obj.host == "www.baozimhw.com") {
+            return obj.pathname.split("/").at(-1).split(".")[0]
+          } else {
+            return null
+          }
+        }
+      });
+      window._gh_comics_register({
+        id: "nhentai",
+        is_cache: true,
+        is_download: true,
+        is_preloading: true,
+        menu: [
+        ],
+      }, {
         getDetail: async (id) => {
           const b64_to_utf8 = (str) => {
             return decodeURIComponent(window.atob(str));
@@ -1488,8 +1367,6 @@ export class DbEventService {
         ],
       }, {
         getDetail: async (id) => {
-
-
           const b64_to_utf8 = (str) => {
             return decodeURIComponent(window.atob(str));
           }
@@ -1701,6 +1578,7 @@ export class DbEventService {
             cover: "",
             title: "",
             author: "",
+            href:decodeURIComponent(window.atob(novel_id)),
             intro: "",
             category: "",
             chapters: [
@@ -1831,6 +1709,7 @@ export class DbEventService {
             title: "",
             author: "",
             intro: "",
+            href:decodeURIComponent(window.atob(novel_id)),
             category: "",
             chapters: [
 
