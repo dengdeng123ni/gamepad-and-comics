@@ -253,6 +253,9 @@ export class ReaderToolbarComponent {
   openDeleteMenu($event: MouseEvent) {
 
   }
+  openReplies(e){
+
+  }
   closeMenu() {
     if (this.menuObj.type == "list") {
       const node_reader_toolbar: any = document.querySelector("#reader_toolbar_section")

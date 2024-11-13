@@ -6,11 +6,12 @@ import { Subject, firstValueFrom } from 'rxjs';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 interface Events {
   Unlock?: Function;
-  getList: Function;
+  getList?: Function;
   getDetail: Function;
   getPages: Function;
-  getImage: Function;
+  getImage?: Function;
   Search?: Function
+  getReplies?: Function
 }
 interface Config {
   id: string,
@@ -1574,7 +1575,6 @@ export class DbEventService {
 
           obj.title = doc.querySelector("#app header > h1").textContent.trim()
           obj.cover = doc.querySelector("#app img").src;
-console.log(doc);
 
 
           obj.chapters.push({
@@ -1612,7 +1612,7 @@ console.log(doc);
   }
   return arr
 })()`)
-        console.log(arr);
+          console.log(arr);
 
 
           return arr
@@ -1773,11 +1773,6 @@ console.log(doc);
           }
         ],
       }, {
-        getList: async (obj) => {
-          let list = [];
-          return [
-          ]
-        },
         getDetail: async (novel_id) => {
 
           const res = await window._gh_getHtml(decodeURIComponent(window.atob(novel_id)), {
@@ -1847,23 +1842,6 @@ console.log(doc);
 
           return arr.map(x => ({ content: x }))
         },
-        getImage: async (id) => {
-          const getImageUrl = async (id) => {
-            const res = await window._gh_fetch(id, {
-              method: "GET",
-              headers: {
-                "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-              },
-              mode: "cors"
-            });
-            const blob = await res.blob();
-            return blob
-          }
-          const blob = await getImageUrl(id);
-          return blob
-        },
         UrlToDetailId: async (id) => {
           const obj = new URL(id);
           if (obj.host == "www.biqgg.cc") {
@@ -1895,6 +1873,8 @@ console.log(doc);
           return data
         },
       });
+
+      // 到翻天刚
 
     }
 

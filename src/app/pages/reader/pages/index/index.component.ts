@@ -18,6 +18,7 @@ import { GamepadToolbarComponent } from '../../components/gamepad-toolbar/gamepa
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
 import { ComicsSettingsService } from '../../components/comics-settings/comics-settings.service';
 import { FilterService } from '../../components/filter/filter.service';
+import { RepliesPageService } from '../../components/replies-page/replies-page.service';
 
 @Component({
   selector: 'app-index',
@@ -46,9 +47,9 @@ export class IndexComponent {
     public ComicsSettings: ComicsSettingsService,
     public ContextMenuEvent: ContextMenuEventService,
     public filter: FilterService,
-    public Prompt: PromptService
+    public Prompt: PromptService,
+    public RepliesPage:RepliesPageService
   ) {
-
 
     GamepadEvent.registerAreaEvent('page_reader', {
       B: () => window.history.back()

@@ -20,7 +20,7 @@ import { NovelsRdeaderModule } from './pages/novels-reader/novels-reader.module'
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 32,
+  version: 33,
   objectStoresMeta: [
     {
       store: 'data',
@@ -31,6 +31,13 @@ const dbConfig: DBConfig = {
     },
     {
       store: 'list',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+    {
+      store: 'replies',
       storeConfig: { keyPath: 'id', autoIncrement: false },
       storeSchema: [
         { name: 'id', keypath: 'id', options: { unique: false } },

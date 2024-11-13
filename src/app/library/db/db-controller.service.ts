@@ -22,6 +22,7 @@ export class DbControllerService {
   query: any = {};
   details: any = {};
   pages: any = {};
+  replies: any = {};
 
   cache = {
     details: false,
@@ -110,8 +111,8 @@ export class DbControllerService {
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
-      if (option && option.is_cache===true) config.is_cache = true
-      if (option && option.is_cache===false) config.is_cache = false
+      if (option && option.is_cache === true) config.is_cache = true
+      if (option && option.is_cache === false) config.is_cache = false
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
         if (this.details[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.details[id]))
@@ -168,8 +169,8 @@ export class DbControllerService {
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
-      if (option && option.is_cache===true) config.is_cache = true
-      if (option && option.is_cache===false) config.is_cache = false
+      if (option && option.is_cache === true) config.is_cache = true
+      if (option && option.is_cache === false) config.is_cache = false
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
         // const is_wait = await this.waitForRepetition(id)
         if (this.pages[id]) {
@@ -371,6 +372,54 @@ export class DbControllerService {
         type: 'image/jpeg'
       })
     }
+  }
+  getReplies = async (obj:{
+    comics_id:string,
+    page_index:number
+  },option?: {
+    source: string,
+    is_cache?: boolean
+  }) => {
+    try {
+      const id=`${obj.comics_id}_${obj.page_index}`
+      if (!option) option = { source: this.AppData.source }
+      if (!option.source) option.source = this.AppData.source;
+      let config = this.DbEvent.Configs[option.source]
+      if (option && option.is_cache === true) config.is_cache = true
+      if (option && option.is_cache === false) config.is_cache = false
+      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getReplies"]) {
+        if (this.replies[id] && config.is_cache) {
+          return JSON.parse(JSON.stringify(this.replies[id]))
+        } else {
+          let res;
+          if (config.is_cache) {
+            res = await firstValueFrom(this.webDb.getByID('replies', id))
+            if (res) {
+              res = res.data;
+
+            } else {
+              res = await this.DbEvent.Events[option.source]["getReplies"](id);
+              firstValueFrom(this.webDb.update('replies', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
+
+            }
+          } else {
+            res = await this.DbEvent.Events[option.source]["getReplies"](id);
+          }
+
+
+          res.option = { source: option.source };
+          this.replies[id] = JSON.parse(JSON.stringify(res));
+
+          return res
+        }
+      } else {
+        return null
+      }
+    } catch (error) {
+      console.log(error);
+      return null
+    }
+
   }
   Search = async (obj: any, option?: {
     source: string

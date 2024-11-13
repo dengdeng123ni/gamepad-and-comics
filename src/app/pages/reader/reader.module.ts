@@ -40,6 +40,7 @@ import { FilterComponent } from './components/filter/filter.component';
 import { ExportSettingsComponent } from './components/export-settings/export-settings.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ReaderBackgroundSettingsComponent } from './components/reader-background-settings/reader-background-settings.component';
+import { RepliesPageComponent } from './components/replies-page/replies-page.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { ReaderBackgroundSettingsComponent } from './components/reader-backgroun
     FilterComponent,
     LoadingComponent,
     ExportSettingsComponent,
-    ReaderBackgroundSettingsComponent
+    ReaderBackgroundSettingsComponent,
+    RepliesPageComponent
   ],
   imports: [
     CommonModule,

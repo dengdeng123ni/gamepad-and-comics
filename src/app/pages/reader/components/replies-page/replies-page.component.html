@@ -1,0 +1,25 @@
+<div class="warp">
+  <div class="tee" style="font-size: 18px;">
+    评论
+  </div>
+  <div class="list">
+    <div class="item" *ngFor="let n of list">
+      <div class="user">
+        <!-- <div class="avatar">
+          <div class="img">{{n.member.name}}</div>
+        </div> -->
+        <div class="title">
+          {{n.name}}
+        </div>
+        <div class="date">
+          {{n.date}}
+        </div>
+      </div>
+      <div class="content">
+        {{n.message}}
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+
+  </div>
+</div>
