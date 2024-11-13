@@ -1535,6 +1535,98 @@ export class DbEventService {
         }
       });
       window._gh_comics_register({
+        id: "yabai",
+        is_cache: true,
+        is_download: true,
+        is_preloading: true,
+        menu: [
+        ],
+      }, {
+        getDetail: async (id) => {
+
+
+          const b64_to_utf8 = (str) => {
+            return decodeURIComponent(window.atob(str));
+          }
+          const res = await window._gh_getHtml(b64_to_utf8(id));
+
+          const text = await res.text();
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(text, 'text/html');
+
+          let obj = {
+            id: id,
+            cover: "",
+            title: "",
+            author: "",
+            href: b64_to_utf8(id),
+            author_href: "",
+            intro: "",
+            chapters: [
+
+            ],
+            chapter_id: id,
+            styles: []
+          }
+          const utf8_to_b64 = (str) => {
+            return window.btoa(encodeURIComponent(str));
+          }
+
+          obj.title = doc.querySelector("#app header > h1").textContent.trim()
+          obj.cover = doc.querySelector("#app img").src;
+console.log(doc);
+
+
+          obj.chapters.push({
+            id: utf8_to_b64(`${(b64_to_utf8(id))}/read`),
+            title: obj.title,
+            cover: obj.cover,
+          })
+          return obj
+        },
+        getPages: async (id) => {
+          await window._gh_new_page(decodeURIComponent(window.atob(id)))
+          const sleep = (duration) => {
+            return new Promise(resolve => {
+              setTimeout(resolve, duration);
+            })
+          }
+          await sleep(3000)
+          const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+            `(async function () {
+  const meta = document.createElement('meta');
+  meta.httpEquiv = "Content-Security-Policy";
+  meta.content = "img-src 'none'";
+  document.head.appendChild(meta);
+  const length=document.querySelectorAll("#page-select option").length
+  let arr = [];
+  const sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
+  }
+  for (let index = 0; index < length; index++) {
+    arr.push(document.querySelector("#app img").src);console.log(index)
+    document.querySelector("#app > nav > div > button:nth-child(5)").click();
+    await sleep(10)
+  }
+  return arr
+})()`)
+        console.log(arr);
+
+
+          return arr
+        },
+        UrlToDetailId: async (id) => {
+          const obj = new URL(id);
+          if (obj.host == "yabai.si") {
+            return window.btoa(encodeURIComponent(id))
+          } else {
+            return null
+          }
+        }
+      });
+      window._gh_comics_register({
         id: "kaobei",
         name: "拷贝漫画",
         href: "https://www.mangacopy.com/",
@@ -1803,6 +1895,7 @@ export class DbEventService {
           return data
         },
       });
+
     }
 
 

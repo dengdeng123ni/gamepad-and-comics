@@ -110,8 +110,8 @@ export class DbControllerService {
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
-      if (option && option.is_cache) config.is_cache = true
-
+      if (option && option.is_cache===true) config.is_cache = true
+      if (option && option.is_cache===false) config.is_cache = false
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
         if (this.details[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.details[id]))
@@ -168,7 +168,8 @@ export class DbControllerService {
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
-      if (option && option.is_cache) config.is_cache = true
+      if (option && option.is_cache===true) config.is_cache = true
+      if (option && option.is_cache===false) config.is_cache = false
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
         // const is_wait = await this.waitForRepetition(id)
         if (this.pages[id]) {
@@ -214,6 +215,20 @@ export class DbControllerService {
             }
           } else {
             res = await this.DbEvent.Events[option.source]["getPages"](id);
+            if (typeof res[0] === 'string') {
+              let arr = res;
+              let data = [];
+              for (let index = 0; index < arr.length; index++) {
+                let obj = {
+                  id: "",
+                  src: ""
+                };
+                obj["id"] = `${index}`;
+                obj["src"] = `${arr[index]}`
+                data.push(obj)
+              }
+              res = data;
+            }
           }
           res.forEach((x, i) => {
             if (!x.id) x.id = `${id}_${i}`;
