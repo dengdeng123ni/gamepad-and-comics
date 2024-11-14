@@ -94,12 +94,13 @@ export class ComicsListV2Component {
     private _snackBar: MatSnackBar,
     public DownloadOption: DownloadOptionService,
     public App: AppDataService,
-    public LocalCach: LocalCachService
+    public LocalCach: LocalCachService,
+
   ) {
-    setTimeout(()=>{
+    setTimeout(() => {
       console.log(this.list);
 
-    },3000)
+    }, 3000)
     KeyboardEvent.registerGlobalEventY({
       "a": () => {
         this.all()
@@ -293,7 +294,7 @@ export class ComicsListV2Component {
           id: "edit",
           name: "编辑",
           click: e => {
-             this.data.is_edit=!this.data.is_edit;
+            this.data.is_edit = !this.data.is_edit;
           }
         }
       ]
@@ -498,9 +499,15 @@ export class ComicsListV2Component {
     this.overflow()
   }
   async overflow() {
+    await this.add_pages();
     if (this.list.length == 0) {
       await this.add_pages();
       return
+    }
+
+    const c = (window.innerHeight * window.innerWidth) / (171 * 262) * 1.5;
+    if (this.list.length < c) {
+      await this.add_pages();
     }
 
     const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
@@ -508,13 +515,13 @@ export class ComicsListV2Component {
     if (node && this.ListNode.nativeElement.clientHeight < node.getBoundingClientRect().y) {
 
     } else {
-      const length = this.list.length;
-      await this.add_pages();
-      if (this.list.length == length) {
+      // const length = this.list.length;
+      // await this.add_pages();
+      // if (this.list.length == length) {
 
-      } else {
-        this.overflow();
-      }
+      // } else {
+      //   this.overflow();
+      // }
 
     }
   }
@@ -537,6 +544,8 @@ export class ComicsListV2Component {
   }
   is_end = false;
   async add_pages() {
+    console.log(123);
+
     if (this.is_destroy) return
     this.page_num++;
     const list = await this.ComicsListV2.add(this.key, { page_num: this.page_num, page_size: this.page_size })
@@ -544,6 +553,7 @@ export class ComicsListV2Component {
       this.page_num--;
       return
     }
+
     this.list = [...this.list, ...list].filter((item, index, self) =>
       index === self.findIndex((t) => (
         t.id === item.id

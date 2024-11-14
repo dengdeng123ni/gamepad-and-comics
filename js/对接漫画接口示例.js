@@ -1,320 +1,4 @@
 window._gh_comics_register({
-  id: "ehentai",
-  tab: {
-    url: "https://hanime1.me/comic/",
-    host_names: ["manga.bilibili.com", "i0.hdslb.com", "manga.hdslb.com"],
-  },
-  is_cache: true,
-  is_download: true,
-  is_preloading: true
-}, {
-  getList: async (obj) => {
-    let list = [];
-    return list
-  },
-  getDetail: async (id) => {
-    const b64_to_utf8 = (str) => {
-      return decodeURIComponent(window.atob(str));
-    }
-    const res = await window._gh_getHtml(b64_to_utf8(id), {
-      "headers": {
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-        "content-type": "application/json;charset=UTF-8"
-      },
-      "body": null,
-      "method": "GET"
-    });
-    const text = await res.text();
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(text, 'text/html');
-
-    let obj = {
-      id: id,
-      cover: "",
-      title: "",
-      author: "",
-      intro: "",
-      chapters: [
-
-      ],
-      chapter_id: id
-    }
-    const utf8_to_b64 = (str) => {
-      return window.btoa(encodeURIComponent(str));
-    }
-    obj.title = doc.querySelector("#gn").textContent.trim()
-    obj.cover = doc.querySelector("#gd1 > div").style.background.split('"')[1];
-    obj.chapters.push({
-      id: obj.id,
-      title: obj.title,
-      cover: obj.cover,
-    })
-
-    return obj
-  },
-  getPages: async (id) => {
-    const b64_to_utf8 = (str) => {
-      return decodeURIComponent(window.atob(str));
-    }
-    const res = await window._gh_getHtml(b64_to_utf8(id), {
-      "headers": {
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-        "content-type": "application/json;charset=UTF-8"
-      },
-      "body": null,
-      "method": "GET"
-    });
-    const text = await res.text();
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(text, 'text/html');
-    const nodes = doc.querySelectorAll(".ptt a");
-
-
-    let arr = []
-    for (let index = 0; index < nodes.length; index++) {
-      const element = nodes[index];
-      arr.push(element.href)
-    }
-
-    if (arr.length > 1) arr.pop()
-
-    let arr2 = [];
-    for (let index = 0; index < arr.length; index++) {
-      const res = await window._gh_getHtml(arr[index], {
-        "headers": {
-          "accept": "application/json, text/plain, */*",
-          "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-          "content-type": "application/json;charset=UTF-8"
-        },
-        "body": null,
-        "method": "GET"
-      });
-      const text = await res.text();
-      var parser = new DOMParser();
-      var doc = parser.parseFromString(text, 'text/html');
-      const nodes = doc.querySelectorAll("#gdt a")
-
-      for (let index = 0; index < nodes.length; index++) {
-        const element = nodes[index];
-        arr2.push(element.href)
-      }
-
-    }
-
-    let data = [];
-    for (let index = 0; index < arr2.length; index++) {
-      let obj = {
-        id: "",
-        src: "",
-        width: 0,
-        height: 0
-      };
-      const utf8_to_b64 = (str) => {
-        return window.btoa(encodeURIComponent(str));
-      }
-
-
-      obj["id"] = `${id}_${index}`;
-      obj["src"] = `${utf8_to_b64(arr2[index])}`
-      data.push(obj)
-    }
-
-    return data
-  },
-  getImage: async (id) => {
-
-    if (id.substring(0, 4) == "http") {
-      const res = await window._gh_fetch(id, {
-        method: "GET",
-        headers: {
-          "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-          "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-          "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-        },
-        mode: "cors"
-      })
-      const blob = await res.blob();
-      return blob
-    } else {
-      const b64_to_utf8 = (str) => {
-        return decodeURIComponent(window.atob(str));
-      }
-      const _id = b64_to_utf8(id);
-      const getHtmlUrl = async (url) => {
-        const res = await window._gh_getHtml(url, {
-          "headers": {
-            "accept": "application/json, text/plain, */*",
-            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "content-type": "application/json;charset=UTF-8"
-          },
-          "body": null,
-          "method": "GET"
-        });
-        const text = await res.text();
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(text, 'text/html');
-        return doc.querySelector("#img").src
-      }
-      const getImageUrl = async (id) => {
-        const res = await window._gh_fetch(id, {
-          method: "GET",
-          headers: {
-            "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-          },
-          mode: "cors"
-        });
-        const blob = await res.blob();
-        return blob
-      }
-      const url = await getHtmlUrl(_id)
-
-      const blob = await getImageUrl(url);
-      return blob
-    }
-
-  },
-  UrlToDetailId: async (id) => {
-    const obj = new URL(id);
-    if (obj.host == "e-hentai.org") {
-      return window.btoa(encodeURIComponent(id))
-    } else {
-      return null
-    }
-  }
-});
-window._gh_comics_register({
-  id: "baozimhw",
-  is_cache: true,
-  is_download: true
-}, {
-  getList: async (obj) => {
-    let list = [];
-    return list
-  },
-  getDetail: async (id) => {
-
-    const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/${id}.html`, {
-      "headers": {
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-        "content-type": "application/json;charset=UTF-8"
-      },
-      "body": null,
-      "method": "GET"
-    });
-    const text = await res.text();
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(text, 'text/html');
-    let obj = {
-      id: id,
-      cover: "",
-      title: "",
-      author: "",
-      href: `https://hanime1.me/comic/${id}`,
-      author_href: "",
-      intro: "",
-      chapters: [
-
-      ],
-      chapter_id: id,
-      styles: []
-    }
-    const utf8_to_b64 = (str) => {
-      return window.btoa(encodeURIComponent(str));
-    }
-    obj.title = doc.querySelector("body > section.ptm-content.ptm-card.pt-infopage > div.s71.d905 > div.baseinfo > div.pt-novel > h1 > a").textContent.trim()
-    obj.cover = doc.querySelector("body > section.ptm-content.ptm-card.pt-infopage > div.s71.d905 > div.baseinfo > img").src
-    const nodes = doc.querySelectorAll("#chapterlist a")
-    // const nodes1 = doc.querySelectorAll("h5:nth-child(2) .hover-lighter .no-select");
-    // const nodes2 = doc.querySelectorAll("h5:nth-child(3) .hover-lighter .no-select");
-    let styles = []
-
-    // if (nodes1.length > nodes.length) {
-    //   for (let index = 0; index < nodes1.length; index++) {
-    //     obj.styles.push({ name: nodes1[index].textContent, href: nodes1[index].parentNode.href })
-    //   }
-    //   obj.author = [{name:nodes2[0].textContent,href:nodes2[0].parentNode.href}];
-    // } else {
-    //   for (let index = 0; index < nodes.length; index++) {
-    //     obj.styles.push({ name: nodes[index].textContent, href: nodes1[index]?.parentNode?.href })
-    //   }
-    //   obj.author = [{name:nodes1[0].textContent,href:nodes1[0].parentNode.href}];
-    // }
-    for (let index = 0; index < nodes.length; index++) {
-      obj.styles.push({ name: nodes[index].textContent, href: nodes[index].parentNode.href })
-      obj.chapters.push({
-        id: nodes[index].getAttribute("href").split("/").at(-1),
-        title: nodes[index].textContent,
-      })
-    }
-
-    return obj
-  },
-  getPages: async (id) => {
-    const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/capter/${id}`, {
-      "headers": {
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-        "content-type": "application/json;charset=UTF-8"
-      },
-      "body": null,
-      "method": "GET"
-    });
-    const text = await res.text();
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(text, 'text/html');
-
-    let data = [];
-    let nodes = doc.querySelectorAll(".padding5 img")
-    for (let index = 0; index < nodes.length; index++) {
-      let obj = {
-        id: "",
-        src: "",
-        width: 0,
-        height: 0
-      };
-
-      obj["id"] = `123123${index}`;
-      obj["src"] = `${nodes[index].src}`
-      data.push(obj)
-    }
-
-    return data
-  },
-  getImage: async (id) => {
-
-    const getImageUrl = async (id) => {
-      const res = await window._gh_fetch(id, {
-        method: "GET",
-        headers: {
-          "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-          "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-          "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-        },
-        mode: "cors"
-      });
-      const blob = await res.blob();
-      return blob
-    }
-    const blob = await getImageUrl(id);
-    return blob
-  },
-  UrlToDetailId: async (id) => {
-    const obj = new URL(id);
-
-    if (obj.host == "www.baozimhw.com") {
-
-      return obj.pathname.split("/").at(-1).split(".")[0]
-    } else {
-      return null
-    }
-  }
-});
-window._gh_comics_register({
   id: "bilibili",
   name: "哔哩哔哩漫画",
   href: "https://manga.bilibili.com/",
@@ -325,7 +9,7 @@ window._gh_comics_register({
       name: '搜索',
       query: {
         type: 'search',
-        page_size: 5
+        page_size: 20
       }
     },
     {
@@ -886,6 +570,8 @@ window._gh_comics_register({
         }
       }
       const url = await getImageUrl(id);
+      // console.log(id,url);
+
       const res = await window._gh_fetch(url, {
         method: "GET",
         headers: {
@@ -931,6 +617,43 @@ window._gh_comics_register({
     const list = json.data.list.map(x => ({ id: x.id, title: x.real_title, cover: httpUrlToHttps(x.vertical_cover), subTitle: x.is_finish ? "已完结" : "连载中" }))
     return list
   },
+  getReplies: async (obj) => {
+    const href = `https://manga.bilibili.com/detail/mc${obj.comics_id}`;
+    await window._gh_new_page(href)
+    const sleep = (duration) => {
+      return new Promise(resolve => {
+        setTimeout(resolve, duration);
+      })
+    }
+    await sleep(2000)
+    const arr = await window._gh_execute_eval(href,
+      `(async function () {
+        const meta = document.createElement('meta');
+        meta.httpEquiv = "Content-Security-Policy";
+        meta.content = "img-src 'none'";
+        document.head.appendChild(meta);
+        const nodes = document.querySelectorAll(".reply-item")
+        let arr = [];
+        for (let index = 0; index < nodes.length; index++) {
+          const node = nodes[index];
+          let obj = {};
+          const name = node.querySelector(".user-name").textContent;
+          const message = node.querySelector(".reply-content").textContent;
+          const date = node.querySelector(".reply-time").textContent;
+          obj["name"] = name;
+          obj["message"] = message;
+          obj["date"] = date;
+          arr.push(obj)
+        }
+        setTimeout(() => {
+          window.close();
+        }, 500)
+        return arr
+      })()
+      `
+    )
+    return arr
+  },
   Unlock: async () => {
 
     return false
@@ -947,6 +670,7 @@ window._gh_comics_register({
 });
 window._gh_comics_register({
   id: "hanime1",
+  href:"https://hanime1.me/comics",
   is_cache: true,
   is_download: true,
   is_preloading: true,
@@ -1046,46 +770,43 @@ window._gh_comics_register({
     }
 
     obj.chapters.push({
-      id: obj.id,
+      id: utf8_to_b64(`https://hanime1.me/comic/${obj.id}/1`),
       title: obj.title,
       cover: obj.cover,
     })
     return obj
   },
   getPages: async (id) => {
-    const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
-      "headers": {
-        "accept": "application/json, text/plain, */*",
-        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-        "content-type": "application/json;charset=UTF-8"
-      },
-      "body": null,
-      "method": "GET"
-    });
-    const text = await res.text();
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(text, 'text/html');
-
-    let data = [];
-    let nodes = doc.querySelectorAll(".comics-thumbnail-wrapper a")
-    for (let index = 0; index < nodes.length; index++) {
-      let obj = {
-        id: "",
-        src: "",
-        width: 0,
-        height: 0
-      };
-      const utf8_to_b64 = (str) => {
-        return window.btoa(encodeURIComponent(str));
-      }
-
-      obj["id"] = `${id}_${index}`;
-      // obj["src"] = `https://i.nhentai.net/galleries/${_id}/${index + 1}.${type}`
-      obj["src"] = window.btoa(encodeURIComponent(nodes[index].getAttribute("href")))
-      // window.btoa(encodeURIComponent(nodes[index].href.replace("http://localhost:4200","https://nhentai.net")))
-      data.push(obj)
+    await window._gh_new_page(decodeURIComponent(window.atob(id)))
+    const sleep = (duration) => {
+      return new Promise(resolve => {
+        setTimeout(resolve, duration);
+      })
     }
-    return data
+    await sleep(1000)
+    const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+      `
+   (async function () {
+      const meta = document.createElement('meta');
+      meta.httpEquiv = "Content-Security-Policy";
+      meta.content = "img-src 'none'";
+      document.head.appendChild(meta);
+      const length=parseInt(document.querySelector(".current-page-number").parentNode.textContent.split("/").at(-1))
+      let arr = [];
+      for (let index = 0; index < length; index++) {
+        arr.push(document.querySelector("#current-page-image").src)
+        document.querySelector(".arrow-right").click();
+      }
+          setTimeout(()=>{
+window.close()
+},500)
+      return arr
+    })()
+  `)
+    return arr
+
+
+
   },
   getImage: async (id) => {
 
@@ -1172,34 +893,18 @@ window._gh_comics_register({
   }
 });
 window._gh_comics_register({
-  id: "nhentai",
+  id: "ehentai",
+  name: "ehentai",
+  href:"https://e-hentai.org/",
   is_cache: true,
   is_download: true,
-  is_preloading: true,
-  menu: [
-    {
-      id: 'search',
-      icon: 'search',
-      name: '搜索',
-      query: {
-        type: 'search',
-        page_size: 30
-      }
-    },
-    {
-      id: 'latestUpload',
-      icon: 'fiber_new',
-      name: '最新上傳',
-      page_size: 30,
-      query: {
-        type: 'single',
-        name: '最新上傳'
-      }
-    }
-  ],
+  is_preloading: true
 }, {
-  getList: async (obj) => {
-    const res = await window._gh_getHtml(`https://hanime1.me/comics?page=${obj.page_num}`, {
+  getDetail: async (id) => {
+    const b64_to_utf8 = (str) => {
+      return decodeURIComponent(window.atob(str));
+    }
+    const res = await window._gh_fetch(b64_to_utf8(id), {
       "headers": {
         "accept": "application/json, text/plain, */*",
         "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1211,17 +916,223 @@ window._gh_comics_register({
     const text = await res.text();
     var parser = new DOMParser();
     var doc = parser.parseFromString(text, 'text/html');
-    let data = [];
-    let nodes = doc.querySelectorAll("body .comic-rows-videos-div")
-    for (let index = 0; index < nodes.length; index++) {
-      const node = nodes[index];
-      const id = node.querySelector("a").href.split("/").at(-1)
-      const cover = node.querySelector("img").getAttribute("data-srcset");
-      const title = node.textContent;
-      data.push({ id, cover, title })
+
+    let obj = {
+      id: id,
+      cover: "",
+      title: "",
+      href:b64_to_utf8(id),
+      author: "",
+      intro: "",
+      chapters: [
+
+      ],
+      chapter_id: id
     }
+    const utf8_to_b64 = (str) => {
+      return window.btoa(encodeURIComponent(str));
+    }
+    obj.title = doc.querySelector("#gn").textContent.trim()
+    obj.cover = doc.querySelector("#gd1 > div").style.background.split('"')[1];
+    obj.chapters.push({
+      id: obj.id,
+      title: obj.title,
+      cover: obj.cover,
+    })
+
+    return obj
+  },
+  getPages: async (id) => {
+    const b64_to_utf8 = (str) => {
+      return decodeURIComponent(window.atob(str));
+    }
+    const res = await window._gh_fetch(b64_to_utf8(id), {
+      "headers": {
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "content-type": "application/json;charset=UTF-8"
+      },
+      "body": null,
+      "method": "GET"
+    });
+    const text = await res.text();
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(text, 'text/html');
+    let nodes = doc.querySelectorAll(".ptt a");
+
+    let arr = nodes[nodes.length - 2].href.split("/?p=");
+    let length = parseInt(arr[1])
+    let data1 = [];
+    data1.push(arr[0])
+    for (let index = 0; index < length; index++) {
+      data1.push(`${arr[0]}/?p=${index + 1}`)
+    }
+    let arr2 = [];
+
+    for (let index = 0; index < data1.length; index++) {
+      const res = await window._gh_fetch(data1[index], {
+        "headers": {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+          "content-type": "application/json;charset=UTF-8"
+        },
+        "body": null,
+        "method": "GET"
+      });
+      const text = await res.text();
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(text, 'text/html');
+      const nodes = doc.querySelectorAll("#gdt a")
+
+      for (let index = 0; index < nodes.length; index++) {
+        const element = nodes[index];
+        arr2.push(element.href)
+      }
+
+    }
+
+    let data = [];
+    for (let index = 0; index < arr2.length; index++) {
+      let obj = {
+        id: "",
+        src: "",
+        width: 0,
+        height: 0
+      };
+      const utf8_to_b64 = (str) => {
+        return window.btoa(encodeURIComponent(str));
+      }
+
+
+      obj["id"] = `${id}_${index}`;
+      obj["src"] = `${utf8_to_b64(arr2[index])}`
+      data.push(obj)
+    }
+    console.log(data);
+
     return data
   },
+  UrlToDetailId: async (id) => {
+    const obj = new URL(id);
+    if (obj.host == "e-hentai.org") {
+      return window.btoa(encodeURIComponent(id))
+    } else {
+      return null
+    }
+  }
+});
+window._gh_comics_register({
+  id: "baozimhw",
+  href:"https://www.baozimhw.com/",
+  is_cache: true,
+  is_download: true
+}, {
+  getDetail: async (id) => {
+    const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/${id}.html`, {
+      "headers": {
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "content-type": "application/json;charset=UTF-8"
+      },
+      "body": null,
+      "method": "GET"
+    });
+    const text = await res.text();
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(text, 'text/html');
+    let obj = {
+      id: id,
+      cover: "",
+      title: "",
+      author: "",
+      href: `https://www.baozimhw.com/manhua/${id}.html`,
+      author_href: "",
+      intro: "",
+      chapters: [
+
+      ],
+      chapter_id: id,
+      styles: []
+    }
+    const utf8_to_b64 = (str) => {
+      return window.btoa(encodeURIComponent(str));
+    }
+    obj.title = doc.querySelector("body > section.ptm-content.ptm-card.pt-infopage > div.s71.d905 > div.baseinfo > div.pt-novel > h1 > a").textContent.trim()
+    obj.cover = doc.querySelector("body > section.ptm-content.ptm-card.pt-infopage > div.s71.d905 > div.baseinfo > img").src
+    const nodes = doc.querySelectorAll("#chapterlist a")
+    // const nodes1 = doc.querySelectorAll("h5:nth-child(2) .hover-lighter .no-select");
+    // const nodes2 = doc.querySelectorAll("h5:nth-child(3) .hover-lighter .no-select");
+    let styles = []
+
+    // if (nodes1.length > nodes.length) {
+    //   for (let index = 0; index < nodes1.length; index++) {
+    //     obj.styles.push({ name: nodes1[index].textContent, href: nodes1[index].parentNode.href })
+    //   }
+    //   obj.author = [{name:nodes2[0].textContent,href:nodes2[0].parentNode.href}];
+    // } else {
+    //   for (let index = 0; index < nodes.length; index++) {
+    //     obj.styles.push({ name: nodes[index].textContent, href: nodes1[index]?.parentNode?.href })
+    //   }
+    //   obj.author = [{name:nodes1[0].textContent,href:nodes1[0].parentNode.href}];
+    // }
+    for (let index = 0; index < nodes.length; index++) {
+      obj.styles.push({ name: nodes[index].textContent, href: nodes[index].parentNode.href })
+      obj.chapters.push({
+        id: nodes[index].getAttribute("href").split("/").at(-1),
+        title: nodes[index].textContent,
+      })
+    }
+
+    return obj
+  },
+  getPages: async (id) => {
+    const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/capter/${id}`, {
+      "headers": {
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "content-type": "application/json;charset=UTF-8"
+      },
+      "body": null,
+      "method": "GET"
+    });
+    const text = await res.text();
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(text, 'text/html');
+
+    let data = [];
+    let nodes = doc.querySelectorAll(".padding5 img")
+    for (let index = 0; index < nodes.length; index++) {
+      let obj = {
+        id: "",
+        src: "",
+        width: 0,
+        height: 0
+      };
+
+      obj["id"] = `123123${index}`;
+      obj["src"] = `${nodes[index].src}`
+      data.push(obj)
+    }
+
+    return data
+  },
+  UrlToDetailId: async (id) => {
+    const obj = new URL(id);
+    if (obj.host == "www.baozimhw.com") {
+      return obj.pathname.split("/").at(-1).split(".")[0]
+    } else {
+      return null
+    }
+  }
+});
+window._gh_comics_register({
+  id: "nhentai",
+  is_cache: true,
+  is_download: true,
+  is_preloading: true,
+  menu: [
+  ],
+}, {
   getDetail: async (id) => {
     const b64_to_utf8 = (str) => {
       return decodeURIComponent(window.atob(str));
@@ -1392,10 +1303,192 @@ window._gh_comics_register({
     }
   }
 });
-window._gh_novels_register({
-  id: "biquge",
-  name: "笔趣阁[小说]",
-  href:"https://www.biqgg.cc",
+window._gh_comics_register({
+  id: "nhentai_xxx",
+  is_cache: true,
+  is_download: true,
+  is_preloading: true,
+  menu: [
+  ],
+}, {
+  getDetail: async (id) => {
+    const b64_to_utf8 = (str) => {
+      return decodeURIComponent(window.atob(str));
+    }
+    console.log(b64_to_utf8(id));
+    const res = await window._gh_getHtml(b64_to_utf8(id));
+    console.log(res);
+
+    const text = await res.text();
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(text, 'text/html');
+    console.log(doc);
+
+    let obj = {
+      id: id,
+      cover: "",
+      title: "",
+      author: "",
+      href: b64_to_utf8(id),
+      author_href: "",
+      intro: "",
+      chapters: [
+
+      ],
+      chapter_id: id,
+      styles: []
+    }
+    const utf8_to_b64 = (str) => {
+      return window.btoa(encodeURIComponent(str));
+    }
+
+    obj.title = doc.querySelector(".info > h1").textContent.trim()
+    obj.cover = doc.querySelector(".cover > a > img").src;
+
+
+    obj.chapters.push({
+      id: utf8_to_b64(`https://nhentai.xxx${doc.querySelectorAll(".gt_th a")[0].getAttribute("href")}`),
+      title: obj.title,
+      cover: obj.cover,
+    })
+    return obj
+  },
+  getPages: async (id) => {
+    await window._gh_new_page(decodeURIComponent(window.atob(id)))
+    const sleep = (duration) => {
+      return new Promise(resolve => {
+        setTimeout(resolve, duration);
+      })
+    }
+    await sleep(1000)
+    const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+      `
+(async function () {
+const meta = document.createElement('meta');
+meta.httpEquiv = "Content-Security-Policy";
+meta.content = "img-src 'none'";
+document.head.appendChild(meta);
+const length=parseInt(document.querySelector(".tp").textContent)
+const hr=document.querySelector("#fimg").getAttribute("data-src").split("/")
+const type=hr.pop().split(".")[1]
+const c=hr.join("/")+"/"
+let arr = [];
+for (let index = 0; index < length; index++) {
+arr.push(c+(index+1)+"."+type)
+}
+setTimeout(()=>{
+window.close()
+},500)
+return arr
+})()
+  `)
+
+    return arr
+  },
+  UrlToDetailId: async (id) => {
+    const obj = new URL(id);
+    if (obj.host == "nhentai.xxx") {
+      return window.btoa(encodeURIComponent(id))
+    } else {
+      return null
+    }
+  }
+});
+window._gh_comics_register({
+  id: "yabai",
+  is_cache: true,
+  is_download: true,
+  is_preloading: true,
+  menu: [
+  ],
+}, {
+  getDetail: async (id) => {
+
+
+    const b64_to_utf8 = (str) => {
+      return decodeURIComponent(window.atob(str));
+    }
+    const res = await window._gh_getHtml(b64_to_utf8(id));
+
+    const text = await res.text();
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(text, 'text/html');
+
+    let obj = {
+      id: id,
+      cover: "",
+      title: "",
+      author: "",
+      href: b64_to_utf8(id),
+      author_href: "",
+      intro: "",
+      chapters: [
+
+      ],
+      chapter_id: id,
+      styles: []
+    }
+    const utf8_to_b64 = (str) => {
+      return window.btoa(encodeURIComponent(str));
+    }
+
+    obj.title = doc.querySelector("#app header > h1").textContent.trim()
+    obj.cover = doc.querySelector("#app img").src;
+
+
+    obj.chapters.push({
+      id: utf8_to_b64(`${(b64_to_utf8(id))}/read`),
+      title: obj.title,
+      cover: obj.cover,
+    })
+    return obj
+  },
+  getPages: async (id) => {
+    await window._gh_new_page(decodeURIComponent(window.atob(id)))
+    const sleep = (duration) => {
+      return new Promise(resolve => {
+        setTimeout(resolve, duration);
+      })
+    }
+    await sleep(3000)
+    const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+      `(async function () {
+const meta = document.createElement('meta');
+meta.httpEquiv = "Content-Security-Policy";
+meta.content = "img-src 'none'";
+document.head.appendChild(meta);
+const length=document.querySelectorAll("#page-select option").length
+let arr = [];
+const sleep = (duration) => {
+return new Promise(resolve => {
+setTimeout(resolve, duration);
+})
+}
+for (let index = 0; index < length; index++) {
+arr.push(document.querySelector("#app img").src);console.log(index)
+document.querySelector("#app > nav > div > button:nth-child(5)").click();
+await sleep(10)
+}
+return arr
+})()`)
+    console.log(arr);
+
+
+    return arr
+  },
+  UrlToDetailId: async (id) => {
+    const obj = new URL(id);
+    if (obj.host == "yabai.si") {
+      return window.btoa(encodeURIComponent(id))
+    } else {
+      return null
+    }
+  }
+});
+window._gh_comics_register({
+  id: "kaobei",
+  name: "拷贝漫画",
+  href: "https://www.mangacopy.com/",
   is_cache: true,
   is_download: true,
   menu: [
@@ -1410,11 +1503,136 @@ window._gh_novels_register({
     }
   ],
 }, {
-  getList: async (obj) => {
-    let list = [];
-    return [
-    ]
+  getDetail: async (novel_id) => {
+
+    const res = await window._gh_getHtml(decodeURIComponent(window.atob(novel_id)), {
+      "headers": {
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "content-type": "application/json;charset=UTF-8"
+      },
+      "body": null,
+      "method": "GET"
+    });
+    const text = await res.text();
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(text, 'text/html');
+
+    let obj = {
+      id: novel_id,
+      cover: "",
+      title: "",
+      author: "",
+      href:decodeURIComponent(window.atob(novel_id)),
+      intro: "",
+      category: "",
+      chapters: [
+
+      ],
+    }
+
+    obj.cover = doc.querySelector(".content-box img").src;
+    obj.title = doc.querySelector(".content-box h6").textContent.trim();
+    obj.intro = doc.querySelector(".comicParticulars-synopsis p").textContent.trim();
+    obj.author = doc.querySelector(".comicParticulars-title-right > ul > li:nth-child(3) > span:nth-child(1)").textContent.trim();
+    const nodes = doc.querySelectorAll("#default全部 > ul:nth-child(1) a");
+
+    for (let index = 0; index < nodes.length; index++) {
+      const node = nodes[index];
+      const id = window.btoa(encodeURIComponent(`https://www.mangacopy.com${node.getAttribute("href")}`))
+      const title = node.getAttribute("title")
+      obj.chapters.push({ id, title })
+    }
+
+    return obj
   },
+  getPages: async (id) => {
+    await window._gh_new_page(decodeURIComponent(window.atob(id)))
+    const sleep = (duration) => {
+      return new Promise(resolve => {
+        setTimeout(resolve, duration);
+      })
+    }
+    await sleep(1000)
+    const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
+      `
+(async function() {
+const sleep = (duration) => {
+return new Promise(resolve => {
+setTimeout(resolve, duration);
+})
+}
+for (let index = 0; index < 30; index++) {
+document.querySelector("html").scrollTop = document.querySelector("html").scrollTop + 30;
+await sleep(40)
+}
+const nodes = document.querySelectorAll(".comicContent-list li img");
+let arr=[];
+for (let index = 0; index < nodes.length; index++) {
+arr.push(nodes[index].getAttribute('data-src'))
+}
+setTimeout(()=>{
+window.close()
+},500)
+return arr
+})()
+  `)
+    console.log(arr);
+
+    return arr
+  },
+  UrlToDetailId: async (id) => {
+    const obj = new URL(id);
+    if (obj.host == "www.mangacopy.com") {
+      return window.btoa(encodeURIComponent(id))
+    } else {
+      return null
+    }
+  },
+  Search: async (obj) => {
+    const res = await window._gh_fetch(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num - 1) * obj.page_size}&platform=2&limit=${obj.page_size}&q=${obj.keyword}q_type=`, {
+      "headers": {
+        "accept": "application/json, text/plain, */*",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "content-type": "application/json;charset=UTF-8"
+      },
+      "body": null,
+      "method": "GET"
+    })
+
+
+    const json = await res.json();
+    let data = [];
+    for (let index = 0; index < json.results.list.length; index++) {
+      const x = json.results.list[index];
+      data.push({
+        id: window.btoa(encodeURIComponent(`https://www.mangacopy.com/comic/${x.path_word}`)),
+        title: x.name,
+        cover: x.cover,
+        subTitle: x.author.map(x => x.name).toString()
+      })
+    }
+    return data
+  },
+});
+window._gh_novels_register({
+  id: "biquge",
+  name: "笔趣阁[小说]",
+  href: "https://www.biqgg.cc",
+  is_cache: true,
+  is_download: true,
+  menu: [
+    {
+      id: 'search',
+      icon: 'search',
+      name: '搜索',
+      query: {
+        type: 'search',
+        page_size: 30
+      }
+    }
+  ],
+}, {
   getDetail: async (novel_id) => {
 
     const res = await window._gh_getHtml(decodeURIComponent(window.atob(novel_id)), {
@@ -1436,6 +1654,7 @@ window._gh_novels_register({
       title: "",
       author: "",
       intro: "",
+      href:decodeURIComponent(window.atob(novel_id)),
       category: "",
       chapters: [
 
@@ -1452,7 +1671,7 @@ window._gh_novels_register({
       if (!x.className) {
         obj.chapters.push(
           {
-            id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.children[0].getAttribute("href"))),
+            id: window.btoa(encodeURIComponent(`https://www.biqgg.cc` + x.children[0].getAttribute("href"))),
             title: x.children[0].textContent.trim()
           }
         )
@@ -1484,23 +1703,6 @@ window._gh_novels_register({
 
     return arr.map(x => ({ content: x }))
   },
-  getImage: async (id) => {
-    const getImageUrl = async (id) => {
-      const res = await window._gh_fetch(id, {
-        method: "GET",
-        headers: {
-          "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-          "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-          "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
-        },
-        mode: "cors"
-      });
-      const blob = await res.blob();
-      return blob
-    }
-    const blob = await getImageUrl(id);
-    return blob
-  },
   UrlToDetailId: async (id) => {
     const obj = new URL(id);
     if (obj.host == "www.biqgg.cc") {
@@ -1520,13 +1722,13 @@ window._gh_novels_register({
       "method": "GET"
     });
     const json = await res.json();
-    let data=[];
+    let data = [];
     for (let index = 0; index < json.length; index++) {
       const x = json[index];
       data.push({
-        id:  window.btoa(encodeURIComponent(`https://www.biqgg.cc`+x.url_list)),
+        id: window.btoa(encodeURIComponent(`https://www.biqgg.cc` + x.url_list)),
         title: x.articlename,
-        cover:x.url_img
+        cover: x.url_img
       })
     }
     return data

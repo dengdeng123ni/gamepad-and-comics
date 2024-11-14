@@ -268,31 +268,33 @@ async routerNovelsReader(source, comics_id) {
 
   async init() {
     this.page_num = 1;
-    this.ListNode.nativeElement.scrollTop = 0;
-    this.list = await this.initFiast({ page_num: this.page_num, page_size: this.page_size });
+    if (this.ListNode) this.ListNode.nativeElement.scrollTop = 0;
+    this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
     this.overflow()
   }
   async overflow() {
-    setTimeout(async () => {
-      const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
-      if (node && this.ListNode.nativeElement.clientHeight < node.getBoundingClientRect().y) {
+    if (this.list.length == 0) {
+      await this.add_pages();
+      return
+    }
+
+    const node = this.ListNode.nativeElement.querySelector(`[index='${this.list.length - 1}']`)
+
+    if (node && this.ListNode.nativeElement.clientHeight < node.getBoundingClientRect().y) {
+
+    } else {
+      const length = this.list.length;
+      await this.add_pages();
+      if (this.list.length == length) {
 
       } else {
-        await this.add_pages();
         this.overflow();
       }
-    }, 50)
-  }
-  scroll$ = new Subject();
-  getData() {
-    if (this.list.length) {
-      this.add_pages();
-    } else {
-      setTimeout(() => {
-        this.getData()
-      }, 10)
+
     }
   }
+  scroll$ = new Subject();
+
   async handleScroll(e: any) {
     const node: any = this.ListNode.nativeElement;
     let scrollHeight = Math.max(node.scrollHeight, node.scrollHeight);
@@ -311,6 +313,7 @@ async routerNovelsReader(source, comics_id) {
     if (this.is_destroy) return
     this.page_num++;
     const list = await this.add({ page_num: this.page_num, page_size: this.page_size });
+
     if (list.length == 0) {
       this.page_num--;
       return

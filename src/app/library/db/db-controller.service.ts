@@ -434,6 +434,7 @@ console.log(url,res);
   Search = async (obj: any, option?: {
     source: string
   }): Promise<Array<Item>> => {
+    console.log(obj);
 
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;
