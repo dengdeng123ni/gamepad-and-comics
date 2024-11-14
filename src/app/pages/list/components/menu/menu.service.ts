@@ -13,8 +13,8 @@ export class MenuService {
   mode = 'side';
   position: "start" | "end" = 'start';
   current_menu_id=null;
-
-  mode_1=0;
+  current_menu_pid=null;
+  mode_1=1;
 
 
   constructor(public data: DataService,
@@ -45,7 +45,8 @@ export class MenuService {
       opened: this.opened,
       mode: this.mode,
       mode_1:this.mode_1,
-      current_menu_id:this.current_menu_id
+      current_menu_id:this.current_menu_id,
+      current_menu_pid:this.current_menu_pid
     }))
   }
 
@@ -55,8 +56,10 @@ export class MenuService {
       this.opened = res.opened;
       this.mode = res.mode;
       this.position = res.position;
-      this.mode_1=res.mode_1??0;
+      this.mode_1=res.mode_1??1;
       if(!this.current_menu_id)  this.current_menu_id=res.current_menu_id;
+      if(!this.current_menu_pid)  this.current_menu_pid=res.current_menu_pid;
+
     }
   }
 }

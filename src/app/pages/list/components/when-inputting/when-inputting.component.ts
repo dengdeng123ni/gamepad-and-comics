@@ -24,7 +24,9 @@ export class WhenInputtingComponent {
   }
 
   on() {
+   setTimeout(()=>{
     this.whenInputting.close();
+   },500)
   }
 
 }

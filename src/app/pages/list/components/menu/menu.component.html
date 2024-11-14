@@ -4,7 +4,7 @@
   " [attr.region]="'menu_input'" [attr.select]="true" (click)="openMenuSearch()">
     <input type="text" matInput [disabled]="true" step=""  [(ngModel)]="keyword">
   </mat-form-field> -->
-  <button   mat-button class=" " [attr.region]="'menu_input'" [attr.default]="false" style="    backdrop-filter: brightness(0.92);
+  <button mat-button class=" " [attr.region]="'menu_input'" [attr.default]="false" style="    backdrop-filter: brightness(0.92);
   height: 30px;
   /* margin: 10px; */
   margin: 0 10px 4px;
@@ -13,25 +13,26 @@
   font-size: 24px;
   position: relative;    overflow: hidden;
     display: flex;
-    justify-content: start;"  (click)="openMenuSearch()">
-  <mat-icon class="icon" [attr.svg_filter]="'text_primary'">search</mat-icon>
-  <div class="name" style="color: rgba(255, 255, 255, 0.34);"  [attr.svg_filter]="'text_primary'" >
-    搜索
-  </div>
-</button>
-  <div>
-    <div *ngIf="data.menu_2_obj&&data.menu_2_obj.submenu&&menu.mode_1==1" [attr.type]="'expansion'">
+    justify-content: start;" (click)="openMenuSearch()">
+    <mat-icon class="icon" [attr.svg_filter]="'text_primary'">search</mat-icon>
+    <div class="name" style="color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'">
+      搜索
+    </div>
+  </button>
+  <div *ngIf="menu.mode_1==2">
+    <div [attr.type]="'expansion'">
       <button mat-button style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
-         (click)="opensource()">
+        (click)="opensource()">
         <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
-        <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'" >
+        <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'">
           {{data.menu_2_obj.name}}
         </div>
       </button>
       <button [attr.default]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
         [attr.select]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
         [attr.selected]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)" [attr._id]="data.menu_2_obj.id+'_'+c.id"
-        *ngFor="let c of data.menu_2_obj.submenu;let index2=index" mat-button class="item item1" [attr.region]="'menu_item'" (click)="on($event,c,{
+        *ngFor="let c of data.menu_2_obj.submenu;let index2=index" mat-button class="item item1"
+        [attr.region]="'menu_item'" (click)="on($event,c,{
             id:data.menu_2_obj.id,
             name:data.menu_2_obj.name
           })">
@@ -41,54 +42,111 @@
         </div>
       </button>
     </div>
-  </div>
-  <div *ngFor="let n of data.menu;let index=index">
-    <div *ngIf="n.submenu&&menu.mode_1==0" [attr.type]="'expansion'">
-      <mat-accordion>
-        <mat-expansion-panel [expanded]="n.expanded">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <button  mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false" [attr.default]="false" (click)="is_on(n)">
-                <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
-                <div class="name" [attr.svg_filter]="'text_primary'">
-                  {{n.name}}
-                </div>
-              </button>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <button [attr.default]="menu.current_menu_id==(n.id+'_'+c.id)&&data.currend_read_comics_id==''" [attr.select]="menu.current_menu_id==(n.id+'_'+c.id)&&data.currend_read_comics_id==''" [attr.selected]="menu.current_menu_id==(n.id+'_'+c.id)" [attr._id]="n.id+'_'+c.id" *ngFor="let c of n.submenu;let index2=index" mat-button class="item item1" [attr.region]="'menu_item'"
-            (click)="on($event,c,{
-              id:n.id,
-              name:n.name
-            })">
-            <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{c.icon}}</mat-icon>
-            <div class="name" [attr.svg_filter]="'text_primary'">
-              {{c.name}}
-            </div>
-          </button>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-    <div *ngIf="n.type=='separator'" [attr.type]="'separator'">
-      <mat-divider style="margin: 8px 16px;"></mat-divider>
-    </div>
-    <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
-      <button [attr.default]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
-        [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
-        [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
-        [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
-        <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
-        <div class="name" [attr.svg_filter]="'text_primary'">
-          {{n.name}}
-        </div>
-      </button>
+    <div *ngFor="let n of data.menu;let index=index">
+      <div *ngIf="n.type=='separator'" [attr.type]="'separator'">
+        <mat-divider style="margin: 8px 16px;"></mat-divider>
+      </div>
+      <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
+        <button [attr.default]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+          [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+          [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
+          [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
+          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
+          <div class="name" [attr.svg_filter]="'text_primary'">
+            {{n.name}}
+          </div>
+        </button>
+      </div>
     </div>
   </div>
+  <div *ngIf="menu.mode_1==3">
+    <div *ngFor="let n of data.menu;let index=index">
+      <div [attr.type]="'expansion'" *ngIf="n.submenu">
+        <button
+        [attr.default]="menu.current_menu_pid==n.id&&data.currend_read_comics_id==''"
+        [attr.selected]="menu.current_menu_pid==n.id"
+        [attr.select]="menu.current_menu_pid==n.id&&data.currend_read_comics_id==''"
+        mat-button class="item"
+          [attr.region]="'menu_item'" [attr.default]="false" [attr.default]="false" (click)="on3fee(n)"
+          [attr.content_menu_value]="n.id" [attr.content_menu_key]="'menu_item_v3'">
+          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
+          <div class="name" [attr.svg_filter]="'text_primary'">
+            {{n.name}}
+          </div>
+        </button>
+
+      </div>
+      <div *ngIf="n.type=='separator'" [attr.type]="'separator'">
+        <mat-divider style="margin: 8px 16px;"></mat-divider>
+      </div>
+      <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
+        <button [attr.default]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+          [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+          [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
+          [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
+          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
+          <div class="name" [attr.svg_filter]="'text_primary'">
+            {{n.name}}
+          </div>
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="menu.mode_1==1">
+    <div *ngFor="let n of data.menu;let index=index">
+      <div *ngIf="n.submenu" [attr.type]="'expansion'">
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="n.expanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <button mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false"
+                  [attr.default]="false" (click)="is_on(n)">
+                  <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
+                  <div class="name" [attr.svg_filter]="'text_primary'">
+                    {{n.name}}
+                  </div>
+                </button>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <button [attr.default]="menu.current_menu_id==(n.id+'_'+c.id)&&data.currend_read_comics_id==''"
+              [attr.select]="menu.current_menu_id==(n.id+'_'+c.id)&&data.currend_read_comics_id==''"
+              [attr.selected]="menu.current_menu_id==(n.id+'_'+c.id)" [attr._id]="n.id+'_'+c.id"
+              *ngFor="let c of n.submenu;let index2=index" mat-button class="item item1" [attr.region]="'menu_item'"
+              (click)="on($event,c,{
+                id:n.id,
+                name:n.name
+              })">
+              <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{c.icon}}</mat-icon>
+              <div class="name" [attr.svg_filter]="'text_primary'">
+                {{c.name}}
+              </div>
+            </button>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <div *ngIf="n.type=='separator'" [attr.type]="'separator'">
+        <mat-divider style="margin: 8px 16px;"></mat-divider>
+      </div>
+      <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
+        <button [attr.default]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+          [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+          [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
+          [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
+          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
+          <div class="name" [attr.svg_filter]="'text_primary'">
+            {{n.name}}
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="settings">
-    <button [attr.menu_key]="'_gh_settings'" [attr.menu_value]="'_gh_settings'" mat-icon-button
-    (click)="onMenu($event)" [attr.region]="'settings'" style="border-radius: 4px;">
-    <mat-icon [attr.svg_filter]="'text_primary'" class="icon">settings</mat-icon>
-  </button>
+    <button [attr.menu_key]="'_gh_settings'" [attr.menu_value]="'_gh_settings'" mat-icon-button (click)="onMenu($event)"
+      [attr.region]="'settings'" style="border-radius: 4px;">
+      <mat-icon [attr.svg_filter]="'text_primary'" class="icon">settings</mat-icon>
+    </button>
   </div>
 
   <div class="switch_left_position" style="    position: absolute;

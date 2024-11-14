@@ -27,7 +27,7 @@ declare const window: any;
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  _keyword="";
+  _keyword = "";
 
   get keyword() { return this._keyword };
   set keyword(value: string) {
@@ -40,8 +40,11 @@ export class MenuComponent {
 
 
   current_menu_id = null;
+
   on($event, data, parent: any = {}) {
-    this.menu.current_menu_id = parent.id?`${parent.id}_${data.id}`:data.id;
+
+    this.menu.current_menu_pid = parent.id ? `${parent.id}` : data.id;
+    this.menu.current_menu_id = parent.id ? `${parent.id}_${data.id}` : data.id;
     this.menu.post();
     if (parent.id) this.AppData.setsource(parent.id)
     if (data.click) {
@@ -85,21 +88,21 @@ export class MenuComponent {
     public menu: MenuService,
     public router: Router,
     public pulg: PulgService,
-    public GetKeyboardKey:GetKeyboardKeyService,
+    public GetKeyboardKey: GetKeyboardKeyService,
     public PulgJavascript: PulgJavascriptService,
     public ContextMenuController: ContextMenuControllerService,
     public ContextMenuEvent: ContextMenuEventService,
     public ControllerSettings: ControllerSettingsService,
     public DropDownMenu: DropDownMenuService,
     public UrlToComicsId: UrlToComicsIdService,
-    public MenuSearch:MenuSearchService,
+    public MenuSearch: MenuSearchService,
     public route: ActivatedRoute,
-    public SoundEffects:SoundEffectsService,
-    public AboutSoftware:AboutSoftwareService,
-    public PlugInInstructions:PlugInInstructionsService,
-    public CachePage:CachePageService,
-    public UrlUsageGuide:UrlUsageGuideService,
-    public PageTheme:PageThemeService,
+    public SoundEffects: SoundEffectsService,
+    public AboutSoftware: AboutSoftwareService,
+    public PlugInInstructions: PlugInInstructionsService,
+    public CachePage: CachePageService,
+    public UrlUsageGuide: UrlUsageGuideService,
+    public PageTheme: PageThemeService,
     private zone: NgZone
   ) {
 
@@ -121,14 +124,39 @@ export class MenuComponent {
           icon: "folder_open",
           name: this.DbEvent.Configs[x].name,
           submenu: [],
-          expanded:true
+          expanded: true
         };
         if (this.DbEvent.Configs[x].menu) {
           for (let index = 0; index < this.DbEvent.Configs[x].menu.length; index++) {
-            obj.submenu.push(this.DbEvent.Configs[x].menu[index])
+            const j122 = this.DbEvent.Configs[x].menu[index]
+            let obj1 = {
+              ...j122,
+              click: () => {
+                console.log(x);
+                this.menu.current_menu_pid = x ? `${x}` : j122.id;
+                this.menu.current_menu_id = x ? `${x}_${j122.id}` : j122.id;
+                if (x) this.AppData.setsource(x)
+
+
+                if (j122.query.type == "choice") {
+
+                  this.router.navigate(['/query', 'choice', x, j122.id]);
+                }
+                if (j122.query.type == "search") {
+                  this.router.navigate(['/search', x, ""]);
+                }
+                if (j122.query.type == "multipy") {
+                  this.router.navigate(['/query', 'multipy', x, j122.id]);
+                }
+                if (j122.query.type == "single") {
+                  this.router.navigate(['/query', 'single', x, j122.id]);
+                }
+              }
+            }
+            obj.submenu.push(obj1)
           }
         }
-        if(this.DbEvent.Configs[x].type=="comics"){
+        if (this.DbEvent.Configs[x].type == "comics") {
           obj.submenu.push(
             {
               id: "history",
@@ -139,17 +167,17 @@ export class MenuComponent {
               }
             }
           )
-          obj.submenu.push(
-            {
-              id: "developer",
-              icon: "code",
-              name: "API 测试菜单",
-              click: (e) => {
-                this.router.navigate(['developer', e.parent.id]);
-              }
-            }
-          )
-        }else{
+          // obj.submenu.push(
+          //   {
+          //     id: "developer",
+          //     icon: "code",
+          //     name: "API 测试菜单",
+          //     click: (e) => {
+          //       this.router.navigate(['developer', e.parent.id]);
+          //     }
+          //   }
+          // )
+        } else {
           obj.submenu.push(
             {
               id: "history",
@@ -165,11 +193,11 @@ export class MenuComponent {
         this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })
-      if(['local_cache','temporary_file'].includes(this.AppData.source)){
-        this.data.menu_2_obj=this.data.menu_2[0]
+      if (['local_cache', 'temporary_file'].includes(this.AppData.source)) {
+        this.data.menu_2_obj = this.data.menu_2[0]
 
-      }else{
-        this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==this.AppData.source)
+      } else {
+        this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
         // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
         // this.data.menu[index].expanded=true;
       }
@@ -229,12 +257,12 @@ export class MenuComponent {
             name: "主题",
             click: () => {
               this.PageTheme.open({
-                position:{
-                  left:"10px",
-                  bottom:"100px"
+                position: {
+                  left: "10px",
+                  bottom: "100px"
                 },
                 panelClass: "_controller_settings",
-                backdropClass:"_reader_config_bg",
+                backdropClass: "_reader_config_bg",
               });
             }
           },
@@ -279,9 +307,9 @@ export class MenuComponent {
             name: "音频",
             click: () => {
               SoundEffects.open({
-                position:{
-                  left:"10px",
-                  bottom:"10px"
+                position: {
+                  left: "10px",
+                  bottom: "10px"
                 }
               })
             }
@@ -302,12 +330,38 @@ export class MenuComponent {
             }
           }
         ]
-    })
+      })
+
+    ContextMenuEvent.register('menu_item_v3',
+      {
+        send: ($event, data) => {
+          const value = $event.getAttribute("content_menu_value")
+          const obj = this.data.menu.find(x => x.id.toString() == value.toString());
+          data = obj.submenu;
+          console.log(data);
+
+          return data
+        },
+        on: async (e: any) => {
+          e.click({
+            parent: {
+              id: e.value
+            }
+          })
+        },
+        menu: [
+          {
+            id: "history",
+            name: "历史记录"
+          }
+        ]
+
+      })
+
 
 
   }
-  async is_on(e){
-    console.log(e);
+  async is_on(e) {
 
     // this.data.menu.forEach(x=>{
     //   if(x.id==e.id) {
@@ -321,16 +375,16 @@ export class MenuComponent {
 
   }
 
-  async openMenuSearch(){
+  async openMenuSearch() {
     this.MenuSearch.open({
-      position:{
-        left:"8px",
-        top:"8px"
+      position: {
+        left: "8px",
+        top: "8px"
       }
     });
   }
-  async opensource(){
-    let list=[];
+  async opensource() {
+    let list = [];
     Object.keys(this.DbEvent.Events).forEach(x => {
       if (x == "temporary_file") return
       if (x == "local_cache") return
@@ -341,11 +395,11 @@ export class MenuComponent {
       list.push(obj)
     })
 
-     let obj:any=await this.DropDownMenu.open(list);
-     if(obj){
-      this.data.menu_2_obj=this.data.menu_2.find(x=>x.id==obj.id)
+    let obj: any = await this.DropDownMenu.open(list);
+    if (obj) {
+      this.data.menu_2_obj = this.data.menu_2.find(x => x.id == obj.id)
 
-     }
+    }
   }
   onMenu(e) {
     const node = document.querySelector("[menu_key=_gh_settings]")
@@ -361,7 +415,7 @@ export class MenuComponent {
           const blob = await clipboardItem.getType(type);
           const f = await fetch(URL.createObjectURL(blob))
           const t = await f.text()
-          if(t.substring(0,4)=="http"){
+          if (t.substring(0, 4) == "http") {
             this.UrlToComicsId.UrlToDetailIdAll(t)
           }
         }
@@ -432,7 +486,17 @@ export class MenuComponent {
     this.temporaryFile.files = [...this.temporaryFile.files, ...files_arr];
 
   }
-  on1(){
-    this.menu.mode_1= this.menu.mode_1==0?1:0;
+  on1() {
+    if (this.menu.mode_1 == 1) this.menu.mode_1 = 2
+    else if (this.menu.mode_1 == 2) this.menu.mode_1 = 3
+    else if (this.menu.mode_1 == 3) this.menu.mode_1 = 1
+    else this.menu.mode_1 = 1;
   }
+  on3fee(e) {
+    this.menu.current_menu_pid =   `${e.id}`;
+    this.menu.current_menu_id =  `${e.id}_history`
+
+    this.router.navigate(['query', 'history', e.id]);
+  }
+
 }

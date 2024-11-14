@@ -47,6 +47,8 @@ chrome.runtime.onMessage.addListener(
     } else if (request.type == "new_page") {
       newPage(request)
     }
+
+
   }
 );
 

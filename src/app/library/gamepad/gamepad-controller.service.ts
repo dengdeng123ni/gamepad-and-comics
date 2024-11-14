@@ -193,12 +193,21 @@ export class GamepadControllerService {
   device2(input: string) {
     if(this.is_when_inputting){
       if(input=="Enter"){
+        if (document.body.getAttribute("pattern") !== "gamepad"){
+          return
+        }
+
 
       }else if(input=="Escape"){
-
+        return
       }else{
         return null
       }
+    }
+    if(input=="Enter"){
+      // if(document.activeElement.tagName=="INPUT") return
+
+
     }
     this.getCurrentTarget();
     const region = this.current.region;
