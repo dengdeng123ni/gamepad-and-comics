@@ -57,6 +57,11 @@ export class MenuService {
       this.mode = res.mode;
       this.position = res.position;
       this.mode_1=res.mode_1??1;
+      if(this.mode_1==1||this.mode_1==2||this.mode_1==3){
+
+      }else{
+        this.mode_1=1;
+      }
       if(!this.current_menu_id)  this.current_menu_id=res.current_menu_id;
       if(!this.current_menu_pid)  this.current_menu_pid=res.current_menu_pid;
 

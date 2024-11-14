@@ -132,7 +132,6 @@ export class MenuComponent {
             let obj1 = {
               ...j122,
               click: () => {
-                console.log(x);
                 this.menu.current_menu_pid = x ? `${x}` : j122.id;
                 this.menu.current_menu_id = x ? `${x}_${j122.id}` : j122.id;
                 if (x) this.AppData.setsource(x)
@@ -162,29 +161,25 @@ export class MenuComponent {
               id: "history",
               icon: "history",
               name: "历史记录",
-              click: (e) => {
-                this.router.navigate(['query', 'history', e.parent.id]);
+              click: () => {
+
+                this.menu.current_menu_pid = `${x}`;
+                this.menu.current_menu_id = `${x}_history`
+                this.router.navigate(['query', 'history', x]);
               }
             }
           )
-          // obj.submenu.push(
-          //   {
-          //     id: "developer",
-          //     icon: "code",
-          //     name: "API 测试菜单",
-          //     click: (e) => {
-          //       this.router.navigate(['developer', e.parent.id]);
-          //     }
-          //   }
-          // )
         } else {
           obj.submenu.push(
             {
               id: "history",
               icon: "history",
               name: "历史记录",
-              click: (e) => {
-                this.router.navigate(['novel_query', 'history', e.parent.id]);
+              click: () => {
+
+                this.menu.current_menu_pid = `${x}`;
+                this.menu.current_menu_id = `${x}_history`
+                this.router.navigate(['novel_query', 'history', x]);
               }
             }
           )
@@ -337,25 +332,53 @@ export class MenuComponent {
         send: ($event, data) => {
           const value = $event.getAttribute("content_menu_value")
           const obj = this.data.menu.find(x => x.id.toString() == value.toString());
-          data = obj.submenu;
-          console.log(data);
 
-          return data
+          return [...data, ...obj.submenu]
         },
         on: async (e: any) => {
-          e.click({
-            parent: {
-              id: e.value
-            }
-          })
+          e.click(e.value)
         },
         menu: [
           {
-            id: "history",
-            name: "历史记录"
+            id: "open_href",
+            name: "打开网站",
+            click: (e) => {
+              window.open(this.DbEvent.Configs[e].href)
+            }
           }
         ]
+      })
+    ContextMenuEvent.register('menu_item_v2',
+      {
 
+        on: async (e: any) => {
+          e.click(e.value)
+        },
+        menu: [
+          {
+            id: "open_href",
+            name: "打开网站",
+            click: (e) => {
+              window.open(this.DbEvent.Configs[e].href)
+            }
+          }
+        ]
+      })
+    ContextMenuEvent.register('menu_item_v1',
+      {
+
+        on: async (e: any) => {
+          e.click(e.value)
+        },
+        menu: [
+          {
+            id: "open_href",
+            name: "打开网站",
+            click: (e) => {
+              window.open(this.DbEvent.Configs[e].href)
+            }
+          }
+        ]
       })
 
 
@@ -398,6 +421,7 @@ export class MenuComponent {
     let obj: any = await this.DropDownMenu.open(list);
     if (obj) {
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == obj.id)
+
 
     }
   }
@@ -493,8 +517,8 @@ export class MenuComponent {
     else this.menu.mode_1 = 1;
   }
   on3fee(e) {
-    this.menu.current_menu_pid =   `${e.id}`;
-    this.menu.current_menu_id =  `${e.id}_history`
+    this.menu.current_menu_pid = `${e.id}`;
+    this.menu.current_menu_id = `${e.id}_history`
 
     this.router.navigate(['query', 'history', e.id]);
   }

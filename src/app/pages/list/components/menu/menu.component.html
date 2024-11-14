@@ -22,7 +22,7 @@
   <div *ngIf="menu.mode_1==2">
     <div [attr.type]="'expansion'">
       <button mat-button style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
-        (click)="opensource()">
+        (click)="opensource()" [attr.content_menu_value]="data.menu_2_obj.id" [attr.content_menu_key]="'menu_item_v2'">
         <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
         <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'">
           {{data.menu_2_obj.name}}
@@ -32,6 +32,7 @@
         [attr.select]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
         [attr.selected]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)" [attr._id]="data.menu_2_obj.id+'_'+c.id"
         *ngFor="let c of data.menu_2_obj.submenu;let index2=index" mat-button class="item item1"
+
         [attr.region]="'menu_item'" (click)="on($event,c,{
             id:data.menu_2_obj.id,
             name:data.menu_2_obj.name
@@ -101,7 +102,7 @@
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <button mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false"
-                  [attr.default]="false" (click)="is_on(n)">
+                  [attr.default]="false" (click)="is_on(n)" [attr.content_menu_value]="n.id" [attr.content_menu_key]="'menu_item_v1'">
                   <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
                   <div class="name" [attr.svg_filter]="'text_primary'">
                     {{n.name}}

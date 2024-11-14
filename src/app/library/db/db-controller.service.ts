@@ -328,15 +328,21 @@ export class DbControllerService {
 
             const id1 = await getImageURL(url);
             let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
-
-            if (blob.size < 5000 && blob.type.split("/")[0] == "image") {
+            if (blob.size < 3000 && blob.type.split("/")[0] == "image") {
               blob = await this.DbEvent.Events[option.source]["getImage"](id1)
             }
+
 
             const response = new Response(blob);
             const request = new Request(url);
 
-            if (blob.size > 5000 && blob.type.split("/")[0] == "image") await this.caches.put(request, response);
+            if (blob.size > 3000 && blob.type.split("/")[0] == "image") await this.caches.put(request, response);
+            else {
+              if(blob.type == "binary/octet-stream"){
+                const c=await createImageBitmap(blob)
+                await this.caches.put(request, response);
+              }
+            }
             const res2 = await caches.match(url);
             if (res2) {
               const blob2 = await res2.blob()
@@ -345,7 +351,10 @@ export class DbControllerService {
               return blob
             }
           }
+          console.log(url);
+
           const res = await caches.match(url);
+console.log(url,res);
 
           if (res) {
 
