@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule,provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
 import { GamepadVioceComponent } from './library/gamepad/gamepad-vioce/gamepad-vioce.component';
 import { MaterialModule } from './library/material.module';
@@ -17,7 +17,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { CompositeModule } from './composite/composite.module';
 import { NovelsDetailModule } from './pages/novels-detail/novels-detail.module';
 import { NovelsRdeaderModule } from './pages/novels-reader/novels-reader.module';
-
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 const dbConfig: DBConfig = {
   name: 'db',
   version: 33,
@@ -224,7 +225,9 @@ const dbConfig: DBConfig = {
   ]
 };
 
-
+function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -234,6 +237,13 @@ const dbConfig: DBConfig = {
   ],
   imports: [
     BrowserModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  }),
     AppRoutingModule,
     BrowserAnimationsModule,
     NgxIndexedDBModule.forRoot(dbConfig),
@@ -249,11 +259,13 @@ const dbConfig: DBConfig = {
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+
     NovelsDetailModule,
     NovelsRdeaderModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient(withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]
 })
