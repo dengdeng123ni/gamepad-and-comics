@@ -73,14 +73,16 @@ export class PulgService {
   }
 
   async loadAllAssets() {
-    const res = await this.MessageFetch.cacheFetch(document.querySelector("base").href + 'ngsw.json')
-    if (!res.ok) return
-    const json = await res.json();
-    for (let index = 0; index < json.assetGroups.length; index++) {
-      const x = json.assetGroups[index];
-      for (let f = 0; f < x.urls.length; f++) {
-        const c = x.urls[f];
-        await this.MessageFetch.cacheFetch(document.querySelector("base").href.slice(0, -1) + c)
+    if(window.location.protocol=="https:"){
+      const res = await this.MessageFetch.cacheFetch(document.querySelector("base").href + 'ngsw.json')
+      if (!res.ok) return
+      const json = await res.json();
+      for (let index = 0; index < json.assetGroups.length; index++) {
+        const x = json.assetGroups[index];
+        for (let f = 0; f < x.urls.length; f++) {
+          const c = x.urls[f];
+          await this.MessageFetch.cacheFetch(document.querySelector("base").href.slice(0, -1) + c)
+        }
       }
     }
   }

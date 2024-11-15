@@ -1305,6 +1305,7 @@ window._gh_comics_register({
 });
 window._gh_comics_register({
   id: "nhentai_xxx",
+  href:"https://nhentai.xxx/",
   is_cache: true,
   is_download: true,
   is_preloading: true,
@@ -1396,6 +1397,7 @@ return arr
 });
 window._gh_comics_register({
   id: "yabai",
+  href:"https://yabai.si/g",
   is_cache: true,
   is_download: true,
   is_preloading: true,

@@ -233,6 +233,7 @@ const init = () => {
   //   console.log(newWindow);
 
   // });
+  // chrome.tabs.create({ url: chrome.runtime.getURL("./browser/index.html") });
 }
 
 init();
