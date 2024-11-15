@@ -188,6 +188,7 @@ export class AppComponent {
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     this.init();
+
     // GamepadEvent.areaEvents("content_menu",{
     //   UP:()=>
     // })
@@ -230,27 +231,34 @@ export class AppComponent {
       this.svg.init();
       setTimeout(() => {
         this.App.init();
-        window.addEventListener('visibilitychange', () => {
-          if (document.hidden) {
+        var search= window.location.search;
+        const obj = new URLSearchParams(search);
+        const url=obj.get('url')
+        this.RoutingController.strRouterReader(url);
+        if(!url){
+          window.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
 
-          } else {
-            let nn = 0;
-            const gg = () => {
-              if (document.hasFocus()) this.RoutingController.getClipboardContents();
-              setTimeout(() => {
-                if (nn < 10) {
-                  gg();
-                  nn++;
-                }
-              }, 2000)
+            } else {
+              let nn = 0;
+              const gg = () => {
+                if (document.hasFocus()) this.RoutingController.getClipboardContents();
+                setTimeout(() => {
+                  if (nn < 10) {
+                    gg();
+                    nn++;
+                  }
+                }, 2000)
+              }
+              gg();
             }
-            gg();
-          }
-        });
+          });
 
-        if (document.hasFocus()) this.RoutingController.getClipboardContents();
+          if (document.hasFocus()) this.RoutingController.getClipboardContents();
+        }
       }, 50)
     }, 200)
+
     // this.getPulgLoadingFree();
   }
   getAnimationData() {

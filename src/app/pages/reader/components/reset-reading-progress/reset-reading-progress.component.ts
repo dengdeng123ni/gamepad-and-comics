@@ -34,7 +34,7 @@ export class ResetReadingProgressComponent {
   }
 
   async reset(comics_id) {
-    const detail = await this.DbController.getDetail(comics_id)
+    const detail = await this.DbController.getDetail(comics_id,{source:this.current.source})
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
       firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 }))

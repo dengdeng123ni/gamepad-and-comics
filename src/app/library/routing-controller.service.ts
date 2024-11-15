@@ -58,7 +58,16 @@ export class RoutingControllerService {
     }
     return null
   }
-   getClipboardContents=async ()=> {
+  async strRouterReader(t) {
+    if (t.substring(0, 4) == "http") {
+      const obj = await this.UrlToComicsId(t);
+
+      if (obj) {
+        this.routerReader(obj.oright, obj.id)
+      }
+    }
+  }
+  getClipboardContents = async () => {
     try {
       const navigator = (window as any).__POWERED_BY_WUJIE__ ? window.parent.navigator : window.navigator;
       const clipboardItems = await navigator.clipboard.read();
@@ -70,7 +79,6 @@ export class RoutingControllerService {
           const t = await f.text()
           if (t.substring(0, 4) == "http") {
             const obj = await this.UrlToComicsId(t);
-
             if (obj) {
               this.routerReader(obj.oright, obj.id)
               await navigator.clipboard.writeText(obj.title)
@@ -83,17 +91,38 @@ export class RoutingControllerService {
     }
   }
   async routerReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
-    if (_res[1]) {
-      this.router.navigate(['/comics', source, comics_id, _res[1].chapter_id])
-    } else {
-      this.router.navigate(['/comics', source, comics_id, _res[0].chapters[0].id])
+    if("novels"==this.DbEvent.Configs[source].type){
+      const _res: any = await Promise.all([
+        this.DbController.getDetail(comics_id,{
+        source:source
+      }), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
+      if (_res[1]) {
+        this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
+      } else {
+        this.router.navigate(['/novels', source, comics_id, _res[0].chapters[0].id])
+      }
+    }else{
+      const _res: any = await Promise.all([
+        this.DbController.getDetail(comics_id,{
+        source:source
+      }), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
+      if (_res[1]) {
+        this.router.navigate(['/comics', source, comics_id, _res[1].chapter_id])
+      } else {
+        this.router.navigate(['/comics', source, comics_id, _res[0].chapters[0].id])
+      }
     }
   }
 
   async routerDetail(source, comics_id) {
-    this.router.navigate(['/detail', source, comics_id]);
+    if("novels"==this.DbEvent.Configs[source].type){
+      this.router.navigate(['/novels_detail', source, comics_id]);
+    }else{
+      this.router.navigate(['/detail', source, comics_id]);
+    }
+
   }
+
   async navigate(page) {
 
     const list: any = await firstValueFrom(this.webDb.getAll('router'))
