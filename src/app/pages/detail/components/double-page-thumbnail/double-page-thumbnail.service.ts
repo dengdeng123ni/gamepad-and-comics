@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DoublePageThumbnailComponent } from './double-page-thumbnail.component';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
+import { DoublePageThumbnailComponent } from './double-page-thumbnail.component';
 
 interface DialogData {
   chapter_id: string;

@@ -16,7 +16,6 @@ import { MenuSearchService } from '../menu-search/menu-search.service';
 import { SoundEffectsService } from '../sound-effects/sound-effects.service';
 import { AboutSoftwareService } from '../about-software/about-software.service';
 import { PlugInInstructionsService } from '../plug-in-instructions/plug-in-instructions.service';
-import { CachePageService } from '../cache-page/cache-page.service';
 import { UrlUsageGuideService } from '../url-usage-guide/url-usage-guide.service';
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
 import { PageThemeService } from '../page-theme/page-theme.service';
@@ -100,7 +99,6 @@ export class MenuComponent {
     public SoundEffects: SoundEffectsService,
     public AboutSoftware: AboutSoftwareService,
     public PlugInInstructions: PlugInInstructionsService,
-    public CachePage: CachePageService,
     public UrlUsageGuide: UrlUsageGuideService,
     public PageTheme: PageThemeService,
     private zone: NgZone

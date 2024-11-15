@@ -5,71 +5,74 @@
       <mat-button-toggle-group style="    width: 100%;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr;" [value]="type">
-        <mat-button-toggle [attr.region]="'item'" value="PDF"
-          (click)="type='PDF'" [matTooltipShowDelay]="3000" [matTooltip]="'PDT'">PDF</mat-button-toggle>
-        <mat-button-toggle [attr.region]="'item'" value="PPT"
-          (click)="type='PPT'" [matTooltipShowDelay]="3000" [matTooltip]="'PPT'">PPT</mat-button-toggle>
-        <mat-button-toggle [attr.region]="'item'" value="EPUB"
-          (click)="type='EPUB';onEpub()" [matTooltipShowDelay]="3000" [matTooltip]="'EPUB'">EPUB</mat-button-toggle>
-        <mat-button-toggle [attr.region]="'item'" value="ZIP"
-          (click)="type='ZIP'" [matTooltipShowDelay]="3000" [matTooltip]="'ZIP'">ZIP</mat-button-toggle>
-          <mat-button-toggle [attr.region]="'item'" value="IMAGES"
-          (click)="type='IMAGES';onImage()" [matTooltipShowDelay]="3000" [matTooltip]="'IMAGES'">长图片</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'item'" value="PDF" (click)="type='PDF'" [matTooltipShowDelay]="3000"
+          [matTooltip]="'PDT'">PDF</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'item'" value="PPT" (click)="type='PPT'" [matTooltipShowDelay]="3000"
+          [matTooltip]="'PPT'">PPT</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'item'" value="EPUB" (click)="type='EPUB';onEpub()"
+          [matTooltipShowDelay]="3000" [matTooltip]="'EPUB'">EPUB</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'item'" value="ZIP" (click)="type='ZIP'" [matTooltipShowDelay]="3000"
+          [matTooltip]="'ZIP'">ZIP</mat-button-toggle>
+        <mat-button-toggle [attr.region]="'item'" value="IMAGES" (click)="type='IMAGES';onImage()"
+          [matTooltipShowDelay]="3000" [matTooltip]="'IMAGES'">{{'长图片' | translate}}</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
     <mat-divider style="margin: 8px 0;"></mat-divider>
     <div class="item">
       <mat-chip-listbox>
-        <mat-chip-option  id="page_one" [attr.type]="'chip'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.single_page" (selectionChange)="change('one')" [selectable]="page!='one'"
-          *ngIf="type!='EPUB'" [attr.region]="'item'">{{i18n.config.single_page}}</mat-chip-option>
-        <mat-chip-option id="page_double" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.double_page" [attr.type]="'chip'" (selectionChange)="change('double')"
-          [selectable]="page!='double'" *ngIf="type!='IMAGES'" selected [attr.region]="'item'">{{i18n.config.double_page}}</mat-chip-option>
+        <mat-chip-option id="page_one" [attr.type]="'chip'" [matTooltipShowDelay]="3000" [matTooltip]="'单页'| translate"
+          (selectionChange)="change('one')" [selectable]="page!='one'" *ngIf="type!='EPUB'"
+          [attr.region]="'item'">{{'单页'| translate}}</mat-chip-option>
+        <mat-chip-option id="page_double" [matTooltipShowDelay]="3000" [matTooltip]="'双页'| translate"
+          [attr.type]="'chip'" (selectionChange)="change('double')" [selectable]="page!='double'" *ngIf="type!='IMAGES'"
+          selected [attr.region]="'item'">{{'双页'| translate}}</mat-chip-option>
       </mat-chip-listbox>
-      <button mat-mini-fab class="icon" (click)="on($event)" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.images" [attr.region]="'item'" [attr.select]="true">
+      <button mat-mini-fab class="icon" (click)="on($event)" [matTooltipShowDelay]="3000"
+        [matTooltip]="'下载'| translate" [attr.region]="'item'" [attr.select]="true">
         <mat-icon>file_download</mat-icon>
       </button>
     </div>
-    <mat-divider style="margin-top: 8px;" ></mat-divider>
+    <mat-divider style="margin-top: 8px;"></mat-divider>
     <div class="item" *ngIf="page=='double'">
-      <div class="name">{{i18n.config.page_order}}</div>
+      <div class="name">{{'页面顺序'| translate}}</div>
       <div class="options">
         <mat-radio-group [(ngModel)]="pageOrder">
-          <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.ordinary" [attr.region]="'item'"
-            [value]="true">{{i18n.config.ordinary}}</mat-radio-button>
-          <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.japanese_manga" [attr.region]="'item'"
-            [value]="false">{{i18n.config.japanese_manga}}</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="'普通'|translate"
+            [attr.region]="'item'" [value]="true">{{'普通'|translate}}</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="'日漫'|translate"
+            [attr.region]="'item'" [value]="false">{{'日漫'|translate}}</mat-radio-button>
         </mat-radio-group>
       </div>
     </div>
     <div class="item" *ngIf="page=='double'&&type!='EPUB'">
-      <div class="name">{{i18n.config.first_page_cover}}</div>
+      <div class="name">{{'第一页封面'|translate}}</div>
       <div class="options">
-        <mat-slide-toggle [matTooltip]="i18n.config.first_page_cover" [attr.type]="'slide'" [attr.region]="'item'"
+        <mat-slide-toggle [matTooltip]="'第一页封面'|translate" [attr.type]="'slide'" [attr.region]="'item'"
           [(ngModel)]="isFirstPageCover"></mat-slide-toggle>
 
       </div>
     </div>
     <div class="item" *ngIf="page=='double'&&type=='EPUB'">
-      <div class="name">{{i18n.config.first_page_cover}}</div>
+      <div class="name">{{'第一页封面'|translate}}</div>
       <div class="options">
-        <mat-slide-toggle [matTooltip]="i18n.config.first_page_cover" [attr.type]="'slide'" [attr.region]="'item'"
-          [disabled]="true"  [(ngModel)]="isFirstPageCoverEPUB"></mat-slide-toggle>
+        <mat-slide-toggle [matTooltip]="'第一页封面'|translate" [attr.type]="'slide'" [attr.region]="'item'"
+          [disabled]="true" [(ngModel)]="isFirstPageCoverEPUB"></mat-slide-toggle>
       </div>
     </div>
     <div class="item" style="justify-content: space-between;
     align-items: start;
     height: initial;" *ngIf="type=='IMAGES'">
-      <div class="name" style="    margin-top: 8px;">方向</div>
+      <div class="name" style="    margin-top: 8px;">{{'方向'|translate}}</div>
       <div class="options" style="flex-direction: column;">
-        <mat-radio-group [(ngModel)]="direction "  style="flex-direction: column;display: flex;">
-          <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.ordinary" [attr.region]="'item'"
-            [value]="'down'">从上往下</mat-radio-button>
-          <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.japanese_manga" [attr.region]="'item'"
-            [value]="'up'">从下往上</mat-radio-button>
-            <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.japanese_manga" [attr.region]="'item'"
-            [value]="'left'">从左往右</mat-radio-button>
-            <mat-radio-button [attr.type]="'radio'" [matTooltipShowDelay]="3000" [matTooltip]="i18n.config.japanese_manga" [attr.region]="'item'"
-            [value]="'right'">从右往左</mat-radio-button>
+        <mat-radio-group [(ngModel)]="direction " style="flex-direction: column;display: flex;">
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'"
+            [value]="'down'">{{'从上往下'|translate}}</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'"
+            [value]="'up'">{{'从下往上'|translate}}</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'"
+            [value]="'left'">{{'从左往右'|translate}}</mat-radio-button>
+          <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'"
+            [value]="'right'">{{'从右往左'|translate}}</mat-radio-button>
         </mat-radio-group>
       </div>
     </div>

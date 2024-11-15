@@ -1,7 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { AppDataService, ContextMenuEventService, DbControllerService } from 'src/app/library/public-api';
-import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { CurrentService } from '../../services/current.service';
 import { Router } from '@angular/router';
 import { DropDownMenuService } from '../drop-down-menu/drop-down-menu.service';
@@ -38,7 +37,6 @@ export class ChapterListMode1Component {
     public router: Router,
     public current: CurrentService,
     public ContextMenuEvent: ContextMenuEventService,
-    public exportSettings: ExportSettingsService,
     public DbController: DbControllerService,
     public DropDownMenu: DropDownMenuService,
     private _snackBar: MatSnackBar,
@@ -125,8 +123,6 @@ export class ChapterListMode1Component {
     let { x, y, width, height } = node!.getBoundingClientRect();
     x = window.innerWidth - 300;
     y = window.innerHeight;
-    this.exportSettings.open({
-    })
   }
 
 

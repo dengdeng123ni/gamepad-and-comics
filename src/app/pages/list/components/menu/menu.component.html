@@ -16,7 +16,7 @@
     justify-content: start;" (click)="openMenuSearch()">
     <mat-icon class="icon" [attr.svg_filter]="'text_primary'">search</mat-icon>
     <div class="name" style="color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'">
-      搜索
+      {{'搜索'|translate}}
     </div>
   </button>
   <div *ngIf="menu.mode_1==2">
@@ -39,7 +39,7 @@
           })">
         <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{c.icon}}</mat-icon>
         <div class="name" [attr.svg_filter]="'text_primary'">
-          {{c.name}}
+          {{c.name | translate}}
         </div>
       </button>
     </div>
@@ -54,7 +54,7 @@
           [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
           <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
           <div class="name" [attr.svg_filter]="'text_primary'">
-            {{n.name}}
+              {{n.name | translate}}
           </div>
         </button>
       </div>
@@ -72,7 +72,7 @@
           [attr.content_menu_value]="n.id" [attr.content_menu_key]="'menu_item_v3'">
           <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
           <div class="name" [attr.svg_filter]="'text_primary'">
-            {{n.name}}
+              {{n.name | translate}}
           </div>
         </button>
 
@@ -87,7 +87,7 @@
           [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
           <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
           <div class="name" [attr.svg_filter]="'text_primary'">
-            {{n.name}}
+            {{n.name | translate}}
           </div>
         </button>
       </div>
@@ -105,7 +105,7 @@
                   [attr.default]="false" (click)="is_on(n)" [attr.content_menu_value]="n.id" [attr.content_menu_key]="'menu_item_v1'">
                   <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
                   <div class="name" [attr.svg_filter]="'text_primary'">
-                    {{n.name}}
+                      {{n.name | translate}}
                   </div>
                 </button>
               </mat-panel-title>
@@ -136,7 +136,7 @@
           [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
           <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
           <div class="name" [attr.svg_filter]="'text_primary'">
-            {{n.name}}
+              {{n.name | translate}}
           </div>
         </button>
       </div>

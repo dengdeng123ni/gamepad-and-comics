@@ -8,6 +8,7 @@ import { ReadRecordChapterService } from './library/read-record-chapter/read-rec
 import { TestService } from './composite/test/test.service';
 import { bufferCount, Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
+import { TranslateService } from '@ngx-translate/core';
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [
@@ -126,9 +127,12 @@ export class AppComponent {
     public ReadRecordChapter: ReadRecordChapterService,
     public ImageToController: ImageToControllerService,
     public testService: TestService,
+    private translate: TranslateService,
     public App: AppDataService
   ) {
-
+    this.translate.addLangs(['zh']);
+    this.translate.setDefaultLang('zh');
+    this.translate.use('zh');
     this.keydown.pipe(bufferCount(2)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))
     });

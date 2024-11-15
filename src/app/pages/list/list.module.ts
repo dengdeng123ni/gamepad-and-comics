@@ -11,7 +11,6 @@ import { HistoryComponent } from './components/history/history.component';
 import { DownloadOptionComponent } from './components/download-option/download-option.component';
 import { LocalCacheComponent } from './components/local-cache/local-cache.component';
 import { ComicsSearchComponent } from './components/comics-search/comics-search.component';
-import { ComicsListComponent } from './components/comics-list/comics-list.component';
 import { ComicsCustomChoiceComponent } from './components/comics-custom-choice/comics-custom-choice.component';
 import { ComicsCustomMultipyComponent } from './components/comics-custom-multipy/comics-custom-multipy.component';
 import { PulgJavascriptComponent } from './components/pulg-javascript/pulg-javascript.component';
@@ -23,17 +22,14 @@ import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-to
 import { UrlToComicsIdComponent } from './components/url-to-comics-id/url-to-comics-id.component';
 import { TabToolbarComponent } from './components/tab-toolbar/tab-toolbar.component';
 import { ComicsListConfigComponent } from './components/comics-list-config/comics-list-config.component';
-import { ImageCompressionComponent } from './components/image-compression/image-compression.component';
 import { ImageToComponent } from './components/image-to/image-to.component';
 import { CompositeModule } from 'src/app/composite/composite.module';
 import { DownloadProgressComponent } from './components/download-progress/download-progress.component';
 import { WhenInputtingComponent } from './components/when-inputting/when-inputting.component';
 import { MenuSearchComponent } from './components/menu-search/menu-search.component';
-import { ComicsListV3Component } from './components/comics-list-v3/comics-list-v3.component';
 import { SoundEffectsComponent } from './components/sound-effects/sound-effects.component';
 import { AboutSoftwareComponent } from './components/about-software/about-software.component';
 import { PlugInInstructionsComponent } from './components/plug-in-instructions/plug-in-instructions.component';
-import { CachePageComponent } from './components/cache-page/cache-page.component';
 import { UrlUsageGuideComponent } from './components/url-usage-guide/url-usage-guide.component';
 import { GetKeyboardKeyComponent } from './components/get-keyboard-key/get-keyboard-key.component';
 import { NovelsListComponent } from './components/novels-list/novels-list.component';
@@ -41,12 +37,11 @@ import { NovelsDownloadComponent } from './components/novels-download/novels-dow
 import { PageThemeComponent } from './components/page-theme/page-theme.component';
 import { DeveloperPageComponent } from './components/developer-page/developer-page.component';
 // import { ImageComponent } from 'src/app/library/public-api';
-
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
     IndexComponent,
-    ComicsListComponent,
     MenuComponent,
     ComicsSelectTypeComponent,
     TemporaryFileComponent,
@@ -65,16 +60,13 @@ import { DeveloperPageComponent } from './components/developer-page/developer-pa
     UrlToComicsIdComponent,
     TabToolbarComponent,
     ComicsListConfigComponent,
-    ImageCompressionComponent,
     ImageToComponent,
     DownloadProgressComponent,
     WhenInputtingComponent,
     MenuSearchComponent,
-    ComicsListV3Component,
     SoundEffectsComponent,
     AboutSoftwareComponent,
     PlugInInstructionsComponent,
-    CachePageComponent,
     UrlUsageGuideComponent,
     GetKeyboardKeyComponent,
     NovelsListComponent,
@@ -86,7 +78,8 @@ import { DeveloperPageComponent } from './components/developer-page/developer-pa
     CommonModule,
     ListRoutingModule,
     CompositeModule,
-    MaterialModule
+    MaterialModule,
+    TranslateModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

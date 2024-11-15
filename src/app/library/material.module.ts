@@ -53,6 +53,7 @@ import { ReadRecordComponent } from './read-record/read-record.component';
 import { ReadRecordChapterComponent } from './read-record-chapter/read-record-chapter.component';
 import { ContextMenuEditComponent } from './context-menu/context-menu-edit/context-menu-edit.component';
 import { DropDownMenuComponent } from './context-menu/drop-down-menu/drop-down-menu.component';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   imports: [
     FormsModule,
@@ -101,7 +102,8 @@ import { DropDownMenuComponent } from './context-menu/drop-down-menu/drop-down-m
     OverlayModule,
     PortalModule,
     ScrollingModule,
-    CommonModule
+    CommonModule,
+    TranslateModule
   ],
   exports: [
     FormsModule,
@@ -152,7 +154,8 @@ import { DropDownMenuComponent } from './context-menu/drop-down-menu/drop-down-m
     ScrollingModule,
     ImageComponent,
     ContextMenuEditComponent,
-    DropDownMenuComponent
+    DropDownMenuComponent,
+    TranslateModule
   ],
   declarations: [
     ImageComponent,

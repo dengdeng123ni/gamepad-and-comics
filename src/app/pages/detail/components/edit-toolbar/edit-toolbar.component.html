@@ -1,6 +1,6 @@
 <div class="detail_edit" *ngIf="data.is_edit">
   <div class="left">
-    <span> {{'已选择'}}({{ selectedLength }}) </span>
+    <span> {{'已选择'| translate}}({{ selectedLength }}) </span>
     <button
       mat-icon-button
       (click)="selectAll()"

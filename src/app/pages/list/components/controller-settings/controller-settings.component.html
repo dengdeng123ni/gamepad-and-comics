@@ -4,18 +4,18 @@
 
     font-size: 24px;
     opacity: 0.24;
-    margin: 12px 0;" [attr.svg_filter]="'text_secondary'">-控制-</div>
+    margin: 12px 0;" [attr.svg_filter]="'text_secondary'">-{{'控制' | translate}}-</div>
   </div>
 
   <div class="toolbar">
 
     <div style="display: flex;justify-content: space-between;">
-      <button mat-button [disabled]="true" (click)="reset()" [attr.svg_filter]="'text_secondary'">语音控制</button>
+      <button mat-button [disabled]="true" (click)="reset()" [attr.svg_filter]="'text_secondary'">{{'语音控制' | translate}}</button>
       <mat-slide-toggle [attr.region]="'item'"   [attr.select]="false"
         [attr.type]="'slide'" [(ngModel)]="GamepadController.is_voice_controller" ></mat-slide-toggle>
     </div>
     <button mat-button [attr.region]="'item'" [attr.default]="true" [attr.select]="true"
-    (click)="reset()" cdkFocusInitial [attr.svg_filter]="'text_primary'">恢复默认配置</button>
+    (click)="reset()" cdkFocusInitial [attr.svg_filter]="'text_primary'">{{'恢复默认配置' | translate}}</button>
   </div>
   <div class="content">
 

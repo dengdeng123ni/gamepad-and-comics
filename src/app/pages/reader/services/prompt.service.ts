@@ -57,9 +57,6 @@ export class PromptService {
     this._snackBar.open(data, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
 
-  endPrompt() {
-    this._snackBar.open(this.i18n.config.last_page, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
-  }
 
   firstPrompt() {
 

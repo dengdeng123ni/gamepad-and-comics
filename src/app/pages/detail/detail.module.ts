@@ -19,7 +19,7 @@ import { KeyboardToolbarComponent } from './components/keyboard-toolbar/keyboard
 import { ComicsToolbarComponent } from './components/comics-toolbar/comics-toolbar.component';
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 import { DoublePageThumbnailComponent } from './components/double-page-thumbnail/double-page-thumbnail.component';
-
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,8 @@ import { DoublePageThumbnailComponent } from './components/double-page-thumbnail
   imports: [
     CommonModule,
     DetailRoutingModule,
-    MaterialModule
+    MaterialModule,
+    TranslateModule
   ]
 })
 export class DetailModule { }
