@@ -11,7 +11,7 @@
               <button mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false" [attr.default]="false">
                 <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
                 <div class="name" [attr.svg_filter]="'text_primary'">
-                  图片工具
+                  {{'图片工具' | translate}}
                 </div>
               </button>
             </mat-panel-title>
@@ -20,28 +20,7 @@
             class="item item1" [attr.region]="'menu_item'">
             <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
             <div class="name" [attr.svg_filter]="'text_primary'">
-              滤镜和压缩
-            </div>
-          </button>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-accordion>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <button mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false" [attr.default]="false">
-                <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
-                <div class="name" [attr.svg_filter]="'text_primary'">
-                  图片滤镜
-                </div>
-              </button>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <button [attr._id]="1" [attr.default]="false" [attr.select]="false" [attr.selected]="false" mat-button
-            class="item item1" [attr.region]="'menu_item'" *ngFor="let n of arr" (click)="on(n)">
-            <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
-            <div class="name" [attr.svg_filter]="'text_primary'">
-              {{n.name}}
+              {{'滤镜和压缩' | translate}}
             </div>
           </button>
         </mat-expansion-panel>
@@ -54,18 +33,19 @@
       justify-content: space-between;
       margin: 12px;">
         <div class="left">
-          <button mat-button [attr.region]="'item'" color="accent" (click)="open_comics_list()" id="comics_list_837">待处理漫画</button>
+          <button mat-button [attr.region]="'item'" color="accent" (click)="open_comics_list()" id="comics_list_837">
+            {{'待处理漫画' | translate}}</button>
         </div>
         <div class="right" (click)="download()">
           <!-- <button mat-button [attr.region]="'item'" color="accent">普通下载</button> -->
-          <button mat-button [attr.region]="'item'">下载</button>
+          <button mat-button [attr.region]="'item'"> {{'下载' | translate}}</button>
         </div>
       </div>
       <!-- <mat-divider style="margin-top: 8px;"></mat-divider> -->
       <div class="box" style="display: flex;justify-content: space-between;">
         <div class="card" style="padding:0 12px;">
           <div class="title" style="font-size: 18px;margin: 8px;    margin-top: 0;">
-            输入图像
+            {{'输入图像' | translate}}
           </div>
           <app-image style="width: 384px;
           height: 216px;
@@ -74,7 +54,7 @@
         </div>
         <div class="card" style="padding:0 12px;">
           <div class="title" style="font-size: 18px;margin: 8px;    margin-top: 0;">
-            预览 - 输出图像
+            {{'预览' | translate}} - {{'输出图像' | translate}}
           </div>
           <app-image style="width: 384px;
           height: 216px;
@@ -83,28 +63,33 @@
         </div>
       </div>
       <div class="form">
+        <mat-chip-set style="margin: 12px;" cdkDropList cdkDropListOrientation="horizontal">
+          @for (n of arr; track n) {
+          <mat-chip (click)="on(n)" class="example-box" cdkDrag>{{n.name}}</mat-chip>
+          }
+        </mat-chip-set>
+
         <app-matrix [(values)]="saturateMatrix" [change]="saturateMatrixChange"></app-matrix>
 
-        <div class="compressed-image-option" >
+        <div class="compressed-image-option">
           <div class="item">
-            <div>是否压缩:</div>
-
+            <div>{{'是否压缩' | translate}}:</div>
             <mat-slide-toggle style="margin-left: 8px;" [(ngModel)]="is_compress" name="enableWifi"></mat-slide-toggle>
           </div>
           <div class="item" *ngIf="is_compress">
-            <div>图像宽度:</div>
+            <div>{{'图像宽度' | translate}}:</div>
             <input matInput [(ngModel)]="option.width" type="number" min="0">
           </div>
           <div class="item" *ngIf="is_compress">
-            <div>图像大小:</div>
+            <div>{{'图像大小' | translate}}:</div>
             <input matInput [(ngModel)]="option.size" type="number" min="0">
           </div>
           <div class="item" *ngIf="!option.size&&is_compress">
-            <div>图像质量:</div>
+            <div>{{'图像质量' | translate}}:</div>
             <input matInput [(ngModel)]="option.quality" type="number" min="0.2" max="1">
           </div>
           <div class="item" *ngIf="is_compress">
-            <div>图像类型:</div>
+            <div>{{'图像类型' | translate}}:</div>
             <mat-button-toggle-group appearance="legacy" [(ngModel)]="option.type" style="margin-left: 8px;">
               <mat-button-toggle value="png">png</mat-button-toggle>
               <mat-button-toggle value="jpeg">jpeg</mat-button-toggle>

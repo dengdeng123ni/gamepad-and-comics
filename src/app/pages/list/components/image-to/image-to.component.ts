@@ -32,6 +32,8 @@ export class ImageToComponent {
   cover = '';
   toCover = '';
 
+
+
   arr = [
     {
       name: "灰度",

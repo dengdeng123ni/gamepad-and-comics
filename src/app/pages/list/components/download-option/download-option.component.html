@@ -1,53 +1,52 @@
 <div class="warp" id="download_option">
   <div class="left">
-    <div class="title">下载</div>
+    <div class="title">{{'下载' | translate}}</div>
     <mat-divider style="margin: 4px 0;"></mat-divider>
     <div class="list">
       <div class="item">
-        <div class="name">类型</div>
+        <div class="name">{{'类型' | translate}}</div>
         <div class="select">
           <mat-checkbox [attr.region]="'item'" [attr.select]="index==0" [attr.type]="'checkbox'" *ngFor="let n of types;let index=index"
             [(ngModel)]="n.completed" (ngModelChange)="typeChange()">{{n.name}}</mat-checkbox>
         </div>
       </div>
       <div class="item">
-        <div class="name">页面</div>
+        <div class="name">{{'页面' | translate}}</div>
         <mat-radio-group [(ngModel)]="option.page">
           <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" value="one"
-            style="display: flex;">单页 <span style=" color: rgba(232, 230, 227, 0.56)">[EPUB]
-              不支持</span></mat-radio-button>
+            style="display: flex;">{{'单页' | translate}} <span style=" color: rgba(232, 230, 227, 0.56)"></span></mat-radio-button>
           <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" value="double"
-            style="display: flex;">双页</mat-radio-button>
+            style="display: flex;">{{'双页' | translate}}</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="item" *ngIf="option.page!='one'">
-        <div class="name">页面顺序</div>
+        <div class="name">{{'页面顺序' | translate}}</div>
         <mat-radio-group [(ngModel)]="option.pageOrder">
           <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" [value]="true"
-            style="display: flex;">默认</mat-radio-button>
+            style="display: flex;">{{'默认' | translate}}</mat-radio-button>
           <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" [value]="false"
-            style="display: flex;">日漫</mat-radio-button>
+            style="display: flex;">{{'日漫' | translate}}</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="item">
-        <div class="name">选项</div>
+        <div class="name">{{'选项' | translate}}</div>
         <div class="iten">
           <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'item'" style="display: flex;"
-            [(ngModel)]="option.isFirstPageCover" *ngIf="option.page!='one'">第一页封面</mat-checkbox>
+            [(ngModel)]="option.isFirstPageCover" *ngIf="option.page!='one'">{{'第一页封面' | translate}}</mat-checkbox>
           <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'item'" style="display: flex;"
-            [(ngModel)]="option.isOneFile" [disabled]="true">只生成一个文件</mat-checkbox>
+            [(ngModel)]="option.isOneFile" [disabled]="true">{{'只生成一个文件' | translate}}</mat-checkbox>
         </div>
       </div>
     </div>
     <mat-divider style="margin: 4px 0;"></mat-divider>
     <div class="confirm">
       <button mat-raised-button color="primary" [attr.region]="'item'"
-        (click)="download()">下载</button>
+        (click)="download()">{{'下载' | translate}}</button>
     </div>
   </div>
   <div class="right">
     <div class="title">
-      漫画 {{list.length}} 本
+      {{'漫画' | translate}} {{list.length}} {{'本' | translate}}
     </div>
     <div class="grid" [attr.size]="'middle'" [attr.type]="'list'">
       <button class="item" [disabled]="true" mat-button *ngFor="let n of list;let index=index" [attr._id]="n.id"
