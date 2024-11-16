@@ -33,7 +33,7 @@ export class ControllerSettingsComponent {
     RIGHT: '右/东风',
     DOWN: '下/南风',
     LEFT: '左/西风',
-    LEFT_ANALOG_PRESS: '幺鸡',
+    LEFT_ANALOG_PRESS: '工具栏/幺鸡',
     RIGHT_ANALOG_PRESS: '右摇杆按钮',
     A: '点击/红中',
     B: '退出/白板/返回',
@@ -47,6 +47,7 @@ export class ControllerSettingsComponent {
     START: '菜单按钮',
     SPECIAL: '配置文件按钮'
   }
+
   list = [
     {
       id: "UP",

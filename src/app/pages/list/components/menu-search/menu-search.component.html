@@ -1,7 +1,7 @@
 <div class="warp">
   <div class="head" [attr.region]="'menu_search_input'" [attr.select]="true">
     <mat-icon fontIcon="search" ></mat-icon>
-    <input id="input_v1c"  type="text" placeholder="搜索" (focus)="focus()" (blur)="blur()"   [(ngModel)]="keyword">
+    <input id="input_v1c"  type="text" [attr.placeholder]="'搜索'|translate" (focus)="focus()" (blur)="blur()"   [(ngModel)]="keyword">
   </div>
 
   <div>

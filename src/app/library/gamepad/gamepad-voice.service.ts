@@ -22,7 +22,7 @@ export class GamepadVoiceService {
     RIGHT: '右',
     DOWN: '下',
     LEFT: '左',
-    LEFT_ANALOG_PRESS: '左摇杆按钮',
+    LEFT_ANALOG_PRESS: '工具栏',
     RIGHT_ANALOG_PRESS: '右摇杆按钮',
     A: '点击',
     B: '返回',
