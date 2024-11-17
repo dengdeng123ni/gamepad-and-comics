@@ -1,6 +1,6 @@
 <div class="warp" style="padding: 12px;">
   <div class="title" [attr.svg_filter]="'text_secondary'">
-    扩展安装说明
+    {{'扩展安装说明'|translate}}
   </div>
   <div class="content">
     <div class="left">
@@ -13,11 +13,11 @@
       </button>
       <button mat-button [attr.region]="'item'"
       [attr.default]="true"
-      [attr.select]="true" (click)="on()" [attr.svg_filter]="'text_primary'">下载插件</button>
+      [attr.select]="true" (click)="on()" [attr.svg_filter]="'text_primary'">{{'下载插件'|translate}}</button>
     </div>
     <div class="right">
        <div class="list" [attr.svg_filter]="'text_secondary'">
-        <div class="item" *ngFor="let n of list;let index=index">{{index+1}}.{{n}}</div>
+        <div class="item" *ngFor="let n of list;let index=index">{{index+1}}.{{n|translate}}</div>
        </div>
     </div>
   </div>

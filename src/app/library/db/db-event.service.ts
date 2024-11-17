@@ -54,7 +54,6 @@ export class DbEventService {
     window._gh_comics_register = this.comics_register;
     window._gh_novels_register = this.novels_register;
     if (location.hostname == "localhost") {
-
       window._gh_comics_register({
         id: "bilibili",
         name: "哔哩哔哩漫画",
@@ -1800,16 +1799,8 @@ export class DbEventService {
           return data
         },
       });
-
-      // 到翻天刚
-
     }
-
-
-
   }
-  // https://www.biqgg.cc/book/44197/
-
   comics_register = (config: Config, events: Events) => {
     const key = config.id;
     config = {
@@ -1858,9 +1849,6 @@ export class DbEventService {
 
     this.change$.next(config)
   }
-
-
-
   novels_register = (config: Config, events: Events) => {
     const key = config.id;
 
@@ -1907,5 +1895,4 @@ export class DbEventService {
 
     this.change$.next(config)
   }
-
 }
