@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
-import { AppDataService, ContextMenuEventService, DbControllerService, LocalCachService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, I18nService, LocalCachService } from 'src/app/library/public-api';
 import { MenuService } from '../../components/menu/menu.service';
 import { DownloadOptionService } from '../../components/download-option/download-option.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
@@ -24,6 +24,7 @@ export class IndexService {
     public DbController: DbControllerService,
     public webDb: NgxIndexedDBService,
     public router: Router,
+    public I18n:I18nService,
     public ImageTo: ImageToService,
     private _snackBar: MatSnackBar,
   ) {
@@ -90,7 +91,8 @@ export class IndexService {
 
                 for (let index = 0; index < list.length; index++) {
                   await this.resetReadingProgress(list[index].id)
-                  this._snackBar.open(`${list[index].title}`, '重置阅读进度已完成', { duration: 1000 })
+                  const 已完成 = await this.I18n.getTranslatedText('已完成')
+                  this._snackBar.open(`${list[index].title}`, 已完成, { duration: 1000 })
                 }
 
               }
@@ -108,7 +110,8 @@ export class IndexService {
                       await this.DbController.delWebDbImage(pages[index].src)
                     }
                   }
-                  this._snackBar.open(`${list[index].title}`, '重置数据已完成', { duration: 1000 })
+                  const 已完成 = await this.I18n.getTranslatedText('已完成')
+                  this._snackBar.open(`${list[index].title}`, 已完成, { duration: 1000 })
                 }
               }
             },
@@ -121,11 +124,16 @@ export class IndexService {
                     const pages = await this.DbController.getPages(chapter_id)
                     for (let index2 = 0; index2 < pages.length; index2++) {
                       await this.DbController.getImage(pages[index2].src)
-                      this._snackBar.open(`${res.chapters[index].title} 第${index2 + 1}页/${pages.length}页`, '提前加载完成')
+                      const 已完成 = await this.I18n.getTranslatedText('已完成')
+                      const 第 = await this.I18n.getTranslatedText('第')
+                      const 页 = await this.I18n.getTranslatedText('页')
+                      this._snackBar.open(`${res.chapters[index].title} ${第}${index2 + 1}${页}/${pages.length}${页}`, 已完成)
                     }
-                    this._snackBar.open(`${res.chapters[index].title}`, '提前加载完成')
+                    const 已完成 = await this.I18n.getTranslatedText('已完成')
+                    this._snackBar.open(`${list[index].title} ${res.chapters[index].title}`, 已完成)
                   }
-                  this._snackBar.open(`${list[index].title}`, '提前加载已完成', { duration: 1000 })
+                  const 已完成 = await this.I18n.getTranslatedText('已完成')
+                  this._snackBar.open(`${list[index].title}`, 已完成, { duration: 1000 })
                 }
               }
             },
@@ -139,7 +147,8 @@ export class IndexService {
                     await this.DbController.delWebDbPages(chapter_id)
                     const pages = await this.DbController.getPages(chapter_id)
                   }
-                  this._snackBar.open(`${list[index].title}`, '重新获取已完成', { duration: 1000 })
+                  const 已完成 = await this.I18n.getTranslatedText('已完成')
+                  this._snackBar.open(`${list[index].title}`, 已完成, { duration: 1000 })
                 }
               }
             },

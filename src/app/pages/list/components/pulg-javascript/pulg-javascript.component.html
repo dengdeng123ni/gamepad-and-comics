@@ -2,7 +2,7 @@
   <div class="title" style="display: flex;
   justify-content: space-between;
   align-items: center;">
-    <span [attr.svg_filter]="'text_secondary'">全部脚本</span>
+    <span [attr.svg_filter]="'text_secondary'">{{'全部脚本'|translate}}</span>
     <button mat-icon-button style="padding: 0;
     width: 36px;
     height: 36px;
@@ -22,7 +22,7 @@
       <button mat-button class="item" style="width: 60px;" [attr.region]="'item'"
       [attr.select]="false" (click)="del(n.url)">
         <div class="name" [attr.svg_filter]="'text_primary'">
-           删除
+           {{'删除'|translate}}
         </div>
       </button>
     </div>
@@ -32,7 +32,7 @@
   [attr.select]="false" (click)="add()" cdkFocusInitial [attr.svg_filter]="'text_primary'">
     <mat-icon class="icon"  >add</mat-icon>
     <div class="name" [attr.svg_filter]="'text_primary'">
-       脚本
+       {{'脚本'|translate}}
     </div>
   </button>
 </div>

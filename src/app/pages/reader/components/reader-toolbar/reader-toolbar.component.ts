@@ -80,7 +80,7 @@ export class ReaderToolbarComponent {
       },
       {
         id: "fiast_page",
-        name: "设置第一页为封面",
+        name: "设置第一页封面",
         click: e => {
           this.ChaptersFirstCoverSettings.open();
         }
@@ -121,6 +121,14 @@ export class ReaderToolbarComponent {
             backdropClass: "_reader_config_bg",
             position: position
           });
+
+        }
+      },
+      {
+        id: "resetReading",
+        name: "重置阅读进度",
+        click: e => {
+         this.resetReadingProgress.isToggle()
 
         }
       },

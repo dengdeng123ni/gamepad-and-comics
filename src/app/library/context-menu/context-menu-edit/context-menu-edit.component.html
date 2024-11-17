@@ -1,14 +1,14 @@
 <div class="edit">
   <div class="left" style="color: rgba(255, 255, 255, 0.34);font-size: 16px;">
-    <span> 已选择 {{selected_length}} 个</span>
+    <span> {{'已选择'|translate}}  {{selected_length}} {{'个'|translate}}</span>
   </div>
   <div class="right">
     <mat-checkbox [attr.region]="'context_menu_edit_item'" [attr.type]="'checkbox'" style="margin-right: 24px;height: 36px;
-      line-height: 36px;" [(ngModel)]="is_all" (change)="all()">全选</mat-checkbox>
+      line-height: 36px;" [(ngModel)]="is_all" (change)="all()">{{'全选'|translate}}</mat-checkbox>
     <button mat-button [attr.region]="'context_menu_edit_item'" *ngFor="let n of context_menu" style="margin-right: 12px;height: 36px;
-    line-height: 36px;" (click)="on(n)">{{n.name}}</button>
+    line-height: 36px;" (click)="on(n)">{{n.name|translate}}</button>
     <button mat-button [attr.region]="'context_menu_edit_item'" style="height: 36px;
-    line-height: 36px;" (click)="closeEdit()">完成</button>
+    line-height: 36px;" (click)="closeEdit()">{{'完成'|translate}}</button>
   </div>
 
 </div>

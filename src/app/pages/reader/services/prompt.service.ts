@@ -16,9 +16,12 @@ export class PromptService {
     public current: CurrentService,
     public data: DataService,
     private _snackBar: MatSnackBar,
-    public i18n: I18nService
+    public I18n: I18nService
   ) {
+
     current.pageStatu$.subscribe(async (x) => {
+
+
       if (document.body.getAttribute('locked_region') == "reader_navbar_bar") {
         if (x == "page") {
           this.obj = {};
@@ -26,7 +29,8 @@ export class PromptService {
            if(this.ooo==ooo){
 
            }else{
-            this._snackBar.open(`页码: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+            const 页码 = await this.I18n.getTranslatedText('页码')
+            this._snackBar.open(`${页码}: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
             this.ooo=ooo;
           }
 
@@ -35,12 +39,16 @@ export class PromptService {
       }
       if (!this.obj[x]) this.obj[x] = 0;
       this.obj[x]++;
+      const 第一页 = await this.I18n.getTranslatedText('第一页')
+      const 最后一页 = await this.I18n.getTranslatedText('最后一页')
+      const 第一章 = await this.I18n.getTranslatedText('第一章')
+      const 最终章 = await this.I18n.getTranslatedText('最终章')
       Object.keys(this.obj).forEach(x => {
         if (this.obj[x] == 1) {
-          if (x == "page_first")   this._snackBar.open("第一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-          if (x == "page_last") this._snackBar.open("最后一页", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
-          if (x == "chapter_first") this._snackBar.open("第一章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-          if (x == "chapter_last") this._snackBar.open("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+          if (x == "page_first")   this._snackBar.open(第一页, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
+          if (x == "page_last") this._snackBar.open(最后一页, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+          if (x == "chapter_first") this._snackBar.open(第一章, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
+          if (x == "chapter_last") this._snackBar.open(最终章, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
           // if (x == "page") this._snackBar.open("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
           this.obj[x] = 0;
         }

@@ -8,12 +8,12 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <button mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false" [attr.default]="false">
-                <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
-                <div class="name" [attr.svg_filter]="'text_primary'">
-                  {{'图片工具' | translate}}
-                </div>
-              </button>
+             <div class="title" style="font-size: 20px;
+             text-align: center;
+             margin: 12px;
+             color: rgba(255, 255, 255, 0.34);">
+              {{'图片工具' | translate}}
+             </div>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <button [attr._id]="1" [attr.default]="false" [attr.select]="true" [attr.selected]="true" mat-button
@@ -65,10 +65,9 @@
       <div class="form">
         <mat-chip-set style="margin: 12px;" cdkDropList cdkDropListOrientation="horizontal">
           @for (n of arr; track n) {
-          <mat-chip (click)="on(n)" class="example-box" cdkDrag>{{n.name}}</mat-chip>
+          <mat-chip (click)="on(n)" cdkDrag>{{n.name|translate}}</mat-chip>
           }
         </mat-chip-set>
-
         <app-matrix [(values)]="saturateMatrix" [change]="saturateMatrixChange"></app-matrix>
 
         <div class="compressed-image-option">

@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class I18nService {
 
-  constructor() {
+  constructor(private translate: TranslateService) {
+  }
+
+  async getTranslatedText(name) {
+    return await firstValueFrom(this.translate.get(name))
   }
 
 

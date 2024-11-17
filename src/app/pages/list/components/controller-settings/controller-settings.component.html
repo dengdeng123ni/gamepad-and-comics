@@ -51,16 +51,16 @@
       </div>
       <!-- ↓ ← → -->
       <div class="item" *ngFor="let n of list;let index=index">
-        <div class="left" [attr.svg_filter]="'text_secondary'" >{{n.name}}</div>
+        <div class="left" [attr.svg_filter]="'text_secondary'" >{{n.name | translate}}</div>
         <div class="right">
           <button [attr.svg_filter]="'text_primary'" mat-button [attr.region]="'item'" [attr.select]="false" [disabled]="!n.keyboard?.edit"
-            (click)="on(n.id)">{{n.keyboard?.name?n.keyboard?.name:'-' | translate}}</button>
+            (click)="on(n.id)">{{(n.keyboard?.name?n.keyboard?.name:'-')| translate}}</button>
           <button [attr.svg_filter]="'text_primary'" mat-button [attr.region]="'item'" [attr.select]="false"
-            [disabled]="!n.mouse?.edit">{{n.mouse?.name?n.mouse?.name:'-' | translate}}</button>
+            [disabled]="!n.mouse?.edit">{{(n.mouse?.name?n.mouse?.name:'-' )| translate}}</button>
           <button [attr.svg_filter]="'text_primary'" mat-button [attr.region]="'item'" [attr.select]="false"
-            [disabled]="!n.gamepad?.edit">{{n.gamepad?.name?n.gamepad?.name:'-' | translate}}</button>
+            [disabled]="!n.gamepad?.edit">{{(n.gamepad?.name?n.gamepad?.name:'-' )| translate}}</button>
           <button [attr.svg_filter]="'text_primary'" mat-button [attr.region]="'item'" [attr.select]="false"
-            [disabled]="!n.voice?.edit">{{n.voice?.name?n.voice?.name:'-' | translate}}</button>
+            [disabled]="!n.voice?.edit">{{(n.voice?.name?n.voice?.name:'-' )| translate}}</button>
         </div>
       </div>
     </div>

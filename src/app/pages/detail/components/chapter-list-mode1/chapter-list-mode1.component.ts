@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { AppDataService, ContextMenuEventService, DbControllerService, RoutingControllerService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, I18nService, RoutingControllerService } from 'src/app/library/public-api';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { CurrentService } from '../../services/current.service';
@@ -43,7 +43,8 @@ export class ChapterListMode1Component {
     public DbController: DbControllerService,
     public RoutingController: RoutingControllerService,
     private _snackBar: MatSnackBar,
-    public AppData: AppDataService
+    public AppData: AppDataService,
+    public I18n:I18nService
   ) {
     let menu: any = [{ name: "缩略图", id: "thumbnail" },];
     if (data.is_download) {
@@ -63,9 +64,8 @@ export class ChapterListMode1Component {
                 for (let index = 0; index < pages.length; index++) {
                   await this.DbController.delWebDbImage(pages[index].src)
                 }
-                this._snackBar.open(`重置数据已完成`, '', {
-                  duration: 1000
-                })
+                const 已完成 = await this.I18n.getTranslatedText('已完成')
+                this._snackBar.open(已完成, '', {  duration: 1000 })
               }
             }
           },
@@ -80,12 +80,17 @@ export class ChapterListMode1Component {
                     this.DbController.getImage(x.src)
                   );
                   await Promise.all(pagesPromises);
-                  this._snackBar.open(`${list[index].title} 第${i + 1}页/${pages.length}页`, '提前加载完成')
+                  const 已完成 = await this.I18n.getTranslatedText('已完成')
+                  const 第 = await this.I18n.getTranslatedText('第')
+                  const 页 = await this.I18n.getTranslatedText('页')
+                  this._snackBar.open(`${list[index].title} ${第}${i + 1}${页}/${pages.length}${页}`, 已完成)
                 }
 
-                this._snackBar.open(`${list[index].title}`, '提前加载完成')
+                const 已完成 = await this.I18n.getTranslatedText('已完成')
+                this._snackBar.open(`${list[index].title}`, 已完成)
               }
-              this._snackBar.open(`提前加载已完成`, '', {
+              const 已完成 = await this.I18n.getTranslatedText('已完成')
+              this._snackBar.open(已完成, '', {
                 duration: 1000
               })
             }
@@ -97,7 +102,8 @@ export class ChapterListMode1Component {
                 await this.DbController.delWebDbPages(chapter_id)
                 const pages = await this.DbController.getPages(chapter_id)
               }
-              this._snackBar.open(`重新获取已完成`, '', {
+              const 已完成 = await this.I18n.getTranslatedText('已完成')
+              this._snackBar.open(已完成, '', {
                 duration: 1000
               })
             }

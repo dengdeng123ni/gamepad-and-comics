@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbControllerService, DownloadService } from './public-api';
+import { DbControllerService, DownloadService, I18nService } from './public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,9 @@ export class WebFileService {
 
   ];
   is_download_free=false;
-  constructor(public DbController: DbControllerService, public download: DownloadService,) {
+  constructor(public DbController: DbControllerService,
+    public I18n:I18nService,
+    public download: DownloadService,) {
   }
 
 
@@ -154,6 +156,7 @@ export class WebFileService {
   async downloadComics(comics_id, option?: {
     chapters_ids?: Array<any>,
     type?: string,
+
     pageOrder: boolean,
     isFirstPageCover: boolean,
     page: string,
@@ -162,25 +165,35 @@ export class WebFileService {
   }) {
 
     if (!this.dirHandle) await this.open();
+    const 加载中 = await this.I18n.getTranslatedText('加载中')
+    const 加载成功 = await this.I18n.getTranslatedText('加载成功')
+    const 图片 = await this.I18n.getTranslatedText('图片')
+    const 第 = await this.I18n.getTranslatedText('第')
+    const 日漫 = await this.I18n.getTranslatedText('日漫')
+    const 双页 = await this.I18n.getTranslatedText('双页')
+    const 单页 = await this.I18n.getTranslatedText('单页')
+    const 生成文件中 = await this.I18n.getTranslatedText('生成文件中')
+    const 生成文件成功 = await this.I18n.getTranslatedText('生成文件成功')
 
     const toTitle = (title) => {
-      return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').replace(/[\'\"\\\/\b\f\n\r\t]/g, '').replace(/[\@\#\$\%\^\&\*\{\}\:\"\L\<\>\?]/).trim()
+      return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').replace(/[\'\"\\\/\b\f\n\r\t]/g, '').replace(/[\@\#\$\%\^\&\*\{\}\:\"\<\>\?]/).trim()
     }
-    this.addlog(`加载中 ${comics_id}`)
+    this.addlog(`${加载中} ${comics_id}`)
     let { chapters, title, option: config } = await this.DbController.getDetail(comics_id)
-    this.addlog(`加载成功 ${title}`)
+    this.addlog(`${加载成功} ${title}`)
     if (option?.chapters_ids?.length) chapters = chapters.filetr(x => option.chapters_ids.includes(x.id))
     const is_offprint= chapters.length==1?true:false;
     for (let index = 0; index < chapters.length; index++) {
       const x = chapters[index];
-      this.addlog(`加载中 ${x.title}`)
+      this.addlog(`${加载中} ${x.title}`)
       const pages = await this.DbController.getPages(x.id);
-      this.addlog(`加载成功 ${x.title}`)
+      this.addlog(`${加载成功} ${x.title}`)
       for (let j = 0; j < pages.length; j++) {
-        this.addlog(`加载中 ${x.title} 第 ${j} 图片`)
+        this.addlog(`${加载中} ${x.title} ${第} ${j} ${图片}`)
         await this.DbController.getImage(pages[j].src)
-        this.addlog(`加载成功 ${x.title} 第 ${j} 图片`)
+        this.addlog(`${加载成功} ${x.title} ${第} ${j} ${图片}`)
       }
+
       // this.addlog(`加载中 ${comics_id}`)
       // await Promise.all(pages.map(x => this.DbController.getImage(x.src)))
       if (option?.type) {
@@ -191,9 +204,9 @@ export class WebFileService {
               let blob = blobs[index]
               if (option.imageChange) blob = await option.imageChange(blob);
               if (is_offprint) {
-                await this.post(`${config.source}[双页]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+                await this.post(`${config.source}[${双页}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
               } else {
-                await this.post(`${config.source}[双页]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+                await this.post(`${config.source}[${双页}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
               }
             }
           } else {
@@ -224,9 +237,9 @@ export class WebFileService {
           if (option.downloadChapterAtrer) option.downloadChapterAtrer(x)
           continue;
         }
-        this.addlog(`生成文件中 ${option.type}`)
+        this.addlog(`${生成文件中} ${option.type}`)
         let blob = await this.download.ImageToTypeBlob({ type: option.type, name: toTitle(x.title), images: pages.map((x: { src: any; }) => x.src), pageOrder: option.pageOrder, isFirstPageCover: option.isFirstPageCover, page: option.page }) as any
-        this.addlog(`生成文件成功 ${option.type}`)
+        this.addlog(`${生成文件成功} ${option.type}`)
         let suffix_name = blob.type.split("/").at(-1);
         if (option.type == "PDF") {
 
@@ -240,12 +253,14 @@ export class WebFileService {
           suffix_name = `epub`;
         }
         if (is_offprint) {
-          await this.post(`${config.source}[${suffix_name}][${option.page == "double" ? "双页" : "单页"}]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}.${suffix_name}`, blob)
+          await this.post(`${config.source}[${suffix_name}][${option.page == "double" ? `${双页}` : `${单页}`}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}.${suffix_name}`, blob)
         } else {
-          await this.post(`${config.source}[${suffix_name}][${option.page == "double" ? "双页" : "单页"}]${option.pageOrder ? "" : "[日漫]"}/${toTitle(title)}/${toTitle(x.title)}.${suffix_name}`, blob)
+          await this.post(`${config.source}[${suffix_name}][${option.page == "double" ? `${双页}` : `${单页}`}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${toTitle(x.title)}.${suffix_name}`, blob)
         }
         if (option.downloadChapterAtrer) option.downloadChapterAtrer(x)
       }
+
+
 
     }
   }

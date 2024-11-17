@@ -10,8 +10,10 @@ interface Events {
   getDetail: Function;
   getPages: Function;
   getImage?: Function;
-  Search?: Function
-  getReplies?: Function
+  Search?: Function;
+  getReplies?: Function;
+  UrlToListObj?: Function;
+  UrlToDetailId?:Function;
 }
 interface Config {
   id: string,
@@ -1561,7 +1563,6 @@ export class DbEventService {
         ],
       }, {
         getDetail: async (novel_id) => {
-
           const res = await window._gh_getHtml(decodeURIComponent(window.atob(novel_id)), {
             "headers": {
               "accept": "application/json, text/plain, */*",
@@ -1574,7 +1575,6 @@ export class DbEventService {
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
-
           let obj = {
             id: novel_id,
             cover: "",
@@ -1690,6 +1690,7 @@ export class DbEventService {
           }
         ],
       }, {
+
         getDetail: async (novel_id) => {
 
           const res = await window._gh_getHtml(decodeURIComponent(window.atob(novel_id)), {
@@ -1761,6 +1762,14 @@ export class DbEventService {
           return arr.map(x => ({ content: x }))
         },
         UrlToDetailId: async (id) => {
+          const obj = new URL(id);
+          if (obj.host == "www.biqgg.cc") {
+            return window.btoa(encodeURIComponent(id))
+          } else {
+            return null
+          }
+        },
+        UrlToListId: async (id) => {
           const obj = new URL(id);
           if (obj.host == "www.biqgg.cc") {
             return window.btoa(encodeURIComponent(id))

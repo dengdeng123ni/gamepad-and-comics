@@ -268,7 +268,7 @@ export class MenuComponent {
           // },
           {
             id: "ope3",
-            name: "支持的网站",
+            name: "支持网站",
             click: () => {
               this.UrlUsageGuide.open({});
             }
