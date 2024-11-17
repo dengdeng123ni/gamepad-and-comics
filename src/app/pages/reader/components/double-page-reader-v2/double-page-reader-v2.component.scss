@@ -6,7 +6,7 @@
 .swiper {
   width: var(--double-page-reader-v2-width);
   height: 100vh;
-  overflow: hidden;
+  // overflow: hidden;
   transition: 0.5s all;
 
 }
@@ -25,6 +25,7 @@
 :host ::ng-deep {
   img{
     filter: url(#page);
+    width: inherit !important;
   }
   // img[type=none]{
   //   filter: url(#background_primary);

@@ -19,3 +19,23 @@
   color: #fff;
 }
 
+
+:host ::ng-deep {
+  img{
+    filter: url(#page);
+    // width: inherit !important;
+  }
+  // img[type=none]{
+  //   filter: url(#background_primary);
+
+  //   backdrop-filter: url(#background_primary);
+  //   // opacity: 1 !important;
+  // }
+  // .swiper-slide {
+  //   background: transparent;
+  //   backdrop-filter: url(#background_primary);
+  // }
+  img[type=none]{
+    background: #303030;
+  }
+}
