@@ -1619,9 +1619,9 @@ export class DbEventService {
       setTimeout(resolve, duration);
     })
   }
-  for (let index = 0; index < 30; index++) {
+  for (let index = 0; index < 300; index++) {
     document.querySelector("html").scrollTop = document.querySelector("html").scrollTop + 30;
-    await sleep(40)
+    await sleep(10)
   }
   const nodes = document.querySelectorAll(".comicContent-list li img");
   let arr=[];

@@ -180,7 +180,6 @@ export class DbControllerService {
           if (config.is_cache) {
             res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
             if (res) {
-              console.log(JSON.parse(JSON.stringify(res)));
               res = res.data;
 
               res.forEach((x, i) => {
@@ -206,7 +205,6 @@ export class DbControllerService {
                 }
                 res = data;
               }
-              console.log(res);
 
               await firstValueFrom(this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
               res.forEach((x, i) => {
@@ -351,10 +349,8 @@ export class DbControllerService {
               return blob
             }
           }
-          console.log(url);
 
           const res = await caches.match(url);
-console.log(url,res);
 
           if (res) {
 
@@ -434,7 +430,6 @@ console.log(url,res);
   Search = async (obj: any, option?: {
     source: string
   }): Promise<Array<Item>> => {
-    console.log(obj);
 
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;

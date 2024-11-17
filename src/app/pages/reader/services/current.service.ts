@@ -124,7 +124,7 @@ export class CurrentService {
     const res = _res[1];
     if (Number.isNaN(_res[2]) || _res[2] < 0) this.data.page_index = 0;
     this.data.page_index = _res[2];
-    this.data.comics_config ={ ...this.data.comics_config,..._res[3]};
+    this.data.comics_config = { ...this.data.comics_config, ..._res[3] };
 
     this.data.pages = list;
     if (this.data.page_index >= this.data.pages.length) this.data.page_index = 0;
@@ -148,7 +148,7 @@ export class CurrentService {
       title: this.data.details.title,
       cover: this.data.details.cover
     })
-    document.documentElement.style.setProperty('--reader-background-color',this.data.comics_config.background_color)
+    document.documentElement.style.setProperty('--reader-background-color', this.data.comics_config.background_color)
     setTimeout(() => {
       this._updateChapterRead(this.data.chapter_id)
       firstValueFrom(this.webDb.update('read_record', {
@@ -704,8 +704,16 @@ export class CurrentService {
 
 
   async _loadPages(chapter_id) {
-    this.await_load_pages = await this._getChapter(chapter_id)
-
+    const pages = await this._getChapter(chapter_id)
+    let arr=[]
+    for (let index = 0; index < pages.length; index++) {
+      const x = pages[index];
+      const c = await caches.match(x.src);
+      if (!c) {
+        arr.push(x)
+      }
+    }
+    this.await_load_pages=arr;
     this._loadImage2();
   }
 
@@ -722,7 +730,6 @@ export class CurrentService {
   }
 
   async _loadImage2() {
-
     if (this.await_load_pages.length == 0) return
     if (!this.is_load_image && !this.is_destroy) {
       this.is_load_image = true;

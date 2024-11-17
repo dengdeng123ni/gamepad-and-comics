@@ -95,6 +95,7 @@ export class OnePageThumbnailMode1Component {
         this._snackBar.open("图片数据缓冲中,请稍后再试", null, { panelClass: "_chapter_prompt",
           horizontalPosition: 'center',
           verticalPosition: 'top',
+          duration: 1000
         });
         this.OnePageThumbnailMode1.close();
       }
