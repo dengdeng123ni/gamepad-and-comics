@@ -20,7 +20,7 @@ export class DoublePageReaderV2Component {
   event$;
   is_destroy = false;
 
-  swiper_id= `_${new Date().getTime()}`;
+  swiper_id = `_${new Date().getTime()}`;
 
   constructor(
     public current: CurrentService,
@@ -155,6 +155,7 @@ export class DoublePageReaderV2Component {
   ngOnDestroy() {
     this.change$.unsubscribe();
     this.event$.unsubscribe();
+    this.swiper = null;
     this.is_destroy = true;
   }
   isSwitch = false;
@@ -356,7 +357,7 @@ export class DoublePageReaderV2Component {
     }
     if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
     if (res.primary.src) {
-      current = current + `<img content_menu_key="pages_item" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.start?'right':'left'};"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+      current = current + `<img content_menu_key="pages_item" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
 
     }
     if (res.primary.start) {
@@ -420,7 +421,7 @@ export class DoublePageReaderV2Component {
       }
     }
     if (res.primary.src) {
-       current = current + `<img content_menu_key="pages_item"  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.end?'left':'right'};"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`
+      current = current + `<img content_menu_key="pages_item"  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.end ? 'left' : 'right'};"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`
 
     }
     if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: left;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;

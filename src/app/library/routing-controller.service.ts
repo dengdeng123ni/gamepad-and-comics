@@ -59,7 +59,7 @@ export class RoutingControllerService {
     return null
   }
   async strRouterReader(t) {
-    if (t.substring(0, 4) == "http") {
+    if (t&&t.substring(0, 4) == "http") {
       const obj = await this.UrlToComicsId(t);
 
       if (obj) {

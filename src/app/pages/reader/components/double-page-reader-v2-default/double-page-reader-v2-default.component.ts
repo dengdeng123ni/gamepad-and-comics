@@ -22,6 +22,7 @@ export class DoublePageReaderV2DefaultComponent {
   change$;
   event$;
   swiper_id= `_${new Date().getTime()}`;
+  is_destroy = false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -150,6 +151,8 @@ export class DoublePageReaderV2DefaultComponent {
   ngOnDestroy() {
     this.change$.unsubscribe();
     this.event$.unsubscribe();
+    this.swiper = null;
+    this.is_destroy = true;
   }
   isSwitch = false;
   async pageToggle() {
@@ -196,22 +199,28 @@ export class DoublePageReaderV2DefaultComponent {
     })
   }
   async updata() {
-    // if(!this.swiper.slides[this.swiper.activeIndex]) return
-    const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
-    let indexs = [];
-    for (let index = 0; index < nodes.length; index++) {
-      const node = nodes[index];
-      indexs.push(parseInt(node.getAttribute("index")))
+    if (!this.swiper.slides[this.swiper.activeIndex]) return
+    if (this.swiper.slides[this.swiper.activeIndex]) {
+      const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
+      let indexs = [];
+      for (let index = 0; index < nodes.length; index++) {
+        const node = nodes[index];
+        indexs.push(parseInt(node.getAttribute("index")))
+      }
+      const index = indexs.sort((a, b) => b - a)[0] - 1;
+      const chapter_id = nodes[0].getAttribute("chapter_id");
+      this.current._change('changePage', {
+        chapter_id: chapter_id,
+        page_index: index,
+        trigger: 'double_page_reader_v2'
+      });
+    } else {
+      if (this.is_destroy) return
+      setTimeout(() => {
+        this.updata();
+      }, 50)
     }
-    const index = indexs.sort((a, b) => b - a)[0] - 1;
-    const chapter_id = nodes[0].getAttribute("chapter_id");
-    const list = await this.current._getChapter(chapter_id);
 
-    this.current._change('changePage', {
-      chapter_id: chapter_id,
-      page_index: index,
-      trigger: 'double_page_reader_v2'
-    });
   }
 
   async next() {
