@@ -21,7 +21,7 @@ export class DoublePageReaderV2DefaultComponent {
   }
   change$;
   event$;
-
+  swiper_id= `_${new Date().getTime()}`;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -601,7 +601,7 @@ export class DoublePageReaderV2DefaultComponent {
     })
     if (!objc) objc = obj['creative_2']
 
-    this.swiper = new Swiper(".mySwiper5", {
+    this.swiper = new Swiper(`#${this.swiper_id}`, {
       mousewheel: {
         thresholdDelta: 50,
         forceToAxis: false,

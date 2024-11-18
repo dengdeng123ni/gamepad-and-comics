@@ -1,14 +1,14 @@
-<div class="warp">
+<div class="warp" >
   <div class="list">
     <div class="item">
       <div class="left" [attr.svg_filter]="'text_secondary'">
         {{'阅读模式'|translate}}
       </div>
       <div class="right">
-        <mat-chip-listbox [cdkTrapFocus]="">
-          <mat-chip-option  [attr.select]="true" [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'" (selectionChange)="change('double_page_reader')" [selectable]="data.comics_config.reader_mode!='double_page_reader'" [selected]="data.comics_config.reader_mode=='double_page_reader'">{{'左右翻页'|translate}} </mat-chip-option>
-          <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'" (selectionChange)="change('up_down_page_reader')" [selectable]="data.comics_config.reader_mode!='up_down_page_reader'" [selected]="data.comics_config.reader_mode=='up_down_page_reader'">{{'上下滑动'|translate}} </mat-chip-option>
-          <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'" (selectionChange)="change('left_right_page_reader')" [selectable]="data.comics_config.reader_mode!='left_right_page_reader'" [selected]="data.comics_config.reader_mode=='left_right_page_reader'">{{'左右滑动'|translate}} </mat-chip-option>
+        <mat-chip-listbox   >
+          <mat-chip-option [attr.select]="true" [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change('double_page_reader')" [selectable]="data.comics_config.reader_mode!='double_page_reader'" [selected]="data.comics_config.reader_mode=='double_page_reader'">{{'左右翻页'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change('up_down_page_reader')" [selectable]="data.comics_config.reader_mode!='up_down_page_reader'" [selected]="data.comics_config.reader_mode=='up_down_page_reader'">{{'上下滑动'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change('left_right_page_reader')" [selectable]="data.comics_config.reader_mode!='left_right_page_reader'" [selected]="data.comics_config.reader_mode=='left_right_page_reader'">{{'左右滑动'|translate}} </mat-chip-option>
         </mat-chip-listbox>
       </div>
     </div>
@@ -18,8 +18,8 @@
       </div>
       <div class="right">
         <mat-chip-listbox>
-          <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'" (selectionChange)="change1(true)" [selectable]="!data.comics_config.is_double_page" [selected]="data.comics_config.is_double_page">{{'双页'|translate}} </mat-chip-option>
-          <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'" (selectionChange)="change1(false)" [selectable]="data.comics_config.is_double_page" [selected]="!data.comics_config.is_double_page">{{'单页'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change1(true)" [selectable]="!data.comics_config.is_double_page" [selected]="data.comics_config.is_double_page">{{'双页'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change1(false)" [selectable]="data.comics_config.is_double_page" [selected]="!data.comics_config.is_double_page">{{'单页'|translate}} </mat-chip-option>
         </mat-chip-listbox>
       </div>
     </div>
@@ -29,8 +29,8 @@
       </div>
       <div class="right">
         <mat-chip-listbox>
-          <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'"   (selectionChange)="change2(true)" [selectable]="!data.comics_config.is_page_order" [selected]="data.comics_config.is_page_order">{{'普通模式'|translate}} </mat-chip-option>
-          <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'" (selectionChange)="change2(false)" [selectable]="data.comics_config.is_page_order" [selected]="!data.comics_config.is_page_order">{{'日漫模式'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change2(true)" [selectable]="!data.comics_config.is_page_order" [selected]="data.comics_config.is_page_order">{{'普通模式'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change2(false)" [selectable]="data.comics_config.is_page_order" [selected]="!data.comics_config.is_page_order">{{'日漫模式'|translate}} </mat-chip-option>
         </mat-chip-listbox>
       </div>
     </div>
@@ -38,30 +38,37 @@
       <div class="left" [attr.svg_filter]="'text_secondary'">
         {{'背景颜色'|translate}}
       </div>
-      <div class="right" style="display: grid; grid-template-columns:  1fr 1fr 1fr 1fr 1fr;gap: 8px;">
-          <button mat-button [attr.region]="'reader_config_item'" (click)="change3('#303030')">{{'默认'|translate}} </button>
-          <button mat-button [attr.region]="'reader_config_item'" (click)="change3('#000000')">{{'黑色'|translate}} </button>
-          <button mat-button [attr.region]="'reader_config_item'" (click)="change3('#ffffff')">{{'白色'|translate}} </button>
-          <button mat-button [attr.region]="'reader_config_item'" (click)="change3('#0c1222')">{{'深蓝'|translate}} </button>
+      <div class="right">
+        <mat-chip-listbox>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change3('#303030')" [selectable]="'#303030'!=data.comics_config.background_color" [selected]="'#303030'==data.comics_config.background_color">{{'默认'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change3('#000000')" [selectable]="'#000000'!=data.comics_config.background_color" [selected]="'#000000'==data.comics_config.background_color">{{'白色'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change3('#ffffff')" [selectable]="'#ffffff'!=data.comics_config.background_color" [selected]="'#ffffff'==data.comics_config.background_color">{{'黑色'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change3('#0c1222')" [selectable]="'#0c1222'!=data.comics_config.background_color" [selected]="'#0c1222'==data.comics_config.background_color">{{'深蓝'|translate}} </mat-chip-option>
+        </mat-chip-listbox>
       </div>
+
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
       <div class="left" [attr.svg_filter]="'text_secondary'">
         {{'切换特效'|translate}}
       </div>
-      <div class="right" style="display: grid; grid-template-columns:  1fr 1fr 1fr 1fr 1fr;gap: 8px;">
-          <button mat-flat-button [color]="n==data.comics_config.page_switching_effect?'primary':''" [attr.region]="'reader_config_item'" (click)="on_switch(n)" *ngFor="let n of cut_pages">{{n|translate}} </button>
-      </div>
+      <div class="right" >
+           <mat-chip-listbox  >
+            <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="on_switch(n)" *ngFor="let n of cut_pages" [selectable]="n!=data.comics_config.page_switching_effect" [selected]="n==data.comics_config.page_switching_effect">{{n|translate}} </mat-chip-option>
+          </mat-chip-listbox>
+        </div>
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
       <div class="left" [attr.svg_filter]="'text_secondary'">
         {{'封面背景'|translate}}
       </div>
-      <div class="right" style="display: grid; grid-template-columns:  1fr 1fr 1fr 1fr 1fr;gap: 8px;">
-          <button mat-flat-button [color]="'default'==data.comics_config.first_cover_background_color?'primary':''" [attr.region]="'reader_config_item'" (click)="change4('default')">{{'默认'|translate}} </button>
-          <button mat-flat-button [color]="'transparent'==data.comics_config.first_cover_background_color?'primary':''" [attr.region]="'reader_config_item'" (click)="change4('transparent')">{{'透明'|translate}} </button>
-          <button mat-flat-button [color]="'#fff'==data.comics_config.first_cover_background_color?'primary':''" [attr.region]="'reader_config_item'" (click)="change4('#fff')">{{'白色'|translate}} </button>
-          <button mat-flat-button [color]="'#000'==data.comics_config.first_cover_background_color?'primary':''" [attr.region]="'reader_config_item'" (click)="change4('#000')">{{'黑色'|translate}} </button>
+      <div class="right">
+        <mat-chip-listbox>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change4('default')" [selectable]="'default'!=data.comics_config.first_cover_background_color" [selected]="'default'==data.comics_config.first_cover_background_color">{{'默认'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change4('transparent')" [selectable]="'transparent'!=data.comics_config.first_cover_background_color" [selected]="'transparent'==data.comics_config.first_cover_background_color">{{'透明'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change4('#fff')" [selectable]="'#fff'!=data.comics_config.first_cover_background_color" [selected]="'#fff'==data.comics_config.first_cover_background_color">{{'白色'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change4('#000')" [selectable]="'#000'!=data.comics_config.first_cover_background_color" [selected]="'#000'==data.comics_config.first_cover_background_color">{{'黑色'|translate}} </mat-chip-option>
+        </mat-chip-listbox>
       </div>
     </div>
 

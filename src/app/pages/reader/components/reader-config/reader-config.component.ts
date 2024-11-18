@@ -21,6 +21,7 @@ export class ReaderConfigComponent {
     "卡片",
     "旋转"
   ]
+  is_open=false
   constructor(public data: DataService, public current: CurrentService,
     public GamepadController: GamepadControllerService,
     public focusMonitor: FocusMonitor,
@@ -49,28 +50,32 @@ export class ReaderConfigComponent {
 
     //   },
     //   })
+setTimeout(()=>{
+  this.is_open=true;
+},300)
   }
-  change(e) {
+  change(e) { if(!this.is_open) return
     this.data.comics_config.reader_mode = e;
   }
-  change1(e) {
+  change1(e) { if(!this.is_open) return
     this.data.comics_config.is_double_page = e;
   }
-  change2(e) {
+  change2(e) { if(!this.is_open) return
     this.data.comics_config.is_page_order = e;
   }
-  change3(e) {
+  change3(e) { if(!this.is_open) return
     this.data.comics_config.background_color = e;
     document.documentElement.style.setProperty('--reader-background-color', this.data.comics_config.background_color)
   }
   change4(e) {
+    if(!this.is_open) return
     this.data.comics_config.first_cover_background_color = e;
     this.data.is_init_free=false;
     setTimeout(()=>{
       this.data.is_init_free=true;
     })
   }
-  on_switch(n){
+  on_switch(n){ if(!this.is_open) return
     this.data.comics_config.page_switching_effect=n;
     this.data.is_init_free=false;
     setTimeout(()=>{
@@ -79,6 +84,8 @@ export class ReaderConfigComponent {
 
   }
   ngOnDestroy() {
+
+
     this.current._setWebDbComicsConfig(this.data.comics_id);
   }
 }

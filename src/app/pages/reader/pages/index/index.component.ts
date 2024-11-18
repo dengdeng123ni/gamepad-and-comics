@@ -19,11 +19,21 @@ import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-
 import { ComicsSettingsService } from '../../components/comics-settings/comics-settings.service';
 import { FilterService } from '../../components/filter/filter.service';
 import { RepliesPageService } from '../../components/replies-page/replies-page.service';
-
+import { trigger, transition, style, animate } from '@angular/animations';
+export const scaleFadeAnimation = trigger('scaleFadeAnimation', [
+  transition(':enter', [
+    style({ opacity: 0  }),
+    animate('100ms ease-out', style({ opacity: 1 })),
+  ]),
+  transition(':leave', [
+    animate('100ms ease-in', style({ opacity: 0  })),
+  ]),
+]);
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss']
+  styleUrls: ['./index.component.scss'],
+  animations: [scaleFadeAnimation]
 })
 export class IndexComponent {
   constructor(
