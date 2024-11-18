@@ -336,14 +336,43 @@ export class DoublePageReaderV2Component {
       this.is_1 = true
     }
 
-    if (res.primary.end) current = current + `<img type="none" style="opacity: 0;width:50%"  src="${res.primary.src}" />`;
+
+    if (res.primary.end) {
+      if (this.data.comics_config.first_cover_background_color == "default") {
+        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
+        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: right;"  src="${base64}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
+        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: right;"  src="${res.primary.src}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
+        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  src="${res.primary.src}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "#000") {
+        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: right;"  src="${res.primary.src}" />`;
+      } else {
+        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  src="${res.primary.src}" />`;
+      }
+    }
     if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
-    if (res.primary.src) current = current + `<img content_menu_key="pages_item" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: left;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
-    if (res.primary.start) current = current + `<img type="none" style="opacity: 0;width:50%"  src="${res.primary.src}" />`;
+    if (res.primary.src) {
+      current = current + `<img content_menu_key="pages_item" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.start?'right':'left'};"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+
+    }
+    if (res.primary.start) {
+      if (this.data.comics_config.first_cover_background_color == "default") {
+        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
+        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: left;"  src="${base64}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
+        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
+        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "#000") {
+        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" />`;
+      } else {
+        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" />`;
+      }
+    }
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.prependSlide(current)
-
     }
   }
   async addPreviousSlide(chapter_id, list, index: number) {
@@ -373,10 +402,39 @@ export class DoublePageReaderV2Component {
     const res = await getPreviousPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
-    if (res.primary.end) current = current + `<img type="none" style="opacity: 0;width50%" src="${res.primary.src}" />`;
-    if (res.primary.src) current = current + `<img content_menu_key="pages_item"  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: right;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`
+    if (res.primary.end) {
+      if (this.data.comics_config.first_cover_background_color == "default") {
+        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
+        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: right;"  src="${base64}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
+        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: right;"  src="${res.primary.src}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
+        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  src="${res.primary.src}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "#000") {
+        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: right;"  src="${res.primary.src}" />`;
+      } else {
+        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  src="${res.primary.src}" />`;
+      }
+    }
+    if (res.primary.src) {
+       current = current + `<img content_menu_key="pages_item"  style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.end?'left':'right'};"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`
+
+    }
     if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: left;" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
-    if (res.primary.start) current = current + `<img type="none" style="opacity: 0;width50%"  src="${res.primary.src}" />`;
+    if (res.primary.start) {
+      if (this.data.comics_config.first_cover_background_color == "default") {
+        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
+        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: left;"  src="${base64}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
+        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
+        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" />`;
+      } else if (this.data.comics_config.first_cover_background_color == "#000") {
+        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" />`;
+      } else {
+        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" />`;
+      }
+    }
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.appendSlide(current)
@@ -426,8 +484,8 @@ export class DoublePageReaderV2Component {
     if (primary) primary.src = await this.current._getImage(primary.src)
     if (secondary) secondary.src = await this.current._getImage(secondary.src)
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
-    if (primary&&imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
-    if (secondary&&imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
+    if (primary && imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
+    if (secondary && imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
 
     if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
       return {
@@ -444,28 +502,110 @@ export class DoublePageReaderV2Component {
 
   ngAfterViewInit() {
     this.zoom.init();
+    // 过渡动画 open close
+    //
+    let obj = {
+      none: {
+        name: "无",
+        speed: 0
+      },
+      effect: {
+        name: "平滑",
+        effect: 'slide'
+      },
+      fade: {
+        name: "淡出淡入",
+        effect: 'fade',
+        fadeEffect: {
+          crossFade: true, // 是否交叉淡出
+        }
+      },
+      coverflow: {
+        name: "封面流",
+        effect: 'coverflow',
+        coverflowEffect: {
+          rotate: 50, // 旋转角度
+          stretch: 0, // 每个滑块之间的拉伸值
+          depth: 100, // 滑块之间的深度
+          modifier: 1,
+          slideShadows: true, // 是否显示阴影
+        }
+      },
+      flip: {
+        name: "翻转",
+        effect: 'flip',
+        flipEffect: {
+          slideShadows: true, // 是否显示阴影
+        }
+      },
+      creative: {
+        name: "近大远小",
+        effect: 'creative',
+        creativeEffect: {
+          prev: {
+            translate: ['-120%', 0, -400], // 上一个滑块的位置变化
+          },
+          next: {
+            translate: ['120%', 0, -400], // 下一个滑块的位置变化
+          },
+        }
+      },
+      creative_2: {
+        name: "覆盖",
+        effect: 'creative',
+        creativeEffect: {
+          prev: {
+            shadow: true,
+            translate: ["-20%", 0, -1],
+          },
+          next: {
+            translate: ["100%", 0, 0],
+          },
+        },
+      },
+      cards: {
+        name: "卡片",
+        effect: 'cards',
+        cardsEffect: {
+          slideShadows: true, // 是否显示阴影
+        }
+      },
+      creative_3: {
+        name: "旋转",
+        effect: 'creative',
+        creativeEffect: {
+          prev: {
+            translate: ['-100%', 0, -400], // 左侧滑块平移并远离视角
+            rotate: [0, 0, -90], // 旋转
+            scale: 0.5, // 缩小
+            opacity: 0.6, // 改变透明度
+          },
+          next: {
+            translate: ['100%', 0, -400], // 右侧滑块平移并远离视角
+            rotate: [0, 0, 90], // 旋转
+            scale: 0.5, // 缩小
+            opacity: 0.6, // 改变透明度
+          },
+        },
+      }
+    }
+    let objc = null;
+    Object.keys(obj).forEach(x => {
+      if (obj[x].name == this.data.comics_config.page_switching_effect) {
+        objc = obj[x]
+      }
+    })
+    if (!objc) objc = obj['creative_2']
+
     this.swiper = new Swiper(".mySwiper3", {
-      speed: 300,
       mousewheel: {
         thresholdDelta: 50,
         forceToAxis: false,
         thresholdTime: 1000,
       },
       grabCursor: true,
-      effect: "creative",
-      creativeEffect: {
-        prev: {
-          shadow: true,
-          translate: ["-20%", 0, -1],
-        },
-        next: {
-          translate: ["100%", 0, 0],
-        },
-      },
+      ...objc
     });
-
-
-
     this.swiper.on('slidePrevTransitionEnd', async () => {
 
       if (!this.ccc) {
@@ -488,8 +628,6 @@ export class DoublePageReaderV2Component {
         this.ppp = false;
       }
     })
-
-
     this.swiper.on('slideNextTransitionEnd', async () => {
       if (!this.ccc) {
         this.ccc = true;
@@ -502,7 +640,21 @@ export class DoublePageReaderV2Component {
         }, 0)
       }
     });
+  }
 
+  generateBase64(width, height, bgColor) {
+    // 创建 Canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+
+    // 绘制背景
+    ctx.fillStyle = bgColor; // 设置背景颜色
+    ctx.fillRect(0, 0, width, height); // 绘制矩形
+
+    // 导出为 Base64
+    return canvas.toDataURL('image/png', 0.1); // 默认导出为 PNG 格式
   }
 
   ccc = false;

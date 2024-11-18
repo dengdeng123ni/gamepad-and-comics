@@ -25,7 +25,6 @@
 :host ::ng-deep {
   img{
     filter: url(#page);
-    width: inherit !important;
   }
   // img[type=none]{
   //   filter: url(#background_primary);

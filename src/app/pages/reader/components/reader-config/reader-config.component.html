@@ -29,7 +29,7 @@
       </div>
       <div class="right">
         <mat-chip-listbox>
-          <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'"   [selectable]="!data.comics_config.is_page_order" [selected]="data.comics_config.is_page_order">{{'普通模式'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'"   (selectionChange)="change2(true)" [selectable]="!data.comics_config.is_page_order" [selected]="data.comics_config.is_page_order">{{'普通模式'|translate}} </mat-chip-option>
           <mat-chip-option [attr.region]="'reader_config_item'" tabIndex="-1" [attr.type]="'chip'" (selectionChange)="change2(false)" [selectable]="data.comics_config.is_page_order" [selected]="!data.comics_config.is_page_order">{{'日漫模式'|translate}} </mat-chip-option>
         </mat-chip-listbox>
       </div>
@@ -38,12 +38,32 @@
       <div class="left" [attr.svg_filter]="'text_secondary'">
         {{'背景颜色'|translate}}
       </div>
-      <div class="right">
+      <div class="right" style="display: grid; grid-template-columns:  1fr 1fr 1fr 1fr 1fr;gap: 8px;">
           <button mat-button [attr.region]="'reader_config_item'" (click)="change3('#303030')">{{'默认'|translate}} </button>
           <button mat-button [attr.region]="'reader_config_item'" (click)="change3('#000000')">{{'黑色'|translate}} </button>
           <button mat-button [attr.region]="'reader_config_item'" (click)="change3('#ffffff')">{{'白色'|translate}} </button>
           <button mat-button [attr.region]="'reader_config_item'" (click)="change3('#0c1222')">{{'深蓝'|translate}} </button>
       </div>
     </div>
+    <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
+      <div class="left" [attr.svg_filter]="'text_secondary'">
+        {{'切换特效'|translate}}
+      </div>
+      <div class="right" style="display: grid; grid-template-columns:  1fr 1fr 1fr 1fr 1fr;gap: 8px;">
+          <button mat-flat-button [color]="n==data.comics_config.page_switching_effect?'primary':''" [attr.region]="'reader_config_item'" (click)="on_switch(n)" *ngFor="let n of cut_pages">{{n|translate}} </button>
+      </div>
+    </div>
+    <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
+      <div class="left" [attr.svg_filter]="'text_secondary'">
+        {{'封面背景'|translate}}
+      </div>
+      <div class="right" style="display: grid; grid-template-columns:  1fr 1fr 1fr 1fr 1fr;gap: 8px;">
+          <button mat-flat-button [color]="'default'==data.comics_config.first_cover_background_color?'primary':''" [attr.region]="'reader_config_item'" (click)="change4('default')">{{'默认'|translate}} </button>
+          <button mat-flat-button [color]="'transparent'==data.comics_config.first_cover_background_color?'primary':''" [attr.region]="'reader_config_item'" (click)="change4('transparent')">{{'透明'|translate}} </button>
+          <button mat-flat-button [color]="'#fff'==data.comics_config.first_cover_background_color?'primary':''" [attr.region]="'reader_config_item'" (click)="change4('#fff')">{{'白色'|translate}} </button>
+          <button mat-flat-button [color]="'#000'==data.comics_config.first_cover_background_color?'primary':''" [attr.region]="'reader_config_item'" (click)="change4('#000')">{{'黑色'|translate}} </button>
+      </div>
+    </div>
+
   </div>
 </div>

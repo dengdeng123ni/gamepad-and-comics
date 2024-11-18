@@ -38,8 +38,11 @@
 }
 // palette
 :host ::ng-deep {
-  .swiper-slide,._reader {
+  ._reader {
     background: var(--reader-background-color);
     // background: #0c1222;
+  }
+  ._reader {
+  //  background: red;
   }
 }

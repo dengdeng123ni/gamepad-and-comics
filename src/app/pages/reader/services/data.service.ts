@@ -34,7 +34,9 @@ export class DataService {
     is_page_order: false,
     is_page_direction: true,
     is_double_page: true,
-    background_color:"#303030"
+    background_color:"#303030",
+    first_cover_background_color:"default",
+    page_switching_effect:"覆盖"
   }
 
   is_init_free = false;
