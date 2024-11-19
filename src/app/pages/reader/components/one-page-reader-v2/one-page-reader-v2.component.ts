@@ -325,14 +325,10 @@ export class OnePageReaderV2Component {
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
 
-    if (!this.is_1) {
-      document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(res.primary.width / res.primary.height) * window.innerHeight }px`);
-      this.is_1 = true
-    }
 
     if (res.primary.src) current = current + `<img content_menu_key="pages_item"  style="width: 100%;
     height: auto;
-    object-fit: contain;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    object-fit: contain;"  current_page chapter_id="${chapter_id}" index="${res.primary.index}" width="_100"   page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.prependSlide(current)
@@ -368,7 +364,7 @@ export class OnePageReaderV2Component {
 
     if (res.primary.src) current = current + `<img content_menu_key="pages_item" style="width: 100%;
     height: auto;
-    object-fit: contain;"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    object-fit: contain;"  current_page chapter_id=${chapter_id} index="${res.primary.index}" width="_100"  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.appendSlide(current)
@@ -399,6 +395,7 @@ export class OnePageReaderV2Component {
     }
   }
 
+
   loadImage = async (url: string) => {
     return new Promise<any>((resolve, reject) => {
       if (url) {
@@ -419,6 +416,15 @@ export class OnePageReaderV2Component {
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
     if (primary&&imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
     if (secondary&&imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
+    if (imgPrimary.width != 0&&imgPrimary.width == imgSecondary.width && !this.is_1) {
+      const size=this.data.comics_config.page_height/100;
+      if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size))}px`);
+      } else {
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size))}px`);
+      }
+      this.is_1 = true
+    }
     if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
       return {
         'primary': { ...primary, width: imgPrimary.width, height: imgPrimary.height },
