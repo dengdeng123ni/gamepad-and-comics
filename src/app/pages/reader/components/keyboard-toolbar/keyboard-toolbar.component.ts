@@ -195,7 +195,7 @@ export class KeyboardToolbarComponent {
   openReaderSettings($event){
     const node = ($event.target as HTMLElement);
     const position = node.getBoundingClientRect();
-    this.ReaderConfig.open({right:"30px",top:`${position.top}px`})
+    this.ReaderConfig.open( )
   }
 
   OpenComicsDetail(){

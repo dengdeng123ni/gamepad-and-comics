@@ -173,7 +173,7 @@ export class MultiplePageReaderMode3Component {
     this.data.chapter_id = id;
     for (let index = 0; index < pages.length; index++) {
       let obj: any = {};
-      const img = await this.loadImage(pages[index].src)
+      const img = await this.loadImage(await this.current._getImage(pages[index].src))
       obj["id"] = pages[index].id;
       obj["src"] = img.src;
       obj["width"] = img.width;

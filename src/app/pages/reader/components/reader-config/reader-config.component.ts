@@ -67,6 +67,19 @@ setTimeout(()=>{
     this.data.comics_config.background_color = e;
     document.documentElement.style.setProperty('--reader-background-color', this.data.comics_config.background_color)
   }
+  change6(e) { if(!this.is_open) return
+    this.data.comics_config.border_radius = e;
+    document.documentElement.style.setProperty('--reader-border-radius', `${this.data.comics_config.border_radius}px`)
+  }
+
+  change5(e) {
+    if(!this.is_open) return
+    this.data.comics_config.page_height = e;
+    this.data.is_init_free=false;
+    setTimeout(()=>{
+      this.data.is_init_free=true;
+    })
+  }
   change4(e) {
     if(!this.is_open) return
     this.data.comics_config.first_cover_background_color = e;

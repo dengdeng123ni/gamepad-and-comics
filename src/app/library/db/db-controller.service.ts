@@ -108,6 +108,7 @@ export class DbControllerService {
     is_cache?: boolean
   }) => {
     try {
+      if(!id) return null
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
@@ -119,6 +120,7 @@ export class DbControllerService {
         } else {
           let res;
           if (config.is_cache) {
+
             res = await firstValueFrom(this.webDb.getByID('details', id))
             if (res) {
               res = res.data;
@@ -166,6 +168,7 @@ export class DbControllerService {
     is_cache?: boolean
   }) => {
     try {
+      if(!id) return []
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
@@ -173,11 +176,12 @@ export class DbControllerService {
       if (option && option.is_cache === false) config.is_cache = false
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
         // const is_wait = await this.waitForRepetition(id)
-        if (this.pages[id]) {
+        if (this.pages[id]&& config.is_cache) {
           return JSON.parse(JSON.stringify(this.pages[id]))
         } else {
           let res;
           if (config.is_cache) {
+
             res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
             if (res) {
               res = res.data;

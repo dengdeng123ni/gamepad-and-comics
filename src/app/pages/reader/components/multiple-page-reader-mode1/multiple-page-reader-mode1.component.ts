@@ -150,7 +150,8 @@ export class MultiplePageReaderMode1Component {
     const container = document.getElementById("multiple_page_reader_mode1")
     container.click();
     container.addEventListener("scroll", (event) => {
-      if ((container.scrollHeight + container.clientHeight * 2.5) > container.scrollHeight) {
+
+      if ((container.scrollTop + container.clientHeight * 2.5) > container.scrollHeight) {
 
         this.loadNext()
       }
@@ -181,7 +182,7 @@ export class MultiplePageReaderMode1Component {
     this.data.chapter_id = id;
     for (let index = 0; index < pages.length; index++) {
       let obj: any = {};
-      const img = await this.loadImage(pages[index].src)
+      const img = await this.loadImage(await this.current._getImage(pages[index].src))
       obj["id"] = pages[index].id;
       obj["src"] = img.src;
       obj["width"] = img.width;

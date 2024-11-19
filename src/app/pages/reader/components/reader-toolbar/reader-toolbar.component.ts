@@ -141,7 +141,7 @@ export class ReaderToolbarComponent {
           let position = {};
           position[left ? 'left' : 'right'] = left ? `${e.clientX}px` : `${(window.innerWidth - e.clientX)}px`
           position[top ? 'top' : 'bottom'] = top ? `${e.clientY}px` : `${(window.innerHeight - e.clientY)}px`
-          this.ReaderConfig.open(position)
+          this.ReaderConfig.open( )
         }
       },
 

@@ -12,7 +12,7 @@ interface Events {
   getImage?: Function;
   Search?: Function;
   getReplies?: Function;
-  UrlToListObj?: Function;
+  UrlToList?: Function;
   UrlToDetailId?:Function;
 }
 interface Config {

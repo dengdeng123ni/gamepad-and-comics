@@ -1,13 +1,16 @@
 // @import 'swiper/css';
 :root {
   --double-page-reader-v2-width: 100%;
-
+  --reader-border-radius:0px;
 }
+
 .swiper {
+
   width: var(--double-page-reader-v2-width);
   height: 100vh;
   // overflow: hidden;
   transition: 0.5s all;
+  // transform: scale(0.96);
 
 }
 
@@ -23,9 +26,39 @@
 
 
 :host ::ng-deep {
-  img{
+  img {
     filter: url(#page);
+    margin: auto 0;
   }
+
+  img[direction=left] {
+    border-top-left-radius: var(--reader-border-radius);
+    border-bottom-left-radius: var(--reader-border-radius);
+  }
+
+  img[direction=right] {
+    border-top-right-radius: var(--reader-border-radius);
+    border-bottom-right-radius: var(--reader-border-radius);
+  }
+  img[direction=right][width=_100] {
+    border-radius: var(--reader-border-radius);
+  }
+  img[direction=left][width=_100] {
+    border-radius: var(--reader-border-radius);
+  }
+  [first_cover_background_color=transparent] {
+
+    img[direction=right][is_standalone_page=true] {
+      border-radius: var(--reader-border-radius);
+    }
+
+    img[direction=right][is_standalone_page=true] {
+      border-radius: var(--reader-border-radius);
+    }
+
+
+  }
+
   // img[type=none]{
   //   filter: url(#background_primary);
 
@@ -36,7 +69,7 @@
   //   background: transparent;
   //   backdrop-filter: url(#background_primary);
   // }
-  img[type=none]{
+  img[type=none] {
     background: #303030;
   }
 }

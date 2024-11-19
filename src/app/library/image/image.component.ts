@@ -34,7 +34,10 @@ export class ImageComponent {
   }
 
   ngAfterViewInit() {
-    if (this.App.is_pwa && this.src.substring(7, 21) == "localhost:7700") {
+    if(!this.src) {
+      this.url=""
+    }
+    else  if (this.App.is_pwa && this.src.substring(7, 21) == "localhost:7700") {
       this.url = this.src;
     } else {
       if (this.App.is_web_worker && this.src.substring(7, 21) == "localhost:7700") {

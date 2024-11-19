@@ -36,13 +36,32 @@
   --reader-background-color: #303030;
 
 }
+
 // palette
 :host ::ng-deep {
   ._reader {
     background: var(--reader-background-color);
-    // background: #0c1222;
   }
+
   ._reader {
-  //  background: red;
+    //  background: red;
   }
+
+  .bg {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    object-fit: cover;
+    overflow: hidden;
+    filter: blur(10px) brightness(0.2);
+
+    img {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+
+
 }

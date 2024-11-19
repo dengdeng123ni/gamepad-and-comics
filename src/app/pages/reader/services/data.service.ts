@@ -9,7 +9,7 @@ export class DataService {
   pages: Array<PagesItem> = [];
   chapters: Array<ChaptersItem> = [];
 
-  details={
+  details = {
     cover: '',
     title: '',
     author: '',
@@ -27,23 +27,25 @@ export class DataService {
   is_locked = true;
   is_cache = false;
   is_local_record = true;
-  is_offprint=false;
+  is_offprint = false;
 
   comics_config = {
     reader_mode: "double_page_reader",
     is_page_order: false,
     is_page_direction: true,
     is_double_page: true,
-    background_color:"#303030",
-    first_cover_background_color:"default",
-    page_switching_effect:"覆盖"
+    background_color: "#303030",
+    first_cover_background_color: "default",
+    page_switching_effect: "覆盖",
+    page_height: 100,
+    border_radius: 4
   }
 
   is_init_free = false;
-  is_download=false;
+  is_download = false;
 
 
-  constructor(public AppData:AppDataService) { }
+  constructor(public AppData: AppDataService) { }
 
   init() {
     const obj = this.AppData.getOption();
@@ -51,7 +53,7 @@ export class DataService {
     this.is_locked = obj.is_locked;
 
     this.is_cache = obj.is_cache;
-    this.is_download=obj.is_download;
+    this.is_download = obj.is_download;
   }
 
 
