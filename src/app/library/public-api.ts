@@ -27,6 +27,9 @@ export * from './db/db-controller.service';
 export * from './db/db-event.service';
 export * from './db/db-novels-controller.service';
 
+export * from './download/download-controller.service';
+export * from './download/download-event.service';
+
 // export * from './temporary-file/temporary-file.service'
 export * from './message/message-controller.service'
 export * from './message/message-event.service'

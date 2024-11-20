@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -127,6 +127,7 @@ export class AppComponent {
     public ReadRecordChapter: ReadRecordChapterService,
     public ImageToController: ImageToControllerService,
     public testService: TestService,
+    public DownloadEvent:DownloadEventService,
     private translate: TranslateService,
     public App: AppDataService
   ) {

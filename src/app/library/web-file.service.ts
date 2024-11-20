@@ -13,9 +13,9 @@ export class WebFileService {
   logs = [
 
   ];
-  is_download_free=false;
+  is_download_free = false;
   constructor(public DbController: DbControllerService,
-    public I18n:I18nService,
+    public I18n: I18nService,
     public download: DownloadService,) {
   }
 
@@ -118,35 +118,37 @@ export class WebFileService {
     pageOrder: boolean,
     isFirstPageCover: boolean,
     page: string,
+    getPath?: Function,
     downloadChapterAtrer?: Function,
     imageChange?: Function
   }) {
-    this.list=[];
+    this.list = [];
     if (!this.dirHandle) await this.open();
 
-    this.is_download_free=false;
+    this.is_download_free = false;
     this.addlog("加载日志")
     this.list = option.list;
-    this.list.forEach(x=>{
-      x.download_status="待下载";
+    this.list.forEach(x => {
+      x.download_status = "待下载";
     })
     for (let index = 0; index < option.list.length; index++) {
       const x = option.list[index];
-      this.list[index].download_status='下载中';
+      this.list[index].download_status = '下载中';
       for (let index2 = 0; index2 < option.type.length; index2++) {
         await this.downloadComics(x.id, {
           type: option.type[index2],
           pageOrder: option.pageOrder,
           isFirstPageCover: option.isFirstPageCover,
           page: option.page,
+          getPath: option.getPath,
           downloadChapterAtrer: option.downloadChapterAtrer,
           imageChange: option.imageChange
         })
       }
-      this.list[index].download_status='下载完成';
+      this.list[index].download_status = '下载完成';
     }
-    this.is_download_free=true;
-    this.dirHandle=null;
+    this.is_download_free = true;
+    this.dirHandle = null;
     this.addlog("下载完成")
 
   }
@@ -156,13 +158,15 @@ export class WebFileService {
   async downloadComics(comics_id, option?: {
     chapters_ids?: Array<any>,
     type?: string,
-
     pageOrder: boolean,
     isFirstPageCover: boolean,
     page: string,
+    getPath?: Function,
     downloadChapterAtrer?: Function,
     imageChange?: Function
   }) {
+
+    // blob array obj<arr>
 
     if (!this.dirHandle) await this.open();
     const 加载中 = await this.I18n.getTranslatedText('加载中')
@@ -180,11 +184,12 @@ export class WebFileService {
     }
     this.addlog(`${加载中} ${comics_id}`)
     let { chapters, title, option: config } = await this.DbController.getDetail(comics_id)
+    let detail = await this.DbController.getDetail(comics_id);
     this.addlog(`${加载成功} ${title}`)
     if (option?.chapters_ids?.length) chapters = chapters.filetr(x => option.chapters_ids.includes(x.id))
-    const is_offprint= chapters.length==1?true:false;
-    for (let index = 0; index < chapters.length; index++) {
-      const x = chapters[index];
+    const is_offprint = chapters.length == 1 ? true : false;
+    for (let chapter_index = 0; chapter_index < chapters.length; chapter_index++) {
+      const x = chapters[chapter_index];
       this.addlog(`${加载中} ${x.title}`)
       const pages = await this.DbController.getPages(x.id);
       this.addlog(`${加载成功} ${x.title}`)
@@ -203,7 +208,22 @@ export class WebFileService {
             for (let index = 0; index < blobs.length; index++) {
               let blob = blobs[index]
               if (option.imageChange) blob = await option.imageChange(blob);
-              if (is_offprint) {
+              if (option.getPath) {
+                const path = await option.getPath({
+                  page_index:index,
+                  comics: detail,
+                  chapter_id: x.id,
+                  chapter_index:chapter_index,
+                  downloadOption: {
+                    type: option.type,
+                    pageOrder: option.pageOrder,
+                    isFirstPageCover: option.isFirstPageCover,
+                    page: option.page,
+                  },
+                  blob: blob
+                });
+                await this.post(path, blob)
+              } else if (is_offprint) {
                 await this.post(`${config.source}[${双页}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
               } else {
                 await this.post(`${config.source}[${双页}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
@@ -214,7 +234,22 @@ export class WebFileService {
               let blob = await this.DbController.getImage(x2.src)
 
               if (option.imageChange) blob = await option.imageChange(blob);
-              if (blob.size > 500) {
+              if (option.getPath) {
+                const path = await option.getPath({
+                  page_index: index,
+                  comics: detail,
+                  chapter_id: x.id,
+                  downloadOption: {
+                    type: option.type,
+                    pageOrder: option.pageOrder,
+                    isFirstPageCover: option.isFirstPageCover,
+                    page: option.page,
+                  },
+                  blob: blob
+                });
+                await this.post(path, blob)
+
+              } else if (blob.size > 500) {
                 if (is_offprint) {
                   await this.post(`${config.source}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
                 } else {
@@ -252,7 +287,21 @@ export class WebFileService {
         if (option.type == "EPUB") {
           suffix_name = `epub`;
         }
-        if (is_offprint) {
+        if (option.getPath) {
+          const path = await option.getPath({
+            comics: detail,
+            chapter_id: x.id,
+            chapter_index:chapter_index,
+            downloadOption: {
+              type: option.type,
+              pageOrder: option.pageOrder,
+              isFirstPageCover: option.isFirstPageCover,
+              page: option.page,
+            },
+            blob: blob
+          });
+          await this.post(path, blob)
+        } else if (is_offprint) {
           await this.post(`${config.source}[${suffix_name}][${option.page == "double" ? `${双页}` : `${单页}`}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}.${suffix_name}`, blob)
         } else {
           await this.post(`${config.source}[${suffix_name}][${option.page == "double" ? `${双页}` : `${单页}`}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${toTitle(x.title)}.${suffix_name}`, blob)

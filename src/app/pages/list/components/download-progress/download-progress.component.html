@@ -1,7 +1,7 @@
 <div class="warp">
   <div class="left">
     <div class="title">
-      待处理列表
+      {{'待处理列表'|translate}}
     </div>
     <div class="list">
       <div class="grid" #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.section]="'comics_list'">
@@ -36,10 +36,10 @@
      width: 100%;" *ngIf="WebFile.is_download_free">
        <div class="title" style="font-size: 28px;
     margin-bottom: 20px;">
-        下载完成
+        {{'下载完成'|translate}}
        </div>
        <button mat-button color="primary" [attr.region]="'item'"
-       (click)="close()">关闭</button>
+       (click)="close()"> {{'关闭'|translate}}</button>
      </div>
     <div class="list" style="display: flex;flex-direction: column;overflow: auto;height: 100%;">
       <div class="item" *ngFor="let n of WebFile.logs" style="font-size: 14px;margin: 4px 0;">

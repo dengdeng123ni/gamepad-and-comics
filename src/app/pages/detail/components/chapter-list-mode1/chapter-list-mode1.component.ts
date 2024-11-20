@@ -123,7 +123,7 @@ export class ChapterListMode1Component {
               const index= detail.chapters.findIndex(x=>x.id.toString()==list[0].id.toString())
               let obj= JSON.parse(JSON.stringify(detail.chapters[index]));
               obj.id=_id;
-              obj.title=`${list[index].title} - ${list.at(-1).title}`;
+              obj.title=`${list[0].title} - ${list.at(-1).title}`;
               detail.chapters.splice(index, 0, obj);
               for (let index = 0; index < list.length; index++) {
               detail.chapters=detail.chapters.filter(x=>x.id!=list[index].id)
