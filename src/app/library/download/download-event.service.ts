@@ -9,9 +9,6 @@ export class DownloadEventService {
   Paths = {};
 
   constructor() {
-    console.log(
-      CryptoJS
-    );
 
     this.path_register('可选项', (e) => {
       if (e.page_index !== undefined && e.chapter_id) {
