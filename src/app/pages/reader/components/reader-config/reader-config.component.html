@@ -65,7 +65,7 @@
       </div>
       <div class="right">
         <mat-chip-listbox>
-          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change5('default')" [selectable]="'default'!=data.comics_config.first_cover_background_color" [selected]="'default'==data.comics_config.first_cover_background_color">{{'默认'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change4('default')" [selectable]="'default'!=data.comics_config.first_cover_background_color" [selected]="'default'==data.comics_config.first_cover_background_color">{{'默认'|translate}} </mat-chip-option>
           <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change4('transparent')" [selectable]="'transparent'!=data.comics_config.first_cover_background_color" [selected]="'transparent'==data.comics_config.first_cover_background_color">{{'透明'|translate}} </mat-chip-option>
           <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change4('#fff')" [selectable]="'#fff'!=data.comics_config.first_cover_background_color" [selected]="'#fff'==data.comics_config.first_cover_background_color">{{'白色'|translate}} </mat-chip-option>
           <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change4('#000')" [selectable]="'#000'!=data.comics_config.first_cover_background_color" [selected]="'#000'==data.comics_config.first_cover_background_color">{{'黑色'|translate}} </mat-chip-option>

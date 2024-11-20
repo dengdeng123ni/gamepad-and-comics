@@ -46,6 +46,8 @@ export class ChapterListMode1Component {
     public AppData: AppDataService,
     public I18n:I18nService
   ) {
+    //
+    // 编辑
     let menu: any = [{ name: "缩略图", id: "thumbnail" },];
     if (data.is_download) {
       menu.push({ name: "下载", id: "export" },)
@@ -109,8 +111,30 @@ export class ChapterListMode1Component {
             }
           },
           {
+            name: "合并章节", id: "delete1", click: async (list) => {
+              let arr=[];
+              for (let index = 0; index < list.length; index++) {
+                 const c= await this.DbController.getPages(list[index].id);
+                 arr.push(...c)
+              }
+              const _id=`_${new Date().getTime()}`;
+              const c=await this.DbController.putWebDbPages(_id,arr);
+              let detail = await this.DbController.getDetail(this.data.comics_id, { source: this.current.source })
+              const index= detail.chapters.findIndex(x=>x.id.toString()==list[0].id.toString())
+              let obj= JSON.parse(JSON.stringify(detail.chapters[index]));
+              obj.id=_id;
+              obj.title=`${list[index].title} - ${list.at(-1).title}`;
+              detail.chapters.splice(index, 0, obj);
+              for (let index = 0; index < list.length; index++) {
+              detail.chapters=detail.chapters.filter(x=>x.id!=list[index].id)
+             }
+             await this.DbController.putWebDbDetail(this.data.comics_id, detail);
+             const r = await this.DbController.getDetail(this.data.comics_id);
+             this.data.chapters = r.chapters;
+            }
+          },
+          {
             name: "删除", id: "delete", click: async (list) => {
-
               for (let index = 0; index < list.length; index++) {
                 await this.current._delChapter(this.data.comics_id, list[index].id)
                 const r = await this.DbController.getDetail(this.data.comics_id);

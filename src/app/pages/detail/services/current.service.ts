@@ -78,6 +78,8 @@ export class CurrentService {
     detail.chapters = detail.chapters.filter(x => x.id.toString() !== chapter_id.toString());
     await this.DbController.putWebDbDetail(comic_id, detail);
   }
+
+
   async _getChapter(id: string): Promise<Array<PagesItem>> {
     // let list = [];
     // if (this._chapters[id]) {

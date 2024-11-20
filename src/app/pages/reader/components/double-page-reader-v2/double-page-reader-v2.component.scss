@@ -46,7 +46,7 @@
   img[direction=left][width=_100] {
     border-radius: var(--reader-border-radius);
   }
-  [first_cover_background_color=transparent] {
+  [first_cover_background_color=transparent],[first_cover_background_color=default] {
 
     img[direction=right][is_standalone_page=true] {
       border-radius: var(--reader-border-radius);
