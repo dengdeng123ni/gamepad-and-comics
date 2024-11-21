@@ -16,11 +16,7 @@
 
 
 :host ::ng-deep {
-  .swiper[is_page_order=true]{
-    .swiper-slide{
-    }
 
-  }
   img {
     filter: url(#page);
     display: flex;
@@ -58,7 +54,5 @@
 
   }
 
-  img[type=none] {
-    background: #303030;
-  }
+
 }
