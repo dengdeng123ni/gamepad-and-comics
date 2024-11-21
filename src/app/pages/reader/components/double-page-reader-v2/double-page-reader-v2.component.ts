@@ -337,44 +337,10 @@ export class DoublePageReaderV2Component {
     const c = res.primary.end || res.primary.start || res.secondary.src;
     const is_standalone_page = res.primary.end || res.primary.start;
 
-
-    if (res.primary.end) {
-      if (this.data.comics_config.first_cover_background_color == "default") {
-        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
-        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: right;" direction="right"  src="${base64}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
-        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#000") {
-        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      }
-    }
-    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;"  direction="right" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
-    if (res.primary.src) {
-      const width= document.documentElement.style.getPropertyValue('--double-page-reader-v2-width')
-      const is_h=window.innerHeight<(res.primary.height/res.primary.width)*(parseInt(width)/(res.primary.width<res.primary.height?2:1));
-
-      const size=this.data.comics_config.page_height;
-      current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}" style="width: ${c ? '50%' : '100%'};height: ${is_h?size+'%':'auto'};object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  direction="${res.primary.start ? 'right' : 'left'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
-
-    }
-    if (res.primary.start) {
-      if (this.data.comics_config.first_cover_background_color == "default") {
-        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
-        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: left;"  src="${base64}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
-        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#000") {
-        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      }
-    }
+    if (res.primary.end) current = current + await this.getBlankPage(res);
+    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
+    if (res.primary.src) current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.primary.start) current = current + await this.getBlankPage(res);
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.prependSlide(current)
@@ -409,47 +375,33 @@ export class DoublePageReaderV2Component {
 
     const c = res.primary.end || res.primary.start || res.secondary.src;
     const is_standalone_page = res.primary.end || res.primary.start;
-    if (res.primary.end) {
-      if (this.data.comics_config.first_cover_background_color == "default") {
-        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
-        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: right;" direction="right"  src="${base64}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
-        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#000") {
-        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      }
-    }
-    if (res.primary.src) {
-      const width= document.documentElement.style.getPropertyValue('--double-page-reader-v2-width')
-      const is_h=window.innerHeight<(res.primary.height/res.primary.width)*(parseInt(width)/(res.primary.width<res.primary.height?2:1));
-      const size=this.data.comics_config.page_height;
-      current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}" style="width: ${c ? '50%' : '100%'};height: ${is_h?size+'%':'auto'};object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  direction="${res.primary.start ? 'right' : 'left'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
-
-    }
-    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;"  direction="left" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
-
-    if (res.primary.start) {
-      if (this.data.comics_config.first_cover_background_color == "default") {
-        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
-        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: left;"  src="${base64}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
-        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#000") {
-        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      }
-    }
+    if (res.primary.end) current = current + await this.getBlankPage(res);
+    if (res.primary.src) current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
+    if (res.primary.start) current = current + await this.getBlankPage(res);
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       this.appendSlide(current)
     }
+  }
+  async getBlankPage(res){
+    let current=""
+    if (this.data.comics_config.first_cover_background_color == "default") {
+      let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
+      current = current + `<img type="none" src="${base64}" />`;
+    } else if (this.data.comics_config.first_cover_background_color == "transparent") {
+      current = current + `<img type="none" style="opacity: 0;"   src="${res.primary.src}" />`;
+    } else if (this.data.comics_config.first_cover_background_color == "#fff") {
+      let base64 = this.generateBase64(res.primary.width, res.primary.height, "#ffffff")
+      current = current + `<img type="none" src="${base64}" />`;
+    } else if (this.data.comics_config.first_cover_background_color == "#000") {
+      let base64 = this.generateBase64(res.primary.width, res.primary.height, "#000000")
+      current = current + `<img type="none" src="${base64}" />`;
+    } else {
+      let base64 = this.generateBase64(res.primary.width, res.primary.height, "#ffffff")
+      current = current + `<img type="none" src="${base64}" />`;
+    }
+    return current
   }
   prependSlide(src: string) {
     // if(this.swiper.slides.length>5) this.swiper.removeSlide((this.swiper.slides.length-1));
@@ -498,12 +450,12 @@ export class DoublePageReaderV2Component {
     if (primary && imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
     if (secondary && imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
 
-    if (imgPrimary.width != 0&&imgPrimary.width == imgSecondary.width && !this.is_1) {
-      const size=this.data.comics_config.page_height/100;
+    if (imgPrimary.width != 0 && imgPrimary.width == imgSecondary.width && imgPrimary.height == imgSecondary.height && !this.is_1) {
+      const size = this.data.comics_config.page_height / 100;
       if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
         document.documentElement.style.setProperty('--double-page-reader-v2-width', `${((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size))}px`);
       } else {
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${((imgPrimary.width / imgPrimary.height) * window.innerHeight * (2*size))}px`);
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${((imgPrimary.width / imgPrimary.height) * window.innerHeight * (2 * size))}px`);
       }
       this.is_1 = true
     }

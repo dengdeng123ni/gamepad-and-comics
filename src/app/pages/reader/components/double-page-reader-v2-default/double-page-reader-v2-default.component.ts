@@ -331,39 +331,12 @@ export class DoublePageReaderV2DefaultComponent {
     const is_standalone_page = res.primary.end || res.primary.start;
 
 
-    if (res.primary.start) {
-      if (this.data.comics_config.first_cover_background_color == "default") {
-        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
-        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: right;" direction="right"  src="${base64}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
-        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#000") {
-        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      }
-    }
-    if (res.primary.src) {
-      current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  direction="${res.primary.start ? 'right' : 'left'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
-    }
-    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;"  direction="right" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
+    if (res.primary.start) current = current + await this.getBlankPage(res);
+    if (res.primary.src) current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
+    if (res.primary.end) current = current + await this.getBlankPage(res);
 
-    if (res.primary.end) {
-      if (this.data.comics_config.first_cover_background_color == "default") {
-        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
-        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: left;"  src="${base64}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
-        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#000") {
-        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      }
-    }
+
 
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = current;
@@ -405,45 +378,35 @@ export class DoublePageReaderV2DefaultComponent {
     const is_standalone_page = res.primary.end || res.primary.start;
 
 
-    if (res.primary.start) {
-      if (this.data.comics_config.first_cover_background_color == "default") {
-        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
-        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: right;" direction="right"  src="${base64}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
-        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#000") {
-        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      } else {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: right;"  direction="right"  src="${res.primary.src}" />`;
-      }
-    }
-
-    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;"  direction="left" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
-    if (res.primary.src) {
-      current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  direction="${res.primary.start ? 'left' : 'right'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
-    }
-    if (res.primary.end) {
-      if (this.data.comics_config.first_cover_background_color == "default") {
-        let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
-        current = current + `<img type="none" style="width:50%;height: auto;object-fit: contain;object-position: left;"  src="${base64}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "transparent") {
-        current = current + `<img type="none" style="opacity: 0;width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#fff") {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else if (this.data.comics_config.first_cover_background_color == "#000") {
-        current = current + `<img type="none" style="filter: brightness(0);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      } else {
-        current = current + `<img type="none" style="filter: brightness(0) invert(1);width:50%;height: auto;object-fit: contain;object-position: left;"  src="${res.primary.src}" direction="left" />`;
-      }
-    }
+    if (res.primary.end) current = current + await this.getBlankPage(res);
+    if (res.secondary.src) current = current + `<img content_menu_key="pages_item" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
+    if (res.primary.src) current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+    if (res.primary.start) current = current + await this.getBlankPage(res);
 
 
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = current;
       this.appendSlide(current)
     }
+  }
+  async getBlankPage(res){
+    let current=""
+    if (this.data.comics_config.first_cover_background_color == "default") {
+      let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
+      current = current + `<img type="none" src="${base64}" />`;
+    } else if (this.data.comics_config.first_cover_background_color == "transparent") {
+      current = current + `<img type="none" style="opacity: 0;"   src="${res.primary.src}" />`;
+    } else if (this.data.comics_config.first_cover_background_color == "#fff") {
+      let base64 = this.generateBase64(res.primary.width, res.primary.height, "#ffffff")
+      current = current + `<img type="none" src="${base64}" />`;
+    } else if (this.data.comics_config.first_cover_background_color == "#000") {
+      let base64 = this.generateBase64(res.primary.width, res.primary.height, "#000000")
+      current = current + `<img type="none" src="${base64}" />`;
+    } else {
+      let base64 = this.generateBase64(res.primary.width, res.primary.height, "#ffffff")
+      current = current + `<img type="none" src="${base64}" />`;
+    }
+    return current
   }
   prependSlide(src: string) {
     if (
