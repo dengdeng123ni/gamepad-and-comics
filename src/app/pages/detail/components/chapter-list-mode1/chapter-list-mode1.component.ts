@@ -110,6 +110,22 @@ export class ChapterListMode1Component {
               })
             }
           },
+
+          {
+            name: "删除", id: "delete", click: async (list) => {
+              for (let index = 0; index < list.length; index++) {
+                await this.current._delChapter(this.data.comics_id, list[index].id)
+                const r = await this.DbController.getDetail(this.data.comics_id);
+                this.data.chapters = r.chapters;
+              }
+            }
+          },
+        ]
+
+
+      })
+      menu.push({
+        name: "编辑", id: "edit", submenu: [
           {
             name: "合并章节", id: "delete1", click: async (list) => {
               let arr=[];
@@ -133,17 +149,12 @@ export class ChapterListMode1Component {
              this.data.chapters = r.chapters;
             }
           },
-          {
-            name: "删除", id: "delete", click: async (list) => {
-              for (let index = 0; index < list.length; index++) {
-                await this.current._delChapter(this.data.comics_id, list[index].id)
-                const r = await this.DbController.getDetail(this.data.comics_id);
-                this.data.chapters = r.chapters;
-              }
-            }
-          },
         ]
+
+
       })
+
+
 
     } else {
       ContextMenuEvent.logoutMenu("chapters_item", "data")

@@ -14,7 +14,6 @@ import { ReaderConfigService } from '../../components/reader-config/reader-confi
 import { ComicsDetailService } from '../../components/comics-detail/comics-detail.service';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 import { PromptService } from '../../services/prompt.service';
-import { GamepadToolbarComponent } from '../../components/gamepad-toolbar/gamepad-toolbar.component';
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
 import { ComicsSettingsService } from '../../components/comics-settings/comics-settings.service';
 import { FilterService } from '../../components/filter/filter.service';
@@ -80,6 +79,8 @@ export class IndexComponent {
     // setTimeout(()=>{
     //   KeyboardToolbar.open()
     // },1000)
+
+
     document.body.setAttribute("router", "reader")
     document.body.setAttribute("locked_region", document.body.getAttribute("router"))
 

@@ -229,10 +229,14 @@ export class AppComponent {
       document.documentElement.setAttribute('theme', id)
     }
   }
+  getAllParams(url){
+    const params = new URLSearchParams(url.split('?')[1]);
+    const allParams = Object.fromEntries((params as any).entries());
+    return allParams
+  }
   async init() {
     await this.MessageFetch.init();
     await this.pulg.init();
-
     setTimeout(() => {
       if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
       this.getPulgLoadingFree();
@@ -242,9 +246,20 @@ export class AppComponent {
       this.svg.init();
       setTimeout(() => {
         this.App.init();
+        console.log( window.location.href,this.getAllParams(window.location.href));
+        const json = {
+          type: "comics",
+
+          pages:["http://localhost:4200/","http://localhost:4200/"]
+        };
+        const params = new URLSearchParams(json as any);
+        console.log(params);
+
+
         var search= window.location.search;
         const obj = new URLSearchParams(search);
         const url=obj.get('url')
+
         this.RoutingController.strRouterReader(url);
         if(!url){
           window.addEventListener('visibilitychange', () => {
@@ -269,8 +284,6 @@ export class AppComponent {
         }
       }, 50)
     }, 200)
-
-    // this.getPulgLoadingFree();
   }
   getAnimationData() {
     return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];

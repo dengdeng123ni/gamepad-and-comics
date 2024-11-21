@@ -9,8 +9,8 @@ export class DownloadEventService {
   Paths = {};
 
   constructor() {
-    window._gh_to_path = this.path_register;
-    this.path_register('可选项', (e) => {
+    window._gh_generate_file_path = this.generate_file_path;
+    this.generate_file_path('可选项', (e) => {
       if (e.page_index !== undefined && e.chapter_id) {
         const is_offprint = e.comics.chapters.length == 1 ? true : false;
         if (is_offprint) {
@@ -32,13 +32,12 @@ export class DownloadEventService {
     })
   }
 
-  path_register = (name, event) => {
-    const id=CryptoJS.MD5(name).toString().toLowerCase();
-
+  generate_file_path = (name, event) => {
+    const id = CryptoJS.MD5(name).toString().toLowerCase();
     this.Paths[id] = {
-      key:id,
-      name:name,
-      event:event
+      key: id,
+      name: name,
+      event: event
     };
   }
 
