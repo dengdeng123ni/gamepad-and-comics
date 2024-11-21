@@ -492,6 +492,8 @@ export class CurrentService {
     await firstValueFrom(this.webDb.deleteByKey("chapter_first_page_cover", chapter_id.toString()))
   }
   async _setChapterIndex(id: string, index: number) {
+    console.log({ 'chapter_id': id.toString(), "page_index": index });
+
     await firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': id.toString(), "page_index": index }))
   }
   async _getChapterRead(comics_id: string) {
@@ -767,14 +769,18 @@ export class CurrentService {
 
     this.data.page_index = option.page_index;
     this.data.pages = pages;
-    this.data.chapter_id = option.chapter_id;
+
+    if( this.data.chapter_id!=option.chapter_id){
+      this.data.chapter_id = option.chapter_id;
+      history.replaceState(null, "", `comics/${this.source}/${this.data.comics_id}/${this.data.chapter_id}`);
+    }
 
     if (type == "changePage") {
       this._setChapterIndex(this.data.chapter_id.toString(), option.page_index)
 
+
     } else if (type == "changeChapter") {
       this._setWebDbComicsConfig(this.data.comics_id);
-      history.replaceState(null, "", `comics/${this.source}/${this.data.comics_id}/${this.data.chapter_id}`);
     }
     this._updateChapterRead(this.data.chapter_id);
     const types = ['initPage', 'closePage', 'changePage', 'nextPage', 'previousPage', 'nextChapter', 'previousChapter', 'changeChapter'];

@@ -202,6 +202,8 @@ export class DoublePageReaderV2Component {
     })
   }
   async updata() {
+    console.log(this.swiper.slides[this.swiper.activeIndex]);
+
     if (!this.swiper.slides[this.swiper.activeIndex]) return
     if (this.swiper.slides[this.swiper.activeIndex]) {
       const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
