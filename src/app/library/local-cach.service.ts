@@ -17,7 +17,30 @@ export class LocalCachService {
     public DbEvent: DbEventService,
     public I18n: I18nService
   ) {
+    DbEvent.comics_register({
+      id: "temporary_data",
+      name: "临时数据",
+      is_download: true,
+      is_cache: true
+    }, {
+      getList: async (obj: any) => {
+        let res =  await firstValueFrom(this.webDb.getAll('temporary_details'))
+        const list = res.map((x: any) => {
+          return { id: x.id, cover: x.chapters[0].pages[0].id.toString(), title: x.title, subTitle: `${x.chapters[0].title}` }
+        });
+        return list
+      },
+      getDetail: async (id: string) => {
+        console.log(id);
+        const res= (await firstValueFrom(this.webDb.getByID("temporary_details", id)) as any).data;
+        console.log(res);
 
+        return res
+      },
+      getPages: async (id: string) => {
+        return  (await firstValueFrom(this.webDb.getByID("temporary_pages", id)) as any).data
+      }
+    });
     DbEvent.comics_register({
       id: "local_cache",
       name: "本地缓存",
@@ -127,6 +150,8 @@ export class LocalCachService {
       verticalPosition: 'bottom',
     });
   }
+
+
 
 
 

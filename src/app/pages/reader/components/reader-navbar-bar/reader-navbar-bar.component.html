@@ -18,21 +18,22 @@
           </div>
         </div>
         <div class="pid item">
-          <div class="arrow">></div>
+          <div class="arrow"  *ngIf="zIndex > 0&&data.chapters[chapter_index].title  ">></div>
           <div
             class="title"
             (click)="routerDetail()"
-            *ngIf="zIndex > 0"
+            *ngIf="zIndex > 0&&data.details.title "
             [attr.region]="'reader_navbar_bar_top_item'"
+
           >
             {{ data.details.title }}
           </div>
         </div>
         <div class="sid item">
-          <div class="arrow">></div>
+          <div class="arrow"  *ngIf="zIndex > 0&&data.chapters[chapter_index].title  ">></div>
           <div
             class="title"
-            *ngIf="zIndex > 0"
+            *ngIf="zIndex > 0&&data.chapters[chapter_index].title  "
             [attr.region]="'reader_navbar_bar_top_item'"
           >
             {{ data.chapters[chapter_index].title }}

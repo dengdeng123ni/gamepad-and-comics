@@ -18,6 +18,8 @@ export class TemporaryFileService {
     //   const blob = await obj.blob.getFile();
     //   return { id: event.data.id, type: "temporary_file", blob: blob }
     // })]
+
+
     DbEvent.comics_register({
       id:"temporary_file",
       name: "本地文件",

@@ -1,14 +1,15 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
 import { TestService } from './composite/test/test.service';
-import { bufferCount, Subject } from 'rxjs';
+import { bufferCount, firstValueFrom, Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { TranslateService } from '@ngx-translate/core';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [
@@ -127,8 +128,10 @@ export class AppComponent {
     public ReadRecordChapter: ReadRecordChapterService,
     public ImageToController: ImageToControllerService,
     public testService: TestService,
-    public DownloadEvent:DownloadEventService,
+    public DownloadEvent: DownloadEventService,
     private translate: TranslateService,
+    public webDb: NgxIndexedDBService,
+    public DbEvent: DbEventService,
     public App: AppDataService
   ) {
     this.translate.addLangs(['zh']);
@@ -137,9 +140,9 @@ export class AppComponent {
     this.keydown.pipe(bufferCount(2)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))
     });
-    let obj={};
-    Object.keys({}).forEach(x=>{
-     obj[x]=`${x}1`
+    let obj = {};
+    Object.keys({}).forEach(x => {
+      obj[x] = `${x}1`
 
     })
     // console.log(obj);
@@ -219,6 +222,7 @@ export class AppComponent {
     //   }
     // })
 
+
   }
   ngOnDestroy() {
     this.keydown.unsubscribe();
@@ -229,10 +233,28 @@ export class AppComponent {
       document.documentElement.setAttribute('theme', id)
     }
   }
-  getAllParams(url){
+  getAllParams(url) {
     const params = new URLSearchParams(url.split('?')[1]);
     const allParams = Object.fromEntries((params as any).entries());
     return allParams
+  }
+  async save(title: any, pages) {
+    const _id = `_${new Date().getTime()}`
+    await firstValueFrom(this.webDb.update("temporary_pages", { id: _id, data: pages }))
+    await firstValueFrom(this.webDb.update("temporary_details", {
+      id: _id, data: {
+        title: title,
+        cover: pages[0],
+        id: _id,
+        chapters: [
+          {
+            title: title,
+            cover: pages[0],
+            id: _id
+          }
+        ]
+      }
+    }))
   }
   async init() {
     await this.MessageFetch.init();
@@ -246,22 +268,31 @@ export class AppComponent {
       this.svg.init();
       setTimeout(() => {
         this.App.init();
-        console.log( window.location.href,this.getAllParams(window.location.href));
-        const json = {
+        console.log(window.location.href, this.getAllParams(window.location.href));
+        const json1 = {
           type: "comics",
-
-          pages:["http://localhost:4200/","http://localhost:4200/"]
+          pages: ["http://localhost:7700/bilibili/page/564381/0", "http://localhost:7700/bilibili/page/564381/1", "http://localhost:7700/bilibili/page/564381/2", "http://localhost:7700/bilibili/page/564381/3"]
         };
-        const params = new URLSearchParams(json as any);
-        console.log(params);
+        const params = new URLSearchParams(json1 as any);
+
+        console.log(params.toString());
+
+       const c= {
+        "type": "comics",
+        "pages": "http://localhost:7700/bilibili/page/564381/0,http://localhost:7700/bilibili/page/564381/1,http://localhost:7700/bilibili/page/564381/2,http://localhost:7700/bilibili/page/564381/3"
+    }
+console.log(c.pages.split(","));
+
+       this.save('',c.pages.split(","))
 
 
-        var search= window.location.search;
+
+        var search = window.location.search;
         const obj = new URLSearchParams(search);
-        const url=obj.get('url')
+        const url = obj.get('url')
 
         this.RoutingController.strRouterReader(url);
-        if(!url){
+        if (!url) {
           window.addEventListener('visibilitychange', () => {
             if (document.hidden) {
 

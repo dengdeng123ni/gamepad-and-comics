@@ -170,7 +170,43 @@ export class ComicsListV2Component {
             return list
           }
         })
-      } else if (type == "temporary_file") {
+      }
+      else if (type == "temporary_data") {
+        this.id = `temporary_data`;
+        this.key = this.id;
+        ComicsListV2.register({
+          id: this.id,
+          type: type,
+          page_size: 20
+        }, {
+          Add: async (obj) => {
+            const res = await firstValueFrom(this.webDb.getAll("temporary_details"))
+console.log(res);
+
+            const list = res.map((x: any) => {
+              x = x.data
+              return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0]?.title}` }
+            }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
+            return list
+          },
+          Init: async (obj) => {
+            const res = await firstValueFrom(this.webDb.getAll("temporary_details"))
+            console.log(res);
+
+            const list = res.map((x: any) => {
+              x = x.data
+              return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0]?.title}` }
+            }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
+
+
+            return list
+          }
+        })
+      }
+
+
+
+      else if (type == "temporary_file") {
         this.id = `${sid}`;
         this.key = this.id;
         ComicsListV2.register({
@@ -241,6 +277,9 @@ export class ComicsListV2Component {
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
 
         } else if (this.type == "local_cache") {
+
+          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000 });
+        }  else if (this.type == "temporary_file") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000 });
         } else {

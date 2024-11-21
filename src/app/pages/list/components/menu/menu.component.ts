@@ -117,6 +117,8 @@ export class MenuComponent {
       Object.keys(this.DbEvent.Events).forEach(x => {
         if (x == "temporary_file") return
         if (x == "local_cache") return
+        if (x == "temporary_data") return
+
         let obj = {
           id: x,
           icon: "folder_open",
@@ -202,6 +204,16 @@ export class MenuComponent {
         click: (e) => {
           this.AppData.setsource('local_cache')
           this.router.navigate(['query', 'local_cache']);
+        }
+      })
+
+      this.data.menu.push({
+        id: 'temporary_data',
+        icon: "source",
+        name: '临时数据',
+        click: (e) => {
+          this.AppData.setsource('temporary_data')
+          this.router.navigate(['query', 'temporary_data']);
         }
       })
 
