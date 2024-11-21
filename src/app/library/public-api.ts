@@ -20,6 +20,9 @@ export * from './gamepad/keyboard-event.service';
 export * from './gamepad/keyboard-controller.service';
 
 // export * from './cache/cache.service';
+export * from './params/params-event.service';
+export * from './params/params-controller.service';
+
 export * from './download/download.service';
 export * from './i18n/i18n.service';
 export * from './data/data.service';

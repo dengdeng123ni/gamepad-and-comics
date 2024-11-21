@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -129,6 +129,7 @@ export class AppComponent {
     public ImageToController: ImageToControllerService,
     public testService: TestService,
     public DownloadEvent: DownloadEventService,
+    public ParamsController:ParamsControllerService,
     private translate: TranslateService,
     public webDb: NgxIndexedDBService,
     public DbEvent: DbEventService,
@@ -145,37 +146,6 @@ export class AppComponent {
       obj[x] = `${x}1`
 
     })
-    // console.log(obj);
-
-
-
-    // this.testService.open();
-    // this.KeyboardEvent.registerGlobalEvent({
-    //   "/": () => this.HistoryComicsList.isToggle(),
-
-    // })
-    // this.KeyboardEvent.registerGlobalEvent({
-    //   ".": () => this.readRecord.isToggle(),
-    // })
-    // this.KeyboardEvent.registerGlobalEvent({
-    //   "m": () => this.readRecord.isToggle(),
-    // })
-    // this.KeyboardEvent.registerGlobalEvent({
-    //   "n": () => this.ReadRecordChapter.isToggle(),
-    // })
-
-    //  setTimeout(async ()=>{
-    //   const device = await (navigator as any).bluetooth.requestDevice({
-    //     optionalServices: ["battery_service", "device_information"],
-    //     acceptAllDevices: true,
-    //   });
-
-
-    //  },3000)
-
-
-
-
 
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
@@ -203,26 +173,6 @@ export class AppComponent {
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     this.init();
 
-    // GamepadEvent.areaEvents("content_menu",{
-    //   UP:()=>
-    // })
-
-    // this.GamepadEvent.registerAreaEvent("content_menu", {
-    //   "UP": () => {
-    //     this.GamepadController.setMoveTargetPrevious();
-    //   },
-    //   "DOWN": () => {
-    //     this.GamepadController.setMoveTargetNext();
-    //   },
-    //   "LEFT": () => {
-    //     this.GamepadController.setMoveTargetPrevious();
-    //   },
-    //   "RIGHT": () => {
-    //     this.GamepadController.setMoveTargetNext();
-    //   }
-    // })
-
-
   }
   ngOnDestroy() {
     this.keydown.unsubscribe();
@@ -238,58 +188,21 @@ export class AppComponent {
     const allParams = Object.fromEntries((params as any).entries());
     return allParams
   }
-  async save(title: any, pages) {
-    const _id = `_${new Date().getTime()}`
-    await firstValueFrom(this.webDb.update("temporary_pages", { id: _id, data: pages }))
-    await firstValueFrom(this.webDb.update("temporary_details", {
-      id: _id, data: {
-        title: title,
-        cover: pages[0],
-        id: _id,
-        chapters: [
-          {
-            title: title,
-            cover: pages[0],
-            id: _id
-          }
-        ]
-      }
-    }))
-  }
+
   async init() {
+    const obj1=this.getAllParams(window.location.href);
     await this.MessageFetch.init();
-    await this.pulg.init();
+    if(!obj1["noscript"]) await this.pulg.init();
     setTimeout(() => {
       if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
-      this.getPulgLoadingFree();
       this.is_loading_page = true;
       this.GamepadController.init();
-
       this.svg.init();
       setTimeout(() => {
         this.App.init();
-        console.log(window.location.href, this.getAllParams(window.location.href));
-        const json1 = {
-          type: "comics",
-          pages: ["http://localhost:7700/bilibili/page/564381/0", "http://localhost:7700/bilibili/page/564381/1", "http://localhost:7700/bilibili/page/564381/2", "http://localhost:7700/bilibili/page/564381/3"]
-        };
-        const params = new URLSearchParams(json1 as any);
-        console.log(params.toString());
-        const c = {
-          "type": "comics",
-          "pages": "http://localhost:7700/bilibili/page/564381/0,http://localhost:7700/bilibili/page/564381/1,http://localhost:7700/bilibili/page/564381/2,http://localhost:7700/bilibili/page/564381/3"
-        }
-        console.log(c.pages.split(","));
-        this.save('', c.pages.split(","))
-
-
-
-        var search = window.location.search;
-        const obj = new URLSearchParams(search);
-        const url = obj.get('url')
-
-        this.RoutingController.strRouterReader(url);
-        if (!url) {
+        this.ParamsController.init()
+        this.RoutingController.strRouterReader(obj1["url"]);
+        if (!obj1["url"]) {
           window.addEventListener('visibilitychange', () => {
             if (document.hidden) {
 
@@ -307,7 +220,6 @@ export class AppComponent {
               gg();
             }
           });
-
           if (document.hasFocus()) this.RoutingController.getClipboardContents();
         }
       }, 50)
@@ -316,28 +228,5 @@ export class AppComponent {
   getAnimationData() {
     return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
   }
-  getPulgLoadingFree() {
-    if (document.body.getAttribute("pulg")) {
-      this.App.is_pulg = true;
-    } else {
-      setTimeout(() => {
-        this.getPulgLoadingFree();
-      }, 50)
-    }
-  }
 
 }
-
-// if (typeof Worker !== 'undefined') {
-//   // Create a new
-//   const worker = new Worker(new URL('./app.worker', import.meta.url));
-//   worker.onmessage = ({ data }) => {
-//   };
-//   worker.postMessage('hello');
-
-// } else {
-//   // Web Workers are not supported in this environment.
-//   // You should add a fallback so that your program still executes correctly.
-
-// }
-
