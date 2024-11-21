@@ -354,7 +354,11 @@ export class DoublePageReaderV2Component {
     }
     if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;"  direction="right" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
     if (res.primary.src) {
-      current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  direction="${res.primary.start ? 'right' : 'left'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+      const width= document.documentElement.style.getPropertyValue('--double-page-reader-v2-width')
+      const is_h=window.innerHeight<(res.primary.height/res.primary.width)*(parseInt(width)/(res.primary.width<res.primary.height?2:1));
+
+      const size=this.data.comics_config.page_height;
+      current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}" style="width: ${c ? '50%' : '100%'};height: ${is_h?size+'%':'auto'};object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  direction="${res.primary.start ? 'right' : 'left'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
 
     }
     if (res.primary.start) {
@@ -420,7 +424,11 @@ export class DoublePageReaderV2Component {
       }
     }
     if (res.primary.src) {
-      current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}" style="width: ${c ? '50%' : '100%'};height: auto;object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  direction="${res.primary.start ? 'left' : 'right'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+      const width= document.documentElement.style.getPropertyValue('--double-page-reader-v2-width')
+      const is_h=window.innerHeight<(res.primary.height/res.primary.width)*(parseInt(width)/(res.primary.width<res.primary.height?2:1));
+      const size=this.data.comics_config.page_height;
+      current = current + `<img content_menu_key="pages_item"  is_standalone_page="${is_standalone_page}" width="${c ? '_50' : '_100'}" style="width: ${c ? '50%' : '100%'};height: ${is_h?size+'%':'auto'};object-fit: contain;object-position: ${res.primary.start ? 'right' : 'left'};"  direction="${res.primary.start ? 'right' : 'left'}"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
+
     }
     if (res.secondary.src) current = current + `<img content_menu_key="pages_item" style="width: 50%;height: auto;object-fit: contain;object-position: right;"  direction="left" current_page chapter_id=${chapter_id} index=${res.secondary.index} page_id="${res.secondary.id}" src="${res.secondary.src}" />`;
 

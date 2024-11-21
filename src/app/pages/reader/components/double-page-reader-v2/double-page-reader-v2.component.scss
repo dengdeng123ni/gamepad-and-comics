@@ -8,6 +8,7 @@
 
   width: var(--double-page-reader-v2-width);
   height: 100vh;
+
   // overflow: hidden;
   transition: 0.5s all;
   // transform: scale(0.96);
@@ -42,9 +43,11 @@
   }
   img[direction=right][width=_100] {
     border-radius: var(--reader-border-radius);
+    object-position:center !important;
   }
   img[direction=left][width=_100] {
     border-radius: var(--reader-border-radius);
+    object-position:center !important;
   }
   [first_cover_background_color=transparent],[first_cover_background_color=default] {
 

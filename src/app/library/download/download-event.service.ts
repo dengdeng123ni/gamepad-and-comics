@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import CryptoJS from 'crypto-js'
-
+declare let window: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +9,7 @@ export class DownloadEventService {
   Paths = {};
 
   constructor() {
-
+    window._gh_to_path = this.path_register;
     this.path_register('可选项', (e) => {
       if (e.page_index !== undefined && e.chapter_id) {
         const is_offprint = e.comics.chapters.length == 1 ? true : false;
