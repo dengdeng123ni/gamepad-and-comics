@@ -181,7 +181,6 @@ export class ComicsListV2Component {
         }, {
           Add: async (obj) => {
             const res = await firstValueFrom(this.webDb.getAll("temporary_details"))
-console.log(res);
 
             const list = res.map((x: any) => {
               x = x.data

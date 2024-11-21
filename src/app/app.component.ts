@@ -274,16 +274,13 @@ export class AppComponent {
           pages: ["http://localhost:7700/bilibili/page/564381/0", "http://localhost:7700/bilibili/page/564381/1", "http://localhost:7700/bilibili/page/564381/2", "http://localhost:7700/bilibili/page/564381/3"]
         };
         const params = new URLSearchParams(json1 as any);
-
         console.log(params.toString());
-
-       const c= {
-        "type": "comics",
-        "pages": "http://localhost:7700/bilibili/page/564381/0,http://localhost:7700/bilibili/page/564381/1,http://localhost:7700/bilibili/page/564381/2,http://localhost:7700/bilibili/page/564381/3"
-    }
-console.log(c.pages.split(","));
-
-       this.save('',c.pages.split(","))
+        const c = {
+          "type": "comics",
+          "pages": "http://localhost:7700/bilibili/page/564381/0,http://localhost:7700/bilibili/page/564381/1,http://localhost:7700/bilibili/page/564381/2,http://localhost:7700/bilibili/page/564381/3"
+        }
+        console.log(c.pages.split(","));
+        this.save('', c.pages.split(","))
 
 
 

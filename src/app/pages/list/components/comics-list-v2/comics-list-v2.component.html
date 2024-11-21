@@ -30,6 +30,9 @@
     <div class="choice" *ngIf="type=='local_cache'">
       <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'缓存' | translate}}</div>
     </div>
+    <div class="choice" *ngIf="type=='temporary_data'">
+      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'临时数据' | translate}}</div>
+    </div>
     <div class="choice" *ngIf="type=='history'">
       <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'历史记录' | translate}}</div>
     </div>

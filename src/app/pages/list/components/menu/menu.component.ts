@@ -196,7 +196,7 @@ export class MenuComponent {
         // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
         // this.data.menu[index].expanded=true;
       }
-
+      this.data.menu.push({ type: 'separator' })
       this.data.menu.push({
         id: 'cached',
         icon: "cached",
