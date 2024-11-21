@@ -391,7 +391,7 @@ export class DoublePageReaderV2DefaultComponent {
   }
   async getBlankPage(res){
     let current=""
-    if (this.data.comics_config.first_cover_background_color == "default") {
+    if (this.data.comics_config.first_cover_background_color == "default"&&this.data.comics_config.background_color!="frosted_glass") {
       let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
       current = current + `<img type="none" src="${base64}" />`;
     } else if (this.data.comics_config.first_cover_background_color == "transparent") {
