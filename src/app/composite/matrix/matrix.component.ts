@@ -39,15 +39,13 @@ export class MatrixComponent {
     const userInput = prompt("请输入新名称", "");
     if (userInput !== null) {
       if (userInput != "") {
-        await firstValueFrom(this.webDb.update('color_matrix', {
+        const obj={
           id: `_${new Date().getTime()}`,
           name: userInput,
           value: this.values
-        }))
-        this.save({
-          name: userInput,
-          value: this.values
-        })
+        }
+        await firstValueFrom(this.webDb.update('color_matrix', obj))
+        this.save(obj)
       }
     } else {
 

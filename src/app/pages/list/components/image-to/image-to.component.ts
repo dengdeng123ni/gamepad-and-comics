@@ -38,6 +38,15 @@ export class ImageToComponent {
 
   arr:any = [
     {
+      name: "原图",
+      value: [
+        1, 0, 0, 0, 0,
+        0, 1, 0, 0, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 0, 1, 0
+      ]
+    },
+    {
       name: "灰度",
       value: [
         0.213, 0.715, 0.072, 0, 0,
@@ -100,11 +109,7 @@ export class ImageToComponent {
   }
   closeMatrix=async (id)=>{
     await firstValueFrom(this.webDb.deleteByKey('color_matrix',id))
-    console.log(this.arr);
-
     this.arr = this.arr.filter(x=>x.id!=id)
-    console.log(this.arr );
-
   }
    updateMatrix=async (e)=>{
 
