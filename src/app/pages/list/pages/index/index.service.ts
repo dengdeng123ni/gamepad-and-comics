@@ -24,13 +24,13 @@ export class IndexService {
     public DbController: DbControllerService,
     public webDb: NgxIndexedDBService,
     public router: Router,
-    public I18n:I18nService,
+    public I18n: I18nService,
     public ImageTo: ImageToService,
     private _snackBar: MatSnackBar,
   ) {
     // this.ImageTo.open();
 
-    GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option", "menu_item", 'input', "menu_input", 'settings','novels_item',"context_menu_edit_item"] })
+    GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option", "menu_item", 'input', "menu_input", 'settings', 'novels_item', "context_menu_edit_item"] })
     GamepadEvent.registerConfig("comics_type", { region: ["comics_type_item"] })
 
     GamepadEvent.registerAreaEvent("menu", {
@@ -82,7 +82,7 @@ export class IndexService {
       this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
       this.ContextMenuEvent.logoutMenu('comics_item', 'image_to')
     }
-    if(x.is_cache){
+    if (x.is_cache) {
       this.ContextMenuEvent.registerMenu('comics_item', [
         {
           name: "数据", id: "data", submenu: [
@@ -155,10 +155,12 @@ export class IndexService {
           ]
         }
       ])
-    }else{
+    } else {
       this.ContextMenuEvent.logoutMenu('comics_item', 'data')
 
     }
+    console.log(x.id);
+
 
     if (x.id == "local_cache") {
       this.ContextMenuEvent.registerMenu('comics_item', [{
@@ -168,6 +170,17 @@ export class IndexService {
             let node = document.querySelector(`[_id='${list[index].id}']`)
             if (node) node.remove();
             await this.delCaches(list[index].id)
+          }
+        }
+      }])
+    } else if (x.id == "temporary_data") {
+      this.ContextMenuEvent.registerMenu('comics_item', [{
+        name: "删除", id: "delete", click: async (list) => {
+
+          for (let index = 0; index < list.length; index++) {
+            let node = document.querySelector(`[_id='${list[index].id}']`)
+            if (node) node.remove();
+            await this.delCaches2(list[index].id)
           }
         }
       }])
@@ -196,6 +209,13 @@ export class IndexService {
     await firstValueFrom(this.webDb.deleteByKey('history', comics_id.toString()))
     await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id))
     await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id.toString()))
+    this.DbController.delComicsAllImages(comics_id)
+  }
+
+  async delCaches2(comics_id) {
+    await firstValueFrom(this.webDb.deleteByKey('history', comics_id.toString()))
+    await firstValueFrom(this.webDb.deleteByKey('temporary_details', comics_id))
+    await firstValueFrom(this.webDb.deleteByKey('temporary_details', comics_id.toString()))
     this.DbController.delComicsAllImages(comics_id)
   }
 
