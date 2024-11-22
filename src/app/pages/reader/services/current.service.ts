@@ -296,7 +296,7 @@ export class CurrentService {
   }
   async _delChapter(comic_id: any, chapter_id: string) {
     let detail = await this.DbController.getDetail(chapter_id, { source: this.source })
-    detail.chapters = detail.chapters.filetr(x => x.id !== chapter_id);
+    detail.chapters = detail.chapters.filter(x => x.id !== chapter_id);
     await this.DbController.putWebDbDetail(comic_id, detail);
   }
   async _delPage(chapter_id: string, page_index: number) {

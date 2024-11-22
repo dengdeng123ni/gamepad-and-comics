@@ -5,6 +5,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OpenComicsListService } from './open-comics-list.service';
 import { DownloadProgressService } from '../download-progress/download-progress.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-image-to',
@@ -34,7 +36,7 @@ export class ImageToComponent {
 
 
 
-  arr = [
+  arr:any = [
     {
       name: "灰度",
       value: [
@@ -96,11 +98,24 @@ export class ImageToComponent {
   saturateMatrixChange = () => {
     document.querySelector("#vvvv feColorMatrix").setAttribute("values", this.saturateMatrix.toString())
   }
+  closeMatrix=async (id)=>{
+    await firstValueFrom(this.webDb.deleteByKey('color_matrix',id))
+    console.log(this.arr);
+
+    this.arr = this.arr.filter(x=>x.id!=id)
+    console.log(this.arr );
+
+  }
+   updateMatrix=async (e)=>{
+
+    this.arr = [...this.arr, e]
+  }
   constructor(public image: ImageService,
     public WebFile: WebFileService,
     @Inject(MAT_DIALOG_DATA) public _data,
     public DownloadProgress: DownloadProgressService,
     private _snackBar: MatSnackBar,
+    public webDb: NgxIndexedDBService,
     public OpenComicsList: OpenComicsListService
   ) {
     this.list = _data;
@@ -125,6 +140,8 @@ export class ImageToComponent {
   }
   async init() {
     this.toCover = await this.to(this.cover)
+    const res: any = await firstValueFrom(this.webDb.getAll('color_matrix'))
+    this.arr = [...this.arr, ...res]
   }
   async to(_src) {
     let src = '';
@@ -207,9 +224,9 @@ export class ImageToComponent {
   }
 
   async download() {
-    const bool= await this.WebFile.open();
-    if(bool){
-      this.DownloadProgress.open({ disableClose:true,panelClass: "_double_page_thumbnail",})
+    const bool = await this.WebFile.open();
+    if (bool) {
+      this.DownloadProgress.open({ disableClose: true, panelClass: "_double_page_thumbnail", })
       this.WebFile.downloadComicsAll(
         {
           list: this.list,
@@ -235,11 +252,11 @@ export class ImageToComponent {
           }
         }
       )
-    }else{
+    } else {
       this._snackBar.open('打开文件夹失败', '', {
-        duration:1500,
-        horizontalPosition:'center',
-        verticalPosition:'top',
+        duration: 1500,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
       });
     }
   }

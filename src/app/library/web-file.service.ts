@@ -186,7 +186,7 @@ export class WebFileService {
     let { chapters, title, option: config } = await this.DbController.getDetail(comics_id)
     let detail = await this.DbController.getDetail(comics_id);
     this.addlog(`${加载成功} ${title}`)
-    if (option?.chapters_ids?.length) chapters = chapters.filetr(x => option.chapters_ids.includes(x.id))
+    if (option?.chapters_ids?.length) chapters = chapters.filter(x => option.chapters_ids.includes(x.id))
     const is_offprint = chapters.length == 1 ? true : false;
     for (let chapter_index = 0; chapter_index < chapters.length; chapter_index++) {
       const x = chapters[chapter_index];

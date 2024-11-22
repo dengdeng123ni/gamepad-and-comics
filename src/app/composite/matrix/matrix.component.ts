@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-matrix',
@@ -10,14 +12,15 @@ export class MatrixComponent {
   // values = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0];
   @Input() values: Array<number> = [];
   @Input() change: Function;
+  @Input() save: Function;
   @Output() valuesChange = new EventEmitter<any>();
   is_close = false;
-  constructor() {
+  constructor(public webDb: NgxIndexedDBService,) {
     this.value = this.values.toString();
   }
 
   input_change() {
-    let value = this.value.split(" ").filter(x=>x);
+    let value = this.value.split(" ").filter(x => x);
     let arr = value.map((x: any) => parseFloat(x));
     if (value.length == 20 && !arr.includes(NaN)) {
       this.values = value.map((x: any) => parseFloat(x));
@@ -31,5 +34,23 @@ export class MatrixComponent {
   ngDoCheck() {
     this.value = this.values.join(" ");
     this.input_change();
+  }
+  async on() {
+    const userInput = prompt("请输入新名称", "");
+    if (userInput !== null) {
+      if (userInput != "") {
+        await firstValueFrom(this.webDb.update('color_matrix', {
+          id: `_${new Date().getTime()}`,
+          name: userInput,
+          value: this.values
+        }))
+        this.save({
+          name: userInput,
+          value: this.values
+        })
+      }
+    } else {
+
+    }
   }
 }

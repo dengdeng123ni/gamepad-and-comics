@@ -65,10 +65,15 @@
       <div class="form">
         <mat-chip-set style="margin: 12px;" cdkDropList cdkDropListOrientation="horizontal">
           @for (n of arr; track n) {
-          <mat-chip (click)="on(n)" cdkDrag>{{n.name|translate}}</mat-chip>
+          <mat-chip (click)="on(n)" cdkDrag>{{n.name|translate}}
+            <button matChipRemove  *ngIf="n.id" (click)="closeMatrix(n.id)">
+              <mat-icon>cancel</mat-icon>
+            </button>
+
+          </mat-chip>
           }
         </mat-chip-set>
-        <app-matrix [(values)]="saturateMatrix" [change]="saturateMatrixChange"></app-matrix>
+        <app-matrix [(values)]="saturateMatrix" [change]="saturateMatrixChange" [save]="updateMatrix"></app-matrix>
 
         <div class="compressed-image-option">
           <div class="item">

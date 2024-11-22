@@ -79,7 +79,7 @@
           {{ data.chapters[chapter_index]?.title }}
         </div>
         <div class="toolbar">
-          <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'double_page_thumbnail_item'" (change)="change(chapter_id)" [(ngModel)]="is_first_page_cover" style="padding-right: 12px;">第一页是否封面</mat-checkbox>
+          <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'double_page_thumbnail_item'" (change)="change(chapter_id)" [(ngModel)]="is_first_page_cover" style="padding-right: 12px;">{{'第一页是否封面'|translate}}</mat-checkbox>
         </div>
       </div>
   <div class="warp opacity-0" id="double_page_thumbnail" (click)="close()" >
