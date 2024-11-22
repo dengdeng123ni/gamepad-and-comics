@@ -109,6 +109,7 @@ export class RoutingControllerService {
 
               if (res) {
                 this.routerList(obj.oright, obj.id);
+                await navigator.clipboard.writeText("")
               }
             }
           }
