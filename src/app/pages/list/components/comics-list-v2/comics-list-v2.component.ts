@@ -197,8 +197,11 @@ export class ComicsListV2Component {
           }
         })
       }else if(type =="url_to_list"){
-        this.id = sid;
+        this.menu_id = sid;
+        this.source = source;
+        this.id = `${type}_${source}_${sid}`;
         this.key = this.id;
+        this.App.setsource(this.source);
         this.url=decodeURIComponent(window.atob(sid));
         ComicsListV2.register({
           id: this.id,
