@@ -22,7 +22,7 @@ export class ReaderNavbarBarComponent implements OnInit {
   resize = (event: KeyboardEvent) => {
 
 
-    document.documentElement.style.setProperty('--reader-navbar-bar-zoom', `${(window.innerHeight*0.1)/90}`);
+    document.documentElement.style.setProperty('--reader-navbar-bar-zoom', `${((window.innerHeight*0.1)/90)>1?((window.innerHeight*0.1)/90):1}`);
   }
 
   public set index(v: number) {
@@ -48,6 +48,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     public DbEvent:DbEventService,
     public RoutingController:RoutingControllerService
   ) {
+    document.documentElement.style.setProperty('--reader-navbar-bar-zoom', `${((window.innerHeight*0.1)/90)>1?((window.innerHeight*0.1)/90):1}`);
     this.title= DbEvent.Configs[current.source].name;
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {
       if (x == true) {
