@@ -777,6 +777,8 @@ export class DbEventService {
           return data
         },
         getDetail: async (id) => {
+          console.log(id);
+
           const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
             "headers": {
               "accept": "application/json, text/plain, */*",
@@ -789,6 +791,8 @@ export class DbEventService {
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
+          console.log(doc);
+
           let obj = {
             id: id,
             cover: "",
@@ -824,6 +828,7 @@ export class DbEventService {
             }
             obj.author = [{ name: nodes1[0].textContent, href: nodes1[0].parentNode.href }];
           }
+console.log(obj);
 
           obj.chapters.push({
             id: utf8_to_b64(`https://hanime1.me/comic/${obj.id}/1`),
@@ -833,13 +838,8 @@ export class DbEventService {
           return obj
         },
         getPages: async (id) => {
-          await window._gh_new_page(decodeURIComponent(window.atob(id)))
-          const sleep = (duration) => {
-            return new Promise(resolve => {
-              setTimeout(resolve, duration);
-            })
-          }
-          await sleep(1000)
+          console.log(decodeURIComponent(window.atob(id)));
+
           const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
             `
          (async function () {
@@ -853,9 +853,6 @@ export class DbEventService {
               arr.push(document.querySelector("#current-page-image").src)
               document.querySelector(".arrow-right").click();
             }
-                setTimeout(()=>{
-    window.close()
-  },500)
             return arr
           })()
         `)

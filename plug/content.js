@@ -20,7 +20,7 @@ window.addEventListener("message", async function (e) {
   }
 
   if (e.data && e.data.type == "website_proxy_response_html") {
-    await sleep(500)
+    await sleep(300)
     const src = document.body.innerHTML;
     var myBlob = new Blob([src], {
       type: "application/text"

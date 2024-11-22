@@ -202,6 +202,8 @@ export class AppComponent {
         this.App.init();
         this.ParamsController.init()
         this.RoutingController.strRouterReader(obj1["url"]);
+        console.log(obj1["url"]);
+
         if (!obj1["url"]) {
           window.addEventListener('visibilitychange', () => {
             if (document.hidden) {

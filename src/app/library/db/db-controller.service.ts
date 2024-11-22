@@ -184,6 +184,8 @@ export class DbControllerService {
 
             res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
             if (res) {
+              console.log(res);
+
               res = res.data;
 
               res.forEach((x, i) => {
@@ -195,6 +197,34 @@ export class DbControllerService {
               })
             } else {
               res = await this.DbEvent.Events[option.source]["getPages"](id);
+              const isEmpty = (value) => {
+                if (value === null || value === undefined) {
+                  // null 或 undefined
+                  return true;
+                }
+
+                if (typeof value === "string" && value.trim() === "") {
+                  // 空字符串（包括全是空格的情况）
+                  return true;
+                }
+
+                if (Array.isArray(value) && value.length === 0) {
+                  // 空数组
+                  return true;
+                }
+
+                if (typeof value === "object" && Object.keys(value).length === 0) {
+                  // 空对象
+                  return true;
+                }
+
+                // 其他情况认为非空
+                return false;
+              }
+              if(isEmpty(res)) {
+                console.log("获取数据错误,重新获取中",res);
+                res = await this.DbEvent.Events[option.source]["getPages"](id)
+              }
               if (typeof res[0] === 'string') {
                 let arr = res;
                 let data = [];
@@ -453,9 +483,9 @@ export class DbControllerService {
 
     return [
       {
-        id:"29583",
-        cover:"http://localhost:7700/bilibili/comics/29583",
-        title:"异世界舅舅"
+        id: "29583",
+        cover: "http://localhost:7700/bilibili/comics/29583",
+        title: "异世界舅舅"
       }
     ]
   }

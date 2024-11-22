@@ -131,11 +131,17 @@ function newPage(request) {
             windowId: createdWindowId,
             url: url
           }, (tab) => {
-            sendMessageToTargetContentScript({
-              id: request.id,
-              type: "execute_script_data",
-              data: tab
-            }, request.proxy_response_website_url)
+            chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+              if (tabId === tab.id && changeInfo.status === "complete") {
+                sendMessageToTargetContentScript({
+                  id: request.id,
+                  type: "execute_script_data",
+                  data: tab
+                }, request.proxy_response_website_url)
+                chrome.tabs.onUpdated.removeListener(listener);
+              }
+            });
+
           })
         } else {
           for (let index = 0; index < list.length; index++) {
@@ -146,11 +152,16 @@ function newPage(request) {
             windowId: createdWindowId,
             url: url
           }, (tab) => {
-            sendMessageToTargetContentScript({
-              id: request.id,
-              type: "execute_script_data",
-              data: tab
-            }, request.proxy_response_website_url)
+            chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+              if (tabId === tab.id && changeInfo.status === "complete") {
+                sendMessageToTargetContentScript({
+                  id: request.id,
+                  type: "execute_script_data",
+                  data: tab
+                }, request.proxy_response_website_url)
+                chrome.tabs.onUpdated.removeListener(listener);
+              }
+            });
           })
         }
       });
@@ -165,11 +176,16 @@ function newPage(request) {
           windowId: createdWindowId,
           url: url
         }, (tab) => {
-          sendMessageToTargetContentScript({
-            id: request.id,
-            type: "execute_script_data",
-            data: tab
-          }, request.proxy_response_website_url)
+          chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+            if (tabId === tab.id && changeInfo.status === "complete") {
+              sendMessageToTargetContentScript({
+                id: request.id,
+                type: "execute_script_data",
+                data: tab
+              }, request.proxy_response_website_url)
+              chrome.tabs.onUpdated.removeListener(listener);
+            }
+          });
         })
       });
     }
