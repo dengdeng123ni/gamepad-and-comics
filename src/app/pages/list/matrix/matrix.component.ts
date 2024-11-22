@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
+import { WhenInputtingService } from '../components/when-inputting/when-inputting.service';
 
 @Component({
   selector: 'app-matrix',
@@ -15,7 +16,8 @@ export class MatrixComponent {
   @Input() save: Function;
   @Output() valuesChange = new EventEmitter<any>();
   is_close = false;
-  constructor(public webDb: NgxIndexedDBService,) {
+  constructor(public webDb: NgxIndexedDBService,
+    public WhenInputting:WhenInputtingService,) {
     this.value = this.values.toString();
   }
 
@@ -28,8 +30,18 @@ export class MatrixComponent {
       this.valuesChange.emit(this.values as any);
     }
   }
+  focus(){
+    this.WhenInputting.open();
+  }
+  blur(){
+    this.WhenInputting.close();
+  }
   open() {
+
     this.is_close = true;
+    setTimeout(()=>{
+      (document.querySelector("#input_v123") as any).focus()
+    },30)
   }
   ngDoCheck() {
     this.value = this.values.join(" ");

@@ -86,6 +86,7 @@ export class ContextMenuControllerService {
             this.contextMenu.open(menu, { x: e.clientX, y: e.clientY, key: key, value: value ?? null });
             break;
           } else {
+
             break;
           }
         }

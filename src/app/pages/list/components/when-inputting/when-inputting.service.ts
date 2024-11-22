@@ -50,7 +50,7 @@ export class WhenInputtingService {
     else this.open()
   }
   close() {
-    this.dialogRef.close();
+    if(this.dialogRef) this.dialogRef.close();
   }
   blur(){
     let node= document.createElement("input")

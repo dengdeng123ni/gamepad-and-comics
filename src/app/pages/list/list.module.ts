@@ -38,6 +38,7 @@ import { PageThemeComponent } from './components/page-theme/page-theme.component
 import { DeveloperPageComponent } from './components/developer-page/developer-page.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatrixComponent } from './matrix/matrix.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { TranslateModule } from '@ngx-translate/core';
     NovelsListComponent,
     NovelsDownloadComponent,
     PageThemeComponent,
+    MatrixComponent,
     DeveloperPageComponent
   ],
   imports: [

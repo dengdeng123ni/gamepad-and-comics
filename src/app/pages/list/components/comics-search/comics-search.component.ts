@@ -154,9 +154,6 @@ export class ComicsSearchComponent {
   }
   blur(){
     this.WhenInputting.close();
-
-
-
   }
 
   private utf8_to_b64 = (str: string) => {

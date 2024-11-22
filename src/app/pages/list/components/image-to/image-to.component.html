@@ -4,27 +4,19 @@
       图片工具
     </div> -->
     <div class="menu">
-      <mat-accordion>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-             <div class="title" style="font-size: 20px;
-             text-align: center;
+      <div class="title" style="font-size: 20px;
+             text-align: left;
              margin: 12px;
              color: rgba(255, 255, 255, 0.34);">
               {{'图片工具' | translate}}
              </div>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <button [attr._id]="1" [attr.default]="false" [attr.select]="true" [attr.selected]="true" mat-button
-            class="item item1" [attr.region]="'menu_item'">
-            <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
-            <div class="name" [attr.svg_filter]="'text_primary'">
-              {{'滤镜和压缩' | translate}}
-            </div>
-          </button>
-        </mat-expansion-panel>
-      </mat-accordion>
+      <button mat-button
+      class="item item1" [attr.region]="'item'">
+      <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">images</mat-icon> -->
+      <div class="name" [attr.svg_filter]="'text_primary'">
+        {{'滤镜和压缩' | translate}}
+      </div>
+    </button>
     </div>
   </div>
   <div class="right" style="display: flex;    margin: 8px 8px 8px 0;">
@@ -38,7 +30,7 @@
         </div>
         <div class="right" (click)="download()">
           <!-- <button mat-button [attr.region]="'item'" color="accent">普通下载</button> -->
-          <button mat-button [attr.region]="'item'"> {{'下载' | translate}}</button>
+          <button mat-button [attr.region]="'item'" [attr.select]="true"> {{'下载' | translate}}</button>
         </div>
       </div>
       <!-- <mat-divider style="margin-top: 8px;"></mat-divider> -->
@@ -65,7 +57,7 @@
       <div class="form">
         <mat-chip-set style="margin: 12px;" cdkDropList cdkDropListOrientation="horizontal">
           @for (n of arr; track n) {
-          <mat-chip (click)="on(n)" cdkDrag>{{n.name|translate}}
+          <mat-chip (click)="on(n)" [attr.region]="'item'" cdkDrag>{{n.name|translate}}
             <button matChipRemove  *ngIf="n.id" (click)="closeMatrix(n.id)">
               <mat-icon>cancel</mat-icon>
             </button>

@@ -126,6 +126,7 @@ export class ImageToComponent {
     this.list = _data;
     this.cover = this.list[0].cover;
     this.init();
+
   }
 
   open_comics_list() {
