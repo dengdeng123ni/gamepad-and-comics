@@ -22,20 +22,20 @@ export class PromptService {
     current.pageStatu$.subscribe(async (x) => {
 
 
-      if (document.body.getAttribute('locked_region') == "reader_navbar_bar") {
-        if (x == "page") {
-          this.obj = {};
-           const ooo=`${this.data.page_index}_${this.data.pages.length}`;
-           if(this.ooo==ooo){
+      if (document.body.getAttribute('locked_region') != "reader_navbar_bar") {
+        // if (x == "page") {
+        //   this.obj = {};
+        //    const ooo=`${this.data.page_index}_${this.data.pages.length}`;
+        //    if(this.ooo==ooo){
 
-           }else{
-            const 页码 = await this.I18n.getTranslatedText('页码')
-            this._snackBar.open(`${页码}: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
-            this.ooo=ooo;
-          }
+        //    }else{
+        //     const 页码 = await this.I18n.getTranslatedText('页码')
+        //     this._snackBar.open(`${页码}: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+        //     this.ooo=ooo;
+        //   }
 
-        }
-        return
+        // }
+        // return
       }
       if (!this.obj[x]) this.obj[x] = 0;
       this.obj[x]++;

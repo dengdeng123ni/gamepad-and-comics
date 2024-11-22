@@ -43,6 +43,15 @@
     </div>
     <div class="content" (click)="close()"></div>
     <div class="bottom">
+      <button
+        mat-button
+        [disabled]="true"
+        [attr.region]="'reader_navbar_bar_buttom_item'"
+      >
+      {{'页码'|translate}} {{data.page_index}}/{{data.pages.length}}
+      </button>
+
+
       <mat-slider
         ngClass="progress"
         *ngIf="zIndex > 0"
