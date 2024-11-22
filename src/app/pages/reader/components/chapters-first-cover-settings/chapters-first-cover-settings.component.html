@@ -35,7 +35,7 @@
           <div class="title">
               {{n.title}}
           </div>
-          <div class="toolbar">
+          <div class="toolbar" style="min-width: fit-content;">
             <mat-checkbox style="padding-right: 12px;" [attr.region]="'chapters_item'" (change)="gefa(n.id)" [disabled]="!lists[n.id].length" [(ngModel)]="n.is_first_page_cover">{{'第一页是否封面'|translate}}</mat-checkbox>
           </div>
         </div>

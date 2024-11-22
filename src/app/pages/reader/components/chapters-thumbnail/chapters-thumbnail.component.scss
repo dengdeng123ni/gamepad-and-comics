@@ -1,5 +1,4 @@
 .list {
-  @apply mx-auto;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
@@ -58,7 +57,11 @@
       width: 100%;
 
       .name {
-          @apply text-sm;
+        display: -webkit-box;           /* 必须结合 -webkit-box 使用 */
+        -webkit-box-orient: vertical;  /* 垂直排列子元素 */
+        overflow: hidden;              /* 超出隐藏 */
+        -webkit-line-clamp: 5;         /* 显示的行数 */
+
           margin-bottom: 2px;
           color: rgba(255, 255, 255, .87);
           text-align: left;
@@ -80,12 +83,10 @@
             color: rgba(255, 255, 255, .34);
           }
           .progress {
-              @apply text-xs;
               color: rgba(255, 255, 255, .34);
           }
 
           .date {
-              @apply text-xs;
               color: rgba(255, 255, 255, .34);
           }
 

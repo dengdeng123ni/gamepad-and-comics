@@ -6,7 +6,7 @@
         n.id == data.chapter_id
           ? 'background: rgba(255, 255, 255, .1);color:rgba(255, 255, 255, .87);border-radius: 4px;'
           : null
-      " (click)="on(n.id)">
+      " (click)="on(n.id)" [matTooltipShowDelay]="1000" [matTooltip]="n.title">
       <div class="img">
         <app-image [objectFit]="'cover'" loading="lazy" class="w-full" [src]="n.cover" />
         <div class="lock" *ngIf="is_locked">

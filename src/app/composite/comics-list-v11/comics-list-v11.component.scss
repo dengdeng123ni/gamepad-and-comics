@@ -52,6 +52,10 @@
     // overflow: hidden;
     // text-overflow: ellipsis;
     // white-space: nowrap;
+    display: -webkit-box;           /* 必须结合 -webkit-box 使用 */
+    -webkit-box-orient: vertical;  /* 垂直排列子元素 */
+    overflow: hidden;              /* 超出隐藏 */
+    -webkit-line-clamp: 4;
     font-size: 0.875rem;
     line-height: 1.25rem;
     // margin-top: 6px;
