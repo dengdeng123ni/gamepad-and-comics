@@ -7,6 +7,7 @@ import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { RoutingControllerService } from 'src/app/library/routing-controller.service';
 import { DbEventService } from 'src/app/library/public-api';
+import { ReaderConfigService } from '../reader-config/reader-config.service';
 
 @Component({
   selector: 'app-reader-navbar-bar',
@@ -34,6 +35,7 @@ export class ReaderNavbarBarComponent implements OnInit {
   chapter_index = 0;
   constructor(
     public readerNavbarBar: ReaderNavbarBarService,
+    public ReaderConfig:ReaderConfigService,
     public current: CurrentService,
     public router: Router,
     public data: DataService,
@@ -103,23 +105,6 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.readerSection.open({ x, y })
   }
   openSettings() {
-    // // readerSettings.open_bottom_sheet({});
-    // if(window.innerWidth<=960){
-    //   this.close();
-    //   this.readerSettings.open_bottom_sheet();
-    //   return
-    // }
-    // let { x, y, width, height } = $event.target.getBoundingClientRect();
-    // x = x - (540 / 2) + (width / 2);
-    // y = (window.innerHeight) - (y - (height / 4));
-    // this.readerSettings.open({
-    //   position: {
-    //     bottom: `${y}px`,
-    //     left: `${x}px`
-    //   },
-    //   delayFocusTrap: false,
-    //   panelClass: "reader_settings_buttom",
-    //   backdropClass: "reader_settings_buttom_backdrop",
-    // })
+    this.ReaderConfig.open( )
   }
 }

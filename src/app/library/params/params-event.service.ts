@@ -16,10 +16,10 @@ export class ParamsEventService {
   }
 
 
-  _register_params_key_type(key, event) {
+  _register_params_key_type=(key, event)=> {
     this.params_types[key] = event;
   }
-  _register_params(key, event) {
+  _register_params=(key, event)=> {
     this.params[key] = event;
   }
 }

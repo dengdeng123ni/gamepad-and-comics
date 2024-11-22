@@ -643,11 +643,9 @@ export class DbEventService {
             return blob
           }
         },
-        getTagList: async (id) => {
+        UrlToList: async (id) => {
 
-        },
-        getAuthorList: async (id) => {
-
+          return []
         },
         Search: async (obj) => {
           const res = await window._gh_fetch("https://manga.bilibili.com/twirp/comic.v1.Comic/Search?device=pc&platform=web", {
@@ -1768,7 +1766,7 @@ export class DbEventService {
             return null
           }
         },
-        UrlToListId: async (id) => {
+        UrlToList: async (id) => {
           const obj = new URL(id);
           if (obj.host == "www.biqgg.cc") {
             return window.btoa(encodeURIComponent(id))
