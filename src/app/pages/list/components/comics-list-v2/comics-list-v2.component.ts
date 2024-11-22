@@ -289,6 +289,9 @@ export class ComicsListV2Component {
         } else if (this.type == "local_cache") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000 });
+        } else if (this.type == "temporary_data") {
+
+          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000 });
         }  else if (this.type == "temporary_file") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000 });

@@ -120,7 +120,7 @@ function sendMessageToTargetContentScript(message, url) {
 }
 let createdWindowId = 123;
 function newPage(request) {
-  let url=request.proxy_request_website_url;
+  let url = request.proxy_request_website_url;
   chrome.windows.get(createdWindowId, { populate: true }, function (window) {
     if (window) {
       chrome.tabs.query({}, function (tabs) {
@@ -131,11 +131,11 @@ function newPage(request) {
             windowId: createdWindowId,
             url: url
           }, (tab) => {
-            sendMessageToTargetContentScript( {
-              id:request.id,
-              type:"execute_script_data",
-              data:tab
-            },request.proxy_response_website_url)
+            sendMessageToTargetContentScript({
+              id: request.id,
+              type: "execute_script_data",
+              data: tab
+            }, request.proxy_response_website_url)
           })
         } else {
           for (let index = 0; index < list.length; index++) {
@@ -146,11 +146,11 @@ function newPage(request) {
             windowId: createdWindowId,
             url: url
           }, (tab) => {
-            sendMessageToTargetContentScript( {
-              id:request.id,
-              type:"execute_script_data",
-              data:tab
-            },request.proxy_response_website_url)
+            sendMessageToTargetContentScript({
+              id: request.id,
+              type: "execute_script_data",
+              data: tab
+            }, request.proxy_response_website_url)
           })
         }
       });
@@ -165,11 +165,11 @@ function newPage(request) {
           windowId: createdWindowId,
           url: url
         }, (tab) => {
-          sendMessageToTargetContentScript( {
-            id:request.id,
-            type:"execute_script_data",
-            data:tab
-          },request.proxy_response_website_url)
+          sendMessageToTargetContentScript({
+            id: request.id,
+            type: "execute_script_data",
+            data: tab
+          }, request.proxy_response_website_url)
         })
       });
     }
@@ -225,15 +225,28 @@ sleep = (duration) => {
 }
 
 const init = () => {
-  // chrome.windows.create({
-  //   url: 'about:blank',  // 初始页面，可以是空白页面
-  //   type: 'normal',       // 窗口类型，可选择 "normal", "popup", "panel", "detached_panel"
-  //   focused: false,       // 创建后是否聚焦
-  // }, function(newWindow) {
-  //   console.log(newWindow);
+  clearTabs();
+}
 
-  // });
-  // chrome.tabs.create({ url: chrome.runtime.getURL("./browser/index.html") });
+const clearTabs = () => {
+  setTimeout(() => {
+    const INACTIVITY_LIMIT = 10 * 60 * 1000;
+    chrome.windows.getAll({ populate: false }, (windows) => {
+      chrome.tabs.query({}, function (tabs) {
+        const now = Date.now();
+        tabs.forEach(x => {
+          const index = windows.findIndex(c => c.id == x.windowId);
+          x.window = windows[index];
+          if (!x.window.focused) {
+            if (now - x.lastAccessed > INACTIVITY_LIMIT) {
+              chrome.tabs.remove(x.id);
+            }
+          }
+        })
+      })
+    });
+    clearTabs()
+  }, 5 * 60 * 1000)
 }
 
 init();
