@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, firstValueFrom, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { TemporaryFileService } from './temporary-file.service';
@@ -114,7 +114,7 @@ export class MenuComponent {
     })
 
     if (this.data.menu.length == 0) {
-      Object.keys(this.DbEvent.Events).forEach(x => {
+      Object.keys(this.DbEvent.Events).forEach((x) => {
         if (x == "temporary_file") return
         if (x == "local_cache") return
         if (x == "temporary_data") return
@@ -196,6 +196,28 @@ export class MenuComponent {
         // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
         // this.data.menu[index].expanded=true;
       }
+      if(this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
+      this.menu.url_to_list.forEach(x => {
+        this.data.menu.push({
+          id: x.id,
+          icon: "link",
+          name: x.name,
+          content_menu: [
+            {
+              id: "delete",
+              name: "删除",
+              click: async () => {
+                await firstValueFrom(this.webDb.deleteByKey('url_to_list', x.id))
+                this.data.menu=this.data.menu.filter(c => c.id != x.id)
+              }
+            }
+          ],
+          click: async (e) => {
+            this.router.navigate(['query', 'url_to_list', x.source, x.id]);
+          }
+        })
+      })
+
       this.data.menu.push({ type: 'separator' })
       this.data.menu.push({
         id: 'cached',
@@ -232,6 +254,7 @@ export class MenuComponent {
           icon: "home",
           name: x.name,
           submenu: [],
+
         };
         if (x.menu) {
           for (let index = 0; index < x.menu.length; index++) {
@@ -243,6 +266,7 @@ export class MenuComponent {
             id: "history",
             icon: "history",
             name: "历史记录",
+
             click: (e) => {
               this.router.navigate(['query', 'history', e.parent.id]);
             }
@@ -337,15 +361,27 @@ export class MenuComponent {
         ]
       })
 
+
     ContextMenuEvent.register('menu_item_v3',
       {
         send: ($event, data) => {
+          // console.log($event, data);
           const value = $event.getAttribute("content_menu_value")
-          const obj = this.data.menu.find(x => x.id.toString() == value.toString());
+          console.log(value,this.data.menu);
 
-          return [...data, ...obj.submenu]
+          const obj = this.data.menu.find(x => x.id?.toString() == value.toString());
+          console.log(obj);
+
+          if(obj.content_menu){
+            return obj.content_menu
+          }else{
+            return [...data, ...obj.submenu]
+          }
+
         },
         on: async (e: any) => {
+          console.log(e);
+
           e.click(e.value)
         },
         menu: [

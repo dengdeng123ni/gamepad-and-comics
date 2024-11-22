@@ -108,7 +108,7 @@ export class DbControllerService {
     is_cache?: boolean
   }) => {
     try {
-      if(!id) return null
+      if (!id) return null
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
@@ -168,7 +168,7 @@ export class DbControllerService {
     is_cache?: boolean
   }) => {
     try {
-      if(!id) return []
+      if (!id) return []
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
@@ -176,7 +176,7 @@ export class DbControllerService {
       if (option && option.is_cache === false) config.is_cache = false
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
         // const is_wait = await this.waitForRepetition(id)
-        if (this.pages[id]&& config.is_cache) {
+        if (this.pages[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.pages[id]))
         } else {
           let res;
@@ -340,8 +340,8 @@ export class DbControllerService {
 
             if (blob.size > 3000 && blob.type.split("/")[0] == "image") await this.caches.put(request, response);
             else {
-              if(blob.type == "binary/octet-stream"){
-                const c=await createImageBitmap(blob)
+              if (blob.type == "binary/octet-stream") {
+                const c = await createImageBitmap(blob)
                 await this.caches.put(request, response);
               }
             }
@@ -382,16 +382,16 @@ export class DbControllerService {
       })
     }
   }
-  getReplies = async (obj:{
-    comics_id:string,
-    page_index:number
-  },option?: {
+  getReplies = async (obj: {
+    comics_id: string,
+    page_index: number
+  }, option?: {
     source: string,
     is_cache?: boolean
   }) => {
     try {
 
-      const id=`${obj.comics_id}_${obj.page_index}`
+      const id = `${obj.comics_id}_${obj.page_index}`
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbEvent.Configs[option.source]
@@ -448,6 +448,16 @@ export class DbControllerService {
     } else {
       return []
     }
+  }
+  UrlToList = async (url: string, option?: { source: string }) => {
+
+    return [
+      {
+        id:"29583",
+        cover:"http://localhost:7700/bilibili/comics/29583",
+        title:"异世界舅舅"
+      }
+    ]
   }
   UrlToDetailId = async (url: any, option?: {
     source: string

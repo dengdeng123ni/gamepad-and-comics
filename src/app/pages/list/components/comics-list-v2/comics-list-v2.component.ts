@@ -73,7 +73,7 @@ export class ComicsListV2Component {
   id = null;
   type = null;
 
-
+  url=""
 
   is_destroy = false;
   constructor(
@@ -124,6 +124,7 @@ export class ComicsListV2Component {
       this.source = source;
       this.type = type;
       this.App.setsource(source)
+      console.log(type);
       if (type == "history") {
         this.id = `${type}_${source}`;
         this.key = this.id;
@@ -201,11 +202,25 @@ export class ComicsListV2Component {
             return list
           }
         })
-      }
-
-
-
-      else if (type == "temporary_file") {
+      }else if(type =="url_to_list"){
+        this.id = sid;
+        this.key = this.id;
+        this.url=decodeURIComponent(window.atob(sid));
+        ComicsListV2.register({
+          id: this.id,
+          type: type,
+          page_size: 20
+        }, {
+          Add: async () => {
+            return []
+          },
+          Init: async () => {
+            return await this.DbController.UrlToList(decodeURIComponent(window.atob(sid)),{
+              source:this.source
+            })
+          }
+        })
+      } else if (type == "temporary_file") {
         this.id = `${sid}`;
         this.key = this.id;
         ComicsListV2.register({

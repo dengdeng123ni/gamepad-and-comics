@@ -644,6 +644,8 @@ export class DbEventService {
           }
         },
         UrlToList: async (id) => {
+          //
+
 
           return []
         },
@@ -1759,14 +1761,6 @@ export class DbEventService {
           return arr.map(x => ({ content: x }))
         },
         UrlToDetailId: async (id) => {
-          const obj = new URL(id);
-          if (obj.host == "www.biqgg.cc") {
-            return window.btoa(encodeURIComponent(id))
-          } else {
-            return null
-          }
-        },
-        UrlToList: async (id) => {
           const obj = new URL(id);
           if (obj.host == "www.biqgg.cc") {
             return window.btoa(encodeURIComponent(id))

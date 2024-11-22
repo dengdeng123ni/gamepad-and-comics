@@ -39,6 +39,11 @@
     <div class="choice" *ngIf="type=='temporary_file'">
       <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'全部漫画' | translate}}</div>
     </div>
+    <div class="choice" *ngIf="type=='url_to_list'">
+      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{ url| translate}}</div>
+    </div>
+
+
   </div>
 
    <context-menu-edit style="margin: 12px 22px 0;"  *ngIf="data.is_edit"  [context_menu_key]="'comics_item'" [list]="list" (close)="closeEdit()"></context-menu-edit>

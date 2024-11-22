@@ -12,6 +12,7 @@ export class MenuService {
   opened = true;
   mode = 'side';
   position: "start" | "end" = 'start';
+  url_to_list=[];
   current_menu_id=null;
   current_menu_pid=null;
   mode_1=1;
@@ -25,7 +26,6 @@ export class MenuService {
   }
 
   async init() {
-
     await this.get();
   }
 
@@ -51,6 +51,7 @@ export class MenuService {
   }
 
   async get() {
+    this.url_to_list = await firstValueFrom(this.webDb.getAll('url_to_list'))
     const res: any = await firstValueFrom(this.webDb.getByKey("data", this.key))
     if (res) {
       this.opened = res.opened;

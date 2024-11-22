@@ -84,7 +84,9 @@
         <button [attr.default]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
           [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
           [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
-          [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
+          [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id"
+          [attr.content_menu_value]="n.id" [attr.content_menu_key]="'menu_item_v3'"
+          >
           <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
           <div class="name" [attr.svg_filter]="'text_primary'">
             {{n.name | translate}}

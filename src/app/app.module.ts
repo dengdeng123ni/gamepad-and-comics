@@ -21,8 +21,15 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 34,
+  version: 36,
   objectStoresMeta: [
+    {
+      store: 'url_to_list',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
     {
       store: 'data',
       storeConfig: { keyPath: 'id', autoIncrement: false },
