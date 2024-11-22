@@ -19,7 +19,6 @@ export class ReaderConfigService {
      "LEFT": e => {
         this.GamepadController.setCurrentTarget("LEFT")
        setTimeout(()=>{
-        console.log(document.querySelector("[select=true][region=reader_config_item] button"));
         (document.querySelector("[select=true][region=reader_config_item] button") as any).focus()
        },100)
 

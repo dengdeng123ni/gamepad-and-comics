@@ -159,7 +159,6 @@ export class IndexService {
       this.ContextMenuEvent.logoutMenu('comics_item', 'data')
 
     }
-    console.log(x.id);
 
 
     if (x.id == "local_cache") {

@@ -1064,7 +1064,6 @@ export class DbEventService {
             obj["src"] = `${utf8_to_b64(arr2[index])}`
             data.push(obj)
           }
-          console.log(data);
 
           return data
         },

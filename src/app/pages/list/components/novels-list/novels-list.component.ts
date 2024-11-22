@@ -152,7 +152,6 @@ export class NovelsListComponent {
 
               return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0].title}` }
             }).sort((a, b) => b.creation_time - a.creation_time).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
-            console.log(list);
 
             return list
           }
@@ -210,8 +209,6 @@ export class NovelsListComponent {
 
       const data: any = await this.get(this.id);
       if (data) {
-        console.log(this.type, this.id);
-
         data.list.forEach(x => {
           x.selected = false;
         })

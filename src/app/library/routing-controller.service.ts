@@ -41,11 +41,6 @@ export class RoutingControllerService {
     if (option.commands[0] == "query" || option.commands[0] == "search") page = "list"
     else if (option.commands[0] == "detail") page = "detail"
     else page = "reader"
-    console.log({
-      id: new Date().getTime(),
-      page,
-      ...option
-    });
 
     await firstValueFrom(this.webDb.update('router', {
       id: new Date().getTime(),
@@ -175,11 +170,9 @@ export class RoutingControllerService {
       })
 
     }, 100)
-    console.log(list);
 
     const arr = list.filter(x => x.page == page)
     const obj = arr.at(-1)
-    console.log(1234,obj);
 
     if (obj) {
       this.router.navigate(obj.commands)

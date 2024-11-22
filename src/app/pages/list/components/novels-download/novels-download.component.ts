@@ -52,7 +52,6 @@ export class NovelsDownloadComponent {
       const pagesPromises = batch.map(x =>
         this.DbNovelsController.getPages(x.id, { source: source })
       );
-      console.log(pagesPromises);
 
 
       const pages = await Promise.all(pagesPromises);

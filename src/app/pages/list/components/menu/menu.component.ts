@@ -365,7 +365,6 @@ export class MenuComponent {
     ContextMenuEvent.register('menu_item_v3',
       {
         send: ($event, data) => {
-          // console.log($event, data);
           const value = $event.getAttribute("content_menu_value")
 
           const obj = this.data.menu.find(x => x.id?.toString() == value.toString());

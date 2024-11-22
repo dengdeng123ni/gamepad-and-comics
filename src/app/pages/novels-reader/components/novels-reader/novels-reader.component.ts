@@ -118,7 +118,6 @@ export class NovelsReaderComponent {
     const obj = this.data.chapters[index];
     const id = obj.id;
     const pages = await this.current._getChapter(id);
-    console.log(this.list.find(x=>x.id!=id));
 
     if(!this.list.find(x=>x.id==id)){
       const lengths = pages.map(x => x.content.length)

@@ -19,7 +19,6 @@ export class RepliesPageComponent {
   }
 
   async init() {
-    console.log(213);
 
     this.list= await this.DbController.getReplies({
       comics_id:this.data.comics_id,

@@ -296,8 +296,6 @@ export class OnePageReaderV2Component {
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
       let obj = await this.isWideImage(list[index], list[index + 1]);
-      console.log(obj?.primary?.width , obj?.secondary?.width);
-
 
       if (obj.secondary && !obj.secondary.src) obj.secondary = undefined;
       if (index == 0 && !this.isSwitch && is_first_page_cover == true) {

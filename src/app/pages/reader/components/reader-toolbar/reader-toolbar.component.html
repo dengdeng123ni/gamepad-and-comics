@@ -163,10 +163,10 @@
         (click)="OpenComicsDetail($event)">
         <mat-icon>info</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+      <!-- <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="openReplies($event)">
         <mat-icon>comment</mat-icon>
-      </button>
+      </button> -->
       <button [attr.svg_filter]="'text_primary'" *ngIf="data.is_download" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="openExportSettings($event)">
         <mat-icon>file_download</mat-icon>

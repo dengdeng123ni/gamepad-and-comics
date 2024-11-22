@@ -202,7 +202,6 @@ export class DoublePageReaderV2Component {
     })
   }
   async updata() {
-    console.log(this.swiper.slides[this.swiper.activeIndex]);
 
     if (!this.swiper.slides[this.swiper.activeIndex]) return
     if (this.swiper.slides[this.swiper.activeIndex]) {
@@ -387,10 +386,8 @@ export class DoublePageReaderV2Component {
     }
   }
   async getBlankPage(res){
-    console.log(this.data.comics_config.first_cover_background_color);
 
     let current=""
-    console.log();
 
     if (this.data.comics_config.first_cover_background_color == "default"&&this.data.comics_config.background_color!="frosted_glass") {
       let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)

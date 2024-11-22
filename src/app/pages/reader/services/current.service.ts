@@ -492,7 +492,6 @@ export class CurrentService {
     await firstValueFrom(this.webDb.deleteByKey("chapter_first_page_cover", chapter_id.toString()))
   }
   async _setChapterIndex(id: string, index: number) {
-    console.log({ 'chapter_id': id.toString(), "page_index": index });
 
     await firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': id.toString(), "page_index": index }))
   }
