@@ -66,7 +66,7 @@ export class RoutingControllerService {
           source: x
         });
         if (res && res.length) {
-          firstValueFrom(this.webDb.update('url_to_list', {
+           await firstValueFrom(this.webDb.update('url_to_list', {
             id: window.btoa(encodeURIComponent(url)),
             url: url,
             source:x,
@@ -106,10 +106,10 @@ export class RoutingControllerService {
               await navigator.clipboard.writeText(obj.title)
             } else {
               const res = await this.UrlToList(t);
-
+              await navigator.clipboard.writeText("")
               if (res) {
                 this.routerList(obj.oright, obj.id);
-                await navigator.clipboard.writeText("")
+
               }
             }
           }
