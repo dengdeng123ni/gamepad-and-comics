@@ -59,6 +59,7 @@
       align-items: end;
       overflow: hidden;
       position: relative;
+      max-height: 200px;
 
       img {
         border-radius: 2px;
@@ -307,6 +308,16 @@
 
 
 :host ::ng-deep {
+  app-image{
+    height: 100%;
+    width: 100%;
+    img{
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
     border-radius: 4px;
   }

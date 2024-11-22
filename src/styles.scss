@@ -126,8 +126,10 @@ object {
 }
 
 app-image {
-  display: block;
+  display: contents;
   position: relative;
+  height: 100%;
+
 }
 
 
