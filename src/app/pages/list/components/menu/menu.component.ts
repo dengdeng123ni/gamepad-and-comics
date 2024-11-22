@@ -162,7 +162,6 @@ export class MenuComponent {
               icon: "history",
               name: "历史记录",
               click: () => {
-
                 this.menu.current_menu_pid = `${x}`;
                 this.menu.current_menu_id = `${x}_history`
                 this.router.navigate(['query', 'history', x]);
@@ -170,6 +169,7 @@ export class MenuComponent {
             }
           )
         } else {
+
           obj.submenu.push(
             {
               id: "history",
@@ -562,8 +562,13 @@ export class MenuComponent {
   on3fee(e) {
     this.menu.current_menu_pid = `${e.id}`;
     this.menu.current_menu_id = `${e.id}_history`
+if(this.DbEvent.Configs[e.id].type=="comics"){
+  this.router.navigate(['query', 'history', e.id]);
+}else{
+  this.router.navigate(['novel_query', 'history', e.id]);
+}
 
-    this.router.navigate(['query', 'history', e.id]);
+
   }
 
 }

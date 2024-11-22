@@ -47,11 +47,13 @@ export class NovelsDownloadComponent {
     })
 
     let chapters = obj.chapters
-    for (let i = 0; i < chapters.length; i += 6) {
-      const batch = chapters.slice(i, i + 6);
+    for (let i = 0; i < chapters.length; i += 3) {
+      const batch = chapters.slice(i, i + 3);
       const pagesPromises = batch.map(x =>
         this.DbNovelsController.getPages(x.id, { source: source })
       );
+      console.log(pagesPromises);
+
 
       const pages = await Promise.all(pagesPromises);
     }
