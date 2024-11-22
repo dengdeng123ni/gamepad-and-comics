@@ -21,8 +21,6 @@ else  blob = await this.down(imagePaths)
   }
   // 从上往下 长图片
   async down(imagePaths) {
-    console.log(imagePaths);
-
     let images = [];
     let totalWidth = 0;
     let totalHeight = 0;
@@ -70,7 +68,6 @@ else  blob = await this.down(imagePaths)
   }
   // 从下往上 长图片
   async up(imagePaths) {
-    console.log(imagePaths);
 
     let images = [];
     let totalWidth = 0;
@@ -118,7 +115,6 @@ else  blob = await this.down(imagePaths)
   }
   // 从左到右 长图片
   async left(imagePaths) {
-    console.log(imagePaths);
 
     let images = [];
     let totalWidth = 0;
@@ -166,8 +162,6 @@ else  blob = await this.down(imagePaths)
   }
   // 从右到左 长图片
   async right(imagePaths) {
-    console.log(imagePaths);
-
     let images = [];
     let totalWidth = 0;
     let totalHeight = 0;

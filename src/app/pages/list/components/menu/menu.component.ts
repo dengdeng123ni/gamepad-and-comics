@@ -367,10 +367,8 @@ export class MenuComponent {
         send: ($event, data) => {
           // console.log($event, data);
           const value = $event.getAttribute("content_menu_value")
-          console.log(value,this.data.menu);
 
           const obj = this.data.menu.find(x => x.id?.toString() == value.toString());
-          console.log(obj);
 
           if(obj.content_menu){
             return obj.content_menu
@@ -380,7 +378,6 @@ export class MenuComponent {
 
         },
         on: async (e: any) => {
-          console.log(e);
 
           e.click(e.value)
         },

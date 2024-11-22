@@ -31,9 +31,7 @@ export class LocalCachService {
         return list
       },
       getDetail: async (id: string) => {
-        console.log(id);
         const res= (await firstValueFrom(this.webDb.getByID("temporary_details", id)) as any).data;
-        console.log(res);
 
         return res
       },

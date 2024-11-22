@@ -1372,14 +1372,10 @@ export class DbEventService {
           const b64_to_utf8 = (str) => {
             return decodeURIComponent(window.atob(str));
           }
-          console.log(b64_to_utf8(id));
           const res = await window._gh_getHtml(b64_to_utf8(id));
-          console.log(res);
-
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
-          console.log(doc);
 
           let obj = {
             id: id,

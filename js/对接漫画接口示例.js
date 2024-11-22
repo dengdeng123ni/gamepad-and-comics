@@ -1473,8 +1473,6 @@ await sleep(10)
 }
 return arr
 })()`)
-    console.log(arr);
-
 
     return arr
   },
@@ -1579,7 +1577,6 @@ window.close()
 return arr
 })()
   `)
-    console.log(arr);
 
     return arr
   },

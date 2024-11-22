@@ -76,7 +76,6 @@ export class EpubService {
       this.book.pageSize[1] = height;
     }
     let arr = [];
-    console.log(list);
 
     if (pageOrder) arr = await this.pageDouble(list, false)
     else arr = await this.pageDouble_reverse(list, false)
@@ -103,8 +102,6 @@ export class EpubService {
         context.rect(0, 0, canvas.width, canvas.height);
         context.fillStyle = "rgb(255,255,255)";
         context.fillRect(0, 0, canvas.width, canvas.height);
-        console.log(canvas.width, canvas.height);
-
         context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
         let dataURL = canvas.toDataURL("image/jpeg",0.83);
         let blobs = await this.separateImage(dataURL);
@@ -124,8 +121,6 @@ export class EpubService {
           context.rect(0, 0, canvas.width, canvas.height);
           context.fillStyle = "rgb(255,255,255)";
           context.fillRect(0, 0, canvas.width, canvas.height);
-          console.log(canvas.width, canvas.height);
-
           context.drawImage(img, 0, 0, img.width, img.height);
           let dataURL = canvas.toDataURL("image/jpeg",0.83);
           const blob = this.base64ToBlob(dataURL, "jpeg");

@@ -28,7 +28,6 @@ export class ContextMenuControllerService {
     this.currentNode.setAttribute('content_menu_select', 'true');
     const value = node.getAttribute('content_menu_value');
     this.handleRegion = (document.querySelector('body') as HTMLElement).getAttribute('locked_region') ?? '';
-    console.log(key,this.contextMenuEvent.send[key]);
     if (this.contextMenuEvent.sendEvent[key]) menu = this.contextMenuEvent.sendEvent[key](node, menu)
     document.body.setAttribute('locked_region', 'content_menu');
     this.contextMenu.open(menu, { x, y, key: key, value: value ?? "" });
