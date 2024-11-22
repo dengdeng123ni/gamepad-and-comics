@@ -48,7 +48,7 @@
         [disabled]="true"
         [attr.region]="'reader_navbar_bar_buttom_item'"
       >
-      {{'页码'|translate}} {{data.page_index}}/{{data.pages.length}}
+      {{'页码'|translate}} {{data.page_index+1}}/{{data.pages.length}}
       </button>
 
 
@@ -59,6 +59,7 @@
         [attr.region]="'reader_navbar_bar_buttom_item'"
         [min]="0"
         class="w-full"
+        style="zoom: 1 !important;"
         [step]="1"
         [max]="data.pages.length - 1"
       >

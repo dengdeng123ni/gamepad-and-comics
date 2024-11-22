@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { bufferCount, Subject, throttleTime } from 'rxjs';
 import { ReaderSectionService } from '../reader-section/reader-section.service';
@@ -18,7 +18,12 @@ export class ReaderNavbarBarComponent implements OnInit {
   opened = false;
   zIndex = -1;
 
-  // _index=this.current.comics.chapter.index
+  @HostListener('window:resize', ['$event'])
+  resize = (event: KeyboardEvent) => {
+
+
+    document.documentElement.style.setProperty('--reader-navbar-bar-zoom', `${(window.innerHeight*0.1)/90}`);
+  }
 
   public set index(v: number) {
 
