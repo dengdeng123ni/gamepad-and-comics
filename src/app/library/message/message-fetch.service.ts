@@ -16,7 +16,7 @@ export class MessageFetchService {
   }
   constructor(private sanitizer: DomSanitizer) {
     window._gh_fetch = this.fetch;
-    window._gh_getHtml = this.getHtml;
+    window._gh_get_html = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
     window._gh_new_page = this.new_page;
   }

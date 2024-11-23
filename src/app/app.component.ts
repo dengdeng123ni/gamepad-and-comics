@@ -191,18 +191,18 @@ export class AppComponent {
 
   async get123() {
 
-    const list:any = await this.MessageFetch.getAllTabs();
-    console.log(list);
-    for (let index = 0; index < list.length; index++) {
-      console.log(list[index].url);
+    // const list:any = await this.MessageFetch.getAllTabs();
+    // console.log(list);
+    // for (let index = 0; index < list.length; index++) {
+    //   console.log(list[index].url);
 
-      try {
-        await this.RoutingController.strRouterReader(list[index].url);
-      } catch (error) {
+    //   try {
+    //     await this.RoutingController.strRouterReader(list[index].url);
+    //   } catch (error) {
 
-      }
-      await this.sleep(3000)
-    }
+    //   }
+    //   await this.sleep(3000)
+    // }
 
   }
    sleep = (duration) => {

@@ -368,8 +368,7 @@ export class DbEventService {
         ],
         is_cache: true,
         is_download: false,
-        is_locked: true,
-        is_preloading: true
+        is_locked: true
       }, {
         getList: async (obj) => {
           let list = [];
@@ -753,7 +752,7 @@ export class DbEventService {
         ],
       }, {
         getList: async (obj) => {
-          const res = await window._gh_getHtml(`https://hanime1.me/comics?page=${obj.page_num}`, {
+          const res = await window._gh_get_html(`https://hanime1.me/comics?page=${obj.page_num}`, {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -779,7 +778,7 @@ export class DbEventService {
         getDetail: async (id) => {
           console.log(id);
 
-          const res = await window._gh_getHtml(`https://hanime1.me/comic/${id}`, {
+          const res = await window._gh_get_html(`https://hanime1.me/comic/${id}`, {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -878,7 +877,7 @@ console.log(obj);
           } else {
 
             const getHtmlUrl = async (url) => {
-              const res = await window._gh_getHtml(url, {
+              const res = await window._gh_get_html(url, {
                 "headers": {
                   "accept": "application/json, text/plain, */*",
                   "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -908,7 +907,7 @@ console.log(obj);
           }
         },
         Search: async (obj) => {
-          const res = await window._gh_getHtml(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
+          const res = await window._gh_get_html(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1080,7 +1079,7 @@ console.log(obj);
         is_download: true
       }, {
         getDetail: async (id) => {
-          const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/${id}.html`, {
+          const res = await window._gh_get_html(`https://www.baozimhw.com/manhua/${id}.html`, {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1138,7 +1137,7 @@ console.log(obj);
           return obj
         },
         getPages: async (id) => {
-          const res = await window._gh_getHtml(`https://www.baozimhw.com/manhua/capter/${id}`, {
+          const res = await window._gh_get_html(`https://www.baozimhw.com/manhua/capter/${id}`, {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1189,7 +1188,7 @@ console.log(obj);
           const b64_to_utf8 = (str) => {
             return decodeURIComponent(window.atob(str));
           }
-          const res = await window._gh_getHtml(b64_to_utf8(id), {
+          const res = await window._gh_get_html(b64_to_utf8(id), {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1234,7 +1233,7 @@ console.log(obj);
           const b64_to_utf8 = (str) => {
             return decodeURIComponent(window.atob(str));
           }
-          const res = await window._gh_getHtml(b64_to_utf8(id), {
+          const res = await window._gh_get_html(b64_to_utf8(id), {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1298,7 +1297,7 @@ console.log(obj);
             }
             const getHtmlUrl = async (url) => {
 
-              const res = await window._gh_getHtml(url, {
+              const res = await window._gh_get_html(url, {
                 "headers": {
                   "accept": "application/json, text/plain, */*",
                   "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1323,7 +1322,7 @@ console.log(obj);
 
         },
         Search: async (obj) => {
-          const res = await window._gh_getHtml(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
+          const res = await window._gh_get_html(`https://hanime1.me/comics/search?query=${obj.keyword}&page=${obj.page_num}`, {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1368,7 +1367,7 @@ console.log(obj);
           const b64_to_utf8 = (str) => {
             return decodeURIComponent(window.atob(str));
           }
-          const res = await window._gh_getHtml(b64_to_utf8(id));
+          const res = await window._gh_get_html(b64_to_utf8(id));
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
@@ -1458,7 +1457,7 @@ console.log(obj);
           const b64_to_utf8 = (str) => {
             return decodeURIComponent(window.atob(str));
           }
-          const res = await window._gh_getHtml(b64_to_utf8(id));
+          const res = await window._gh_get_html(b64_to_utf8(id));
 
           const text = await res.text();
           var parser = new DOMParser();
@@ -1554,7 +1553,7 @@ console.log(obj);
         ],
       }, {
         getDetail: async (novel_id) => {
-          const res = await window._gh_getHtml(decodeURIComponent(window.atob(novel_id)), {
+          const res = await window._gh_get_html(decodeURIComponent(window.atob(novel_id)), {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1684,7 +1683,7 @@ console.log(obj);
 
         getDetail: async (novel_id) => {
 
-          const res = await window._gh_getHtml(decodeURIComponent(window.atob(novel_id)), {
+          const res = await window._gh_get_html(decodeURIComponent(window.atob(novel_id)), {
             "headers": {
               "accept": "application/json, text/plain, */*",
               "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
