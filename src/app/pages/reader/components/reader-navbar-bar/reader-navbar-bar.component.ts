@@ -70,6 +70,7 @@ export class ReaderNavbarBarComponent implements OnInit {
       this.change(x)
     })
 
+
     // reader_navbar_bar_buttom_item_progress
 
   }

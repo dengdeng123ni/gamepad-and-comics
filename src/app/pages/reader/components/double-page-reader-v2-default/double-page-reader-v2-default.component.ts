@@ -190,6 +190,7 @@ export class DoublePageReaderV2DefaultComponent {
     await this.previous();
     setTimeout(async () => {
       await this.next();
+      await this.next();
       this.current._loadPages(this.data.chapter_id)
     })
   }
@@ -201,6 +202,7 @@ export class DoublePageReaderV2DefaultComponent {
     await this.addNextSlide(chapter_id, pages, page_index);
     setTimeout(async () => {
       await this.next();
+
       await this.previous();
 
     })
