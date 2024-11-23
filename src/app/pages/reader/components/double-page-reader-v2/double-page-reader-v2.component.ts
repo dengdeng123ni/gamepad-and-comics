@@ -186,6 +186,7 @@ export class DoublePageReaderV2Component {
     await this.previous();
     setTimeout(async () => {
       await this.next();
+      await this.next();
       this.current._loadPages(this.data.chapter_id)
     })
   }
