@@ -285,6 +285,7 @@ export class DoublePageReaderV2Component {
         return
       }
     } else {
+
       this.addPreviousSlide(chapter_id, pages, index)
       return
     }
@@ -345,11 +346,19 @@ export class DoublePageReaderV2Component {
     if (res.primary.start) current = current + await this.getBlankPage(res);
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
-      if(this.swiper.slides.length>5) {
-        this.ccc=true;
-        this.swiper.removeSlide((this.swiper.slides.length-1));
+      setTimeout(() => {
+        this.objNextHtml[`${chapter_id}_${index}`]=undefined;
+      }, 1000)
+      if (this.swiper.slides.length > 5) {
+        this.ccc = true;
+        const nodes = this.swiper.slides[this.swiper.slides.length - 1].querySelectorAll("img");
+        for (let index = 0; index < nodes.length; index++) {
+          const x = nodes[index];
+          this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
+        }
+        this.swiper.removeSlide((this.swiper.slides.length - 1));
         await this.sleep(100);
-        this.ccc=false;
+        this.ccc = false;
       }
       this.prependSlide(current)
     }
@@ -389,11 +398,19 @@ export class DoublePageReaderV2Component {
     if (res.primary.start) current = current + await this.getBlankPage(res);
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
-      if(this.swiper.slides.length>5) {
-        this.ccc=true;
+      setTimeout(() => {
+        this.objPreviousHtml[`${chapter_id}_${index}`]=undefined;
+      }, 1000)
+      if (this.swiper.slides.length > 5) {
+        this.ccc = true;
+        const nodes = this.swiper.slides[0].querySelectorAll("img");
+        for (let index = 0; index < nodes.length; index++) {
+          const x = nodes[index];
+          this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
+        }
         this.swiper.removeSlide(0);
         await this.sleep(100);
-        this.ccc=false;
+        this.ccc = false;
       }
       this.appendSlide(current)
     }
@@ -403,11 +420,11 @@ export class DoublePageReaderV2Component {
       setTimeout(resolve, duration);
     })
   }
-  async getBlankPage(res){
+  async getBlankPage(res) {
 
-    let current=""
+    let current = ""
 
-    if (this.data.comics_config.first_cover_background_color == "default"&&this.data.comics_config.background_color!="frosted_glass") {
+    if (this.data.comics_config.first_cover_background_color == "default" && this.data.comics_config.background_color != "frosted_glass") {
       let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
       current = current + `<img type="none" src="${base64}" />`;
     } else if (this.data.comics_config.first_cover_background_color == "transparent") {

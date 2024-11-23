@@ -244,29 +244,12 @@ sleep = (duration) => {
 }
 
 const init = () => {
-  // const INACTIVITY_LIMIT =  10000;
-  // chrome.windows.getAll({ populate: false }, (windows) => {
-  //   chrome.tabs.query({}, function (tabs) {
-  //     const now = Date.now();
-  //     tabs.forEach(x => {
-  //       const index = windows.findIndex(c => c.id == x.windowId);
-  //       x.window = windows[index];
-  //       if (!x.window.focused) {
-  //         if (now - x.lastAccessed > INACTIVITY_LIMIT) {
-  //           console.log(x.id);
-
-  //           chrome.tabs.remove(x.id);
-  //         }
-  //       }
-  //     })
-  //   })
-  // });
   clearTabs();
 }
 
 const clearTabs = () => {
   setTimeout(() => {
-    const INACTIVITY_LIMIT = 10 * 60 * 1000;
+    const INACTIVITY_LIMIT = 5*60*1000
     chrome.windows.getAll({ populate: false }, (windows) => {
       chrome.tabs.query({}, function (tabs) {
         const now = Date.now();
@@ -274,7 +257,7 @@ const clearTabs = () => {
           const index = windows.findIndex(c => c.id == x.windowId);
           x.window = windows[index];
           if (!x.window.focused) {
-            if (now - x.lastAccessed > INACTIVITY_LIMIT) {
+            if ((now - x.lastAccessed) < INACTIVITY_LIMIT) {
               chrome.tabs.remove(x.id);
             }
           }
@@ -282,7 +265,7 @@ const clearTabs = () => {
       })
     });
     clearTabs()
-  }, 5 * 60 * 1000)
+  },  5*60*1000)
 }
 
 const getCurrentTabs = (request) => {
