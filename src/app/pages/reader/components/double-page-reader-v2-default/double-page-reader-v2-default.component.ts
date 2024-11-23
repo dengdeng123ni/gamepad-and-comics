@@ -348,6 +348,12 @@ export class DoublePageReaderV2DefaultComponent {
     if (res.primary.start) current = current + await this.getBlankPage(res);
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
+      if(this.swiper.slides.length>5) {
+        this.ccc=true;
+        this.swiper.removeSlide((this.swiper.slides.length-1));
+        await this.sleep(100);
+        this.ccc=false;
+      }
       this.prependSlide(current)
     }
   }
@@ -386,8 +392,19 @@ export class DoublePageReaderV2DefaultComponent {
     if (res.primary.start) current = current + await this.getBlankPage(res);
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
+      if(this.swiper.slides.length>5) {
+        this.ccc=true;
+        this.swiper.removeSlide(0);
+        await this.sleep(100);
+        this.ccc=false;
+      }
       this.appendSlide(current)
     }
+  }
+  sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
   }
   async getBlankPage(res){
 

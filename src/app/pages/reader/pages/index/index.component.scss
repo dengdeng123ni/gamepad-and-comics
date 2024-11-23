@@ -39,7 +39,7 @@
 
 // palette
 :host ::ng-deep {
-  .swiper-slide,._reader {
+  ._reader {
     background: var(--reader-background-color);
   }
 

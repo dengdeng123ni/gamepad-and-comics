@@ -344,6 +344,12 @@ export class DoublePageReaderV2Component {
     if (res.primary.start) current = current + await this.getBlankPage(res);
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
+      if(this.swiper.slides.length>5) {
+        this.ccc=true;
+        this.swiper.removeSlide((this.swiper.slides.length-1));
+        await this.sleep(100);
+        this.ccc=false;
+      }
       this.prependSlide(current)
     }
   }
@@ -382,8 +388,19 @@ export class DoublePageReaderV2Component {
     if (res.primary.start) current = current + await this.getBlankPage(res);
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
+      if(this.swiper.slides.length>5) {
+        this.ccc=true;
+        this.swiper.removeSlide(0);
+        await this.sleep(100);
+        this.ccc=false;
+      }
       this.appendSlide(current)
     }
+  }
+  sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
   }
   async getBlankPage(res){
 
@@ -407,7 +424,7 @@ export class DoublePageReaderV2Component {
     return current
   }
   prependSlide(src: string) {
-    // if(this.swiper.slides.length>5) this.swiper.removeSlide((this.swiper.slides.length-1));
+
     if (
       !!src
     ) {
@@ -420,7 +437,6 @@ export class DoublePageReaderV2Component {
     }
   }
   appendSlide(src: string) {
-    // if(this.swiper.slides.length>5) this.swiper.removeSlide(0);
     if (!!src) {
       this.swiper.appendSlide
         (`
@@ -613,7 +629,7 @@ export class DoublePageReaderV2Component {
         this.ccc = false;
         setTimeout(() => {
           this.previous()
-        }, 0)
+        }, 100)
       }
     });
   }
