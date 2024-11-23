@@ -1,11 +1,33 @@
-# 手柄与漫画
+# Gamepad and Comics
 
-> 手柄与漫画是漫画阅读阅读器,一次访问完全离线使用的漫画阅读阅读器,支持键盘,手柄,鼠标,语音多种方式来控制,对于本地漫画方便观看,对于在线漫画,需要下载相关[浏览器插件]("https://github.com/dengdeng123ni/gamepad-and-comics-v3/blob/main/src/assets/zip"),使用[API]("https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js")可以进行对接处理,便可以阅读相关网站漫画,漫画阅读模式一共有双页阅读,单页阅读,滚动阅读,左右滚动阅读,支持漫画的编辑,可以方便相关漫画转换PDF,PPT,EPUB格式.
+> An offline comic reader that supports multiple control methods, including keyboard, gamepad, mouse, and voice commands. It helps users easily read local comics while also integrating with online comic platforms through plugins and APIs, providing a rich reading experience.
 
-#### 漫画阅读器:https://dengdeng123ni.github.io/gamepad-and-comics-v3/
-#### 浏览器插件:https://github.com/dengdeng123ni/gamepad-and-comics-v3/blob/main/src/assets/zip
-#### API:https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js
-#### 支持作者:https://store.steampowered.com/app/2070500/Gamepad_and_Comics/
+## Project Link  
+[https://dengdeng123ni.github.io/gamepad-and-comics-v3/](https://dengdeng123ni.github.io/gamepad-and-comics-v3/)
 
->> 加入QQ群 639294484 有什么问题或者建议,欢迎来询
-  
+---
+
+## 🎨 Features
+
+- **Multiple control methods**: Supports keyboard, gamepad, mouse, and voice controls to accommodate different user preferences.
+- **Local comic support**: Quickly load local comics for offline reading.
+- **Online comic integration**: Connect to popular comic websites through [plugins](https://github.com/dengdeng123ni/gamepad-and-comics-v3/blob/main/src/assets/zip) and [APIs](https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js) to fetch online content.
+- **Multiple reading modes**:
+  - Double-page view
+  - Single-page view
+  - Vertical scroll view
+  - Horizontal scroll view
+- **Format conversion**: Easily export comics to PDF, PPT, and EPUB formats to meet various needs.
+- **Comic editing**: Supports basic comic editing operations.
+
+---
+
+## 🌟 Support
+
+Support the author: [Steam Store Page](https://store.steampowered.com/app/2070500/Gamepad_and_Comics/)
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify it.
