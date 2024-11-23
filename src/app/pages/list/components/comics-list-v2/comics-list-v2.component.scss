@@ -308,9 +308,10 @@
 
 
 :host ::ng-deep {
-  app-image{
+  app-image._image{
     height: 100%;
     width: 100%;
+    display: contents;
     img{
       height: 100%;
       width: 100%;

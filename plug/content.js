@@ -9,6 +9,9 @@ window.addEventListener("message", async function (e) {
   if (e.data && e.data.type == "proxy_request") {
     await chrome.runtime.sendMessage(e.data);
   }
+  if (e.data && e.data.type == "get_all_tabs") {
+    await chrome.runtime.sendMessage(e.data);
+  }
   if (e.data && e.data.type == "background_proxy_request") {
     await chrome.runtime.sendMessage(e.data);
   }

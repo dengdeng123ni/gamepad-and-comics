@@ -93,7 +93,7 @@ export class RoutingControllerService {
       if (obj) {
         this.routerReader(obj.oright, obj.id)
       } else {
-        const res = await this.UrlToList(t);
+        // const res = await this.UrlToList(t);
       }
     }
   }

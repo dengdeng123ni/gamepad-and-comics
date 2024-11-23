@@ -49,7 +49,14 @@ export class MessageControllerService {
         setTimeout(()=>{
           http._data_proxy_response[event.data.id]=undefined;
         },40000)
-      }else if (event.data.type == "specify_link") {
+      }
+      else if(event.data.type=="proxy_data"){
+        http._data_proxy_response[event.data.id]= event.data.data;
+        setTimeout(()=>{
+          http._data_proxy_response[event.data.id]=undefined;
+        },40000)
+      }
+      else if (event.data.type == "specify_link") {
         MessageEvent.OtherEvents['specify_link'](event.data.data)
       }
     }, false);

@@ -19,8 +19,6 @@ export class MessageFetchService {
     window._gh_getHtml = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
     window._gh_new_page = this.new_page;
-
-
   }
   async init() {
     this.caches = await caches.open('assets');
@@ -198,6 +196,39 @@ export class MessageFetchService {
       proxy_request_website_url: url,
       proxy_response_website_url: window.location.origin,
       javascript: javascript
+    });
+    let bool = true;
+    return new Promise((r, j) => {
+      const getData = () => {
+        setTimeout(() => {
+          if (this._data_proxy_response[id]) {
+            r(this._data_proxy_response[id])
+          } else {
+            if (bool) getData()
+          }
+        }, 33)
+      }
+      getData()
+
+      setTimeout(() => {
+        bool = false;
+        r(new Response(""))
+        j(new Response(""))
+      }, 40000)
+
+    })
+  }
+
+  getAllTabs = async () => {
+    const id = CryptoJS.MD5(JSON.stringify({
+      type: "get_all_tabs",
+      proxy_response_website_url: window.location.origin
+    })).toString().toLowerCase()
+
+    window.postMessage({
+      id: id,
+      type: "get_all_tabs",
+      proxy_response_website_url: window.location.origin
     });
     let bool = true;
     return new Promise((r, j) => {

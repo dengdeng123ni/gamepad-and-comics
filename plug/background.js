@@ -13,6 +13,9 @@ chrome.runtime.onMessage.addListener(
     } else if (request.type == "website_proxy_request_html") {
       request.type = "website_proxy_response_html";
       sendMessageToTargetHtml(request, request.proxy_request_website_url)
+    } else if (request.type == "get_all_tabs") {
+      request.type = "proxy_data";
+      getCurrentTabs(request)
     } else if (request.type == "website_request_execute_script") {
       request.type = "website_response_execute_script";
       sendMessageToTargetHtml(request, request.proxy_request_website_url)
@@ -241,6 +244,23 @@ sleep = (duration) => {
 }
 
 const init = () => {
+  // const INACTIVITY_LIMIT =  10000;
+  // chrome.windows.getAll({ populate: false }, (windows) => {
+  //   chrome.tabs.query({}, function (tabs) {
+  //     const now = Date.now();
+  //     tabs.forEach(x => {
+  //       const index = windows.findIndex(c => c.id == x.windowId);
+  //       x.window = windows[index];
+  //       if (!x.window.focused) {
+  //         if (now - x.lastAccessed > INACTIVITY_LIMIT) {
+  //           console.log(x.id);
+
+  //           chrome.tabs.remove(x.id);
+  //         }
+  //       }
+  //     })
+  //   })
+  // });
   clearTabs();
 }
 
@@ -264,5 +284,29 @@ const clearTabs = () => {
     clearTabs()
   }, 5 * 60 * 1000)
 }
+
+const getCurrentTabs = (request) => {
+  chrome.windows.getAll({ populate: false }, (windows) => {
+
+    chrome.tabs.query({}, function (tabs) {
+      const now = Date.now();
+      let arr=[];
+      tabs.forEach(x => {
+        const index = windows.findIndex(c => c.id == x.windowId);
+        x.window = windows[index];
+        if (x.window.focused) {
+          arr.push(x)
+        }
+      })
+      sendMessageToTargetContentScript({
+        ...request,
+        data:arr
+      }, request.proxy_response_website_url)
+    })
+
+
+  });
+}
+
 
 init();

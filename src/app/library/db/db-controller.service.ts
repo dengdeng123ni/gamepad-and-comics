@@ -105,7 +105,8 @@ export class DbControllerService {
   }
   getDetail = async (id: string, option?: {
     source: string,
-    is_cache?: boolean
+    is_cache?: boolean,
+    is_update?: boolean
   }) => {
     try {
       if (!id) return null
@@ -115,6 +116,7 @@ export class DbControllerService {
       if (option && option.is_cache === true) config.is_cache = true
       if (option && option.is_cache === false) config.is_cache = false
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
+
         if (this.details[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.details[id]))
         } else {
@@ -122,6 +124,7 @@ export class DbControllerService {
           if (config.is_cache) {
 
             res = await firstValueFrom(this.webDb.getByID('details', id))
+
             if (res) {
               res = res.data;
               if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
@@ -142,6 +145,16 @@ export class DbControllerService {
                 if (!x.cover) x.cover = res.cover;
               })
             }
+          } else if (option.is_update) {
+            res = await this.DbEvent.Events[option.source]["getDetail"](id);
+            firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
+            this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+            if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
+            res.chapters.forEach(x => {
+              this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+              if (x.cover && x.cover.substring(7, 21) != "localhost:7700") x.cover = `http://localhost:7700/${config.id}/chapter/${res.id}/${x.id}`;
+              if (!x.cover) x.cover = res.cover;
+            })
           } else {
             res = await this.DbEvent.Events[option.source]["getDetail"](id);
           }
@@ -165,7 +178,8 @@ export class DbControllerService {
   }
   getPages = async (id: string, option?: {
     source: string,
-    is_cache?: boolean
+    is_cache?: boolean,
+    is_update?: boolean
   }) => {
     try {
       if (!id) return []
@@ -184,8 +198,6 @@ export class DbControllerService {
 
             res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
             if (res) {
-              console.log(res);
-
               res = res.data;
 
               res.forEach((x, i) => {
@@ -221,8 +233,8 @@ export class DbControllerService {
                 // 其他情况认为非空
                 return false;
               }
-              if(isEmpty(res)) {
-                console.log("获取数据错误,重新获取中",res);
+              if (isEmpty(res)) {
+                console.log("获取数据错误,重新获取中", res);
                 res = await this.DbEvent.Events[option.source]["getPages"](id)
               }
               if (typeof res[0] === 'string') {
@@ -246,6 +258,56 @@ export class DbControllerService {
                 if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
               })
             }
+          } else if (option.is_update) {
+            res = await this.DbEvent.Events[option.source]["getPages"](id);
+            const isEmpty = (value) => {
+              if (value === null || value === undefined) {
+                // null 或 undefined
+                return true;
+              }
+
+              if (typeof value === "string" && value.trim() === "") {
+                // 空字符串（包括全是空格的情况）
+                return true;
+              }
+
+              if (Array.isArray(value) && value.length === 0) {
+                // 空数组
+                return true;
+              }
+
+              if (typeof value === "object" && Object.keys(value).length === 0) {
+                // 空对象
+                return true;
+              }
+
+              // 其他情况认为非空
+              return false;
+            }
+            if (isEmpty(res)) {
+              console.log("获取数据错误,重新获取中", res);
+              res = await this.DbEvent.Events[option.source]["getPages"](id)
+            }
+            if (typeof res[0] === 'string') {
+              let arr = res;
+              let data = [];
+              for (let index = 0; index < arr.length; index++) {
+                let obj = {
+                  id: "",
+                  src: ""
+                };
+                obj["id"] = `${index}`;
+                obj["src"] = `${arr[index]}`
+                data.push(obj)
+              }
+              res = data;
+            }
+
+            await firstValueFrom(this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
+            res.forEach((x, i) => {
+              this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
+              if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
+            })
           } else {
             res = await this.DbEvent.Events[option.source]["getPages"](id);
             if (typeof res[0] === 'string') {
@@ -299,8 +361,7 @@ export class DbControllerService {
         if (id.substring(7, 21) == "localhost:7700") {
           let url = id;
           const getBlob = async () => {
-
-            const getImageURL = async (id: string) => {
+            const getImageURL2 = async (id: string) => {
               const arr = id.split("/")
               const name = arr[3];
               const type = arr[4];
@@ -313,7 +374,7 @@ export class DbControllerService {
                 } else {
                   await this.waitForCondition()
 
-                  let resc = await this.DbEvent.Events[option.source]["getPages"](chapter_id);
+                  let resc = await this.getPages(chapter_id, { source: option.source })
                   resc.forEach((x, i) => {
                     this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
                   })
@@ -327,7 +388,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = await this.DbEvent.Events[option.source]["getDetail"](comics_id);
+                  let res = await this.getDetail(comics_id, { source: option.source })
                   this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                   res.chapters.forEach(x => {
                     this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
@@ -343,7 +404,63 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = await this.DbEvent.Events[option.source]["getDetail"](comics_id);
+                  let res = await this.getDetail(comics_id, { source: option.source })
+                  this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+                  res.chapters.forEach(x => {
+                    this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                  })
+                  this.isConditionMet = false;
+                  return this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
+                }
+              } else {
+                return ""
+              }
+
+            }
+            const getImageURL = async (id: string) => {
+              const arr = id.split("/")
+              const name = arr[3];
+              const type = arr[4];
+              if (type == "page") {
+                const chapter_id = arr[5];
+                const index = arr[6];
+                const url = this.image_url[`${name}_page_${chapter_id}_${index}`];
+                if (url) {
+                  return url
+                } else {
+                  await this.waitForCondition()
+
+                  let resc = await this.getPages(chapter_id, { source: option.source, is_cache: false, is_update: true })
+                  resc.forEach((x, i) => {
+                    this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
+                  })
+                  this.isConditionMet = false;
+                  return this.image_url[`${name}_page_${chapter_id}_${index}`];
+                }
+              } else if (type == "comics") {
+                const comics_id = arr[5];
+                const url = this.image_url[`${name}_comics_${comics_id}`];
+                if (url) {
+                  return url
+                } else {
+                  await this.waitForCondition()
+                  let res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true  })
+                  this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+                  res.chapters.forEach(x => {
+                    this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                  })
+                  this.isConditionMet = false;
+                  return this.image_url[`${name}_comics_${comics_id}`];
+                }
+              } else if (type == "chapter") {
+                const comics_id = arr[5];
+                const chapter_id = arr[6];
+                const url = this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
+                if (url) {
+                  return url
+                } else {
+                  await this.waitForCondition()
+                  let res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true  })
                   this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                   res.chapters.forEach(x => {
                     this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
@@ -358,10 +475,12 @@ export class DbControllerService {
             }
 
 
-            const id1 = await getImageURL(url);
+            const id1 = await getImageURL2(url);
+
             let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
             if (blob.size < 3000 && blob.type.split("/")[0] == "image") {
-              blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+              const id2 = await getImageURL(url);
+              blob = await this.DbEvent.Events[option.source]["getImage"](id2)
             }
 
 

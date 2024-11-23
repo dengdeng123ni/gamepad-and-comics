@@ -129,7 +129,7 @@ export class AppComponent {
     public ImageToController: ImageToControllerService,
     public testService: TestService,
     public DownloadEvent: DownloadEventService,
-    public ParamsController:ParamsControllerService,
+    public ParamsController: ParamsControllerService,
     private translate: TranslateService,
     public webDb: NgxIndexedDBService,
     public DbEvent: DbEventService,
@@ -189,10 +189,32 @@ export class AppComponent {
     return allParams
   }
 
+  async get123() {
+
+    const list:any = await this.MessageFetch.getAllTabs();
+    console.log(list);
+    for (let index = 0; index < list.length; index++) {
+      console.log(list[index].url);
+
+      try {
+        await this.RoutingController.strRouterReader(list[index].url);
+      } catch (error) {
+
+      }
+      await this.sleep(3000)
+    }
+
+  }
+   sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
+  }
+
   async init() {
-    const obj1=this.getAllParams(window.location.href);
+    const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();
-    if(!obj1["noscript"]) await this.pulg.init();
+    if (!obj1["noscript"]) await this.pulg.init();
     setTimeout(() => {
       if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
       this.is_loading_page = true;
@@ -202,7 +224,7 @@ export class AppComponent {
         this.App.init();
         this.ParamsController.init()
         this.RoutingController.strRouterReader(obj1["url"]);
-        console.log(obj1["url"]);
+        this.get123();
 
         if (!obj1["url"]) {
           window.addEventListener('visibilitychange', () => {

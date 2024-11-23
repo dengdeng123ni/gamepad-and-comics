@@ -64,7 +64,7 @@
         [attr.content_menu_value]="n.id"
         [attr.multiple]="n.selected">
         <div class="img">
-          <app-image [width]="720" [height]="960" [src]="n.cover" style="position: absolute;" />
+          <app-image class="_image" [width]="720" [height]="960" [src]="n.cover" style="position: absolute;" />
           <div class="mezzanine"></div>
         </div>
         <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
