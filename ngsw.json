@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1731610753383,
+  "timestamp": 1732421085256,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,14 +11,14 @@
         "ignoreVary": true
       },
       "urls": [
-        "/chunk-55R2FLHI.js",
-        "/chunk-ENIKY4GQ.js",
+        "/chunk-GDW3NCZE.js",
+        "/chunk-VQOF7ECQ.js",
         "/favicon.ico",
         "/index.html",
-        "/main-3BTZ56RU.js",
+        "/main-DBWCIGEM.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-226KM3KR.css",
+        "/styles-53DCZLUX.css",
         "/worker-BQ2IKCSM.js"
       ],
       "patterns": []
@@ -32,6 +32,8 @@
       },
       "urls": [
         "/assets/css/swiper-bundle.min.css",
+        "/assets/i18n/en.json",
+        "/assets/i18n/zh.json",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -94,6 +96,8 @@
   "dataGroups": [],
   "hashTable": {
     "/assets/css/swiper-bundle.min.css": "49c37765384c040ab9c774104a6933f6b94c8745",
+    "/assets/i18n/en.json": "ff348261106421d0b45680140d7aa08112c438cf",
+    "/assets/i18n/zh.json": "82b3469b9980433b9723080d8e93390ff9794478",
     "/assets/icons/icon-128x128.png": "d4516c0b955c313f14b94e0a3fdc6bb96363162b",
     "/assets/icons/icon-144x144.png": "4c0e0331f44e1f8a0c6033f9d20eb24617541b17",
     "/assets/icons/icon-152x152.png": "1b584aec8fcf4aac07dc8c3f7c416c5ad04f4996",
@@ -138,12 +142,12 @@
     "/assets/sound/nintendo_switch/turnoff.wav": "5ae8a7abb1f656fa6bfe3740f3b36f186a624044",
     "/assets/sound/nintendo_switch/turnon.wav": "507578f7cbb8f99f7dbf3d6eb52c72a3943fa11e",
     "/assets/sound/nintendo_switch/user.wav": "504ea8b0699e21d082f20abbd87397ef9375567f",
-    "/assets/zip/extended.zip": "95be023a8b54d2079da2c769ef041af7a249c367",
-    "/chunk-55R2FLHI.js": "fe068dc492f37b00dd410e8d52d5a82544d85e5c",
-    "/chunk-ENIKY4GQ.js": "472b0e527dcff962a1712eda4fe251995e07b798",
+    "/assets/zip/extended.zip": "b7024cf6c25f097dea56c8d61305dd5d2c69c521",
+    "/chunk-GDW3NCZE.js": "2bba7854f50f9c48b4938d4dd76b1926e14b3e07",
+    "/chunk-VQOF7ECQ.js": "f8cac838006bfffc5ca9081542db6860c480608f",
     "/favicon.ico": "2ae48b5d996342712800fa187b4fabe8b9710f05",
-    "/index.html": "ba6c502bfaff4b76df8abd1b0c7a3c3a46481a0b",
-    "/main-3BTZ56RU.js": "2bc06ce25beeda1400a9985d29ee3c554febc4ff",
+    "/index.html": "4af646e4496e5f40b2f74dc2762dbd8475928bcc",
+    "/main-DBWCIGEM.js": "b1a2a6c48e484836ecdc49516e4b04a2b4db1996",
     "/manifest.webmanifest": "4cb38f697fe86d2f9127a2c837a48cbda5f7a4e4",
     "/media/material-icons-JLIDJUWE.woff": "e4bb7c1e40d3febee58df963db276b2bf68c117b",
     "/media/material-icons-LEZCGFVT.woff2": "0bc0c675480d94ec7e8609dda6227f88c5d08d2c",
@@ -156,7 +160,7 @@
     "/media/material-icons-two-tone-LCGWGE2N.woff": "02225d888afe4eebc7312b7432878dc8aef1f50f",
     "/media/material-icons-two-tone-M5N5K6F5.woff2": "296ff0bff395a77c2e33e7e31fffe73980bd93cf",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-226KM3KR.css": "e1809b859b6d929c95d2e407c84045ce9ed98711",
+    "/styles-53DCZLUX.css": "9d843aa242a29c68d4ae5b8658bb6d580e596a2b",
     "/worker-BQ2IKCSM.js": "cd6ba1fa5244efe711b2b55573630910bc5f6902"
   },
   "navigationUrls": [
