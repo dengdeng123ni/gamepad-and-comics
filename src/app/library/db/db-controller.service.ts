@@ -599,14 +599,11 @@ export class DbControllerService {
     }
   }
   UrlToList = async (url: string, option?: { source: string }) => {
-
-    return [
-      {
-        id: "29583",
-        cover: "http://localhost:7700/bilibili/comics/29583",
-        title: "异世界舅舅"
-      }
-    ]
+    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"]) {
+      return await this.DbEvent.Events[option.source]["UrlToList"](url);
+    } else {
+      return []
+    }
   }
   UrlToDetailId = async (url: any, option?: {
     source: string

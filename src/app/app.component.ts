@@ -217,7 +217,7 @@ export class AppComponent {
   async init() {
     let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
 
-    if (arr && arr.length&&false) {
+    if (arr && arr.length) {
       this.translate.setDefaultLang('zh');
       this.translate.use('zh');
       document.body.setAttribute('language','zh')
