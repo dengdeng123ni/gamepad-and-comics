@@ -11,7 +11,7 @@
 
 - **Multiple control methods**: Supports keyboard, gamepad, mouse, and voice controls to accommodate different user preferences.
 - **Local comic support**: Quickly load local comics for offline reading.
-- **Online comic integration**: Connect to popular comic websites through [plugins](https://github.com/dengdeng123ni/gamepad-and-comics-v3/blob/main/src/assets/zip) and [APIs](https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js) to fetch online content.
+- **Online comic integration**: Connect to popular comic websites through [plugins](https://github.com/dengdeng123ni/gamepad-and-comics-v3/blob/main/src/assets/zip) and [APIs](https://github.com/dengdeng123ni/gamepad-and-comics-v3/js) to fetch online content.
 - **Multiple reading modes**:
   - Double-page view
   - Single-page view
