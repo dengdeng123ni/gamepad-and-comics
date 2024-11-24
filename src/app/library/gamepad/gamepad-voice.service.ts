@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { GamepadEventService } from './gamepad-event.service';
 import { GamepadInputService } from './gamepad-input.service';
 
+import { I18nService } from '../public-api';
 @Injectable({
   providedIn: 'root'
 })
@@ -48,9 +49,9 @@ export class GamepadVoiceService {
   }
   constructor(
     public GamepadEvent: GamepadEventService,
+    public I18n:I18nService,
     public GamepadInput: GamepadInputService
   ) {
-
 
   }
 
@@ -92,7 +93,7 @@ export class GamepadVoiceService {
     return z / s * 2;
   }
   is_onf = false;
-  init(_str: string) {
+ async  init(_str: string) {
     if (this.is_onf) return
     else this.is_onf = true;
     setTimeout(() => {
@@ -131,11 +132,22 @@ export class GamepadVoiceService {
       }
 
       const gamepad = this.fuzzyQuery(Object.keys(this.gamepad).map(x => this.gamepad[x]), _str)[0];
+      let gamepad2={}
+      const keys=Object.keys(this.gamepad);
+      for (let index = 0; index < keys.length; index++) {
+        const element = this.gamepad[keys[index]];
 
+        gamepad2[keys[index]]=await this.I18n.getTranslatedText(element)
+      }
+
+      const gamepad23 = this.fuzzyQuery(Object.keys(gamepad2).map(x => gamepad2[x]), _str)[0];
       const mahjong = this.fuzzyQuery(Object.keys(this.mahjong).map(x => this.mahjong[x]), _str)[0];
 
       if (gamepad) {
         const gamepadKey = Object.keys(this.gamepad).filter(x => this.gamepad[x] == gamepad)[0];
+        this.GamepadInput.down$.next(gamepadKey)
+      }else if(gamepad23){
+        const gamepadKey = Object.keys(gamepad2).filter(x => gamepad2[x] == gamepad)[0];
         this.GamepadInput.down$.next(gamepadKey)
       }else if(mahjong){
         const mahjongKey = Object.keys(this.mahjong).filter(x => this.mahjong[x] == mahjong)[0];

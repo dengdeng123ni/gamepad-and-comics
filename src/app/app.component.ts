@@ -220,13 +220,14 @@ export class AppComponent {
     if (arr && arr.length&&false) {
       this.translate.setDefaultLang('zh');
       this.translate.use('zh');
-
+      document.body.setAttribute('language','zh')
     }else{
       this.translate.addLangs(['zh', 'en']);
       this.translate.setDefaultLang('en');
       this.translate.use('en');
       const 手柄与漫画 = await this.I18n.getTranslatedText('手柄与漫画')
-      document.title=手柄与漫画
+      document.title=手柄与漫画;
+      document.body.setAttribute('language','en')
     }
 
     console.log( document.title);

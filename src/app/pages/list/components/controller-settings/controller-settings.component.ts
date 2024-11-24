@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
-import { GamepadControllerService, KeyboardControllerService, KeyboardEventService } from 'src/app/library/public-api';
+import { GamepadControllerService, I18nService, KeyboardControllerService, KeyboardEventService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -46,6 +46,19 @@ export class ControllerSettingsComponent {
     SELECT: '视图按钮',
     START: '菜单按钮',
     SPECIAL: '配置文件按钮'
+  }
+
+  voice2 = {
+    UP: '上',
+    RIGHT: '右',
+    DOWN: '下',
+    LEFT: '左',
+    LEFT_ANALOG_PRESS: '工具栏',
+    RIGHT_ANALOG_PRESS: '',
+    A: '点击',
+    B: '退出',
+    X: '右键菜单',
+    Y: ''
   }
 
   list = [
@@ -211,20 +224,28 @@ export class ControllerSettingsComponent {
     public GetKeyboardKey: GetKeyboardKeyService,
     public GamepadController: GamepadControllerService,
     private _snackBar: MatSnackBar,
+    public I18n:I18nService,
     public KeyboardController: KeyboardControllerService
   ) {
     this.init();
   }
 
-  init() {
+  async init() {
+    const 空格=await this.I18n.getTranslatedText("空格")
+    const language=document.body.getAttribute('language');
+    if(language!="zh"){
+       this.voice=this.voice2 as any;
+    }
     this.list.forEach(x => {
       if (this.KeyboardController.config[x.id]) {
+
         x.keyboard.name = this.KeyboardController.config[x.id];
         if (x.keyboard.name == "ArrowUp") x.keyboard.name = "↑";
         if (x.keyboard.name == "ArrowDown") x.keyboard.name = "↓";
         if (x.keyboard.name == "ArrowLeft") x.keyboard.name = "←";
         if (x.keyboard.name == "ArrowRight") x.keyboard.name = "→";
-        if (x.keyboard.name == "Space") x.keyboard.name = "空格";
+        if (x.keyboard.name == "Space") x.keyboard.name = 空格;
+
         if (x.id == "A") x.keyboard.name = `${x.keyboard.name}/Enter`;
 
       } else {
