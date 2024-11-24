@@ -1,6 +1,6 @@
 <div class="warp">
   <div class="title" [attr.svg_filter]="'text_secondary'">
-    全部章节({{data.chapters.length}})
+    {{'全部章节' |  translate}}({{data.chapters.length}})
   </div>
   <div class="list" >
     <button [matTooltipShowDelay]="3000" [matTooltip]="n.title" [id]="'_'+n.id" (click)="on(n)" class="item"

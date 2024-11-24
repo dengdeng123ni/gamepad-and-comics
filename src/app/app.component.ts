@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -133,19 +133,22 @@ export class AppComponent {
     private translate: TranslateService,
     public webDb: NgxIndexedDBService,
     public DbEvent: DbEventService,
+    public I18n:I18nService,
     public App: AppDataService
   ) {
-    this.translate.addLangs(['zh']);
-    this.translate.setDefaultLang('zh');
-    this.translate.use('zh');
+
+
+
     this.keydown.pipe(bufferCount(2)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))
     });
-    let obj = {};
-    Object.keys({}).forEach(x => {
-      obj[x] = `${x}1`
+    // let obj = {};
+    // Object.keys().forEach(x => {
+    //   obj[x] = `${x}`
 
-    })
+    // })
+    // console.log(obj);
+
 
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
@@ -205,13 +208,29 @@ export class AppComponent {
     // }
 
   }
-   sleep = (duration) => {
+  sleep = (duration) => {
     return new Promise(resolve => {
       setTimeout(resolve, duration);
     })
   }
 
   async init() {
+    let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
+
+    if (arr && arr.length&&false) {
+      this.translate.setDefaultLang('zh');
+      this.translate.use('zh');
+
+    }else{
+      this.translate.addLangs(['zh', 'en']);
+      this.translate.setDefaultLang('en');
+      this.translate.use('en');
+      const 手柄与漫画 = await this.I18n.getTranslatedText('手柄与漫画')
+      document.title=手柄与漫画
+    }
+
+    console.log( document.title);
+
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();
     if (!obj1["noscript"]) await this.pulg.init();
@@ -220,6 +239,7 @@ export class AppComponent {
       this.is_loading_page = true;
       this.GamepadController.init();
       this.svg.init();
+
       setTimeout(() => {
         this.App.init();
         this.ParamsController.init()

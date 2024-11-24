@@ -116,7 +116,7 @@ export class ControllerSettingsComponent {
       },
       keyboard: {
         edit: true,
-        name: "空格/Enter"
+        name: "空格"
       },
       gamepad: {
         key: "A",
