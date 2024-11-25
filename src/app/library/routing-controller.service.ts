@@ -18,6 +18,8 @@ export class RoutingControllerService {
   ) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
+        event.url= decodeURIComponent(event.url).split("?")[0];
+
         let arr = event.url.split("/");
         arr.shift()
 

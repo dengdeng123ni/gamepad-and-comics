@@ -1063,6 +1063,59 @@ console.log(obj);
 
           return data
         },
+        getImage: async (id) => {
+
+          if (id.substring(0, 4) == "http") {
+            const res = await window._gh_fetch(id, {
+              method: "GET",
+              headers: {
+                "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+              },
+              mode: "cors"
+            })
+            const blob = await res.blob();
+            return blob
+          } else {
+            const b64_to_utf8 = (str) => {
+              return decodeURIComponent(window.atob(str));
+            }
+            const _id = b64_to_utf8(id);
+            const getHtmlUrl = async (url) => {
+              const res = await window._gh_fetch(url, {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              return doc.querySelector("#img").src
+            }
+            const getImageUrl = async (id) => {
+              const res = await window._gh_fetch(id, {
+                method: "GET",
+                headers: {
+                  "accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
+                },
+                mode: "cors"
+              });
+              const blob = await res.blob();
+              return blob
+            }
+            const url = await getHtmlUrl(_id)
+
+            const blob = await getImageUrl(url);
+            return blob
+          }
+        },
         UrlToDetailId: async (id) => {
           const obj = new URL(id);
           if (obj.host == "e-hentai.org") {

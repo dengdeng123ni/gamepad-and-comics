@@ -40,7 +40,7 @@ export class OnePageReaderV2DefaultComponent {
     })
     GamepadEvent.registerAreaEvent('page_reader', {
       "LEFT": () => {
-        this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_LEFT");
+        this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_RIGHT");
       },
       "UP": () => {
         this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_UP");
@@ -49,7 +49,7 @@ export class OnePageReaderV2DefaultComponent {
         this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_DOWN");
       },
       "RIGHT": () => {
-        this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_RIGHT");
+        this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_LEFT");
       },
       "X": () => {
         this.pageToggle();
@@ -309,7 +309,21 @@ export class OnePageReaderV2DefaultComponent {
     object-fit: contain;"  width="_100"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
 
     if (!!current) {
-      this.objNextHtml[`${chapter_id}_${index}`] = current;
+      this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
+      setTimeout(() => {
+        this.objNextHtml[`${chapter_id}_${index}`]=undefined;
+      }, 1000)
+      if (this.swiper.slides.length > 5) {
+        this.ccc = true;
+        const nodes = this.swiper.slides[this.swiper.slides.length - 1].querySelectorAll("img");
+        for (let index = 0; index < nodes.length; index++) {
+          const x = nodes[index];
+          this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
+        }
+        this.swiper.removeSlide((this.swiper.slides.length - 1));
+        await this.sleep(100);
+        this.ccc = false;
+      }
       this.prependSlide(current)
     }
   }
@@ -350,9 +364,28 @@ export class OnePageReaderV2DefaultComponent {
     height: auto;
     object-fit: contain;"  width="_100"  current_page chapter_id=${chapter_id} index=${res.primary.index}  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (!!current) {
-      this.objPreviousHtml[`${chapter_id}_${index}`] = current;
+      this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
+      setTimeout(() => {
+        this.objPreviousHtml[`${chapter_id}_${index}`]=undefined;
+      }, 1000)
+      if (this.swiper.slides.length > 5) {
+        this.ccc = true;
+        const nodes = this.swiper.slides[0].querySelectorAll("img");
+        for (let index = 0; index < nodes.length; index++) {
+          const x = nodes[index];
+          this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
+        }
+        this.swiper.removeSlide(0);
+        await this.sleep(100);
+        this.ccc = false;
+      }
       this.appendSlide(current)
     }
+  }
+    sleep = (duration) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, duration);
+    })
   }
   prependSlide(src: string) {
     if (

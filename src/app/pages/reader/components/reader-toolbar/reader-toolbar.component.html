@@ -60,13 +60,13 @@
         <mat-icon>subject</mat-icon>
       </button>
       <button [attr.svg_filter]="'text_primary'"
-      [disabled]="data.chapter_id == data.chapters[0].id" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+      [disabled]="data.chapter_id == data?.chapters[0]?.id" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="previous()"   >
         <mat-icon>chevron_left</mat-icon>
       </button>
       <button  [disabled]="
       data.chapter_id ==
-      data.chapters[data.chapters.length - 1].id
+      data.chapters[data.chapters.length - 1]?.id
     " [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="next()"  >
         <mat-icon>chevron_right</mat-icon>

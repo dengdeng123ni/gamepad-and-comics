@@ -365,6 +365,7 @@ export class DbControllerService {
               const arr = id.split("/")
               const name = arr[3];
               const type = arr[4];
+
               if (type == "page") {
                 const chapter_id = arr[5];
                 const index = arr[6];
@@ -373,8 +374,13 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
+                  let  resc = (await firstValueFrom(this.webDb.getByID('pages', chapter_id)) as any)
+                  if (resc) {
+                    resc = resc.data;
+                  }else{
+                    resc = await this.getPages(chapter_id, { source: option.source, is_cache: false, is_update: true })
+                  }
 
-                  let resc = await this.getPages(chapter_id, { source: option.source })
                   resc.forEach((x, i) => {
                     this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
                   })
@@ -388,7 +394,12 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = await this.getDetail(comics_id, { source: option.source })
+                  let res =  (await firstValueFrom(this.webDb.getByID('details', comics_id)) as any)
+                  if (res) {
+                    res = res.data;
+                  }else{
+                    res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
+                  }
                   this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                   res.chapters.forEach(x => {
                     this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
@@ -404,7 +415,12 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = await this.getDetail(comics_id, { source: option.source })
+                  let res =  (await firstValueFrom(this.webDb.getByID('details', comics_id)) as any)
+                  if (res) {
+                    res = res.data;
+                  }else{
+                    res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
+                  }
                   this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                   res.chapters.forEach(x => {
                     this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
@@ -474,12 +490,14 @@ export class DbControllerService {
 
             }
 
-
             const id1 = await getImageURL2(url);
 
             let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
             if (blob.size < 3000 && blob.type.split("/")[0] == "image") {
+
+
               const id2 = await getImageURL(url);
+              console.log(id2);
               blob = await this.DbEvent.Events[option.source]["getImage"](id2)
             }
 
