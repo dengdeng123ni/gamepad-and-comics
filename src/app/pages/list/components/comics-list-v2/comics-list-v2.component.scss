@@ -50,6 +50,7 @@
     height: auto;
     width: 100%;
     user-select: none;
+    height: min-content;
     // text-align: left;
     // height: min-content;
 
@@ -313,9 +314,9 @@
     width: 100%;
     display: contents;
     img{
-      height: 100%;
+      height: 200px;
       width: 100%;
-      object-fit: cover;
+      object-fit: contain;
       object-position: top;
     }
   }
