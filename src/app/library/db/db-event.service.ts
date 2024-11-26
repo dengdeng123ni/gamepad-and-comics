@@ -972,70 +972,52 @@ export class DbEventService {
                 {
                   "id": "f_cats",
                   "label": "类别",
-                  "type": "select",
+                  "type": "tag",
                   "options": [
                     {
                       "label": "同人志",
-                      "value": "Doujinshi"
+                      "value": "1021"
                     },
                     {
                       "label": "漫画",
-                      "value": "Manga"
+                      "value": "1019"
                     },
                     {
                       "label": "艺术家 CG",
-                      "value": "Artist CG"
+                      "value": "1015"
                     },
                     {
                       "label": "游戏 CG",
-                      "value": "Game CG"
+                      "value": "1007"
                     },
                     {
                       "label": "西方",
-                      "value": "Western"
+                      "value": "511"
                     },
                     {
                       "label": "非 H",
-                      "value": "Non-H"
+                      "value": "767"
                     },
                     {
                       "label": "图像集",
-                      "value": "Image Set"
+                      "value": "991"
                     },
                     {
                       "label": "角色扮演",
-                      "value": "Cosplay"
+                      "value": "959"
                     },
                     {
                       "label": "亚洲色情",
-                      "value": "Asian Porn"
+                      "value": "895"
                     },
                     {
                       "label": "杂项",
-                      "value": "Misc"
+                      "value": "1022"
                     }
                   ]
                 },
                 {
-                  "id": "f_sh",
-                  "label": "浏览已删除画廊",
-                  "type": "select",
-                  "options": [
-                    { "label": "是", "value": true }
-                  ]
-                },
-                {
-                  "id": "f_spf",
-                  "label": "最小页数",
-                  "type": "number"
-                },
-                {
-                  "id": "f_spt",
-                  "label": "最大页数",
-                  "type": "number"
-                },
-                {
-                  "id": "f_srddf_srdd",
+                  "id": "f_srdd",
                   "label": "最低评分",
                   "type": "select",
                   "options": [
@@ -1053,7 +1035,26 @@ export class DbEventService {
                   "options": [
                     { "label": "中文", "value": "chinese" }
                   ]
-                }
+                },
+                {
+                  "id": "f_sh",
+                  "label": "浏览已删除画廊",
+                  "type": "toggle"
+                },
+                {
+                  "id": "f_spf",
+                  "label": "最小页数",
+                  "type": "slider",
+                   min:0,
+                   max:300
+                },
+                {
+                  "id": "f_spt",
+                  "label": "最大页数",
+                  "type": "slider",
+                   min:0,
+                   max:2000
+                },
               ]
             },
           },
@@ -1114,8 +1115,6 @@ export class DbEventService {
         ]
       }, {
         getList: async (obj) => {
-          console.log(obj);
-
           if (obj.menu_id == "popular") {
             const res = await window._gh_fetch("https://e-hentai.org/popular", {
               "headers": {
@@ -1137,7 +1136,7 @@ export class DbEventService {
               let obj = {}
               const src = x.querySelector(".glthumb img").getAttribute("src");
               obj["cover"] = src;
-              if(obj["cover"].substring(0,4)!="http"){
+              if (obj["cover"].substring(0, 4) != "http") {
                 const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
                 obj["cover"] = datasrc;
               }
@@ -1172,7 +1171,7 @@ export class DbEventService {
                 let obj = {}
                 const src = x.querySelector(".glthumb img").getAttribute("src");
                 obj["cover"] = src;
-                if(obj["cover"].substring(0,4)!="http"){
+                if (obj["cover"].substring(0, 4) != "http") {
                   const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
                   obj["cover"] = datasrc;
                 }
@@ -1187,7 +1186,7 @@ export class DbEventService {
               return list
             } else {
               const get = async () => {
-                const res = await window._gh_fetch("https://e-hentai.org/", {
+                const res = await window._gh_fetch(url+''+params, {
                   "headers": {
                     "accept": "application/json, text/plain, */*",
                     "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1199,10 +1198,15 @@ export class DbEventService {
                 const text = await res.text();
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(text, 'text/html');
-                return parseInt(doc.querySelector("#unext").getAttribute("href").split("=")[1])
+                if(doc.querySelector("#unext").getAttribute("href")){
+                  return parseInt(doc.querySelector("#unext").getAttribute("href").split("=")[1])
+                }else{
+                  return null
+                }
+
               }
               const aaa = await get();
-
+              if(!aaa) return []
               const res = await window._gh_fetch(`https://e-hentai.org/?next=${(aaa - ((obj.page_num - 2) * 25))}`, {
                 "headers": {
                   "accept": "application/json, text/plain, */*",
@@ -1222,7 +1226,7 @@ export class DbEventService {
                 let obj = {}
                 const src = x.querySelector(".glthumb img").getAttribute("src");
                 obj["cover"] = src;
-                if(obj["cover"].substring(0,4)!="http"){
+                if (obj["cover"].substring(0, 4) != "http") {
                   const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
                   obj["cover"] = datasrc;
                 }
@@ -1236,13 +1240,12 @@ export class DbEventService {
               }
               return list
             }
-
           } else if (obj.menu_id == "sort") {
             let tl;
-            if (obj.order == 4)  tl = 15;
-            if (obj.order == 3)  tl = 13;
-            if (obj.order == 2)  tl = 12;
-            if (obj.order == 1)  tl = 11;
+            if (obj.order == 4) tl = 15;
+            if (obj.order == 3) tl = 13;
+            if (obj.order == 2) tl = 12;
+            if (obj.order == 1) tl = 11;
 
             const res = await window._gh_fetch(`https://e-hentai.org/toplist.php?tl=${tl}&p=${obj.page_num - 1}`, {
               "headers": {
@@ -1264,7 +1267,7 @@ export class DbEventService {
               let obj = {}
               const src = x.querySelector(".glthumb img").getAttribute("src");
               obj["cover"] = src;
-              if(obj["cover"].substring(0,4)!="http"){
+              if (obj["cover"].substring(0, 4) != "http") {
                 const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
                 obj["cover"] = datasrc;
               }
@@ -1279,12 +1282,117 @@ export class DbEventService {
             console.log(JSON.parse(JSON.stringify(list)));
 
             return list
+          } else if (obj.menu_id == "advanced_search") {
+            let url = "https://e-hentai.org/?";
+            if (obj.language&&obj.f_search) obj.f_search = obj.f_search+"+language:chinese"
+            if (obj.language&&!obj.f_search) obj.f_search = "language:chinese"
+            if (obj.f_sh) obj.f_sh = "on"
+
+            let serf = { };
+            if(obj.f_search) serf['f_search']=obj.f_search;
+            if(obj.f_cats) serf['f_cats']=obj.f_cats;
+            if(obj.f_srdd) serf['f_srdd']=obj.f_srdd;
+            if(obj.f_sh) serf['f_sh']=obj.f_sh;
+            if(obj.f_spf) serf['f_spf']=obj.f_spf;
+            if(obj.f_spt) serf['f_spt']=obj.f_spt;
+            const params = new URLSearchParams(serf).toString();
+              console.log(url+''+params);
+            if (obj.page_num == 1) {
+
+
+
+
+              const res = await window._gh_fetch(url+''+params, {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".gltc tr");
+              console.log(doc);
+              let list = [];
+              for (let index = 1; index < nodes.length; index++) {
+                const x = nodes[index];
+                let obj = {}
+                const src = x.querySelector(".glthumb img").getAttribute("src");
+                obj["cover"] = src;
+                if (obj["cover"].substring(0, 4) != "http") {
+                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                  obj["cover"] = datasrc;
+                }
+                const title = x.querySelector(".glname .glink").textContent.trim();
+                obj["title"] = title;
+                const id = x.querySelector(".glname a").href
+                obj["id"] = window.btoa(encodeURIComponent(id));
+                const subTitle = x.querySelector(".gl1c").textContent
+                obj["subTitle"] = subTitle;
+                list.push(obj)
+              }
+              return list
+            } else {
+              const get = async () => {
+                const res = await window._gh_fetch(url+''+params, {
+                  "headers": {
+                    "accept": "application/json, text/plain, */*",
+                    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                    "content-type": "application/json;charset=UTF-8"
+                  },
+                  "body": null,
+                  "method": "GET"
+                });
+                const text = await res.text();
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(text, 'text/html');
+                if(doc.querySelector("#unext").getAttribute("href")){
+                  return parseInt(doc.querySelector("#unext").getAttribute("href").split("=")[1])
+                }else{
+                  return null
+                }
+
+              }
+              const aaa = await get();
+              if(!aaa) return []
+
+              const res = await window._gh_fetch(`https://e-hentai.org/?next=${(aaa - ((obj.page_num - 2) * 25))}`, {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".gltc tr");
+              let list = [];
+              for (let index = 1; index < nodes.length; index++) {
+                const x = nodes[index];
+                let obj = {}
+                const src = x.querySelector(".glthumb img").getAttribute("src");
+                obj["cover"] = src;
+                if (obj["cover"].substring(0, 4) != "http") {
+                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                  obj["cover"] = datasrc;
+                }
+                const title = x.querySelector(".glname .glink").textContent.trim();
+                obj["title"] = title;
+                const id = x.querySelector(".glname a").href
+                obj["id"] = window.btoa(encodeURIComponent(id));
+                const subTitle = x.querySelector(".gl1c").textContent
+                obj["subTitle"] = subTitle;
+                list.push(obj)
+              }
+              return list
+            }
           }
-
-
-
-          console.log(obj);
-
           return []
         },
         getDetail: async (id) => {

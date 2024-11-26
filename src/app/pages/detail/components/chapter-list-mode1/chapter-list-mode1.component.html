@@ -6,7 +6,7 @@
     <div class="list" [attr.list_type]="'image'" *ngIf="pattern=='image'" [attr.type]="'list'" (click)="on($event)">
       <button class="item" [id]="n.id" [attr._id]="'chapters_item_' + n.id" [attr.region]="'chapters_item'"
         [attr.multiple]="n.selected" [attr.content_menu_key]="'chapters_item'" [attr.content_menu_value]="n.id"
-        [matTooltipShowDelay]="1000" [matTooltip]="n.title" mat-button *ngFor="let n of data.chapters;let index=index"
+        [matTooltipShowDelay]="333" [matTooltip]="n.title" mat-button *ngFor="let n of data.chapters;let index=index"
         [attr.index]="index" [attr.current]="data.chapter_id==n.id" [attr.read]="!!n.read">
         <div class="box">
           <div class="img">

@@ -25,9 +25,6 @@ export class ComicsListV2Component {
   @ViewChild('listbox') ListNode: ElementRef;
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key == "z" || this._ctrl) {
-      return false
-    }
     if (event.key == "Meta") this._ctrl = true;
     if (event.key == "Control") this._ctrl = true;
 
@@ -73,7 +70,7 @@ export class ComicsListV2Component {
   id = null;
   type = null;
 
-  url=""
+  url = ""
 
   is_destroy = false;
   constructor(
@@ -196,13 +193,13 @@ export class ComicsListV2Component {
             return list
           }
         })
-      }else if(type =="url_to_list"){
+      } else if (type == "url_to_list") {
         this.menu_id = sid;
         this.source = source;
         this.id = `${type}_${source}_${sid}`;
         this.key = this.id;
         this.App.setsource(this.source);
-        this.url=decodeURIComponent(window.atob(sid));
+        this.url = decodeURIComponent(window.atob(sid));
         ComicsListV2.register({
           id: this.id,
           type: type,
@@ -212,8 +209,8 @@ export class ComicsListV2Component {
             return []
           },
           Init: async () => {
-            return await this.DbController.UrlToList(decodeURIComponent(window.atob(sid)),{
-              source:this.source
+            return await this.DbController.UrlToList(decodeURIComponent(window.atob(sid)), {
+              source: this.source
             })
           }
         })
@@ -239,12 +236,7 @@ export class ComicsListV2Component {
         this.source = source;
         const obj = this.DbEvent.Configs[source].menu.find(x => x.id == sid);
         this.id = `${type}_${source}_${sid}`;
-        console.log(obj);
-
-
         if (obj.query.conditions) this.query.list = obj.query.conditions;
-
-
         if (obj.query.name) this.query.name = obj.query.name;
         else this.query.name = ''
         this.key = this.id;
@@ -285,11 +277,11 @@ export class ComicsListV2Component {
         } else if (this.type == "choice") {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
-        } else if(this.type =="advanced_search"){
+        } else if (this.type == "advanced_search") {
           console.log(data);
 
           this.list = [];
-        }else if (this.type == "history") {
+        } else if (this.type == "history") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
 
@@ -299,7 +291,7 @@ export class ComicsListV2Component {
         } else if (this.type == "temporary_data") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000 });
-        }  else if (this.type == "temporary_file") {
+        } else if (this.type == "temporary_file") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: 1000 });
         } else {
@@ -360,7 +352,17 @@ export class ComicsListV2Component {
     })
 
   }
+   on_135=async (e)=> {
+    this.query_option = {
+      menu_id: this.menu_id,
+      ...e,
+    }
+    this.page_num = 1;
+    this.ListNode.nativeElement.scrollTop = 0;
+    this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
 
+
+  }
   initc(type, source, menu_id) {
     if (type == "choice") {
 

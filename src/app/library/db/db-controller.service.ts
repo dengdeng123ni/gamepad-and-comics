@@ -63,7 +63,7 @@ export class DbControllerService {
       } else {
         let res;
 
-        if (config.is_cache) {
+        if (false) {
           const obj1 = await firstValueFrom(this.webDb.getByID('list', id)) as any;
           const millisecondsInOneDay = 12 * 60 * 60 * 1000;
 

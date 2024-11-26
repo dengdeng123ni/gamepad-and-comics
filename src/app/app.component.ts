@@ -74,10 +74,10 @@ export class AppComponent {
           this.is_tab = true;
           return true
         }
-        return bool
+        return true
       } else {
         this.keys.push(key)
-        return bool
+        return true
       }
     }
   }
