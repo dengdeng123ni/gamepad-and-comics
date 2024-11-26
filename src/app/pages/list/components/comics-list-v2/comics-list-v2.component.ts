@@ -278,9 +278,7 @@ export class ComicsListV2Component {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
         } else if (this.type == "advanced_search") {
-          console.log(data);
-
-          this.list = [];
+          this.list = data.list;
         } else if (this.type == "history") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
@@ -300,9 +298,9 @@ export class ComicsListV2Component {
         if (this.list.length == 0) {
           this.page_num = 0;
         }
-
         this.zone.run(() => {
           setTimeout(async () => {
+            this.ListNode.nativeElement.scrollTop = data.scrollTop;
             await this.overflow()
             this.ListNode.nativeElement.scrollTop = data.scrollTop;
           })

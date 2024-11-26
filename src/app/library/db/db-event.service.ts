@@ -1116,39 +1116,44 @@ export class DbEventService {
       }, {
         getList: async (obj) => {
           if (obj.menu_id == "popular") {
-            const res = await window._gh_fetch("https://e-hentai.org/popular", {
-              "headers": {
-                "accept": "application/json, text/plain, */*",
-                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                "content-type": "application/json;charset=UTF-8"
-              },
-              "body": null,
-              "method": "GET"
-            });
-            const text = await res.text();
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(text, 'text/html');
-            const nodes = doc.querySelectorAll(".gltc tr");
+            if (obj.page_num == 1) {
+              const res = await window._gh_fetch("https://e-hentai.org/popular", {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".gltc tr");
 
-            let list = [];
-            for (let index = 1; index < nodes.length; index++) {
-              const x = nodes[index];
-              let obj = {}
-              const src = x.querySelector(".glthumb img").getAttribute("src");
-              obj["cover"] = src;
-              if (obj["cover"].substring(0, 4) != "http") {
-                const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
-                obj["cover"] = datasrc;
+              let list = [];
+              for (let index = 1; index < nodes.length; index++) {
+                const x = nodes[index];
+                let obj = {}
+                const src = x.querySelector(".glthumb img").getAttribute("src");
+                obj["cover"] = src;
+                if (obj["cover"].substring(0, 4) != "http") {
+                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                  obj["cover"] = datasrc;
+                }
+                const title = x.querySelector(".glname .glink").textContent.trim();
+                obj["title"] = title;
+                const id = x.querySelector(".glname a").href
+                obj["id"] = window.btoa(encodeURIComponent(id));
+                const subTitle = x.querySelector(".gl1c").textContent
+                obj["subTitle"] = subTitle;
+                list.push(obj)
               }
-              const title = x.querySelector(".glname .glink").textContent.trim();
-              obj["title"] = title;
-              const id = x.querySelector(".glname a").href
-              obj["id"] = window.btoa(encodeURIComponent(id));
-              const subTitle = x.querySelector(".gl1c").textContent
-              obj["subTitle"] = subTitle;
-              list.push(obj)
+              return list
+            }else{
+              return []
             }
-            return list
+
           } else if (obj.menu_id == "latest") {
             if (obj.page_num == 1) {
               const res = await window._gh_fetch("https://e-hentai.org/", {
@@ -1186,7 +1191,7 @@ export class DbEventService {
               return list
             } else {
               const get = async () => {
-                const res = await window._gh_fetch(url+''+params, {
+                const res = await window._gh_fetch("https://e-hentai.org/", {
                   "headers": {
                     "accept": "application/json, text/plain, */*",
                     "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1279,7 +1284,6 @@ export class DbEventService {
               obj["subTitle"] = subTitle;
               list.push(obj)
             }
-            console.log(JSON.parse(JSON.stringify(list)));
 
             return list
           } else if (obj.menu_id == "advanced_search") {
@@ -1392,6 +1396,48 @@ export class DbEventService {
               }
               return list
             }
+          } else if(obj.menu_id =="favorite"){
+            let list = [];
+            const getList= async(url)=>{
+              const res = await window._gh_fetch(url, {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".gltc tr");
+              for (let index = 1; index < nodes.length; index++) {
+                const x = nodes[index];
+                let obj = {}
+                const src = x.querySelector(".glthumb img").getAttribute("src");
+                obj["cover"] = src;
+                if (obj["cover"].substring(0, 4) != "http") {
+                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                  obj["cover"] = datasrc;
+                }
+                const title = x.querySelector(".glname .glink").textContent.trim();
+                obj["title"] = title;
+                const id = x.querySelector(".glname a").href
+                obj["id"] = window.btoa(encodeURIComponent(id));
+                const subTitle = x.querySelector(".gl1c").textContent
+                obj["subTitle"] = subTitle;
+                list.push(obj)
+              }
+              if(doc.querySelector("#unext").getAttribute("href")){
+                return await getList(doc.querySelector("#unext").getAttribute("href"))
+              }else{
+                return null
+              }
+            }
+            await getList("https://e-hentai.org/favorites.php")
+            return list
+
           }
           return []
         },
@@ -1557,7 +1603,10 @@ export class DbEventService {
               const blob = await res.blob();
               return blob
             }
+            console.log(_id);
+
             const url = await getHtmlUrl(_id)
+console.log(url);
 
             const blob = await getImageUrl(url);
             return blob

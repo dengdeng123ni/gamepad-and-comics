@@ -56,11 +56,8 @@ export class AppComponent {
 
     if (event.key == "F12") return true
 
-    if (event.key == "Enter") {
-      if (this.is_tab) return true
-    } else {
-      this.is_tab = false;
-    }
+
+
     if (event.code == "Space") key = "Space";
     else key = event.key;
     const obj = this.keys.find(x => x == key)
@@ -74,9 +71,11 @@ export class AppComponent {
           this.is_tab = true;
           return true
         }
+        if (event.key == "Enter") return false
         return true
       } else {
         this.keys.push(key)
+        if (event.key == "Enter") return false
         return true
       }
     }

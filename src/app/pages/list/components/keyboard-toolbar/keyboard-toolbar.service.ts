@@ -16,7 +16,7 @@ export class KeyboardToolbarService {
     private _sheet: MatBottomSheet,
     public GamepadEvent: GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('kyboard_toolbar', {
+    GamepadEvent.registerAreaEvent('kyboard_toolbar_item', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('kyboard_toolbar', {
