@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
-import { WhenInputtingService } from '../components/when-inputting/when-inputting.service';
+import { WhenInputtingService } from '../when-inputting/when-inputting.service';
 
 @Component({
   selector: 'app-matrix',

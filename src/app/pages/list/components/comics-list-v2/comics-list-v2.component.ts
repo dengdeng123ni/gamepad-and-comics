@@ -239,7 +239,10 @@ export class ComicsListV2Component {
         this.source = source;
         const obj = this.DbEvent.Configs[source].menu.find(x => x.id == sid);
         this.id = `${type}_${source}_${sid}`;
-        if (obj.query.list) this.query.list = obj.query.list;
+        console.log(obj);
+
+
+        if (obj.query.conditions) this.query.list = obj.query.conditions;
 
 
         if (obj.query.name) this.query.name = obj.query.name;
@@ -282,7 +285,11 @@ export class ComicsListV2Component {
         } else if (this.type == "choice") {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
-        } else if (this.type == "history") {
+        } else if(this.type =="advanced_search"){
+          console.log(data);
+
+          this.list = [];
+        }else if (this.type == "history") {
 
           this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
 

@@ -1,0 +1,62 @@
+<div style="display: flex;
+    flex-direction: column;
+    width: 256px;
+    padding: 12px;
+    background: #424242;
+    overflow: auto;
+    height: calc(100% - 28px);
+    border-radius: 4px;
+    ">
+  <!-- <div class="title">
+    <button mat-button [disabled]="true">高级查询</button>
+  </div> -->
+  <div class="title" style="font-size: 16px;margin-bottom: 12px;">
+    高级查询
+  </div>
+  <ng-container  *ngFor="let n of list;let index=index">
+    <form class="textarea" *ngIf="n.type=='search'">
+      <mat-form-field>
+        <textarea matInput [placeholder]="n.label"></textarea>
+      </mat-form-field>
+      <div style="display: flex;justify-content: right;padding: 8px 0;">
+        <button mat-button>搜索</button>
+      </div>
+      <mat-divider style="margin: 2px 0;"></mat-divider>
+    </form>
+    <div *ngIf="n.type=='tag'">
+      <div class="title" style="font-size: 16px;margin: 12px 0;">
+        {{n.label}}
+      </div>
+      <mat-chip-listbox aria-label="Fish selection">
+        <mat-chip-option style="border-radius: 4px;
+        width: 100%;    margin: 0;
+        padding: 0;" [value]="item.value" *ngFor="let item of n.options">{{item.label}}</mat-chip-option>
+
+      </mat-chip-listbox>
+    </div>
+    <div *ngIf="n.type=='select'">
+      <div class="title" style="font-size: 16px;margin: 12px 0;">
+        {{n.label}}
+      </div>
+      <mat-form-field class="select" style="    width: 100%;">
+        <mat-select>
+          <mat-option [value]="item.value" *ngFor="let item of n.options">{{item.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngIf="n.type=='slider'">
+      <div class="title" style="font-size: 16px;margin: 12px 0;">
+        {{n.label}}
+      </div>
+      <mat-slider style="min-height: 44px;width: calc(100% - 16px);">
+        <input matSliderThumb>
+      </mat-slider>
+    </div>
+    <div *ngIf="n.type=='toggle'">
+      <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;">
+        {{n.label}}
+        <mat-slide-toggle></mat-slide-toggle>
+      </div>
+    </div>
+  </ng-container>
+</div>

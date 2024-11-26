@@ -38,7 +38,8 @@ import { PageThemeComponent } from './components/page-theme/page-theme.component
 import { DeveloperPageComponent } from './components/developer-page/developer-page.component';
 // import { ImageComponent } from 'src/app/library/public-api';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatrixComponent } from './matrix/matrix.component';
+import { MatrixComponent } from './components/matrix/matrix.component';
+import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { MatrixComponent } from './matrix/matrix.component';
     NovelsDownloadComponent,
     PageThemeComponent,
     MatrixComponent,
-    DeveloperPageComponent
+    DeveloperPageComponent,
+    AdvancedSearchComponent
   ],
   imports: [
     CommonModule,

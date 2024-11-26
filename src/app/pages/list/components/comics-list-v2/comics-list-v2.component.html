@@ -1,77 +1,190 @@
 <div id="comics_list_v2" [attr.content_menu_key]="'comics_list'">
   <div class="head" *ngIf="!data.is_edit">
-
-    <div class="choice" *ngIf="type=='single'" [attr.justify_content]="!query.name">
-      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
+    <div
+      class="choice"
+      *ngIf="type == 'single'"
+      [attr.justify_content]="!query.name"
+    >
+      <div
+        class="title"
+        [attr.svg_filter]="'text_secondary'"
+        style="color: rgba(255, 255, 255, 0.34)"
+        *ngIf="query.name"
+      >
+        {{ query.name }}
+      </div>
     </div>
-    <div class="choice" *ngIf="type=='choice'" [attr.justify_content]="!query.name">
-      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
+    <div
+      class="choice"
+      *ngIf="type == 'choice'"
+      [attr.justify_content]="!query.name"
+    >
+      <div
+        class="title"
+        [attr.svg_filter]="'text_secondary'"
+        style="color: rgba(255, 255, 255, 0.34)"
+        *ngIf="query.name"
+      >
+        {{ query.name }}
+      </div>
       <div class="list">
-        <button [attr.region]="'comics_option'" mat-button *ngFor="let c of query.list;let index=index"
+        <button
+          [attr.region]="'comics_option'"
+          mat-button
+          *ngFor="let c of query.list; let index = index"
           class="item"
-          [attr.svg_filter]="query.default_index==index?'text_accent':'text_primary'"
+          [attr.svg_filter]="
+            query.default_index == index ? 'text_accent' : 'text_primary'
+          "
           [attr._id]="c.index"
-          [attr.selected]="query.default_index==index"
+          [attr.selected]="query.default_index == index"
           [attr.current]="false"
           (click)="on(index)"
-          >
-          {{c.name}}
+        >
+          {{ c.name }}
         </button>
       </div>
     </div>
-    <div class="multipy" *ngIf="type=='multipy'">
-      <div class="list" *ngFor="let c of query.list;let c_index=index">
-        <div class="title" style="color:rgba(255,255,255,.34)">{{c.name}}</div>
-        <button [attr.region]="'comics_option'" mat-button *ngFor="let n of c.tag;let n_index=index"  (click)="on2($event,c,c_index)" class="item"  [attr.current]="n.index==c.index">
-          {{n.name}}
+    <div class="multipy" *ngIf="type == 'multipy'">
+      <div class="list" *ngFor="let c of query.list; let c_index = index">
+        <div class="title" style="color: rgba(255, 255, 255, 0.34)">
+          {{ c.name }}
+        </div>
+        <button
+          [attr.region]="'comics_option'"
+          mat-button
+          *ngFor="let n of c.tag; let n_index = index"
+          (click)="on2($event, c, c_index)"
+          class="item"
+          [attr.current]="n.index == c.index"
+        >
+          {{ n.name }}
         </button>
       </div>
     </div>
-    <div class="choice" *ngIf="type=='local_cache'">
-      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'缓存' | translate}}</div>
+    <div class="choice" *ngIf="type == 'advanced_search'">
+      <!-- <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'高级搜索' | translate}}</div> -->
+      <!-- <div style="display: flex;flex-direction: column;">
+        <form>
+          <mat-form-field>
+            <textarea matInput placeholder="关键字"></textarea>
+          </mat-form-field>
+        </form>
+        <button mat-button  style="display: flex;justify-content: right;">搜索</button>
+      </div> -->
     </div>
-    <div class="choice" *ngIf="type=='temporary_data'">
-      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'临时数据' | translate}}</div>
+    <div class="choice" *ngIf="type == 'local_cache'">
+      <div
+        class="title"
+        [attr.svg_filter]="'text_secondary'"
+        style="color: rgba(255, 255, 255, 0.34)"
+      >
+        {{ "缓存" | translate }}
+      </div>
     </div>
-    <div class="choice" *ngIf="type=='history'">
-      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'历史记录' | translate}}</div>
+    <div class="choice" *ngIf="type == 'temporary_data'">
+      <div
+        class="title"
+        [attr.svg_filter]="'text_secondary'"
+        style="color: rgba(255, 255, 255, 0.34)"
+      >
+        {{ "临时数据" | translate }}
+      </div>
     </div>
-    <div class="choice" *ngIf="type=='temporary_file'">
-      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'全部漫画' | translate}}</div>
+    <div class="choice" *ngIf="type == 'history'">
+      <div
+        class="title"
+        [attr.svg_filter]="'text_secondary'"
+        style="color: rgba(255, 255, 255, 0.34)"
+      >
+        {{ "历史记录" | translate }}
+      </div>
     </div>
-    <div class="choice" *ngIf="type=='url_to_list'">
-      <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{ url| translate}}</div>
+    <div class="choice" *ngIf="type == 'temporary_file'">
+      <div
+        class="title"
+        [attr.svg_filter]="'text_secondary'"
+        style="color: rgba(255, 255, 255, 0.34)"
+      >
+        {{ "全部漫画" | translate }}
+      </div>
     </div>
-
-
+    <div class="choice" *ngIf="type == 'url_to_list'">
+      <div
+        class="title"
+        [attr.svg_filter]="'text_secondary'"
+        style="color: rgba(255, 255, 255, 0.34)"
+      >
+        {{ url | translate }}
+      </div>
+    </div>
   </div>
 
-   <context-menu-edit style="margin: 12px 22px 0;"  *ngIf="data.is_edit"  [context_menu_key]="'comics_item'" [list]="list" (close)="closeEdit()"></context-menu-edit>
-  <div class="warp">
-    <div class="grid"  #listbox [attr.size]="'middle'" [attr.type]="'list'" [attr.id]="'comics_list'" (click)="on_list($event)">
+  <context-menu-edit
+    style="margin: 12px 22px 0"
+    *ngIf="data.is_edit"
+    [context_menu_key]="'comics_item'"
+    [list]="list"
+    (close)="closeEdit()"
+  ></context-menu-edit>
+  <div class="warp" style="display: flex">
+    <app-advanced-search
+      *ngIf="type == 'advanced_search'"
+    ></app-advanced-search>
+    <div
+      class="grid"
+      #listbox
+      [attr.size]="'middle'"
+      [attr.type]="'list'"
+      [attr.id]="'comics_list'"
+      (click)="on_list($event)"
+    >
       <button
         class="item"
         mat-button
-        *ngFor="let n of list;let index=index"
+        *ngFor="let n of list; let index = index"
         [attr._id]="n.id"
         [attr.index]="index"
         [attr.region]="'comics_item'"
-        [attr.default]="n.id==data.currend_read_comics_id"
-        [attr.select]="n.id==data.currend_read_comics_id"
+        [attr.default]="n.id == data.currend_read_comics_id"
+        [attr.select]="n.id == data.currend_read_comics_id"
         [matTooltipShowDelay]="1000"
         [matTooltip]="n.title"
         [attr.content_menu_key]="'comics_item'"
         [attr.content_menu_value]="n.id"
-        [attr.multiple]="n.selected">
+        [attr.multiple]="n.selected"
+      >
         <div class="img">
-          <app-image class="_image" [width]="720" [height]="960" [src]="n.cover" style="position: absolute;" />
+          <app-image
+            class="_image"
+            [width]="720"
+            [height]="960"
+            [src]="n.cover"
+            style="position: absolute"
+          />
           <div class="mezzanine"></div>
         </div>
-        <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
-        <div class="progress" [attr.router_reader]="true" [attr.svg_filter]="'text_secondary'">{{n.subTitle}}</div>
-        <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="data.is_edit" [(ngModel)]="n.selected"></mat-checkbox>
+        <div
+          class="name"
+          [attr.router_reader]="true"
+          [attr.svg_filter]="'text_primary'"
+        >
+          {{ n.title }}
+        </div>
+        <div
+          class="progress"
+          [attr.router_reader]="true"
+          [attr.svg_filter]="'text_secondary'"
+        >
+          {{ n.subTitle }}
+        </div>
+        <mat-checkbox
+          class="checkbox"
+          [color]="'primary'"
+          *ngIf="data.is_edit"
+          [(ngModel)]="n.selected"
+        ></mat-checkbox>
       </button>
     </div>
   </div>
-
 </div>

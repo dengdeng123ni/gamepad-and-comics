@@ -13,7 +13,7 @@ interface Events {
   Search?: Function;
   getReplies?: Function;
   UrlToList?: Function;
-  UrlToDetailId?:Function;
+  UrlToDetailId?: Function;
 }
 interface Config {
   id: string,
@@ -64,9 +64,14 @@ export class DbEventService {
             icon: 'search',
             name: '搜索',
             query: {
-              type: 'search',
-              page_size: 20
-            }
+              type: 'advanced_search',
+              page_size: 20,
+              conditions: [
+
+
+              ]
+            },
+
           },
           {
             id: 'type',
@@ -75,7 +80,7 @@ export class DbEventService {
             query: {
               type: 'multipy',
               page_size: 20,
-              list: [
+              conditions: [
                 {
                   "key": "styles",
                   "name": "题材",
@@ -281,7 +286,7 @@ export class DbEventService {
             page_size: 20,
             query: {
               type: 'choice',
-              list: [
+              conditions: [
                 {
                   id: 7,
                   type: 0,
@@ -341,7 +346,7 @@ export class DbEventService {
             query: {
               type: 'choice',
               name: '我的追漫',
-              list: [
+              conditions: [
                 {
                   order: 1,
                   name: "追漫顺序",
@@ -725,7 +730,7 @@ export class DbEventService {
       });
       window._gh_comics_register({
         id: "hanime1",
-        href:"https://hanime1.me/comics",
+        href: "https://hanime1.me/comics",
         is_cache: true,
         is_download: true,
         is_preloading: true,
@@ -739,6 +744,7 @@ export class DbEventService {
               page_size: 30
             }
           },
+
           {
             id: 'latestUpload',
             icon: 'fiber_new',
@@ -827,7 +833,7 @@ export class DbEventService {
             }
             obj.author = [{ name: nodes1[0].textContent, href: nodes1[0].parentNode.href }];
           }
-console.log(obj);
+          console.log(obj);
 
           obj.chapters.push({
             id: utf8_to_b64(`https://hanime1.me/comic/${obj.id}/1`),
@@ -947,11 +953,340 @@ console.log(obj);
       window._gh_comics_register({
         id: "ehentai",
         name: "ehentai",
-        href:"https://e-hentai.org/",
+        href: "https://e-hentai.org/",
         is_cache: true,
         is_download: true,
-        is_preloading: true
+        menu: [
+          {
+            id: 'advanced_search',
+            icon: 'search',
+            name: '搜索',
+            query: {
+              type: 'advanced_search',
+              conditions: [
+                {
+                  "id": "f_search",
+                  "label": "关键字",
+                  "type": "search"
+                },
+                {
+                  "id": "f_cats",
+                  "label": "类别",
+                  "type": "select",
+                  "options": [
+                    {
+                      "label": "同人志",
+                      "value": "Doujinshi"
+                    },
+                    {
+                      "label": "漫画",
+                      "value": "Manga"
+                    },
+                    {
+                      "label": "艺术家 CG",
+                      "value": "Artist CG"
+                    },
+                    {
+                      "label": "游戏 CG",
+                      "value": "Game CG"
+                    },
+                    {
+                      "label": "西方",
+                      "value": "Western"
+                    },
+                    {
+                      "label": "非 H",
+                      "value": "Non-H"
+                    },
+                    {
+                      "label": "图像集",
+                      "value": "Image Set"
+                    },
+                    {
+                      "label": "角色扮演",
+                      "value": "Cosplay"
+                    },
+                    {
+                      "label": "亚洲色情",
+                      "value": "Asian Porn"
+                    },
+                    {
+                      "label": "杂项",
+                      "value": "Misc"
+                    }
+                  ]
+                },
+                {
+                  "id": "f_sh",
+                  "label": "浏览已删除画廊",
+                  "type": "select",
+                  "options": [
+                    { "label": "是", "value": true }
+                  ]
+                },
+                {
+                  "id": "f_spf",
+                  "label": "最小页数",
+                  "type": "number"
+                },
+                {
+                  "id": "f_spt",
+                  "label": "最大页数",
+                  "type": "number"
+                },
+                {
+                  "id": "f_srddf_srdd",
+                  "label": "最低评分",
+                  "type": "select",
+                  "options": [
+                    { "label": "1", "value": 1 },
+                    { "label": "2", "value": 2 },
+                    { "label": "3", "value": 3 },
+                    { "label": "4", "value": 4 },
+                    { "label": "5", "value": 5 }
+                  ]
+                },
+                {
+                  "id": "language",
+                  "label": "语言",
+                  "type": "select",
+                  "options": [
+                    { "label": "中文", "value": "chinese" }
+                  ]
+                }
+              ]
+            },
+          },
+          {
+            id: 'latest',
+            icon: 'fiber_new',
+            name: '最新',
+            query: {
+              type: 'single',
+              name: '最新'
+            }
+          },
+          {
+            id: 'popular',
+            icon: 'local_fire_department',
+            name: '热门',
+            query: {
+              type: 'single',
+              name: '热门'
+            }
+          },
+          {
+            id: 'sort',
+            icon: 'sort',
+            name: '排行榜',
+            query: {
+              type: 'choice',
+              name: '排行榜',
+              conditions: [
+                {
+                  order: 4,
+                  name: "日"
+                },
+                {
+                  order: 3,
+                  name: "月"
+                },
+                {
+                  order: 2,
+                  name: "年"
+                },
+                {
+                  order: 1,
+                  name: "总"
+                },
+              ]
+            }
+          },
+          {
+            id: 'favorite',
+            icon: 'favorite',
+            name: '收藏',
+            query: {
+              type: 'single',
+              name: '收藏',
+            }
+          },
+        ]
       }, {
+        getList: async (obj) => {
+          console.log(obj);
+
+          if (obj.menu_id == "popular") {
+            const res = await window._gh_fetch("https://e-hentai.org/popular", {
+              "headers": {
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "content-type": "application/json;charset=UTF-8"
+              },
+              "body": null,
+              "method": "GET"
+            });
+            const text = await res.text();
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(text, 'text/html');
+            const nodes = doc.querySelectorAll(".gltc tr");
+
+            let list = [];
+            for (let index = 1; index < nodes.length; index++) {
+              const x = nodes[index];
+              let obj = {}
+              const src = x.querySelector(".glthumb img").getAttribute("src");
+              obj["cover"] = src;
+              if(obj["cover"].substring(0,4)!="http"){
+                const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                obj["cover"] = datasrc;
+              }
+              const title = x.querySelector(".glname .glink").textContent.trim();
+              obj["title"] = title;
+              const id = x.querySelector(".glname a").href
+              obj["id"] = window.btoa(encodeURIComponent(id));
+              const subTitle = x.querySelector(".gl1c").textContent
+              obj["subTitle"] = subTitle;
+              list.push(obj)
+            }
+            return list
+          } else if (obj.menu_id == "latest") {
+            if (obj.page_num == 1) {
+              const res = await window._gh_fetch("https://e-hentai.org/", {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".gltc tr");
+              console.log(doc);
+              let list = [];
+              for (let index = 1; index < nodes.length; index++) {
+                const x = nodes[index];
+                let obj = {}
+                const src = x.querySelector(".glthumb img").getAttribute("src");
+                obj["cover"] = src;
+                if(obj["cover"].substring(0,4)!="http"){
+                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                  obj["cover"] = datasrc;
+                }
+                const title = x.querySelector(".glname .glink").textContent.trim();
+                obj["title"] = title;
+                const id = x.querySelector(".glname a").href
+                obj["id"] = window.btoa(encodeURIComponent(id));
+                const subTitle = x.querySelector(".gl1c").textContent
+                obj["subTitle"] = subTitle;
+                list.push(obj)
+              }
+              return list
+            } else {
+              const get = async () => {
+                const res = await window._gh_fetch("https://e-hentai.org/", {
+                  "headers": {
+                    "accept": "application/json, text/plain, */*",
+                    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                    "content-type": "application/json;charset=UTF-8"
+                  },
+                  "body": null,
+                  "method": "GET"
+                });
+                const text = await res.text();
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(text, 'text/html');
+                return parseInt(doc.querySelector("#unext").getAttribute("href").split("=")[1])
+              }
+              const aaa = await get();
+
+              const res = await window._gh_fetch(`https://e-hentai.org/?next=${(aaa - ((obj.page_num - 2) * 25))}`, {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".gltc tr");
+              let list = [];
+              for (let index = 1; index < nodes.length; index++) {
+                const x = nodes[index];
+                let obj = {}
+                const src = x.querySelector(".glthumb img").getAttribute("src");
+                obj["cover"] = src;
+                if(obj["cover"].substring(0,4)!="http"){
+                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                  obj["cover"] = datasrc;
+                }
+                const title = x.querySelector(".glname .glink").textContent.trim();
+                obj["title"] = title;
+                const id = x.querySelector(".glname a").href
+                obj["id"] = window.btoa(encodeURIComponent(id));
+                const subTitle = x.querySelector(".gl1c").textContent
+                obj["subTitle"] = subTitle;
+                list.push(obj)
+              }
+              return list
+            }
+
+          } else if (obj.menu_id == "sort") {
+            let tl;
+            if (obj.order == 4)  tl = 15;
+            if (obj.order == 3)  tl = 13;
+            if (obj.order == 2)  tl = 12;
+            if (obj.order == 1)  tl = 11;
+
+            const res = await window._gh_fetch(`https://e-hentai.org/toplist.php?tl=${tl}&p=${obj.page_num - 1}`, {
+              "headers": {
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "content-type": "application/json;charset=UTF-8"
+              },
+              "body": null,
+              "method": "GET"
+            });
+            const text = await res.text();
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(text, 'text/html');
+            const nodes = doc.querySelectorAll(".gltc tr");
+
+            let list = [];
+            for (let index = 1; index < nodes.length; index++) {
+              const x = nodes[index];
+              let obj = {}
+              const src = x.querySelector(".glthumb img").getAttribute("src");
+              obj["cover"] = src;
+              if(obj["cover"].substring(0,4)!="http"){
+                const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                obj["cover"] = datasrc;
+              }
+              const title = x.querySelector(".glname .glink").textContent.trim();
+              obj["title"] = title;
+              const id = x.querySelector(".glname a").href
+              obj["id"] = window.btoa(encodeURIComponent(id));
+              const subTitle = x.querySelector(".gl1c").textContent
+              obj["subTitle"] = subTitle;
+              list.push(obj)
+            }
+            console.log(JSON.parse(JSON.stringify(list)));
+
+            return list
+          }
+
+
+
+          console.log(obj);
+
+          return []
+        },
         getDetail: async (id) => {
           const b64_to_utf8 = (str) => {
             return decodeURIComponent(window.atob(str));
@@ -973,7 +1308,7 @@ console.log(obj);
             id: id,
             cover: "",
             title: "",
-            href:b64_to_utf8(id),
+            href: b64_to_utf8(id),
             author: "",
             intro: "",
             chapters: [
@@ -1011,8 +1346,12 @@ console.log(obj);
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
           let nodes = doc.querySelectorAll(".ptt a");
-
-          let arr = nodes[nodes.length - 2].href.split("/?p=");
+          let arr;
+          if (nodes.length == 1) {
+            arr = [nodes[nodes.length - 1].href, 0];
+          } else {
+            arr = nodes[nodes.length - 2].href.split("/?p=");
+          }
           let length = parseInt(arr[1])
           let data1 = [];
           data1.push(arr[0])
@@ -1127,7 +1466,7 @@ console.log(obj);
       });
       window._gh_comics_register({
         id: "baozimhw",
-        href:"https://www.baozimhw.com/",
+        href: "https://www.baozimhw.com/",
         is_cache: true,
         is_download: true
       }, {
@@ -1409,7 +1748,7 @@ console.log(obj);
       });
       window._gh_comics_register({
         id: "nhentai_xxx",
-        href:"https://nhentai.xxx/",
+        href: "https://nhentai.xxx/",
         is_cache: true,
         is_download: true,
         is_preloading: true,
@@ -1497,7 +1836,7 @@ console.log(obj);
       });
       window._gh_comics_register({
         id: "yabai",
-        href:"https://yabai.si/g",
+        href: "https://yabai.si/g",
         is_cache: true,
         is_download: true,
         is_preloading: true,
@@ -1623,7 +1962,7 @@ console.log(obj);
             cover: "",
             title: "",
             author: "",
-            href:decodeURIComponent(window.atob(novel_id)),
+            href: decodeURIComponent(window.atob(novel_id)),
             intro: "",
             category: "",
             chapters: [
@@ -1755,7 +2094,7 @@ console.log(obj);
             title: "",
             author: "",
             intro: "",
-            href:decodeURIComponent(window.atob(novel_id)),
+            href: decodeURIComponent(window.atob(novel_id)),
             category: "",
             chapters: [
 

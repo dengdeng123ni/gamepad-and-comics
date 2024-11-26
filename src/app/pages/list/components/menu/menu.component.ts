@@ -150,6 +150,10 @@ export class MenuComponent {
                 if (j122.query.type == "single") {
                   this.router.navigate(['/query', 'single', x, j122.id]);
                 }
+                if (j122.query.type == "advanced_search") {
+                  this.router.navigate(['/query', 'advanced_search', x, j122.id]);
+                }
+
               }
             }
             obj.submenu.push(obj1)
