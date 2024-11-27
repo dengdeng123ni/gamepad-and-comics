@@ -132,7 +132,7 @@ export class AppComponent {
     private translate: TranslateService,
     public webDb: NgxIndexedDBService,
     public DbEvent: DbEventService,
-    public I18n:I18nService,
+    public I18n: I18nService,
     public App: AppDataService
   ) {
 
@@ -176,6 +176,9 @@ export class AppComponent {
     this.init();
 
   }
+
+
+
   ngOnDestroy() {
     this.keydown.unsubscribe();
   }
@@ -219,17 +222,16 @@ export class AppComponent {
     if (arr && arr.length) {
       this.translate.setDefaultLang('zh');
       this.translate.use('zh');
-      document.body.setAttribute('language','zh')
-    }else{
+      document.body.setAttribute('language', 'zh')
+    } else {
       this.translate.addLangs(['zh', 'en']);
       this.translate.setDefaultLang('en');
       this.translate.use('en');
       const 手柄与漫画 = await this.I18n.getTranslatedText('手柄与漫画')
-      document.title=手柄与漫画;
-      document.body.setAttribute('language','en')
+      document.title = 手柄与漫画;
+      document.body.setAttribute('language', 'en')
     }
 
-    console.log( document.title);
 
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();

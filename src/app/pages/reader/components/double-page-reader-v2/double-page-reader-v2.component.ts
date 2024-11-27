@@ -481,8 +481,10 @@ export class DoublePageReaderV2Component {
 
 
   isWideImage = async (primary: any, secondary: any) => {
+    await Promise.all([this.current._getImage(primary?.src), this.current._getImage(secondary?.src)]);
     if (primary) primary.src = await this.current._getImage(primary.src)
     if (secondary) secondary.src = await this.current._getImage(secondary.src)
+
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
     if (primary && imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
     if (secondary && imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"

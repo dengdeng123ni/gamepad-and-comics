@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener(
       sendMessageToTargetContentScript(request, request.proxy_response_website_url)
     } else if (request.type == "pulg_proxy_request") {
       if (request.http.option.body) request.http.option.body = await stringToReadStream(request.http.option.body);
-      const rsponse = await fetch(request.http.url, request.http.option)
+      const rsponse = await fetchWithTimeoutAndRace(request.http.url, request.http.option)
       const data = await readStreamToString(rsponse.body)
       let headers = [];
       rsponse.headers.forEach(function (value, name) { headers.push({ value, name }) });
@@ -54,6 +54,22 @@ chrome.runtime.onMessage.addListener(
 
   }
 );
+
+
+async function fetchWithTimeoutAndRace(url, options = {} ) {
+  try {
+    try {
+      const requestPromise = await fetch(url, options);
+      return requestPromise;
+    } catch (error) {
+      const requestPromise = await fetch(url, options);
+      return requestPromise
+    }
+  } catch (error) {
+    return null
+  }
+}
+
 
 async function stringToReadStream(string) {
   const readableStream = new ReadableStream({
@@ -244,12 +260,12 @@ sleep = (duration) => {
 }
 
 const init = () => {
-  clearTabs();
+  // clearTabs();
 }
 
 const clearTabs = () => {
   setTimeout(() => {
-    const INACTIVITY_LIMIT = 5*60*1000
+    const INACTIVITY_LIMIT = 5 * 60 * 1000
     chrome.windows.getAll({ populate: false }, (windows) => {
       chrome.tabs.query({}, function (tabs) {
         const now = Date.now();
@@ -265,7 +281,7 @@ const clearTabs = () => {
       })
     });
     clearTabs()
-  },  5*60*1000)
+  }, 5 * 60 * 1000)
 }
 
 const getCurrentTabs = (request) => {
@@ -273,7 +289,7 @@ const getCurrentTabs = (request) => {
 
     chrome.tabs.query({}, function (tabs) {
       const now = Date.now();
-      let arr=[];
+      let arr = [];
       tabs.forEach(x => {
         const index = windows.findIndex(c => c.id == x.windowId);
         x.window = windows[index];
@@ -283,7 +299,7 @@ const getCurrentTabs = (request) => {
       })
       sendMessageToTargetContentScript({
         ...request,
-        data:arr
+        data: arr
       }, request.proxy_response_website_url)
     })
 

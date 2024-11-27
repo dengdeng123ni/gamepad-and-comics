@@ -1603,10 +1603,9 @@ export class DbEventService {
               const blob = await res.blob();
               return blob
             }
-            console.log(_id);
+
 
             const url = await getHtmlUrl(_id)
-console.log(url);
 
             const blob = await getImageUrl(url);
             return blob

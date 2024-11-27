@@ -73,6 +73,10 @@ export class ComicsListV2Component {
   url = ""
 
   is_destroy = false;
+
+  params = {
+    gh_data:""
+  }
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -109,7 +113,16 @@ export class ComicsListV2Component {
 
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {
-      if (this.id) await this.put()
+      this.params = this.getAllParams(window.location.href) as any
+      if (this.params?.gh_data == "reset") {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('gh_data');
+        window.history.pushState({}, '', url);
+      } else {
+        if (this.id) {
+          await this.put()
+        }
+      }
       const type = params.get('id')
       let source = params.get('sid')
       const sid = params.get('pid')
@@ -264,7 +277,9 @@ export class ComicsListV2Component {
       }
 
       const data: any = await this.get(this.id);
-      if (data) {
+      console.log(this.params.gh_data,data&&this.params.gh_data!="gh_data");
+
+      if (data&&this.params.gh_data!="reset") {
 
         data.list.forEach(x => {
           x.selected = false;
@@ -281,7 +296,7 @@ export class ComicsListV2Component {
           this.list = data.list;
         } else if (this.type == "history") {
 
-          this.list = await this.ComicsListV2.Events[this.id].Init({ page_num: 1, page_size: data.list.length });
+          this.list = data.list;
 
         } else if (this.type == "local_cache") {
 
@@ -350,7 +365,12 @@ export class ComicsListV2Component {
     })
 
   }
-   on_135=async (e)=> {
+  getAllParams(url) {
+    const params = new URLSearchParams(url.split('?')[1]);
+    const allParams = Object.fromEntries((params as any).entries());
+    return allParams
+  }
+  on_135 = async (e) => {
     this.query_option = {
       menu_id: this.menu_id,
       ...e,

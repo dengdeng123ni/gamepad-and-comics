@@ -3,6 +3,7 @@ import { AppDataService } from 'src/app/library/public-api';
 import { DbEventService } from './db-event.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
+import CryptoJS from 'crypto-js'
 interface Item { id: string | number, cover: string, title: string, subTitle: string }
 interface Events {
   List: Function;
@@ -31,6 +32,8 @@ export class DbControllerService {
 
   caches!: Cache;
 
+  list_caches!: Cache;
+
   image_url = {};
   constructor(
     private AppData: AppDataService,
@@ -47,6 +50,8 @@ export class DbControllerService {
 
   async init() {
     this.caches = await caches.open('image');
+
+    this.list_caches = await caches.open('list');
   }
 
   getList = async (obj: any, option?: {
@@ -57,33 +62,47 @@ export class DbControllerService {
       if (!option.is_cache) option.is_cache = true;
       if (!option.source) option.source = this.AppData.source;
       const config = this.DbEvent.Configs[option.source]
-      const id = window.btoa(encodeURIComponent(JSON.stringify(obj)))
+      let obn = JSON.parse(JSON.stringify(obj))
+      delete obn['page_size'];
+      const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
       if (this.lists[id] && config.is_cache) {
         return JSON.parse(JSON.stringify(this.lists[id]))
       } else {
         let res;
-
-        if (false) {
-          const obj1 = await firstValueFrom(this.webDb.getByID('list', id)) as any;
-          const millisecondsInOneDay = 12 * 60 * 60 * 1000;
-
-          if (obj1 && (obj1.create_time + millisecondsInOneDay) < new Date().getTime()) {
-            res = obj1.data;
-
-          } else {
+        if (config.is_cache) {
+          const get = async () => {
             const data = await this.DbEvent.Events[option.source]["getList"](obj);
-            firstValueFrom(this.webDb.update('list', JSON.parse(JSON.stringify({
-              id: id,
-              data: data,
-              create_time: new Date().getTime()
-            }))))
+            const response = new Response(new Blob([JSON.stringify(data)], { type: 'application/json' }), {
+              headers: { 'Content-Type': 'application/json', 'Cache-Timestamp': new Date().getTime().toString() }
+            });
+            this.list_caches.put(request, response);
+            return data
+          }
+          const request = new Request(`http://localhost:7700/${option.source}/${id}`);
+          const cachedData = await this.list_caches.match(request);
+          if (cachedData) {
+            const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))
+            const currentTime = Date.now();
+            const cacheDuration = currentTime - cacheTimestamp;
+            if (cacheDuration) {
+              get().then(x=>{
+                this.lists[id] =x;
+              });
+              // console.log('缓存失效');
+            } else {
+              // console.log('缓存有效，返回数据');
+            }
+            const data = await cachedData.json();
+            res = data;
+          } else {
+            const data = await get();
             res = data;
           }
-
         } else {
           const data = await this.DbEvent.Events[option.source]["getList"](obj);
           res = data;
         }
+
         res.forEach(x => {
           this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
           x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
@@ -91,9 +110,6 @@ export class DbControllerService {
         })
 
         this.lists[id] = JSON.parse(JSON.stringify(res));
-
-
-
         return res
       }
     } catch (error) {
@@ -374,10 +390,10 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let  resc = (await firstValueFrom(this.webDb.getByID('pages', chapter_id)) as any)
+                  let resc = (await firstValueFrom(this.webDb.getByID('pages', chapter_id)) as any)
                   if (resc) {
                     resc = resc.data;
-                  }else{
+                  } else {
                     resc = await this.getPages(chapter_id, { source: option.source, is_cache: false, is_update: true })
                   }
 
@@ -394,10 +410,10 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res =  (await firstValueFrom(this.webDb.getByID('details', comics_id)) as any)
+                  let res = (await firstValueFrom(this.webDb.getByID('details', comics_id)) as any)
                   if (res) {
                     res = res.data;
-                  }else{
+                  } else {
                     res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
                   }
                   this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
@@ -415,10 +431,10 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res =  (await firstValueFrom(this.webDb.getByID('details', comics_id)) as any)
+                  let res = (await firstValueFrom(this.webDb.getByID('details', comics_id)) as any)
                   if (res) {
                     res = res.data;
-                  }else{
+                  } else {
                     res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
                   }
                   this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
@@ -460,7 +476,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true  })
+                  let res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
                   this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                   res.chapters.forEach(x => {
                     this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
@@ -476,7 +492,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true  })
+                  let res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
                   this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
                   res.chapters.forEach(x => {
                     this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;

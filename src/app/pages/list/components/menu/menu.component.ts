@@ -168,7 +168,12 @@ export class MenuComponent {
               click: () => {
                 this.menu.current_menu_pid = `${x}`;
                 this.menu.current_menu_id = `${x}_history`
-                this.router.navigate(['query', 'history', x]);
+                this.router.navigate(['query', 'history', x], {
+                  queryParams: {
+                    gh_data:'reset',
+
+                  }
+                });
               }
             }
           )
@@ -200,7 +205,7 @@ export class MenuComponent {
         // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
         // this.data.menu[index].expanded=true;
       }
-      if(this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
+      if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
       this.menu.url_to_list.forEach(x => {
         this.data.menu.push({
           id: x.id,
@@ -212,7 +217,7 @@ export class MenuComponent {
               name: "删除",
               click: async () => {
                 await firstValueFrom(this.webDb.deleteByKey('url_to_list', x.id))
-                this.data.menu=this.data.menu.filter(c => c.id != x.id)
+                this.data.menu = this.data.menu.filter(c => c.id != x.id)
               }
             }
           ],
@@ -373,9 +378,9 @@ export class MenuComponent {
 
           const obj = this.data.menu.find(x => x.id?.toString() == value.toString());
 
-          if(obj.content_menu){
+          if (obj.content_menu) {
             return obj.content_menu
-          }else{
+          } else {
             return [...data, ...obj.submenu]
           }
 
@@ -565,11 +570,21 @@ export class MenuComponent {
   on3fee(e) {
     this.menu.current_menu_pid = `${e.id}`;
     this.menu.current_menu_id = `${e.id}_history`
-if(this.DbEvent.Configs[e.id].type=="comics"){
-  this.router.navigate(['query', 'history', e.id]);
-}else{
-  this.router.navigate(['novel_query', 'history', e.id]);
-}
+    if (this.DbEvent.Configs[e.id].type == "comics") {
+      this.router.navigate(['query', 'history', e.id], {
+        queryParams: {
+          gh_data:'reset',
+
+        }
+      });
+    } else {
+      this.router.navigate(['novel_query', 'history', e.id], {
+        queryParams: {
+          gh_data:'reset',
+
+        }
+      });
+    }
 
 
   }
