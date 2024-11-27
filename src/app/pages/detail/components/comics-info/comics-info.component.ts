@@ -16,15 +16,17 @@ interface Info {
 })
 export class ComicsInfoComponent {
   info = null;
-  @ViewChild('node_continue')  node_continue!: ElementRef;
+  tags=[];
+  @ViewChild('node_continue') node_continue!: ElementRef;
   constructor(
     public current: CurrentService,
     public data: DataService,
     public router: Router,
     public image: ImageService,
-    public RoutingController:RoutingControllerService,
+    public RoutingController: RoutingControllerService,
   ) {
     this.info = this.data.details;
+    // console.log(this.info.tags);
     this.init();
   }
   async init() {
@@ -32,10 +34,11 @@ export class ComicsInfoComponent {
     this.info.width = width;
     this.info.height = height;
   }
-  on(e){
-    if(e?.srcElement?.getAttribute('href')){
-      window.open(e?.srcElement?.getAttribute('href'),'_blank')
-    }else{
+
+  on(e) {
+    if (e?.srcElement?.getAttribute('href')) {
+      window.open(e?.srcElement?.getAttribute('href'), '_blank')
+    } else {
 
     }
   }
@@ -67,7 +70,7 @@ export class ComicsInfoComponent {
     } else {
       const url = await this.image.getImageToLocalUrl(src);
       const loadImage = async (url: string) => {
-        return await  await createImageBitmap(await fetch(url).then((r) => r.blob()))
+        return await await createImageBitmap(await fetch(url).then((r) => r.blob()))
       }
       const img = await loadImage(url.changingThisBreaksApplicationSecurity);
       this.current._setImageHW(id, { width: img.width, height: img.height })

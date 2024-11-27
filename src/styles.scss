@@ -262,6 +262,17 @@ body[pattern=gamepad][locked_region=drop_down_menu]{
   }
 }
 
+body[pattern=gamepad][locked_region=detail]{
+  [region=chapters_text][select=true]{
+    position: relative;
+    color: #c2185b;
+    opacity: 1;
+    &::after {
+
+    }
+  }
+}
+
 
 body[pattern=gamepad][locked_region=content_menu] {
 

@@ -64,6 +64,7 @@ export class DbControllerService {
       const config = this.DbEvent.Configs[option.source]
       let obn = JSON.parse(JSON.stringify(obj))
       delete obn['page_size'];
+
       const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
       if (this.lists[id] && config.is_cache) {
         return JSON.parse(JSON.stringify(this.lists[id]))

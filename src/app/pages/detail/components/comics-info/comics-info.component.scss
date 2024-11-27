@@ -74,16 +74,22 @@
     .author {
       margin-bottom: 12px;
       color: rgba(232, 230, 227, 0.56);
+      display: flex;
+      flex-wrap: wrap;
     }
 
     .intro {
       color: rgba(255, 255, 255, .56);
       overflow: auto;
       max-height: 180px;
+      display: flex;
+      flex-wrap: wrap;
     }
     .styles{
      color: rgba(232, 230, 227, 0.34);
       margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
     }
     .button {
       position: absolute;

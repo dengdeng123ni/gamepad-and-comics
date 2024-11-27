@@ -1,20 +1,24 @@
-await (async function () {
-  const nodes=document.querySelectorAll(".gltc tr");
-  let list=[];
-  for (let index = 1; index < nodes.length; index++) {
-    const x = nodes[index];
-    let obj={}
-
-    const src=x.querySelector(".glthumb img").getAttribute("data-src");
-    obj["cover"]=src;
-    const title=x.querySelector(".glname").textContent.trim();
-    obj["title"]=title;
-    const id=x.querySelector(".glname a").href
-    obj["id"]=window.btoa(encodeURIComponent(id));
-    const subTitle=x.querySelector(".gl1c").textContent
-    obj["subTitle"]=subTitle;
-    list.push(obj)
+await(async function () {
+  const nodes = document.querySelectorAll("#taglist tr");
+  let list = [];
+  for (let index = 0; index < nodes.length; index++) {
+    const node = nodes[index];
+    const nodes2 = node.querySelectorAll("a");
+    const category = node.querySelector(".tc").textContent
+    for (let j = 0; j < nodes2.length; j++) {
+      const c = nodes2[j];
+      list.push({
+        category,
+        c: c.textContent,
+        href: c.href
+      })
+    }
   }
   return list
 })()
+
+// category:"",
+// name:"",
+// href:"",
+// id:""
 // title
