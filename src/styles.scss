@@ -204,11 +204,10 @@ body[pattern=gamepad][locked_region=controller_settings],
 body[pattern=gamepad][locked_region=sound_effects],
 body[pattern=gamepad][locked_region=pulg_javascript],
 body[pattern=gamepad][locked_region=dialog],
-body[pattern=gamepad][locked_region=drop_down_menu],
+
 body[pattern=gamepad][locked_region=novels_chapters_list] {
 
   [region=item][select=true],
-  [region=drop_down_menu_item][select=true],
   [region=input][select=true],
   [region=one_page_item][select=true],
   [region=comics_option][select=true],
@@ -252,6 +251,17 @@ body[pattern=gamepad][locked_region=list] {
     }
   }
 }
+
+body[pattern=gamepad][locked_region=drop_down_menu]{
+  [region=drop_down_menu_item][select=true]{
+    position: relative;
+
+    &::after {
+      @extend .default_frame;
+    }
+  }
+}
+
 
 body[pattern=gamepad][locked_region=content_menu] {
 
