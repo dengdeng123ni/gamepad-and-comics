@@ -73,6 +73,7 @@ export class DbControllerService {
         if (config.is_cache) {
           const get = async () => {
             const data = await this.DbEvent.Events[option.source]["getList"](obj);
+            if(data.length==0) return []
             const response = new Response(new Blob([JSON.stringify(data)], { type: 'application/json' }), {
               headers: { 'Content-Type': 'application/json', 'Cache-Timestamp': new Date().getTime().toString() }
             });
