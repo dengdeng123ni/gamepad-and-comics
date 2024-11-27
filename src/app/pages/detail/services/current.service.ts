@@ -61,6 +61,7 @@ export class CurrentService {
 
   async close() {
     this.data.is_init_free = false;
+
   }
 
   async _getWebDbComicsConfig(id: string) {

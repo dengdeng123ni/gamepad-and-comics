@@ -17,11 +17,11 @@ export class DropDownMenuService {
   }> = [];
   index = null;
   constructor(private _sheet: MatBottomSheet, public GamepadEvent: GamepadEventService) {
-    GamepadEvent.registerAreaEvent('one_page_mode1', {
+    GamepadEvent.registerAreaEvent('drop_down_menu_item', {
       B: () => setTimeout(() => this.close())
     })
-    GamepadEvent.registerConfig('one_page_mode1', {
-      region: ['item'],
+    GamepadEvent.registerConfig('drop_down_menu', {
+      region: ['drop_down_menu_item'],
     });
   }
 
@@ -29,9 +29,9 @@ export class DropDownMenuService {
     this.list = list;
     if (this.opened == false) {
       const sheetRef = this._sheet.open(DropDownMenuComponent, { autoFocus: true});
-      document.body.setAttribute("locked_region", "one_page_mode1")
+      document.body.setAttribute("locked_region", "drop_down_menu")
       sheetRef.afterDismissed().subscribe(() => {
-        if (document.body.getAttribute("locked_region") == "one_page_mode1" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+        if (document.body.getAttribute("locked_region") == "drop_down_menu" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
       this.opened = true;
