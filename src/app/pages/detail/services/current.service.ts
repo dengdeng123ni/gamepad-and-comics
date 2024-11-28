@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { DbControllerService, HistoryService, PagesItem } from 'src/app/library/public-api';
+import { DbControllerService, HistoryService, PagesItem, RoutingControllerService } from 'src/app/library/public-api';
 import { DataService } from './data.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Subject, firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,9 @@ export class CurrentService {
     public data: DataService,
     public webDb: NgxIndexedDBService,
     public router: Router,
-    public history: HistoryService
+    public history: HistoryService,
+    private _snackBar: MatSnackBar,
+    public RoutingController: RoutingControllerService,
   ) { }
   public init() {
     return this.init$
@@ -28,6 +31,10 @@ export class CurrentService {
     this.data.is_init_free = false;
     this.data.comics_id = comic_id;
     const _res = await Promise.all([this.DbController.getDetail(comic_id, { source: source }), this._getWebDbComicsConfig(comic_id)])
+    if(_res[0]===null){
+      this._snackBar.open('当前数据访问失败,已自动返回页面', '', { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+      this.RoutingController.navigate('list')
+    }
     const res = _res[0];
     this.data.comics_config = _res[1];
     if (this.data.is_local_record) {

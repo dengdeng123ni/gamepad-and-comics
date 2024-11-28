@@ -632,7 +632,6 @@ export class DbEventService {
               }
             }
             const url = await getImageUrl(id);
-            // console.log(id,url);
 
             const res = await window._gh_fetch(url, {
               method: "GET",
@@ -784,7 +783,6 @@ export class DbEventService {
           return data
         },
         getDetail: async (id) => {
-          console.log(id);
 
           const res = await window._gh_get_html(`https://hanime1.me/comic/${id}`, {
             "headers": {
@@ -798,7 +796,6 @@ export class DbEventService {
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
-          console.log(doc);
 
           let obj = {
             id: id,
@@ -844,7 +841,6 @@ export class DbEventService {
           return obj
         },
         getPages: async (id) => {
-          console.log(decodeURIComponent(window.atob(id)));
 
           const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
             `
@@ -1296,6 +1292,7 @@ export class DbEventService {
             if (obj.f_spt) serf['f_spt'] = obj.f_spt;
             const params = new URLSearchParams(serf).toString();
             if (obj.page_num == 1) {
+
               const res = await window._gh_fetch(url + '' + params, {
                 "headers": {
                   "accept": "application/json, text/plain, */*",
@@ -1310,7 +1307,8 @@ export class DbEventService {
               var doc = parser.parseFromString(text, 'text/html');
               if (doc.querySelector("#unext").getAttribute("href")) {
                 const href = doc.querySelector("#unext").getAttribute("href");
-                window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
+
+                await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
                   href: href,
                   page_num: obj.page_num
                 })
@@ -1337,6 +1335,7 @@ export class DbEventService {
               return list
             } else {
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_${window.btoa(params)}`)
+
               if (obj22) {
                 const res = await window._gh_fetch(obj22.href, {
                   "headers": {
@@ -1350,9 +1349,11 @@ export class DbEventService {
                 const text = await res.text();
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(text, 'text/html');
+
                 if (doc.querySelector("#unext").getAttribute("href")) {
                   const href = doc.querySelector("#unext").getAttribute("href");
-                  window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
+
+                 await  window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
                     href: href,
                     page_num: obj.page_num
                   })
@@ -1451,9 +1452,9 @@ export class DbEventService {
             "method": "GET"
           });
           const text = await res.text();
+
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
-
           let obj = {
             id: id,
             cover: "",
@@ -1464,12 +1465,7 @@ export class DbEventService {
             chapters: [
 
             ],
-            chapter_id: id,
-            tags: [
-              {
-
-              }
-            ]
+            chapter_id: id
           }
           const utf8_to_b64 = (str) => {
             return window.btoa(encodeURIComponent(str));
@@ -1535,27 +1531,32 @@ export class DbEventService {
             data1.push(`${arr[0]}/?p=${index + 1}`)
           }
           let arr2 = [];
+          for (let i = 0; i < data1.length; i += 6) {
+            const batch = data1.slice(i, i + 6);
+            const pagesPromises = batch.map(x =>
+               window._gh_fetch(x, {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              })
+            );
+            const res = await Promise.all(pagesPromises);
+            for (let index = 0; index < res.length; index++) {
+              const element = res[index];
+              const text = await element.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll("#gdt a")
 
-          for (let index = 0; index < data1.length; index++) {
-            const res = await window._gh_fetch(data1[index], {
-              "headers": {
-                "accept": "application/json, text/plain, */*",
-                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                "content-type": "application/json;charset=UTF-8"
-              },
-              "body": null,
-              "method": "GET"
-            });
-            const text = await res.text();
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(text, 'text/html');
-            const nodes = doc.querySelectorAll("#gdt a")
-
-            for (let index = 0; index < nodes.length; index++) {
-              const element = nodes[index];
-              arr2.push(element.href)
+              for (let index = 0; index < nodes.length; index++) {
+                const element = nodes[index];
+                arr2.push(element.href)
+              }
             }
-
           }
 
           let data = [];
@@ -2090,7 +2091,6 @@ export class DbEventService {
   }
   return arr
 })()`)
-          console.log(arr);
 
 
           return arr
@@ -2194,7 +2194,6 @@ export class DbEventService {
   return arr
 })()
         `)
-          console.log(arr);
 
           return arr
         },
@@ -2455,9 +2454,10 @@ export class DbEventService {
     else return null
   }
   set_data = async (key: string, data: any) => {
-    return await firstValueFrom(this.webDb.update('data_v2', {
+    const res= await firstValueFrom(this.webDb.update('data_v2', {
       id: key,
       data: data
     }))
+    return res
   }
 }

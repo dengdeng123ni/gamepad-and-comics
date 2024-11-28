@@ -349,7 +349,7 @@ export class DoublePageReaderV2Component {
       setTimeout(() => {
         this.objNextHtml[`${chapter_id}_${index}`]=undefined;
       }, 1000)
-      if (this.swiper.slides.length > 5) {
+      if (this.swiper.slides.length > 5&&this.swiper.activeIndex!=0) {
         this.ccc = true;
         const nodes = this.swiper.slides[this.swiper.slides.length - 1].querySelectorAll("img");
         for (let index = 0; index < nodes.length; index++) {
@@ -401,7 +401,7 @@ export class DoublePageReaderV2Component {
       setTimeout(() => {
         this.objPreviousHtml[`${chapter_id}_${index}`]=undefined;
       }, 1000)
-      if (this.swiper.slides.length > 5) {
+      if (this.swiper.slides.length > 5&&(this.swiper.slides.length-1)!=this.swiper.activeIndex) {
         this.ccc = true;
         const nodes = this.swiper.slides[0].querySelectorAll("img");
         for (let index = 0; index < nodes.length; index++) {

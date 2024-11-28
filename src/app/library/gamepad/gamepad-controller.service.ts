@@ -98,6 +98,12 @@ export class GamepadControllerService {
         this.isGamepadExplanationComponent = !this.isGamepadExplanationComponent;
       }
     })
+    // this.GamepadEvent.registerGlobalEventY({
+    //   "UP": () => this.setCurrentRegionTarget("UP"),
+    //   "DOWN": () => this.setCurrentRegionTarget("DOWN"),
+    //   "RIGHT": () => this.setCurrentRegionTarget("RIGHT"),
+    //   "LEFT": () => this.setCurrentRegionTarget("LEFT")
+    // })
     this.GamepadEvent.registerGlobalEventY({
       LEFT_BUMPER: () => {
         this.setMoveTargetFirst();
@@ -152,6 +158,7 @@ export class GamepadControllerService {
 
   is_when_inputting=false;
   device(input: string) {
+
     let is_11=["LEFT_ANALOG_DOWN",
     "LEFT_ANALOG_RIGHT",
     "RIGHT_ANALOG_DOWN",
@@ -510,8 +517,8 @@ export class GamepadControllerService {
           if (x.intersectionRatio != 1) {
             const funs = {
               "UP": () => element.scrollIntoView({ behavior: "smooth", block: "start" }),
-              "LEFT": () => element.scrollIntoView({ behavior: "smooth", block: "start" }),
-              "RIGHT": () => element.scrollIntoView({ behavior: "smooth", block: "end" }),
+              "LEFT": () => element.scrollIntoView({ behavior: "smooth"}),
+              "RIGHT": () => element.scrollIntoView({ behavior: "smooth" }),
               "DOWN": () => element.scrollIntoView({ behavior: "smooth", block: "end" })
             }
             funs[direction]();

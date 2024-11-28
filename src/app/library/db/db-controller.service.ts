@@ -59,6 +59,8 @@ export class DbControllerService {
     is_cache?: boolean,
   }): Promise<Array<Item>> => {
     try {
+      console.log(obj);
+
       if (!option.is_cache) option.is_cache = true;
       if (!option.source) option.source = this.AppData.source;
       const config = this.DbEvent.Configs[option.source]
@@ -111,7 +113,7 @@ export class DbControllerService {
           x.option = { source: option.source }
         })
 
-        this.lists[id] = JSON.parse(JSON.stringify(res));
+        if(res&&res.length) this.lists[id] = JSON.parse(JSON.stringify(res));
         return res
       }
     } catch (error) {
