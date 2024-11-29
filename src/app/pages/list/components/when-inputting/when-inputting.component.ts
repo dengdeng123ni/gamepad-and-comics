@@ -14,7 +14,8 @@ export class WhenInputtingComponent {
 
   auto() {
     setTimeout(() => {
-      if (document.activeElement.tagName == "INPUT") {
+      const list=["INPUT","TEXTAREA"]
+      if (list.includes(document.activeElement.tagName)) {
         this.auto();
       } else {
         this.whenInputting.close();

@@ -14,36 +14,31 @@ export class ParamsControllerService {
     public TemporaryDataController: TemporaryDataControllerService
   ) {
 
-    ParamsEvent._register_params_key_type(
-      'comics', async e => {
+    // ParamsEvent._register_params_key_type(
+    //   'comics', async e => {
+    //     const id = await TemporaryDataController.add_comics(e.pages.split(","), {
+    //       title: e.title
+    //     })
+    //     this.RoutingController.routerReader('temporary_data', id)
+    //   })
+    ParamsEvent._register_params(
+      'images', async e => {
       const id = await TemporaryDataController.add_comics(e.pages.split(","), {
         title: e.title
       })
       this.RoutingController.routerReader('temporary_data', id)
     })
-    // ParamsEvent._register_params(
-    //   'comics_file', async e => {
-    //   const id = await TemporaryDataController.add_comics(e.pages.split(","), {
-    //     title: e.title
-    //   })
-    //   this.RoutingController.routerReader('temporary_data', id)
-    // })
 
   }
 
   init() {
     const obj = this.getAllParams(window.location.href)
-    if (obj["type"]) {
-      const c = this.ParamsEvent.params_types[obj["type"]]
-      if (c) c(obj)
-    } else {
-      const keys= Object.keys(obj)
-      for (let index = 0; index < keys.length; index++) {
-        const c = this.ParamsEvent.params[keys[index]]
-        if (c) {
-          c(obj)
-          break;
-        }
+    const keys = Object.keys(obj)
+    for (let index = 0; index < keys.length; index++) {
+      const c = this.ParamsEvent.params[keys[index]]
+      if (c) {
+        c(obj)
+        break;
       }
     }
   }

@@ -546,6 +546,8 @@ export class GamepadControllerService {
       node.querySelector("input").click();
     } else if (type == 'checkbox') {
       node.querySelector("[type=checkbox]").click();
+    }else if(type =="select"){
+      node.querySelector("mat-select").click();
     } else {
       node.click();
     }

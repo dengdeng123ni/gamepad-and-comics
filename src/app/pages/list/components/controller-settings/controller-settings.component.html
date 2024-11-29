@@ -11,7 +11,7 @@
 
     <div style="display: flex;justify-content: space-between;">
       <button mat-button [disabled]="true" (click)="reset()" [attr.svg_filter]="'text_secondary'">{{'语音控制' | translate}}</button>
-      <mat-slide-toggle [attr.region]="'item'"   [attr.select]="false"
+      <mat-slide-toggle style="z-index: 2;" [attr.region]="'item'"   [attr.select]="false"
         [attr.type]="'slide'" [(ngModel)]="GamepadController.is_voice_controller" ></mat-slide-toggle>
     </div>
     <button mat-button [attr.region]="'item'" [attr.default]="true" [attr.select]="true"

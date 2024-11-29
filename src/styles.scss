@@ -261,7 +261,15 @@ body[pattern=gamepad][locked_region=drop_down_menu]{
     }
   }
 }
+body[pattern=gamepad][locked_region=select]{
+  [region=option][select=true]{
+    position: relative;
 
+    &::after {
+      @extend .default_frame;
+    }
+  }
+}
 body[pattern=gamepad][locked_region=detail]{
   [region=chapters_text][select=true]{
     position: relative;
@@ -270,6 +278,37 @@ body[pattern=gamepad][locked_region=detail]{
     &::after {
 
     }
+  }
+}
+
+
+[region=advanced_search_input][select=true]{
+  position: relative;
+
+  &::after {
+    @extend .default_frame;
+  }
+}
+[region=advanced_search_restart][select=true]{
+  position: relative;
+
+  &::after {
+    @extend .default_frame;
+  }
+}
+
+[region=advanced_search_item][select=true]{
+  position: relative;
+
+  &::after {
+    @extend .default_frame;
+  }
+}
+[region=chip_option][select=true]{
+  position: relative;
+
+  &::after {
+    @extend .default_frame;
   }
 }
 
@@ -307,7 +346,9 @@ body[pattern=gamepad][locked_region=content_menu] {
 }
 
 
-
+.mdc-switch__handle::before, .mdc-switch__handle::after{
+  z-index: 10;
+}
 
 html[theme=yeshu] {
   [svg_filter=background_secondary] {

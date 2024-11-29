@@ -6,20 +6,24 @@
     overflow: auto;
     height: calc(100% - 28px);
     border-radius: 4px;
-    ">
+    " id="advanced_search">
   <!-- <div class="title">
     <button mat-button [disabled]="true">高级查询</button>
   </div> -->
-  <div class="title" style="font-size: 16px;margin-bottom: 12px;">
+  <div class="title"
+    style="font-size: 16px;margin-bottom: 12px;display: flex;justify-content: space-between;align-items: center;">
     高级查询
+    <button mat-icon-button class="icon" (click)="restart()" [attr.region]="'advanced_search_restart'">
+      <mat-icon>restart_alt</mat-icon>
+    </button>
   </div>
-  <ng-container  *ngFor="let n of list;let index=index">
+  <ng-container *ngFor="let n of list;let index=index">
     <div class="textarea" *ngIf="n.type=='search'">
-      <mat-form-field>
-        <textarea matInput type="text"  [(ngModel)]="n.value"></textarea>
+      <mat-form-field  [attr.region]="'advanced_search_input'">
+        <textarea matInput type="text" [(ngModel)]="n.value" (focus)="focus()" (blur)="blur()"></textarea>
       </mat-form-field>
       <div style="display: flex;justify-content: right;padding: 8px 0;">
-        <button mat-button (click)="on()">搜索</button>
+        <button mat-button (click)="on()" [attr.region]="'advanced_search_input'">搜索</button>
       </div>
       <mat-divider style="margin: 2px 0;"></mat-divider>
     </div>
@@ -31,7 +35,8 @@
       <mat-chip-listbox [(ngModel)]="n.value">
         <mat-chip-option style="border-radius: 4px;
         width: 100%;    margin: 0;
-        padding: 0;" [value]="item.value" *ngFor="let item of n.options">{{item.label}}</mat-chip-option>
+        padding: 0;" [value]="item.value" [attr.region]="'chip_option'" [attr.type]="'chip'"
+          *ngFor="let item of n.options">{{item.label}}</mat-chip-option>
 
       </mat-chip-listbox>
     </div>
@@ -39,9 +44,10 @@
       <div class="title" style="font-size: 16px;margin: 12px 0;">
         {{n.label}}
       </div>
-      <mat-form-field class="select" style="    width: 100%;">
-        <mat-select [(ngModel)]="n.value">
-          <mat-option [value]="item.value" *ngFor="let item of n.options">{{item.label}}</mat-option>
+      <mat-form-field class="select" style="    width: 100%;" [attr.region]="'advanced_search_item'" [attr.type]="'select'">
+        <mat-select [(ngModel)]="n.value" (openedChange)="openedChange($event)">
+          <mat-option [value]="item.value" *ngFor="let item of n.options;let index=index" [attr.region]="'option'"
+            [attr.select]="index==0">{{item.label}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -49,14 +55,17 @@
       <div class="title" style="font-size: 16px;margin: 12px 0;">
         {{n.label}} {{n.value}}
       </div>
-      <mat-slider style="min-height: 44px;width: calc(100% - 16px);" [min]="n.min" [max]="n.max">
-        <input matSliderThumb [(ngModel)]="n.value" >
-      </mat-slider>
+      <div [attr.region]="'advanced_search_item'">
+        <mat-slider  style="min-height: 44px;width: calc(100% - 16px);z-index: 2;" [min]="n.min"
+          [max]="n.max">
+          <input matSliderThumb [(ngModel)]="n.value">
+        </mat-slider>
+      </div>
     </div>
-    <div *ngIf="n.type=='toggle'">
+    <div *ngIf="n.type=='toggle'" [attr.region]="'advanced_search_item'" [attr.type]="'slide'">
       <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;">
         {{n.label}}
-        <mat-slide-toggle [(ngModel)]="n.value"></mat-slide-toggle>
+        <mat-slide-toggle style="z-index: 2;" [attr.type]="'slide'" [(ngModel)]="n.value"></mat-slide-toggle>
       </div>
     </div>
   </ng-container>

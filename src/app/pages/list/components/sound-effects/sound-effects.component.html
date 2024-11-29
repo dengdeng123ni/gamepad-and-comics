@@ -8,7 +8,7 @@
       <div class="name" [attr.svg_filter]="'text_secondary'">
            {{'操作音效'|translate}}
       </div>
-      <mat-slide-toggle [attr.region]="'item'"
+      <mat-slide-toggle style="z-index: 2;" [attr.region]="'item'"
       [attr.default]="true"
       [attr.select]="true" [attr.type]="'slide'" (toggleChange)="change($event)" [attr.type]="" [(ngModel)]="is"></mat-slide-toggle>
     </div>

@@ -53,14 +53,14 @@
     height: min-content;
     // text-align: left;
     // height: min-content;
-
+    aspect-ratio: 172 / 270;
     .img {
       width: 100%;
       display: flex;
       align-items: end;
       overflow: hidden;
       position: relative;
-      max-height: 200px;
+      // max-height: 200px;
 
       img {
         border-radius: 2px;
@@ -312,9 +312,11 @@
   app-image._image{
     height: 100%;
     width: 100%;
+
     display: contents;
     img{
-      height: 200px;
+      // height: 200px;
+      height: 100%;
       width: 100%;
       object-fit: contain;
       object-position: top;

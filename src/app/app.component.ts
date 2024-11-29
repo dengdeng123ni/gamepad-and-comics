@@ -53,15 +53,16 @@ export class AppComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     let key = "";
-
     if (event.key == "F12") return true
-
+    if (event.key == "Backspace") return true
 
 
     if (event.code == "Space") key = "Space";
     else key = event.key;
     const obj = this.keys.find(x => x == key)
     if (obj) {
+
+
       this.keydown.next(key)
       return false
     } else {
@@ -173,6 +174,7 @@ export class AppComponent {
       }
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
+    GamepadEvent.registerConfig("select", { region: ["option"] })
     this.init();
 
   }

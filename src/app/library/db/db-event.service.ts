@@ -1291,8 +1291,12 @@ export class DbEventService {
             if (obj.f_spf) serf['f_spf'] = obj.f_spf;
             if (obj.f_spt) serf['f_spt'] = obj.f_spt;
             const params = new URLSearchParams(serf).toString();
-            if (obj.page_num == 1) {
+            console.log(
+              params
+            );
 
+            if (obj.page_num == 1) {
+              console.log(url + '' + params);
               const res = await window._gh_fetch(url + '' + params, {
                 "headers": {
                   "accept": "application/json, text/plain, */*",
@@ -1307,6 +1311,7 @@ export class DbEventService {
               var doc = parser.parseFromString(text, 'text/html');
               if (doc.querySelector("#unext").getAttribute("href")) {
                 const href = doc.querySelector("#unext").getAttribute("href");
+
 
                 await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
                   href: href,
