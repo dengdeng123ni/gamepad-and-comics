@@ -1639,9 +1639,58 @@ export class DbEventService {
             return blob
           }
         },
+        UrlToList: async (id) => {
+          console.log(id);
+
+           try {
+            const obj = new URL(id);
+            if (obj.host == "e-hentai.org") {
+              const res = await window._gh_fetch(id, {
+                "headers": {
+                  "accept": "application/json, text/plain, */*",
+                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                  "content-type": "application/json;charset=UTF-8"
+                },
+                "body": null,
+                "method": "GET"
+              });
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              console.log(doc);
+
+              const nodes = doc.querySelectorAll(".gltc tr");
+              let list = [];
+              for (let index = 1; index < nodes.length; index++) {
+                const x = nodes[index];
+                let obj = {}
+                const src = x.querySelector(".glthumb img").getAttribute("src");
+                obj["cover"] = src;
+                if (obj["cover"].substring(0, 4) != "http") {
+                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+                  obj["cover"] = datasrc;
+                }
+                const title = x.querySelector(".glname .glink").textContent.trim();
+                obj["title"] = title;
+                const id = x.querySelector(".glname a").href
+                obj["id"] = window.btoa(encodeURIComponent(id));
+                const subTitle = x.querySelector(".gl1c").textContent
+                obj["subTitle"] = subTitle;
+                list.push(obj)
+              }
+              return list
+            }else{
+              return []
+            }
+
+           } catch (error) {
+            console.log(error);
+
+            return []
+           }
+        },
         UrlToDetailId: async (id) => {
-          const obj = new URL(id);
-          if (obj.host == "e-hentai.org") {
+          if (id.substring(0,22)=="https://e-hentai.org/g") {
             return window.btoa(encodeURIComponent(id))
           } else {
             return null

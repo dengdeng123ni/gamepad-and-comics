@@ -238,6 +238,7 @@ export class AppComponent {
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();
     if (!obj1["noscript"]) await this.pulg.init();
+
     setTimeout(() => {
       if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
       this.is_loading_page = true;
@@ -247,6 +248,7 @@ export class AppComponent {
       setTimeout(() => {
         this.App.init();
         this.ParamsController.init()
+
         this.RoutingController.strRouterReader(obj1["url"]);
         this.get123();
 

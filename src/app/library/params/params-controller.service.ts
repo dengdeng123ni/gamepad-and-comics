@@ -22,11 +22,32 @@ export class ParamsControllerService {
     //     this.RoutingController.routerReader('temporary_data', id)
     //   })
     ParamsEvent._register_params(
-      'images', async e => {
+      'pages', async e => {
       const id = await TemporaryDataController.add_comics(e.pages.split(","), {
         title: e.title
       })
       this.RoutingController.routerReader('temporary_data', id)
+    })
+
+    ParamsEvent._register_params(
+      'load_javascript', async e => {
+
+    })
+
+    ParamsEvent._register_params(
+      'load_js', async e => {
+
+    })
+
+    ParamsEvent._register_params(
+      'loadJs', async e => {
+
+    })
+
+
+    ParamsEvent._register_params(
+      'load_github_javascript', async e => {
+
     })
 
   }
@@ -37,6 +58,8 @@ export class ParamsControllerService {
     for (let index = 0; index < keys.length; index++) {
       const c = this.ParamsEvent.params[keys[index]]
       if (c) {
+        console.log(obj);
+
         c(obj)
         break;
       }

@@ -59,8 +59,6 @@ export class DbControllerService {
     is_cache?: boolean,
   }): Promise<Array<Item>> => {
     try {
-      console.log(obj);
-
       if (!option.is_cache) option.is_cache = true;
       if (!option.source) option.source = this.AppData.source;
       const config = this.DbEvent.Configs[option.source]
@@ -636,12 +634,67 @@ export class DbControllerService {
       return []
     }
   }
-  UrlToList = async (url: string, option?: { source: string }) => {
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"]) {
-      return await this.DbEvent.Events[option.source]["UrlToList"](url);
+  UrlToList = async (url: string, option?: { source: string,is_cache?:boolean }) => {
+    // if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"]) {
+    //   return await this.DbEvent.Events[option.source]["UrlToList"](url);
+    // } else {
+    //   return []
+    // }
+    try {
+    if (!option.is_cache) option.is_cache = true;
+    if (!option.source) option.source = this.AppData.source;
+    const config = this.DbEvent.Configs[option.source]
+
+    if(!(this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"])) return []
+    let obn = JSON.parse(JSON.stringify({url,source:option.source}))
+    const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
+    if (this.lists[id] && config.is_cache) {
+      return JSON.parse(JSON.stringify(this.lists[id]))
     } else {
-      return []
+      let res;
+      if (config.is_cache) {
+        const get = async () => {
+          const data = await this.DbEvent.Events[option.source]["UrlToList"](url);
+          if(data.length==0) return []
+          const response = new Response(new Blob([JSON.stringify(data)], { type: 'application/json' }), {
+            headers: { 'Content-Type': 'application/json', 'Cache-Timestamp': new Date().getTime().toString() }
+          });
+          this.list_caches.put(request, response);
+          return data
+        }
+        const request = new Request(`http://localhost:7700/${option.source}/${id}`);
+        const cachedData = await this.list_caches.match(request);
+        if (cachedData) {
+          const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))
+          const currentTime = Date.now();
+          const cacheDuration = currentTime - cacheTimestamp;
+          if (cacheDuration) {
+            get().then(x=>{
+              this.lists[id] =x;
+            });
+            // console.log('缓存失效');
+          } else {
+            // console.log('缓存有效，返回数据');
+          }
+          const data = await cachedData.json();
+          res = data;
+        } else {
+          const data = await get();
+          res = data;
+        }
+      } else {
+        const data = await this.DbEvent.Events[option.source]["UrlToList"](url);
+        res = data;
+      }
+
+      if(res&&res.length) this.lists[id] = JSON.parse(JSON.stringify(res));
+      return res
     }
+  } catch (error) {
+    console.log(error);
+    return []
+
+  }
   }
   UrlToDetailId = async (url: any, option?: {
     source: string
