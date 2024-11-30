@@ -170,7 +170,7 @@ export class MenuComponent {
                 this.menu.current_menu_id = `${x}_history`
                 this.router.navigate(['query', 'history', x], {
                   queryParams: {
-                    gh_data:'reset',
+                    gh_data: 'reset',
 
                   }
                 });
@@ -219,8 +219,38 @@ export class MenuComponent {
                 await firstValueFrom(this.webDb.deleteByKey('url_to_list', x.id))
                 this.data.menu = this.data.menu.filter(c => c.id != x.id)
               }
-            }
+            },
+
+            {
+              id: "ei39",
+              name: "重命名",
+              click: async () => {
+                const name = prompt("请输入新名称", "");
+                if (name !== null) {
+                  if (name != "") {
+                    const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
+                    obj.name = name
+                    await firstValueFrom(this.webDb.update('url_to_list', obj))
+                    let index = this.data.menu.findIndex(c => c.id == x.id)
+                    this.data.menu[index].name = name;
+                  }
+                } else {
+
+                }
+              }
+            },
+            {
+              id: "data",
+              name: "来源 URL",
+              click: async () => {
+                const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
+                alert(
+                  `${obj.url}`
+                )
+              }
+            },
           ],
+
           click: async (e) => {
             this.router.navigate(['query', 'url_to_list', x.source, x.id]);
           }
@@ -401,8 +431,21 @@ export class MenuComponent {
       })
     ContextMenuEvent.register('menu_item_v2',
       {
+        send: ($event, data) => {
+          const value = $event.getAttribute("content_menu_value")
 
+          const obj = this.data.menu.find(x => x.id?.toString() == value.toString());
+
+          if (obj.content_menu) {
+            return obj.content_menu
+          } else {
+            return [...data, ...obj.submenu]
+          }
+
+        },
         on: async (e: any) => {
+          console.log(e);
+
           e.click(e.value)
         },
         menu: [
@@ -573,14 +616,14 @@ export class MenuComponent {
     if (this.DbEvent.Configs[e.id].type == "comics") {
       this.router.navigate(['query', 'history', e.id], {
         queryParams: {
-          gh_data:'reset',
+          gh_data: 'reset',
 
         }
       });
     } else {
       this.router.navigate(['novel_query', 'history', e.id], {
         queryParams: {
-          gh_data:'reset',
+          gh_data: 'reset',
 
         }
       });

@@ -212,7 +212,8 @@ export class ComicsListV2Component {
         this.id = `${type}_${source}_${sid}`;
         this.key = this.id;
         this.App.setsource(this.source);
-        this.url = decodeURIComponent(window.atob(sid));
+        const obj:any=await firstValueFrom(this.webDb.getByKey('url_to_list',  this.menu_id ))
+        this.url = `${obj.name}`
         ComicsListV2.register({
           id: this.id,
           type: type,

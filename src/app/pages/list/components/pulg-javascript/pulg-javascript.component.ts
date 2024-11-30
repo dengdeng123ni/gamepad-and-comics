@@ -75,6 +75,7 @@ export class PulgJavascriptComponent {
   async on3(e){
     this.type=e.type;
     if(e.type=="github"){
+      this._snackBar.open(`开始访问${e.url}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
        this.list2= await this.getGitHubFile(e.url);
     }
 
