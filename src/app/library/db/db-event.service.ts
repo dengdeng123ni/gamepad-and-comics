@@ -676,13 +676,6 @@ export class DbEventService {
         },
         getReplies: async (obj) => {
           const href = `https://manga.bilibili.com/detail/mc${obj.comics_id}`;
-          await window._gh_new_page(href)
-          const sleep = (duration) => {
-            return new Promise(resolve => {
-              setTimeout(resolve, duration);
-            })
-          }
-          await sleep(2000)
           const arr = await window._gh_execute_eval(href,
             `(async function () {
               const meta = document.createElement('meta');
@@ -2018,13 +2011,6 @@ export class DbEventService {
           return obj
         },
         getPages: async (id) => {
-          await window._gh_new_page(decodeURIComponent(window.atob(id)))
-          const sleep = (duration) => {
-            return new Promise(resolve => {
-              setTimeout(resolve, duration);
-            })
-          }
-          await sleep(1000)
           const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
             `
       (async function () {
@@ -2106,13 +2092,6 @@ export class DbEventService {
           return obj
         },
         getPages: async (id) => {
-          await window._gh_new_page(decodeURIComponent(window.atob(id)))
-          const sleep = (duration) => {
-            return new Promise(resolve => {
-              setTimeout(resolve, duration);
-            })
-          }
-          await sleep(3000)
           const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
             `(async function () {
   const meta = document.createElement('meta');
