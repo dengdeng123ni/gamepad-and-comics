@@ -6,8 +6,8 @@
   -webkit-user-select: none;
   user-select: none;
   height: auto;
-  padding: 0 8px 0 8px;
-  margin: 4px;
+  // padding: 0 8px 0 8px;
+  margin: 8px 0;
   /* padding: 0; */
   min-width: auto;
   margin-top: 5px;
@@ -21,11 +21,13 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  width: 160px;
+  // width: 160px;
   text-align: left;
 }
 .warp{
   margin: 12px;
+  min-width: 540px;
+  height: 540px;
 }
 .item {
   display: flex;

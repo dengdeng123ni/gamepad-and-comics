@@ -63,6 +63,9 @@ window.addEventListener("message", async function (e) {
   if (e.data && e.data.type == "website_response_execute_script") {
     const data = await executeEval(e.data.javascript);
     await chrome.runtime.sendMessage({ id: e.data.id, proxy_response_website_url: e.data.proxy_response_website_url, type: "website_response_execute_script", data: data });
+    setTimeout(()=>{
+      window.close()
+    },300)
   }
 
   if (e.data && e.data.type == "current_tab_close") {

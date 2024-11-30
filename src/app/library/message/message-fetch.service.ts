@@ -23,9 +23,18 @@ export class MessageFetchService {
   async init() {
     this.caches = await caches.open('assets');
   }
-  fetch = async (url: RequestInfo | URL, init: RequestInit, option?: {
+  fetch = async (url: RequestInfo | URL, init?: RequestInit, option?: {
     proxy?: string
   }): Promise<Response> => {
+    if (!init) {
+      init = {
+        "headers": {
+        },
+        "body": null,
+        "method": "GET"
+      }
+    }
+
     const req = new Request(url, init);
     let body = null;
     if (req.body) body = await this.readStreamToString(req.body)
@@ -260,7 +269,7 @@ export class MessageFetchService {
     })).toString().toLowerCase()
 
     window.postMessage({
-      id:id,
+      id: id,
       type: "new_page",
       proxy_response_website_url: window.location.origin,
       proxy_request_website_url: url

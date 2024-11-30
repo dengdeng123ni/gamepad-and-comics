@@ -1640,8 +1640,6 @@ export class DbEventService {
           }
         },
         UrlToList: async (id) => {
-          console.log(id);
-
            try {
             const obj = new URL(id);
             if (obj.host == "e-hentai.org") {

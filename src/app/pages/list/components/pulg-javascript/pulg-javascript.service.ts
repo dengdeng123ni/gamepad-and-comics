@@ -20,6 +20,8 @@ export class PulgJavascriptService {
       region: ['item'],
     });
 
+    // this.open();
+
   }
   open(data?: any) {
     if (this.opened == false) {

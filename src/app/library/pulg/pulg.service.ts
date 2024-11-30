@@ -4,6 +4,8 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { MessageFetchService } from '../public-api';
+
+declare let window: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -94,6 +96,10 @@ export class PulgService {
     const response = new Response(blob);
     const request = new Request(url);
     await this.caches.put(request, response);
+    const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+    this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
+  }
+  async loadBlodJs(blob) {
     const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
   }

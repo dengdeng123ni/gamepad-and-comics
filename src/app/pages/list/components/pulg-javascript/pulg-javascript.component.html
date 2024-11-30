@@ -1,38 +1,77 @@
-<div class="warp">
-  <div class="title" style="display: flex;
-  justify-content: space-between;
-  align-items: center;">
-    <span [attr.svg_filter]="'text_secondary'">{{'全部脚本'|translate}}</span>
-    <button mat-icon-button style="padding: 0;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;" [attr.region]="'item'"
-    [attr.default]="true"
-    [attr.select]="true" (click)="open()" [attr.svg_filter]="'text_secondary'">
-      <mat-icon>help</mat-icon>
-    </button>
+<div style="display: flex;">
+  <div class="code" *ngIf="text" style="background-color: #303030;padding: 12px;overflow: auto;height: 540px;max-width: 540px;">
+    <pre><code class="html">{{text}}</code>
+    </pre>
+    <!-- <div>脚本</div> -->
   </div>
-  <div class="list">
-    <div class="box"  *ngFor="let n of list;let index=index">
-      <button mat-button [attr.svg_filter]="'text_primary'" class="name" style="cursor: pointer;" (click)="on(n)" [attr.region]="'item'">
-        {{n.name}}
-      </button>
-      <button mat-button class="item" style="width: 60px;" [attr.region]="'item'"
-      [attr.select]="false" (click)="del(n.url)">
-        <div class="name" [attr.svg_filter]="'text_primary'">
-           {{'删除'|translate}}
+  <div class="warp">
+    <div class="title" style="
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    overflow: auto;
+    ">
+    <button mat-button *ngFor="let n of bbb" (click)="on3(n)" cdkFocusInitial [attr.svg_filter]="'text_primary'" class="name" style="cursor: pointer;"   [attr.region]="'item'" >
+      {{n.name}}
+    </button>
+    <button mat-button [attr.svg_filter]="'text_primary'" class="name" style="cursor: pointer;" [attr.menu_key]="'pulg_javascript_add'"  [attr.region]="'item'" (click)="onMenu($event)">
+      <mat-icon>add</mat-icon>
+      添加
+    </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="list" *ngIf="type=='load'">
+      <div class="box"  *ngFor="let n of list;let index=index">
+        <div class="left">
+          {{n.name}}
         </div>
-      </button>
+        <div class="right" style="display: flex;">
+          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
+          [attr.select]="false" (click)="preview(n.url)">
+            <div class="name" [attr.svg_filter]="'text_primary'">
+               {{'预览'|translate}}
+            </div>
+          </button>
+          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
+          [attr.select]="false" (click)="del(n.url)">
+            <div class="name" [attr.svg_filter]="'text_primary'">
+               {{'下载'|translate}}
+            </div>
+          </button>
+          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
+          [attr.select]="false" (click)="del(n.url)">
+            <div class="name" [attr.svg_filter]="'text_primary'">
+               {{'删除'|translate}}
+            </div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <div class="list" *ngIf="type=='github'">
+      <div class="box"  *ngFor="let n of list2;let index=index">
+        <div class="left">
+          {{n.name}}
+        </div>
+        <div class="right" style="display: flex;">
+          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
+          [attr.select]="false" (click)="preview(n.download)">
+            <div class="name" [attr.svg_filter]="'text_primary'">
+               {{'预览'|translate}}
+            </div>
+          </button>
+          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
+          [attr.select]="false" (click)="loadJs(n.download,n.name)">
+            <div class="name" [attr.svg_filter]="'text_primary'">
+               {{'加载'|translate}}
+            </div>
+          </button>
+        </div>
+      </div>
+
     </div>
 
   </div>
-  <button mat-button class="item" [attr.region]="'item'"
-  [attr.select]="false" (click)="add()" cdkFocusInitial [attr.svg_filter]="'text_primary'">
-    <mat-icon class="icon"  >add</mat-icon>
-    <div class="name" [attr.svg_filter]="'text_primary'">
-       {{'脚本'|translate}}
-    </div>
-  </button>
+
+
 </div>
