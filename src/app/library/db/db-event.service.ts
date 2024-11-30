@@ -702,9 +702,6 @@ export class DbEventService {
                 obj["date"] = date;
                 arr.push(obj)
               }
-              setTimeout(() => {
-                window.close();
-              }, 500)
               return arr
             })()
             `
@@ -2043,9 +2040,6 @@ export class DbEventService {
   for (let index = 0; index < length; index++) {
      arr.push(c+(index+1)+"."+type)
   }
-  setTimeout(()=>{
-    window.close()
-  },500)
   return arr
 })()
         `)
@@ -2229,9 +2223,6 @@ export class DbEventService {
   for (let index = 0; index < nodes.length; index++) {
     arr.push(nodes[index].getAttribute('data-src'))
   }
-  setTimeout(()=>{
-    window.close()
-  },500)
   return arr
 })()
         `)
