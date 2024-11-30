@@ -282,14 +282,17 @@ body[pattern=gamepad][locked_region=detail]{
 }
 
 
-[region=advanced_search_input][select=true]{
+[region=advanced_search_input][select=true],
+[region=advanced_search_restart][select=true],
+[region=advanced_search_item][select=true]
+{
   position: relative;
 
   &::after {
     @extend .default_frame;
   }
 }
-[region=advanced_search_restart][select=true]{
+[region=about_software_item][select=true]{
   position: relative;
 
   &::after {
@@ -297,13 +300,6 @@ body[pattern=gamepad][locked_region=detail]{
   }
 }
 
-[region=advanced_search_item][select=true]{
-  position: relative;
-
-  &::after {
-    @extend .default_frame;
-  }
-}
 [region=chip_option][select=true]{
   position: relative;
 

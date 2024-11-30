@@ -197,7 +197,7 @@ export class MenuComponent {
         this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })
-      if (['local_cache', 'temporary_file'].includes(this.AppData.source)) {
+      if (['local_cache', 'temporary_file','temporary_data'].includes(this.AppData.source)) {
         this.data.menu_2_obj = this.data.menu_2[0]
 
       } else {
@@ -505,6 +505,7 @@ export class MenuComponent {
     Object.keys(this.DbEvent.Events).forEach(x => {
       if (x == "temporary_file") return
       if (x == "local_cache") return
+      if (x == "temporary_data") return
       let obj = {
         id: x,
         name: this.DbEvent.Configs[x].name

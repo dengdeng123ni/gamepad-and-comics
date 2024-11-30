@@ -8,7 +8,7 @@
       <div class="name" [attr.svg_filter]="'text_secondary'">
         {{'已使用缓存空间' | translate}}{{this.size}}
       </div>
-      <button mat-button (click)="del()" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
     </div>
     <!-- <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
@@ -26,7 +26,7 @@
       <div class="name" [attr.svg_filter]="'text_secondary'">
         {{'强制更新版本' | translate}}
       </div>
-      <button mat-button [attr.svg_filter]="'text_primary'" (click)="update222()"> {{'更新' | translate}}</button>
+      <button mat-button [attr.svg_filter]="'text_primary'" [attr.region]="'about_software_item'" (click)="update222()"> {{'更新' | translate}}</button>
     </div>
     <!-- <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
@@ -38,13 +38,13 @@
       <div class="name" [attr.svg_filter]="'text_secondary'">
         {{'github' | translate}}
       </div>
-      <button mat-button (click)="opeo()" [attr.svg_filter]="'text_primary'"> {{'打开' | translate}}</button>
+      <button mat-button (click)="opeo()" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'"> {{'打开' | translate}}</button>
     </div>
     <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
         {{'赞助作者' | translate}}
       </div>
-      <button mat-button (click)="open2()" [attr.svg_filter]="'text_primary'"> {{'赞助' | translate}}</button>
+      <button mat-button (click)="open2()" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'"> {{'赞助' | translate}}</button>
     </div>
   </div>
 </div>

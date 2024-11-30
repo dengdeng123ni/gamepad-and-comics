@@ -13,11 +13,11 @@ export class AboutSoftwareService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('menu_search', {
+    GamepadEvent.registerAreaEvent('about_software_item', {
       B: () => setTimeout(() => this.close())
     })
-    GamepadEvent.registerConfig('menu_search', {
-      region: ['menu_search_input','menu_search_comics_item'],
+    GamepadEvent.registerConfig('about_software', {
+      region: ['about_software_item'],
     });
   }
   open(config:MatDialogConfig) {
@@ -28,9 +28,9 @@ export class AboutSoftwareService {
         panelClass: "_controller_settings",
         ...config
       });
-      document.body.setAttribute("locked_region", "menu_search")
+      document.body.setAttribute("locked_region", "about_software")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "menu_search" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+        if (document.body.getAttribute("locked_region") == "about_software" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }
