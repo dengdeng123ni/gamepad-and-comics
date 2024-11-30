@@ -260,7 +260,18 @@ sleep = (duration) => {
 }
 
 const init = () => {
-  // clearTabs();
+  // chrome.windows.getAll({ populate: false }, (windows) => {
+  //   chrome.tabs.query({}, function (tabs) {
+  //     const now = Date.now();
+  //     tabs.forEach(x => {
+  //       const index = windows.findIndex(c => c.id == x.windowId);
+  //       x.window = windows[index];
+  //       if (!x.window.focused) {
+  //         chrome.tabs.remove(x.id);
+  //       }
+  //     })
+  //   })
+  // });
 }
 
 const clearTabs = () => {

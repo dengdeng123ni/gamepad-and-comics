@@ -41,7 +41,7 @@ export class MenuSearchComponent {
       }
     });
     this.init();
-    this.WhenInputting.open();
+    // this.WhenInputting.open();
 
     GamepadEvent.registerAreaEvent("menu_search_input", {
       A: e => {
@@ -56,8 +56,13 @@ export class MenuSearchComponent {
 
       },
       B: e => {
-        e.querySelector("input").blur();
-        this.WhenInputting.close();
+
+        if(document.activeElement.tagName=="INPUT"){
+          e.querySelector("input").blur();
+          this.WhenInputting.close();
+        }else{
+          this.MenuSearch.close()
+        }
       }
     })
 
@@ -114,9 +119,8 @@ export class MenuSearchComponent {
   }
 
   ngAfterViewInit(){
-
-   setTimeout(()=>{
-    (document.querySelector("#input_v1c") as any).focus();
-   },200)
+    // setTimeout(()=>{
+    //   (document.querySelector("#input_v1c") as any).focus();
+    //  },200)
   }
 }

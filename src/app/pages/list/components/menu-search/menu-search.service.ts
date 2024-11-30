@@ -14,7 +14,7 @@ export class MenuSearchService {
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('menu_search', {
+    GamepadEvent.registerAreaEvent('menu_search_comics_item', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('menu_search', {

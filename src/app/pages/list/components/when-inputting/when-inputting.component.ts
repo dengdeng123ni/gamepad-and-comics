@@ -20,7 +20,7 @@ export class WhenInputtingComponent {
       } else {
         this.whenInputting.close();
       }
-    }, 1000)
+    }, 600)
 
   }
 

@@ -66,12 +66,8 @@ export class DbEventService {
             icon: 'search',
             name: '搜索',
             query: {
-              type: 'advanced_search',
-              page_size: 20,
-              conditions: [
-
-
-              ]
+              type: 'search',
+              page_size: 20
             },
 
           },
@@ -2216,13 +2212,6 @@ export class DbEventService {
           return obj
         },
         getPages: async (id) => {
-          await window._gh_new_page(decodeURIComponent(window.atob(id)))
-          const sleep = (duration) => {
-            return new Promise(resolve => {
-              setTimeout(resolve, duration);
-            })
-          }
-          await sleep(1000)
           const arr = await window._gh_execute_eval(decodeURIComponent(window.atob(id)),
             `
 (async function() {
