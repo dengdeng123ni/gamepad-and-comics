@@ -75,7 +75,7 @@ export class ComicsListV2Component {
   is_destroy = false;
 
   params = {
-    gh_data:""
+    gh_data: ""
   }
   constructor(
     public data: DataService,
@@ -212,7 +212,7 @@ export class ComicsListV2Component {
         this.id = `${type}_${source}_${sid}`;
         this.key = this.id;
         this.App.setsource(this.source);
-        const obj:any=await firstValueFrom(this.webDb.getByKey('url_to_list',  this.menu_id ))
+        const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', this.menu_id))
         this.url = `${obj.name}`
         ComicsListV2.register({
           id: this.id,
@@ -228,6 +228,34 @@ export class ComicsListV2Component {
             })
           }
         })
+      } else if (type == "query_fixed") {
+        this.menu_id = sid;
+        this.source = source;
+        this.id = `${type}_${source}_${sid}`;
+        this.key = this.id;
+        this.App.setsource(this.source);
+        const obj: any = await firstValueFrom(this.webDb.getByKey('query_fixed', this.menu_id))
+        console.log(obj);
+
+        this.url = `${obj.name}`
+        this.query_option=obj.data;
+
+        ComicsListV2.register({
+          id: this.id,
+          type: type,
+          page_size: 20
+        }, {
+          Add: async (obj) => {
+            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+            return list
+          },
+          Init: async (obj) => {
+            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+            return list
+          }
+        })
+
+
       } else if (type == "temporary_file") {
         this.id = `${sid}`;
         this.key = this.id;
@@ -278,9 +306,9 @@ export class ComicsListV2Component {
       }
 
       const data: any = await this.get(this.id);
-      console.log(this.params.gh_data,data&&this.params.gh_data!="gh_data");
+      console.log(this.params.gh_data, data && this.params.gh_data != "gh_data");
 
-      if (data&&this.params.gh_data!="reset") {
+      if (data && this.params.gh_data != "reset") {
 
         data.list.forEach(x => {
           x.selected = false;
@@ -379,9 +407,32 @@ export class ComicsListV2Component {
     this.page_num = 1;
     this.ListNode.nativeElement.scrollTop = 0;
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
-
-
   }
+  query_fixed = async (e) => {
+    const name = prompt("请输入新名称", "");
+    if (name !== null) {
+      if (name != "") {
+        const obj = {
+          id: new Date().getTime().toString(),
+          name: name,
+          source: this.source,
+          data: {
+            menu_id: this.menu_id,
+            page_num: 1,
+            ...e
+          }
+        }
+        await firstValueFrom(this.webDb.update('query_fixed', obj))
+
+        setTimeout(()=>{
+          this.current._updateMenu()
+        })
+      }
+    } else {
+
+    }
+  }
+
   initc(type, source, menu_id) {
     if (type == "choice") {
 
@@ -512,6 +563,7 @@ export class ComicsListV2Component {
     }
     this.page_num = 1;
     this.ListNode.nativeElement.scrollTop = 0;
+
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
   }
 

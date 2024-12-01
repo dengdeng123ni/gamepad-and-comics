@@ -118,6 +118,15 @@
         {{ url | translate }}
       </div>
     </div>
+    <div class="choice" *ngIf="type == 'query_fixed'">
+      <div
+        class="title"
+        [attr.svg_filter]="'text_secondary'"
+        style="color: rgba(255, 255, 255, 0.34)"
+      >
+        {{ url | translate }}
+      </div>
+    </div>
   </div>
 
   <context-menu-edit
@@ -132,6 +141,8 @@
       *ngIf="type == 'advanced_search'"
       [list]="query.list"
       [change]="on_135"
+      [query_fixed]="query_fixed"
+
     ></app-advanced-search>
     <div
       class="grid"

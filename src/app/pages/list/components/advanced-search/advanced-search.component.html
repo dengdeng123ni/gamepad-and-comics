@@ -13,13 +13,18 @@
   <div class="title"
     style="font-size: 16px;margin-bottom: 12px;display: flex;justify-content: space-between;align-items: center;">
     高级查询
-    <button mat-icon-button class="icon" (click)="restart()" [attr.region]="'advanced_search_restart'">
-      <mat-icon>restart_alt</mat-icon>
-    </button>
+
+    <div> <button mat-icon-button class="icon" (click)="fixed()" [attr.region]="'advanced_search_restart'">
+        <mat-icon>push_pin</mat-icon>
+      </button>
+      <button mat-icon-button class="icon" (click)="restart()" [attr.region]="'advanced_search_restart'">
+        <mat-icon>restart_alt</mat-icon>
+      </button>
+    </div>
   </div>
   <ng-container *ngFor="let n of list;let index=index">
     <div class="textarea" *ngIf="n.type=='search'">
-      <mat-form-field  [attr.region]="'advanced_search_input'">
+      <mat-form-field [attr.region]="'advanced_search_input'">
         <textarea matInput type="text" [(ngModel)]="n.value" (focus)="focus()" (blur)="blur()"></textarea>
       </mat-form-field>
       <div style="display: flex;justify-content: right;padding: 8px 0;">
@@ -44,7 +49,8 @@
       <div class="title" style="font-size: 16px;margin: 12px 0;">
         {{n.label}}
       </div>
-      <mat-form-field class="select" style="    width: 100%;" [attr.region]="'advanced_search_item'" [attr.type]="'select'">
+      <mat-form-field class="select" style="    width: 100%;" [attr.region]="'advanced_search_item'"
+        [attr.type]="'select'">
         <mat-select [(ngModel)]="n.value" (openedChange)="openedChange($event)">
           <mat-option [value]="item.value" *ngFor="let item of n.options;let index=index" [attr.region]="'option'"
             [attr.select]="index==0">{{item.label}}</mat-option>
@@ -56,8 +62,7 @@
         {{n.label}} {{n.value}}
       </div>
       <div [attr.region]="'advanced_search_item'">
-        <mat-slider  style="min-height: 44px;width: calc(100% - 16px);z-index: 2;" [min]="n.min"
-          [max]="n.max">
+        <mat-slider style="min-height: 44px;width: calc(100% - 16px);z-index: 2;" [min]="n.min" [max]="n.max">
           <input matSliderThumb [(ngModel)]="n.value">
         </mat-slider>
       </div>

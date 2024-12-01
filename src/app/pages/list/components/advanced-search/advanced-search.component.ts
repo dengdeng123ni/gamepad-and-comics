@@ -11,6 +11,7 @@ export class AdvancedSearchComponent {
 
   @Input() list: Array<any> = [];
   @Input() change: Function;
+  @Input() query_fixed: Function;
 
   constructor(public GamepadEvent:GamepadEventService,
     public WhenInputting:WhenInputtingService,
@@ -97,6 +98,16 @@ export class AdvancedSearchComponent {
      })
   }
 
+  // radio_button_unchecked
+
+  fixed(){
+    let obj = {};
+    for (let index = 0; index < this.list.length; index++) {
+      const c = this.list[index]
+      if (c.value) obj[c.id] = c.value
+    }
+    this.query_fixed(obj)
+  }
 
   on() {
     let obj = {};

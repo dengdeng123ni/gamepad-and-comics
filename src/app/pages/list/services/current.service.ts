@@ -17,7 +17,11 @@ export class CurrentService {
     public data: DataService
   ) {
   }
+  public updateMenu$ = new Subject<string>();
 
+  public updateMenu() {
+    return this.updateMenu$
+  }
   async routerReader(source,comics_id) {
     this.data.currend_read_comics_id=comics_id;
     this.RoutingController.routerReader(source,comics_id)
@@ -32,6 +36,10 @@ export class CurrentService {
   async routerSourceSearch(source,keywords) {
 
     this.router.navigate(['/search', source, keywords]);
+  }
+
+  async _updateMenu(){
+     this.updateMenu$.next("update")
   }
 
 

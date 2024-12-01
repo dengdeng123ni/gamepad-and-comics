@@ -112,208 +112,14 @@ export class MenuComponent {
       if (event instanceof NavigationEnd) {
       }
     })
+   current.updateMenu().subscribe(async (x)=>{
+    console.log(x);
 
-    if (this.data.menu.length == 0) {
-      Object.keys(this.DbEvent.Events).forEach((x) => {
-        if (x == "temporary_file") return
-        if (x == "local_cache") return
-        if (x == "temporary_data") return
+      await this.menu.get()
+      this.data.menu=[];
+      this.init();
+   })
 
-        let obj = {
-          id: x,
-          icon: "folder_open",
-          name: this.DbEvent.Configs[x].name,
-          submenu: [],
-          expanded: true
-        };
-        if (this.DbEvent.Configs[x].menu) {
-          for (let index = 0; index < this.DbEvent.Configs[x].menu.length; index++) {
-            const j122 = this.DbEvent.Configs[x].menu[index]
-            let obj1 = {
-              ...j122,
-              click: () => {
-                this.menu.current_menu_pid = x ? `${x}` : j122.id;
-                this.menu.current_menu_id = x ? `${x}_${j122.id}` : j122.id;
-                if (x) this.AppData.setsource(x)
-
-
-                if (j122.query.type == "choice") {
-
-                  this.router.navigate(['/query', 'choice', x, j122.id]);
-                }
-                if (j122.query.type == "search") {
-                  this.router.navigate(['/search', x, ""]);
-                }
-                if (j122.query.type == "multipy") {
-                  this.router.navigate(['/query', 'multipy', x, j122.id]);
-                }
-                if (j122.query.type == "single") {
-                  this.router.navigate(['/query', 'single', x, j122.id]);
-                }
-                if (j122.query.type == "advanced_search") {
-                  this.router.navigate(['/query', 'advanced_search', x, j122.id]);
-                }
-
-              }
-            }
-            obj.submenu.push(obj1)
-          }
-        }
-        if (this.DbEvent.Configs[x].type == "comics") {
-          obj.submenu.push(
-            {
-              id: "history",
-              icon: "history",
-              name: "历史记录",
-              click: () => {
-                this.menu.current_menu_pid = `${x}`;
-                this.menu.current_menu_id = `${x}_history`
-                this.router.navigate(['query', 'history', x], {
-                  queryParams: {
-                    gh_data: 'reset',
-
-                  }
-                });
-              }
-            }
-          )
-        } else {
-
-          obj.submenu.push(
-            {
-              id: "history",
-              icon: "history",
-              name: "历史记录",
-              click: () => {
-
-                this.menu.current_menu_pid = `${x}`;
-                this.menu.current_menu_id = `${x}_history`
-                this.router.navigate(['novel_query', 'history', x]);
-              }
-            }
-          )
-        }
-
-        this.data.menu_2.push(obj)
-        this.data.menu.push(obj)
-      })
-      if (['local_cache', 'temporary_file','temporary_data'].includes(this.AppData.source)) {
-        this.data.menu_2_obj = this.data.menu_2[0]
-
-      } else {
-        this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
-        // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
-        // this.data.menu[index].expanded=true;
-      }
-      if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
-      this.menu.url_to_list.forEach(x => {
-        this.data.menu.push({
-          id: x.id,
-          icon: "link",
-          name: x.name,
-          content_menu: [
-            {
-              id: "delete",
-              name: "删除",
-              click: async () => {
-                await firstValueFrom(this.webDb.deleteByKey('url_to_list', x.id))
-                this.data.menu = this.data.menu.filter(c => c.id != x.id)
-              }
-            },
-
-            {
-              id: "ei39",
-              name: "重命名",
-              click: async () => {
-                const name = prompt("请输入新名称", "");
-                if (name !== null) {
-                  if (name != "") {
-                    const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
-                    obj.name = name
-                    await firstValueFrom(this.webDb.update('url_to_list', obj))
-                    let index = this.data.menu.findIndex(c => c.id == x.id)
-                    this.data.menu[index].name = name;
-                  }
-                } else {
-
-                }
-              }
-            },
-            {
-              id: "data",
-              name: "来源 URL",
-              click: async () => {
-                const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
-                alert(
-                  `${obj.url}`
-                )
-              }
-            },
-          ],
-
-          click: async (e) => {
-            this.router.navigate(['query', 'url_to_list', x.source, x.id]);
-          }
-        })
-      })
-
-      this.data.menu.push({ type: 'separator' })
-      this.data.menu.push({
-        id: 'cached',
-        icon: "cached",
-        name: '缓存',
-        click: (e) => {
-          this.AppData.setsource('local_cache')
-          this.router.navigate(['query', 'local_cache']);
-        }
-      })
-
-      this.data.menu.push({
-        id: 'temporary_data',
-        icon: "source",
-        name: '临时数据',
-        click: (e) => {
-          this.AppData.setsource('temporary_data')
-          this.router.navigate(['query', 'temporary_data']);
-        }
-      })
-
-      this.data.menu.push({ type: 'separator' })
-      this.data.menu.push({
-        id: 'add',
-        icon: "add",
-        name: '打开文件夹',
-        click: (e) => {
-          this.openTemporaryFile();
-        }
-      })
-      this.change$ = this.DbEvent.change().subscribe((x: any) => {
-        let obj = {
-          id: x,
-          icon: "home",
-          name: x.name,
-          submenu: [],
-
-        };
-        if (x.menu) {
-          for (let index = 0; index < x.menu.length; index++) {
-            obj.submenu.push(x.menu[index])
-          }
-        }
-        obj.submenu.push(
-          {
-            id: "history",
-            icon: "history",
-            name: "历史记录",
-
-            click: (e) => {
-              this.router.navigate(['query', 'history', e.parent.id]);
-            }
-          }
-        )
-        this.data.menu.push(obj)
-      })
-    }
     ContextMenuEvent.register('_gh_settings',
       {
         on: async (e: any) => {
@@ -475,8 +281,254 @@ export class MenuComponent {
         ]
       })
 
+    this.init();
+
+  }
+  init() {
+    if (this.data.menu.length == 0) {
+      Object.keys(this.DbEvent.Events).forEach((x) => {
+        if (x == "temporary_file") return
+        if (x == "local_cache") return
+        if (x == "temporary_data") return
+
+        let obj = {
+          id: x,
+          icon: "folder_open",
+          name: this.DbEvent.Configs[x].name,
+          submenu: [],
+          expanded: true
+        };
+        if (this.DbEvent.Configs[x].menu) {
+          for (let index = 0; index < this.DbEvent.Configs[x].menu.length; index++) {
+            const j122 = this.DbEvent.Configs[x].menu[index]
+            let obj1 = {
+              ...j122,
+              click: () => {
+                this.menu.current_menu_pid = x ? `${x}` : j122.id;
+                this.menu.current_menu_id = x ? `${x}_${j122.id}` : j122.id;
+                if (x) this.AppData.setsource(x)
 
 
+                if (j122.query.type == "choice") {
+
+                  this.router.navigate(['/query', 'choice', x, j122.id]);
+                }
+                if (j122.query.type == "search") {
+                  this.router.navigate(['/search', x, ""]);
+                }
+                if (j122.query.type == "multipy") {
+                  this.router.navigate(['/query', 'multipy', x, j122.id]);
+                }
+                if (j122.query.type == "single") {
+                  this.router.navigate(['/query', 'single', x, j122.id]);
+                }
+                if (j122.query.type == "advanced_search") {
+                  this.router.navigate(['/query', 'advanced_search', x, j122.id]);
+                }
+
+              }
+            }
+            obj.submenu.push(obj1)
+          }
+        }
+        if (this.DbEvent.Configs[x].type == "comics") {
+          obj.submenu.push(
+            {
+              id: "history",
+              icon: "history",
+              name: "历史记录",
+              click: () => {
+                this.menu.current_menu_pid = `${x}`;
+                this.menu.current_menu_id = `${x}_history`
+                this.router.navigate(['query', 'history', x], {
+                  queryParams: {
+                    gh_data: 'reset',
+
+                  }
+                });
+              }
+            }
+          )
+        } else {
+
+          obj.submenu.push(
+            {
+              id: "history",
+              icon: "history",
+              name: "历史记录",
+              click: () => {
+
+                this.menu.current_menu_pid = `${x}`;
+                this.menu.current_menu_id = `${x}_history`
+                this.router.navigate(['novel_query', 'history', x]);
+              }
+            }
+          )
+        }
+
+        this.data.menu_2.push(obj)
+        this.data.menu.push(obj)
+      })
+      if (['local_cache', 'temporary_file', 'temporary_data'].includes(this.AppData.source)) {
+        this.data.menu_2_obj = this.data.menu_2[0]
+
+      } else {
+        this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
+        // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
+        // this.data.menu[index].expanded=true;
+      }
+      if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
+      this.menu.url_to_list.forEach(x => {
+        this.data.menu.push({
+          id: x.id,
+          icon: "link",
+          name: x.name,
+          content_menu: [
+            {
+              id: "delete",
+              name: "删除",
+              click: async () => {
+                await firstValueFrom(this.webDb.deleteByKey('url_to_list', x.id))
+                this.data.menu = this.data.menu.filter(c => c.id != x.id)
+              }
+            },
+
+            {
+              id: "ei39",
+              name: "重命名",
+              click: async () => {
+                const name = prompt("请输入新名称", "");
+                if (name !== null) {
+                  if (name != "") {
+                    const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
+                    obj.name = name
+                    await firstValueFrom(this.webDb.update('url_to_list', obj))
+                    let index = this.data.menu.findIndex(c => c.id == x.id)
+                    this.data.menu[index].name = name;
+                  }
+                } else {
+
+                }
+              }
+            },
+            {
+              id: "data",
+              name: "来源 URL",
+              click: async () => {
+                const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
+                alert(
+                  `${obj.url}`
+                )
+              }
+            },
+          ],
+
+          click: async (e) => {
+            this.router.navigate(['query', 'url_to_list', x.source, x.id]);
+          }
+        })
+      })
+      if (this.menu.query_fixed.length)this.data.menu.push({ type: 'separator' })
+      this.menu.query_fixed.forEach(x => {
+        this.data.menu.push({
+          id: x.id,
+          icon: "radio_button_unchecked",
+          name: x.name,
+          content_menu: [
+            {
+              id: "delete",
+              name: "删除",
+              click: async () => {
+                await firstValueFrom(this.webDb.deleteByKey('query_fixed', x.id))
+                this.data.menu = this.data.menu.filter(c => c.id != x.id)
+              }
+            },
+
+            {
+              id: "ei39",
+              name: "重命名",
+              click: async () => {
+                const name = prompt("请输入新名称", "");
+                if (name !== null) {
+                  if (name != "") {
+                    const obj: any = await firstValueFrom(this.webDb.getByKey('query_fixed', x.id))
+                    obj.name = name
+                    await firstValueFrom(this.webDb.update('query_fixed', obj))
+                    let index = this.data.menu.findIndex(c => c.id == x.id)
+                    this.data.menu[index].name = name;
+                  }
+                } else {
+
+                }
+              }
+            },
+          ],
+
+          click: async (e) => {
+            this.router.navigate(['query', 'query_fixed', x.source, x.id]);
+          }
+        })
+      })
+
+
+
+      this.data.menu.push({ type: 'separator' })
+      this.data.menu.push({
+        id: 'cached',
+        icon: "cached",
+        name: '缓存',
+        click: (e) => {
+          this.AppData.setsource('local_cache')
+          this.router.navigate(['query', 'local_cache']);
+        }
+      })
+
+      this.data.menu.push({
+        id: 'temporary_data',
+        icon: "source",
+        name: '临时数据',
+        click: (e) => {
+          this.AppData.setsource('temporary_data')
+          this.router.navigate(['query', 'temporary_data']);
+        }
+      })
+
+      this.data.menu.push({ type: 'separator' })
+      this.data.menu.push({
+        id: 'add',
+        icon: "add",
+        name: '打开文件夹',
+        click: (e) => {
+          this.openTemporaryFile();
+        }
+      })
+      this.change$ = this.DbEvent.change().subscribe((x: any) => {
+        let obj = {
+          id: x,
+          icon: "home",
+          name: x.name,
+          submenu: [],
+
+        };
+        if (x.menu) {
+          for (let index = 0; index < x.menu.length; index++) {
+            obj.submenu.push(x.menu[index])
+          }
+        }
+        obj.submenu.push(
+          {
+            id: "history",
+            icon: "history",
+            name: "历史记录",
+
+            click: (e) => {
+              this.router.navigate(['query', 'history', e.parent.id]);
+            }
+          }
+        )
+        this.data.menu.push(obj)
+      })
+    }
   }
   async is_on(e) {
 

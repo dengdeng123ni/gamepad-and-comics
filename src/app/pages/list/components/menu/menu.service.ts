@@ -13,6 +13,7 @@ export class MenuService {
   mode = 'side';
   position: "start" | "end" = 'start';
   url_to_list=[];
+  query_fixed=[];
   current_menu_id=null;
   current_menu_pid=null;
   mode_1=1;
@@ -39,6 +40,8 @@ export class MenuService {
     if (this.opened) this.opened = false;
   }
 
+
+
   async post() {
     return await firstValueFrom(this.webDb.update("data", {
       id: this.key,
@@ -52,6 +55,8 @@ export class MenuService {
 
   async get() {
     this.url_to_list = await firstValueFrom(this.webDb.getAll('url_to_list'))
+    this.query_fixed = await firstValueFrom(this.webDb.getAll('query_fixed'))
+
     const res: any = await firstValueFrom(this.webDb.getByKey("data", this.key))
     if (res) {
       this.opened = res.opened;
