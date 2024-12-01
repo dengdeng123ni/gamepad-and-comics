@@ -136,8 +136,12 @@ export class AppComponent {
     public I18n: I18nService,
     public App: AppDataService
   ) {
-
-
+    const system=this.getOperatingSystem()
+    if(system=="iOS"||system=="macOS"){
+      document.body.setAttribute("is_ios",'true')
+    }else{
+      document.body.setAttribute("is_ios",'false')
+    }
 
     this.keydown.pipe(bufferCount(2)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))
@@ -220,7 +224,23 @@ export class AppComponent {
       setTimeout(resolve, duration);
     })
   }
+  getOperatingSystem(): string {
+    const userAgent = navigator.userAgent.toLowerCase();
 
+    if (userAgent.includes('mac os x')) {
+      return 'macOS';
+    } else if (userAgent.includes('windows nt')) {
+      return 'Windows';
+    } else if (userAgent.includes('linux')) {
+      return 'Linux';
+    } else if (userAgent.includes('android')) {
+      return 'Android';
+    } else if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+      return 'iOS';
+    } else {
+      return 'Unknown';
+    }
+  }
   async init() {
     let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
 

@@ -547,6 +547,7 @@ html[theme=yeshu] {
   max-width: none !important;
 }
 
+body[is_ios=false]{
 
 /* 针对 Webkit 浏览器（如 Chrome 和 Safari） */
 ::-webkit-scrollbar {
@@ -569,4 +570,6 @@ html[theme=yeshu] {
 
 ::-webkit-scrollbar-button {
   display: none;  /* 隐藏滚动条按钮（上下箭头） */
+}
+
 }
