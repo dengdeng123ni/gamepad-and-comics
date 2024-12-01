@@ -17,7 +17,7 @@ export class MessageControllerService {
       const data = event.data;
       window.postMessage(data, '*');
     })
-    navigator.serviceWorker.addEventListener('message', async (event) => {
+    navigator?.serviceWorker?.addEventListener('message', async (event) => {
       // 处理接收到的消息
       const type = event.data.type;
       if (this.MessageEvent.ServiceWorkerEvents[type]) {

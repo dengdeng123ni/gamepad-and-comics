@@ -349,6 +349,7 @@ export class DoublePageReaderV2Component {
       setTimeout(() => {
         this.objNextHtml[`${chapter_id}_${index}`]=undefined;
       }, 1000)
+
       if (this.swiper.slides.length > 10) {
         this.ccc = true;
         const nodes = this.swiper.slides[this.swiper.slides.length - 1].querySelectorAll("img");
@@ -356,7 +357,7 @@ export class DoublePageReaderV2Component {
           const x = nodes[index];
           this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
-        this.swiper.removeSlide((this.swiper.slides.length - 1));
+        this.swiper.removeSlide([(this.swiper.slides.length - 1),(this.swiper.slides.length - 2),(this.swiper.slides.length - 3),(this.swiper.slides.length - 4),(this.swiper.slides.length - 5)]);
         await this.sleep(100);
         this.ccc = false;
       }
@@ -408,7 +409,7 @@ export class DoublePageReaderV2Component {
           const x = nodes[index];
           this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
-        this.swiper.removeSlide(0);
+        this.swiper.removeSlide([0,1,2,3,4]);
         await this.sleep(100);
         this.ccc = false;
       }

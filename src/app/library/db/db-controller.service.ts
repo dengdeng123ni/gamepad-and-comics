@@ -41,6 +41,7 @@ export class DbControllerService {
     private webDb: NgxIndexedDBService,
   ) {
     this.init();
+
     window._gh_comics_get_list = this.getList;
     window._gh_comics_get_detail = this.getDetail;
     window._gh_comics_get_pages = this.getPages;

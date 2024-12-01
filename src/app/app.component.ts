@@ -177,6 +177,9 @@ export class AppComponent {
     GamepadEvent.registerConfig("select", { region: ["option"] })
     this.init();
 
+
+
+
   }
 
 
