@@ -42,3 +42,5 @@ testem.log
 Thumbs.db
 
 /等待删除
+/angular.json
+angular.json

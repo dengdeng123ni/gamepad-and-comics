@@ -546,3 +546,27 @@ html[theme=yeshu] {
 ._read_record {
   max-width: none !important;
 }
+
+
+/* 针对 Webkit 浏览器（如 Chrome 和 Safari） */
+::-webkit-scrollbar {
+  width: 8px;  /* 设置滚动条的宽度 */
+  height: 8px;  /* 设置水平滚动条的高度 */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;  /* 滚动条的轨道，透明 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);  /* 滚动条的滑块 */
+  border-radius: 4px;  /* 圆角效果 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);  /* 当用户鼠标悬停时，滑块变得更明显 */
+}
+
+::-webkit-scrollbar-button {
+  display: none;  /* 隐藏滚动条按钮（上下箭头） */
+}
