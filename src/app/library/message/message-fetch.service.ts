@@ -18,6 +18,7 @@ export class MessageFetchService {
     window._gh_fetch = this.fetch;
     window._gh_get_html = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
+    window.CryptoJS=CryptoJS;
     // window._gh_new_page = this.new_page;
   }
   async init() {

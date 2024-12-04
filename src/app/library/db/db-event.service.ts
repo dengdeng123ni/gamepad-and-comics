@@ -397,7 +397,7 @@ export class DbEventService {
                 "body": JSON.stringify(data),
                 "method": "POST",
                 proxy: "https://manga.bilibili.com/"
-              } );
+              });
             const json = await res.json();
             list = json.data.map((x) => {
               const httpUrlToHttps = (str) => {
@@ -420,8 +420,8 @@ export class DbEventService {
                 },
                 "body": `{\"page_num\":${obj.page_num},\"page_size\":${obj.page_size},\"order\":${obj.order},\"wait_free\":${obj.wait_free}}`,
                 "method": "POST",
-                 proxy: "https://manga.bilibili.com/"
-              } );
+                proxy: "https://manga.bilibili.com/"
+              });
             const json = await res.json();
             const httpUrlToHttps = (str) => {
               const url = new URL(str);
@@ -443,7 +443,7 @@ export class DbEventService {
               },
               "body": `{\"date\":\"${obj.date}\",\"page_num\":1,\"page_size\":50}`,
               "method": "POST", proxy: "https://manga.bilibili.com/"
-            } );
+            });
             const json = await res.json();
             const httpUrlToHttps = (str) => {
               const url = new URL(str);
@@ -466,8 +466,8 @@ export class DbEventService {
               },
               "body": `{\"id\":${obj.id}}`,
               "method": "POST",
-               proxy: "https://manga.bilibili.com/"
-            } );
+              proxy: "https://manga.bilibili.com/"
+            });
             const json = await res.json();
             const httpUrlToHttps = (str) => {
               const url = new URL(str);
@@ -490,7 +490,7 @@ export class DbEventService {
               "body": `{\"id\":${obj.id},\"isAll\":0,\"page_num\":${obj.page_num},\"page_size\":${obj.page_size}}`,
               "method": "POST",
               proxy: "https://manga.bilibili.com/"
-            } );
+            });
             const json = await res.json();
             const httpUrlToHttps = (str) => {
               const url = new URL(str);
@@ -516,7 +516,7 @@ export class DbEventService {
             "body": `{\"comic_id\":${id}}`,
             "method": "POST",
             proxy: "https://manga.bilibili.com/"
-          } );
+          });
           const json = await res.json();
           const x = json.data;
 
@@ -561,7 +561,7 @@ export class DbEventService {
             "body": `{\"ep_id\":${id}}`,
             "method": "POST",
             proxy: "https://manga.bilibili.com/"
-          } );
+          });
 
 
           const json = await res.json();
@@ -610,7 +610,7 @@ export class DbEventService {
                   "body": `{\"urls\":\"[\\\"${id}\\\"]\"}`,
                   "method": "POST",
                   proxy: "https://manga.bilibili.com/"
-                } );
+                });
                 const json = await res.json();
 
                 return `${json.data[0].complete_url}`
@@ -628,8 +628,8 @@ export class DbEventService {
                 "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
               },
               mode: "cors",
-               proxy: "https://manga.bilibili.com/"
-            } );
+              proxy: "https://manga.bilibili.com/"
+            });
             const blob = await res.blob();
             return blob
           }
@@ -649,8 +649,8 @@ export class DbEventService {
             },
             "body": JSON.stringify({ key_word: obj.keyword, page_num: obj.page_num, page_size: obj.page_size }),
             "method": "POST",
-             proxy: "https://manga.bilibili.com/"
-          } );
+            proxy: "https://manga.bilibili.com/"
+          });
           const httpUrlToHttps = (str) => {
             const url = new URL(str);
             if (url.protocol == "http:") {
@@ -1087,138 +1087,8 @@ export class DbEventService {
         ]
       }, {
         getList: async (obj) => {
-          if (obj.menu_id == "popular") {
-            if (obj.page_num == 1) {
-              const res = await window._gh_fetch("https://e-hentai.org/popular", {
-                "headers": {
-                  "accept": "application/json, text/plain, */*",
-                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                  "content-type": "application/json;charset=UTF-8"
-                },
-                "body": null,
-                "method": "GET"
-              });
-              const text = await res.text();
-              var parser = new DOMParser();
-              var doc = parser.parseFromString(text, 'text/html');
-              const nodes = doc.querySelectorAll(".gltc tr");
-
-              let list = [];
-              for (let index = 1; index < nodes.length; index++) {
-                const x = nodes[index];
-                let obj = {}
-                const src = x.querySelector(".glthumb img").getAttribute("src");
-                obj["cover"] = src;
-                if (obj["cover"].substring(0, 4) != "http") {
-                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
-                  obj["cover"] = datasrc;
-                }
-                const title = x.querySelector(".glname .glink").textContent.trim();
-                obj["title"] = title;
-                const id = x.querySelector(".glname a").href
-                obj["id"] = window.btoa(encodeURIComponent(id));
-                const subTitle = x.querySelector(".gl1c").textContent
-                obj["subTitle"] = subTitle;
-                list.push(obj)
-              }
-              return list
-            } else {
-              return []
-            }
-
-          } else if (obj.menu_id == "latest") {
-            if (obj.page_num == 1) {
-              const res = await window._gh_fetch("https://e-hentai.org/", {
-                "headers": {
-                  "accept": "application/json, text/plain, */*",
-                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                  "content-type": "application/json;charset=UTF-8"
-                },
-                "body": null,
-                "method": "GET"
-              });
-              const text = await res.text();
-              var parser = new DOMParser();
-              var doc = parser.parseFromString(text, 'text/html');
-              const nodes = doc.querySelectorAll(".gltc tr");
-              if (doc.querySelector("#unext").getAttribute("href")) {
-                const href = doc.querySelector("#unext").getAttribute("href");
-                window._gh_set_data(`${obj.page_num}_latest`, {
-                  href: href,
-                  page_num: obj.page_num
-                })
-              }
-              let list = [];
-              for (let index = 1; index < nodes.length; index++) {
-                const x = nodes[index];
-                let obj = {}
-                const src = x.querySelector(".glthumb img").getAttribute("src");
-                obj["cover"] = src;
-                if (obj["cover"].substring(0, 4) != "http") {
-                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
-                  obj["cover"] = datasrc;
-                }
-                const title = x.querySelector(".glname .glink").textContent.trim();
-                obj["title"] = title;
-                const id = x.querySelector(".glname a").href
-                obj["id"] = window.btoa(encodeURIComponent(id));
-                const subTitle = x.querySelector(".gl1c").textContent
-                obj["subTitle"] = subTitle;
-                list.push(obj)
-              }
-              return list
-            } else {
-              const obj22 = await window._gh_get_data(`${obj.page_num - 1}_latest`)
-              if (obj22) {
-                const res = await window._gh_fetch(obj22.href, {
-                  "headers": {
-                    "accept": "application/json, text/plain, */*",
-                    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                    "content-type": "application/json;charset=UTF-8"
-                  },
-                  "body": null,
-                  "method": "GET"
-                });
-                const text = await res.text();
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(text, 'text/html');
-                const nodes = doc.querySelectorAll(".gltc tr");
-                if (doc.querySelector("#unext").getAttribute("href")) {
-                  const href = doc.querySelector("#unext").getAttribute("href");
-                  window._gh_set_data(`${obj.page_num}_latest`, {
-                    href: href,
-                    page_num: obj.page_num
-                  })
-                }
-                let list = [];
-                for (let index = 1; index < nodes.length; index++) {
-                  const x = nodes[index];
-                  let obj = {}
-                  const src = x.querySelector(".glthumb img").getAttribute("src");
-                  obj["cover"] = src;
-                  if (obj["cover"].substring(0, 4) != "http") {
-                    const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
-                    obj["cover"] = datasrc;
-                  }
-                  const title = x.querySelector(".glname .glink").textContent.trim();
-                  obj["title"] = title;
-                  const id = x.querySelector(".glname a").href
-                  obj["id"] = window.btoa(encodeURIComponent(id));
-                  const subTitle = x.querySelector(".gl1c").textContent
-                  obj["subTitle"] = subTitle;
-                  list.push(obj)
-                }
-                return list
-              }
-            }
-          } else if (obj.menu_id == "sort") {
-            let tl;
-            if (obj.order == 4) tl = 15;
-            if (obj.order == 3) tl = 13;
-            if (obj.order == 2) tl = 12;
-            if (obj.order == 1) tl = 11;
-
-            const res = await window._gh_fetch(`https://e-hentai.org/toplist.php?tl=${tl}&p=${obj.page_num - 1}`, {
+          const getList = async (url, callbacks) => {
+            const res = await window._gh_fetch(url, {
               "headers": {
                 "accept": "application/json, text/plain, */*",
                 "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1230,27 +1100,72 @@ export class DbEventService {
             const text = await res.text();
             var parser = new DOMParser();
             var doc = parser.parseFromString(text, 'text/html');
+            if (callbacks) callbacks(doc)
             const nodes = doc.querySelectorAll(".gltc tr");
 
             let list = [];
             for (let index = 1; index < nodes.length; index++) {
               const x = nodes[index];
               let obj = {}
-              const src = x.querySelector(".glthumb img").getAttribute("src");
+              const src = x.querySelector(".glthumb img")?.getAttribute("src");
               obj["cover"] = src;
-              if (obj["cover"].substring(0, 4) != "http") {
-                const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
+              if (obj["cover"]?.substring(0, 4) != "http") {
+                const datasrc = x.querySelector(".glthumb img")?.getAttribute("data-src");
                 obj["cover"] = datasrc;
               }
-              const title = x.querySelector(".glname .glink").textContent.trim();
+              const title = x.querySelector(".glname .glink")?.textContent?.trim();
               obj["title"] = title;
-              const id = x.querySelector(".glname a").href
+              const id = x.querySelector(".glname a")?.href
               obj["id"] = window.btoa(encodeURIComponent(id));
-              const subTitle = x.querySelector(".gl1c").textContent
+              const subTitle = x.querySelector(".gl1c")?.textContent
               obj["subTitle"] = subTitle;
-              list.push(obj)
+              if (obj.cover) list.push(obj)
+            }
+            return list
+          }
+          if (obj.menu_id == "popular") {
+            if (obj.page_num == 1) {
+              const list = await getList("https://e-hentai.org/popular")
+              return list
+            } else {
+              return []
             }
 
+          } else if (obj.menu_id == "latest") {
+            if (obj.page_num == 1) {
+              const list = await getList("https://e-hentai.org/",doc=>{
+                if (doc.querySelector("#unext").getAttribute("href")) {
+                  const href = doc.querySelector("#unext").getAttribute("href");
+                  window._gh_set_data(`${obj.page_num}_latest`, {
+                    href: href,
+                    page_num: obj.page_num
+                  })
+                }
+              })
+              return list
+            } else {
+
+              const obj22 = await window._gh_get_data(`${obj.page_num - 1}_latest`)
+              if (obj22) {
+                const list = await getList(obj22.href,doc=>{
+                  if (doc.querySelector("#unext").getAttribute("href")) {
+                    const href = doc.querySelector("#unext").getAttribute("href");
+                    window._gh_set_data(`${obj.page_num}_latest`, {
+                      href: href,
+                      page_num: obj.page_num
+                    })
+                  }
+                })
+                return list
+              }
+            }
+          } else if (obj.menu_id == "sort") {
+            let tl;
+            if (obj.order == 4) tl = 15;
+            if (obj.order == 3) tl = 13;
+            if (obj.order == 2) tl = 12;
+            if (obj.order == 1) tl = 11;
+            const list = await getList(`https://e-hentai.org/toplist.php?tl=${tl}&p=${obj.page_num - 1}`)
             return list
           } else if (obj.menu_id == "advanced_search") {
             let url = "https://e-hentai.org/?";
@@ -1266,154 +1181,66 @@ export class DbEventService {
             if (obj.f_spf) serf['f_spf'] = obj.f_spf;
             if (obj.f_spt) serf['f_spt'] = obj.f_spt;
             const params = new URLSearchParams(serf).toString();
-            console.log(
-              params
-            );
 
             if (obj.page_num == 1) {
-              console.log(url + '' + params);
-              const res = await window._gh_fetch(url + '' + params, {
-                "headers": {
-                  "accept": "application/json, text/plain, */*",
-                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                  "content-type": "application/json;charset=UTF-8"
-                },
-                "body": null,
-                "method": "GET"
-              });
-              const text = await res.text();
-              var parser = new DOMParser();
-              var doc = parser.parseFromString(text, 'text/html');
-              if (doc.querySelector("#unext").getAttribute("href")) {
-                const href = doc.querySelector("#unext").getAttribute("href");
-
-
-                await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
-                  href: href,
-                  page_num: obj.page_num
-                })
-              }
-              const nodes = doc.querySelectorAll(".gltc tr");
-              let list = [];
-              for (let index = 1; index < nodes.length; index++) {
-                const x = nodes[index];
-                let obj = {}
-                const src = x.querySelector(".glthumb img").getAttribute("src");
-                obj["cover"] = src;
-                if (obj["cover"].substring(0, 4) != "http") {
-                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
-                  obj["cover"] = datasrc;
+              const list = await getList(url + '' + params,async doc=>{
+                if (doc.querySelector("#unext").getAttribute("href")) {
+                  const href = doc.querySelector("#unext").getAttribute("href");
+                  await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
+                    href: href,
+                    page_num: obj.page_num
+                  })
                 }
-                const title = x.querySelector(".glname .glink").textContent.trim();
-                obj["title"] = title;
-                const id = x.querySelector(".glname a").href
-                obj["id"] = window.btoa(encodeURIComponent(id));
-                const subTitle = x.querySelector(".gl1c").textContent
-                obj["subTitle"] = subTitle;
-                list.push(obj)
-              }
+              })
               return list
             } else {
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_${window.btoa(params)}`)
 
               if (obj22) {
-                const res = await window._gh_fetch(obj22.href, {
-                  "headers": {
-                    "accept": "application/json, text/plain, */*",
-                    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                    "content-type": "application/json;charset=UTF-8"
-                  },
-                  "body": null,
-                  "method": "GET"
-                });
-                const text = await res.text();
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(text, 'text/html');
+                const list = await getList(url + '' + params,async doc=>{
+                  if (doc.querySelector("#unext").getAttribute("href")) {
+                    const href = doc.querySelector("#unext").getAttribute("href");
 
-                if (doc.querySelector("#unext").getAttribute("href")) {
-                  const href = doc.querySelector("#unext").getAttribute("href");
-
-                 await  window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
-                    href: href,
-                    page_num: obj.page_num
-                  })
-                }
-                const nodes = doc.querySelectorAll(".gltc tr");
-                let list = [];
-                for (let index = 1; index < nodes.length; index++) {
-                  const x = nodes[index];
-                  let obj = {}
-                  const src = x.querySelector(".glthumb img").getAttribute("src");
-                  obj["cover"] = src;
-                  if (obj["cover"].substring(0, 4) != "http") {
-                    const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
-                    obj["cover"] = datasrc;
+                    await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
+                      href: href,
+                      page_num: obj.page_num
+                    })
                   }
-                  const title = x.querySelector(".glname .glink").textContent.trim();
-                  obj["title"] = title;
-                  const id = x.querySelector(".glname a").href
-                  obj["id"] = window.btoa(encodeURIComponent(id));
-                  const subTitle = x.querySelector(".gl1c").textContent
-                  obj["subTitle"] = subTitle;
-                  list.push(obj)
-                }
+                })
                 return list
               }
 
             }
           } else if (obj.menu_id == "favorite") {
 
-            let list = [];
-            const getList = async (url) => {
-              const res = await window._gh_fetch(url, {
-                "headers": {
-                  "accept": "application/json, text/plain, */*",
-                  "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-                  "content-type": "application/json;charset=UTF-8"
-                },
-                "body": null,
-                "method": "GET"
-              });
-              const text = await res.text();
-              var parser = new DOMParser();
-              var doc = parser.parseFromString(text, 'text/html');
-              if (doc.querySelector("#unext").getAttribute("href")) {
-                const href = doc.querySelector("#unext").getAttribute("href");
-                window._gh_set_data(`${obj.page_num}_favorite`, {
-                  href: href,
-                  page_num: obj.page_num
-                })
-              }
-              const nodes = doc.querySelectorAll(".gltc tr");
-              for (let index = 1; index < nodes.length; index++) {
-                const x = nodes[index];
-                let obj = {}
-                const src = x.querySelector(".glthumb img").getAttribute("src");
-                obj["cover"] = src;
-                if (obj["cover"].substring(0, 4) != "http") {
-                  const datasrc = x.querySelector(".glthumb img").getAttribute("data-src");
-                  obj["cover"] = datasrc;
-                }
-                const title = x.querySelector(".glname .glink").textContent.trim();
-                obj["title"] = title;
-                const id = x.querySelector(".glname a").href
-                obj["id"] = window.btoa(encodeURIComponent(id));
-                const subTitle = x.querySelector(".gl1c").textContent
-                obj["subTitle"] = subTitle;
-                list.push(obj)
-              }
-            }
             if (obj.page_num == 1) {
-              await getList("https://e-hentai.org/favorites.php")
+              const list = await getList("https://e-hentai.org/favorites.php",async doc=>{
+                if (doc.querySelector("#unext").getAttribute("href")) {
+                  const href = doc.querySelector("#unext").getAttribute("href");
+                  window._gh_set_data(`${obj.page_num}_favorite`, {
+                    href: href,
+                    page_num: obj.page_num
+                  })
+                }
+              })
+              return list
             } else {
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_favorite`)
               if (obj22) {
-                await getList(obj22.href)
+                const list = await getList(obj22.href,async doc=>{
+                  if (doc.querySelector("#unext").getAttribute("href")) {
+                    const href = doc.querySelector("#unext").getAttribute("href");
+                    window._gh_set_data(`${obj.page_num}_favorite`, {
+                      href: href,
+                      page_num: obj.page_num
+                    })
+                  }
+                })
+                return list
               }
             }
 
 
-            return list
 
           }
           return []
@@ -1450,8 +1277,8 @@ export class DbEventService {
           const utf8_to_b64 = (str) => {
             return window.btoa(encodeURIComponent(str));
           }
-          obj.title = doc.querySelector("#gn").textContent.trim()
-          obj.cover = doc.querySelector("#gd1 > div").style.background.split('"')[1];
+          obj.title = doc.querySelector("#gn")?.textContent?.trim()
+          obj.cover = doc.querySelector("#gd1 > div")?.style?.background?.split('"')[1];
           obj.chapters.push({
             id: obj.id,
             title: obj.title,
@@ -1463,7 +1290,7 @@ export class DbEventService {
           for (let index = 0; index < nodes.length; index++) {
             const node = nodes[index];
             const nodes2 = node.querySelectorAll("a");
-            const category = node.querySelector(".tc").textContent
+            const category = node.querySelector(".tc")?.textContent
             for (let j = 0; j < nodes2.length; j++) {
               const c = nodes2[j];
               list.push({
@@ -1474,10 +1301,10 @@ export class DbEventService {
             }
 
           }
-          obj.tags=list;
-          obj.styles=list;
-          obj.author=obj.styles.filter(x=>x.category=="artist:")
-          obj.styles=obj.styles.filter(x=>x.category!="artist:")
+          obj.tags = list;
+          obj.styles = list;
+          obj.author = obj.styles.filter(x => x.category == "artist:")
+          obj.styles = obj.styles.filter(x => x.category != "artist:")
 
           return obj
         },
@@ -1514,7 +1341,7 @@ export class DbEventService {
           for (let i = 0; i < data1.length; i += 6) {
             const batch = data1.slice(i, i + 6);
             const pagesPromises = batch.map(x =>
-               window._gh_fetch(x, {
+              window._gh_fetch(x, {
                 "headers": {
                   "accept": "application/json, text/plain, */*",
                   "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -1560,7 +1387,6 @@ export class DbEventService {
           return data
         },
         getImage: async (id) => {
-
           if (id.substring(0, 4) == "http") {
             const res = await window._gh_fetch(id, {
               method: "GET",
@@ -1615,7 +1441,7 @@ export class DbEventService {
           }
         },
         UrlToList: async (id) => {
-           try {
+          try {
             const obj = new URL(id);
             if (obj.host == "e-hentai.org") {
               const res = await window._gh_fetch(id, {
@@ -1652,18 +1478,18 @@ export class DbEventService {
                 list.push(obj)
               }
               return list
-            }else{
+            } else {
               return []
             }
 
-           } catch (error) {
+          } catch (error) {
             console.log(error);
 
             return []
-           }
+          }
         },
         UrlToDetailId: async (id) => {
-          if (id.substring(0,22)=="https://e-hentai.org/g") {
+          if (id.substring(0, 22) == "https://e-hentai.org/g") {
             return window.btoa(encodeURIComponent(id))
           } else {
             return null
@@ -2454,7 +2280,7 @@ export class DbEventService {
     else return null
   }
   set_data = async (key: string, data: any) => {
-    const res= await firstValueFrom(this.webDb.update('data_v2', {
+    const res = await firstValueFrom(this.webDb.update('data_v2', {
       id: key,
       data: data
     }))
