@@ -136,11 +136,11 @@ export class AppComponent {
     public I18n: I18nService,
     public App: AppDataService
   ) {
-    const system=this.getOperatingSystem()
-    if(system=="iOS"||system=="macOS"){
-      document.body.setAttribute("is_ios",'true')
-    }else{
-      document.body.setAttribute("is_ios",'false')
+    const system = this.getOperatingSystem()
+    if (system == "iOS" || system == "macOS") {
+      document.body.setAttribute("is_ios", 'true')
+    } else {
+      document.body.setAttribute("is_ios", 'false')
     }
 
     this.keydown.pipe(bufferCount(2)).subscribe((e: any) => {
@@ -241,6 +241,16 @@ export class AppComponent {
       return 'Unknown';
     }
   }
+  async as12312() {
+    try {
+      const res = await fetch(window.location.origin + '/assets/eval/index.js')
+      if (res) {
+        this.pulg.loadJS(window.location.origin + '/assets/eval/index.js')
+      }
+    } catch (error) {
+
+    }
+  }
   async init() {
     let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
 
@@ -258,8 +268,13 @@ export class AppComponent {
     }
 
 
+
+
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();
+
+    // eval()
+    await this.as12312();
     if (!obj1["noscript"]) await this.pulg.init();
 
     setTimeout(() => {
