@@ -123,12 +123,16 @@ export class PulgService {
   }
   async loadAllScript() {
 
-    const list = await this.caches.matchAll()
+    const list = await this.caches.keys()
+    console.log(list);
+
     for (let index = 0; index < list.length; index++) {
       const e = list[index];
-      const blob = await e.blob();
-      const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      this.loadJS(url.changingThisBreaksApplicationSecurity)
+      if(e.headers.get('Disable') != "false"){
+        const blob = await e.blob();
+        const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+        this.loadJS(url.changingThisBreaksApplicationSecurity)
+      }
     }
 
   }

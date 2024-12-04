@@ -32,12 +32,18 @@ export class PulgJavascriptComponent {
     }
   ]
 
+  displayedColumns = ['position', 'name',  'weight', 'update','symbol'];
+
   constructor(public pulg: PulgService, public data: DataService,
     public ContextMenuController: ContextMenuControllerService,
     private _snackBar: MatSnackBar,
     public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init();
+
+
+
+
 
     ContextMenuEvent.register('pulg_javascript_add',
       {
@@ -55,28 +61,64 @@ export class PulgJavascriptComponent {
           },
           {
             id: "github",
-            name: "GitHub 脚本",
-            click: () => {
+            name: "远程脚本",
+            click: async () => {
+              const url = prompt("请输入URL", "");
+              if (url !== null) {
+                if (url != "") {
+                  const res = await window._gh_fetch(url)
+                  const name = url.split("/").at(-1)
+                  const blob = await res.blob();
+                  await this.scriptCaches(blob, name, {
+                    'Remote-Url': url
+                  })
+                  this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+                  this.list = await this.getAll();
+                }
+              } else {
 
+              }
             }
           },
-          {
-            id: "_javasciprt",
-            name: "内置脚本",
-            click: () => {
+          // {
+          //   id: "_javasciprt",
+          //   name: "内置脚本",
+          //   click: () => {
 
-            }
-          },
+          //   }
+          // },
 
         ]
       })
   }
+   restart=async(n)=> {
+    const list = await this.caches.keys()
+    console.log(list);
 
-  async on3(e){
-    this.type=e.type;
-    if(e.type=="github"){
+    const r = list.find(x => x.url == n.url)
+    const res = await window._gh_fetch(n.remote_url)
+    const blob = await res.blob();
+
+    await this.caches.put(r, new Response(blob));
+    this._snackBar.open("更新成功", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+  }
+  async change(n) {
+
+    setTimeout(async () => {
+      const list = await this.caches.keys()
+      const r = list.find(x => x.url == n.url)
+      r.headers.set('Disable', n.disable.toString())
+      const response = await this.caches.match(r)
+      await this.caches.put(r, response);
+    })
+
+
+  }
+  async on3(e) {
+    this.type = e.type;
+    if (e.type == "github") {
       this._snackBar.open(`开始访问${e.url}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
-       this.list2= await this.getGitHubFile(e.url);
+      this.list2 = await this.getGitHubFile(e.url);
     }
 
   }
@@ -112,12 +154,12 @@ export class PulgJavascriptComponent {
     return list
   }
   async loadJs(url, name) {
-    const res= await window._gh_fetch(url)
-    const blob=await res.blob()
+    const res = await window._gh_fetch(url)
+    const blob = await res.blob()
 
     await this.pulg.loadBlodJs(blob)
     await this.scriptCaches(blob, name)
-    this._snackBar.open("加载脚本成功", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+    this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
     this.list = await this.getAll();
   }
   async getAll() {
@@ -126,14 +168,20 @@ export class PulgJavascriptComponent {
     for (let index = 0; index < list.length; index++) {
       const x = list[index];
       const name = decodeURIComponent(window.atob(x.headers.get('File-Name')))
+      const date = x.headers.get('Cache-Timestamp')
+      const disable = x.headers.get('Disable') == "true" ? true : false;
+      const remote_url = x.headers.get('Remote-Url')
+
       const url = x.url
-      arr.push({ name, url })
+      arr.push({ index: index + 1, name, disable, url,remote_url, date: parseInt(date) })
     }
-    return arr
+    return arr.sort((a, b) => a.date - b.date)
   }
 
   async init() {
     this.caches = await caches.open('script');
+    console.log(this.caches);
+
     this.list = await this.getAll();
   }
 
@@ -142,20 +190,23 @@ export class PulgJavascriptComponent {
     const blob = await files[0].getFile();
     await this.pulg.loadBlodJs(blob)
     await this.scriptCaches(blob, blob.name)
-    this._snackBar.open("加载脚本成功", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+    this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
-  async scriptCaches(blob, name) {
+  async scriptCaches(blob, name, obj = {}) {
     const response = new Response(blob);
     const request = new Request(`http://localhost:7700/script/${new Date().getTime()}`, {
       headers: {
         'Content-Type': 'application/javascript',
         'Cache-Timestamp': new Date().getTime().toString(),
         'File-Name': window.btoa(encodeURIComponent(name)),
-        'Disable': 'false'
+        'Disable': 'true',
+        ...obj
       }
     });
     await this.caches.put(request, response);
   }
+
+
 
   async preview(url) {
     if (url.substring(7, 21) == "localhost:7700") {

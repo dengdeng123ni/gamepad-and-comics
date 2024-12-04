@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PulgJavascriptComponent } from './pulg-javascript.component';
 import { GamepadEventService } from 'src/app/library/public-api';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class PulgJavascriptService {
   public opened=false;
   constructor(
     public _dialog: MatDialog,
+    public _sheet: MatBottomSheet,
     public GamepadEvent:GamepadEventService
   ) {
     GamepadEvent.registerAreaEvent('pulg_javascript', {
@@ -20,18 +22,22 @@ export class PulgJavascriptService {
       region: ['item'],
     });
 
-    // this.open();
+    this.open();
 
   }
-  open(data?: any) {
+
+
+  close = () => {
+    this._sheet.dismiss();
+  }
+  open() {
     if (this.opened == false) {
       this.opened = true;
-      const dialogRef = this._dialog.open(PulgJavascriptComponent, {
-        panelClass: "_pulg_javascript",
-        data: data
+      const sheetRef = this._sheet.open(PulgJavascriptComponent,{
+        panelClass:"_pulg_javascript"
       });
       document.body.setAttribute("locked_region", "pulg_javascript")
-      dialogRef.afterClosed().subscribe(result => {
+      sheetRef.afterDismissed().subscribe(() => {
         if (document.body.getAttribute("locked_region") == "pulg_javascript" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
@@ -42,9 +48,6 @@ export class PulgJavascriptService {
   isToggle = () => {
     if (this.opened) this.close()
     else this.open()
-  }
-  close() {
-    this._dialog.closeAll();
   }
   // constructor(private _sheet: MatBottomSheet,) { }
 

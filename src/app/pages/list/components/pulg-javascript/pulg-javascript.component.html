@@ -1,77 +1,47 @@
-<div style="display: flex;">
-  <div class="code" *ngIf="text" style="background-color: #303030;padding: 12px;overflow: auto;height: 540px;max-width: 540px;">
-    <pre><code class="html">{{text}}</code>
-    </pre>
-    <!-- <div>脚本</div> -->
-  </div>
-  <div class="warp">
-    <div class="title" style="
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    overflow: auto;
-    ">
-    <button mat-button *ngFor="let n of bbb" (click)="on3(n)" cdkFocusInitial [attr.svg_filter]="'text_primary'" class="name" style="cursor: pointer;"   [attr.region]="'item'" >
-      {{n.name}}
-    </button>
+<div style="height: 70vh;max-height: 80vh;">
+  <!-- <div class="title1" style="display: flex; justify-content: center;">
+    <div style="   display: flex;
+
+    font-size: 24px;
+    opacity: 0.24;
+    margin: 8px 0;" [attr.svg_filter]="'text_secondary'">-{{'全部脚本' | translate}}-</div>
+  </div> -->
+  <div class="demo-button-container" >
     <button mat-button [attr.svg_filter]="'text_primary'" class="name" style="cursor: pointer;" [attr.menu_key]="'pulg_javascript_add'"  [attr.region]="'item'" (click)="onMenu($event)">
       <mat-icon>add</mat-icon>
       添加
     </button>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="list" *ngIf="type=='load'">
-      <div class="box"  *ngFor="let n of list;let index=index">
-        <div class="left">
-          {{n.name}}
-        </div>
-        <div class="right" style="display: flex;">
-          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
-          [attr.select]="false" (click)="preview(n.url)">
-            <div class="name" [attr.svg_filter]="'text_primary'">
-               {{'预览'|translate}}
-            </div>
-          </button>
-          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
-          [attr.select]="false" (click)="del(n.url)">
-            <div class="name" [attr.svg_filter]="'text_primary'">
-               {{'下载'|translate}}
-            </div>
-          </button>
-          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
-          [attr.select]="false" (click)="del(n.url)">
-            <div class="name" [attr.svg_filter]="'text_primary'">
-               {{'删除'|translate}}
-            </div>
-          </button>
-        </div>
-      </div>
-
-    </div>
-    <div class="list" *ngIf="type=='github'">
-      <div class="box"  *ngFor="let n of list2;let index=index">
-        <div class="left">
-          {{n.name}}
-        </div>
-        <div class="right" style="display: flex;">
-          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
-          [attr.select]="false" (click)="preview(n.download)">
-            <div class="name" [attr.svg_filter]="'text_primary'">
-               {{'预览'|translate}}
-            </div>
-          </button>
-          <button mat-button class="item1" style="width: 60px;" [attr.region]="'item'"
-          [attr.select]="false" (click)="loadJs(n.download,n.name)">
-            <div class="name" [attr.svg_filter]="'text_primary'">
-               {{'加载'|translate}}
-            </div>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
   </div>
-
+  <table style="box-shadow: none;" mat-table [dataSource]="list" class="mat-elevation-z8">
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> # </th>
+      <td mat-cell *matCellDef="let n"> {{n.index}} </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef style="    text-align: center;"> 已启用 </th>
+      <td mat-cell *matCellDef="let n"> <mat-slide-toggle (toggleChange)="change(n)" [attr.type]="" [(ngModel)]="n.disable"></mat-slide-toggle> </td>
+    </ng-container>
+    <ng-container matColumnDef="update">
+      <th mat-header-cell *matHeaderCellDef style="    text-align: center;"> 更新 </th>
+      <td mat-cell *matCellDef="let n">
+        <button mat-icon-button (click)="restart(n)" *ngIf="n.remote_url">
+          <mat-icon>restart_alt</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="weight" >
+      <th mat-header-cell *matHeaderCellDef style="width: 700px;    text-align: center;"> 名称 </th>
+      <td mat-cell *matCellDef="let n"> {{n.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;"> 操作 </th>
+      <td mat-cell *matCellDef="let n">
+        <button mat-button (click)="on(n)">下载</button>
+        <button mat-button (click)="del(n.url)">删除</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 
 </div>
