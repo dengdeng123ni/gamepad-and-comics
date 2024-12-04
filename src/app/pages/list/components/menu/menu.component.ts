@@ -377,6 +377,7 @@ export class MenuComponent {
         // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
         // this.data.menu[index].expanded=true;
       }
+      if(!this.data.menu_2_obj)  this.data.menu_2_obj = this.data.menu_2[0]
       if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
       this.menu.url_to_list.forEach(x => {
         this.data.menu.push({

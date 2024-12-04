@@ -20,15 +20,15 @@
     </div>
   </button>
   <div *ngIf="menu.mode_1==2">
-    <div [attr.type]="'expansion'">
-      <button mat-button style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
+    <div [attr.type]="'expansion'" *ngIf="data.menu_2_obj">
+      <button mat-button *ngIf="data.menu_2_obj" style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
         (click)="opensource()" [attr.content_menu_value]="data.menu_2_obj.id" >
         <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
         <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'">
           {{data.menu_2_obj.name}}
         </div>
       </button>
-      <button [attr.default]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
+      <button mat-button   [attr.default]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
         [attr.select]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
         [attr.selected]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)" [attr._id]="data.menu_2_obj.id+'_'+c.id"
         *ngFor="let c of data.menu_2_obj.submenu;let index2=index" mat-button class="item item1"

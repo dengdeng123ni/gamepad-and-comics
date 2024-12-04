@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ContextMenuControllerService, ContextMenuEventService, PulgService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CurrentService } from '../../services/current.service';
 
 declare let window: any;
 @Component({
@@ -35,6 +36,7 @@ export class PulgJavascriptComponent {
   displayedColumns = ['position', 'name',  'weight', 'update','symbol'];
 
   constructor(public pulg: PulgService, public data: DataService,
+    public current:CurrentService,
     public ContextMenuController: ContextMenuControllerService,
     private _snackBar: MatSnackBar,
     public ContextMenuEvent: ContextMenuEventService
@@ -110,6 +112,12 @@ export class PulgJavascriptComponent {
       r.headers.set('Disable', n.disable.toString())
       const response = await this.caches.match(r)
       await this.caches.put(r, response);
+      if(n.disable){
+        const res = await this.caches.match(r)
+        const blob=await res.blob()
+        await this.pulg.loadBlodJs(blob)
+        this.current._updateMenu();
+      }
     })
 
 

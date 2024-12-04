@@ -55,7 +55,7 @@ export class DbEventService {
     window._gh_novels_register = this.novels_register;
     window._gh_set_data = this.set_data;
     window._gh_get_data = this.get_data;
-    if (location.hostname == "localhost") {
+    if (location.hostname == "localhost1") {
       window._gh_comics_register({
         id: "bilibili",
         name: "哔哩哔哩漫画",

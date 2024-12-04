@@ -16,7 +16,7 @@ export class MenuService {
   query_fixed=[];
   current_menu_id=null;
   current_menu_pid=null;
-  mode_1=1;
+  mode_1=2;
 
 
   constructor(public data: DataService,
