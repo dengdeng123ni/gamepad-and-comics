@@ -13,11 +13,12 @@
   <div class="title"
     style="font-size: 16px;margin-bottom: 12px;display: flex;justify-content: space-between;align-items: center;">
     高级查询
-
-    <div> <button mat-icon-button class="icon" (click)="fixed()" [attr.region]="'advanced_search_restart'">
+    <div> <button mat-icon-button class="icon"  [matTooltipShowDelay]="333"
+      [matTooltip]="'固定查询条件'" (click)="fixed()" [attr.region]="'advanced_search_restart'">
         <mat-icon>push_pin</mat-icon>
       </button>
-      <button mat-icon-button class="icon" (click)="restart()" [attr.region]="'advanced_search_restart'">
+      <button mat-icon-button class="icon"  [matTooltipShowDelay]="333"
+      [matTooltip]="'重新'" (click)="restart()" [attr.region]="'advanced_search_restart'">
         <mat-icon>restart_alt</mat-icon>
       </button>
     </div>

@@ -7,7 +7,7 @@
     margin: 8px 0;" [attr.svg_filter]="'text_secondary'">-{{'全部脚本' | translate}}-</div>
   </div> -->
   <div class="demo-button-container" >
-    <button mat-button [attr.svg_filter]="'text_primary'" class="name" style="cursor: pointer;" [attr.menu_key]="'pulg_javascript_add'"  [attr.region]="'item'" (click)="onMenu($event)">
+    <button mat-button [attr.svg_filter]="'text_primary'" [attr.select]="'true'" class="name" style="cursor: pointer;" [attr.menu_key]="'pulg_javascript_add'"  [attr.region]="'pulg_javascript_item'" (click)="onMenu($event)">
       <mat-icon>add</mat-icon>
       添加
     </button>
@@ -19,12 +19,12 @@
     </ng-container>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef style="    text-align: center;"> 已启用 </th>
-      <td mat-cell *matCellDef="let n"> <mat-slide-toggle (toggleChange)="change(n)" [attr.type]="" [(ngModel)]="n.disable"></mat-slide-toggle> </td>
+      <td mat-cell *matCellDef="let n"> <mat-slide-toggle [attr.region]="'pulg_javascript_item'" [attr.type]="'slide'" (toggleChange)="change(n)" [attr.type]="" [(ngModel)]="n.disable"></mat-slide-toggle> </td>
     </ng-container>
     <ng-container matColumnDef="update">
       <th mat-header-cell *matHeaderCellDef style="    text-align: center;"> 更新 </th>
       <td mat-cell *matCellDef="let n">
-        <button mat-icon-button (click)="restart(n)" *ngIf="n.remote_url">
+        <button mat-icon-button (click)="restart(n)" *ngIf="n.remote_url" [attr.region]="'pulg_javascript_item'">
           <mat-icon>restart_alt</mat-icon>
         </button>
       </td>
@@ -36,8 +36,8 @@
     <ng-container matColumnDef="symbol">
       <th mat-header-cell *matHeaderCellDef style="text-align: center;"> 操作 </th>
       <td mat-cell *matCellDef="let n">
-        <button mat-button (click)="on(n)">下载</button>
-        <button mat-button (click)="del(n.url)">删除</button>
+        <button mat-button (click)="on(n)" [attr.region]="'pulg_javascript_item'">下载</button>
+        <button mat-button (click)="del(n.url)" [attr.region]="'pulg_javascript_item'">删除</button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

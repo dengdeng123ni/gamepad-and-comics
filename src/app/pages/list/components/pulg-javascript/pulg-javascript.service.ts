@@ -15,14 +15,14 @@ export class PulgJavascriptService {
     public _sheet: MatBottomSheet,
     public GamepadEvent:GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('pulg_javascript', {
+    GamepadEvent.registerAreaEvent('pulg_javascript_item', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('pulg_javascript', {
-      region: ['item'],
+      region: ['pulg_javascript_item'],
     });
 
-    this.open();
+    // this.open();s
 
   }
 
