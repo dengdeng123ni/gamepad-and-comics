@@ -23,9 +23,7 @@ export class MessageFetchService {
   async init() {
     this.caches = await caches.open('assets');
   }
-  fetch = async (url: RequestInfo | URL, init?: RequestInit, option?: {
-    proxy?: string
-  }): Promise<Response> => {
+  fetch = async (url: RequestInfo | URL, init?: RequestInit ): Promise<Response> => {
     if (!init) {
       init = {
         "headers": {
@@ -43,11 +41,11 @@ export class MessageFetchService {
     }
     let id = ''
     let bool = true;
-    if (option && option.proxy) {
+    if (init && (init as any).proxy) {
 
       id = CryptoJS.MD5(JSON.stringify({
         type: "website_proxy_request",
-        proxy_request_website_url: option.proxy,
+        proxy_request_website_url: (init as any).proxy,
         proxy_response_website_url: window.location.origin,
         http: {
           url: url,
@@ -64,7 +62,7 @@ export class MessageFetchService {
           window.postMessage({
             id: id,
             type: "website_proxy_request",
-            proxy_request_website_url: option.proxy,
+            proxy_request_website_url: (init as any).proxy,
             proxy_response_website_url: window.location.origin,
             http: {
               url: url,

@@ -395,10 +395,9 @@ export class DbEventService {
                   "content-type": "application/json;charset=UTF-8"
                 },
                 "body": JSON.stringify(data),
-                "method": "POST"
-              }, {
+                "method": "POST",
                 proxy: "https://manga.bilibili.com/"
-              });
+              } );
             const json = await res.json();
             list = json.data.map((x) => {
               const httpUrlToHttps = (str) => {
@@ -420,10 +419,9 @@ export class DbEventService {
                   "content-type": "application/json;charset=UTF-8"
                 },
                 "body": `{\"page_num\":${obj.page_num},\"page_size\":${obj.page_size},\"order\":${obj.order},\"wait_free\":${obj.wait_free}}`,
-                "method": "POST"
-              }, {
-                proxy: "https://manga.bilibili.com/"
-              });
+                "method": "POST",
+                 proxy: "https://manga.bilibili.com/"
+              } );
             const json = await res.json();
             const httpUrlToHttps = (str) => {
               const url = new URL(str);
@@ -444,10 +442,8 @@ export class DbEventService {
                 "content-type": "application/json;charset=UTF-8"
               },
               "body": `{\"date\":\"${obj.date}\",\"page_num\":1,\"page_size\":50}`,
-              "method": "POST"
-            }, {
-              proxy: "https://manga.bilibili.com/"
-            });
+              "method": "POST", proxy: "https://manga.bilibili.com/"
+            } );
             const json = await res.json();
             const httpUrlToHttps = (str) => {
               const url = new URL(str);
@@ -469,10 +465,9 @@ export class DbEventService {
                 "content-type": "application/json;charset=UTF-8"
               },
               "body": `{\"id\":${obj.id}}`,
-              "method": "POST"
-            }, {
-              proxy: "https://manga.bilibili.com/"
-            });
+              "method": "POST",
+               proxy: "https://manga.bilibili.com/"
+            } );
             const json = await res.json();
             const httpUrlToHttps = (str) => {
               const url = new URL(str);
@@ -493,10 +488,9 @@ export class DbEventService {
                 "content-type": "application/json;charset=UTF-8"
               },
               "body": `{\"id\":${obj.id},\"isAll\":0,\"page_num\":${obj.page_num},\"page_size\":${obj.page_size}}`,
-              "method": "POST"
-            }, {
+              "method": "POST",
               proxy: "https://manga.bilibili.com/"
-            });
+            } );
             const json = await res.json();
             const httpUrlToHttps = (str) => {
               const url = new URL(str);
@@ -520,10 +514,9 @@ export class DbEventService {
               "content-type": "application/json;charset=UTF-8"
             },
             "body": `{\"comic_id\":${id}}`,
-            "method": "POST"
-          }, {
+            "method": "POST",
             proxy: "https://manga.bilibili.com/"
-          });
+          } );
           const json = await res.json();
           const x = json.data;
 
@@ -566,10 +559,9 @@ export class DbEventService {
               "content-type": "application/json;charset=UTF-8"
             },
             "body": `{\"ep_id\":${id}}`,
-            "method": "POST"
-          }, {
+            "method": "POST",
             proxy: "https://manga.bilibili.com/"
-          });
+          } );
 
 
           const json = await res.json();
@@ -617,9 +609,8 @@ export class DbEventService {
                   },
                   "body": `{\"urls\":\"[\\\"${id}\\\"]\"}`,
                   "method": "POST",
-                }, {
                   proxy: "https://manga.bilibili.com/"
-                });
+                } );
                 const json = await res.json();
 
                 return `${json.data[0].complete_url}`
@@ -636,10 +627,9 @@ export class DbEventService {
                 "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
                 "sec-ch-ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\""
               },
-              mode: "cors"
-            }, {
-              proxy: "https://manga.bilibili.com/"
-            });
+              mode: "cors",
+               proxy: "https://manga.bilibili.com/"
+            } );
             const blob = await res.blob();
             return blob
           }
@@ -658,10 +648,9 @@ export class DbEventService {
               "content-type": "application/json;charset=UTF-8"
             },
             "body": JSON.stringify({ key_word: obj.keyword, page_num: obj.page_num, page_size: obj.page_size }),
-            "method": "POST"
-          }, {
-            proxy: "https://manga.bilibili.com/"
-          });
+            "method": "POST",
+             proxy: "https://manga.bilibili.com/"
+          } );
           const httpUrlToHttps = (str) => {
             const url = new URL(str);
             if (url.protocol == "http:") {
