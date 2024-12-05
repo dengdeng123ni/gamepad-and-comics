@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "serve": "ng serve --open --host 0.0.0.0",
+    "serve2": "ng serve --open --host 0.0.0.0 --ssl true",
     "build": "ng build",
     "onpwabuild": "ng build --service-worker=false",
     "watch": "ng build --watch --configuration development",
