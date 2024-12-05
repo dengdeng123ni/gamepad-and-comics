@@ -38,12 +38,12 @@ export class ComicsListV2Service {
   }
 
   async init(key: string, option) {
-    option.page_size = this.Configs[key].page_size;
+    option.page_size = this.Configs[key]?.page_size ??20;
     return await this.Events[key].Init(option)
   }
 
   async add(key: string, option) {
-    option.page_size = this.Configs[key].page_size;
+    option.page_size = this.Configs[key]?.page_size ??20;
     return await this.Events[key].Add(option)
   }
 }

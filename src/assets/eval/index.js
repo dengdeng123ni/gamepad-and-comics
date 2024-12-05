@@ -2,11 +2,7 @@ class MessageFetchService {
   _data_proxy_response = {};
   _data_proxy_request = {};
   constructor() {
-      console.log(123);
-
       window.electron.receiveMessage('message-from-main', (event, message) => {
-          console.log(message);
-
           if (message.type == "proxy_response") {
               let rsponse = message.data;
               const blob = new Blob([rsponse.body]);
@@ -28,8 +24,7 @@ class MessageFetchService {
               setTimeout(()=>{
                 this._data_proxy_response[message.id]=undefined;
               },40000)
-            }
-            else if(message.type=="proxy_data"){
+            }else if(message.type=="proxy_data"){
               this._data_proxy_response[message.id]= message.data;
               setTimeout(()=>{
                 this._data_proxy_response[message.id]=undefined;
@@ -44,8 +39,6 @@ class MessageFetchService {
   }
 
   postMessage = (data) => {
-      console.log(data);
-
       window.electron.sendMessage('message-from-renderer', data);
   }
   // MD5 Hash Implementation
@@ -176,7 +169,7 @@ class MessageFetchService {
       let bool = true;
       if (init && (init).proxy) {
 
-          id = this.MD5(JSON.stringify({
+          id = window.CryptoJS.MD5(JSON.stringify({
               type: "website_proxy_request",
               proxy_request_website_url: (init).proxy,
               proxy_response_website_url: window.location.origin,
@@ -223,7 +216,7 @@ class MessageFetchService {
           }
 
       } else {
-          id = this.MD5(JSON.stringify({
+          id = window.CryptoJS.MD5(JSON.stringify({
               type: "pulg_proxy_request",
               proxy_response_website_url: window.location.origin,
               http: {
@@ -299,7 +292,7 @@ class MessageFetchService {
   ) => {
       let id = ''
       let bool = true;
-      id = this.MD5(JSON.stringify({
+      id = window.CryptoJS.MD5(JSON.stringify({
           type: "website_proxy_request_html",
           proxy_request_website_url: url,
           proxy_response_website_url: window.location.origin
@@ -336,7 +329,7 @@ class MessageFetchService {
   }
 
   execute_eval = async (url, javascript) => {
-      const id = this.MD5(JSON.stringify({
+      const id = window.CryptoJS.MD5(JSON.stringify({
           type: "website_request_execute_eval",
           proxy_request_website_url: url,
           proxy_response_website_url: window.location.origin

@@ -6,6 +6,7 @@
     "start": "ng serve",
     "serve": "ng serve --open --host 0.0.0.0",
     "build": "ng build",
+    "onpwabuild": "ng build --service-worker=false",
     "watch": "ng build --watch --configuration development",
     "ghpages": "ng deploy",
     "hserve": "http-server -p 8080 -c-1 dist/browser",

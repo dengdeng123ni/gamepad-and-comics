@@ -1133,7 +1133,7 @@ export class DbEventService {
 
           } else if (obj.menu_id == "latest") {
             if (obj.page_num == 1) {
-              const list = await getList("https://e-hentai.org/",doc=>{
+              const list = await getList("https://e-hentai.org/", doc => {
                 if (doc.querySelector("#unext").getAttribute("href")) {
                   const href = doc.querySelector("#unext").getAttribute("href");
                   window._gh_set_data(`${obj.page_num}_latest`, {
@@ -1147,7 +1147,7 @@ export class DbEventService {
 
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_latest`)
               if (obj22) {
-                const list = await getList(obj22.href,doc=>{
+                const list = await getList(obj22.href, doc => {
                   if (doc.querySelector("#unext").getAttribute("href")) {
                     const href = doc.querySelector("#unext").getAttribute("href");
                     window._gh_set_data(`${obj.page_num}_latest`, {
@@ -1183,7 +1183,7 @@ export class DbEventService {
             const params = new URLSearchParams(serf).toString();
 
             if (obj.page_num == 1) {
-              const list = await getList(url + '' + params,async doc=>{
+              const list = await getList(url + '' + params, async doc => {
                 if (doc.querySelector("#unext").getAttribute("href")) {
                   const href = doc.querySelector("#unext").getAttribute("href");
                   await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
@@ -1197,7 +1197,7 @@ export class DbEventService {
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_${window.btoa(params)}`)
 
               if (obj22) {
-                const list = await getList(url + '' + params,async doc=>{
+                const list = await getList(url + '' + params, async doc => {
                   if (doc.querySelector("#unext").getAttribute("href")) {
                     const href = doc.querySelector("#unext").getAttribute("href");
 
@@ -1214,7 +1214,7 @@ export class DbEventService {
           } else if (obj.menu_id == "favorite") {
 
             if (obj.page_num == 1) {
-              const list = await getList("https://e-hentai.org/favorites.php",async doc=>{
+              const list = await getList("https://e-hentai.org/favorites.php", async doc => {
                 if (doc.querySelector("#unext").getAttribute("href")) {
                   const href = doc.querySelector("#unext").getAttribute("href");
                   window._gh_set_data(`${obj.page_num}_favorite`, {
@@ -1227,7 +1227,7 @@ export class DbEventService {
             } else {
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_favorite`)
               if (obj22) {
-                const list = await getList(obj22.href,async doc=>{
+                const list = await getList(obj22.href, async doc => {
                   if (doc.querySelector("#unext").getAttribute("href")) {
                     const href = doc.querySelector("#unext").getAttribute("href");
                     window._gh_set_data(`${obj.page_num}_favorite`, {
@@ -2032,6 +2032,10 @@ export class DbEventService {
           }
         },
         Search: async (obj) => {
+          console.log(obj);
+
+          console.log(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num - 1) * obj.page_size}&platform=2&limit=${obj.page_size}&q=${obj.keyword}q_type=`);
+
           const res = await window._gh_fetch(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num - 1) * obj.page_size}&platform=2&limit=${obj.page_size}&q=${obj.keyword}q_type=`, {
             "headers": {
               "accept": "application/json, text/plain, */*",

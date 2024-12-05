@@ -19,8 +19,8 @@ export class ComicsSearchComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     if (event.key == "Enter") {
-      if(document.querySelector("#input_v1232").getAttribute("select")=="false"){
-        if(document.activeElement.tagName=="INPUT"){
+      if (document.querySelector("#input_v1232").getAttribute("select") == "false") {
+        if (document.activeElement.tagName == "INPUT") {
           this.search();
           this.WhenInputting.close();
         }
@@ -81,13 +81,13 @@ export class ComicsSearchComponent {
     public ComicsSelectType: ComicsSelectTypeService,
     public GamepadEvent: GamepadEventService,
     public history: HistoryService,
-    public WhenInputting:WhenInputtingService,
+    public WhenInputting: WhenInputtingService,
     public App: AppDataService
   ) {
 
     GamepadEvent.registerAreaEvent("input", {
       A: e => {
-        if(document.activeElement.tagName=="INPUT"){
+        if (document.activeElement.tagName == "INPUT") {
           this.search();
           e.querySelector("input").blur();
           this.WhenInputting.close();
@@ -149,10 +149,10 @@ export class ComicsSearchComponent {
 
     })
   }
-  focus(){
+  focus() {
     this.WhenInputting.open();
   }
-  blur(){
+  blur() {
     this.WhenInputting.close();
   }
 
@@ -185,20 +185,20 @@ export class ComicsSearchComponent {
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
 
-          if(this.DbEvent.Configs[this.source].type=="comics"){
-            this.current.routerDetail(this.source,data.id)
-          }else if(this.DbEvent.Configs[this.source].type=="novels"){
-            this.routerNovelsReader(this.source,data.id)
-          }else{
-            this.current.routerReader(this.source,data.id)
+          if (this.DbEvent.Configs[this.source].type == "comics") {
+            this.current.routerDetail(this.source, data.id)
+          } else if (this.DbEvent.Configs[this.source].type == "novels") {
+            this.routerNovelsReader(this.source, data.id)
+          } else {
+            this.current.routerReader(this.source, data.id)
           }
         } else {
-          if(this.DbEvent.Configs[this.source].type=="comics"){
-            this.current.routerDetail(this.source,data.id)
-          }else if(this.DbEvent.Configs[this.source].type=="novels"){
-            this.routerNovelsDetail(this.source,data.id)
-          }else{
-            this.current.routerReader(this.source,data.id)
+          if (this.DbEvent.Configs[this.source].type == "comics") {
+            this.current.routerDetail(this.source, data.id)
+          } else if (this.DbEvent.Configs[this.source].type == "novels") {
+            this.routerNovelsDetail(this.source, data.id)
+          } else {
+            this.current.routerReader(this.source, data.id)
           }
         }
       }
@@ -211,14 +211,14 @@ export class ComicsSearchComponent {
   }
 
 
-async routerNovelsReader(source, comics_id) {
-  const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
-  if (_res[1]) {
-    this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
-  } else {
-    this.router.navigate(['/novels', source, comics_id, _res[0].chapters[0].id])
+  async routerNovelsReader(source, comics_id) {
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
+    if (_res[1]) {
+      this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
+    } else {
+      this.router.navigate(['/novels', source, comics_id, _res[0].chapters[0].id])
+    }
   }
-}
 
 
   async put() {
@@ -266,7 +266,7 @@ async routerNovelsReader(source, comics_id) {
   async init() {
     this.page_num = 1;
     if (this.ListNode) this.ListNode.nativeElement.scrollTop = 0;
-    this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
+    this.list = await this.initFiast({ page_num: this.page_num, page_size: this.page_size });
     this.overflow()
   }
   async overflow() {
@@ -315,11 +315,11 @@ async routerNovelsReader(source, comics_id) {
       this.page_num--;
       return
     }
-    this.list =  [...this.list, ...list].filter((item, index, self) =>
+    this.list = [...this.list, ...list].filter((item, index, self) =>
       index === self.findIndex((t) => (
-          t.id === item.id
+        t.id === item.id
       ))
-  );
+    );
 
 
 
