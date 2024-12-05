@@ -14,7 +14,6 @@ export class DoublePageReaderV2Component {
   swiper = null;
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 353) * window.innerHeight * 2}px`);
   }
   change$;
   event$;
@@ -140,7 +139,6 @@ export class DoublePageReaderV2Component {
 
     this.init();
 
-    document.documentElement.style.setProperty('--double-page-reader-v2-width', `${(250 / 353) * window.innerHeight * 2}px`);
   }
   firstPageToggle() {
     this.is_first_page_cover = !this.is_first_page_cover;
@@ -493,9 +491,12 @@ export class DoublePageReaderV2Component {
     if (imgPrimary.width != 0 && imgPrimary.width == imgSecondary.width && imgPrimary.height == imgSecondary.height && !this.is_1) {
       const size = this.data.comics_config.page_height / 100;
       if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size))}px`);
+        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width<window.innerWidth?width+'px':'100vw'}`);
       } else {
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${((imgPrimary.width / imgPrimary.height) * window.innerHeight * (2 * size))}px`);
+
+        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (2*size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width<window.innerWidth?width+'px':'100vw'}`);
       }
       this.is_1 = true
     }

@@ -72,7 +72,7 @@
         </mat-chip-listbox>
       </div>
     </div>
-    <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
+    <!-- <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
       <div class="left" [attr.svg_filter]="'text_secondary'">
         {{'图片大小'|translate}}
       </div>
@@ -84,7 +84,7 @@
           <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'"   (selectionChange)="change5(90)" [selectable]="90!=data.comics_config.page_height" [selected]="90==data.comics_config.page_height">{{'90%'|translate}} </mat-chip-option>
         </mat-chip-listbox>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
       <div class="left" [attr.svg_filter]="'text_secondary'">
         {{'圆角'|translate}}
