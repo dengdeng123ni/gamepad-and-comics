@@ -1,23 +1,35 @@
-.list{
+.list {
   display: grid;
   width: 386px;
   height: 386px;
   justify-content: space-between;
   grid-gap: 0.8rem;
-  padding:0.8rem;
+  padding: 0.8rem;
   grid-template-columns: 1fr 1fr 1fr;
+
+  @media screen and (min-width: 0px) and (max-width: 480px) {
+    width: auto;
+    height: auto;
+    grid-gap: 0.4rem;
+    padding: 0.4rem;
+
+    .item {
+      width: 90px;
+      height: 90px;
+    }
+  }
 }
-.warp{
+
+.warp {
   width: 100%;
   height: 100%;
   display: flex;
   background: #424242;
 }
-.list[grid_num='9']{
 
+.list[grid_num='9'] {}
 
-}
-.item{
+.item {
   // border: 1px solid #fff;
   border-radius: 4px;
   height: 120px;
@@ -26,19 +38,24 @@
   font-size: 48px;
 
 }
-.left,.right{
-  width:48px;
+
+.left,
+.right {
+  width: 48px;
   height: calc(100% - 1.6rem);
   background: #303030;
-  margin:0.8rem;
+  margin: 0.8rem;
 
 }
-.left{
+
+.left {
   margin-right: 0px;
 }
-.right{
+
+.right {
   margin-left: 0px;
 }
+
 // .warp{}
 :host ::ng-deep {
   .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
@@ -49,11 +66,20 @@
     width: 48px;
     height: 48px;
   }
-  .mat-icon{
+
+  .mat-icon {
     width: 48px;
     height: 48px;
     font-size: 48px;
   }
+  @media screen and (min-width: 0px) and (max-width: 480px) {
+    .mat-icon {
+      width: 36px;
+      height: 36px;
+      font-size: 36px;
+    }
+  }
+
   .mat-toolbar-row,
   .mat-toolbar-single-row {
     height: 30px;

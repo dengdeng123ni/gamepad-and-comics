@@ -53,7 +53,7 @@
     height: min-content;
     // text-align: left;
     // height: min-content;
-    aspect-ratio: 172 / 270;
+    aspect-ratio: 172 / 262;
     .img {
       width: 100%;
       display: flex;
@@ -123,25 +123,31 @@
     display: flex;
     align-items: baseline;
     margin: 12px 22px;
+    width: calc(100% - 44px);
+    overflow-x: auto;
+    overflow-y: hidden;
     margin-bottom: 0;
 
     .title {
       font-size: 24px;
       font-weight: 400;
-      font-family: Roboto, sans-serif;
+      white-space: nowrap;
       letter-spacing: normal;
       margin-right: 12px;
+      padding: 4px 0;
     }
 
     .list {
       display: flex;
       margin-right: 24px;
+      width: 100%;
     }
 
     .item {
       margin: 0 6px;
       display: flex;
       align-items: center;
+      white-space: nowrap;
     }
 
     .item[selected=true] {

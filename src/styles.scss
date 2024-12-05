@@ -539,7 +539,11 @@ html[theme=yeshu] {
 ._read_record {
   max-width: none !important;
 }
-
+@media (max-width: 599px) {
+  .cdk-overlay-pane.mat-mdc-dialog-panel {
+    max-width: 100vw !important;
+  }
+}
 body[is_ios=false]{
 
 /* 针对 Webkit 浏览器（如 Chrome 和 Safari） */
