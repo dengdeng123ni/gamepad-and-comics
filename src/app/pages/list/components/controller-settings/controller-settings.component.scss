@@ -22,3 +22,17 @@
     }
   }
 }
+
+
+
+:host ::ng-deep {
+  @media screen and (min-width: 0px) and (max-width: 480px) {
+    .mdc-button .mdc-button__label {
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+
+}
