@@ -1,3 +1,4 @@
+import { Platform } from '@angular/cdk/platform';
 import { Injectable } from '@angular/core';
 import { PagesItem, ChaptersItem, ComicsInfo, AppDataService } from 'src/app/library/public-api';
 
@@ -33,7 +34,7 @@ export class DataService {
     reader_mode: "double_page_reader",
     is_page_order: false,
     is_page_direction: true,
-    is_double_page: true,
+    is_double_page: (window.innerWidth < 480 && (this.platform.ANDROID || this.platform.IOS))?true:false,
     background_color: "#303030",
     first_cover_background_color: "default",
     page_switching_effect: "平滑",
@@ -45,7 +46,7 @@ export class DataService {
   is_download = false;
 
 
-  constructor(public AppData: AppDataService) { }
+  constructor(public AppData: AppDataService,public platform:Platform) { }
 
   init() {
     const obj = this.AppData.getOption();

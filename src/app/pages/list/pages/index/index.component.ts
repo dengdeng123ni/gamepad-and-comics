@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
-import { AppDataService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, KeyboardEventService, TouchmoveEventService } from 'src/app/library/public-api';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
 import { IndexService } from './index.service';
@@ -18,6 +18,7 @@ import { ImageToService } from '../../components/image-to/image-to.service';
 import { DownloadProgressService } from '../../components/download-progress/download-progress.service';
 import { WhenInputtingService } from '../../components/when-inputting/when-inputting.service';
 import { MenuSearchService } from '../../components/menu-search/menu-search.service';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-index',
@@ -25,6 +26,7 @@ import { MenuSearchService } from '../../components/menu-search/menu-search.serv
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent {
+  has_backdrop = false;
 
   constructor(
     private Current: CurrentService,
@@ -41,13 +43,16 @@ export class IndexComponent {
     public GamepadToolbar: GamepadToolbarService,
     public ComicsListV2: ComicsListV2Service,
     public UrlToComicsId: UrlToComicsIdService,
-    public TabToolbar:TabToolbarService,
-    public ComicsListConfig:ComicsListConfigService,
-    public imageTo:ImageToService,
-    public WhenInputting:WhenInputtingService,
-    public DownloadProgress:DownloadProgressService,
-    public MenuSearch:MenuSearchService
+    public TabToolbar: TabToolbarService,
+    public ComicsListConfig: ComicsListConfigService,
+    public imageTo: ImageToService,
+    public WhenInputting: WhenInputtingService,
+    public DownloadProgress: DownloadProgressService,
+    public TouchmoveEvent:TouchmoveEventService,
+    public platform: Platform,
+    public MenuSearch: MenuSearchService
   ) {
+    this.has_backdrop= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     // this.MenuSearch.open({
     //   position:{
     //     left:"10px",
@@ -70,9 +75,9 @@ export class IndexComponent {
     //   "o": () => this.TabToolbar.isToggle(),
     // })
     document.body.setAttribute("router", "list")
-    document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+    document.body.setAttribute("locked_region", document.body.getAttribute("router"))
     // this.Current.init();
-    GamepadEvent.registerConfig("menu", { region: ["menu_item","item"] })
+    GamepadEvent.registerConfig("menu", { region: ["menu_item", "item"] })
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
 
     const b64_to_utf8 = (str: string) => {
@@ -84,8 +89,17 @@ export class IndexComponent {
     })
 
     this.init();
+    TouchmoveEvent.register('list',{
+      LEFT:()=>{
+        this.has_backdrop = true;
+        this.menu.opened = true;
+      },
+      RIGHT:()=>{
+        this.has_backdrop = false;
+        this.menu.opened = false;
+      },
+    })
   }
-
 
   async init() {
     await this.data.init();
@@ -107,11 +121,11 @@ export class IndexComponent {
   }
 
   openedChange(bool) {
-    //  if(bool){
-    //   document.body.setAttribute("locked_region", "menu")
-    //  }else{
-    //   if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region",document.body.getAttribute("router"))
-    //  }
+    if (bool) {
+
+    } else {
+      this.menu.opened = false;
+    }
     this.menu.post()
   }
   mouseleave($event: MouseEvent) {

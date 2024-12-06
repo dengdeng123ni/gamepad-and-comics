@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -132,6 +132,7 @@ export class AppComponent {
     public testService: TestService,
     public DownloadEvent: DownloadEventService,
     public ParamsController: ParamsControllerService,
+    public TouchmoveController:TouchmoveControllerService,
     private translate: TranslateService,
     public webDb: NgxIndexedDBService,
     public DbEvent: DbEventService,
@@ -292,7 +293,7 @@ export class AppComponent {
       setTimeout(() => {
         this.App.init();
         this.ParamsController.init()
-
+        this.TouchmoveController.init();
         this.RoutingController.strRouterReader(obj1["url"]);
         this.get123();
 

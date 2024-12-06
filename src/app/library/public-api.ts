@@ -19,6 +19,10 @@ export * from './gamepad/gamepad-sound.service';
 export * from './gamepad/keyboard-event.service';
 export * from './gamepad/keyboard-controller.service';
 
+
+export * from './touchmove/touchmove-controller.service';
+export * from './touchmove/touchmove-event.service';
+
 // export * from './cache/cache.service';
 export * from './params/params-event.service';
 export * from './params/params-controller.service';

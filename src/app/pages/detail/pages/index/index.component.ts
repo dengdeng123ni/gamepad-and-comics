@@ -4,10 +4,11 @@ import { DataService } from '../../services/data.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { IndexService } from './index.service';
-import { AppDataService, GamepadEventService, KeyboardEventService } from 'src/app/library/public-api';
+import { AppDataService, GamepadEventService, KeyboardEventService, TouchmoveEventService } from 'src/app/library/public-api';
 import { KeyboardToolbarService } from '../../components/keyboard-toolbar/keyboard-toolbar.service';
 import { MenuService } from '../../services/menu.service';
 import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-toolbar.service';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-index',
@@ -15,6 +16,7 @@ import { GamepadToolbarService } from '../../components/gamepad-toolbar/gamepad-
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent {
+  has_backdrop = false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -26,8 +28,11 @@ export class IndexComponent {
     public KeyboardToolbar: KeyboardToolbarService,
     public KeyboardEvent: KeyboardEventService,
     public GamepadToolbar:GamepadToolbarService,
+    public TouchmoveEvent:TouchmoveEventService,
+    public platform: Platform,
     public menu: MenuService
   ) {
+    this.has_backdrop= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     //
     this.GamepadEvent.registerGlobalEvent({
       LEFT_ANALOG_PRESS:()=>{
@@ -55,6 +60,17 @@ export class IndexComponent {
     })
     document.body.setAttribute("router", "detail")
     document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+
+    TouchmoveEvent.register('detail',{
+      LEFT:()=>{
+        this.has_backdrop = true;
+        this.menu.opened = true;
+      },
+      RIGHT:()=>{
+        this.has_backdrop = false;
+        this.menu.opened = false;
+      },
+    })
   }
   openedChange(bool) {
     //  if(bool){
