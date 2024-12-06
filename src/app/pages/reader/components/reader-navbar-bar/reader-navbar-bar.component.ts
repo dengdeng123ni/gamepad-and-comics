@@ -66,7 +66,7 @@ export class ReaderNavbarBarComponent implements OnInit {
       }
     });
 
-    this.change$.pipe(throttleTime(50)).subscribe(x => {
+    this.change$.pipe(throttleTime(200)).subscribe(x => {
       this.change(x)
     })
 
