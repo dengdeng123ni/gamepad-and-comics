@@ -15,12 +15,12 @@ export class OnePageReaderV2Component {
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
     document.documentElement.style.setProperty('--double-page-reader-v2-width', '100vw');
-    this.is_1=false;
+    this.is_1 = false;
   }
   change$;
   event$;
-  is_destroy=false;
-  swiper_id= `_${new Date().getTime()}`;
+  is_destroy = false;
+  swiper_id = `_${new Date().getTime()}`;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -151,7 +151,7 @@ export class OnePageReaderV2Component {
   ngOnDestroy() {
     this.change$.unsubscribe();
     this.event$.unsubscribe();
-    this.is_destroy=true;
+    this.is_destroy = true;
   }
   isSwitch = false;
   async pageToggle() {
@@ -200,7 +200,7 @@ export class OnePageReaderV2Component {
     })
   }
   async updata() {
-    if(!this.swiper.slides[this.swiper.activeIndex]) return
+    if (!this.swiper.slides[this.swiper.activeIndex]) return
     if (this.swiper.slides[this.swiper.activeIndex]) {
       const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
       let indexs = [];
@@ -216,7 +216,7 @@ export class OnePageReaderV2Component {
         trigger: 'double_page_reader_v2'
       });
     } else {
-      if(this.is_destroy) return
+      if (this.is_destroy) return
       setTimeout(() => {
         this.updata();
       }, 50)
@@ -329,17 +329,18 @@ export class OnePageReaderV2Component {
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       setTimeout(() => {
-        this.objNextHtml[`${chapter_id}_${index}`]=undefined;
+        this.objNextHtml[`${chapter_id}_${index}`] = undefined;
       }, 1000)
 
-      if (this.swiper.slides.length > 10) {
+      if (this.swiper.slides.length > 20) {
         this.ccc = true;
         const nodes = this.swiper.slides[this.swiper.slides.length - 1].querySelectorAll("img");
         for (let index = 0; index < nodes.length; index++) {
           const x = nodes[index];
           this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
-        this.swiper.removeSlide([(this.swiper.slides.length - 1),(this.swiper.slides.length - 2),(this.swiper.slides.length - 3),(this.swiper.slides.length - 4),(this.swiper.slides.length - 5)]);
+        const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
+        this.swiper.removeSlide(getrange(this.swiper.slides.length - 15, this.swiper.slides.length - 1).reverse());
         await this.sleep(999);
         this.ccc = false;
       }
@@ -357,7 +358,7 @@ export class OnePageReaderV2Component {
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
       const obj = await this.isWideImage(list[index], list[index - 1]);
-       obj.secondary = undefined;
+      obj.secondary = undefined;
       if (index == 0) obj.secondary = undefined;
 
       if (index >= (total - 1) && !obj.secondary) {
@@ -380,16 +381,16 @@ export class OnePageReaderV2Component {
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       setTimeout(() => {
-        this.objPreviousHtml[`${chapter_id}_${index}`]=undefined;
+        this.objPreviousHtml[`${chapter_id}_${index}`] = undefined;
       }, 1000)
-      if (this.swiper.slides.length > 10) {
+      if (this.swiper.slides.length > 20) {
         this.ccc = true;
         const nodes = this.swiper.slides[0].querySelectorAll("img");
         for (let index = 0; index < nodes.length; index++) {
           const x = nodes[index];
           this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
-        this.swiper.removeSlide([0,1,2,3,4]);
+        this.swiper.removeSlide([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
         await this.sleep(999);
         this.ccc = false;
       }
@@ -445,17 +446,17 @@ export class OnePageReaderV2Component {
     if (secondary) secondary.src = await this.current._getImage(secondary.src)
 
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
-    if (primary&&imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
-    if (secondary&&imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
-    if (imgPrimary.width != 0&&imgPrimary.width == imgSecondary.width && !this.is_1) {
-      const size=this.data.comics_config.page_height/100;
+    if (primary && imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
+    if (secondary && imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
+    if (imgPrimary.width != 0 && imgPrimary.width == imgSecondary.width && !this.is_1) {
+      const size = this.data.comics_config.page_height / 100;
       if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
-        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width<window.innerWidth?width+'px':'100vw'}`);
+        const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width < window.innerWidth ? width + 'px' : '100vw'}`);
       } else {
 
-        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width<window.innerWidth?width+'px':'100vw'}`);
+        const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width < window.innerWidth ? width + 'px' : '100vw'}`);
       }
       this.is_1 = true
     }

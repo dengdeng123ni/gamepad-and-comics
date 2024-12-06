@@ -281,6 +281,9 @@ export class DoublePageThumbnailComponent {
   close() {
     this.doublePageThumbnail.close();
   }
+  close2(){
+    if(!this.is_loading_free) this.doublePageThumbnail.close();
+  }
 
 
 

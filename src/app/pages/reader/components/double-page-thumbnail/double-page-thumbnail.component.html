@@ -1,7 +1,7 @@
 
 
 
-<mat-drawer-container autosize style="height: 100vh;background: transparent;" *ngIf="is_init_free"  >
+<mat-drawer-container autosize style="height: 100vh;background: transparent;" *ngIf="is_init_free"  (click)="close2()" >
   <mat-drawer [opened]="opened" mode="side" style="min-width: 224px;" id="scroll" [attr.svg_filter]="'background_secondary'">
     <div class="menu">
       <div class="title" [attr.svg_filter]="'text_secondary'">
@@ -73,6 +73,7 @@
   border-radius: 4px;
   margin-top: 12px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;">
         <div  >
