@@ -3,6 +3,7 @@ import { ReaderConfigComponent } from './reader-config.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
 import { GamepadControllerService } from 'src/app/library/public-api';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class ReaderConfigService {
   constructor(
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService,
+    public _sheet: MatBottomSheet,
     public GamepadController:GamepadControllerService
   ) {
     GamepadEvent.registerAreaEvent('reader_config_item',{
@@ -71,5 +73,25 @@ export class ReaderConfigService {
   }
   close() {
     this._dialog.closeAll()
+  }
+  open_bottom_sheet() {
+    if (this.opened == false) {
+      if (this.opened == false) {
+        const sheetRef = this._sheet.open(ReaderConfigComponent, {
+          autoFocus: false,
+          panelClass: "_reader_config",
+        });
+        document.body.setAttribute("locked_region", "reader_config")
+        sheetRef.afterDismissed().subscribe(() => {
+          if (document.body.getAttribute("locked_region") == "reader_config" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+          this.opened = false;
+        });
+      }
+      this.opened = true;
+    }
+  }
+
+  close_bottom_sheet() {
+    this._sheet.dismiss();
   }
 }

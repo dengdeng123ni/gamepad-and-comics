@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { bufferCount, Subject, throttleTime } from 'rxjs';
+import { bufferCount, debounceTime, Subject, throttleTime } from 'rxjs';
 import { ReaderSectionService } from '../reader-section/reader-section.service';
 import { ReaderNavbarBarService } from './reader-navbar-bar.service';
 import { CurrentService } from '../../services/current.service';
@@ -26,7 +26,6 @@ export class ReaderNavbarBarComponent implements OnInit {
   }
 
   public set index(v: number) {
-
     this.change$.next(v)
   }
   public get index() {
@@ -66,7 +65,7 @@ export class ReaderNavbarBarComponent implements OnInit {
       }
     });
 
-    this.change$.pipe(throttleTime(200)).subscribe(x => {
+    this.change$.pipe(debounceTime(100)).subscribe(x => {
       this.change(x)
     })
 
@@ -112,6 +111,11 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.readerSection.open({ x, y })
   }
   openSettings() {
-    this.ReaderConfig.open( )
+    if (window.innerWidth <= 480) {
+      this.close();
+      this.ReaderConfig.open_bottom_sheet()
+      return
+    }
+    this.ReaderConfig.open()
   }
 }

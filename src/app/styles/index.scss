@@ -2,3 +2,9 @@
 @import "./dialog.scss";
 
 
+
+._reader_config{
+  .mat-bottom-sheet-container {
+    padding: 0 !important;
+  }
+}
