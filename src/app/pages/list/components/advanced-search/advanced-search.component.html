@@ -1,12 +1,4 @@
-<div style="display: flex;
-    flex-direction: column;
-    width: 256px;
-    padding: 12px;
-    background: #424242;
-    overflow: auto;
-    height: calc(100% - 28px);
-    border-radius: 4px;
-    " id="advanced_search">
+<div id="advanced_search">
   <!-- <div class="title">
     <button mat-button [disabled]="true">高级查询</button>
   </div> -->
@@ -33,7 +25,6 @@
       </div>
       <mat-divider style="margin: 2px 0;"></mat-divider>
     </div>
-
     <div *ngIf="n.type=='tag'">
       <div class="title" style="font-size: 16px;margin: 12px 0;">
         {{n.label}}

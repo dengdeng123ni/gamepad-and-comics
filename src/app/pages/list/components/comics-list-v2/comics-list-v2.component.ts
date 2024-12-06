@@ -10,6 +10,8 @@ import { ComicsListV2Service } from './comics-list-v2.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
 import { DownloadOptionService } from '../download-option/download-option.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Platform } from '@angular/cdk/platform';
+import { AdvancedSearchService } from '../advanced-search/advanced-search.service';
 
 @Component({
   selector: 'app-comics-list-v2',
@@ -77,6 +79,7 @@ export class ComicsListV2Component {
   params = {
     gh_data: ""
   }
+  is_phone=false;
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -95,9 +98,12 @@ export class ComicsListV2Component {
     private _snackBar: MatSnackBar,
     public DownloadOption: DownloadOptionService,
     public App: AppDataService,
+    public platform:Platform,
+    public AdvancedSearch:AdvancedSearchService,
     public LocalCach: LocalCachService,
 
   ) {
+    this.is_phone= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     KeyboardEvent.registerGlobalEventY({
       "a": () => {
         this.all()
@@ -393,6 +399,14 @@ export class ComicsListV2Component {
       ]
     })
 
+  }
+
+  on_8474(){
+    this.AdvancedSearch.open({
+      list:this.query.list,
+      query_fixed:this.query_fixed,
+      change:this.on_135
+    })
   }
   getAllParams(url) {
     const params = new URLSearchParams(url.split('?')[1]);

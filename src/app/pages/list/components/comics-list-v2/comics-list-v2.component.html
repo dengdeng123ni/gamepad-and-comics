@@ -62,16 +62,14 @@
         </button>
       </div>
     </div>
-    <div class="choice" *ngIf="type == 'advanced_search'">
-      <!-- <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">{{'高级搜索' | translate}}</div> -->
-      <!-- <div style="display: flex;flex-direction: column;">
-        <form>
-          <mat-form-field>
-            <textarea matInput placeholder="关键字"></textarea>
-          </mat-form-field>
-        </form>
-        <button mat-button  style="display: flex;justify-content: right;">搜索</button>
-      </div> -->
+    <div class="choice" *ngIf="type == 'advanced_search'" style="display: flex;flex-direction: column;">
+      <button mat-button class=" "   style=" width: 100%;" *ngIf="is_phone" (click)="on_8474()" >
+        <mat-icon class="icon" [attr.svg_filter]="'text_primary'">search</mat-icon>
+        <div class="name"  [attr.svg_filter]="'text_primary'" >
+          {{'搜索'|translate}}
+        </div>
+      </button>
+      <mat-divider *ngIf="is_phone" style="width: 100%;margin: 4px 0;"></mat-divider>
     </div>
     <div class="choice" *ngIf="type == 'local_cache'">
       <div
@@ -138,7 +136,7 @@
   ></context-menu-edit>
   <div class="warp" style="display: flex">
     <app-advanced-search
-      *ngIf="type == 'advanced_search'"
+      *ngIf="type == 'advanced_search'&&!is_phone"
       [list]="query.list"
       [change]="on_135"
       [query_fixed]="query_fixed"
