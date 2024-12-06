@@ -208,7 +208,7 @@ export class OnePageReaderV2Component {
         const node = nodes[index];
         indexs.push(parseInt(node.getAttribute("index")))
       }
-      const index = indexs.sort((a, b) => b - a)[0] - 1;
+      const index = indexs.sort((a, b) => b - a)[0];
       const chapter_id = nodes[0].getAttribute("chapter_id");
       this.current._change('changePage', {
         chapter_id: chapter_id,

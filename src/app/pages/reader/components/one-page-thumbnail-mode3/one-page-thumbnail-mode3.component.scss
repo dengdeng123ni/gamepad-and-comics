@@ -62,6 +62,16 @@
       height: 100% !important;
     }
   }
+  @media screen and (min-width: 0px) and (max-width: 480px) {
+    app-image {
+      width: 100% !important;
+      img{
+        width: 100% !important;
+        object-fit: contain;
+      }
+    }
+  }
+
 }
 
 .index {
@@ -80,4 +90,14 @@
       padding-right: 0.175rem;
       border-radius: 0.25rem;
     }
+}
+
+@media screen and (min-width: 0px) and (max-width: 480px) {
+  .list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .img {
+      width: fit-content;
+  }
 }

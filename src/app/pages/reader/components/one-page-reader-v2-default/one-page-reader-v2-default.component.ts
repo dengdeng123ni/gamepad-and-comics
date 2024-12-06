@@ -155,7 +155,7 @@ export class OnePageReaderV2DefaultComponent {
       const node = nodes[index];
       indexs.push(parseInt(node.getAttribute("index")))
     }
-    const index = indexs.sort((a, b) => b - a)[0] - 1 ;
+    const index = indexs.sort((a, b) => b - a)[0] ;
     if (index == 0) {
       this.current._pageChange(index);
     } else {

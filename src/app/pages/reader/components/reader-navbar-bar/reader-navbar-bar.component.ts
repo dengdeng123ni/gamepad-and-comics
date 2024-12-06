@@ -30,7 +30,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     this.change$.next(v)
   }
   public get index() {
-    return this.data.page_index
+    return this.data.page_index+1
   }
 
   title='首页';
@@ -66,7 +66,7 @@ export class ReaderNavbarBarComponent implements OnInit {
       }
     });
 
-    this.change$.pipe(throttleTime(200)).subscribe(x => {
+    this.change$.pipe(throttleTime(50)).subscribe(x => {
       this.change(x)
     })
 
