@@ -1169,7 +1169,8 @@ export class DbEventService {
             return list
           } else if (obj.menu_id == "advanced_search") {
             let url = "https://e-hentai.org/?";
-            if (obj.language && obj.f_search) obj.f_search = obj.f_search + "+language:chinese"
+
+            if (obj.language && obj.f_search) obj.f_search = obj.f_search + " language:chinese"
             if (obj.language && !obj.f_search) obj.f_search = "language:chinese"
             if (obj.f_sh) obj.f_sh = "on"
 
@@ -1186,6 +1187,7 @@ export class DbEventService {
               const list = await getList(url + '' + params, async doc => {
                 if (doc?.querySelector("#unext")?.getAttribute("href")) {
                   const href = doc?.querySelector("#unext")?.getAttribute("href");
+
                   await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
                     href: href,
                     page_num: obj.page_num
@@ -1195,9 +1197,8 @@ export class DbEventService {
               return list
             } else {
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_${window.btoa(params)}`)
-
               if (obj22) {
-                const list = await getList(url + '' + params, async doc => {
+                const list = await getList(obj22.href, async doc => {
                   if (doc?.querySelector("#unext")?.getAttribute("href")) {
                     const href = doc?.querySelector("#unext")?.getAttribute("href");
 
@@ -1207,6 +1208,7 @@ export class DbEventService {
                     })
                   }
                 })
+
                 return list
               }
 
