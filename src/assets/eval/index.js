@@ -367,5 +367,5 @@ class MessageFetchService {
 
 }
 
-new MessageFetchService()
+if(false) new MessageFetchService()
 

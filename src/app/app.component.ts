@@ -38,6 +38,8 @@ export const slideInAnimation =
       query(':enter', animateChild()),
     ])
   ]);
+
+declare let navigator: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -181,11 +183,15 @@ export class AppComponent {
     GamepadEvent.registerConfig("select", { region: ["option"] })
     this.init();
 
+    setTimeout(()=>{
+      this.cccc();
+    },300)
 
+  }
+  async cccc() {
 
 
   }
-
 
 
   ngOnDestroy() {

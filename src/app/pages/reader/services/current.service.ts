@@ -149,7 +149,6 @@ export class CurrentService {
       cover: this.data.details.cover
     })
     document.documentElement.style.setProperty('--reader-background-color', this.data.comics_config.background_color)
-    document.documentElement.style.setProperty('--reader-border-radius', `${this.data.comics_config.border_radius}px`)
     setTimeout(() => {
       this._updateChapterRead(this.data.chapter_id)
       firstValueFrom(this.webDb.update('read_record', {

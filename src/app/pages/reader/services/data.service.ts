@@ -36,7 +36,7 @@ export class DataService {
     is_double_page: true,
     background_color: "#303030",
     first_cover_background_color: "default",
-    page_switching_effect: "覆盖",
+    page_switching_effect: "平滑",
     page_height: 100,
     border_radius: 4
   }

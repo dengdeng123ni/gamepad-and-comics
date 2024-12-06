@@ -69,7 +69,6 @@ setTimeout(()=>{
   }
   change6(e) { if(!this.is_open) return
     this.data.comics_config.border_radius = e;
-    document.documentElement.style.setProperty('--reader-border-radius', `${this.data.comics_config.border_radius}px`)
   }
 
   change5(e) {

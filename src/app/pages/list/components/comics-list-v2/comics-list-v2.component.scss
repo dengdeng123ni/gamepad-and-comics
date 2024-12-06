@@ -26,7 +26,14 @@
   overflow: hidden;
   // 199,154,118
 }
-
+@media screen and (min-width: 0px) and (max-width: 480px) {
+  .grid {
+  grid-template-columns:1fr 1fr !important;
+  .item {
+    padding: 0.4rem !important;
+  }
+}
+}
 .grid {
   display: grid;
   margin-left: auto;
@@ -49,7 +56,8 @@
     padding: 0.8rem;
     height: auto;
     width: 100%;
-    user-select: none;
+    min-width: 144px;
+    // user-select: none;
     height: min-content;
     // text-align: left;
     // height: min-content;

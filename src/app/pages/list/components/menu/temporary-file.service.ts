@@ -79,8 +79,12 @@ export class TemporaryFileService {
       },
       getImage: async (id: string) => {
         const obj = this.files.find((x: { id: string; }) => x.id == id);
-        const blob = await obj.blob.getFile();
-        return blob
+        if(obj.blob instanceof File){
+          return obj.blob
+        }else{
+          const blob = await obj.blob.getFile();
+          return blob
+        }
       }
     });
   }

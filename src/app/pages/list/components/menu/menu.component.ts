@@ -605,46 +605,86 @@ export class MenuComponent {
 
   }
   async openTemporaryFile() {
-    const dirHandle = await (window as any).showDirectoryPicker();
-    let files_arr: { id: number; blob: any; path: string; name: any; }[] = []
-    let date = new Date().getTime();
-    const handleDirectoryEntry = async (dirHandle: any, out: { [x: string]: {}; }, path: any) => {
-      if (dirHandle.kind === "directory") {
-        for await (const entry of dirHandle.values()) {
-          if (entry.kind === "file") {
-            if (["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(entry.name.split(".")[1])) {
-              out[entry.name] = { id: date, blob: entry, path: `${path}/${entry.name}`.substring(1) };
-              files_arr.push({ id: date, blob: entry, path: `${path}/${entry.name}`.substring(1), name: entry.name })
-              date++;
+    let files_arr;
+    if(window.showDirectoryPicker){
+      const getFiles2 =async ()=>{
+        const dirHandle = await (window as any).showDirectoryPicker();
+        let files_arr: { id: number; blob: any; path: string; name: any; }[] = []
+        let date = new Date().getTime();
+        const handleDirectoryEntry = async (dirHandle: any, out: { [x: string]: {}; }, path: any) => {
+          if (dirHandle.kind === "directory") {
+            for await (const entry of dirHandle.values()) {
+              if (entry.kind === "file") {
+                if (["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(entry.name.split(".")[1])) {
+                  out[entry.name] = { id: date, blob: entry, path: `${path}/${entry.name}`.substring(1) };
+                  files_arr.push({ id: date, blob: entry, path: `${path}/${entry.name}`.substring(1), name: entry.name })
+                  date++;
+                }
+              }
+              if (entry.kind === "directory") {
+                const newOut = out[entry.name] = {};
+                await handleDirectoryEntry(entry, newOut, `${path}/${entry.name}`);
+              }
             }
           }
-          if (entry.kind === "directory") {
-            const newOut = out[entry.name] = {};
-            await handleDirectoryEntry(entry, newOut, `${path}/${entry.name}`);
+          if (dirHandle.kind === "file") {
+            const entry = dirHandle;
+            if (!["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(entry.name.split(".")[1])) return
+            out[entry.name] = { id: date, blob: entry, path: `${path}/${entry.name}`.substring(1) };
+            files_arr.push({ id: date, blob: entry, path: `${path}/${entry.name}`.substring(1), name: entry.name })
+            date++;
           }
         }
+        const out = {};
+
+        await handleDirectoryEntry(dirHandle, out, dirHandle["name"]);
+        return files_arr
       }
-      if (dirHandle.kind === "file") {
-        const entry = dirHandle;
-        if (!["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(entry.name.split(".")[1])) return
-        out[entry.name] = { id: date, blob: entry, path: `${path}/${entry.name}`.substring(1) };
-        files_arr.push({ id: date, blob: entry, path: `${path}/${entry.name}`.substring(1), name: entry.name })
-        date++;
+      files_arr=await getFiles2();
+    }else{
+      const getFiles=():any=>{
+        return new Promise((r,j)=>{
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.webkitdirectory = true;  // 允许选择目录
+          fileInput.multiple = true;  // 允许选择多个文件
+
+          // 触发文件选择框
+          fileInput.click();
+
+          // 处理文件选择
+          fileInput.addEventListener('change', function (event) {
+            const files = (event.target as any).files;
+
+            let arr=[];
+            Array.from(files).forEach(x=>{
+               let obj={}
+               if (["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(x['name'].split(".")[1])) {
+                obj['name']=x['name'];
+                obj['id']=x['lastModified'];
+                obj['path']=x['webkitRelativePath']
+                obj['blob']=x
+                arr.push(obj)
+               }
+            })
+            r(arr)
+          });
+        })
       }
+      files_arr=await getFiles();
     }
-    const out = {};
+
     const id = new Date().getTime();
 
-
-    await handleDirectoryEntry(dirHandle, out, dirHandle["name"]);
     let list = await this.upload.subscribe_to_temporary_file_directory(files_arr, id)
+
     list.forEach(x => x.temporary_file_id = id);
     this.temporaryFile.data = [...this.temporaryFile.data, ...list]
     let chapters: any[] = [];
     this.data.menu.push({
       id,
       icon: "subject",
-      name: dirHandle["name"],
+      name: files_arr[0].path.split("/")[0],
       click: e => {
         this.AppData.setsource('temporary_file')
         this.router.navigate(['query', 'temporary_file', 'temporary_file', e.id]);

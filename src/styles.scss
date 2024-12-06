@@ -544,6 +544,11 @@ html[theme=yeshu] {
     max-width: 100vw !important;
   }
 }
+[ng-reflect-message]{
+  user-select: auto !important;
+  -webkit-user-drag: auto !important;
+  touch-action: auto !important;
+}
 body[is_ios=false]{
 
 /* 针对 Webkit 浏览器（如 Chrome 和 Safari） */

@@ -361,7 +361,7 @@ export class DoublePageReaderV2DefaultComponent {
           this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         this.swiper.removeSlide([(this.swiper.slides.length - 1),(this.swiper.slides.length - 2),(this.swiper.slides.length - 3),(this.swiper.slides.length - 4),(this.swiper.slides.length - 5)]);
-        await this.sleep(100);
+        await this.sleep(999);
         this.ccc = false;
       }
       this.prependSlide(current)
@@ -413,7 +413,7 @@ export class DoublePageReaderV2DefaultComponent {
           this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         this.swiper.removeSlide([0,1,2,3,4]);
-        await this.sleep(100);
+        await this.sleep(999);
         this.ccc = false;
       }
       this.appendSlide(current)
