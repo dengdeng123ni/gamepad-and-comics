@@ -1134,8 +1134,8 @@ export class DbEventService {
           } else if (obj.menu_id == "latest") {
             if (obj.page_num == 1) {
               const list = await getList("https://e-hentai.org/", doc => {
-                if (doc.querySelector("#unext").getAttribute("href")) {
-                  const href = doc.querySelector("#unext").getAttribute("href");
+                if (doc?.querySelector("#unext")?.getAttribute("href")) {
+                  const href = doc?.querySelector("#unext")?.getAttribute("href");
                   window._gh_set_data(`${obj.page_num}_latest`, {
                     href: href,
                     page_num: obj.page_num
@@ -1148,8 +1148,8 @@ export class DbEventService {
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_latest`)
               if (obj22) {
                 const list = await getList(obj22.href, doc => {
-                  if (doc.querySelector("#unext").getAttribute("href")) {
-                    const href = doc.querySelector("#unext").getAttribute("href");
+                  if (doc?.querySelector("#unext")?.getAttribute("href")) {
+                    const href = doc?.querySelector("#unext")?.getAttribute("href");
                     window._gh_set_data(`${obj.page_num}_latest`, {
                       href: href,
                       page_num: obj.page_num
@@ -1184,8 +1184,8 @@ export class DbEventService {
 
             if (obj.page_num == 1) {
               const list = await getList(url + '' + params, async doc => {
-                if (doc.querySelector("#unext").getAttribute("href")) {
-                  const href = doc.querySelector("#unext").getAttribute("href");
+                if (doc?.querySelector("#unext")?.getAttribute("href")) {
+                  const href = doc?.querySelector("#unext")?.getAttribute("href");
                   await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
                     href: href,
                     page_num: obj.page_num
@@ -1198,8 +1198,8 @@ export class DbEventService {
 
               if (obj22) {
                 const list = await getList(url + '' + params, async doc => {
-                  if (doc.querySelector("#unext").getAttribute("href")) {
-                    const href = doc.querySelector("#unext").getAttribute("href");
+                  if (doc?.querySelector("#unext")?.getAttribute("href")) {
+                    const href = doc?.querySelector("#unext")?.getAttribute("href");
 
                     await window._gh_set_data(`${obj.page_num}_${window.btoa(params)}`, {
                       href: href,
@@ -1215,8 +1215,8 @@ export class DbEventService {
 
             if (obj.page_num == 1) {
               const list = await getList("https://e-hentai.org/favorites.php", async doc => {
-                if (doc.querySelector("#unext").getAttribute("href")) {
-                  const href = doc.querySelector("#unext").getAttribute("href");
+                if (doc?.querySelector("#unext")?.getAttribute("href")) {
+                  const href = doc?.querySelector("#unext")?.getAttribute("href");
                   window._gh_set_data(`${obj.page_num}_favorite`, {
                     href: href,
                     page_num: obj.page_num
@@ -1228,8 +1228,8 @@ export class DbEventService {
               const obj22 = await window._gh_get_data(`${obj.page_num - 1}_favorite`)
               if (obj22) {
                 const list = await getList(obj22.href, async doc => {
-                  if (doc.querySelector("#unext").getAttribute("href")) {
-                    const href = doc.querySelector("#unext").getAttribute("href");
+                  if (doc?.querySelector("#unext")?.getAttribute("href")) {
+                    const href = doc?.querySelector("#unext")?.getAttribute("href");
                     window._gh_set_data(`${obj.page_num}_favorite`, {
                       href: href,
                       page_num: obj.page_num
