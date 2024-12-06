@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, Optional } from '@angular/core';
 import { GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
 import { AdvancedSearchService } from './advanced-search.service';
@@ -18,7 +18,7 @@ export class AdvancedSearchComponent {
   constructor(public GamepadEvent: GamepadEventService,
     public WhenInputting: WhenInputtingService,
     public AdvancedSearch: AdvancedSearchService,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data,
+    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data,
     public GamepadController: GamepadControllerService
 
 

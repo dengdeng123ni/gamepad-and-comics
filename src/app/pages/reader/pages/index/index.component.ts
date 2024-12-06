@@ -21,11 +21,11 @@ import { RepliesPageService } from '../../components/replies-page/replies-page.s
 import { trigger, transition, style, animate } from '@angular/animations';
 export const scaleFadeAnimation = trigger('scaleFadeAnimation', [
   transition(':enter', [
-    style({ opacity: 0  }),
+    style({ opacity: 0 }),
     animate('100ms ease-out', style({ opacity: 1 })),
   ]),
   transition(':leave', [
-    animate('100ms ease-in', style({ opacity: 0  })),
+    animate('100ms ease-in', style({ opacity: 0 })),
   ]),
 ]);
 @Component({
@@ -35,6 +35,7 @@ export const scaleFadeAnimation = trigger('scaleFadeAnimation', [
   animations: [scaleFadeAnimation]
 })
 export class IndexComponent {
+  is_exist_image=false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -57,7 +58,7 @@ export class IndexComponent {
     public ContextMenuEvent: ContextMenuEventService,
     public filter: FilterService,
     public Prompt: PromptService,
-    public RepliesPage:RepliesPageService
+    public RepliesPage: RepliesPageService
   ) {
 
     GamepadEvent.registerAreaEvent('page_reader', {
@@ -85,6 +86,7 @@ export class IndexComponent {
     document.body.setAttribute("locked_region", document.body.getAttribute("router"))
 
 
+
     // ReaderConfig.open();
     // this.LoadingCover.open();
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
@@ -109,6 +111,16 @@ export class IndexComponent {
     this.current.close();
   }
   ngAfterViewInit() {
+    const observer = new MutationObserver((mutationsList, observer) => {
+       if(document.querySelector("img")){
+        console.log(document.querySelector("img"));
+
+        this.is_exist_image=true;
+        observer.disconnect();
+       }
+    });
+    const config = { attributes: false, childList: true,subtree:true };
+    observer.observe(document.querySelector("#_reader_pages"), config);
     this.getIsImage();
 
   }

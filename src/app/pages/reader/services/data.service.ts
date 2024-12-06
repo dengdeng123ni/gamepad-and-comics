@@ -34,7 +34,7 @@ export class DataService {
     reader_mode: "double_page_reader",
     is_page_order: false,
     is_page_direction: true,
-    is_double_page: (window.innerWidth < 480 && (this.platform.ANDROID || this.platform.IOS))?true:false,
+    is_double_page: true,
     background_color: "#303030",
     first_cover_background_color: "default",
     page_switching_effect: "平滑",
@@ -46,7 +46,9 @@ export class DataService {
   is_download = false;
 
 
-  constructor(public AppData: AppDataService,public platform:Platform) { }
+  constructor(public AppData: AppDataService,public platform:Platform) {
+     this.comics_config.is_double_page=!(window.innerWidth < 480 && (this.platform.ANDROID || this.platform.IOS))
+  }
 
   init() {
     const obj = this.AppData.getOption();

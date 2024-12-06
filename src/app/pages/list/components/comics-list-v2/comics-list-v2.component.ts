@@ -104,6 +104,7 @@ export class ComicsListV2Component {
 
   ) {
     this.is_phone= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
+
     KeyboardEvent.registerGlobalEventY({
       "a": () => {
         this.all()
