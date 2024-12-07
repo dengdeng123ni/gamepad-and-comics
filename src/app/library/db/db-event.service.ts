@@ -56,6 +56,42 @@ export class DbEventService {
     window._gh_set_data = this.set_data;
     window._gh_get_data = this.get_data;
     if (true) {
+      function loadCSSFromString(cssString) {
+        // 创建 <style> 元素
+        const style = document.createElement('style');
+        style.type = 'text/css';
+
+        // 检查浏览器支持性并插入 CSS 字符串
+        if (style.styleSheet) {
+          // 针对 IE 浏览器
+          style.styleSheet.cssText = cssString;
+        } else {
+          // 针对现代浏览器
+          style.appendChild(document.createTextNode(cssString));
+        }
+
+        // 将 <style> 元素添加到 <head> 中
+        document.head.appendChild(style);
+      }
+
+      // 使用示例
+      const cssString =
+    `
+    body[source=ehentai] [region=comics_item]{
+          aspect-ratio: 162 / 262 !important
+    }
+ body[source=ehentai] app-comics-list-v2 .choice{
+    margin: 12px 18px 0 !important
+    }
+
+    @media screen and (min-width: 0px) and (max-width: 720px) {
+  body[source=ehentai] app-comics-list-v2 .choice{
+    margin: 12px 16px 0 !important
+    }
+}
+    `;
+
+      loadCSSFromString(cssString);
       window._gh_comics_register({
         id: "bilibili",
         name: "哔哩哔哩漫画",
