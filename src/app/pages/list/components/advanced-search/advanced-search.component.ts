@@ -99,11 +99,13 @@ export class AdvancedSearchComponent {
 
         setTimeout(() => {
           if (document.querySelector("[select=true][region=chip_option] button").getAttribute("aria-selected") == "true") {
-
+            (document.querySelector("[select=true][region=chip_option] button") as any).click()
           } else {
             (document.querySelector("[select=true][region=chip_option] button") as any).click()
           }
-
+          setTimeout(() => {
+            (document.querySelector("[select=true][region=chip_option] button") as any).blur()
+          }, 20)
         }, 100)
       }
     })

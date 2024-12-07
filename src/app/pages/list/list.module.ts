@@ -40,6 +40,7 @@ import { DeveloperPageComponent } from './components/developer-page/developer-pa
 import { TranslateModule } from '@ngx-translate/core';
 import { MatrixComponent } from './components/matrix/matrix.component';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
+import { SelectInputNumberComponent } from './components/select-input-number/select-input-number.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { AdvancedSearchComponent } from './components/advanced-search/advanced-s
     PageThemeComponent,
     MatrixComponent,
     DeveloperPageComponent,
-    AdvancedSearchComponent
+    AdvancedSearchComponent,
+    SelectInputNumberComponent
   ],
   imports: [
     CommonModule,
