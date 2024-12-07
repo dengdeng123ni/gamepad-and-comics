@@ -39,6 +39,9 @@
 
 // palette
 :host ::ng-deep {
+  .swiper-3d .swiper-slide-shadow{
+    background:rgba(0,0,0,0) !important;
+  }
   ._reader {
     background: var(--reader-background-color);
   }
