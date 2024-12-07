@@ -113,8 +113,6 @@ export class IndexComponent {
   ngAfterViewInit() {
     const observer = new MutationObserver((mutationsList, observer) => {
        if(document.querySelector("img")){
-        console.log(document.querySelector("img"));
-
         this.is_exist_image=true;
         observer.disconnect();
        }
