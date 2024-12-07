@@ -21,7 +21,7 @@ export class AdvancedSearchService {
     //   B:()=>setTimeout(()=>this.close())
     // })
     GamepadEvent.registerConfig('advanced_search', {
-      region: ['advanced_search_restart', 'advanced_search_input', 'advanced_search_item'],
+      region: ['advanced_search_restart', 'advanced_search_input', 'advanced_search_item','advanced_search_slider'],
     });
   }
   open(data) {

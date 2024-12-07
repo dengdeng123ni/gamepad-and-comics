@@ -19,6 +19,7 @@ import { DownloadProgressService } from '../../components/download-progress/down
 import { WhenInputtingService } from '../../components/when-inputting/when-inputting.service';
 import { MenuSearchService } from '../../components/menu-search/menu-search.service';
 import { Platform } from '@angular/cdk/platform';
+import { SelectInputNumberService } from '../../components/select-input-number/select-input-number.service';
 
 @Component({
   selector: 'app-index',
@@ -50,8 +51,10 @@ export class IndexComponent {
     public DownloadProgress: DownloadProgressService,
     public TouchmoveEvent:TouchmoveEventService,
     public platform: Platform,
+    public SelectInputNumber:SelectInputNumberService,
     public MenuSearch: MenuSearchService
   ) {
+
     this.has_backdrop= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     // this.MenuSearch.open({
     //   position:{

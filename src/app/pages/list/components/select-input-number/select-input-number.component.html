@@ -1,1 +1,10 @@
-<p>select-input-number works!</p>
+<div class="warp">
+  <div class="list">
+    <button mat-button  *ngFor="let n of list;let index=index"
+    [attr.region]="'select_input_number_item'"
+    [attr.default]="index == 0"
+    [attr.select]="index==0"
+    (click)="on(n)"
+    >{{n}}</button>
+  </div>
+</div>

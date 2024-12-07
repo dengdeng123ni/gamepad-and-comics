@@ -3,6 +3,7 @@ import { GamepadControllerService, GamepadEventService } from 'src/app/library/p
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
 import { AdvancedSearchService } from './advanced-search.service';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { SelectInputNumberService } from '../select-input-number/select-input-number.service';
 
 @Component({
   selector: 'app-advanced-search',
@@ -18,6 +19,7 @@ export class AdvancedSearchComponent {
   constructor(public GamepadEvent: GamepadEventService,
     public WhenInputting: WhenInputtingService,
     public AdvancedSearch: AdvancedSearchService,
+    public SelectInputNumber:SelectInputNumberService,
     @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data,
     public GamepadController: GamepadControllerService
 
@@ -109,6 +111,26 @@ export class AdvancedSearchComponent {
         }, 100)
       }
     })
+
+    GamepadEvent.registerAreaEvent("advanced_search_slider", {
+      A: async e => {
+
+
+        if (e.getAttribute('type')=="slider") {
+          const value=await this.SelectInputNumber.change({
+            max:parseInt(e.getAttribute('max')),
+            min:parseInt(e.getAttribute('min'))
+          })
+          if(value===null) return
+          this.list[parseInt(e.getAttribute('index'))].value=value;
+        }else{
+          e.click()
+          return
+        }
+      }
+    })
+
+    // SelectInputNumber
   }
 
   // radio_button_unchecked

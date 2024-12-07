@@ -187,14 +187,14 @@ export class DbEventService {
                   "id": "f_spf",
                   "label": "最小页数",
                   "type": "slider",
-                  min: 0,
+                  min: 1,
                   max: 300
                 },
                 {
                   "id": "f_spt",
                   "label": "最大页数",
                   "type": "slider",
-                  min: 0,
+                  min: 1,
                   max: 2000
                 },
               ]

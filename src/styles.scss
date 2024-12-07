@@ -288,8 +288,10 @@ body[pattern=gamepad]{
   [region=advanced_search_input][select=true],
   [region=advanced_search_restart][select=true],
   [region=advanced_search_item][select=true],
+  [region=advanced_search_slider][select=true],
   [region=about_software_item][select=true],
   [region=chip_option][select=true],
+  [region=select_input_number_item][select=true],
   [region=pulg_javascript_item][select=true]
   {
     position: relative;

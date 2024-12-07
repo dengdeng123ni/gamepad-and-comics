@@ -41,7 +41,7 @@
       <div class="title" style="font-size: 16px;margin: 12px 0;">
         {{n.label}}
       </div>
-      <mat-form-field class="select" style="    width: 100%;" [attr.region]="'advanced_search_item'"
+      <mat-form-field class="select" style="   width: 100%;" [attr.region]="'advanced_search_item'"
         [attr.type]="'select'">
         <mat-select [(ngModel)]="n.value" (openedChange)="openedChange($event)">
           <mat-option [value]="item.value" *ngFor="let item of n.options;let index=index" [attr.region]="'option'"
@@ -53,7 +53,7 @@
       <div class="title" style="font-size: 16px;margin: 12px 0;">
         {{n.label}} {{n.value}}
       </div>
-      <div [attr.region]="'advanced_search_item'">
+      <div [attr.region]="'advanced_search_slider'" [attr.type]="'slider'"  [attr.index]="index" [attr.min]="n.min" [attr.max]="n.max">
         <mat-slider style="min-height: 44px;width: calc(100% - 16px);z-index: 2;" [min]="n.min" [max]="n.max">
           <input matSliderThumb [(ngModel)]="n.value">
         </mat-slider>

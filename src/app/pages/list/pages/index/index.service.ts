@@ -30,7 +30,7 @@ export class IndexService {
   ) {
     // this.ImageTo.open();
 
-    GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option", "menu_item", 'input', "menu_input", 'settings', 'novels_item', "context_menu_edit_item","chip_option","advanced_search_item","advanced_search_input","advanced_search_restart"] })
+    GamepadEvent.registerConfig("list", { region: ["comics_item", "comics_option", "menu_item", 'input', "menu_input", 'settings', 'novels_item', "context_menu_edit_item","chip_option","advanced_search_item","advanced_search_input","advanced_search_slider","advanced_search_restart"] })
     GamepadEvent.registerConfig("comics_type", { region: ["comics_type_item"] })
 
     GamepadEvent.registerAreaEvent("menu", {

@@ -146,7 +146,7 @@ export class AppComponent {
       document.body.setAttribute("is_ios", 'false')
     }
 
-    this.keydown.pipe(bufferCount(2)).subscribe((e: any) => {
+    this.keydown.pipe(bufferCount(1)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))
     });
     // let obj = {};
