@@ -1295,10 +1295,18 @@ export class DbEventService {
             const category = node.querySelector(".tc")?.textContent
             for (let j = 0; j < nodes2.length; j++) {
               const c = nodes2[j];
+              let f_search = c.href.split("/").at(-1)
+              const arr = f_search.split("+")
+              if (arr.length > 1) {
+                const arr2 = f_search.split(":")
+                f_search = `${arr2[0]}:"${arr2[1].split("+").join(" ")}$"`
+
+              }
               list.push({
                 category,
                 name: c.textContent,
-                href: c.href
+                href: c.href,
+                router: ['advanced_search', { f_search: f_search }]
               })
             }
 

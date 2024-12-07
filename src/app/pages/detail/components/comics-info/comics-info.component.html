@@ -4,15 +4,15 @@
   </div>
   <div class="info">
     <div class="title" [attr.svg_filter]="'text_primary'" [attr.size]="info.title.length>20" [attr.href]="info.href"
-      (click)="on($event)" [attr.region]="'chapters_text'">{{info.title|translate}}</div>
+      (click)="on({href:info.href})" [attr.region]="'chapters_text'">{{info.title|translate}}</div>
     <div class="author">
-      <div class="item" *ngFor="let item of info.author" (click)="on($event)" >
+      <div class="item" *ngFor="let item of info.author" (click)="on(item)" >
         <span class="name" [attr.svg_filter]="'text_secondary'" [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name|translate}}</span>
         <span class="dividing">,</span>
       </div>
     </div>
     <div class="styles" *ngIf="info.styles">
-      <div class="item" style="margin-right: 0px;" *ngFor="let item of info.styles" (click)="on($event)"  >
+      <div class="item" style="margin-right: 0px;" *ngFor="let item of info.styles" (click)="on(item)"  >
         <span class="name" [attr.svg_filter]="'text_secondary'" [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name | translate}}</span>
         <span class="dividing">,</span>
       </div>

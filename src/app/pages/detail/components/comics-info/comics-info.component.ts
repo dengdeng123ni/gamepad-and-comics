@@ -36,11 +36,18 @@ export class ComicsInfoComponent {
   }
 
   on(e) {
-    if (e?.srcElement?.getAttribute('href')) {
-      window.open(e?.srcElement?.getAttribute('href'), '_blank')
-    } else {
-
+    if(e.router){
+      this.router.navigate(['/query', 'advanced_search', 'ehentai', e.router[0]],{
+        queryParams: {
+          _gh_condition: window.btoa(encodeURIComponent(JSON.stringify(e.router[1]))),
+        }
+      });
+    }else{
+      if(e.href)  window.open(e.href, '_blank')
     }
+
+
+
   }
   back() {
     this.RoutingController.navigate('list')

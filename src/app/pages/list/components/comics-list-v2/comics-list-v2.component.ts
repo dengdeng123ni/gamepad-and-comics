@@ -77,7 +77,8 @@ export class ComicsListV2Component {
   is_destroy = false;
 
   params = {
-    gh_data: ""
+    gh_data: "",
+    _gh_condition:""
   }
   is_phone=false;
   constructor(
@@ -285,7 +286,9 @@ export class ComicsListV2Component {
         this.source = source;
         const obj = this.DbEvent.Configs[source].menu.find(x => x.id == sid);
         this.id = `${type}_${source}_${sid}`;
-        if (obj.query.conditions) this.query.list = obj.query.conditions;
+        if (obj.query.conditions) {
+          this.query.list = obj.query.conditions;
+        }
         if (obj.query.name) this.query.name = obj.query.name;
         else this.query.name = ''
         this.key = this.id;
@@ -309,13 +312,26 @@ export class ComicsListV2Component {
             return list
           }
         })
+        if(this.params._gh_condition){
+          const c=JSON.parse(decodeURIComponent(window.atob(this.params._gh_condition)));
+          this.query.list.forEach(x=>{
+            if(c[x.id]) x.value=c[x.id]
+          })
+
+
+        }
 
       }
 
       const data: any = await this.get(this.id);
-      console.log(this.params.gh_data, data && this.params.gh_data != "gh_data");
-
-      if (data && this.params.gh_data != "reset") {
+      if(this.params._gh_condition){
+        let obj = {};
+        for (let index = 0; index < this.query.list.length; index++) {
+          const c = this.query.list[index]
+          if (c.value) obj[c.id] = c.value
+        }
+        this.on_135(obj)
+      }else if (data && this.params.gh_data != "reset") {
 
         data.list.forEach(x => {
           x.selected = false;
@@ -417,7 +433,7 @@ export class ComicsListV2Component {
   on_135 = async (e) => {
     this.query_option = {
       menu_id: this.menu_id,
-      ...e,
+      ...e
     }
     this.page_num = 1;
     this.ListNode.nativeElement.scrollTop = 0;
