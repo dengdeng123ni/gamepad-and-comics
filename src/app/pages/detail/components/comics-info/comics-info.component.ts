@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { CurrentService } from '../../services/current.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
-import { ImageService, RoutingControllerService } from 'src/app/library/public-api';
+import { ContextMenuEventService, ImageService, RoutingControllerService } from 'src/app/library/public-api';
 interface Info {
   cover: string,
   title: string,
@@ -16,15 +16,33 @@ interface Info {
 })
 export class ComicsInfoComponent {
   info = null;
-  tags=[];
+  tags = [];
   @ViewChild('node_continue') node_continue!: ElementRef;
   constructor(
     public current: CurrentService,
     public data: DataService,
     public router: Router,
+    public ContextMenuEvent: ContextMenuEventService,
     public image: ImageService,
     public RoutingController: RoutingControllerService,
   ) {
+    ContextMenuEvent.register('chapters_text', {
+      on: async (e: any) => {
+        e.click(e.value)
+      },
+      menu: [
+        {
+          id: "open_href",
+          name: "打开链接",
+          click: e => {
+            console.log(e);
+            if (e) window.open(e, '_blank')
+            // console.log(e.srcElement.getAttribute('href'));
+
+          }
+        }
+      ]
+    })
     this.info = this.data.details;
     // console.log(this.info.tags);
     this.init();
@@ -36,14 +54,14 @@ export class ComicsInfoComponent {
   }
 
   on(e) {
-    if(e.router){
-      this.router.navigate(['/query', 'advanced_search', 'ehentai', e.router[0]],{
+    if (e.router) {
+      this.router.navigate(['/query', 'advanced_search', 'ehentai', e.router[0]], {
         queryParams: {
           _gh_condition: window.btoa(encodeURIComponent(JSON.stringify(e.router[1]))),
         }
       });
-    }else{
-      if(e.href)  window.open(e.href, '_blank')
+    } else {
+      if (e.href) window.open(e.href, '_blank')
     }
 
 

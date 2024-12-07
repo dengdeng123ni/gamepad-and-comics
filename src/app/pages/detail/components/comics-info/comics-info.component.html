@@ -7,13 +7,13 @@
       (click)="on({href:info.href})" [attr.region]="'chapters_text'">{{info.title|translate}}</div>
     <div class="author">
       <div class="item" *ngFor="let item of info.author" (click)="on(item)" >
-        <span class="name" [attr.svg_filter]="'text_secondary'" [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name|translate}}</span>
+        <span class="name" [attr.svg_filter]="'text_secondary'" [attr.content_menu_key]="'chapters_text'" [attr.content_menu_value]="item.href"  [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name|translate}}</span>
         <span class="dividing">,</span>
       </div>
     </div>
     <div class="styles" *ngIf="info.styles">
       <div class="item" style="margin-right: 0px;" *ngFor="let item of info.styles" (click)="on(item)"  >
-        <span class="name" [attr.svg_filter]="'text_secondary'" [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name | translate}}</span>
+        <span class="name" [attr.svg_filter]="'text_secondary'"  [attr.content_menu_key]="'chapters_text'" [attr.content_menu_value]="item.href"  [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name | translate}}</span>
         <span class="dividing">,</span>
       </div>
     </div>
