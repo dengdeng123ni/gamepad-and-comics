@@ -322,7 +322,7 @@ export class OnePageReaderV2DefaultComponent {
         }
         const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
         this.swiper.removeSlide(getrange(this.swiper.slides.length - 15, this.swiper.slides.length - 1).reverse());
-        await this.sleep(999);
+        await this.sleep(314);
         this.ccc = false;
       }
       this.prependSlide(current)
@@ -377,7 +377,7 @@ export class OnePageReaderV2DefaultComponent {
           this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         this.swiper.removeSlide([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
-        await this.sleep(999);
+        await this.sleep(314);
         this.ccc = false;
       }
       this.appendSlide(current)
@@ -572,9 +572,7 @@ export class OnePageReaderV2DefaultComponent {
         await this.previous()
 
         this.ccc = false;
-        setTimeout(() => {
-          this.previous()
-        }, 0)
+
       }
     });
     this.swiper.on('slideChange', async () => {
@@ -594,9 +592,7 @@ export class OnePageReaderV2DefaultComponent {
         await this.next()
 
         this.ccc = false;
-        setTimeout(() => {
-          this.next()
-        }, 0)
+
       }
     });
 

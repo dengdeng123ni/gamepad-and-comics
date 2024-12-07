@@ -358,8 +358,11 @@ export class DoublePageReaderV2Component {
           this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
+        console.log(getrange(this.swiper.slides.length - 15, this.swiper.slides.length - 1).reverse(),this.ccc);
         this.swiper.removeSlide(getrange(this.swiper.slides.length - 15, this.swiper.slides.length - 1).reverse());
-        await this.sleep(999);
+
+
+        await this.sleep(314);
         this.ccc = false;
       }
       this.prependSlide(current)
@@ -411,7 +414,7 @@ export class DoublePageReaderV2Component {
           this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         this.swiper.removeSlide([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
-        await this.sleep(999);
+        await this.sleep(314);
         this.ccc = false;
       }
       this.appendSlide(current)
@@ -627,13 +630,8 @@ export class DoublePageReaderV2Component {
 
       if (!this.ccc) {
         this.ccc = true;
-
         await this.next()
-
         this.ccc = false;
-        setTimeout(async () => {
-          await this.next()
-        }, 100)
       }
     });
     this.swiper.on('slideChange', async () => {
@@ -641,7 +639,6 @@ export class DoublePageReaderV2Component {
         this.ppp = true;
         this.zoom.zoom(1)
         await this.updata()
-
         this.ppp = false;
       }
     })
@@ -652,9 +649,7 @@ export class DoublePageReaderV2Component {
         await this.previous()
 
         this.ccc = false;
-        setTimeout(() => {
-          this.previous()
-        }, 100)
+
       }
     });
   }
