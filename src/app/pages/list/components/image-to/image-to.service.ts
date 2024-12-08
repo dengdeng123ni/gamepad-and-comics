@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
 import { DataService } from '../../services/data.service';
 import { ImageToComponent } from './image-to.component';
-import { GamepadEventService } from 'src/app/library/public-api';
+import { GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class ImageToService {
 
   constructor(
     public _dialog: MatDialog,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public data: DataService,
     public GamepadEvent:GamepadEventService
   ) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
-import { ComicsItem } from 'src/app/library/public-api';
+import { ComicsItem, IndexdbControllerService } from 'src/app/library/public-api';
 declare const window: any;
 @Injectable({
   providedIn: 'root'
@@ -57,7 +57,7 @@ export class DataService {
     click_type:1,
   }
 
-  constructor(public webDb: NgxIndexedDBService,) {
+  constructor(public webDb: IndexdbControllerService,) {
 
   }
 

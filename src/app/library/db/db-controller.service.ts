@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AppDataService } from 'src/app/library/public-api';
+import { AppDataService, IndexdbControllerService } from 'src/app/library/public-api';
 import { DbEventService } from './db-event.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import CryptoJS from 'crypto-js'
 interface Item { id: string | number, cover: string, title: string, subTitle: string }
@@ -38,7 +37,7 @@ export class DbControllerService {
   constructor(
     private AppData: AppDataService,
     private DbEvent: DbEventService,
-    private webDb: NgxIndexedDBService,
+    private webDb: IndexdbControllerService,
   ) {
     this.init();
 

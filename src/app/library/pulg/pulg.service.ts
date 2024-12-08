@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
 import CryptoJS from 'crypto-js'
-import { MessageFetchService } from '../public-api';
+import { IndexdbControllerService, MessageFetchService } from '../public-api';
 
 declare let window: any;
 @Injectable({
@@ -14,7 +14,7 @@ export class PulgService {
 
   caches!: Cache;
   constructor(
-    private webDb: NgxIndexedDBService,
+    private webDb: IndexdbControllerService,
     public MessageFetch: MessageFetchService,
     private sanitizer: DomSanitizer) {
 

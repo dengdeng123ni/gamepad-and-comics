@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
-import { AppDataService, DbControllerService, DbEventService, I18nService } from 'src/app/library/public-api';
+import { AppDataService, DbControllerService, DbEventService, I18nService, IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class LocalCachService {
   constructor(
     public DbController: DbControllerService,
     public AppData: AppDataService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     private _snackBar: MatSnackBar,
     public DbEvent: DbEventService,
     public I18n: I18nService

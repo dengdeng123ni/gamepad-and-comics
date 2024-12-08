@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
-import { DbControllerService, DbEventService, GamepadEventService } from 'src/app/library/public-api';
+import { DbControllerService, DbEventService, GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { MenuSearchService } from './menu-search.service';
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
@@ -25,7 +25,7 @@ export class MenuSearchComponent {
     this._keyword = value;
   }
 
-  constructor(public webDb: NgxIndexedDBService,
+  constructor(public webDb: IndexdbControllerService,
     public DbEvent:DbEventService,
     public GamepadEvent:GamepadEventService,
     public MenuSearch:MenuSearchService,

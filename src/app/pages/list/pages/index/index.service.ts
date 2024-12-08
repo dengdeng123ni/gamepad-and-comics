@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
-import { AppDataService, ContextMenuEventService, DbControllerService, I18nService, LocalCachService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, I18nService, IndexdbControllerService, LocalCachService } from 'src/app/library/public-api';
 import { MenuService } from '../../components/menu/menu.service';
 import { DownloadOptionService } from '../../components/download-option/download-option.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
 import { ImageToService } from '../../components/image-to/image-to.service';
 import { Router } from '@angular/router';
@@ -22,7 +22,7 @@ export class IndexService {
     public DownloadOption: DownloadOptionService,
     public LocalCach: LocalCachService,
     public DbController: DbControllerService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public router: Router,
     public I18n: I18nService,
     public ImageTo: ImageToService,

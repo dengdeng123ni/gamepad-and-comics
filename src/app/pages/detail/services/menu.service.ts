@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
+import { IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class MenuService {
   position: "start" | "end" = 'start';
 
   constructor(
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
 
   ) {
 

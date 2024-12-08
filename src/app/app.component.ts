@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -9,7 +9,6 @@ import { TestService } from './composite/test/test.service';
 import { bufferCount, firstValueFrom, Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { TranslateService } from '@ngx-translate/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [
@@ -135,7 +134,7 @@ export class AppComponent {
     public ParamsController: ParamsControllerService,
     public TouchmoveController:TouchmoveControllerService,
     private translate: TranslateService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public DbEvent: DbEventService,
     public Prompt:PromptService,
     public I18n: I18nService,

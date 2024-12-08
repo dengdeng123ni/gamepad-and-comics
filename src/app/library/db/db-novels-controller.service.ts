@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
-import { AppDataService } from '../public-api';
+import { AppDataService, IndexdbControllerService } from '../public-api';
 import { DbEventService } from './db-event.service';
 
 declare let window: any;
@@ -26,7 +26,7 @@ export class DbNovelsControllerService {
   constructor(
     private AppData: AppDataService,
     private DbEvent: DbEventService,
-    private webDb: NgxIndexedDBService,
+    private webDb: IndexdbControllerService,
   ) {
     window._gh_novels_get_detail = this.getDetail;
     window._gh_novels_get_pages = this.getPages;

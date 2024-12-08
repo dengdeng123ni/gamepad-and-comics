@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
+import { IndexdbControllerService } from '../public-api';
 declare let window: any;
 @Injectable({
   providedIn: 'root'
 })
 export class TemporaryDataControllerService {
 
-  constructor(public webDb: NgxIndexedDBService,
+  constructor(public webDb: IndexdbControllerService,
 
   ) {
     window._gh_add_comics = this.add_comics;

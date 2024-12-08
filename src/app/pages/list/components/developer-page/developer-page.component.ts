@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { map, async } from 'rxjs';
-import { DbControllerService } from 'src/app/library/public-api';
+import { DbControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-developer-page',
@@ -11,7 +11,7 @@ import { DbControllerService } from 'src/app/library/public-api';
 })
 export class DeveloperPageComponent {
   source
-  constructor(public webDb: NgxIndexedDBService,
+  constructor(public webDb: IndexdbControllerService,
     public DbController: DbControllerService,
     public router: Router,
     public route: ActivatedRoute,

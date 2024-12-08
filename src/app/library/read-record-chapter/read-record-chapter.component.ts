@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
-import { DbControllerService } from '../public-api';
+import { DbControllerService, IndexdbControllerService } from '../public-api';
 import { ReadRecordChapterService } from './read-record-chapter.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { ReadRecordChapterService } from './read-record-chapter.service';
 })
 export class ReadRecordChapterComponent {
   list = [];
-  constructor(public webDb: NgxIndexedDBService, public ReadRecordChapter: ReadRecordChapterService, public router: Router,public DbController:DbControllerService) {
+  constructor(public webDb: IndexdbControllerService, public ReadRecordChapter: ReadRecordChapterService, public router: Router,public DbController:DbControllerService) {
     this.init();
   }
 

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
-import { PromptService } from 'src/app/library/public-api';
+import { IndexdbControllerService, PromptService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-matrix',
@@ -17,7 +17,7 @@ export class MatrixComponent {
   @Input() save: Function;
   @Output() valuesChange = new EventEmitter<any>();
   is_close = false;
-  constructor(public webDb: NgxIndexedDBService,
+  constructor(public webDb: IndexdbControllerService,
     public prompt:PromptService,
     public WhenInputting:WhenInputtingService,) {
     this.value = this.values.toString();

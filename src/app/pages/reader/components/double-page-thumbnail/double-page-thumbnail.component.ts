@@ -3,8 +3,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DoublePageThumbnailService } from './double-page-thumbnail.service';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
-import { ContextMenuEventService, UtilsService } from 'src/app/library/public-api';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { ContextMenuEventService, IndexdbControllerService, UtilsService } from 'src/app/library/public-api';
+
 import { firstValueFrom } from 'rxjs';
 interface DialogData {
   chapter_id: string;
@@ -42,7 +42,7 @@ export class DoublePageThumbnailComponent {
     public current: CurrentService,
     @Inject(MAT_DIALOG_DATA) public _data: DialogData,
     public doublePageThumbnail: DoublePageThumbnailService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init(_data);

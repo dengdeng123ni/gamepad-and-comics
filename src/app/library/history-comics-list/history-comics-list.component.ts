@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { DbControllerService, HistoryService, RoutingControllerService } from 'src/app/library/public-api';
+import { DbControllerService, HistoryService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 import { HistoryComicsListService } from './history-comics-list.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ export class HistoryComicsListComponent {
 
   constructor(public history: HistoryService,
     public DbController: DbControllerService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public RoutingController:RoutingControllerService,
     public router: Router,
     public HistoryComicsList: HistoryComicsListService)

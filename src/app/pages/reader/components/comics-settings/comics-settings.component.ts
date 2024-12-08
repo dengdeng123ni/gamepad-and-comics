@@ -1,8 +1,8 @@
 import { Component, NgZone } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { UtilsService } from 'src/app/library/public-api';
+import { IndexdbControllerService, UtilsService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -21,7 +21,7 @@ export class ComicsSettingsComponent {
     private zone: NgZone,
     public data: DataService,
     public current: CurrentService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
   ) {
     this.get();
 

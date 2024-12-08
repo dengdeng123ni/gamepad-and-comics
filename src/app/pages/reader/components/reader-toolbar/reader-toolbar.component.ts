@@ -11,8 +11,7 @@ import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { ComicsDetailService } from '../comics-detail/comics-detail.service';
-import { ContextMenuEventService, DbControllerService, RoutingControllerService } from 'src/app/library/public-api';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { ContextMenuEventService, DbControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 import { firstValueFrom } from 'rxjs';
 import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
 import { FilterService } from '../filter/filter.service';
@@ -55,7 +54,7 @@ export class ReaderToolbarComponent {
     public ComicsDetail: ComicsDetailService,
     public ChaptersFirstCoverSettings: ChaptersFirstCoverSettingsService,
     public DbController: DbControllerService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public filter: FilterService,
     public resetReadingProgress: ResetReadingProgressService,
     public ExportSettings: ExportSettingsService,

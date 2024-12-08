@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { DbControllerService, I18nService } from 'src/app/library/public-api';
+import { DbControllerService, I18nService, IndexdbControllerService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { ResetReadingProgressService } from './reset-reading-progress.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { DataService } from '../../services/data.service';
 
@@ -19,7 +18,7 @@ export class ResetReadingProgressComponent {
     public current: CurrentService,
     public resetReadingProgress: ResetReadingProgressService,
     public DbController:DbControllerService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
   ) {
 
   }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { AppDataService, ChaptersItem, DbNovelsControllerService, HistoryService, ImageService, MessageFetchService } from 'src/app/library/public-api';
+import { AppDataService, ChaptersItem, DbNovelsControllerService, HistoryService, ImageService, IndexdbControllerService, MessageFetchService } from 'src/app/library/public-api';
 import { Subject, firstValueFrom } from 'rxjs';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 interface PagesItem{
   content:string
@@ -22,7 +22,7 @@ export class CurrentService {
   constructor(
     public DbNovelsController: DbNovelsControllerService,
     public data: DataService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public image: ImageService,
     public _http: MessageFetchService,
     public history: HistoryService,

@@ -1,9 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { GamepadEventService } from 'src/app/library/public-api';
+import { GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
 import { ComicsListConfigComponent } from './comics-list-config.component';
 import { firstValueFrom } from 'rxjs';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { DataService } from '../../services/data.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ComicsListConfigService {
     public _sheet: MatBottomSheet,
     public GamepadEvent: GamepadEventService,
     public data: DataService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     private zone: NgZone,
   ) {
     GamepadEvent.registerAreaEvent('chapters_item', {

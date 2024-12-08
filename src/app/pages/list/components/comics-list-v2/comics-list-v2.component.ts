@@ -1,11 +1,11 @@
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
 import { map, throttleTime, Subject, firstValueFrom } from 'rxjs';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, KeyboardEventService, LocalCachService, PromptService, WebFileService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, IndexdbControllerService, KeyboardEventService, LocalCachService, PromptService, WebFileService } from 'src/app/library/public-api';
 
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { ComicsListV2Service } from './comics-list-v2.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
 import { DownloadOptionService } from '../download-option/download-option.service';
@@ -90,7 +90,7 @@ export class ComicsListV2Component {
     private zone: NgZone,
     public route: ActivatedRoute,
     public DbController: DbControllerService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public DbEvent: DbEventService,
     public ComicsListV2: ComicsListV2Service,
     public KeyboardEvent: KeyboardEventService,

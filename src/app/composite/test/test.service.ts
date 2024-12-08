@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { TestComponent } from './test.component';
+import { IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class TestService {
 
   constructor(
     public _dialog: MatDialog,
-    public webDb: NgxIndexedDBService
+    public webDb: IndexdbControllerService
   ) {
   }
   public opened: boolean = false;

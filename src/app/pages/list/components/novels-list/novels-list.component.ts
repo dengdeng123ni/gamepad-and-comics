@@ -1,10 +1,10 @@
 import { Component, ElementRef, HostListener, NgZone, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/router';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { map, firstValueFrom, throttleTime, Subject } from 'rxjs';
 import { LocalCachService } from 'src/app/library/local-cach.service';
-import { ContextMenuEventService, DbControllerService, DbEventService, KeyboardEventService, HistoryService, AppDataService } from 'src/app/library/public-api';
+import { ContextMenuEventService, DbControllerService, DbEventService, KeyboardEventService, HistoryService, AppDataService, IndexdbControllerService } from 'src/app/library/public-api';
 import { WebFileService } from 'src/app/library/web-file.service';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
@@ -75,7 +75,7 @@ export class NovelsListComponent {
     private zone: NgZone,
     public route: ActivatedRoute,
     public DbController: DbControllerService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public DbEvent: DbEventService,
     public NovelsList: NovelsListService,
     public KeyboardEvent: KeyboardEventService,

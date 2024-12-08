@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { firstValueFrom, map } from 'rxjs';
-import { DbEventService, QueryEventService, DbControllerService } from 'src/app/library/public-api';
+import { DbEventService, QueryEventService, DbControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 
 @Component({
   selector: 'app-comics-custom-multipy',
@@ -34,7 +34,7 @@ export class ComicsCustomMultipyComponent {
     public ComicsSelectType: ComicsSelectTypeService,
     public data: DataService,
     public DbController: DbControllerService,
-    public webDb: NgxIndexedDBService
+    public webDb: IndexdbControllerService
   ) {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
     id$.subscribe(async (params) => {

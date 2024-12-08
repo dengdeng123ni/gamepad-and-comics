@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { GamepadInputService } from './gamepad-input.service';
 import { KeyboardEventService } from './keyboard-event.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
+import { IndexdbControllerService } from '../public-api';
 
 
 
@@ -57,7 +58,7 @@ export class KeyboardControllerService {
   constructor(
     public GamepadInput: GamepadInputService,
     public KeyboardEvent: KeyboardEventService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
   ) {
     this.init();
   }

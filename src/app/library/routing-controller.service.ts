@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
-import { DbControllerService, DbEventService } from './public-api';
+import { DbControllerService, DbEventService, IndexdbControllerService } from './public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ import { DbControllerService, DbEventService } from './public-api';
 export class RoutingControllerService {
 
   constructor(
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public router: Router,
     public DbEvent: DbEventService,
     public DbController: DbControllerService

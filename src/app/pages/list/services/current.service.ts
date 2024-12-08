@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { DbControllerService, RoutingControllerService } from 'src/app/library/public-api';
+import { DbControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 import { Subject, firstValueFrom } from 'rxjs';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { Router } from '@angular/router';
 declare const window: any;
 @Injectable({
@@ -13,7 +13,7 @@ export class CurrentService {
     public DbController: DbControllerService,
     public RoutingController: RoutingControllerService,
     public router: Router,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public data: DataService
   ) {
     // this.init();

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { DataService } from '../../services/data.service';
 import { ComicsListV11Component } from 'src/app/composite/public-api';
+import { IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class OpenComicsListService {
   filter = null;
   constructor(
     public _dialog: MatDialog,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public data: DataService
   ) {
   }

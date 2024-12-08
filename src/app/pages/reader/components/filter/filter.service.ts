@@ -3,8 +3,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FilterComponent } from './filter.component';
 import { DataService } from '../../services/data.service';
 import { firstValueFrom } from 'rxjs';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { SvgService } from 'src/app/library/svg.service';
+import { IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class FilterService {
   filter = null;
   constructor(
     public _dialog: MatDialog,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public data: DataService,
     public svg:SvgService
   ) {

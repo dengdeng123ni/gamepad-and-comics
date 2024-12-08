@@ -1,9 +1,8 @@
 // @ts-nocheck
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MessageFetchService } from '../public-api';
+import { IndexdbControllerService,MessageFetchService } from '../public-api';
 import { Subject, firstValueFrom } from 'rxjs';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 interface Events {
   Unlock?: Function;
   getList?: Function;
@@ -48,7 +47,7 @@ export class DbEventService {
 
   constructor(
     public http: HttpClient,
-    private webDb: NgxIndexedDBService,
+    private webDb: IndexdbControllerService,
     public _http: MessageFetchService,
   ) {
     window._gh_comics_register = this.comics_register;

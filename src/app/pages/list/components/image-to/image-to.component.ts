@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { ImageService, WebFileService } from 'src/app/library/public-api';
+import { ImageService, IndexdbControllerService, WebFileService } from 'src/app/library/public-api';
 import { compress } from 'image-conversion';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OpenComicsListService } from './open-comics-list.service';
 import { DownloadProgressService } from '../download-progress/download-progress.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -120,7 +120,7 @@ export class ImageToComponent {
     @Inject(MAT_DIALOG_DATA) public _data,
     public DownloadProgress: DownloadProgressService,
     private _snackBar: MatSnackBar,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public OpenComicsList: OpenComicsListService
   ) {
     this.list = _data;

@@ -1,9 +1,9 @@
 import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, ParamMap, Router } from '@angular/router';
 import { firstValueFrom, map } from 'rxjs';
-import { DbControllerService, DbEventService, QueryEventService } from 'src/app/library/public-api';
+import { DbControllerService, DbEventService, IndexdbControllerService, QueryEventService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 
 @Component({
   selector: 'app-comics-custom-choice',
@@ -33,7 +33,7 @@ export class ComicsCustomChoiceComponent {
     public QueryEvent: QueryEventService,
     public data: DataService,
     public DbController: DbControllerService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     private router: Router,
     private zone: NgZone,
   ) {

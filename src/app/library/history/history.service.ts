@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
-import { AppDataService } from '../public-api';
+import { AppDataService, IndexdbControllerService } from '../public-api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HistoryService {
 
-  constructor(public webDb: NgxIndexedDBService, public AppData: AppDataService) { }
+  constructor(public webDb: IndexdbControllerService, public AppData: AppDataService) { }
 
 
   async update(obj: {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { DbControllerService, HistoryService, PagesItem, RoutingControllerService } from 'src/app/library/public-api';
+import { DbControllerService, HistoryService, IndexdbControllerService, PagesItem, RoutingControllerService } from 'src/app/library/public-api';
 import { DataService } from './data.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { Subject, firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,7 +17,7 @@ export class CurrentService {
   constructor(
     public DbController: DbControllerService,
     public data: DataService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public router: Router,
     public history: HistoryService,
     private _snackBar: MatSnackBar,

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { IndexdbControllerService } from 'src/app/library/public-api';
+
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
 
   constructor(
-    private db: NgxIndexedDBService
+    private db: IndexdbControllerService
   ) {
 
 

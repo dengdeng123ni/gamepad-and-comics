@@ -1,10 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
 import { ChaptersListService } from '../chapters-list/chapters-list.service';
-import { GamepadEventService } from 'src/app/library/public-api';
+import { GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-novels-reader',
@@ -32,7 +32,7 @@ export class NovelsReaderComponent {
   constructor(
     public data: DataService,
     public current: CurrentService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public ChaptersList: ChaptersListService,
     public GamepadEvent:GamepadEventService,
   ) {

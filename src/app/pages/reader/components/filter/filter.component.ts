@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { SvgService } from 'src/app/library/svg.service';
 import { FilterService } from './filter.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
+import { IndexdbControllerService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-filter',
@@ -13,7 +13,7 @@ export class FilterComponent {
   list = [];
   constructor(
     public svg: SvgService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public Filter: FilterService
   ) {
 

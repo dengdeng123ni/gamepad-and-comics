@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { DataService } from '../../services/data.service';
 import { DownloadProgressComponent } from './download-progress.component';
+import { IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class DownloadProgressService {
 
   constructor(
     public _dialog: MatDialog,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public data: DataService
   ) {
   }

@@ -1,7 +1,7 @@
 import { Component, NgZone } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { firstValueFrom } from 'rxjs';
-import { UtilsService } from 'src/app/library/public-api';
+import { IndexdbControllerService, UtilsService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 
@@ -22,7 +22,7 @@ export class ChaptersFirstCoverSettingsComponent {
     private zone: NgZone,
     public data: DataService,
     public current: CurrentService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
   ) {
     this.get();
 

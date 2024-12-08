@@ -4,12 +4,12 @@ import { Observable, firstValueFrom, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { TemporaryFileService } from './temporary-file.service';
-import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, LocalCachService, PromptService, PulgService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, IndexdbControllerService, LocalCachService, PromptService, PulgService } from 'src/app/library/public-api';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
 import { PulgJavascriptService } from '../pulg-javascript/pulg-javascript.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { ControllerSettingsService } from '../controller-settings/controller-settings.service';
 import { UrlToComicsIdService } from '../url-to-comics-id/url-to-comics-id.service';
 import { MenuSearchService } from '../menu-search/menu-search.service';
@@ -83,7 +83,7 @@ export class MenuComponent {
     public AppData: AppDataService,
     public DbEvent: DbEventService,
     public LocalCach: LocalCachService,
-    public webDb: NgxIndexedDBService,
+    public webDb: IndexdbControllerService,
     public menu: MenuService,
     public router: Router,
     public pulg: PulgService,
