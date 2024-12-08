@@ -181,7 +181,6 @@ export class ComicsSearchComponent {
       if (this.data.is_edit || this._ctrl) {
         this.list[index].selected = !this.list[index].selected;
       } else {
-        localStorage.setItem('list_url', window.location.href)
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
 

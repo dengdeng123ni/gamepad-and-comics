@@ -142,7 +142,8 @@ export class AppComponent {
     public I18n: I18nService,
     public App: AppDataService
   ) {
-
+    // is_voice_controller
+    // sound
     const system = this.getOperatingSystem()
     if (system == "iOS" || system == "macOS") {
       document.body.setAttribute("is_ios", 'true')
@@ -203,10 +204,7 @@ export class AppComponent {
     this.keydown.unsubscribe();
   }
   ngAfterViewInit() {
-    const id = localStorage.getItem('theme')
-    if (id) {
-      document.documentElement.setAttribute('theme', id)
-    }
+
   }
   getAllParams(url) {
     const params = new URLSearchParams(url.split('?')[1]);

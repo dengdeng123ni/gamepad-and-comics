@@ -324,7 +324,7 @@ export class NovelsListComponent {
     }
   }
 
-  async delCaches(comics_id) {
+  async delCache(comics_id) {
     await this.webDb.deleteByKey('history', comics_id.toString())
     await this.webDb.deleteByKey('local_comics', comics_id)
     await this.webDb.deleteByKey('local_comics', comics_id.toString())
@@ -398,7 +398,6 @@ export class NovelsListComponent {
       if (this.data.is_edit || this._ctrl) {
         this.list[index].selected = !this.list[index].selected;
       } else {
-        localStorage.setItem('list_url', window.location.href)
         const nodec: any = $event.target;
         if (this.data.config.click_type == 1) {
           this.routerDetail(this.source, data.id)

@@ -31,7 +31,7 @@ export class GamepadControllerService {
     private zone: NgZone,
     private router: Router
   ) {
-    if (localStorage.getItem('is_voice_controller') == "open") this.is_voice_controller = true;
+
 
   }
 

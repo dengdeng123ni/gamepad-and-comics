@@ -18,13 +18,6 @@ export class SoundEffectsComponent {
   }
 
   change(e) {
-    setTimeout(() => {
-      this.GamepadSound.opened = this.is;
-      if (!this.is) {
-        localStorage.setItem('sound', 'close')
-      } else {
-        localStorage.removeItem('sound')
-      }
-    })
+
   }
 }

@@ -627,11 +627,6 @@ export class DbControllerService {
     }
   }
   UrlToList = async (url: string, option?: { source: string, is_cache?: boolean }) => {
-    // if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"]) {
-    //   return await this.DbEvent.Events[option.source]["UrlToList"](url);
-    // } else {
-    //   return []
-    // }
     try {
       if (!option.is_cache) option.is_cache = true;
       if (!option.source) option.source = this.AppData.source;

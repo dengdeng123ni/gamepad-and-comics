@@ -19,15 +19,10 @@ export class AppDataService {
     public router: Router,
 
   ) {
-    this.source = localStorage.getItem('source');
   }
   init(){
-    const c = localStorage.getItem('source');
-    if (c == "temporary_file") {
+    if (false) {
       this.router.navigate(['/']);
-    }
-    if (c) {
-      this.setsource(c)
     }
   }
 
@@ -37,7 +32,6 @@ export class AppDataService {
     if(x) this.sourceConfig=x;
     if(x) this.source$.next(x)
     document.body.setAttribute('source',source)
-    localStorage.setItem('source', source)
   }
   getOption() {
     return this.DbEvent.Configs[this.source]

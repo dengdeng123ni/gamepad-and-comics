@@ -168,7 +168,7 @@ export class IndexService {
           for (let index = 0; index < list.length; index++) {
             let node = document.querySelector(`[_id='${list[index].id}']`)
             if (node) node.remove();
-            await this.delCaches(list[index].id)
+            await this.delCache(list[index].id)
           }
         }
       }])
@@ -179,7 +179,7 @@ export class IndexService {
           for (let index = 0; index < list.length; index++) {
             let node = document.querySelector(`[_id='${list[index].id}']`)
             if (node) node.remove();
-            await this.delCaches2(list[index].id)
+            await this.delCache2(list[index].id)
           }
         }
       }])
@@ -204,14 +204,14 @@ export class IndexService {
     }
   }
 
-  async delCaches(comics_id) {
+  async delCache(comics_id) {
     await this.webDb.deleteByKey('history', comics_id.toString())
     await this.webDb.deleteByKey('local_comics', comics_id)
     await this.webDb.deleteByKey('local_comics', comics_id.toString())
     this.DbController.delComicsAllImages(comics_id)
   }
 
-  async delCaches2(comics_id) {
+  async delCache2(comics_id) {
     await this.webDb.deleteByKey('history', comics_id.toString())
     await this.webDb.deleteByKey('temporary_details', comics_id)
     await this.webDb.deleteByKey('temporary_details', comics_id.toString())

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { AppDataService, ChaptersItem, DbControllerService, HistoryService, ImageService, IndexdbControllerService, MessageFetchService, PagesItem } from 'src/app/library/public-api';
+import { AppDataService, CacheControllerService, ChaptersItem, DbControllerService, HistoryService, ImageService, IndexdbControllerService, MessageFetchService, PagesItem } from 'src/app/library/public-api';
 import { Subject } from 'rxjs';
 import { UnlockService } from './unlock.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,6 +21,7 @@ export class CurrentService {
     public DbController: DbControllerService,
     public data: DataService,
     public webDb: IndexdbControllerService,
+    private webCh: CacheControllerService,
     public image: ImageService,
     public _http: MessageFetchService,
     public history: HistoryService,
@@ -708,7 +709,7 @@ export class CurrentService {
     let arr=[]
     for (let index = 0; index < pages.length; index++) {
       const x = pages[index];
-      const c = await caches.match(x.src);
+      const c = await this.webCh.match('image',x.src);
       if (!c) {
         arr.push(x)
       }
@@ -721,7 +722,7 @@ export class CurrentService {
     const pages = await this._getChapter(chapter_id)
     for (let index = 0; index < pages.length; index++) {
       const x = pages[index];
-      const c = await caches.match(x.src);
+      const c = await this.webCh.match('image',x.src);
       if (!c) {
         await this._getImage(x.src)
       }

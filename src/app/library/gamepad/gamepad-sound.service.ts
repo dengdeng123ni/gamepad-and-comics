@@ -31,7 +31,7 @@ export class GamepadSoundService {
     window.addEventListener('contextmenu', e => {
       var sound = this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/select.wav");
     })
-    if (localStorage.getItem('sound') == "close") this.opened = false;
+    this.opened = false;
   }
   obj = {
     UP: () => this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/klick.wav"),

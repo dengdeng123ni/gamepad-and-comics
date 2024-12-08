@@ -291,7 +291,5 @@ export class ControllerSettingsComponent {
   }
 
   ngOnDestroy() {
-    if (this.GamepadController.is_voice_controller) localStorage.setItem('is_voice_controller', 'open')
-    else localStorage.removeItem('is_voice_controller')
   }
 }

@@ -72,7 +72,7 @@ export class PulgJavascriptComponent {
                   const res = await window._gh_fetch(url)
                   const name = url.split("/").at(-1)
                   const blob = await res.blob();
-                  await this.scriptCaches(blob, name, {
+                  await this.scriptCache(blob, name, {
                     'Remote-Url': url
                   })
                   this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
@@ -167,7 +167,7 @@ export class PulgJavascriptComponent {
     const blob = await res.blob()
 
     await this.pulg.loadBlodJs(blob)
-    await this.scriptCaches(blob, name)
+    await this.scriptCache(blob, name)
     this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
     this.list = await this.getAll();
   }
@@ -196,10 +196,10 @@ export class PulgJavascriptComponent {
     const files = await (window as any).showOpenFilePicker()
     const blob = await files[0].getFile();
     await this.pulg.loadBlodJs(blob)
-    await this.scriptCaches(blob, blob.name)
+    await this.scriptCache(blob, blob.name)
     this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
-  async scriptCaches(blob, name, obj = {}) {
+  async scriptCache(blob, name, obj = {}) {
     const response = new Response(blob);
     const request = new Request(`http://localhost:7700/script/${new Date().getTime()}`, {
       headers: {
@@ -217,7 +217,7 @@ export class PulgJavascriptComponent {
 
   async preview(url) {
     if (url.substring(7, 21) == "localhost:7700") {
-      const res = await caches.match(url)
+      const res = await this.webCh.match('script',url)
       const text = await res.text();
       this.text = text;
       return

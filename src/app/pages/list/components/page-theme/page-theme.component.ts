@@ -15,11 +15,9 @@ export class PageThemeComponent {
 
    on(index){
      document.documentElement.setAttribute('theme',this.list[index].id)
-     localStorage.setItem('theme',this.list[index].id)
    }
 
    del(){
     document.documentElement.removeAttribute('theme')
-    localStorage.removeItem('theme')
    }
 }

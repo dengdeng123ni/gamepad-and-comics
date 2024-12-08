@@ -36,7 +36,7 @@ export class ImageToControllerService {
   }
 
   async pageTo(url, to_id) {
-    const res = await caches.match(`${url}?to_id=${to_id}`);
+    const res = await this.webCh.match('image',`${url}?to_id=${to_id}`);
     if (res) {
      return await res.blob()
     }else{

@@ -1,10 +1,9 @@
-// @ts-nocheck
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 import {  forkJoin } from 'rxjs';
-import { IndexdbControllerService } from 'src/app/library/public-api';
+import { CacheControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +11,7 @@ export class UploadService {
   chaptersId = new Date().getTime();
   constructor(
     private webDB: IndexdbControllerService,
+    private webCh: CacheControllerService,
     private http: HttpClient
   ) {
 
@@ -197,7 +197,7 @@ export class UploadService {
         comics.config = { id: id };
         state.isFirstPageCover = false;
         state.pageOrder = false;
-        await this.webDB.update('comics', newComics)
+        await this.webDB.update('comics', comics)
         await this.webDB.update('state', state)
       } else {
         const newState = stateAll.find(x => x.id == obj.id);
@@ -409,7 +409,17 @@ export class UploadService {
         })
         this.chaptersId++;
       }
-      return { comics }
+      const state = {
+        id: comics.id,
+        mode: 1,
+        chapter: {
+          id: comics.chapters[0].id,
+          title: comics.chapters[0].title,
+          index: 0,
+          total: comics.chapters[0].pages.length
+        }
+      };
+      return { comics,state }
     }
     const list = this.getRepeatNum2(files, files.map(x => x['relativePath'].split("/")[1]));
     for (let i = 0; i < Object.keys(list).length; i++) {
@@ -422,7 +432,7 @@ export class UploadService {
     const addComics = async (name, files) => {
       const size = files.map(x => x.size).reduce((acr, cur) => acr + cur);
       let comics = {
-        id: this.chaptersId,
+        id: this.chaptersId.toString(),
         source: "local",
         title: name,
         size: size,
@@ -534,10 +544,10 @@ export class UploadService {
     }
     return arr
   }
-  getpages = async (files: Array<NzUploadFile>, isCompress) => {
+  getpages = async (files: Array<any>, isCompress) => {
     const names = files.map(x => x['name']);
     const sortNames = this.fileNameSort(names);
-    const blobToHref = async (id: string | number, file: NzUploadFile) => {
+    const blobToHref = async (id: string | number, file: any) => {
       let blob = null;
       if (600000 < file.size && isCompress) {
         // blob = await compressAccurately((file as any), { size: 350, accuracy: 0.9, width: 1280, orientation: 1, scale: 0.5, })
@@ -547,10 +557,9 @@ export class UploadService {
       const pagesrc = `${window.location.origin}/image/${id}`;
       const request = new Request(pagesrc);
       const response = new Response(blob);
-      await cache.put(request, response);
+      await this.webCh.put('image',request, response);
       return { id: id, src: pagesrc }
     }
-    const cache = await caches.open('image');
     let list = [];
     const id = new Date().getTime();
     for (let i = 0; i < sortNames.length;) {
