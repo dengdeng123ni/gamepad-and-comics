@@ -20,6 +20,7 @@ import { WhenInputtingService } from '../../components/when-inputting/when-input
 import { MenuSearchService } from '../../components/menu-search/menu-search.service';
 import { Platform } from '@angular/cdk/platform';
 import { SelectInputNumberService } from '../../components/select-input-number/select-input-number.service';
+import { SelectTagMultipleService } from '../../components/select-tag-multiple/select-tag-multiple.service';
 
 @Component({
   selector: 'app-index',
@@ -52,6 +53,7 @@ export class IndexComponent {
     public TouchmoveEvent:TouchmoveEventService,
     public platform: Platform,
     public SelectInputNumber:SelectInputNumberService,
+    public SelectTagMultiple:SelectTagMultipleService,
     public MenuSearch: MenuSearchService
   ) {
 
@@ -102,6 +104,9 @@ export class IndexComponent {
         this.menu.opened = false;
       },
     })
+
+
+
   }
 
   async init() {

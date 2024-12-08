@@ -41,6 +41,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatrixComponent } from './components/matrix/matrix.component';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 import { SelectInputNumberComponent } from './components/select-input-number/select-input-number.component';
+import { SelectTagMultipleComponent } from './components/select-tag-multiple/select-tag-multiple.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { SelectInputNumberComponent } from './components/select-input-number/sel
     MatrixComponent,
     DeveloperPageComponent,
     AdvancedSearchComponent,
-    SelectInputNumberComponent
+    SelectInputNumberComponent,
+    SelectTagMultipleComponent
   ],
   imports: [
     CommonModule,

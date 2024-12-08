@@ -304,7 +304,10 @@ export class ComicsListV2Component {
           page_size: obj.query.page_size
         }, {
           Add: async (obj) => {
+
             const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+
+
             return list
           },
           Init: async (obj) => {
@@ -721,6 +724,7 @@ export class ComicsListV2Component {
         t.id === item.id
       ))
     );
+
 
   }
 }

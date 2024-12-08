@@ -25,7 +25,7 @@
       </div>
       <mat-divider style="margin: 2px 0;"></mat-divider>
     </div>
-    <div *ngIf="n.type=='tag'">
+    <div *ngIf="n.type=='tag'" class="tagv1">
       <div class="title" style="font-size: 16px;margin: 12px 0;">
         {{n.label}}
       </div>
@@ -37,6 +37,20 @@
 
       </mat-chip-listbox>
     </div>
+    <div *ngIf="n.type=='tag_radio'" [attr.region]="'advanced_search_item'" [attr.type]="'slide'">
+      <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;align-items: center;">
+        {{n.label}}
+        <button mat-icon-button style="padding: 0;width: 30px;height: 30px;" (click)="on123(n)">
+          <mat-icon style="width: 18px;height: 18px;font-size: 18px;">add</mat-icon>
+        </button>
+      </div>
+      <mat-chip-listbox  >
+        <mat-chip-option style="border-radius: 4px;padding: 0;" [disabled]="true"
+          *ngFor="let item of n.value">{{item.name}}</mat-chip-option>
+
+      </mat-chip-listbox>
+    </div>
+
     <div *ngIf="n.type=='select'">
       <div class="title" style="font-size: 16px;margin: 12px 0;">
         {{n.label}}

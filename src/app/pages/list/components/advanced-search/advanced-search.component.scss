@@ -47,13 +47,16 @@
   .mat-mdc-text-field-wrapper {
     border-radius: 4px;
   }
-
+.tagv1{
   .mat-mdc-chip-set .mdc-evolution-chip-set__chips {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin-left: 0px;
   }
+}
+
+
 
   .select {
     .mat-mdc-form-field-infix {
