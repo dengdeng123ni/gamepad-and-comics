@@ -390,7 +390,7 @@ export class MenuComponent {
               id: "delete",
               name: "删除",
               click: async () => {
-                await firstValueFrom(this.webDb.deleteByKey('url_to_list', x.id))
+                await this.webDb.deleteByKey('url_to_list', x.id)
                 this.data.menu = this.data.menu.filter(c => c.id != x.id)
               }
             },
@@ -402,9 +402,9 @@ export class MenuComponent {
                 const name = await this.prompt.fire("请输入新名称", "");
                 if (name !== null) {
                   if (name != "") {
-                    const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
+                    const obj: any = await this.webDb.getByKey('url_to_list', x.id)
                     obj.name = name
-                    await firstValueFrom(this.webDb.update('url_to_list', obj))
+                    await this.webDb.update('url_to_list', obj)
                     let index = this.data.menu.findIndex(c => c.id == x.id)
                     this.data.menu[index].name = name;
                   }
@@ -417,7 +417,7 @@ export class MenuComponent {
               id: "data",
               name: "来源 URL",
               click: async () => {
-                const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
+                const obj: any = await this.webDb.getByKey('url_to_list', x.id)
                 alert(
                   `${obj.url}`
                 )
@@ -441,7 +441,7 @@ export class MenuComponent {
               id: "delete",
               name: "删除",
               click: async () => {
-                await firstValueFrom(this.webDb.deleteByKey('query_fixed', x.id))
+                await this.webDb.deleteByKey('query_fixed', x.id)
                 this.data.menu = this.data.menu.filter(c => c.id != x.id)
               }
             },
@@ -453,9 +453,9 @@ export class MenuComponent {
                 const name = await this.prompt.fire("请输入新名称", "");
                 if (name !== null) {
                   if (name != "") {
-                    const obj: any = await firstValueFrom(this.webDb.getByKey('query_fixed', x.id))
+                    const obj: any = await this.webDb.getByKey('query_fixed', x.id)
                     obj.name = name
-                    await firstValueFrom(this.webDb.update('query_fixed', obj))
+                    await this.webDb.update('query_fixed', obj)
                     let index = this.data.menu.findIndex(c => c.id == x.id)
                     this.data.menu[index].name = name;
                   }

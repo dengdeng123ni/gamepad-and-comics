@@ -141,7 +141,7 @@ export class DbControllerService {
           let res;
           if (config.is_cache) {
 
-            res = await firstValueFrom(this.webDb.getByKey('details', id))
+            res = await  this.webDb.getByKey('details', id)
 
             if (res) {
               res = res.data;
@@ -154,7 +154,7 @@ export class DbControllerService {
               })
             } else {
               res = await this.DbEvent.Events[option.source]["getDetail"](id);
-              firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
+              this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
               this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
               if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
               res.chapters.forEach(x => {
@@ -165,7 +165,7 @@ export class DbControllerService {
             }
           } else if (option.is_update) {
             res = await this.DbEvent.Events[option.source]["getDetail"](id);
-            firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
+             this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
@@ -214,7 +214,7 @@ export class DbControllerService {
           let res;
           if (config.is_cache) {
 
-            res = (await firstValueFrom(this.webDb.getByKey('pages', id)) as any)
+            res = (await this.webDb.getByKey('pages', id)) as any
             if (res) {
               res = res.data;
 
@@ -270,7 +270,7 @@ export class DbControllerService {
                 res = data;
               }
 
-              await firstValueFrom(this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
+              await  this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) })
               res.forEach((x, i) => {
                 this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
                 if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
@@ -321,7 +321,7 @@ export class DbControllerService {
               res = data;
             }
 
-            await firstValueFrom(this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
+            await  this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) })
             res.forEach((x, i) => {
               this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
               if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
@@ -392,7 +392,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let resc = (await firstValueFrom(this.webDb.getByKey('pages', chapter_id)) as any)
+                  let resc = (await this.webDb.getByKey('pages', chapter_id) as any)
                   if (resc) {
                     resc = resc.data;
                   } else {
@@ -412,7 +412,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = (await firstValueFrom(this.webDb.getByKey('details', comics_id)) as any)
+                  let res = (await this.webDb.getByKey('details', comics_id) as any)
                   if (res) {
                     res = res.data;
                   } else {
@@ -433,7 +433,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = (await firstValueFrom(this.webDb.getByKey('details', comics_id)) as any)
+                  let res = (await this.webDb.getByKey('details', comics_id) as any)
                   if (res) {
                     res = res.data;
                   } else {
@@ -589,12 +589,12 @@ export class DbControllerService {
         } else {
           let res;
           if (config.is_cache) {
-            res = await firstValueFrom(this.webDb.getByKey('replies', id))
+            res = await this.webDb.getByKey('replies', id)
             if (res) {
               res = res.data;
             } else {
               res = await this.DbEvent.Events[option.source]["getReplies"](obj);
-              firstValueFrom(this.webDb.update('replies', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
+              this.webDb.update('replies', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
 
             }
           } else {
@@ -704,7 +704,7 @@ export class DbControllerService {
   }
   async delWebDbDetail(id) {
     this.details[id] = null;
-    await firstValueFrom(this.webDb.deleteByKey('details', id))
+    await this.webDb.deleteByKey('details', id)
   }
   async Unlock(id, option?: {
     source: string
@@ -719,15 +719,15 @@ export class DbControllerService {
   }
   async putWebDbDetail(id, res) {
     this.details[id] = null;
-    firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: res }))))
+    this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: res })))
   }
   async delWebDbPages(id) {
     this.pages[id] = null;
-    await firstValueFrom(this.webDb.deleteByKey('pages', id))
+    await this.webDb.deleteByKey('pages', id)
   }
   async putWebDbPages(id, pages) {
     this.pages[id] = null;
-    await firstValueFrom(this.webDb.update('pages', { id, data: JSON.parse(JSON.stringify(pages)) }))
+    await this.webDb.update('pages', { id, data: JSON.parse(JSON.stringify(pages)) })
   }
   load = {};
   async loadPages(id, option?: {
@@ -791,7 +791,7 @@ export class DbControllerService {
     for (let index = 0; index < c.chapters.length; index++) {
       const x = c.chapters[index];
       list.push(`http://localhost:7700/${source}/chapter/${comics_id}/${x.id}`)
-      let res = (await firstValueFrom(this.webDb.getByKey('pages', x.id)) as any)
+      let res = (await this.webDb.getByKey('pages', x.id) as any)
       if (res) {
         res = res.data;
         res.forEach((x, i) => {
