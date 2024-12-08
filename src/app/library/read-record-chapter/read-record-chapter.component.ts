@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { firstValueFrom } from 'rxjs';
+
 import { DbControllerService, IndexdbControllerService } from '../public-api';
 import { ReadRecordChapterService } from './read-record-chapter.service';
 
@@ -17,8 +17,8 @@ export class ReadRecordChapterComponent {
   }
 
   async init() {
-    const read_record: any = await firstValueFrom(this.webDb.getAll('read_record'));
-    const details: any = await firstValueFrom(this.webDb.getAll('details'));
+    const read_record: any = await this.webDb.getAll('read_record')
+    const details: any = await this.webDb.getAll('details')
     let list = read_record.reverse()
 
     list.forEach(x => {
@@ -74,7 +74,7 @@ export class ReadRecordChapterComponent {
   }
 
   async routerReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByKey("last_read_comics", comics_id.toString()))])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id),this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/comics', source, comics_id, _res[1].chapter_id])
     } else {

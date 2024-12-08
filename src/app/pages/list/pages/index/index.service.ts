@@ -4,7 +4,7 @@ import { AppDataService, ContextMenuEventService, DbControllerService, I18nServi
 import { MenuService } from '../../components/menu/menu.service';
 import { DownloadOptionService } from '../../components/download-option/download-option.service';
 
-import { firstValueFrom } from 'rxjs';
+
 import { ImageToService } from '../../components/image-to/image-to.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -199,22 +199,22 @@ export class IndexService {
     const detail = await this.DbController.getDetail(comics_id)
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
-      firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 }))
-      if (index == 0) firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id }))
+      this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 })
+      if (index == 0) this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id })
     }
   }
 
   async delCaches(comics_id) {
-    await firstValueFrom(this.webDb.deleteByKey('history', comics_id.toString()))
-    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id))
-    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id.toString()))
+    await this.webDb.deleteByKey('history', comics_id.toString())
+    await this.webDb.deleteByKey('local_comics', comics_id)
+    await this.webDb.deleteByKey('local_comics', comics_id.toString())
     this.DbController.delComicsAllImages(comics_id)
   }
 
   async delCaches2(comics_id) {
-    await firstValueFrom(this.webDb.deleteByKey('history', comics_id.toString()))
-    await firstValueFrom(this.webDb.deleteByKey('temporary_details', comics_id))
-    await firstValueFrom(this.webDb.deleteByKey('temporary_details', comics_id.toString()))
+    await this.webDb.deleteByKey('history', comics_id.toString())
+    await this.webDb.deleteByKey('temporary_details', comics_id)
+    await this.webDb.deleteByKey('temporary_details', comics_id.toString())
     this.DbController.delComicsAllImages(comics_id)
   }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { firstValueFrom, map } from 'rxjs';
+import { map } from 'rxjs';
 import { DbEventService, QueryEventService, DbControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
@@ -104,14 +104,14 @@ export class ComicsCustomMultipyComponent {
 
 
   async postIndex(index) {
-    return await firstValueFrom(this.webDb.update("data", {
+    return await this.webDb.update("data", {
       id: this.uid,
       index: index
-    }))
+    })
   }
 
   async getIndex(id) {
-    const res: any = await firstValueFrom(this.webDb.getByKey("data", id))
+    const res: any = await this.webDb.getByKey("data", id)
     if (res) {
       return res.index
     } else {

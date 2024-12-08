@@ -12,7 +12,7 @@ import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { ComicsDetailService } from '../comics-detail/comics-detail.service';
 import { ContextMenuEventService, DbControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
-import { firstValueFrom } from 'rxjs';
+
 import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
 import { FilterService } from '../filter/filter.service';
 import { ExportSettingsService } from '../export-settings/export-settings.service';

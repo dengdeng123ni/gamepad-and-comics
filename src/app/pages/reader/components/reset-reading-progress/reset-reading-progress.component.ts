@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DbControllerService, I18nService, IndexdbControllerService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { ResetReadingProgressService } from './reset-reading-progress.service';
-import { firstValueFrom } from 'rxjs';
+
 import { DataService } from '../../services/data.service';
 
 @Component({
@@ -36,8 +36,8 @@ export class ResetReadingProgressComponent {
     const detail = await this.DbController.getDetail(comics_id,{source:this.current.source})
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
-      firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 }))
-      if (index == 0) firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id }))
+      this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 })
+      if (index == 0) this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id })
     }
   }
 }

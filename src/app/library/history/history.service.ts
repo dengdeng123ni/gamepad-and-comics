@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
+
 import { AppDataService, IndexdbControllerService } from '../public-api';
 
 @Injectable({
@@ -17,23 +17,23 @@ export class HistoryService {
     cover: string,
   }) {
     if(!obj.cover) return
-    const res: any = await firstValueFrom(this.webDb.getByKey("history", obj.id))
+    const res: any = await this.webDb.getByKey("history", obj.id)
     if (res) {
-      await firstValueFrom(this.webDb.update("history", { ...res, ...obj,last_read_date: new Date().getTime() }))
+      await this.webDb.update("history", { ...res, ...obj,last_read_date: new Date().getTime() })
     } else {
-      await firstValueFrom(this.webDb.update("history", { ...obj, first_read_date: new Date().getTime(), source: this.AppData.source, last_read_date: new Date().getTime() }))
+      await this.webDb.update("history", { ...obj, first_read_date: new Date().getTime(), source: this.AppData.source, last_read_date: new Date().getTime() })
     }
 
   }
 
   async update_progress(id: string, subTitle: string) {
-    const res: any = await firstValueFrom(this.webDb.getByKey("history", id))
-    await firstValueFrom(this.webDb.update("history", { ...res, subTitle: subTitle }))
+    const res: any = await this.webDb.getByKey("history", id)
+    await this.webDb.update("history", { ...res, subTitle: subTitle })
   }
 
 
   async getAll() {
-    const list = await firstValueFrom(this.webDb.getAll("history"));
+    const list = await this.webDb.getAll("history")
     list.forEach((x: any) => {
       if (!x.subTitle) x.subTitle = "未阅读";
     })

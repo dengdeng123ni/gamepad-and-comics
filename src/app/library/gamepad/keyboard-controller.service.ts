@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GamepadInputService } from './gamepad-input.service';
 import { KeyboardEventService } from './keyboard-event.service';
 
-import { firstValueFrom } from 'rxjs';
+
 import { IndexdbControllerService } from '../public-api';
 
 
@@ -64,7 +64,7 @@ export class KeyboardControllerService {
   }
 
   async init() {
-    const config: any = await firstValueFrom(this.webDb.getByKey('data', this.key));
+    const config: any = await this.webDb.getByKey('data', this.key);
     if (config) {
       this.config = config.data;
     }
@@ -83,10 +83,10 @@ export class KeyboardControllerService {
 
   reset(){
     this.config=this._config;
-    firstValueFrom(this.webDb.update('data', {
+    this.webDb.update('data', {
       id: this.key,
       data: this.config
-    }))
+    })
     this.register();
   }
 
@@ -100,10 +100,10 @@ export class KeyboardControllerService {
     })
     this.config[key] = value;
     this.register();
-    firstValueFrom(this.webDb.update('data', {
+    this.webDb.update('data', {
       id: this.key,
       data: this.config
-    }))
+    })
 
   }
 

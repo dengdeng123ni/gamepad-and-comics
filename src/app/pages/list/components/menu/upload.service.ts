@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 
-import { firstValueFrom, forkJoin } from 'rxjs';
+import {  forkJoin } from 'rxjs';
 import { IndexdbControllerService } from 'src/app/library/public-api';
 @Injectable({
   providedIn: 'root'
@@ -174,9 +174,8 @@ export class UploadService {
 
     const time = new Date().getTime();
     let j = 0;
-    // firstValueFrom(, this.webDB.getAll('state')]))
-    const comicsAll: any = await firstValueFrom(this.webDB.getAll('comics'));
-    const stateAll: any = await firstValueFrom(this.webDB.getAll('state'));
+    const comicsAll: any = await this.webDB.getAll('comics');
+    const stateAll: any = await this.webDB.getAll('state');
     for (let index = 0; index < this.list.length; index++) {
       const { comics, state } = this.list[index];
       const obj = comicsAll.find(x => x.title == comics.title);
@@ -198,7 +197,8 @@ export class UploadService {
         comics.config = { id: id };
         state.isFirstPageCover = false;
         state.pageOrder = false;
-        await firstValueFrom(forkJoin([this.webDB.update('comics', comics), this.webDB.update('state', state)]))
+        await this.webDB.update('comics', newComics)
+        await this.webDB.update('state', state)
       } else {
         const newState = stateAll.find(x => x.id == obj.id);
         const index = obj.chapters.findIndex(c => c.id == newState.chapter.id)
@@ -224,7 +224,8 @@ export class UploadService {
 
         const newComics = deepMerge(obj, comics);
         state.id = newComics.id;
-        await firstValueFrom(forkJoin([this.webDB.update('comics', newComics), this.webDB.update('state', state)]))
+        await this.webDB.update('comics', newComics)
+        await this.webDB.update('state', state)
       }
     }
     this.list = [];
@@ -578,7 +579,7 @@ export class UploadService {
     state.chapter.id = comics.chapters[0].id;
     state.isFirstPageCover = false;
     state.pageOrder = false;
-    const res = await firstValueFrom(forkJoin([this.webDB.update('comics', comics), this.webDB.update('state', state)]))
+    const res = await Promise.all([this.webDB.update('comics', comics), this.webDB.update('state', state)])
     return res
   }
 
@@ -591,7 +592,7 @@ export class UploadService {
     // }
     // state.chapter.id=comics.chapters[0].id;
     // comics.cover=comics.chapters[0].pages[0];
-    // const res= await firstValueFrom(forkJoin([this.webDB.update('comics', comics), this.webDB.update('state', state)]))
+    // const res= await (([this.webDB.update('comics', comics), this.webDB.update('state', state)]))
     // return res
   }
 

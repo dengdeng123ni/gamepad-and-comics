@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
+
 import { IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
@@ -37,15 +37,15 @@ export class MenuService {
   }
 
   async post() {
-    return await firstValueFrom(this.webDb.update("data", {
+    return await this.webDb.update("data", {
       id: this.key,
       opened: this.opened,
       mode: this.mode
-    }))
+    })
   }
 
   async get() {
-    const res: any = await firstValueFrom(this.webDb.getByKey("data", this.key))
+    const res: any = await this.webDb.getByKey("data", this.key)
     if (res) {
       this.opened = res.opened;
       this.mode = res.mode;

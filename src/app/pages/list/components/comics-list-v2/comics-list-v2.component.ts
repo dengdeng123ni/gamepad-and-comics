@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
-import { map, throttleTime, Subject, firstValueFrom } from 'rxjs';
+import { map, throttleTime, Subject } from 'rxjs';
 import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, IndexdbControllerService, KeyboardEventService, LocalCachService, PromptService, WebFileService } from 'src/app/library/public-api';
 
 import { CurrentService } from '../../services/current.service';
@@ -165,7 +165,7 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const res = await firstValueFrom(this.webDb.getAll("local_comics"))
+            const res = await this.webDb.getAll("local_comics")
             const list = res.map((x: any) => {
               x = x.data
               return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0].title}` }
@@ -173,7 +173,7 @@ export class ComicsListV2Component {
             return list
           },
           Init: async (obj) => {
-            const res = await firstValueFrom(this.webDb.getAll("local_comics"))
+            const res = await this.webDb.getAll("local_comics")
             const list = res.map((x: any) => {
               x = x.data
 
@@ -195,7 +195,7 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const res = await firstValueFrom(this.webDb.getAll("temporary_details"))
+            const res = await this.webDb.getAll("temporary_details")
 
             const list = res.map((x: any) => {
               x = x.data
@@ -204,7 +204,7 @@ export class ComicsListV2Component {
             return list
           },
           Init: async (obj) => {
-            const res = await firstValueFrom(this.webDb.getAll("temporary_details"))
+            const res = await this.webDb.getAll("temporary_details")
 
             const list = res.map((x: any) => {
               x = x.data
@@ -221,7 +221,7 @@ export class ComicsListV2Component {
         this.id = `${type}_${source}_${sid}`;
         this.key = this.id;
         this.App.setsource(this.source);
-        const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', this.menu_id))
+        const obj: any = await this.webDb.getByKey('url_to_list', this.menu_id)
         this.url = `${obj.name}`
         ComicsListV2.register({
           id: this.id,
@@ -243,7 +243,7 @@ export class ComicsListV2Component {
         this.id = `${type}_${source}_${sid}`;
         this.key = this.id;
         this.App.setsource(this.source);
-        const obj: any = await firstValueFrom(this.webDb.getByKey('query_fixed', this.menu_id))
+        const obj: any = await this.webDb.getByKey('query_fixed', this.menu_id)
         console.log(obj);
 
         this.url = `${obj.name}`
@@ -467,7 +467,7 @@ export class ComicsListV2Component {
             ...e
           }
         }
-        await firstValueFrom(this.webDb.update('query_fixed', obj))
+        await this.webDb.update('query_fixed', obj)
 
         setTimeout(()=>{
           this.current._updateMenu()
@@ -502,15 +502,15 @@ export class ComicsListV2Component {
     const detail = await this.DbController.getDetail(comics_id)
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
-      firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 }))
-      if (index == 0) firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id }))
+      this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 })
+      if (index == 0) this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id })
     }
   }
 
   async delCaches(comics_id) {
-    await firstValueFrom(this.webDb.deleteByKey('history', comics_id.toString()))
-    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id))
-    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id.toString()))
+    await this.webDb.deleteByKey('history', comics_id.toString())
+    await this.webDb.deleteByKey('local_comics', comics_id)
+    await this.webDb.deleteByKey('local_comics', comics_id.toString())
     this.DbController.delComicsAllImages(comics_id)
   }
   async cache() {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+
 import { DbControllerService, DbEventService, IndexdbControllerService } from './public-api';
 
 @Injectable({

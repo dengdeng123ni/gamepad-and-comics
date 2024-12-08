@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DbControllerService, HistoryService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 import { HistoryComicsListService } from './history-comics-list.service';
 
-import { firstValueFrom } from 'rxjs';
+
 import { Router } from '@angular/router';
 
 @Component({

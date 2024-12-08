@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
+
 import { ComicsItem, IndexdbControllerService } from 'src/app/library/public-api';
 declare const window: any;
 @Injectable({
@@ -62,14 +62,14 @@ export class DataService {
   }
 
   async post() {
-    return await firstValueFrom(this.webDb.update("data", {
+    return await this.webDb.update("data", {
       id: this.key,
       currend_read_comics_id:this.currend_read_comics_id
-    }))
+    })
   }
 
   async get() {
-    const res: any = await firstValueFrom(this.webDb.getByKey("data", this.key))
+    const res: any = await this.webDb.getByKey("data", this.key)
     if (res) {
       if(!this.currend_read_comics_id)  this.currend_read_comics_id=res.currend_read_comics_id;
     }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { firstValueFrom } from 'rxjs';
+
 import CryptoJS from 'crypto-js'
 import { IndexdbControllerService, MessageFetchService } from '../public-api';
 

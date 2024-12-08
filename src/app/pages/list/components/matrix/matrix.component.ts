@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
+
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
 import { IndexdbControllerService, PromptService } from 'src/app/library/public-api';
 
@@ -58,7 +58,7 @@ export class MatrixComponent {
           name: userInput,
           value: this.values
         }
-        await firstValueFrom(this.webDb.update('color_matrix', obj))
+        await this.webDb.update('color_matrix', obj)
         this.save(obj)
       }
     } else {

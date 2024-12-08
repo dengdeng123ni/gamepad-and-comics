@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { DbControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
-import { Subject, firstValueFrom } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
 declare const window: any;

@@ -6,7 +6,7 @@ import { OpenComicsListService } from './open-comics-list.service';
 import { DownloadProgressService } from '../download-progress/download-progress.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { firstValueFrom } from 'rxjs';
+
 
 @Component({
   selector: 'app-image-to',
@@ -108,7 +108,7 @@ export class ImageToComponent {
     document.querySelector("#vvvv feColorMatrix").setAttribute("values", this.saturateMatrix.toString())
   }
   closeMatrix=async (id)=>{
-    await firstValueFrom(this.webDb.deleteByKey('color_matrix',id))
+    await this.webDb.deleteByKey('color_matrix',id)
     this.arr = this.arr.filter(x=>x.id!=id)
   }
    updateMatrix=async (e)=>{
@@ -146,7 +146,7 @@ export class ImageToComponent {
   }
   async init() {
     this.toCover = await this.to(this.cover)
-    const res: any = await firstValueFrom(this.webDb.getAll('color_matrix'))
+    const res: any = await this.webDb.getAll('color_matrix')
     this.arr = [...this.arr, ...res]
   }
   async to(_src) {

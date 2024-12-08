@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
 
-import { firstValueFrom } from 'rxjs';
+
 import { ChaptersListService } from '../chapters-list/chapters-list.service';
 import { GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
 
@@ -197,12 +197,12 @@ export class NovelsReaderComponent {
       chapter_id:  this.data.chapters[index].id,
       trigger: 'novels_reader_v1'
     });
-    await firstValueFrom(this.webDb.update("read_novels", { 'id': id.toString(), "index": index }))
+    await this.webDb.update("read_novels", { 'id': id.toString(), "index": index })
   }
 
 
   async getReadIndex(id) {
-    const obj: any = await firstValueFrom(this.webDb.getByKey("read_novels", id.toString()))
+    const obj: any = await this.webDb.getByKey("read_novels", id.toString())
     if (obj) {
       return obj.index
     } else {

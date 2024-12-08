@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, NgZone, ViewChild } from '@angular
 import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, GamepadEventService, HistoryService, IndexdbControllerService, QueryEventService, WebFileService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute, NavigationStart, ParamMap, Router } from '@angular/router';
-import { Subject, firstValueFrom, map, throttleTime } from 'rxjs';
+import { Subject, map, throttleTime } from 'rxjs';
 
 import { CurrentService } from '../../services/current.service';
 import { ComicsListV2Service } from '../comics-list-v2/comics-list-v2.service';
@@ -212,7 +212,7 @@ export class ComicsSearchComponent {
 
 
   async routerNovelsReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {

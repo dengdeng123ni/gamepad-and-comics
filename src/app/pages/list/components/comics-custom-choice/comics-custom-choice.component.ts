@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, ParamMap, Router } from '@angular/router';
-import { firstValueFrom, map } from 'rxjs';
+import { map } from 'rxjs';
 import { DbControllerService, DbEventService, IndexdbControllerService, QueryEventService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 
@@ -95,14 +95,14 @@ export class ComicsCustomChoiceComponent {
   }
 
   async postIndex(index) {
-    return await firstValueFrom(this.webDb.update("data", {
+    return await this.webDb.update("data", {
       id: this.uid,
       index: index
-    }))
+    })
   }
 
   async getIndex(id) {
-    const res: any = await firstValueFrom(this.webDb.getByKey("data", id))
+    const res: any = await this.webDb.getByKey("data", id)
     if (res) {
       return res.index
     } else {

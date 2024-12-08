@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
+
 import { IndexdbControllerService } from '../public-api';
 declare let window: any;
 @Injectable({
@@ -21,8 +21,8 @@ export class TemporaryDataControllerService {
     title: string
   }) => {
     const _id = `_${new Date().getTime()}`
-    await firstValueFrom(this.webDb.update("temporary_pages", { id: _id, data: pages }))
-    await firstValueFrom(this.webDb.update("temporary_details", {
+    await this.webDb.update("temporary_pages", { id: _id, data: pages })
+    await this.webDb.update("temporary_details", {
       id: _id, data: {
         title: otpion.title ?? "",
         cover: pages[0],
@@ -35,7 +35,7 @@ export class TemporaryDataControllerService {
           }
         ]
       }
-    }))
+    })
     return _id
   }
 }

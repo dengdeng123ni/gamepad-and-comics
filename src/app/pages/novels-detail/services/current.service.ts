@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DbControllerService, HistoryService, IndexdbControllerService, PagesItem } from 'src/app/library/public-api';
 import { DataService } from './data.service';
 
-import { Subject, firstValueFrom } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({

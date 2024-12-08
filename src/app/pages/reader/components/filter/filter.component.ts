@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SvgService } from 'src/app/library/svg.service';
 import { FilterService } from './filter.service';
-import { firstValueFrom } from 'rxjs';
+
 import { IndexdbControllerService } from 'src/app/library/public-api';
 
 @Component({
@@ -78,7 +78,7 @@ export class FilterComponent {
         ]
       },
     ]
-    const res: any = await firstValueFrom(this.webDb.getAll('color_matrix'))
+    const res: any = await this.webDb.getAll('color_matrix')
     arr = [...arr, ...res]
 
     for (let index = 0; index < arr.length; index++) {

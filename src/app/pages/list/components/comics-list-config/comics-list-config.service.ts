@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
 import { ComicsListConfigComponent } from './comics-list-config.component';
-import { firstValueFrom } from 'rxjs';
+
 
 import { DataService } from '../../services/data.service';
 
@@ -58,14 +58,14 @@ export class ComicsListConfigService {
   }
 
   async post() {
-    return await firstValueFrom(this.webDb.update("data", {
+    return await this.webDb.update("data", {
       id: this.key,
       click_type: this.data.config.click_type
-    }))
+    })
   }
 
   async get() {
-    const res: any = await firstValueFrom(this.webDb.getByKey("data", this.key))
+    const res: any = await this.webDb.getByKey("data", this.key)
 
     if (res) {
       this.data.config.click_type = res.click_type;

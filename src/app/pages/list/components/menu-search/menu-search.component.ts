@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
+
 import { DbControllerService, DbEventService, GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { MenuSearchService } from './menu-search.service';
@@ -105,7 +105,7 @@ export class MenuSearchComponent {
 
   }
   async routerNovelsReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {

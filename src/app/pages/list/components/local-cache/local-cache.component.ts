@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
 
 import { IndexdbControllerService, QueryEventService } from 'src/app/library/public-api';
-import { firstValueFrom } from 'rxjs';
+
 @Component({
   selector: 'app-local-cache',
   templateUrl: './local-cache.component.html',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { firstValueFrom } from 'rxjs';
+
 import { DataService } from '../../services/data.service';
 import { ImageToComponent } from './image-to.component';
 import { GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';

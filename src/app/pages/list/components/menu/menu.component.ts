@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { Observable, firstValueFrom, map, startWith } from 'rxjs';
+import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { TemporaryFileService } from './temporary-file.service';

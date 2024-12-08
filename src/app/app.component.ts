@@ -6,7 +6,7 @@ import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
 import { TestService } from './composite/test/test.service';
-import { bufferCount, firstValueFrom, Subject } from 'rxjs';
+import { bufferCount, Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { TranslateService } from '@ngx-translate/core';
 export const slideInAnimation =

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { AppDataService, ChaptersItem, DbNovelsControllerService, HistoryService, ImageService, IndexdbControllerService, MessageFetchService } from 'src/app/library/public-api';
-import { Subject, firstValueFrom } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 interface PagesItem{

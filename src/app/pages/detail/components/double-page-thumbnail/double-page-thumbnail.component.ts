@@ -5,7 +5,7 @@ import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
 import { ContextMenuEventService, IndexdbControllerService, UtilsService } from 'src/app/library/public-api';
 
-import { firstValueFrom } from 'rxjs';
+
 interface DialogData {
   chapter_id: string;
   page_index?: number
@@ -142,15 +142,15 @@ export class DoublePageThumbnailComponent {
     }
   }
   async post() {
-    return await firstValueFrom(this.webDb.update("data", {
+    return await this.webDb.update("data", {
       id: this.KEY,
       opened: this.opened,
       is_head_show: this.is_head_show
-    }))
+    })
   }
 
   async get() {
-    const res: any = await firstValueFrom(this.webDb.getByKey("data", this.KEY))
+    const res: any = await this.webDb.getByKey("data", this.KEY)
     if (res) {
       this.opened = res.opened;
       this.is_head_show = res.is_head_show;

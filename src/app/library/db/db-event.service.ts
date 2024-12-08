@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IndexdbControllerService,MessageFetchService } from '../public-api';
-import { Subject, firstValueFrom } from 'rxjs';
+import { Subject } from 'rxjs';
 interface Events {
   Unlock?: Function;
   getList?: Function;
@@ -2881,15 +2881,15 @@ export class DbEventService {
   }
 
   get_data = async (key: string) => {
-    const res = await firstValueFrom(this.webDb.getByKey('data_v2', key))
+    const res = await this.webDb.getByKey('data_v2', key)
     if (res) return res.data
     else return null
   }
   set_data = async (key: string, data: any) => {
-    const res = await firstValueFrom(this.webDb.update('data_v2', {
+    const res = await this.webDb.update('data_v2', {
       id: key,
       data: data
-    }))
+    })
     return res
   }
 }

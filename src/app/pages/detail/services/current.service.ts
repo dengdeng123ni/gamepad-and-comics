@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DbControllerService, HistoryService, IndexdbControllerService, PagesItem, RoutingControllerService } from 'src/app/library/public-api';
 import { DataService } from './data.service';
 
-import { Subject, firstValueFrom } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -73,7 +73,7 @@ export class CurrentService {
 
   async _getWebDbComicsConfig(id: string) {
 
-    const res: any = await firstValueFrom(this.webDb.getByKey("comics_config", id.toString()))
+    const res: any = await this.webDb.getByKey("comics_config", id.toString())
     if (res) {
       return { ...this.data.comics_config, ...res }
     } else {
@@ -265,13 +265,13 @@ export class CurrentService {
 
 
   async _getChapterFirstPageCover(chapter_id: string) {
-    return await firstValueFrom(this.webDb.getByKey("chapter_first_page_cover", chapter_id.toString()))
+    return await this.webDb.getByKey("chapter_first_page_cover", chapter_id.toString())
   }
   async _setChapterFirstPageCover(chapter_id: string, is_first_page_cover: boolean) {
-    await firstValueFrom(this.webDb.update("chapter_first_page_cover", { 'chapter_id': chapter_id.toString(), "is_first_page_cover": is_first_page_cover }))
+    await this.webDb.update("chapter_first_page_cover", { 'chapter_id': chapter_id.toString(), "is_first_page_cover": is_first_page_cover })
   }
   async _delChapterFirstPageCover(chapter_id: string) {
-    await firstValueFrom(this.webDb.deleteByKey("chapter_first_page_cover", chapter_id.toString()))
+    await this.webDb.deleteByKey("chapter_first_page_cover", chapter_id.toString())
   }
 
   async _updateChapterRead(chapter_id: string) {
@@ -279,12 +279,12 @@ export class CurrentService {
     if (index <= -1) return
     this.data.chapters[index].read = 1;
     const chapters = this.data.chapters.map(x => ({ id: x.id, read: x.read }))
-    await firstValueFrom(this.webDb.update("read_comics_chapter", { 'comics_id': this.data.comics_id.toString(), chapters: chapters }))
-    await firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[index].id }))
+    await this.webDb.update("read_comics_chapter", { 'comics_id': this.data.comics_id.toString(), chapters: chapters })
+    await this.webDb.update("last_read_comics", { 'comics_id': this.data.comics_id.toString(), chapter_id: this.data.chapters[index].id })
   }
 
   async _getChapterIndex(id: string): Promise<number> {
-    const res: any = await firstValueFrom(this.webDb.getByKey("last_read_chapter_page", id.toString()))
+    const res: any = await this.webDb.getByKey("last_read_chapter_page", id.toString())
     if (res) {
       return res.page_index
     } else {
@@ -298,7 +298,7 @@ export class CurrentService {
 
   }
   async _getChapterRead(id: string) {
-    const res: any = await firstValueFrom(this.webDb.getByKey("read_comics_chapter", id.toString()))
+    const res: any = await this.webDb.getByKey("read_comics_chapter", id.toString())
     if (res) {
       return res.chapters
     } else {
@@ -306,7 +306,7 @@ export class CurrentService {
     }
   }
   async _getComicsRead(comics_id: string) {
-    const res: any = await firstValueFrom(this.webDb.getByKey("last_read_comics", comics_id.toString()))
+    const res: any = await this.webDb.getByKey("last_read_comics", comics_id.toString())
     if (res) {
       return res
     } else {
@@ -314,7 +314,7 @@ export class CurrentService {
     }
   }
   async _getImageHW(id) {
-    const res: any = await firstValueFrom(this.webDb.getByKey("imageHW", id))
+    const res: any = await this.webDb.getByKey("imageHW", id)
 
     if (res) {
       return {
@@ -329,11 +329,11 @@ export class CurrentService {
     width: number,
     height: number
   }) {
-    await firstValueFrom(this.webDb.update("imageHW", { 'id': id, ...option }))
+    await this.webDb.update("imageHW", { 'id': id, ...option })
   }
 
   async _setChapterIndex(id: string, index: number) {
-    await firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': id.toString(), "page_index": index }))
+    await this.webDb.update("last_read_chapter_page", { 'chapter_id': id.toString(), "page_index": index })
   }
   async _getChapter_IsFirstPageCover(id: string): Promise<boolean> {
     const res: any = await this._getChapterFirstPageCover(id);

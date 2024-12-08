@@ -3,7 +3,7 @@ import { DataService } from '../../services/data.service';
 import { IndexdbControllerService, UtilsService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 
-import { firstValueFrom } from 'rxjs';
+
 
 @Component({
   selector: 'app-comics-settings',
@@ -117,14 +117,14 @@ export class ComicsSettingsComponent {
  }
 
   async post() {
-    return await firstValueFrom(this.webDb.update("data", {
+    return await this.webDb.update("data", {
       id: `first_page_cover_settings_${this.data.comics_id}`,
       mode: this.mode
-    }))
+    })
   }
 
   async get() {
-    const res: any = await firstValueFrom(this.webDb.getByKey("data", `first_page_cover_settings_${this.data.comics_id}`))
+    const res: any = await this.webDb.getByKey("data", `first_page_cover_settings_${this.data.comics_id}`)
     if (res) {
       this.mode = res.mode;
     }

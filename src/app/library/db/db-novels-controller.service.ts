@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
+
 import { AppDataService, IndexdbControllerService } from '../public-api';
 import { DbEventService } from './db-event.service';
 
@@ -45,7 +45,7 @@ export class DbNovelsControllerService {
       } else {
         let res;
         if (config.is_cache) {
-          res = await firstValueFrom(this.webDb.getByKey('novels_details', id))
+          res = await this.webDb.getByKey('novels_details', id)
           if (res) {
             res = res.data;
             if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
@@ -53,7 +53,7 @@ export class DbNovelsControllerService {
 
           } else {
             res = await this.DbEvent.Events[option.source]["getDetail"](id);
-            firstValueFrom(this.webDb.update('novels_details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res }))))
+            this.webDb.update('novels_details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
           }
@@ -88,13 +88,13 @@ export class DbNovelsControllerService {
         } else {
           let res;
           if (config.is_cache) {
-            res = (await firstValueFrom(this.webDb.getByKey('novels_pages', id)) as any)
+            res = (await this.webDb.getByKey('novels_pages', id)) as any
             if (res) {
               res = res.data;
 
             } else {
               res = await this.DbEvent.Events[option.source]["getPages"](id);
-              firstValueFrom(this.webDb.update('novels_pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) }))
+              this.webDb.update('novels_pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) })
 
             }
           } else {
@@ -118,7 +118,7 @@ export class DbNovelsControllerService {
   }
   async delWebDbDetail(id) {
     this.details[id] = null;
-    await firstValueFrom(this.webDb.deleteByKey('novels_details', id))
+    await this.webDb.deleteByKey('novels_details', id)
   }
   async Unlock(id, option?: {
     source: string
@@ -133,15 +133,15 @@ export class DbNovelsControllerService {
   }
   async putWebDbDetail(id, res) {
     this.details[id] = null;
-    firstValueFrom(this.webDb.update('novels_details', JSON.parse(JSON.stringify({ id: id, data: res }))))
+    this.webDb.update('novels_details', JSON.parse(JSON.stringify({ id: id, data: res })))
   }
   async delWebDbPages(id) {
     this.pages[id] = null;
-    await firstValueFrom(this.webDb.deleteByKey('novels_pages', id))
+    await this.webDb.deleteByKey('novels_pages', id)
   }
   async putWebDbPages(id, pages) {
     this.pages[id] = null;
-    await firstValueFrom(this.webDb.update('novels_pages', { id, data: JSON.parse(JSON.stringify(pages)) }))
+    await this.webDb.update('novels_pages', { id, data: JSON.parse(JSON.stringify(pages)) })
   }
   load = {};
 

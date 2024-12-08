@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, NgZone, ViewChild } from '@angular
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/router';
 
-import { map, firstValueFrom, throttleTime, Subject } from 'rxjs';
+import { map, throttleTime, Subject } from 'rxjs';
 import { LocalCachService } from 'src/app/library/local-cach.service';
 import { ContextMenuEventService, DbControllerService, DbEventService, KeyboardEventService, HistoryService, AppDataService, IndexdbControllerService } from 'src/app/library/public-api';
 import { WebFileService } from 'src/app/library/web-file.service';
@@ -353,7 +353,7 @@ export class NovelsListComponent {
   }
   async routerReader(source, comics_id) {
     this.data.currend_read_comics_id = comics_id;
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {

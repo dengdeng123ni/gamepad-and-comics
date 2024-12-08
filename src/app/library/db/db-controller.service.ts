@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppDataService, IndexdbControllerService } from 'src/app/library/public-api';
 import { DbEventService } from './db-event.service';
-import { firstValueFrom } from 'rxjs';
+
 import CryptoJS from 'crypto-js'
 interface Item { id: string | number, cover: string, title: string, subTitle: string }
 interface Events {

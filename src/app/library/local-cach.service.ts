@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom } from 'rxjs';
+
 import { AppDataService, DbControllerService, DbEventService, I18nService, IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
