@@ -24,12 +24,10 @@ export class CacheControllerService {
   }
 
   async match(cacheName: "image" | "list" | "assets" | "script", request:URL|string): Promise<Response | undefined> {
-    console.log(cacheName,request);
     return await this.data[cacheName].match(request)
   }
 
   async put(cacheName: "image" | "list" | "assets" | "script", request:URL|string, response: Response): Promise<void> {
-
     return await this.data[cacheName].put(request, response)
   }
 
