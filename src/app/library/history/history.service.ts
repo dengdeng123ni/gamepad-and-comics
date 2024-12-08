@@ -17,7 +17,7 @@ export class HistoryService {
     cover: string,
   }) {
     if(!obj.cover) return
-    const res: any = await firstValueFrom(this.webDb.getByID("history", obj.id))
+    const res: any = await firstValueFrom(this.webDb.getByKey("history", obj.id))
     if (res) {
       await firstValueFrom(this.webDb.update("history", { ...res, ...obj,last_read_date: new Date().getTime() }))
     } else {
@@ -27,7 +27,7 @@ export class HistoryService {
   }
 
   async update_progress(id: string, subTitle: string) {
-    const res: any = await firstValueFrom(this.webDb.getByID("history", id))
+    const res: any = await firstValueFrom(this.webDb.getByKey("history", id))
     await firstValueFrom(this.webDb.update("history", { ...res, subTitle: subTitle }))
   }
 

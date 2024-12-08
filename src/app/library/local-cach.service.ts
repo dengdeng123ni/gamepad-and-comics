@@ -23,19 +23,19 @@ export class LocalCachService {
       is_cache: true
     }, {
       getList: async (obj: any) => {
-        let res =  await firstValueFrom(this.webDb.getAll('temporary_details'))
+        let res = await this.webDb.getAll('temporary_details')
         const list = res.map((x: any) => {
           return { id: x.id, cover: x.chapters[0].pages[0].id.toString(), title: x.title, subTitle: `${x.chapters[0].title}` }
         });
         return list
       },
       getDetail: async (id: string) => {
-        const res= (await firstValueFrom(this.webDb.getByID("temporary_details", id)) as any).data;
+        const res = (await this.webDb.getByKey("temporary_details", id) as any).data;
 
         return res
       },
       getPages: async (id: string) => {
-        return  (await firstValueFrom(this.webDb.getByID("temporary_pages", id)) as any).data
+        return (await this.webDb.getByKey("temporary_pages", id) as any).data
       }
     });
     DbEvent.comics_register({
@@ -45,7 +45,7 @@ export class LocalCachService {
       is_cache: true
     }, {
       getList: async (obj: any) => {
-        const res = await firstValueFrom(this.webDb.getAll("local_comics"))
+        const res = await this.webDb.getAll("local_comics")
         const list = res.map((x: any) => {
           x = x.data
           return { id: x.id, cover: x.cover, title: x.title, subTitle: `${x.chapters[0].title}` }
@@ -53,11 +53,11 @@ export class LocalCachService {
         return list
       },
       getDetail: async (id: string) => {
-        let res = (await firstValueFrom(this.webDb.getByID('local_comics', id.toString())) as any)
+        let res = (await this.webDb.getByKey('local_comics', id.toString()) as any)
         return res.data
       },
       getPages: async (id: string) => {
-        let res = (await firstValueFrom(this.webDb.getByID('local_pages', id.toString())) as any)
+        let res = (await this.webDb.getByKey('local_pages', id.toString()) as any)
         return res.data
       },
       getImage: async (_id: string) => {
@@ -125,12 +125,12 @@ export class LocalCachService {
         pages[index].height = images.height;
       }
 
-      await firstValueFrom(this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(), data: pages }))
-      await firstValueFrom(this.webDb.update("pages", { id: `7700_${x.id}`.toString(), data: pages }))
+      await this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(), data: pages })
+      await this.webDb.update("pages", { id: `7700_${x.id}`.toString(), data: pages })
       x.id = `7700_${x.id}`.toString();
       let chapters = res.chapters.slice(0, index + 1);
-      await firstValueFrom(this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, creation_time: new Date().getTime(), chapters } }))))
-      await firstValueFrom(this.webDb.update('details', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, creation_time: new Date().getTime(), chapters } }))))
+      await this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, creation_time: new Date().getTime(), chapters } })))
+      await this.webDb.update('details', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, creation_time: new Date().getTime(), chapters } })))
 
 
       const 缓存完成 = await this.I18n.getTranslatedText('缓存完成')

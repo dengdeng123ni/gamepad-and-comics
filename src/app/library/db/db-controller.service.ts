@@ -141,7 +141,7 @@ export class DbControllerService {
           let res;
           if (config.is_cache) {
 
-            res = await firstValueFrom(this.webDb.getByID('details', id))
+            res = await firstValueFrom(this.webDb.getByKey('details', id))
 
             if (res) {
               res = res.data;
@@ -214,7 +214,7 @@ export class DbControllerService {
           let res;
           if (config.is_cache) {
 
-            res = (await firstValueFrom(this.webDb.getByID('pages', id)) as any)
+            res = (await firstValueFrom(this.webDb.getByKey('pages', id)) as any)
             if (res) {
               res = res.data;
 
@@ -392,7 +392,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let resc = (await firstValueFrom(this.webDb.getByID('pages', chapter_id)) as any)
+                  let resc = (await firstValueFrom(this.webDb.getByKey('pages', chapter_id)) as any)
                   if (resc) {
                     resc = resc.data;
                   } else {
@@ -412,7 +412,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = (await firstValueFrom(this.webDb.getByID('details', comics_id)) as any)
+                  let res = (await firstValueFrom(this.webDb.getByKey('details', comics_id)) as any)
                   if (res) {
                     res = res.data;
                   } else {
@@ -433,7 +433,7 @@ export class DbControllerService {
                   return url
                 } else {
                   await this.waitForCondition()
-                  let res = (await firstValueFrom(this.webDb.getByID('details', comics_id)) as any)
+                  let res = (await firstValueFrom(this.webDb.getByKey('details', comics_id)) as any)
                   if (res) {
                     res = res.data;
                   } else {
@@ -589,7 +589,7 @@ export class DbControllerService {
         } else {
           let res;
           if (config.is_cache) {
-            res = await firstValueFrom(this.webDb.getByID('replies', id))
+            res = await firstValueFrom(this.webDb.getByKey('replies', id))
             if (res) {
               res = res.data;
             } else {
@@ -791,7 +791,7 @@ export class DbControllerService {
     for (let index = 0; index < c.chapters.length; index++) {
       const x = c.chapters[index];
       list.push(`http://localhost:7700/${source}/chapter/${comics_id}/${x.id}`)
-      let res = (await firstValueFrom(this.webDb.getByID('pages', x.id)) as any)
+      let res = (await firstValueFrom(this.webDb.getByKey('pages', x.id)) as any)
       if (res) {
         res = res.data;
         res.forEach((x, i) => {

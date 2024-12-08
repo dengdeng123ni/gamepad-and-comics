@@ -43,11 +43,11 @@ export class RoutingControllerService {
     else if (option.commands[0] == "detail") page = "detail"
     else page = "reader"
 
-    await firstValueFrom(this.webDb.update('router', {
+    await this.webDb.update('router', {
       id: new Date().getTime(),
       page,
       ...option
-    }))
+    })
   }
   async UrlToComicsId(url): Promise<any> {
     for (let index = 0; index < Object.keys(this.DbEvent.Events).length; index++) {
@@ -72,12 +72,12 @@ export class RoutingControllerService {
           source: x
         });
         if (res && res.length) {
-           await firstValueFrom(this.webDb.update('url_to_list', {
+           await this.webDb.update('url_to_list', {
             id: window.btoa(encodeURIComponent(url)),
             url: url,
             source:x,
             name: url
-          }))
+          })
           this.routerList(x, window.btoa(encodeURIComponent(url)))
           await navigator.clipboard.writeText("")
           setTimeout(()=>{
@@ -131,7 +131,7 @@ export class RoutingControllerService {
       const _res: any = await Promise.all([
         this.DbController.getDetail(comics_id, {
           source: source
-        }), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
+        }), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
       if (_res[1]) {
         this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
       } else {
@@ -141,7 +141,7 @@ export class RoutingControllerService {
       const _res: any = await Promise.all([
         this.DbController.getDetail(comics_id, {
           source: source
-        }), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
+        }), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
       if (_res[1]) {
         this.router.navigate(['/comics', source, comics_id, _res[1].chapter_id])
       } else {
@@ -163,10 +163,10 @@ export class RoutingControllerService {
 
   async navigate(page) {
 
-    const list: any = await firstValueFrom(this.webDb.getAll('router'))
+    const list: any = await this.webDb.getAll('router')
     setTimeout(() => {
       list.forEach(x => {
-        firstValueFrom(this.webDb.deleteByKey('router', x.id))
+        this.webDb.deleteByKey('router', x.id)
 
       })
 

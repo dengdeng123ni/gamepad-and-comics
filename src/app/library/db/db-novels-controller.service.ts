@@ -45,7 +45,7 @@ export class DbNovelsControllerService {
       } else {
         let res;
         if (config.is_cache) {
-          res = await firstValueFrom(this.webDb.getByID('novels_details', id))
+          res = await firstValueFrom(this.webDb.getByKey('novels_details', id))
           if (res) {
             res = res.data;
             if (res?.cover?.substring(0, 4) == "http") this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
@@ -88,7 +88,7 @@ export class DbNovelsControllerService {
         } else {
           let res;
           if (config.is_cache) {
-            res = (await firstValueFrom(this.webDb.getByID('novels_pages', id)) as any)
+            res = (await firstValueFrom(this.webDb.getByKey('novels_pages', id)) as any)
             if (res) {
               res = res.data;
 

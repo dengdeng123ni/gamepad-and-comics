@@ -65,7 +65,7 @@ export class ReadRecordComponent {
   }
 
   async routerReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByID("last_read_comics", comics_id.toString()))])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByKey("last_read_comics", comics_id.toString()))])
     if (_res[1]) {
       this.router.navigate(['/comics', source, comics_id, _res[1].chapter_id])
     } else {
