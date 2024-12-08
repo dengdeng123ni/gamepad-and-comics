@@ -15,6 +15,7 @@ export * from './prompt/prompt.service';
 
 
 export * from './indexdb/indexdb-controller.service';
+export * from './indexdb/caches-controller.service';
 
 export * from './gamepad/gamepad-explanation/gamepad-explanation.component';
 export * from './gamepad/gamepad-vioce/gamepad-vioce.component';

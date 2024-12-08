@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { DomSanitizer } from '@angular/platform-browser';
+import { CacheControllerService } from '../public-api';
 declare let window: any;
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,11 @@ declare let window: any;
 export class MessageFetchService {
   _data_proxy_response: any = {};
   _data_proxy_request: any = {};
-  caches!: Cache;
 
   _blob_urls = {
 
   }
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer,private webCh: CacheControllerService,) {
     window._gh_fetch = this.fetch;
     window._gh_get_html = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
@@ -22,7 +22,6 @@ export class MessageFetchService {
     // window._gh_new_page = this.new_page;
   }
   async init() {
-    this.caches = await caches.open('assets');
   }
   fetch = async (url: RequestInfo | URL, init?: RequestInit ): Promise<Response> => {
     if (!init) {
@@ -307,14 +306,14 @@ export class MessageFetchService {
   }
 
   cacheFetch = async (url: RequestInfo | URL): Promise<Response> => {
-    if (!this.caches) return await fetch(url)
-    const res = await this.caches.match(url)
+    if (!this.webCh.is_cache) return await fetch(url)
+    const res = await this.webCh.match('assets',url)
     if (res) {
       return res
     } else {
       const response = await fetch(url)
       const request = new Request(url);
-      if (response.ok) await this.caches.put(request, response);
+      if (response.ok) await this.webCh.put('assets',request, response);
       return await fetch(url)
     }
   }
@@ -322,7 +321,7 @@ export class MessageFetchService {
   cacheFetchBlobUrl = async (url: string): Promise<string> => {
     const id = window.btoa(encodeURIComponent(url))
     if (this._blob_urls[id]) return this._blob_urls[id]
-    if (!this.caches) {
+    if (!this.webCh.is_cache) {
       const res = await fetch(url)
       const blob = await res.blob();
       let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
@@ -330,7 +329,7 @@ export class MessageFetchService {
       this._blob_urls[id] = bloburl;
       return bloburl
     }
-    const res = await this.caches.match(url)
+    const res = await this.webCh.match('assets',url)
     if (res) {
       const blob = await res.blob();
       let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
@@ -340,7 +339,7 @@ export class MessageFetchService {
     } else {
       const response = await fetch(url)
       const request = new Request(url);
-      if (response.ok) await this.caches.put(request, response);
+      if (response.ok) await this.webCh.put('assets',request, response);
       const res = await fetch(url)
       const blob = await res.blob();
       let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));

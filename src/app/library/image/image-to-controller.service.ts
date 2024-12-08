@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbControllerService } from '../public-api';
+import { CacheControllerService, DbControllerService } from '../public-api';
 import { ImageToEventService } from './image-to-event.service';
 
 @Injectable({
@@ -7,12 +7,11 @@ import { ImageToEventService } from './image-to-event.service';
 })
 export class ImageToControllerService {
   _data = {};
-  caches = null;
   constructor(
     public DbController: DbControllerService,
+    private webCh: CacheControllerService,
     public ImageToEvent: ImageToEventService
   ) {
-    this.init();
 
   }
 
@@ -32,11 +31,8 @@ export class ImageToControllerService {
       const blob = await this.pageTo(x.src, to_id);
       const response = new Response(blob);
       const request = new Request(`${x.src}?to_id=${to_id}`);
-      await this.caches.put(request, response);
+      await this.webCh.put('image',request, response);
     }
-  }
-  async init() {
-    this.caches = await caches.open('image');
   }
 
   async pageTo(url, to_id) {

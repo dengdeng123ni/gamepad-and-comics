@@ -22,4 +22,5 @@ export class IndexdbControllerService {
   getByKey(storeName:string, key:IDBValidKey){
     return firstValueFrom(this.db.getByKey(storeName, key))
   }
+
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 
-import { AppDataService, IndexdbControllerService } from '../public-api';
+import { AppDataService, CacheControllerService, IndexdbControllerService } from '../public-api';
 import { DbEventService } from './db-event.service';
 
 declare let window: any;
@@ -20,13 +20,13 @@ export class DbNovelsControllerService {
     pages: false
   }
 
-  caches!: Cache;
 
   image_url = {};
   constructor(
     private AppData: AppDataService,
     private DbEvent: DbEventService,
     private webDb: IndexdbControllerService,
+    private webCh: CacheControllerService
   ) {
     window._gh_novels_get_detail = this.getDetail;
     window._gh_novels_get_pages = this.getPages;
@@ -149,11 +149,11 @@ export class DbNovelsControllerService {
   async addImage(url, blob) {
     const response = new Response(blob);
     const request = new Request(url);
-    await this.caches.put(request, response);
+    await this.webCh.put('image',request, response);
   }
 
   async delWebDbImage(id) {
-    const res = await this.caches.delete(id);
+    const res = await this.webCh.delete('image',id);
   }
 
 

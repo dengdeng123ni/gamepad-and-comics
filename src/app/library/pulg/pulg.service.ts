@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 
 import CryptoJS from 'crypto-js'
-import { IndexdbControllerService, MessageFetchService } from '../public-api';
+import { CacheControllerService, IndexdbControllerService, MessageFetchService } from '../public-api';
 
 declare let window: any;
 @Injectable({
@@ -12,9 +12,9 @@ declare let window: any;
 export class PulgService {
 
 
-  caches!: Cache;
   constructor(
     private webDb: IndexdbControllerService,
+    private webCh: CacheControllerService,
     public MessageFetch: MessageFetchService,
     private sanitizer: DomSanitizer) {
 
@@ -48,7 +48,6 @@ export class PulgService {
     })
   }
   async init() {
-    this.caches = await caches.open('script');
     await this.loadAllScript();
     const js = document.querySelector("base").href + 'assets/js/swiper-bundle.min.js'
     const css = document.querySelector("base").href + 'assets/css/swiper-bundle.min.css'
@@ -95,7 +94,7 @@ export class PulgService {
     const url = `http://localhost:7700/script/${blob.name}`;
     const response = new Response(blob);
     const request = new Request(url);
-    await this.caches.put(request, response);
+    await this.webCh.put('script',request, response);
     const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
   }
@@ -104,17 +103,17 @@ export class PulgService {
     this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
   }
   async getAll() {
-    const list = await this.caches.keys()
+    const list = await this.webCh.keys('script')
     return list
   }
   async get(url) {
-    const e = await this.caches.match(url)
+    const e = await this.webCh.match('script',url)
     const blob = await e.blob()
     const url1: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     return url1.changingThisBreaksApplicationSecurity
   }
   async delete(url) {
-    const list = await this.caches.delete(url)
+    const list = await this.webCh.delete('script',url)
   }
   async registerScript(id: string, blob: any, option = {}) {
     // 'swiper-bundle.min'
@@ -123,12 +122,12 @@ export class PulgService {
   }
   async loadAllScript() {
 
-    const list = await this.caches.keys()
+    const list = await this.webCh.keys('script')
 
     for (let index = 0; index < list.length; index++) {
       const e = list[index];
       if(e.headers.get('Disable') != "false"){
-        const res = await this.caches.match(e.url);
+        const res = await this.webCh.match('script',e.url);
         const blob=await res.blob();
         const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
         this.loadJS(url.changingThisBreaksApplicationSecurity)

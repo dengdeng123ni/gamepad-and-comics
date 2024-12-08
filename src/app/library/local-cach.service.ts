@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { AppDataService, DbControllerService, DbEventService, I18nService, IndexdbControllerService } from 'src/app/library/public-api';
+import { AppDataService, CacheControllerService, DbControllerService, DbEventService, I18nService, IndexdbControllerService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,9 @@ export class LocalCachService {
     public AppData: AppDataService,
     public webDb: IndexdbControllerService,
     private _snackBar: MatSnackBar,
+    private webCh:CacheControllerService,
     public DbEvent: DbEventService,
+
     public I18n: I18nService
   ) {
     DbEvent.comics_register({
@@ -61,7 +63,7 @@ export class LocalCachService {
         return res.data
       },
       getImage: async (_id: string) => {
-        const res = await caches.match(_id);
+        const res = await this.webCh.match('image',_id);
         const blob = await res.blob()
         return blob
       }

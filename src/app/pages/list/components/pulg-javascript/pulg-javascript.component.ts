@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ContextMenuControllerService, ContextMenuEventService, PromptService, PulgService } from 'src/app/library/public-api';
+import { CacheControllerService, ContextMenuControllerService, ContextMenuEventService, PromptService, PulgService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CurrentService } from '../../services/current.service';
@@ -19,7 +19,6 @@ export class PulgJavascriptComponent {
 
   text = "";
 
-  caches = null;
 
   bbb = [
     {
@@ -37,6 +36,7 @@ export class PulgJavascriptComponent {
 
   constructor(public pulg: PulgService, public data: DataService,
     public current:CurrentService,
+    private webCh: CacheControllerService,
     public ContextMenuController: ContextMenuControllerService,
     private _snackBar: MatSnackBar,
     public prompt:PromptService,
@@ -95,26 +95,26 @@ export class PulgJavascriptComponent {
       })
   }
    restart=async(n)=> {
-    const list = await this.caches.keys()
+    const list = await this.webCh.keys('script')
     console.log(list);
 
     const r = list.find(x => x.url == n.url)
     const res = await window._gh_fetch(n.remote_url)
     const blob = await res.blob();
 
-    await this.caches.put(r, new Response(blob));
+    await this.webCh.put('script',r, new Response(blob));
     this._snackBar.open("更新成功", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
   async change(n) {
 
     setTimeout(async () => {
-      const list = await this.caches.keys()
+      const list = await this.webCh.keys('script')
       const r = list.find(x => x.url == n.url)
       r.headers.set('Disable', n.disable.toString())
-      const response = await this.caches.match(r)
-      await this.caches.put(r, response);
+      const response = await this.webCh.match('script',r)
+      await this.webCh.put('script',r, response);
       if(n.disable){
-        const res = await this.caches.match(r)
+        const res = await this.webCh.match('script',r)
         const blob=await res.blob()
         await this.pulg.loadBlodJs(blob)
         this.current._updateMenu();
@@ -172,7 +172,7 @@ export class PulgJavascriptComponent {
     this.list = await this.getAll();
   }
   async getAll() {
-    const list = await this.caches.keys()
+    const list = await this.webCh.keys('script')
     let arr = []
     for (let index = 0; index < list.length; index++) {
       const x = list[index];
@@ -188,8 +188,6 @@ export class PulgJavascriptComponent {
   }
 
   async init() {
-    this.caches = await caches.open('script');
-    console.log(this.caches);
 
     this.list = await this.getAll();
   }
@@ -212,7 +210,7 @@ export class PulgJavascriptComponent {
         ...obj
       }
     });
-    await this.caches.put(request, response);
+    await this.webCh.put('script',request, response);
   }
 
 

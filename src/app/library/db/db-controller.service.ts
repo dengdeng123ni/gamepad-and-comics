@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppDataService, IndexdbControllerService } from 'src/app/library/public-api';
+import { AppDataService, CacheControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 import { DbEventService } from './db-event.service';
 
 import CryptoJS from 'crypto-js'
@@ -29,17 +29,14 @@ export class DbControllerService {
     pages: false
   }
 
-  caches!: Cache;
-
-  list_caches!: Cache;
 
   image_url = {};
   constructor(
     private AppData: AppDataService,
     private DbEvent: DbEventService,
     private webDb: IndexdbControllerService,
+    private webCh: CacheControllerService
   ) {
-    this.init();
 
     window._gh_comics_get_list = this.getList;
     window._gh_comics_get_detail = this.getDetail;
@@ -48,11 +45,6 @@ export class DbControllerService {
     window._gh_comics_search = this.Search;
   }
 
-  async init() {
-    this.caches = await caches.open('image');
-
-    this.list_caches = await caches.open('list');
-  }
 
   getList = async (obj: any, option?: {
     source: string,
@@ -73,22 +65,22 @@ export class DbControllerService {
         if (config.is_cache) {
           const get = async () => {
             const data = await this.DbEvent.Events[option.source]["getList"](obj);
-            if(data.length==0) return []
+            if (data.length == 0) return []
             const response = new Response(new Blob([JSON.stringify(data)], { type: 'application/json' }), {
               headers: { 'Content-Type': 'application/json', 'Cache-Timestamp': new Date().getTime().toString() }
             });
-            this.list_caches.put(request, response);
+            this.webCh.put('list', request, response);
             return data
           }
           const request = new Request(`http://localhost:7700/${option.source}/${id}`);
-          const cachedData = await this.list_caches.match(request);
+          const cachedData = await this.webCh.match('list', request);
           if (cachedData) {
             const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))
             const currentTime = Date.now();
             const cacheDuration = currentTime - cacheTimestamp;
             if (cacheDuration) {
-              get().then(x=>{
-                this.lists[id] =x;
+              get().then(x => {
+                this.lists[id] = x;
               });
               // console.log('缓存失效');
             } else {
@@ -111,7 +103,7 @@ export class DbControllerService {
           x.option = { source: option.source }
         })
 
-        if(res&&res.length) this.lists[id] = JSON.parse(JSON.stringify(res));
+        if (res && res.length) this.lists[id] = JSON.parse(JSON.stringify(res));
         return res
       }
     } catch (error) {
@@ -141,7 +133,7 @@ export class DbControllerService {
           let res;
           if (config.is_cache) {
 
-            res = await  this.webDb.getByKey('details', id)
+            res = await this.webDb.getByKey('details', id)
 
             if (res) {
               res = res.data;
@@ -165,7 +157,7 @@ export class DbControllerService {
             }
           } else if (option.is_update) {
             res = await this.DbEvent.Events[option.source]["getDetail"](id);
-             this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
+            this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
             res.chapters.forEach(x => {
@@ -270,7 +262,7 @@ export class DbControllerService {
                 res = data;
               }
 
-              await  this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) })
+              await this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) })
               res.forEach((x, i) => {
                 this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
                 if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
@@ -321,7 +313,7 @@ export class DbControllerService {
               res = data;
             }
 
-            await  this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) })
+            await this.webDb.update('pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) })
             res.forEach((x, i) => {
               this.image_url[`${config.id}_page_${id}_${i}`] = x.src;
               if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
@@ -523,14 +515,14 @@ export class DbControllerService {
             const response = new Response(blob);
             const request = new Request(url);
 
-            if (blob.size > 3000 && blob.type.split("/")[0] == "image") await this.caches.put(request, response);
+            if (blob.size > 3000 && blob.type.split("/")[0] == "image") await this.webCh.put('image',request, response);
             else {
               if (blob.type == "binary/octet-stream") {
                 const c = await createImageBitmap(blob)
-                await this.caches.put(request, response);
+                await this.webCh.put('image',request, response);
               }
             }
-            const res2 = await caches.match(url);
+            const res2 = await this.webCh.match('image',url);
             if (res2) {
               const blob2 = await res2.blob()
               return blob2
@@ -539,7 +531,7 @@ export class DbControllerService {
             }
           }
 
-          const res = await caches.match(url);
+          const res = await this.webCh.match('image',url);
 
           if (res) {
 
@@ -634,67 +626,67 @@ export class DbControllerService {
       return []
     }
   }
-  UrlToList = async (url: string, option?: { source: string,is_cache?:boolean }) => {
+  UrlToList = async (url: string, option?: { source: string, is_cache?: boolean }) => {
     // if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"]) {
     //   return await this.DbEvent.Events[option.source]["UrlToList"](url);
     // } else {
     //   return []
     // }
     try {
-    if (!option.is_cache) option.is_cache = true;
-    if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source]
+      if (!option.is_cache) option.is_cache = true;
+      if (!option.source) option.source = this.AppData.source;
+      const config = this.DbEvent.Configs[option.source]
 
-    if(!(this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"])) return []
-    let obn = JSON.parse(JSON.stringify({url,source:option.source}))
-    const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
-    if (this.lists[id] && config.is_cache) {
-      return JSON.parse(JSON.stringify(this.lists[id]))
-    } else {
-      let res;
-      if (config.is_cache) {
-        const get = async () => {
-          const data = await this.DbEvent.Events[option.source]["UrlToList"](url);
-          if(data.length==0) return []
-          const response = new Response(new Blob([JSON.stringify(data)], { type: 'application/json' }), {
-            headers: { 'Content-Type': 'application/json', 'Cache-Timestamp': new Date().getTime().toString() }
-          });
-          this.list_caches.put(request, response);
-          return data
-        }
-        const request = new Request(`http://localhost:7700/${option.source}/${id}`);
-        const cachedData = await this.list_caches.match(request);
-        if (cachedData) {
-          const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))
-          const currentTime = Date.now();
-          const cacheDuration = currentTime - cacheTimestamp;
-          if (cacheDuration) {
-            get().then(x=>{
-              this.lists[id] =x;
-            });
-            // console.log('缓存失效');
-          } else {
-            // console.log('缓存有效，返回数据');
-          }
-          const data = await cachedData.json();
-          res = data;
-        } else {
-          const data = await get();
-          res = data;
-        }
+      if (!(this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"])) return []
+      let obn = JSON.parse(JSON.stringify({ url, source: option.source }))
+      const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
+      if (this.lists[id] && config.is_cache) {
+        return JSON.parse(JSON.stringify(this.lists[id]))
       } else {
-        const data = await this.DbEvent.Events[option.source]["UrlToList"](url);
-        res = data;
+        let res;
+        if (config.is_cache) {
+          const get = async () => {
+            const data = await this.DbEvent.Events[option.source]["UrlToList"](url);
+            if (data.length == 0) return []
+            const response = new Response(new Blob([JSON.stringify(data)], { type: 'application/json' }), {
+              headers: { 'Content-Type': 'application/json', 'Cache-Timestamp': new Date().getTime().toString() }
+            });
+            this.webCh.put('list', request, response);
+            return data
+          }
+          const request = new Request(`http://localhost:7700/${option.source}/${id}`);
+          const cachedData = await this.webCh.match('list', request);
+          if (cachedData) {
+            const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))
+            const currentTime = Date.now();
+            const cacheDuration = currentTime - cacheTimestamp;
+            if (cacheDuration) {
+              get().then(x => {
+                this.lists[id] = x;
+              });
+              // console.log('缓存失效');
+            } else {
+              // console.log('缓存有效，返回数据');
+            }
+            const data = await cachedData.json();
+            res = data;
+          } else {
+            const data = await get();
+            res = data;
+          }
+        } else {
+          const data = await this.DbEvent.Events[option.source]["UrlToList"](url);
+          res = data;
+        }
+
+        if (res && res.length) this.lists[id] = JSON.parse(JSON.stringify(res));
+        return res
       }
+    } catch (error) {
+      console.log(error);
+      return []
 
-      if(res&&res.length) this.lists[id] = JSON.parse(JSON.stringify(res));
-      return res
     }
-  } catch (error) {
-    console.log(error);
-    return []
-
-  }
   }
   UrlToDetailId = async (url: any, option?: {
     source: string
@@ -744,7 +736,8 @@ export class DbControllerService {
       this.load[id] = id;
       const pages = await this.getPages(id);
       for (let index = (pages.length - 1); 0 <= index; index--) {
-        const res = await caches.match(pages[index].src);
+        const res = await this.webCh.match('image',pages[index].src);
+
         if (!res) {
           this.tasks.unshift({ id: pages[index].src, option })
         } else {
@@ -776,11 +769,11 @@ export class DbControllerService {
   async addImage(url, blob) {
     const response = new Response(blob);
     const request = new Request(url);
-    await this.caches.put(request, response);
+    await this.webCh.put('image',request, response);
   }
 
   async delWebDbImage(id) {
-    const res = await this.caches.delete(id);
+    const res = await this.webCh.delete('image',id);
   }
 
   async delComicsAllImages(comics_id) {
