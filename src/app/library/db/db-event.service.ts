@@ -161,7 +161,7 @@ export class DbEventService {
                 {
                   "id": "f_tag",
                   "label": "标签",
-                  "type": "tag_radio",
+                  "type": "tag_multiple",
                   "options": [
                     {
                         "title": "语言:",

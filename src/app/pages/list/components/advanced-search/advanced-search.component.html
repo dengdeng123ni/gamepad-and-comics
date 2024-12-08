@@ -37,7 +37,7 @@
 
       </mat-chip-listbox>
     </div>
-    <div *ngIf="n.type=='tag_radio'" [attr.region]="'advanced_search_item'" [attr.type]="'slide'">
+    <div *ngIf="n.type=='tag_multiple'" [attr.region]="'advanced_search_item'" [attr.type]="'slide'">
       <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;align-items: center;">
         {{n.label}}
         <button mat-icon-button style="padding: 0;width: 30px;height: 30px;" (click)="on123(n)">

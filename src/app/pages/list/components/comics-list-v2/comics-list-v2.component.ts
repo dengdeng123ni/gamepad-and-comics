@@ -348,7 +348,17 @@ export class ComicsListV2Component {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
         } else if (this.type == "advanced_search") {
+          let obj = {};
+          for (let index = 0; index < this.query.list.length; index++) {
+            const c = this.query.list[index]
+            if (c.value) obj[c.id] = c.value
+          }
+          this.query_option = {
+            menu_id: this.menu_id,
+            ...obj
+          }
           this.list = data.list;
+
         } else if (this.type == "history") {
 
           this.list = data.list;
@@ -673,6 +683,8 @@ export class ComicsListV2Component {
 
     const c = (window.innerHeight * window.innerWidth) / (171 * 262) * 1.5;
     if (this.list.length < c) {
+
+
       await this.add_pages();
     }
 
