@@ -40,15 +40,9 @@ export class AboutSoftwareComponent {
 
 
     if (confirm("你确定要清除所有缓存吗？")) {
-      // 清除 LocalStorage 和 SessionStorage
-      localStorage.clear();
-      sessionStorage.clear();
-
-      // 清除 Service Worker 缓存
       if ('caches' in window) {
         await caches.delete('image');
       }
-
       // 清除所有 IndexedDB 数据库
       if (window.indexedDB && indexedDB.databases) {
         indexedDB.databases().then((dbs) => {
