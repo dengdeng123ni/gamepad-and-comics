@@ -148,7 +148,7 @@ export class DbNovelsControllerService {
 
   async addImage(url, blob) {
     const response = new Response(blob);
-    const request = new Request(url);
+    const request = url;
     await this.webCh.put('image',request, response);
   }
 

@@ -101,7 +101,7 @@ export class PulgJavascriptComponent {
     const res = await window._gh_fetch(n.remote_url)
     const blob = await res.blob();
 
-    await this.webCh.put('script',r, new Response(blob));
+    await this.webCh.put('script',n.url, new Response(blob));
     this._snackBar.open("更新成功", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
   async change(n) {
@@ -112,7 +112,7 @@ export class PulgJavascriptComponent {
       r.headers.set('Disable', n.disable.toString())
 
       const response = await this.webCh.match('script',r.url)
-      await this.webCh.put('script',r, response);
+      await this.webCh.put('script',n.url, response);
       if(n.disable){
         const res = await this.webCh.match('script',r.url)
         const blob=await res.blob()
@@ -200,8 +200,7 @@ export class PulgJavascriptComponent {
     this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
   async scriptCache(blob, name, obj = {}) {
-    const response = new Response(blob);
-    const request = new Request(`http://localhost:7700/script/${new Date().getTime()}`, {
+    const response = new Response(blob,{
       headers: {
         'Content-Type': 'application/javascript',
         'Cache-Timestamp': new Date().getTime().toString(),
@@ -210,6 +209,7 @@ export class PulgJavascriptComponent {
         ...obj
       }
     });
+    const request = `http://localhost:7700/script/${new Date().getTime()}`;
     await this.webCh.put('script',request, response);
   }
 

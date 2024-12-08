@@ -555,7 +555,7 @@ export class UploadService {
         blob = file
       }
       const pagesrc = `${window.location.origin}/image/${id}`;
-      const request = new Request(pagesrc);
+      const request = pagesrc;
       const response = new Response(blob);
       await this.webCh.put('image',request, response);
       return { id: id, src: pagesrc }

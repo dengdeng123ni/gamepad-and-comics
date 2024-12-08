@@ -312,7 +312,7 @@ export class MessageFetchService {
       return res
     } else {
       const response = await fetch(url)
-      const request = new Request(url);
+      const request =  url;
       if (response.ok) await this.webCh.put('assets',request, response);
       return await fetch(url)
     }
@@ -338,7 +338,7 @@ export class MessageFetchService {
       return bloburl
     } else {
       const response = await fetch(url)
-      const request = new Request(url);
+      const request = url;
       if (response.ok) await this.webCh.put('assets',request, response);
       const res = await fetch(url)
       const blob = await res.blob();

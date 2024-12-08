@@ -93,7 +93,7 @@ export class PulgService {
     const blob = await files[0].getFile();
     const url = `http://localhost:7700/script/${blob.name}`;
     const response = new Response(blob);
-    const request = new Request(url);
+    const request = url;
     await this.webCh.put('script',request, response);
     const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     this.loadJS(bloburl.changingThisBreaksApplicationSecurity)

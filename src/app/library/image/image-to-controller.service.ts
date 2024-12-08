@@ -30,7 +30,7 @@ export class ImageToControllerService {
       const x = pages[index];
       const blob = await this.pageTo(x.src, to_id);
       const response = new Response(blob);
-      const request = new Request(`${x.src}?to_id=${to_id}`);
+      const request =  `${x.src}?to_id=${to_id}`;
       await this.webCh.put('image',request, response);
     }
   }

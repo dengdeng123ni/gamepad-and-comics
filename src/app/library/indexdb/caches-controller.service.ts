@@ -23,22 +23,22 @@ export class CacheControllerService {
     this.data['script'] = await caches.open('script');
   }
 
-  async match(cacheName: "image" | "list" | "assets" | "script", request:URL|string, options?: CacheQueryOptions): Promise<Response | undefined> {
+  async match(cacheName: "image" | "list" | "assets" | "script", request:URL|string): Promise<Response | undefined> {
     console.log(cacheName,request);
-
-    return await this.data[cacheName].match(request, options)
+    return await this.data[cacheName].match(request)
   }
 
-  async put(cacheName: "image" | "list" | "assets" | "script", request: RequestInfo | URL, response: Response): Promise<void> {
+  async put(cacheName: "image" | "list" | "assets" | "script", request:URL|string, response: Response): Promise<void> {
+
     return await this.data[cacheName].put(request, response)
   }
 
-  async delete(cacheName: "image" | "list" | "assets" | "script", request: RequestInfo | URL, options?: CacheQueryOptions): Promise<boolean> {
+  async delete(cacheName: "image" | "list" | "assets" | "script", request: RequestInfo | URL): Promise<boolean> {
 
-    return await this.data[cacheName].delete(request, options)
+    return await this.data[cacheName].delete(request)
   }
-  async keys(cacheName: "image" | "list" | "assets" | "script",request?: RequestInfo | URL, options?: CacheQueryOptions):Promise<ReadonlyArray<Request>>{
-    return await this.data[cacheName].keys(request, options)
+  async keys(cacheName: "image" | "list" | "assets" | "script",request?: RequestInfo | URL):Promise<ReadonlyArray<Request>>{
+    return await this.data[cacheName].keys(request)
   }
 
 

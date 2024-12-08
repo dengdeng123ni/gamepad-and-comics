@@ -512,7 +512,7 @@ export class DbControllerService {
 
 
             const response = new Response(blob);
-            const request = new Request(url);
+            const request = url;
 
             if (blob.size > 3000 && blob.type.split("/")[0] == "image") await this.webCh.put('image',request, response);
             else {
@@ -762,7 +762,7 @@ export class DbControllerService {
   }
   async addImage(url, blob) {
     const response = new Response(blob);
-    const request = new Request(url);
+    const request =  url;
     await this.webCh.put('image',request, response);
   }
 
