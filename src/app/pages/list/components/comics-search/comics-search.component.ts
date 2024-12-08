@@ -212,7 +212,7 @@ export class ComicsSearchComponent {
 
 
   async routerNovelsReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByKey("last_read_comics", comics_id.toString()))])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {
@@ -230,11 +230,11 @@ export class ComicsSearchComponent {
       scrollTop: this.ListNode.nativeElement.scrollTop
     }
 
-    return await firstValueFrom(this.webDb.update("data", obj))
+    return await this.webDb.update("data", obj)
   }
 
   async get(id) {
-    const res = await firstValueFrom(this.webDb.getByKey("data", id))
+    const res = await this.webDb.getByKey("data", id)
     if (res) {
       return res
     } else {

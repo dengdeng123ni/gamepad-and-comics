@@ -70,7 +70,7 @@ export class MenuSearchComponent {
 
 
   async init() {
-    this.comics_list =( await firstValueFrom(this.webDb.getAll('history')) as any).sort((a, b) => b.last_read_date - a.last_read_date)
+    this.comics_list =( await this.webDb.getAll('history') as any).sort((a, b) => b.last_read_date - a.last_read_date)
     this.comics_list= this.comics_list.filter(x=>x.source!="temporary_file")
     this.filter_comics_list= this.comics_list.slice(0,20)
   }
@@ -105,7 +105,7 @@ export class MenuSearchComponent {
 
   }
   async routerNovelsReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByKey("last_read_comics", comics_id.toString()))])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {

@@ -137,7 +137,7 @@ export class NovelsListComponent {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const res = await firstValueFrom(this.webDb.getAll("local_comics"))
+            const res = await this.webDb.getAll("local_comics")
             const list = res.map((x: any) => {
               x = x.data
               return { id: x.id, cover: x.cover, title: x.title, creation_time: x.creation_time, subTitle: `${x.chapters[0].title}` }
@@ -145,7 +145,7 @@ export class NovelsListComponent {
             return list
           },
           Init: async (obj) => {
-            const res = await firstValueFrom(this.webDb.getAll("local_comics"))
+            const res = await this.webDb.getAll("local_comics")
             const list = res.map((x: any) => {
               x = x.data
 
@@ -319,15 +319,15 @@ export class NovelsListComponent {
     const detail = await this.DbController.getDetail(comics_id)
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
-      firstValueFrom(this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 }))
-      if (index == 0) firstValueFrom(this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id }))
+      this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 })
+      if (index == 0) this.webDb.update("last_read_comics", { 'comics_id': comics_id.toString(), chapter_id: detail.chapters[index].id })
     }
   }
 
   async delCaches(comics_id) {
-    await firstValueFrom(this.webDb.deleteByKey('history', comics_id.toString()))
-    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id))
-    await firstValueFrom(this.webDb.deleteByKey('local_comics', comics_id.toString()))
+    await this.webDb.deleteByKey('history', comics_id.toString())
+    await this.webDb.deleteByKey('local_comics', comics_id)
+    await this.webDb.deleteByKey('local_comics', comics_id.toString())
     this.DbController.delComicsAllImages(comics_id)
   }
   async cache() {
@@ -353,7 +353,7 @@ export class NovelsListComponent {
   }
   async routerReader(source, comics_id) {
     this.data.currend_read_comics_id = comics_id;
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await firstValueFrom(this.webDb.getByKey("last_read_comics", comics_id.toString()))])
+    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {
