@@ -13,6 +13,9 @@ export * from './image/image.component';
 export * from './prompt/prompt.component';
 export * from './prompt/prompt.service';
 
+
+export * from './indexdb/indexdb-controller.service';
+
 export * from './gamepad/gamepad-explanation/gamepad-explanation.component';
 export * from './gamepad/gamepad-vioce/gamepad-vioce.component';
 export * from './gamepad/gamepad-controller.service';

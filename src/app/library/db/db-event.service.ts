@@ -2099,7 +2099,6 @@ export class DbEventService {
           }
         }
       });
-
       window._gh_comics_register({
         id: "baozimhw",
         href: "https://www.baozimhw.com/",
