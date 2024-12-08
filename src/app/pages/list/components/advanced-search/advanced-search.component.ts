@@ -5,6 +5,7 @@ import { AdvancedSearchService } from './advanced-search.service';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { SelectInputNumberService } from '../select-input-number/select-input-number.service';
 import { SelectTagMultipleService } from '../select-tag-multiple/select-tag-multiple.service';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-advanced-search',
@@ -22,6 +23,7 @@ export class AdvancedSearchComponent {
     public AdvancedSearch: AdvancedSearchService,
     public SelectInputNumber:SelectInputNumberService,
     public SelectTagMultiple:SelectTagMultipleService,
+    public platform: Platform,
     @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data,
     public GamepadController: GamepadControllerService
 
@@ -169,15 +171,16 @@ export class AdvancedSearchComponent {
     }
 
   }
-  async on123(e){
+   on123=async (e)=>{
     const index=this.list.findIndex(x=>x.id==e.id)
     const arr=await this.SelectTagMultiple.change({
       list:e.options,
       value:this.list[index].value??[]
     });
-
     this.list[index].value=arr;
-
+    if((window.innerWidth < 480 && (this.platform.ANDROID || this.platform.IOS))){
+       (document.querySelector("#advanced_search")as any).click()
+    }
   }
   focus() {
     this.WhenInputting.open();

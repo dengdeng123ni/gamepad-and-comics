@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="choice" *ngIf="type == 'advanced_search'" style="display: flex;flex-direction: column;">
-      <button mat-button  [attr.region]="'comics_option'"  style=" width: 100%;" *ngIf="is_phone" (click)="on_8474()" >
+      <button mat-button  [attr.region]="'comics_option'"  style=" width: 100%;" *ngIf="is_phone" (click)="on_8474()" id="advanced_search">
         <mat-icon class="icon" [attr.svg_filter]="'text_primary'">search</mat-icon>
         <div class="name"  [attr.svg_filter]="'text_primary'" >
           {{'搜索'|translate}}
