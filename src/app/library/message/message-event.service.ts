@@ -11,7 +11,7 @@ export class MessageEventService {
 
   constructor() {
 
-   }
+  }
 
   service_worker_register(key:string, callback: Function) {
     this.ServiceWorkerEvents[key] = callback;
