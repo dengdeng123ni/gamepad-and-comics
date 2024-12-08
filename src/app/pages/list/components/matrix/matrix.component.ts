@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
+import { PromptService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-matrix',
@@ -17,6 +18,7 @@ export class MatrixComponent {
   @Output() valuesChange = new EventEmitter<any>();
   is_close = false;
   constructor(public webDb: NgxIndexedDBService,
+    public prompt:PromptService,
     public WhenInputting:WhenInputtingService,) {
     this.value = this.values.toString();
   }
@@ -48,7 +50,7 @@ export class MatrixComponent {
     this.input_change();
   }
   async on() {
-    const userInput = prompt("请输入新名称", "");
+    const userInput = await this.prompt.fire("请输入新名称", "");
     if (userInput !== null) {
       if (userInput != "") {
         const obj={

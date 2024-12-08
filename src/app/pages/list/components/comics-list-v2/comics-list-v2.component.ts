@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
 import { map, throttleTime, Subject, firstValueFrom } from 'rxjs';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, KeyboardEventService, LocalCachService, WebFileService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, KeyboardEventService, LocalCachService, PromptService, WebFileService } from 'src/app/library/public-api';
 
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
@@ -100,6 +100,7 @@ export class ComicsListV2Component {
     public DownloadOption: DownloadOptionService,
     public App: AppDataService,
     public platform:Platform,
+    public prompt:PromptService,
     public AdvancedSearch:AdvancedSearchService,
     public LocalCach: LocalCachService,
 
@@ -453,7 +454,7 @@ export class ComicsListV2Component {
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
   }
   query_fixed = async (e) => {
-    const name = prompt("请输入新名称", "");
+    const name = await this.prompt.fire("请输入新名称", "");
     if (name !== null) {
       if (name != "") {
         const obj = {

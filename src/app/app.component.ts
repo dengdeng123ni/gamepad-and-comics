@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -54,6 +54,7 @@ export class AppComponent {
   keydown = new Subject()
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
+    if(document.body.getAttribute('onkeyboard')=='true') return true
     let key = "";
     if (event.key == "F12") return true
     if (event.key == "Backspace") return true
@@ -136,9 +137,11 @@ export class AppComponent {
     private translate: TranslateService,
     public webDb: NgxIndexedDBService,
     public DbEvent: DbEventService,
+    public Prompt:PromptService,
     public I18n: I18nService,
     public App: AppDataService
   ) {
+
     const system = this.getOperatingSystem()
     if (system == "iOS" || system == "macOS") {
       document.body.setAttribute("is_ios", 'true')

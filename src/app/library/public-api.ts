@@ -10,6 +10,9 @@ export * from './context-menu/drop-down-menu/drop-down-menu.service';
 export * from './image/image.service';
 export * from './image/image.component';
 
+export * from './prompt/prompt.component';
+export * from './prompt/prompt.service';
+
 export * from './gamepad/gamepad-explanation/gamepad-explanation.component';
 export * from './gamepad/gamepad-vioce/gamepad-vioce.component';
 export * from './gamepad/gamepad-controller.service';

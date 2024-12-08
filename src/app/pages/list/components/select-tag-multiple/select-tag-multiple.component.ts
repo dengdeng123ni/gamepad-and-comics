@@ -10,6 +10,7 @@ import { GamepadControllerService, GamepadEventService } from 'src/app/library/p
 })
 export class SelectTagMultipleComponent {
   list= []
+  name=""
   constructor(
     public SelectTagMultiple: SelectTagMultipleService,
     public GamepadEvent:GamepadEventService,
@@ -18,6 +19,7 @@ export class SelectTagMultipleComponent {
 
   ) {
     this.list=data.list;
+    this.name=data.name;
     this.list.forEach((x,i)=> {
       x.value = data.value.map(x=>x.index);
       x.tags.forEach((c,i2)=>{

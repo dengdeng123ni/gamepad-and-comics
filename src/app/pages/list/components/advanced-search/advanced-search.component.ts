@@ -175,6 +175,7 @@ export class AdvancedSearchComponent {
     const index=this.list.findIndex(x=>x.id==e.id)
     const arr=await this.SelectTagMultiple.change({
       list:e.options,
+      name:e.label,
       value:this.list[index].value??[]
     });
     this.list[index].value=arr;

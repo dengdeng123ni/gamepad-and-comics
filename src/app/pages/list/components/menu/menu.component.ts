@@ -4,7 +4,7 @@ import { Observable, firstValueFrom, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { TemporaryFileService } from './temporary-file.service';
-import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, LocalCachService, PulgService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, LocalCachService, PromptService, PulgService } from 'src/app/library/public-api';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
@@ -101,6 +101,7 @@ export class MenuComponent {
     public PlugInInstructions: PlugInInstructionsService,
     public UrlUsageGuide: UrlUsageGuideService,
     public PageTheme: PageThemeService,
+    public prompt:PromptService,
     private zone: NgZone
   ) {
 
@@ -398,7 +399,7 @@ export class MenuComponent {
               id: "ei39",
               name: "重命名",
               click: async () => {
-                const name = prompt("请输入新名称", "");
+                const name = await this.prompt.fire("请输入新名称", "");
                 if (name !== null) {
                   if (name != "") {
                     const obj: any = await firstValueFrom(this.webDb.getByKey('url_to_list', x.id))
@@ -449,7 +450,7 @@ export class MenuComponent {
               id: "ei39",
               name: "重命名",
               click: async () => {
-                const name = prompt("请输入新名称", "");
+                const name = await this.prompt.fire("请输入新名称", "");
                 if (name !== null) {
                   if (name != "") {
                     const obj: any = await firstValueFrom(this.webDb.getByKey('query_fixed', x.id))

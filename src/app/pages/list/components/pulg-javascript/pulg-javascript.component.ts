@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ContextMenuControllerService, ContextMenuEventService, PulgService } from 'src/app/library/public-api';
+import { ContextMenuControllerService, ContextMenuEventService, PromptService, PulgService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CurrentService } from '../../services/current.service';
@@ -39,6 +39,7 @@ export class PulgJavascriptComponent {
     public current:CurrentService,
     public ContextMenuController: ContextMenuControllerService,
     private _snackBar: MatSnackBar,
+    public prompt:PromptService,
     public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init();
@@ -65,7 +66,7 @@ export class PulgJavascriptComponent {
             id: "github",
             name: "远程脚本",
             click: async () => {
-              const url = prompt("请输入URL", "");
+              const url = await this.prompt.fire("请输入URL", "");
               if (url !== null) {
                 if (url != "") {
                   const res = await window._gh_fetch(url)
