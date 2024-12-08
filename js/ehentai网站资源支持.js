@@ -342,12 +342,8 @@ window._gh_comics_register({
       if (obj.f_spf) serf['f_spf'] = obj.f_spf;
       if (obj.f_spt) serf['f_spt'] = obj.f_spt;
       const params = new URLSearchParams(serf).toString();
-      console.log(
-        params
-      );
 
       if (obj.page_num == 1) {
-        console.log(url + '' + params);
         const res = await window._gh_fetch(url + '' + params, {
           "headers": {
             "accept": "application/json, text/plain, */*",
@@ -706,8 +702,6 @@ window._gh_comics_register({
         const text = await res.text();
         var parser = new DOMParser();
         var doc = parser.parseFromString(text, 'text/html');
-        console.log(doc);
-
         const nodes = doc.querySelectorAll(".gltc tr");
         let list = [];
         for (let index = 1; index < nodes.length; index++) {

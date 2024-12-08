@@ -244,7 +244,6 @@ export class ComicsListV2Component {
         this.key = this.id;
         this.App.setsource(this.source);
         const obj: any = await this.webDb.getByKey('query_fixed', this.menu_id)
-        console.log(obj);
 
         this.url = `${obj.name}`
         this.query_option=obj.data;

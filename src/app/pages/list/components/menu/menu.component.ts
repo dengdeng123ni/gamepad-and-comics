@@ -114,7 +114,6 @@ export class MenuComponent {
       }
     })
    current.updateMenu().subscribe(async (x)=>{
-    console.log(x);
 
       await this.menu.get()
       this.data.menu=[];
@@ -251,7 +250,6 @@ export class MenuComponent {
 
         },
         on: async (e: any) => {
-          console.log(e);
 
           e.click(e.value)
         },

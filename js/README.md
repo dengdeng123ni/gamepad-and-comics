@@ -848,8 +848,7 @@ window._gh_comics_register(
       }
       return data;
     },
-    getDetail: async (id) => {
-      console.log(id);
+    getDetail: async (id) => { 
 
       const res = await window._gh_get_html(`https://hanime1.me/comic/${id}`, {
         headers: {
@@ -862,8 +861,7 @@ window._gh_comics_register(
       });
       const text = await res.text();
       var parser = new DOMParser();
-      var doc = parser.parseFromString(text, "text/html");
-      console.log(doc);
+      var doc = parser.parseFromString(text, "text/html"); 
 
       let obj = {
         id: id,
@@ -897,8 +895,7 @@ window._gh_comics_register(
           obj.styles.push({ name: nodes[index].textContent, href: nodes[index]?.parentNode?.href });
         }
         obj.author = [{ name: nodes1[0].textContent, href: nodes1[0].parentNode.href }];
-      }
-      console.log(obj);
+      } 
 
       obj.chapters.push({
         id: utf8_to_b64(`https://hanime1.me/comic/${obj.id}/1`),
@@ -907,8 +904,7 @@ window._gh_comics_register(
       });
       return obj;
     },
-    getPages: async (id) => {
-      console.log(decodeURIComponent(window.atob(id)));
+    getPages: async (id) => { 
 
       const arr = await window._gh_execute_eval(
         decodeURIComponent(window.atob(id)),
@@ -1582,8 +1578,7 @@ window._gh_comics_register(
   }
   return arr
 })()`
-      );
-      console.log(arr);
+      ); 
 
       return arr;
     },
@@ -1688,8 +1683,7 @@ window._gh_comics_register(
   return arr
 })()
         `
-      );
-      console.log(arr);
+      ); 
 
       return arr;
     },

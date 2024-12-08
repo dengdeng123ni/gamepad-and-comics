@@ -58,8 +58,6 @@ export class ParamsControllerService {
     for (let index = 0; index < keys.length; index++) {
       const c = this.ParamsEvent.params[keys[index]]
       if (c) {
-        console.log(obj);
-
         c(obj)
         break;
       }

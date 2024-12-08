@@ -72,7 +72,7 @@ export class DbControllerService {
             this.webCh.put('list', request, response);
             return data
           }
-          const request = new Request(`http://localhost:7700/${option.source}/${id}`);
+          const request = `http://localhost:7700/${option.source}/${id}`;
           const cachedData = await this.webCh.match('list', request);
           if (cachedData) {
             const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))
@@ -507,7 +507,6 @@ export class DbControllerService {
 
 
               const id2 = await getImageURL(url);
-              console.log(id2);
               blob = await this.DbEvent.Events[option.source]["getImage"](id2)
             }
 
@@ -649,7 +648,7 @@ export class DbControllerService {
             this.webCh.put('list', request, response);
             return data
           }
-          const request = new Request(`http://localhost:7700/${option.source}/${id}`);
+          const request =`http://localhost:7700/${option.source}/${id}`
           const cachedData = await this.webCh.match('list', request);
           if (cachedData) {
             const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))

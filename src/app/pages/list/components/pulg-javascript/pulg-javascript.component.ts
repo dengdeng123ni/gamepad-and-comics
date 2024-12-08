@@ -96,7 +96,6 @@ export class PulgJavascriptComponent {
   }
    restart=async(n)=> {
     const list = await this.webCh.keys('script')
-    console.log(list);
 
     const r = list.find(x => x.url == n.url)
     const res = await window._gh_fetch(n.remote_url)
@@ -111,10 +110,11 @@ export class PulgJavascriptComponent {
       const list = await this.webCh.keys('script')
       const r = list.find(x => x.url == n.url)
       r.headers.set('Disable', n.disable.toString())
-      const response = await this.webCh.match('script',r)
+
+      const response = await this.webCh.match('script',r.url)
       await this.webCh.put('script',r, response);
       if(n.disable){
-        const res = await this.webCh.match('script',r)
+        const res = await this.webCh.match('script',r.url)
         const blob=await res.blob()
         await this.pulg.loadBlodJs(blob)
         this.current._updateMenu();

@@ -305,7 +305,7 @@ export class MessageFetchService {
     return result;
   }
 
-  cacheFetch = async (url: RequestInfo | URL): Promise<Response> => {
+  cacheFetch = async (url: URL|string): Promise<Response> => {
     if (!this.webCh.is_cache) return await fetch(url)
     const res = await this.webCh.match('assets',url)
     if (res) {
