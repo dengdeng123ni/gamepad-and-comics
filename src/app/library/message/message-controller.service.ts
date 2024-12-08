@@ -29,7 +29,7 @@ export class MessageControllerService {
 
     window.addEventListener("message", function (event) {
       if (event.data.type == "proxy_response") {
-        if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage(event.data)
+        if (navigator?.serviceWorker?.controller) navigator.serviceWorker.controller.postMessage(event.data)
         let rsponse = event.data.data;
         const flatArray = rsponse.body.flat()
         const blob = new Blob([new Uint8Array(flatArray)]);
