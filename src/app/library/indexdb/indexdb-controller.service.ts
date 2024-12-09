@@ -8,19 +8,28 @@ import { firstValueFrom } from 'rxjs';
 })
 export class IndexdbControllerService {
 
-  constructor(private db: NgxIndexedDBService) { }
+  constructor(private db: NgxIndexedDBService) {
+    // window._gh_send_message
+    // window._gh_receive_message\
 
-  getAll(storeName: string) {
-    return firstValueFrom(this.db.getAll(storeName))
+
   }
-  update(storeName: string, value: any) {
-    return firstValueFrom(this.db.update(storeName, value))
+
+  public getAll = async (storeName: string) => {
+    const res = await firstValueFrom(this.db.getAll(storeName))
+    return res
   }
-  deleteByKey(storeName:string, key:Key){
-    return firstValueFrom(this.db.deleteByKey(storeName, key))
+  public update = async (storeName: string, value: any) => {
+    const res = await firstValueFrom(this.db.update(storeName, value))
+    return res
   }
-  getByKey(storeName:string, key:IDBValidKey){
-    return firstValueFrom(this.db.getByKey(storeName, key))
+  public deleteByKey = async (storeName: string, key: Key) => {
+    const res = await firstValueFrom(this.db.deleteByKey(storeName, key))
+    return res
+  }
+  public getByKey = async (storeName: string, key: IDBValidKey) => {
+    const res = await firstValueFrom(this.db.getByKey(storeName, key))
+    return res
   }
 
 }

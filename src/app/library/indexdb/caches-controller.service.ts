@@ -23,19 +23,19 @@ export class CacheControllerService {
     this.data['script'] = await caches.open('script');
   }
 
-  async match(cacheName: "image" | "list" | "assets" | "script", request:URL|string): Promise<Response | undefined> {
+  public match = async (cacheName: "image" | "list" | "assets" | "script", request: URL | string): Promise<Response | undefined> => {
     return await this.data[cacheName].match(request)
   }
 
-  async put(cacheName: "image" | "list" | "assets" | "script", request:URL|string, response: Response): Promise<void> {
+  public put = async (cacheName: "image" | "list" | "assets" | "script", request: URL | string, response: Response): Promise<void> => {
     return await this.data[cacheName].put(request, response)
   }
 
-  async delete(cacheName: "image" | "list" | "assets" | "script", request: RequestInfo | URL): Promise<boolean> {
+  public delete = async (cacheName: "image" | "list" | "assets" | "script", request: RequestInfo | URL): Promise<boolean> => {
 
     return await this.data[cacheName].delete(request)
   }
-  async keys(cacheName: "image" | "list" | "assets" | "script",request?: RequestInfo | URL):Promise<ReadonlyArray<Request>>{
+  public keys = async (cacheName: "image" | "list" | "assets" | "script", request?: RequestInfo | URL): Promise<ReadonlyArray<Request>> => {
     return await this.data[cacheName].keys(request)
   }
 
