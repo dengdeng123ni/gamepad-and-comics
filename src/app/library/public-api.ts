@@ -16,6 +16,7 @@ export * from './prompt/prompt.service';
 
 export * from './indexdb/indexdb-controller.service';
 export * from './indexdb/caches-controller.service';
+export * from './ws/ws-controller.service';
 
 export * from './replace-channel/replace-channel-controller.service';
 

@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService, CacheControllerService, ReplaceChannelControllerService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService, CacheControllerService, ReplaceChannelControllerService, WsControllerService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -53,7 +53,7 @@ export class AppComponent {
   keydown = new Subject()
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
-    if(document.body.getAttribute('onkeyboard')=='true') return true
+    if (document.body.getAttribute('onkeyboard') == 'true') return true
     let key = "";
     if (event.key == "F12") return true
     if (event.key == "Backspace") return true
@@ -107,7 +107,7 @@ export class AppComponent {
   // 蓝牙
   //
   constructor(
-    public CacheController:CacheControllerService,
+    public CacheController: CacheControllerService,
     private webCh: CacheControllerService,
     public GamepadController: GamepadControllerService,
     public KeyboardController: KeyboardControllerService,
@@ -117,6 +117,7 @@ export class AppComponent {
     public MessageEvent: MessageEventService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
+    public WsController:WsControllerService,
     private contexts: ChildrenOutletContexts,
     public ccc: WebFileService,
     public image: ImageService,
@@ -134,15 +135,22 @@ export class AppComponent {
     public testService: TestService,
     public DownloadEvent: DownloadEventService,
     public ParamsController: ParamsControllerService,
-    public TouchmoveController:TouchmoveControllerService,
+    public TouchmoveController: TouchmoveControllerService,
     private translate: TranslateService,
     public webDb: IndexdbControllerService,
-    public ReplaceChannelController:ReplaceChannelControllerService,
+    public ReplaceChannelController: ReplaceChannelControllerService,
     public DbEvent: DbEventService,
-    public Prompt:PromptService,
+    public Prompt: PromptService,
     public I18n: I18nService,
     public App: AppDataService
   ) {
+    this.getClientId();
+    window._gh_page_reset = () => {
+      this.is_loading_page = false;
+      setTimeout(() => {
+        this.is_loading_page = true
+      })
+    }
     // is_voice_controller
     // sound
     const system = this.getOperatingSystem()
@@ -188,19 +196,22 @@ export class AppComponent {
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     GamepadEvent.registerConfig("select", { region: ["option"] })
+
     this.init();
-
-    setTimeout(()=>{
-      this.cccc();
-    },300)
-
-  }
-  async cccc() {
-
-
   }
 
 
+
+
+  getClientId() {
+    let clientId = localStorage.getItem('clientId');
+    if (!clientId) {
+      clientId = `_${Date.now()}`;
+      localStorage.setItem('clientId', clientId);
+    }
+    document.body.setAttribute('client_id', clientId)
+    return clientId;
+  }
   ngOnDestroy() {
     this.keydown.unsubscribe();
   }
@@ -262,6 +273,7 @@ export class AppComponent {
     }
   }
   async init() {
+    this.WsController.init('ws://localhost:7703')
     await this.webCh.init();
     let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
 

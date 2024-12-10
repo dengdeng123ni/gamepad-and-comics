@@ -16,6 +16,7 @@ export class CurrentService {
     public webDb: IndexdbControllerService,
     public data: DataService
   ) {
+    window._gh_menu_update=this._updateMenu
     // this.init();
 
   }
@@ -40,7 +41,7 @@ export class CurrentService {
     this.router.navigate(['/search', source, keywords]);
   }
 
-  async _updateMenu() {
+   _updateMenu=async ()=> {
     this.updateMenu$.next("update")
   }
 

@@ -58,7 +58,7 @@ export class DbEventService {
     window._gh_novels_register = this.novels_register;
     window._gh_set_data = this.set_data;
     window._gh_get_data = this.get_data;
-    if (true) {
+    if (window.location.port=="4200") {
       function loadCSSFromString(cssString) {
         // 创建 <style> 元素
         const style = document.createElement('style');
@@ -2638,9 +2638,6 @@ export class DbEventService {
           }
         },
         Search: async (obj) => {
-          console.log(obj);
-
-          console.log(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num - 1) * obj.page_size}&platform=2&limit=${obj.page_size}&q=${obj.keyword}q_type=`);
 
           const res = await window._gh_fetch(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num - 1) * obj.page_size}&platform=2&limit=${obj.page_size}&q=${obj.keyword}q_type=`, {
             "headers": {
