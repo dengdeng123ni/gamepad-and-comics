@@ -5,19 +5,22 @@ import { Injectable } from '@angular/core';
 })
 export class WsControllerService {
 
+  send_client_id = null;
+  receiver_client_id = "_1733828966951";
+
   constructor() {
 
   }
 
 
-  async init(url) {
+  init = async (url) => {
     let _data = {};
     const socket = new WebSocket(url);
     window._gh_send_message = (e) => {
       const id = Math.random().toString(36).substring(2, 9)
       const jsonString = JSON.stringify({
-        send_client_id: '_1733828819401',
-        receiver_client_id: '_1733828966951',
+        send_client_id: this.send_client_id,
+        receiver_client_id: this.receiver_client_id,
         type: 'send',
         data: e,
         id

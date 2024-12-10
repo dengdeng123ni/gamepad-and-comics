@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IndexdbControllerService, CacheControllerService, DbEventService } from '../public-api';
+import { IndexdbControllerService, CacheControllerService, DbEventService, DbControllerService } from '../public-api';
 
 
 declare global {
@@ -20,6 +20,7 @@ export class ReplaceChannelControllerService {
   _data = {};
 
   constructor(
+    public DbController:DbControllerService,
     public DbEvent: DbEventService,
     public webDb: IndexdbControllerService,
     public webCh: CacheControllerService
@@ -33,7 +34,6 @@ export class ReplaceChannelControllerService {
     const events = {
 
     }
-
     Object.keys(this.DbEvent.Events).forEach(x => {
       if (!events[x]) events[x] = {}
       Object.keys(this.DbEvent.Events[x]).forEach(c => {
@@ -58,12 +58,10 @@ export class ReplaceChannelControllerService {
         Configs: this.DbEvent.Configs
       }
     }
-
     await this.send_message({
       function_name: 'db_event',
       target_source: 'other'
     })
-
     this.webDb.getAll = async (...e): Promise<any> => {
       const res = await this.send_message({
         parameter: e,
@@ -100,7 +98,6 @@ export class ReplaceChannelControllerService {
       })
       return res
     }
-
     this.webCh.match = async (...e): Promise<any> => {
       const res = await this.send_message({
         parameter: e,
@@ -110,7 +107,6 @@ export class ReplaceChannelControllerService {
       })
       return res
     }
-
     this.webCh.put = async (...e): Promise<any> => {
 
       const res = await this.send_message({
@@ -121,7 +117,6 @@ export class ReplaceChannelControllerService {
       })
       return res
     }
-
     this.webCh.delete = async (...e): Promise<any> => {
       const res = await this.send_message({
         parameter: e,
@@ -131,7 +126,6 @@ export class ReplaceChannelControllerService {
       })
       return res
     }
-
     this.webCh.keys = async (...e): Promise<any> => {
       const res = await this.send_message({
         parameter: e,
@@ -141,14 +135,15 @@ export class ReplaceChannelControllerService {
       })
       return res
     }
-
-
   }
 
   send_message = async (e) => {
+    console.log(e);
 
     if (e.function_name == "put" && e.target_source == "caches") {
       e.parameter[2] = await this.responseToJson(e.parameter[2])
+      console.log(e);
+
     } else if (e.function_name == "match" && e.target_source == "caches") {
       if (e.parameter[0] == "image") {
         const res = await this.original.webCh.match(...e.parameter)
@@ -164,9 +159,7 @@ export class ReplaceChannelControllerService {
       if (res.req.parameter[0] == 'image') this.original.webCh.put(res.req.parameter[0], res.req.parameter[1], res1.clone())
       return res1
     } else if (res.req.function_name == "getImage") {
-      const byteArray = new Uint8Array(Object.values(res.data));
-      const blob = new Blob([byteArray]);
-      return blob
+      return this.base64ToBlob(res.data)
     } else if (res.req.function_name == "db_event") {
       if(res.data.configs) this.DbEvent.Configs=res.data.configs;
       if(res.data.events){
@@ -194,7 +187,6 @@ export class ReplaceChannelControllerService {
       return res.data
     }
   }
-
   receive_message = async (e) => {
 
     let res
@@ -203,6 +195,7 @@ export class ReplaceChannelControllerService {
     } else if (e.target_source == "caches") {
       if (e.function_name == "put") {
         e.parameter[2] = await this.jsonToResponse(e.parameter[2])
+
         res = await this.original.webCh[e.function_name](...e.parameter)
       } else {
         res = await this.original.webCh[e.function_name](...e.parameter)
@@ -213,9 +206,7 @@ export class ReplaceChannelControllerService {
     } else if (e.target_source == "builtin") {
       res = await this.original.DbEvent.Events[e.source][e.function_name](...e.parameter);
       if (e.function_name == "getImage") {
-        const arrayBuffer = await res.arrayBuffer();
-        const uint8Array = new Uint8Array(arrayBuffer);
-        res = uint8Array
+        res = await this.blobToBase64(res)
       }
 
     } else if (e.target_source == "other") {
@@ -232,12 +223,40 @@ export class ReplaceChannelControllerService {
           events,
           configs: this.original.DbEvent.Configs
         }
-
       }
     }
     return { data: res, req: e }
   }
+   blobToBase64=async (blob)=> {
+    return new Promise((r, j) => {
+      var reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onload = () => {
+        r(reader.result as string)
+      };
+      reader.onerror = () => {
+        j("")
+      }
+    })
+  }
+  base64ToBlob=(base64Data)=> {
+    // 提取 MIME 类型和 Base64 数据
+    const [header, base64] = base64Data.split(',');
+    const mimeType = header.match(/:(.*?);/)[1]; // 提取 MIME 类型
 
+    // 解码 Base64 数据为二进制字符串
+    const binaryString = window.atob(base64);
+
+    // 将二进制字符串转换为 Uint8Array
+    const length = binaryString.length;
+    const uint8Array = new Uint8Array(length);
+    for (let i = 0; i < length; i++) {
+      uint8Array[i] = binaryString.charCodeAt(i);
+    }
+
+    // 创建 Blob 并保留类型信息
+    return new Blob([uint8Array], { type: mimeType });
+  }
   responseToJson = async (response) => {
     if (!response) return response
     const responseJson = {

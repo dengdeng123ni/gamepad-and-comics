@@ -198,6 +198,7 @@ export class AppComponent {
     GamepadEvent.registerConfig("select", { region: ["option"] })
 
     this.init();
+
   }
 
 
@@ -210,7 +211,7 @@ export class AppComponent {
       localStorage.setItem('clientId', clientId);
     }
     document.body.setAttribute('client_id', clientId)
-    return clientId;
+    this.WsController.send_client_id=clientId;
   }
   ngOnDestroy() {
     this.keydown.unsubscribe();
@@ -274,6 +275,7 @@ export class AppComponent {
   }
   async init() {
     this.WsController.init('ws://localhost:7703')
+
     await this.webCh.init();
     let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
 
@@ -295,6 +297,7 @@ export class AppComponent {
 
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();
+
 
     // eval()
     await this.as12312();

@@ -48,6 +48,8 @@ export class DataService {
 
   constructor(public AppData: AppDataService,public platform:Platform) {
      this.comics_config.is_double_page=!(window.innerWidth < 480 && (this.platform.ANDROID || this.platform.IOS))
+
+
   }
 
   init() {
