@@ -138,12 +138,8 @@ export class ReplaceChannelControllerService {
   }
 
   send_message = async (e) => {
-    console.log(e);
-
     if (e.function_name == "put" && e.target_source == "caches") {
       e.parameter[2] = await this.responseToJson(e.parameter[2])
-      console.log(e);
-
     } else if (e.function_name == "match" && e.target_source == "caches") {
       if (e.parameter[0] == "image") {
         const res = await this.original.webCh.match(...e.parameter)
@@ -266,15 +262,14 @@ export class ReplaceChannelControllerService {
       body: null,  // 将响应主体解析为 JSON
     };
     response.headers.forEach(function (value, name) { responseJson.headers.push({ value, name }) });
-    const arrayBuffer = await response.arrayBuffer();
-    const uint8Array = new Uint8Array(arrayBuffer);
-    responseJson.body = uint8Array
+    const blob = await response.blob();
+
+    responseJson.body = await this.blobToBase64(blob)
     return responseJson;
   }
   jsonToResponse = async (response) => {
     if (!response) return response
-    const byteArray = new Uint8Array(Object.values(response.body));
-    const blob = new Blob([byteArray]);
+    const blob = this.base64ToBlob(response.body);
     const headers = new Headers();
     response.headers.forEach((x) => {
       headers.append(x.name, x.value);

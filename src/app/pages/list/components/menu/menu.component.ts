@@ -699,9 +699,9 @@ export class MenuComponent {
   }
   on1() {
     if (this.menu.mode_1 == 1) this.menu.mode_1 = 2
-    else if (this.menu.mode_1 == 2) this.menu.mode_1 = 3
-    else if (this.menu.mode_1 == 3) this.menu.mode_1 = 1
-    else this.menu.mode_1 = 1;
+    else if (this.menu.mode_1 == 2) this.menu.mode_1 = 2
+    else if (this.menu.mode_1 == 3) this.menu.mode_1 = 2
+    else this.menu.mode_1 = 2;
   }
   on3fee(e) {
     this.menu.current_menu_pid = `${e.id}`;
