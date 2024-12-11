@@ -46,8 +46,8 @@ export class MessageFetchService {
       id = CryptoJS.MD5(JSON.stringify({
 
         type: "website_proxy_request",
-        proxy_request_website_url: (init as any).proxy,
-        proxy_response_website_url: window.location.origin,
+        target_website: (init as any).proxy,
+        target:'background',
         http: {
           url: url,
           option: {
@@ -63,8 +63,8 @@ export class MessageFetchService {
           window.postMessage({
             id: id,
             type: "website_proxy_request",
-            proxy_request_website_url: (init as any).proxy,
-            proxy_response_website_url: window.location.origin,
+            target:'background',
+            target_website: (init as any).proxy,
             http: {
               url: url,
               option: {
@@ -74,8 +74,6 @@ export class MessageFetchService {
               }
             }
           });
-
-
         }
         send();
         setTimeout(() => {
@@ -93,7 +91,7 @@ export class MessageFetchService {
     } else {
       id = CryptoJS.MD5(JSON.stringify({
         type: "pulg_proxy_request",
-        proxy_response_website_url: window.location.origin,
+        target:'background',
         http: {
           url: url,
           option: {
@@ -109,7 +107,7 @@ export class MessageFetchService {
           window.postMessage({
             id: id,
             type: "pulg_proxy_request",
-            proxy_response_website_url: window.location.origin,
+            target:'background',
             http: {
               url: url,
               option: {
@@ -156,18 +154,18 @@ export class MessageFetchService {
     let id = ''
     let bool = true;
     id = CryptoJS.MD5(JSON.stringify({
-      type: "website_proxy_request_html",
-      proxy_request_website_url: url,
-      proxy_response_website_url: window.location.origin
+      type: "get_website_request_html",
+      target:'background',
+      target_website: url,
     })).toString().toLowerCase()
     if (!this._data_proxy_request[id]) {
       this._data_proxy_request[id] = true;
 
       window.postMessage({
         id: id,
-        type: "website_proxy_request_html",
-        proxy_request_website_url: url,
-        proxy_response_website_url: window.location.origin
+        target:'background',
+        type: "get_website_request_html",
+        target_website: url,
       });
     }
 
@@ -194,84 +192,16 @@ export class MessageFetchService {
   execute_eval = async (url, javascript) => {
     const id = CryptoJS.MD5(JSON.stringify({
       type: "website_request_execute_eval",
-      proxy_request_website_url: url,
-      proxy_response_website_url: window.location.origin
+      target:'background',
+      target_website: url
     })).toString().toLowerCase()
 
     window.postMessage({
       id: id,
+      target:'background',
       type: "website_request_execute_script",
-      proxy_request_website_url: url,
-      proxy_response_website_url: window.location.origin,
+      target_website: url,
       javascript: javascript
-    });
-    let bool = true;
-    return new Promise((r, j) => {
-      const getData = () => {
-        setTimeout(() => {
-          if (this._data_proxy_response[id]) {
-            r(this._data_proxy_response[id])
-          } else {
-            if (bool) getData()
-          }
-        }, 33)
-      }
-      getData()
-
-      setTimeout(() => {
-        bool = false;
-        r(new Response(""))
-        j(new Response(""))
-      }, 40000)
-
-    })
-  }
-
-  getAllTabs = async () => {
-    const id = CryptoJS.MD5(JSON.stringify({
-      type: "get_all_tabs",
-      proxy_response_website_url: window.location.origin
-    })).toString().toLowerCase()
-
-    window.postMessage({
-      id: id,
-      type: "get_all_tabs",
-      proxy_response_website_url: window.location.origin
-    });
-    let bool = true;
-    return new Promise((r, j) => {
-      const getData = () => {
-        setTimeout(() => {
-          if (this._data_proxy_response[id]) {
-            r(this._data_proxy_response[id])
-          } else {
-            if (bool) getData()
-          }
-        }, 33)
-      }
-      getData()
-
-      setTimeout(() => {
-        bool = false;
-        r(new Response(""))
-        j(new Response(""))
-      }, 40000)
-
-    })
-  }
-
-  new_page = async (url) => {
-    const id = CryptoJS.MD5(JSON.stringify({
-      type: "new_page",
-      proxy_response_website_url: window.location.origin,
-      proxy_request_website_url: url
-    })).toString().toLowerCase()
-
-    window.postMessage({
-      id: id,
-      type: "new_page",
-      proxy_response_website_url: window.location.origin,
-      proxy_request_website_url: url
     });
     let bool = true;
     return new Promise((r, j) => {
