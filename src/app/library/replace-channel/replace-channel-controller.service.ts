@@ -6,6 +6,7 @@ declare global {
   interface Window {
     _gh_receive_message?: (message: any) => Promise<any>;
     _gh_send_message?: (message: any) => Promise<any>;
+    get_all_client:Function
     _gh_menu_update?:Function
     _gh_page_reset?:Function
   }
@@ -26,8 +27,8 @@ export class ReplaceChannelControllerService {
     public webCh: CacheControllerService
   ) {
 
-    //
     window._gh_receive_message = this.receive_message
+
   }
 
   async init() {
@@ -223,7 +224,10 @@ export class ReplaceChannelControllerService {
     }
     return { data: res, req: e }
   }
-   blobToBase64=async (blob)=> {
+  get_all_client =async () => {
+    //
+  }
+  blobToBase64=async (blob)=> {
     return new Promise((r, j) => {
       var reader = new FileReader();
       reader.readAsDataURL(blob);

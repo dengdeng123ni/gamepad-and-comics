@@ -32,7 +32,7 @@ export class PulgJavascriptComponent {
     }
   ]
 
-  displayedColumns = ['position', 'name',  'weight', 'update','symbol'];
+  displayedColumns = ['position', 'name',  'weight', 'update','operate'];
 
   constructor(public pulg: PulgService, public data: DataService,
     public current:CurrentService,

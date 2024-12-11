@@ -42,6 +42,7 @@ import { MatrixComponent } from './components/matrix/matrix.component';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 import { SelectInputNumberComponent } from './components/select-input-number/select-input-number.component';
 import { SelectTagMultipleComponent } from './components/select-tag-multiple/select-tag-multiple.component';
+import { ReplaceChannelPageComponent } from './components/replace-channel-page/replace-channel-page.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { SelectTagMultipleComponent } from './components/select-tag-multiple/sel
     DeveloperPageComponent,
     AdvancedSearchComponent,
     SelectInputNumberComponent,
-    SelectTagMultipleComponent
+    SelectTagMultipleComponent,
+    ReplaceChannelPageComponent
   ],
   imports: [
     CommonModule,

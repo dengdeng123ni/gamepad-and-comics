@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 export class WsControllerService {
 
   send_client_id = null;
-  receiver_client_id = "_1733828966951";
-
+  receiver_client_id = null;
+  socket;
   constructor() {
 
   }
@@ -15,9 +15,10 @@ export class WsControllerService {
 
   init = async (url) => {
     let _data = {};
-    const socket = new WebSocket(url);
+    this.socket = new WebSocket(url);
     window._gh_send_message = (e) => {
       const id = Math.random().toString(36).substring(2, 9)
+
       const jsonString = JSON.stringify({
         send_client_id: this.send_client_id,
         receiver_client_id: this.receiver_client_id,
@@ -26,7 +27,7 @@ export class WsControllerService {
         id
       });
       const blob = new Blob([jsonString], { type: "application/json" });
-      socket.send(blob);
+      this.socket.send(blob);
       let bool = true;
       return new Promise((r, j) => {
         const getData = () => {
@@ -49,15 +50,47 @@ export class WsControllerService {
 
       })
     }
+
+    window.get_all_client = () => {
+      const id = Math.random().toString(36).substring(2, 9)
+      const jsonString = JSON.stringify({
+        type: 'get_all_client',
+        id: id
+      });
+      const blob = new Blob([jsonString], { type: "application/json" });
+      this.socket.send(blob);
+      let bool = true;
+      return new Promise((r, j) => {
+        const getData = () => {
+          setTimeout(() => {
+            if (_data[id]) {
+              r(_data[id])
+            } else {
+              if (bool) getData()
+            }
+          }, 33)
+        }
+        getData()
+
+        setTimeout(() => {
+          bool = false;
+          r(new Response(""))
+          j(new Response(""))
+          _data[id] = undefined;
+        }, 40000)
+
+      })
+    }
+
     // 监听连接打开事件
-    socket.addEventListener('open', async () => {
-      const jsonData = { type: "init", name: navigator.userAgent, id: document.body.getAttribute('client_id') };
+    this.socket.addEventListener('open', async () => {
+      const jsonData = { type: "init", name: navigator.userAgent, id: this.send_client_id };
       const jsonString = JSON.stringify(jsonData);
       const blob = new Blob([jsonString], { type: "application/json" });
-      socket.send(blob);
+      this.socket.send(blob);
     });
     // 监听消息事件
-    socket.addEventListener('message', async (event) => {
+    this.socket.addEventListener('message', async (event) => {
       const text = await new Blob([event.data]).text();
       const c = JSON.parse(text);
       if (c.type == "send") {
@@ -71,20 +104,26 @@ export class WsControllerService {
         }
         const jsonString = JSON.stringify(obj);
         const blob = new Blob([jsonString], { type: "application/json" });
-        socket.send(blob);
+        this.socket.send(blob);
       } else if (c.type == "receive") {
         _data[c.id] = c.data;
+      } else if (c.type == "get_all_client") {
+        _data[c.id] = c.data.filter((item, index, self) =>
+          index === self.findIndex((t) => ( t.id === item.id   ))
+        );
       }
     });
 
     // 监听错误事件
-    socket.addEventListener('error', (error) => {
+    this.socket.addEventListener('error', (error) => {
       console.error('客户端错误', error);
     });
 
     // 监听连接关闭事件
-    socket.addEventListener('close', () => {
+    this.socket.addEventListener('close', () => {
       console.log('关闭客户端链接');
     });
   }
+
+
 }

@@ -21,6 +21,7 @@ import { MenuSearchService } from '../../components/menu-search/menu-search.serv
 import { Platform } from '@angular/cdk/platform';
 import { SelectInputNumberService } from '../../components/select-input-number/select-input-number.service';
 import { SelectTagMultipleService } from '../../components/select-tag-multiple/select-tag-multiple.service';
+import { ReplaceChannelPageService } from '../../components/replace-channel-page/replace-channel-page.service';
 
 @Component({
   selector: 'app-index',
@@ -54,6 +55,7 @@ export class IndexComponent {
     public platform: Platform,
     public SelectInputNumber:SelectInputNumberService,
     public SelectTagMultiple:SelectTagMultipleService,
+    public ReplaceChannelPage:ReplaceChannelPageService,
     public MenuSearch: MenuSearchService
   ) {
 

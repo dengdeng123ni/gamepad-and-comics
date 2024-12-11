@@ -19,6 +19,7 @@ import { PlugInInstructionsService } from '../plug-in-instructions/plug-in-instr
 import { UrlUsageGuideService } from '../url-usage-guide/url-usage-guide.service';
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
 import { PageThemeService } from '../page-theme/page-theme.service';
+import { ReplaceChannelPageService } from '../replace-channel-page/replace-channel-page.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -99,9 +100,10 @@ export class MenuComponent {
     public SoundEffects: SoundEffectsService,
     public AboutSoftware: AboutSoftwareService,
     public PlugInInstructions: PlugInInstructionsService,
+    public ReplaceChannelPage: ReplaceChannelPageService,
     public UrlUsageGuide: UrlUsageGuideService,
     public PageTheme: PageThemeService,
-    public prompt:PromptService,
+    public prompt: PromptService,
     private zone: NgZone
   ) {
 
@@ -113,12 +115,12 @@ export class MenuComponent {
       if (event instanceof NavigationEnd) {
       }
     })
-   current.updateMenu().subscribe(async (x)=>{
+    current.updateMenu().subscribe(async (x) => {
 
       await this.menu.get()
-      this.data.menu=[];
+      this.data.menu = [];
       this.init();
-   })
+    })
 
     ContextMenuEvent.register('_gh_settings',
       {
@@ -188,14 +190,27 @@ export class MenuComponent {
               })
             }
           },
-          // {
-          //   id: "ope3",
-          //   name: "缓存",
-          //   click: () => {
-
-          //   }
-          // },
-
+          {
+            id: "ope321",
+            name: "局域网网页版",
+            click: () => {
+              // this.ReplaceChannelPage.open();
+            }
+          },
+          {
+            id: "ope321",
+            name: "手机网页版",
+            click: () => {
+              // this.ReplaceChannelPage.open();
+            }
+          },
+          {
+            id: "ope32",
+            name: "通道替换",
+            click: () => {
+              this.ReplaceChannelPage.open();
+            }
+          },
           {
             id: "ope",
             name: "关于软件",
@@ -376,7 +391,7 @@ export class MenuComponent {
         // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
         // this.data.menu[index].expanded=true;
       }
-      if(!this.data.menu_2_obj)  this.data.menu_2_obj = this.data.menu_2[0]
+      if (!this.data.menu_2_obj) this.data.menu_2_obj = this.data.menu_2[0]
       if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
       this.menu.url_to_list.forEach(x => {
         this.data.menu.push({
@@ -428,7 +443,7 @@ export class MenuComponent {
           }
         })
       })
-      if (this.menu.query_fixed.length)this.data.menu.push({ type: 'separator' })
+      if (this.menu.query_fixed.length) this.data.menu.push({ type: 'separator' })
       this.menu.query_fixed.forEach(x => {
         this.data.menu.push({
           id: x.id,
@@ -605,8 +620,8 @@ export class MenuComponent {
   }
   async openTemporaryFile() {
     let files_arr;
-    if(window.showDirectoryPicker){
-      const getFiles2 =async ()=>{
+    if (window.showDirectoryPicker) {
+      const getFiles2 = async () => {
         const dirHandle = await (window as any).showDirectoryPicker();
         let files_arr: { id: number; blob: any; path: string; name: any; }[] = []
         let date = new Date().getTime();
@@ -639,10 +654,10 @@ export class MenuComponent {
         await handleDirectoryEntry(dirHandle, out, dirHandle["name"]);
         return files_arr
       }
-      files_arr=await getFiles2();
-    }else{
-      const getFiles=():any=>{
-        return new Promise((r,j)=>{
+      files_arr = await getFiles2();
+    } else {
+      const getFiles = (): any => {
+        return new Promise((r, j) => {
           const fileInput = document.createElement('input');
           fileInput.type = 'file';
           fileInput.webkitdirectory = true;  // 允许选择目录
@@ -655,22 +670,22 @@ export class MenuComponent {
           fileInput.addEventListener('change', function (event) {
             const files = (event.target as any).files;
 
-            let arr=[];
-            Array.from(files).forEach(x=>{
-               let obj={}
-               if (["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(x['name'].split(".")[1])) {
-                obj['name']=x['name'];
-                obj['id']=x['lastModified'];
-                obj['path']=x['webkitRelativePath']
-                obj['blob']=x
+            let arr = [];
+            Array.from(files).forEach(x => {
+              let obj = {}
+              if (["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(x['name'].split(".")[1])) {
+                obj['name'] = x['name'];
+                obj['id'] = x['lastModified'];
+                obj['path'] = x['webkitRelativePath']
+                obj['blob'] = x
                 arr.push(obj)
-               }
+              }
             })
             r(arr)
           });
         })
       }
-      files_arr=await getFiles();
+      files_arr = await getFiles();
     }
 
     const id = new Date().getTime();

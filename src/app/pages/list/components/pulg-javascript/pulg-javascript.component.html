@@ -33,7 +33,7 @@
       <th mat-header-cell *matHeaderCellDef style="width: 700px;    text-align: center;"> 名称 </th>
       <td mat-cell *matCellDef="let n"> {{n.name}} </td>
     </ng-container>
-    <ng-container matColumnDef="symbol">
+    <ng-container matColumnDef="operate">
       <th mat-header-cell *matHeaderCellDef style="text-align: center;"> 操作 </th>
       <td mat-cell *matCellDef="let n">
         <button mat-button (click)="on(n)" [attr.region]="'pulg_javascript_item'">下载</button>
