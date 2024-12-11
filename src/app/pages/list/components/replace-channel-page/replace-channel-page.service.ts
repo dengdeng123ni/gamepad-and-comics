@@ -23,7 +23,7 @@ export class ReplaceChannelPageService {
       region: ['replace_channel_page_item'],
     });
 
-    this.open();
+    // this.open();
 
   }
 

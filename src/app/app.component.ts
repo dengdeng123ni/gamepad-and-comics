@@ -275,7 +275,6 @@ export class AppComponent {
   }
   async init() {
     this.WsController.init('ws://localhost:7703')
-
     await this.webCh.init();
     let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
 

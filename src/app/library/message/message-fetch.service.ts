@@ -44,6 +44,7 @@ export class MessageFetchService {
     if (init && (init as any).proxy) {
 
       id = CryptoJS.MD5(JSON.stringify({
+
         type: "website_proxy_request",
         proxy_request_website_url: (init as any).proxy,
         proxy_response_website_url: window.location.origin,

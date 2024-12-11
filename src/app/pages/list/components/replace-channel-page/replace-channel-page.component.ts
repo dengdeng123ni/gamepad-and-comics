@@ -14,9 +14,10 @@ export class ReplaceChannelPageComponent {
     public ReplaceChannelController: ReplaceChannelControllerService,
     public WsController: WsControllerService
   ) {
-    setTimeout(() => {
-      this.init()
-    }, 2000)
+    // setTimeout(() => {
+    //   this.init()
+    // }, 2000)
+    this.init()
   }
 
 

@@ -18,7 +18,6 @@ export class WsControllerService {
     this.socket = new WebSocket(url);
     window._gh_send_message = (e) => {
       const id = Math.random().toString(36).substring(2, 9)
-
       const jsonString = JSON.stringify({
         send_client_id: this.send_client_id,
         receiver_client_id: this.receiver_client_id,
