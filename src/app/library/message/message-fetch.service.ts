@@ -16,24 +16,45 @@ export class MessageFetchService {
   }
   constructor(private sanitizer: DomSanitizer,
     private webCh: CacheControllerService,
-    public ReplaceChannelEvent:ReplaceChannelEventService
+    public ReplaceChannelEvent: ReplaceChannelEventService
   ) {
     window._gh_fetch = this.fetch;
     window._gh_get_html = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
-    window.CryptoJS=CryptoJS;
+    window.CryptoJS = CryptoJS;
     // window._gh_new_page = this.new_page;
     this.ReplaceChannelEvent.register({
       id: 'plugins',
       name: '插件'
     }, {
-      sendMessage:this.getProxyRequestLocal,
-      getAll:this.getAllBrowserClient
+      sendMessage: this.getProxyRequestLocal,
+      getAll: this.getAllBrowserClient
+    })
+
+    this.ReplaceChannelEvent.register({
+      id: 'https',
+      name: '插件'
+    }, {
+      sendMessage: async e => {
+       const data= await fetch(`${window.location.origin}/api/local/send`, {
+          method: 'POST', // 指定请求方法为 POST
+          headers: {
+            'Content-Type': 'application/json', // 指定请求体的格式为 JSON
+          },
+          body: JSON.stringify(e), // 将数据序列化为 JSON 字符串
+        })
+        return data.json();
+      },
+      getAll: async e => {
+        const data= await fetch(`${window.location.origin}/api/local/getAll`)
+
+         return data.json();
+       },
     })
   }
   async init() {
   }
-  fetch = async (url: RequestInfo | URL, init?: RequestInit ): Promise<Response> => {
+  fetch = async (url: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     if (!init) {
       init = {
         "headers": {
@@ -50,14 +71,14 @@ export class MessageFetchService {
       return JSON.parse(decodeURIComponent(escape(window.atob(str))));
     }
     let id = ''
-    let bool = true;
+
     if (init && (init as any).proxy) {
 
       id = CryptoJS.MD5(JSON.stringify({
 
         type: "website_proxy_request",
         target_website: (init as any).proxy,
-        target:'background',
+        target: 'background',
         http: {
           url: url,
           option: {
@@ -73,7 +94,7 @@ export class MessageFetchService {
           window.postMessage({
             id: id,
             type: "website_proxy_request",
-            target:'background',
+            target: 'background',
             target_website: (init as any).proxy,
             http: {
               url: url,
@@ -101,7 +122,7 @@ export class MessageFetchService {
     } else {
       id = CryptoJS.MD5(JSON.stringify({
         type: "pulg_proxy_request",
-        target:'background',
+        target: 'background',
         http: {
           url: url,
           option: {
@@ -117,7 +138,7 @@ export class MessageFetchService {
           window.postMessage({
             id: id,
             type: "pulg_proxy_request",
-            target:'background',
+            target: 'background',
             http: {
               url: url,
               option: {
@@ -137,10 +158,12 @@ export class MessageFetchService {
       }
 
     }
+    let bool = true;
     return new Promise((r, j) => {
       const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
+            bool=false;
             r(this._data_proxy_response[id].clone())
           } else {
             if (bool) getData()
@@ -150,22 +173,22 @@ export class MessageFetchService {
       getData()
 
       setTimeout(() => {
-        bool = false;
-        r(new Response(""))
-        j(new Response(""))
+        if(bool){
+          bool = false;
+          r(new Response())
+          j(new Response())
+        }
         this._data_proxy_request[id] = undefined;
       }, 40000)
-
     })
   }
 
   getHtml = async (url: RequestInfo | URL,
   ): Promise<Response> => {
     let id = ''
-    let bool = true;
     id = CryptoJS.MD5(JSON.stringify({
       type: "get_website_request_html",
-      target:'background',
+      target: 'background',
       target_website: url,
     })).toString().toLowerCase()
     if (!this._data_proxy_request[id]) {
@@ -173,17 +196,19 @@ export class MessageFetchService {
 
       window.postMessage({
         id: id,
-        target:'background',
+        target: 'background',
         type: "get_website_request_html",
         target_website: url,
       });
     }
 
 
+    let bool = true;
     return new Promise((r, j) => {
       const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
+            bool=false;
             r(this._data_proxy_response[id].clone())
           } else {
             if (bool) getData()
@@ -191,11 +216,15 @@ export class MessageFetchService {
         }, 33)
       }
       getData()
+
       setTimeout(() => {
-        bool = false;
-        r(new Response(""))
-        j(new Response(""))
-      }, 30000)
+        if(bool){
+          bool = false;
+          r(new Response())
+          j(new Response())
+        }
+        this._data_proxy_request[id] = undefined;
+      }, 40000)
     })
   }
 
@@ -205,14 +234,14 @@ export class MessageFetchService {
     let bool = true;
     id = CryptoJS.MD5(JSON.stringify({
       type: "get_all_browser_client",
-      target:'background'
+      target: 'background'
     })).toString().toLowerCase()
     if (!this._data_proxy_request[id]) {
       this._data_proxy_request[id] = true;
 
       window.postMessage({
         id: id,
-        target:'background',
+        target: 'background',
         type: "get_all_browser_client"
       });
     }
@@ -236,13 +265,13 @@ export class MessageFetchService {
       }, 30000)
     })
   }
-  getProxyRequestLocal= async (e) => {
+  getProxyRequestLocal = async (e) => {
     const id = Math.random().toString(36).substring(2, 9)
     const jsonString = {
       send_client_id: e.send_client_id,
       receiver_client_id: e.receiver_client_id,
       type: 'proxy_request_local',
-      target:'background',
+      target: 'background',
       data: e.data,
       id
     };
@@ -265,7 +294,7 @@ export class MessageFetchService {
         r(null)
         j(null)
         this._data_proxy_response[id] = undefined;
-      }, 42000)
+      }, 40000)
 
     })
   }
@@ -273,13 +302,13 @@ export class MessageFetchService {
   execute_eval = async (url, javascript) => {
     const id = CryptoJS.MD5(JSON.stringify({
       type: "website_request_execute_eval",
-      target:'background',
+      target: 'background',
       target_website: url
     })).toString().toLowerCase()
 
     window.postMessage({
       id: id,
-      target:'background',
+      target: 'background',
       type: "website_request_execute_script",
       target_website: url,
       javascript: javascript
@@ -289,6 +318,7 @@ export class MessageFetchService {
       const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
+            bool=false;
             r(this._data_proxy_response[id])
           } else {
             if (bool) getData()
@@ -298,11 +328,13 @@ export class MessageFetchService {
       getData()
 
       setTimeout(() => {
-        bool = false;
-        r(new Response(""))
-        j(new Response(""))
+        if(bool){
+          bool = false;
+          r(new Response())
+          j(new Response())
+        }
+        this._data_proxy_request[id] = undefined;
       }, 40000)
-
     })
   }
 
@@ -317,15 +349,15 @@ export class MessageFetchService {
     return result;
   }
 
-  cacheFetch = async (url: URL|string): Promise<Response> => {
+  cacheFetch = async (url: URL | string): Promise<Response> => {
     if (!this.webCh.is_cache) return await fetch(url)
-    const res = await this.webCh.match('assets',url)
+    const res = await this.webCh.match('assets', url)
     if (res) {
       return res
     } else {
       const response = await fetch(url)
-      const request =  url;
-      if (response.ok) await this.webCh.put('assets',request, response);
+      const request = url;
+      if (response.ok) await this.webCh.put('assets', request, response);
       return await fetch(url)
     }
   }
@@ -341,7 +373,7 @@ export class MessageFetchService {
       this._blob_urls[id] = bloburl;
       return bloburl
     }
-    const res = await this.webCh.match('assets',url)
+    const res = await this.webCh.match('assets', url)
     if (res) {
       const blob = await res.blob();
       let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
@@ -351,7 +383,7 @@ export class MessageFetchService {
     } else {
       const response = await fetch(url)
       const request = url;
-      if (response.ok) await this.webCh.put('assets',request, response);
+      if (response.ok) await this.webCh.put('assets', request, response);
       const res = await fetch(url)
       const blob = await res.blob();
       let bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));

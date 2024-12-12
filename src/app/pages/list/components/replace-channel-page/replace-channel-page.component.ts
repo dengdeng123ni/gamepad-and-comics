@@ -23,7 +23,7 @@ export class ReplaceChannelPageComponent {
 
 
   async init() {
-    const c = await this.ReplaceChannelEvent.Events['plugins'].getAll();
+    const c = await this.ReplaceChannelEvent.Events['https'].getAll();
     console.log(c);
 
     this.list = c
@@ -35,7 +35,7 @@ export class ReplaceChannelPageComponent {
 
   async change(e) {
     this.WsController.receiver_client_id = e.id;
-    this.ReplaceChannelController.change(e.id,'plugins')
+    this.ReplaceChannelController.change(e.id,'https')
   }
 
 }

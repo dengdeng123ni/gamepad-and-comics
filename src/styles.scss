@@ -548,7 +548,7 @@ html[theme=yeshu] {
     max-width: 100vw !important;
   }
 }
-[ng-reflect-message]{
+[ng-reflect-message][mat-ripple-loader-class-name]{
   user-select: auto !important;
   -webkit-user-drag: auto !important;
   touch-action: auto !important;

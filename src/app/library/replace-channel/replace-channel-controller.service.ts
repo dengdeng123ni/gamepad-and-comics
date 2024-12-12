@@ -161,7 +161,7 @@ export class ReplaceChannelControllerService {
         if (res) return res
       }
     }
-    const res = await this.ReplaceChannelEvent.Events['plugins'].sendMessage({
+    const res = await this.ReplaceChannelEvent.Events['https'].sendMessage({
       send_client_id: this.send_client_id,
       receiver_client_id: this.receiver_client_id,
       data:e
