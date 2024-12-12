@@ -117,14 +117,11 @@ async function executeEval(code) {
   return eval(code)
 }
 
-
-
 const sleep = (duration) => {
   return new Promise(resolve => {
     setTimeout(resolve, duration);
   })
 }
-
 
 async function init() {
   chrome.runtime.sendMessage({

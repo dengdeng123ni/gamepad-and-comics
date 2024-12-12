@@ -96,9 +96,9 @@ chrome.runtime.onMessage.addListener(
       return
     }
 
-    // ----------------------------
+    // -------------------------------------------
 
-    // proxy_request_indexdb proxy_response_indexdb
+    // 通道信息
     if (request.type == "proxy_request_local") {
       request.target = "page"
       const obj = _client_data.find(x => x.client.id == request.receiver_client_id)
@@ -116,7 +116,16 @@ chrome.runtime.onMessage.addListener(
       })
       return
     }
-    // -----------
+    // -----------------------------------------
+    // if (request.type == "proxy_request_local") {
+
+    //   return
+    // } else if (request.type == "proxy_response_local") {
+    //   return
+    // }
+
+
+
 
     if (request.type == "page_load_complete") {
       _tabIds[sender.tab.id] = sender.tab.id;
@@ -265,4 +274,52 @@ sleep = (duration) => {
   return new Promise(resolve => {
     setTimeout(resolve, duration);
   })
+}
+
+
+init = async (url) => {
+  let _data = {};
+  let socket = new WebSocket(url);
+
+  // 监听连接打开事件
+  socket.addEventListener('open', async () => {
+    const jsonData = { type: "init", name: navigator.userAgent, id: this.send_client_id };
+    const jsonString = JSON.stringify(jsonData);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    socket.send(blob);
+  });
+  // 监听消息事件
+  socket.addEventListener('message', async (event) => {
+    const text = await new Blob([event.data]).text();
+    const c = JSON.parse(text);
+    if (c.type == "send") {
+      const res = await window._gh_receive_message(c.data)
+      let obj = {
+        id: c.id,
+        receiver_client_id: c.send_client_id,
+        send_client_id: c.receiver_client_id,
+        type: "receive",
+        data: res
+      }
+      const jsonString = JSON.stringify(obj);
+      const blob = new Blob([jsonString], { type: "application/json" });
+      socket.send(blob);
+    } else if (c.type == "receive") {
+      _data[c.id] = c.data;
+    } else if (c.type == "get_all_client") {
+      _data[c.id] = c.data.filter((item, index, self) =>
+        index === self.findIndex((t) => (t.id === item.id))
+      );
+    }
+  });
+
+  // 监听错误事件
+  socket.addEventListener('error', (error) => {
+    console.error('客户端错误', error);
+  });
+
+  // 监听连接关闭事件
+  socket.addEventListener('close', () => {
+    console.log('关闭客户端链接');
+  });
 }
