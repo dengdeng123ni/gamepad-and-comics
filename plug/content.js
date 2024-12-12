@@ -127,5 +127,9 @@ async function init() {
   chrome.runtime.sendMessage({
     'type': 'page_load_complete'
   });
+  window.postMessage({
+    target: "page",
+    type: "init",
+  })
 }
 init()

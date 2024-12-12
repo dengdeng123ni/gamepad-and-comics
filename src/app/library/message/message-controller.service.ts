@@ -63,9 +63,22 @@ export class MessageControllerService {
             id: event.data.id
           };
           window.postMessage(jsonString);
+        } else if (event.data.type == "init") {
+          this.init();
         }
       }
     }, false);
 
+  }
+
+  init = async () => {
+    window.postMessage({
+      target: 'background',
+      type: "add_browser_client",
+      client: {
+        id: document.body.getAttribute("client_id"),
+        name: navigator.userAgent
+      }
+    });
   }
 }

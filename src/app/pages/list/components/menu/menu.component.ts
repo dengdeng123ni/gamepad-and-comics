@@ -645,8 +645,8 @@ export class MenuComponent {
             for await (const entry of dirHandle.values()) {
               if (entry.kind === "file") {
                 if (["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(entry.name.split(".")[1])) {
-                  out[entry.name] = { id: date, blob: entry, path: `${path}/${entry.name}`.substring(1) };
-                  files_arr.push({ id: date, blob: entry, path: `${path}/${entry.name}`.substring(1), name: entry.name })
+                  out[entry.name] = { id: date, blob: entry, path: `${path}/${entry.name}` };
+                  files_arr.push({ id: date, blob: entry, path: `${path}/${entry.name}`, name: entry.name })
                   date++;
                 }
               }
@@ -659,8 +659,8 @@ export class MenuComponent {
           if (dirHandle.kind === "file") {
             const entry = dirHandle;
             if (!["jpg", "png", "bmp", "jpeg", "psd", "webp"].includes(entry.name.split(".")[1])) return
-            out[entry.name] = { id: date, blob: entry, path: `${path}/${entry.name}`.substring(1) };
-            files_arr.push({ id: date, blob: entry, path: `${path}/${entry.name}`.substring(1), name: entry.name })
+            out[entry.name] = { id: date, blob: entry, path: `${path}/${entry.name}` };
+            files_arr.push({ id: date, blob: entry, path: `${path}/${entry.name}`, name: entry.name })
             date++;
           }
         }
@@ -709,6 +709,8 @@ export class MenuComponent {
 
     list.forEach(x => x.temporary_file_id = id);
     this.temporaryFile.data = [...this.temporaryFile.data, ...list]
+    // console.log(files_arr);
+
     let chapters: any[] = [];
     this.data.menu.push({
       id,

@@ -282,7 +282,6 @@ export class AppComponent {
     }
   }
   async init() {
-    this.WsController.init('ws://localhost:7703')
     await this.webCh.init();
     let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
 
@@ -310,14 +309,7 @@ export class AppComponent {
     await this.as12312();
     if (!obj1["noscript"]) await this.pulg.init();
     setTimeout(() => {
-      window.postMessage({
-        target:'background',
-        type: "add_browser_client",
-        client:{
-          id:this.ReplaceChannelController.send_client_id,
-          name:navigator.userAgent
-        }
-      });
+
 
       setTimeout(() => {
 

@@ -338,6 +338,8 @@ export class MessageFetchService {
     })
   }
 
+
+
   async readStreamToString(stream: ReadableStream<Uint8Array>) {
     const reader = stream.getReader();
     let result = [];
