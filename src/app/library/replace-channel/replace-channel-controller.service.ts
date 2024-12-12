@@ -6,10 +6,10 @@ declare global {
   interface Window {
     _gh_receive_message?: (message: any) => Promise<any>;
     _gh_send_message?: (message: any) => Promise<any>;
-    get_all_client:Function
-    _gh_menu_update?:Function
-    _gh_page_reset?:Function;
-    _gh_data?:any
+    get_all_client: Function
+    _gh_menu_update?: Function
+    _gh_page_reset?: Function;
+    _gh_data?: any
   }
 }
 
@@ -23,11 +23,18 @@ export class ReplaceChannelControllerService {
 
   send_client_id = null;
   receiver_client_id = null;
+  replace_channel_id = null;
 
-  replace_channel_id=null;
+  is_enabled=true;
+
+  add$
+
+  old_data = null
+
+  is_free = false;
   constructor(
-    public ReplaceChannelEvent:ReplaceChannelEventService,
-    public DbController:DbControllerService,
+    public ReplaceChannelEvent: ReplaceChannelEventService,
+    public DbController: DbControllerService,
     public DbEvent: DbEventService,
     public webDb: IndexdbControllerService,
     public webCh: CacheControllerService
@@ -35,8 +42,11 @@ export class ReplaceChannelControllerService {
 
     window._gh_receive_message = this.receive_message
 
+    this.add$ = this.ReplaceChannelEvent.add().subscribe(x => {
+      this.default_trigger()
+    })
   }
-  async init(){
+  async init() {
     const events = {
 
     }
@@ -64,98 +74,144 @@ export class ReplaceChannelControllerService {
         Configs: this.DbEvent.Configs
       }
     }
+    this.default_trigger()
   }
 
-  async change(receiver_client_id,replace_channel_id) {
-    this.receiver_client_id=receiver_client_id;
-    this.replace_channel_id=replace_channel_id;
-    document.body.setAttribute('receiver_client_id',receiver_client_id)
-    document.body.setAttribute('replace_channel_id',replace_channel_id)
-    document.body.setAttribute('replace_channel','true')
 
-    await this.send_message({
-      function_name: 'db_event',
-      target_source: 'other'
-    })
-    this.webDb.getAll = async (...e): Promise<any> => {
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'getAll',
-        target_source: 'indexdb',
+  async default_trigger() {
+    if (this.is_free) return
+    if (this.old_data) {
 
-      })
-      return res
+    } else {
+      this.old_data = await this.original.webDb.getByKey('data', '_replace_channel')
     }
-    this.webDb.update = async (...e): Promise<any> => {
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'update',
-        target_source: 'indexdb',
+    if (this.old_data && this.old_data.is_enabled) {
+      const bool = Object.keys(this.ReplaceChannelEvent.Configs).includes(this.old_data.replace_channel_id);
+      if (bool) {
+        const list = await this.ReplaceChannelEvent.Events[this.old_data.replace_channel_id].getAll()
+        const obj = list.find(x => this.old_data.receiver_client_id == x.id)
+        if (obj) {
+          const bool = await this.change(obj.id, this.old_data.replace_channel_id,true)
+          if (!bool) {
 
-      })
-      return res
+          } else {
+            this.is_free = true;
+            this.old_data = null;
+          }
+        }
+      }
+    }else{
+      this.is_enabled=false;
     }
-    this.webDb.deleteByKey = async (...e): Promise<any> => {
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'deleteByKey',
-        target_source: 'indexdb',
+  }
 
+  enabled_change=async (is_enabled)=>{
+    const res = await this.original.webDb.getByKey('data', '_replace_channel')
+    await this.original.webDb.update('data', {...res,is_enabled})
+  }
+
+
+  async change(receiver_client_id, replace_channel_id,is_enabled) {
+    try {
+      this.receiver_client_id = receiver_client_id;
+      this.replace_channel_id = replace_channel_id;
+
+      document.body.setAttribute('receiver_client_id', receiver_client_id)
+      document.body.setAttribute('replace_channel_id', replace_channel_id)
+      document.body.setAttribute('replace_channel', 'true')
+
+      await this.original.webDb.update('data', { id: '_replace_channel', is_enabled: is_enabled, receiver_client_id: receiver_client_id, replace_channel_id: replace_channel_id })
+
+      await this.send_message({
+        function_name: 'db_event',
+        target_source: 'other'
       })
-      return res
-    }
-    this.webDb.getByKey = async (...e): Promise<any> => {
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'getByKey',
-        target_source: 'indexdb',
+      this.webDb.getAll = async (...e): Promise<any> => {
+        const res = await this.send_message({
+          parameter: e,
+          function_name: 'getAll',
+          target_source: 'indexdb',
 
-      })
-      return res
-    }
-    this.webCh.match = async (...e): Promise<any> => {
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'match',
-        target_source: 'caches',
+        })
+        return res
+      }
+      this.webDb.update = async (...e): Promise<any> => {
+        const res = await this.send_message({
+          parameter: e,
+          function_name: 'update',
+          target_source: 'indexdb',
 
-      })
-      return res
-    }
-    this.webCh.put = async (...e): Promise<any> => {
+        })
+        return res
+      }
+      this.webDb.deleteByKey = async (...e): Promise<any> => {
+        const res = await this.send_message({
+          parameter: e,
+          function_name: 'deleteByKey',
+          target_source: 'indexdb',
 
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'put',
-        target_source: 'caches',
+        })
+        return res
+      }
+      this.webDb.getByKey = async (...e): Promise<any> => {
+        const res = await this.send_message({
+          parameter: e,
+          function_name: 'getByKey',
+          target_source: 'indexdb',
 
-      })
-      return res
-    }
-    this.webCh.delete = async (...e): Promise<any> => {
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'delete',
-        target_source: 'caches',
+        })
+        return res
+      }
+      this.webCh.match = async (...e): Promise<any> => {
+        const res = await this.send_message({
+          parameter: e,
+          function_name: 'match',
+          target_source: 'caches',
 
-      })
-      return res
-    }
-    this.webCh.keys = async (...e): Promise<any> => {
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'keys',
-        target_source: 'caches',
+        })
+        return res
+      }
+      this.webCh.put = async (...e): Promise<any> => {
 
-      })
-      return res
+        const res = await this.send_message({
+          parameter: e,
+          function_name: 'put',
+          target_source: 'caches',
+
+        })
+        return res
+      }
+      this.webCh.delete = async (...e): Promise<any> => {
+        const res = await this.send_message({
+          parameter: e,
+          function_name: 'delete',
+          target_source: 'caches',
+
+        })
+        return res
+      }
+      this.webCh.keys = async (...e): Promise<any> => {
+        const res = await this.send_message({
+          parameter: e,
+          function_name: 'keys',
+          target_source: 'caches',
+
+        })
+        return res
+      }
+      return true
+    } catch (error) {
+      return false
     }
+
+
+
   }
 
   send_message = async (e) => {
     if (e.function_name == "put" && e.target_source == "caches") {
-      if(e.parameter[0]==="image"){
-         await this.original.webCh.put(e.parameter[0],e.parameter[1],e.parameter[2].clone())
+      if (e.parameter[0] === "image") {
+        await this.original.webCh.put(e.parameter[0], e.parameter[1], e.parameter[2].clone())
       }
       e.parameter[2] = await this.responseToJson(e.parameter[2].clone())
     } else if (e.function_name == "match" && e.target_source == "caches") {
@@ -164,12 +220,12 @@ export class ReplaceChannelControllerService {
         if (res) return res
       }
     }
-    const res = await this.ReplaceChannelEvent.Events['plugins'].sendMessage({
+    const res = await this.ReplaceChannelEvent.Events[this.replace_channel_id].sendMessage({
       send_client_id: this.send_client_id,
       receiver_client_id: this.receiver_client_id,
-      data:e
+      data: e
     })
-    if(!res) return undefined
+    if (!res) return undefined
     if (!res.data) {
       return undefined
     } else if (res.req.function_name == "match") {
@@ -177,14 +233,14 @@ export class ReplaceChannelControllerService {
       if (res.req.parameter[0] == 'image') this.original.webCh.put(res.req.parameter[0], res.req.parameter[1], res1.clone())
       return res1.clone()
     } else if (res.req.function_name == "getImage") {
-     const res1=this.base64ToBlob(res.data)
+      const res1 = this.base64ToBlob(res.data)
       return res1
     } else if (res.req.function_name == "db_event") {
-      if(res.data.configs) this.DbEvent.Configs=res.data.configs;
-      if(res.data.events){
-        this.DbEvent.Events={};
+      if (res.data.configs) this.DbEvent.Configs = res.data.configs;
+      if (res.data.events) {
+        this.DbEvent.Events = {};
         Object.keys(res.data.events).forEach(x => {
-          if(!this.DbEvent.Events[x]) this.DbEvent.Events[x]={} as any;
+          if (!this.DbEvent.Events[x]) this.DbEvent.Events[x] = {} as any;
           Object.keys(res.data.events[x]).forEach(c => {
             this.DbEvent.Events[x][c] = async (...e): Promise<any> => {
               const res = await this.send_message({
@@ -198,8 +254,8 @@ export class ReplaceChannelControllerService {
             }
           })
         });
-        if(window._gh_menu_update) window._gh_menu_update()
-        if(window._gh_page_reset) window._gh_page_reset()
+        if (window._gh_menu_update) window._gh_menu_update()
+        if (window._gh_page_reset) window._gh_page_reset()
       }
 
     } else {
@@ -245,10 +301,10 @@ export class ReplaceChannelControllerService {
     }
     return { data: res, req: e }
   }
-  get_all_client =async () => {
+  get_all_client = async () => {
     //
   }
-  blobToBase64=async (blob)=> {
+  blobToBase64 = async (blob) => {
     return new Promise((r, j) => {
       var reader = new FileReader();
       reader.readAsDataURL(blob);
@@ -260,7 +316,7 @@ export class ReplaceChannelControllerService {
       }
     })
   }
-  base64ToBlob=(base64Data)=> {
+  base64ToBlob = (base64Data) => {
     // 提取 MIME 类型和 Base64 数据
     const [header, base64] = base64Data.split(',');
     const mimeType = header.match(/:(.*?);/)[1]; // 提取 MIME 类型
@@ -276,7 +332,7 @@ export class ReplaceChannelControllerService {
     }
 
     // 创建 Blob 并保留类型信息
-    const res=new Blob([uint8Array], { type: mimeType })
+    const res = new Blob([uint8Array], { type: mimeType })
 
 
     return res;

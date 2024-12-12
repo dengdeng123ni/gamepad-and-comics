@@ -107,6 +107,7 @@ export class AppComponent {
   // 蓝牙
   //
   constructor(
+    public ReplaceChannelController: ReplaceChannelControllerService,
     public CacheController: CacheControllerService,
     private webCh: CacheControllerService,
     public GamepadController: GamepadControllerService,
@@ -138,7 +139,6 @@ export class AppComponent {
     public TouchmoveController: TouchmoveControllerService,
     private translate: TranslateService,
     public webDb: IndexdbControllerService,
-    public ReplaceChannelController: ReplaceChannelControllerService,
     public DbEvent: DbEventService,
     public Prompt: PromptService,
     public I18n: I18nService,

@@ -532,7 +532,7 @@ export class MenuComponent {
           })
         })
       }
-      this.change$ = this.DbEvent.change().subscribe((x: any) => {
+      this.change$ = this.DbEvent.add().subscribe((x: any) => {
         let obj = {
           id: x,
           icon: "home",

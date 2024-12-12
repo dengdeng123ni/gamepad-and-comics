@@ -41,10 +41,10 @@ export class DbEventService {
 
   public Configs: { [key: string]: Config } = {};
 
-  public change() {
-    return this.change$
+  public add() {
+    return this.add$
   }
-  change$ = new Subject();
+  add$ = new Subject();
 
   private _data = {
     original: {}
@@ -2832,7 +2832,7 @@ export class DbEventService {
     if (this.Events[key]) this.Configs[key] = { ...this.Configs[key], ...config };
     else this.Configs[key] = config;
 
-    this.change$.next(config)
+    this.add$.next(config)
   }
   novels_register = (config: Config, events: Events) => {
     const key = config.id;
@@ -2878,7 +2878,7 @@ export class DbEventService {
     if (this.Events[key]) this.Configs[key] = { ...this.Configs[key], ...config };
     else this.Configs[key] = config;
 
-    this.change$.next(config)
+    this.add$.next(config)
   }
 
   get_data = async (key: string) => {
