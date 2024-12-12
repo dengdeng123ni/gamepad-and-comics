@@ -8,21 +8,30 @@ chrome.runtime.onMessage.addListener(
       const data = await readStreamToString(rsponse.body)
       let headers = [];
       rsponse.headers.forEach(function (value, name) { headers.push({ value, name }) });
-      let res = { id: request.id, proxy_response_website_url: request.proxy_response_website_url, type: "proxy_response", data: { body: data, bodyUsed: rsponse.bodyUsed, headers: headers, ok: rsponse.ok, redirected: rsponse.redirected, status: rsponse.status, statusText: rsponse.statusText, type: rsponse.type, url: rsponse.url } }
+      let res = {
+        id: request.id,
+        target: "page",
+        type: "proxy_response",
+        data: { body: data, bodyUsed: rsponse.bodyUsed, headers: headers, ok: rsponse.ok, redirected: rsponse.redirected, status: rsponse.status, statusText: rsponse.statusText, type: rsponse.type, url: rsponse.url }
+      }
       chrome.tabs.sendMessage(sender.tab.id, res)
       return
     }
+
     // website_proxy_request 代理网址发起请求,打开或找到对应网址,有内容页面发起请求,数据回传给后台,由后台返回对应请求
     if (request.type == "website_proxy_request") {
       request.target = "content"
       request.send_tab_id = sender.tab.id;
       const receiver_id = await getTabId(request.target_website);
-
       chrome.tabs.sendMessage(receiver_id, request)
       return
     } else if (request.type == "website_proxy_response") {
-      request.type = "proxy_response";
-      chrome.tabs.sendMessage(request.send_tab_id, request)
+      chrome.tabs.sendMessage(request.send_tab_id, {
+        id: request.id,
+        target: "page",
+        type: "proxy_response",
+        data: request.data
+      })
       return
     }
     //get_website_request_html 获取目标网站的dom
@@ -32,10 +41,17 @@ chrome.runtime.onMessage.addListener(
       const windowId = await getOnFocusedWindowId()
       const receiver_id = await newTab(request.target_website, windowId)
       chrome.tabs.sendMessage(receiver_id, request)
+      return
     } else if (request.type == "get_website_response_html") {
       request.type = "proxy_response";
-      chrome.tabs.sendMessage(request.send_tab_id, request)
+      chrome.tabs.sendMessage(request.send_tab_id, {
+        id: request.id,
+        target: "page",
+        type: "proxy_response",
+        data: request.data
+      })
       chrome.tabs.remove(sender.tab.id);
+      return
     }
     //website_response_execute_script 执行代码
     if (request.type == "website_request_execute_script") {
@@ -44,22 +60,78 @@ chrome.runtime.onMessage.addListener(
       const windowId = await getOnFocusedWindowId()
       const receiver_id = await newTab(request.target_website, windowId)
       chrome.tabs.sendMessage(receiver_id, request)
+      return
     } else if (request.type == "website_response_execute_script") {
-      request.type = "proxy_data";
-      chrome.tabs.sendMessage(request.send_tab_id, request)
+      chrome.tabs.sendMessage(request.send_tab_id, {
+        id: request.id,
+        target: "page",
+        type: "proxy_data",
+        data: request.data
+      })
       chrome.tabs.remove(sender.tab.id);
+      return
     }
 
+    // get_all_browser_client
+
+    if (request.type == "get_all_browser_client") {
+      chrome.tabs.query({}, function (tabs) {
+        _client_data = _client_data.filter(x => tabs.find(c => c.id == x.tabId))
+        chrome.tabs.sendMessage(sender.tab.id, {
+          id: request.id,
+          target: "page",
+          type: "proxy_data",
+          data: _client_data.map(x => x.client)
+        })
+      })
+      return
+    } else if (request.type == "add_browser_client") {
+      const obj = _client_data.find(x => x.tabId == sender.tab.id)
+      if (!obj) {
+        _client_data.push({
+          tabId: sender.tab.id,
+          client: request.client
+        })
+      }
+      return
+    }
+
+    // ----------------------------
+
+    // proxy_request_indexdb proxy_response_indexdb
+    if (request.type == "proxy_request_local") {
+      request.target = "page"
+      const obj = _client_data.find(x => x.client.id == request.receiver_client_id)
+      chrome.tabs.sendMessage(obj.tabId, request)
+      return
+    } else if (request.type == "proxy_response_local") {
+      const obj = _client_data.find(x => x.client.id == request.send_client_id)
+      chrome.tabs.sendMessage(obj.tabId, {
+        id: request.id,
+        target: "page",
+        send_client_id: request.send_client_id,
+        receiver_client_id: request.receiver_client_id,
+        type: "proxy_data",
+        data: request.data
+      })
+      return
+    }
+    // -----------
+
     if (request.type == "page_load_complete") {
-      _data[sender.tab.id]=sender.tab.id;
-      setTimeout(()=>{
-        _data[sender.tab.id]=undefined;
-      },3000)
+      _tabIds[sender.tab.id] = sender.tab.id;
+      setTimeout(() => {
+        _tabIds[sender.tab.id] = undefined;
+      }, 3000)
     }
 
   }
 );
-_data = {};
+
+_client_data = [];
+
+_tabIds = {};
+
 function getTabId(url) {
   return new Promise((resolve, reject) => {
     // 查询所有标签页
@@ -130,11 +202,11 @@ function newTab(url, windowId) {
       if (chrome.runtime.lastError) {
         return reject(chrome.runtime.lastError); // 处理创建失败的情况
       }
-      const get=()=>{
-        setTimeout(()=>{
-          if(_data[tab.id]) resolve(tab.id)
+      const get = () => {
+        setTimeout(() => {
+          if (_tabIds[tab.id]) resolve(tab.id)
           else get()
-        },33)
+        }, 33)
       }
       get()
     });

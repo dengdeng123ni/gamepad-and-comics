@@ -16,6 +16,13 @@ export class WsControllerService {
   init = async (url) => {
     let _data = {};
     this.socket = new WebSocket(url);
+
+    // window.postMessage({
+    //   type: "website_proxy_request",
+    //   target:'background',
+    //   target_website: (init as any).proxy,
+    // });
+
     window._gh_send_message = (e) => {
       const id = Math.random().toString(36).substring(2, 9)
       const jsonString = JSON.stringify({

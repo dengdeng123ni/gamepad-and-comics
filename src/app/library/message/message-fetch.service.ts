@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { DomSanitizer } from '@angular/platform-browser';
-import { CacheControllerService } from '../public-api';
+import { CacheControllerService, ReplaceChannelEventService } from '../public-api';
 declare let window: any;
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,22 @@ export class MessageFetchService {
   _blob_urls = {
 
   }
-  constructor(private sanitizer: DomSanitizer,private webCh: CacheControllerService,) {
+  constructor(private sanitizer: DomSanitizer,
+    private webCh: CacheControllerService,
+    public ReplaceChannelEvent:ReplaceChannelEventService
+  ) {
     window._gh_fetch = this.fetch;
     window._gh_get_html = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
     window.CryptoJS=CryptoJS;
     // window._gh_new_page = this.new_page;
+    this.ReplaceChannelEvent.register({
+      id: 'plugins',
+      name: '插件'
+    }, {
+      sendMessage:this.getProxyRequestLocal,
+      getAll:this.getAllBrowserClient
+    })
   }
   async init() {
   }
@@ -186,6 +196,77 @@ export class MessageFetchService {
         r(new Response(""))
         j(new Response(""))
       }, 30000)
+    })
+  }
+
+  getAllBrowserClient = async (
+  ) => {
+    let id = ''
+    let bool = true;
+    id = CryptoJS.MD5(JSON.stringify({
+      type: "get_all_browser_client",
+      target:'background'
+    })).toString().toLowerCase()
+    if (!this._data_proxy_request[id]) {
+      this._data_proxy_request[id] = true;
+
+      window.postMessage({
+        id: id,
+        target:'background',
+        type: "get_all_browser_client"
+      });
+    }
+
+
+    return new Promise((r, j) => {
+      const getData = () => {
+        setTimeout(() => {
+          if (this._data_proxy_response[id]) {
+            r(this._data_proxy_response[id])
+          } else {
+            if (bool) getData()
+          }
+        }, 33)
+      }
+      getData()
+      setTimeout(() => {
+        bool = false;
+        r(new Response(""))
+        j(new Response(""))
+      }, 30000)
+    })
+  }
+  getProxyRequestLocal= async (e) => {
+    const id = Math.random().toString(36).substring(2, 9)
+    const jsonString = {
+      send_client_id: e.send_client_id,
+      receiver_client_id: e.receiver_client_id,
+      type: 'proxy_request_local',
+      target:'background',
+      data: e.data,
+      id
+    };
+    window.postMessage(jsonString);
+    let bool = true;
+    return new Promise((r, j) => {
+      const getData = () => {
+        setTimeout(() => {
+          if (this._data_proxy_response[id]) {
+            r(this._data_proxy_response[id])
+          } else {
+            if (bool) getData()
+          }
+        }, 33)
+      }
+      getData()
+
+      setTimeout(() => {
+        bool = false;
+        r(null)
+        j(null)
+        this._data_proxy_response[id] = undefined;
+      }, 42000)
+
     })
   }
 

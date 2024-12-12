@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IndexdbControllerService, CacheControllerService, DbEventService, DbControllerService } from '../public-api';
+import { IndexdbControllerService, CacheControllerService, DbEventService, DbControllerService, ReplaceChannelEventService } from '../public-api';
 
 
 declare global {
@@ -8,7 +8,8 @@ declare global {
     _gh_send_message?: (message: any) => Promise<any>;
     get_all_client:Function
     _gh_menu_update?:Function
-    _gh_page_reset?:Function
+    _gh_page_reset?:Function;
+    _gh_data?:any
   }
 }
 
@@ -20,7 +21,12 @@ export class ReplaceChannelControllerService {
   private original = null;
   _data = {};
 
+  send_client_id = null;
+  receiver_client_id = null;
+
+  replace_channel_id=null;
   constructor(
+    public ReplaceChannelEvent:ReplaceChannelEventService,
     public DbController:DbControllerService,
     public DbEvent: DbEventService,
     public webDb: IndexdbControllerService,
@@ -30,8 +36,7 @@ export class ReplaceChannelControllerService {
     window._gh_receive_message = this.receive_message
 
   }
-
-  async init() {
+  async init(){
     const events = {
 
     }
@@ -59,6 +64,12 @@ export class ReplaceChannelControllerService {
         Configs: this.DbEvent.Configs
       }
     }
+  }
+
+  async change(receiver_client_id,replace_channel_id) {
+    this.receiver_client_id=receiver_client_id;
+    this.replace_channel_id=replace_channel_id;
+
     await this.send_message({
       function_name: 'db_event',
       target_source: 'other'
@@ -140,23 +151,31 @@ export class ReplaceChannelControllerService {
 
   send_message = async (e) => {
     if (e.function_name == "put" && e.target_source == "caches") {
-      e.parameter[2] = await this.responseToJson(e.parameter[2])
+      if(e.parameter[0]==="image"){
+         await this.original.webCh.put(e.parameter[0],e.parameter[1],e.parameter[2].clone())
+      }
+      e.parameter[2] = await this.responseToJson(e.parameter[2].clone())
     } else if (e.function_name == "match" && e.target_source == "caches") {
       if (e.parameter[0] == "image") {
         const res = await this.original.webCh.match(...e.parameter)
         if (res) return res
       }
     }
-    const res = await window._gh_send_message(e)
-
+    const res = await this.ReplaceChannelEvent.Events['plugins'].sendMessage({
+      send_client_id: this.send_client_id,
+      receiver_client_id: this.receiver_client_id,
+      data:e
+    })
+    if(!res) return undefined
     if (!res.data) {
       return undefined
     } else if (res.req.function_name == "match") {
       const res1 = await this.jsonToResponse(res.data)
       if (res.req.parameter[0] == 'image') this.original.webCh.put(res.req.parameter[0], res.req.parameter[1], res1.clone())
-      return res1
+      return res1.clone()
     } else if (res.req.function_name == "getImage") {
-      return this.base64ToBlob(res.data)
+     const res1=this.base64ToBlob(res.data)
+      return res1
     } else if (res.req.function_name == "db_event") {
       if(res.data.configs) this.DbEvent.Configs=res.data.configs;
       if(res.data.events){
@@ -185,7 +204,6 @@ export class ReplaceChannelControllerService {
     }
   }
   receive_message = async (e) => {
-
     let res
     if (e.target_source == "indexdb") {
       res = await this.original.webDb[e.function_name](...e.parameter)
@@ -255,7 +273,10 @@ export class ReplaceChannelControllerService {
     }
 
     // 创建 Blob 并保留类型信息
-    return new Blob([uint8Array], { type: mimeType });
+    const res=new Blob([uint8Array], { type: mimeType })
+
+
+    return res;
   }
   responseToJson = async (response) => {
     if (!response) return response

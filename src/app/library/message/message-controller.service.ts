@@ -7,13 +7,13 @@ import { MessageFetchService } from './message-fetch.service';
 })
 export class MessageControllerService {
 
-  constructor(public MessageEvent: MessageEventService, public http:MessageFetchService) {
+  constructor(public MessageEvent: MessageEventService, public http: MessageFetchService) {
 
-    MessageEvent.service_worker_register('proxy_request', (event:any) => {
+    MessageEvent.service_worker_register('proxy_request', (event: any) => {
       const data = event.data;
       window.postMessage(data, '*');
     })
-    MessageEvent.service_worker_register('website_proxy_request', (event:any) => {
+    MessageEvent.service_worker_register('website_proxy_request', (event: any) => {
       const data = event.data;
       window.postMessage(data, '*');
     })
@@ -27,30 +27,43 @@ export class MessageControllerService {
     });
 
 
-    window.addEventListener("message", function (event) {
-      if (event.data.type == "proxy_response") {
-        if (navigator?.serviceWorker?.controller) navigator.serviceWorker.controller.postMessage(event.data)
-        let rsponse = event.data.data;
-        const flatArray = rsponse.body.flat()
-        const blob = new Blob([new Uint8Array(flatArray)]);
-        delete rsponse.body;
-        const headers = new Headers();
-        rsponse.headers.forEach((x: { name: string; value: string; }) => {
-          headers.append(x.name, x.value);
-        })
-        rsponse.headers = headers;
-        http._data_proxy_response[event.data.id]= new Response(blob, rsponse)
-        setTimeout(()=>{
-          http._data_proxy_response[event.data.id]=undefined;
-          http._data_proxy_request[event.data.id]=undefined;
-        },40000)
-      }else if(event.data.type=="proxy_data"){
-        http._data_proxy_response[event.data.id]= event.data.data;
-        setTimeout(()=>{
-          http._data_proxy_response[event.data.id]=undefined;
-        },40000)
-      }else if (event.data.type == "specify_link") {
-        MessageEvent.OtherEvents['specify_link'](event.data.data)
+    window.addEventListener("message", async (event) => {
+      if (event.data.target == "page") {
+        if (event.data.type == "proxy_response") {
+          if (navigator?.serviceWorker?.controller) navigator.serviceWorker.controller.postMessage(event.data)
+          let rsponse = event.data.data;
+          const flatArray = rsponse.body.flat()
+          const blob = new Blob([new Uint8Array(flatArray)]);
+          delete rsponse.body;
+          const headers = new Headers();
+          rsponse.headers.forEach((x: { name: string; value: string; }) => {
+            headers.append(x.name, x.value);
+          })
+          rsponse.headers = headers;
+          http._data_proxy_response[event.data.id] = new Response(blob, rsponse)
+          setTimeout(() => {
+            http._data_proxy_response[event.data.id] = undefined;
+            http._data_proxy_request[event.data.id] = undefined;
+          }, 40000)
+        } else if (event.data.type == "proxy_data") {
+          http._data_proxy_response[event.data.id] = event.data.data;
+          setTimeout(() => {
+            http._data_proxy_response[event.data.id] = undefined;
+          }, 40000)
+        } else if (event.data.type == "specify_link") {
+          MessageEvent.OtherEvents['specify_link'](event.data.data)
+        } else if (event.data.type == "proxy_request_local") {
+          const res = await window._gh_receive_message(event.data.data)
+          const jsonString = {
+            send_client_id: event.data.send_client_id,
+            receiver_client_id: event.data.receiver_client_id,
+            type: 'proxy_response_local',
+            target: 'background',
+            data: res,
+            id: event.data.id
+          };
+          window.postMessage(jsonString);
+        }
       }
     }, false);
 

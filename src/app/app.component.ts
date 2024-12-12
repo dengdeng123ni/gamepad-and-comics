@@ -144,6 +144,7 @@ export class AppComponent {
     public I18n: I18nService,
     public App: AppDataService
   ) {
+    window._gh_data={};
     this.getClientId();
     window._gh_page_reset = () => {
       this.is_loading_page = false;
@@ -211,7 +212,8 @@ export class AppComponent {
       localStorage.setItem('clientId', clientId);
     }
     document.body.setAttribute('client_id', clientId)
-    this.WsController.send_client_id=clientId;
+    this.ReplaceChannelController.send_client_id=clientId;
+
   }
   ngOnDestroy() {
     this.keydown.unsubscribe();
@@ -301,43 +303,56 @@ export class AppComponent {
     // eval()
     await this.as12312();
     if (!obj1["noscript"]) await this.pulg.init();
-
     setTimeout(() => {
-      if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
-      this.is_loading_page = true;
-      this.GamepadController.init();
-      this.svg.init();
+      window.postMessage({
+        target:'background',
+        type: "add_browser_client",
+        client:{
+          id:this.ReplaceChannelController.send_client_id,
+          name:navigator.userAgent
+        }
+      });
 
       setTimeout(() => {
-        this.App.init();
-        this.ParamsController.init()
-        this.TouchmoveController.init();
-        this.RoutingController.strRouterReader(obj1["url"]);
-        this.ReplaceChannelController.init();
-        this.get123();
 
-        if (!obj1["url"]) {
-          window.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
+        if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
+        this.is_loading_page = true;
+        this.GamepadController.init();
+        this.svg.init();
 
-            } else {
-              let nn = 0;
-              const gg = () => {
-                if (document.hasFocus()) this.RoutingController.getClipboardContents();
-                setTimeout(() => {
-                  if (nn < 10) {
-                    gg();
-                    nn++;
-                  }
-                }, 2000)
+        setTimeout(() => {
+          this.App.init();
+          this.ParamsController.init()
+          this.TouchmoveController.init();
+          this.RoutingController.strRouterReader(obj1["url"]);
+          this.ReplaceChannelController.init();
+          this.get123();
+
+          if (!obj1["url"]) {
+            window.addEventListener('visibilitychange', () => {
+              if (document.hidden) {
+
+              } else {
+                let nn = 0;
+                const gg = () => {
+                  if (document.hasFocus()) this.RoutingController.getClipboardContents();
+                  setTimeout(() => {
+                    if (nn < 10) {
+                      gg();
+                      nn++;
+                    }
+                  }, 2000)
+                }
+                gg();
               }
-              gg();
-            }
-          });
-          if (document.hasFocus()) this.RoutingController.getClipboardContents();
-        }
-      }, 50)
-    }, 200)
+            });
+            if (document.hasFocus()) this.RoutingController.getClipboardContents();
+          }
+        }, 50)
+
+      }, 100)
+    },100)
+
   }
   getAnimationData() {
     return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];

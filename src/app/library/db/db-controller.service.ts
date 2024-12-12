@@ -514,11 +514,17 @@ export class DbControllerService {
             const response = new Response(blob);
             const request = url;
 
-            if (blob.size > 3000 && blob.type.split("/")[0] == "image") await this.webCh.put('image',request, response);
+            if (blob.size > 3000 && blob.type.split("/")[0] == "image") {
+              this.webCh.put('image',request, response.clone());
+              const blob1=await response.clone().blob()
+              return blob1
+            }
             else {
               if (blob.type == "binary/octet-stream") {
                 const c = await createImageBitmap(blob)
-                await this.webCh.put('image',request, response);
+                this.webCh.put('image',request, response.clone());
+                const blob1=await response.clone().blob()
+                return blob1
               }
             }
             const res2 = await this.webCh.match('image',url);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReplaceChannelControllerService, WsControllerService } from 'src/app/library/public-api';
+import { ReplaceChannelControllerService, ReplaceChannelEventService, WsControllerService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-replace-channel-page',
@@ -12,6 +12,7 @@ export class ReplaceChannelPageComponent {
   displayedColumns = ['position', 'name', 'id', 'operate'];
   constructor(
     public ReplaceChannelController: ReplaceChannelControllerService,
+    public ReplaceChannelEvent:ReplaceChannelEventService,
     public WsController: WsControllerService
   ) {
     // setTimeout(() => {
@@ -22,7 +23,9 @@ export class ReplaceChannelPageComponent {
 
 
   async init() {
-    const c = await window.get_all_client();
+    const c = await this.ReplaceChannelEvent.Events['plugins'].getAll();
+    console.log(c);
+
     this.list = c
     this.list.forEach((e, i) => {
       e.index = i + 1
@@ -32,7 +35,7 @@ export class ReplaceChannelPageComponent {
 
   async change(e) {
     this.WsController.receiver_client_id = e.id;
-    this.ReplaceChannelController.init()
+    this.ReplaceChannelController.change(e.id,'plugins')
   }
 
 }

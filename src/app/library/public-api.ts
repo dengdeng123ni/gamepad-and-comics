@@ -19,6 +19,7 @@ export * from './indexdb/caches-controller.service';
 export * from './ws/ws-controller.service';
 
 export * from './replace-channel/replace-channel-controller.service';
+export * from './replace-channel/replace-channel-event.service';
 
 export * from './gamepad/gamepad-explanation/gamepad-explanation.component';
 export * from './gamepad/gamepad-vioce/gamepad-vioce.component';
