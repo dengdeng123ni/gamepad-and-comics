@@ -24,8 +24,6 @@ export class ReplaceChannelPageComponent {
 
   async init() {
     const c = await this.ReplaceChannelEvent.Events['plugins'].getAll();
-    console.log(c);
-
     this.list = c
     this.list.forEach((e, i) => {
       e.index = i + 1

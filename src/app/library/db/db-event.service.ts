@@ -1196,7 +1196,6 @@ export class DbEventService {
               const text = await res.text();
               var parser = new DOMParser();
               var doc = parser.parseFromString(text, 'text/html');
-              console.log(doc);
 
               const nodes = doc.querySelectorAll(".gltc tr");
               let list = [];
