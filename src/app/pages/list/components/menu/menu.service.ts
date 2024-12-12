@@ -15,6 +15,7 @@ export class MenuService {
   position: "start" | "end" = 'start';
   url_to_list=[];
   query_fixed=[];
+  temporary_file=[];
   current_menu_id=null;
   current_menu_pid=null;
   mode_1=2;
@@ -57,7 +58,7 @@ export class MenuService {
   async get() {
     this.url_to_list = await this.webDb.getAll('url_to_list')
     this.query_fixed = await this.webDb.getAll('query_fixed')
-
+    this.temporary_file = await this.webDb.getAll('temporary_file')
     const res: any = await this.webDb.getByKey("data", this.key)
     if (res) {
       this.opened = res.opened;

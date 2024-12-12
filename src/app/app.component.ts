@@ -145,6 +145,12 @@ export class AppComponent {
     public App: AppDataService
   ) {
     window._gh_data={};
+    window.addEventListener("beforeunload",async (event) =>{
+      const list:any=await this.ReplaceChannelController.original.webDb.getAll('temporary_file')
+      list.forEach(x=>{
+        this.ReplaceChannelController.original.webDb.deleteByKey('temporary_file',x.id)
+      })
+    });
     this.getClientId();
     window._gh_page_reset = () => {
       this.is_loading_page = false;

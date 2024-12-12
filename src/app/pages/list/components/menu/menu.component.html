@@ -31,7 +31,7 @@
       <button mat-button   [attr.default]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
         [attr.select]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)&&data.currend_read_comics_id==''"
         [attr.selected]="menu.current_menu_id==(data.menu_2_obj.id+'_'+c.id)" [attr._id]="data.menu_2_obj.id+'_'+c.id"
-        *ngFor="let c of data.menu_2_obj.submenu;let index2=index" mat-button class="item item1"
+        *ngFor="let c of data.menu_2_obj.submenu;let index2=index" mat-button class="item item1" [disabled]="c.disabled"
         [attr.region]="'menu_item'" (click)="on($event,c,{
             id:data.menu_2_obj.id,
             name:data.menu_2_obj.name
@@ -49,6 +49,7 @@
       <div *ngIf="!n.submenu&&n.type!='separator'" [attr.type]="'button'">
         <button [attr.default]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
           [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
+          [disabled]="n.disabled"
           [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
           [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id" [attr.content_menu_key]="'menu_item_v2'" [attr.content_menu_value]="n.id">
           <mat-icon class="icon" [attr.svg_filter]="'text_primary'" >{{n.icon}}</mat-icon>

@@ -23,7 +23,7 @@ export class ReplaceChannelPageComponent {
 
 
   async init() {
-    const c = await this.ReplaceChannelEvent.Events['https'].getAll();
+    const c = await this.ReplaceChannelEvent.Events['plugins'].getAll();
     console.log(c);
 
     this.list = c

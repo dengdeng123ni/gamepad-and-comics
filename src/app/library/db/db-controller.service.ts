@@ -515,19 +515,19 @@ export class DbControllerService {
             const request = url;
 
             if (blob.size > 3000 && blob.type.split("/")[0] == "image") {
-              this.webCh.put('image',request, response.clone());
-              const blob1=await response.clone().blob()
+              this.webCh.put('image', request, response.clone());
+              const blob1 = await response.clone().blob()
               return blob1
             }
             else {
               if (blob.type == "binary/octet-stream") {
                 const c = await createImageBitmap(blob)
-                this.webCh.put('image',request, response.clone());
-                const blob1=await response.clone().blob()
+                this.webCh.put('image', request, response.clone());
+                const blob1 = await response.clone().blob()
                 return blob1
               }
             }
-            const res2 = await this.webCh.match('image',url);
+            const res2 = await this.webCh.match('image', url);
             if (res2) {
               const blob2 = await res2.blob()
               return blob2
@@ -536,7 +536,7 @@ export class DbControllerService {
             }
           }
 
-          const res = await this.webCh.match('image',url);
+          const res = await this.webCh.match('image', url);
 
           if (res) {
 
@@ -613,6 +613,7 @@ export class DbControllerService {
     }
 
   }
+
   Search = async (obj: any, option?: {
     source: string
   }): Promise<Array<Item>> => {
@@ -654,7 +655,7 @@ export class DbControllerService {
             this.webCh.put('list', request, response);
             return data
           }
-          const request =`http://localhost:7700/${option.source}/${id}`
+          const request = `http://localhost:7700/${option.source}/${id}`
           const cachedData = await this.webCh.match('list', request);
           if (cachedData) {
             const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))
@@ -736,7 +737,7 @@ export class DbControllerService {
       this.load[id] = id;
       const pages = await this.getPages(id);
       for (let index = (pages.length - 1); 0 <= index; index--) {
-        const res = await this.webCh.match('image',pages[index].src);
+        const res = await this.webCh.match('image', pages[index].src);
 
         if (!res) {
           this.tasks.unshift({ id: pages[index].src, option })
@@ -768,12 +769,12 @@ export class DbControllerService {
   }
   async addImage(url, blob) {
     const response = new Response(blob);
-    const request =  url;
-    await this.webCh.put('image',request, response);
+    const request = url;
+    await this.webCh.put('image', request, response);
   }
 
   async delWebDbImage(id) {
-    const res = await this.webCh.delete('image',id);
+    const res = await this.webCh.delete('image', id);
   }
 
   async delComicsAllImages(comics_id) {

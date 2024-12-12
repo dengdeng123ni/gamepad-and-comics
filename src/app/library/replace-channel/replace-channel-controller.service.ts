@@ -18,7 +18,7 @@ declare global {
 })
 export class ReplaceChannelControllerService {
 
-  private original = null;
+  public original = null;
   _data = {};
 
   send_client_id = null;
@@ -69,6 +69,9 @@ export class ReplaceChannelControllerService {
   async change(receiver_client_id,replace_channel_id) {
     this.receiver_client_id=receiver_client_id;
     this.replace_channel_id=replace_channel_id;
+    document.body.setAttribute('receiver_client_id',receiver_client_id)
+    document.body.setAttribute('replace_channel_id',replace_channel_id)
+    document.body.setAttribute('replace_channel','true')
 
     await this.send_message({
       function_name: 'db_event',
@@ -161,7 +164,7 @@ export class ReplaceChannelControllerService {
         if (res) return res
       }
     }
-    const res = await this.ReplaceChannelEvent.Events['https'].sendMessage({
+    const res = await this.ReplaceChannelEvent.Events['plugins'].sendMessage({
       send_client_id: this.send_client_id,
       receiver_client_id: this.receiver_client_id,
       data:e

@@ -41,6 +41,7 @@ export class MenuComponent {
 
   current_menu_id = null;
 
+
   on($event, data, parent: any = {}) {
 
     this.menu.current_menu_pid = parent.id ? `${parent.id}` : data.id;
@@ -513,10 +514,24 @@ export class MenuComponent {
         id: 'add',
         icon: "add",
         name: '打开文件夹',
+        disabled:document.body.getAttribute('replace_channel')=='true'?true:false,
         click: (e) => {
           this.openTemporaryFile();
         }
       })
+      if(this.menu.temporary_file.length){
+        this.menu.temporary_file.forEach(x=>{
+          this.data.menu.push({
+            id:x.id,
+            icon: "subject",
+            name: x.name,
+            click: e => {
+              this.AppData.setsource('temporary_file')
+              this.router.navigate(['query', 'temporary_file', 'temporary_file', e.id]);
+            }
+          })
+        })
+      }
       this.change$ = this.DbEvent.change().subscribe((x: any) => {
         let obj = {
           id: x,
@@ -704,6 +719,10 @@ export class MenuComponent {
         this.router.navigate(['query', 'temporary_file', 'temporary_file', e.id]);
       }
     })
+    this.webDb.update('temporary_file', {
+      id:id,
+      name:files_arr[0].path.split("/")[0]
+   })
     for (let index = 0; index < this.temporaryFile.data.length; index++) {
       const x = this.temporaryFile.data[index];
       chapters = [...chapters, ...x.chapters];
