@@ -39,3 +39,5 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 
 
+软件名称 --- 
+语言管理 ---

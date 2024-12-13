@@ -23,7 +23,7 @@ export class GamepadSoundService {
     this.audio.load();
     this.audio.play();
   }
-  opened = true;
+  opened = false;
   constructor(public MessageFetch:MessageFetchService) {
     window.addEventListener('click', e => {
       var sound = this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/tick.wav");
@@ -31,7 +31,6 @@ export class GamepadSoundService {
     window.addEventListener('contextmenu', e => {
       var sound = this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/select.wav");
     })
-    this.opened = false;
   }
   obj = {
     UP: () => this.loadSound(document.querySelector("base").href+"assets/sound/nintendo_switch/klick.wav"),

@@ -119,6 +119,8 @@ export class GamepadControllerService {
     this.EegionBefore$.subscribe(x => {
 
     })
+
+
   }
   runs = [];
   sleep = (duration) => {
@@ -156,7 +158,11 @@ export class GamepadControllerService {
   isGamepadExplanationComponent = false;
   is_voice_controller = false;
 
+
   is_when_inputting=false;
+
+
+
   device(input: string) {
 
     let is_11=["LEFT_ANALOG_DOWN",

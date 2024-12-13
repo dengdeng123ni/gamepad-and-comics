@@ -243,6 +243,7 @@ body[pattern=gamepad][locked_region=list] {
 
   [region=context_menu_edit_item][select=true],
   [region=input][select=true],
+
   [region=comics_option][select=true],
   [region=comics_item][select=true],
   [region=menu_input][select=true],
@@ -285,6 +286,8 @@ body[pattern=gamepad][locked_region=detail]{
   }
 }
 body[pattern=gamepad]{
+
+  [region=replace_channel_page_item][select=true],
   [region=advanced_search_input][select=true],
   [region=advanced_search_restart][select=true],
   [region=advanced_search_item][select=true],

@@ -122,12 +122,12 @@ export class PulgService {
   }
   async loadAllScript() {
 
-    const list = await this.webCh.keys('script')
+    const list:any = await this.webDb.getAll('script')
 
     for (let index = 0; index < list.length; index++) {
       const e = list[index];
-      if(e.headers.get('Disable') != "false"){
-        const res = await this.webCh.match('script',e.url);
+      if(e.is_enabled){
+        const res = await this.webCh.match('script',e.src);
         const blob=await res.blob();
         const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
         this.loadJS(url.changingThisBreaksApplicationSecurity)

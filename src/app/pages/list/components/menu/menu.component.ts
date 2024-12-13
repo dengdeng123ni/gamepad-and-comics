@@ -300,8 +300,13 @@ export class MenuComponent {
 
     this.init();
 
-    this.sourceChange$= this.AppData.sourceChange().subscribe(x=>{
+    this.sourceChange$= this.AppData.sourceChange().subscribe((x:any)=>{
+      if(this.menu.is_init) return
+      if (x.id == "temporary_file") return
+      if (x.id == "local_cache") return
+      if (x.id == "temporary_data") return
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
+      this.menu.is_init=true;
     })
   }
   init() {

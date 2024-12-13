@@ -20,6 +20,8 @@ export class MenuService {
   current_menu_pid=null;
   mode_1=2;
 
+  is_init=false;
+
 
   constructor(public data: DataService,
     public webDb: IndexdbControllerService,

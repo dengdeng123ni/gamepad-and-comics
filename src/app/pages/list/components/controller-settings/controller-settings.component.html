@@ -31,7 +31,7 @@
         <button mat-button [disabled]="true" (click)="reset()" [attr.svg_filter]="'text_secondary'">{{'控制器音效' |
           translate}}</button>
         <mat-slide-toggle style="z-index: 2;" [attr.region]="'item'" [attr.select]="false" [attr.type]="'slide'"
-          [(ngModel)]="GamepadController.is_voice_controller"></mat-slide-toggle>
+          [(ngModel)]="GamepadController.GamepadSound.opened"></mat-slide-toggle>
       </div>
 
     </div>

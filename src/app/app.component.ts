@@ -118,7 +118,7 @@ export class AppComponent {
     public MessageEvent: MessageEventService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
-    public WsController:WsControllerService,
+    public WsController: WsControllerService,
     private contexts: ChildrenOutletContexts,
     public ccc: WebFileService,
     public image: ImageService,
@@ -144,11 +144,11 @@ export class AppComponent {
     public I18n: I18nService,
     public App: AppDataService
   ) {
-    window._gh_data={};
-    window.addEventListener("beforeunload",async (event) =>{
-      const list:any=await this.ReplaceChannelController.original.webDb.getAll('temporary_file')
-      list.forEach(x=>{
-        this.ReplaceChannelController.original.webDb.deleteByKey('temporary_file',x.id)
+    window._gh_data = {};
+    window.addEventListener("beforeunload", async (event) => {
+      const list: any = await this.ReplaceChannelController.original.webDb.getAll('temporary_file')
+      list.forEach(x => {
+        this.ReplaceChannelController.original.webDb.deleteByKey('temporary_file', x.id)
       })
     });
     this.getClientId();
@@ -202,6 +202,7 @@ export class AppComponent {
       }
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
+    // GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     GamepadEvent.registerConfig("select", { region: ["option"] })
 
     this.init();
@@ -218,7 +219,7 @@ export class AppComponent {
       localStorage.setItem('clientId', clientId);
     }
     document.body.setAttribute('client_id', clientId)
-    this.ReplaceChannelController.send_client_id=clientId;
+    this.ReplaceChannelController.send_client_id = clientId;
 
   }
   ngOnDestroy() {
@@ -281,6 +282,13 @@ export class AppComponent {
 
     }
   }
+  async getj342() {
+    const res: any =await this.webDb.getByKey('data', 'gamepad_controller_config');
+    if (res) {
+      this.GamepadController.is_voice_controller = res.is_enabled_voice;
+      this.GamepadController.GamepadSound.opened = res.is_enabled_sound;
+    }
+  }
   async init() {
     await this.webCh.init();
     let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
@@ -303,12 +311,10 @@ export class AppComponent {
 
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();
-
-
-    // eval()
     await this.as12312();
     if (!obj1["noscript"]) await this.pulg.init();
     setTimeout(() => {
+      this.getj342();
 
 
       setTimeout(() => {
@@ -349,7 +355,7 @@ export class AppComponent {
         }, 50)
 
       }, 100)
-    },100)
+    }, 100)
 
   }
   getAnimationData() {

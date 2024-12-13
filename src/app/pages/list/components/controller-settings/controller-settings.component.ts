@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
-import { GamepadControllerService, I18nService, KeyboardControllerService, KeyboardEventService } from 'src/app/library/public-api';
+import { GamepadControllerService, I18nService, IndexdbControllerService, KeyboardControllerService, KeyboardEventService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -12,7 +12,7 @@ export class ControllerSettingsComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
     if (this.is_key_capture) {
-      if (event.key == "Enter" || event.key == "c" || event.key == "Tab"||event.key == "Escape") {
+      if (event.key == "Enter" || event.key == "c" || event.key == "Tab" || event.key == "Escape") {
         this._snackBar.open(`${event.key} 内置快捷键,不可选择`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
         return
       }
@@ -223,18 +223,20 @@ export class ControllerSettingsComponent {
   constructor(
     public GetKeyboardKey: GetKeyboardKeyService,
     public GamepadController: GamepadControllerService,
+    public webDb: IndexdbControllerService,
     private _snackBar: MatSnackBar,
-    public I18n:I18nService,
+    public I18n: I18nService,
     public KeyboardController: KeyboardControllerService
   ) {
     this.init();
+
   }
 
   async init() {
-    const 空格=await this.I18n.getTranslatedText("空格")
-    const language=document.body.getAttribute('language');
-    if(language!="zh"){
-       this.voice=this.voice2 as any;
+    const 空格 = await this.I18n.getTranslatedText("空格")
+    const language = document.body.getAttribute('language');
+    if (language != "zh") {
+      this.voice = this.voice2 as any;
     }
     this.list.forEach(x => {
       if (this.KeyboardController.config[x.id]) {
@@ -291,5 +293,10 @@ export class ControllerSettingsComponent {
   }
 
   ngOnDestroy() {
+    this.webDb.update('data', {
+      id: "gamepad_controller_config",
+      is_enabled_voice: this.GamepadController.is_voice_controller,
+      is_enabled_sound: this.GamepadController.GamepadSound.opened
+    })
   }
 }
