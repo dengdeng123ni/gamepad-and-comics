@@ -13,7 +13,9 @@ export class AppDataService {
   is_pulg = false;
   is_pwa = false;
   is_web_worker=false;
-
+  public sourceChange() {
+    return this.source$
+  }
   sourceConfig={};
   constructor(public DbEvent: DbEventService,
     public router: Router,

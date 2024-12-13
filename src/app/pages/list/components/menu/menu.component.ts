@@ -76,6 +76,7 @@ export class MenuComponent {
   }
   change$ = null;
 
+  sourceChange$=null;
 
   constructor(
     public data: DataService,
@@ -130,67 +131,61 @@ export class MenuComponent {
         },
         menu: [
           {
-            id: "javasciprt",
-            name: "主题",
-            click: () => {
-              this.PageTheme.open({
-                position: {
-                  left: "10px",
-                  bottom: "100px"
-                },
-                panelClass: "_controller_settings",
-                backdropClass: "_reader_config_bg",
-              });
-            }
-          },
-          // {
-          //   id: "ope3",
-          //   name: "蓝牙",
-          //   click: () => {
 
-          //   }
-          // },
-          {
-            id: "ope3",
-            name: "支持网站",
-            click: () => {
-              this.UrlUsageGuide.open({});
-            }
+              id: "ooeo",
+              name: "其他",
+              submenu:[
+                {
+                  id: "javasciprt",
+                  name: "主题",
+                  click: () => {
+                    this.PageTheme.open({
+                      position: {
+                        left: "10px",
+                        bottom: "100px"
+                      },
+                      panelClass: "_controller_settings",
+                      backdropClass: "_reader_config_bg",
+                    });
+                  }
+                },
+                {
+                  id: "ope3",
+                  name: "支持网站",
+                  click: () => {
+                    this.UrlUsageGuide.open({});
+                  }
+                },
+              ]
           },
+
           {
             id: "ope3",
             name: "扩展安装说明",
             click: () => {
               this.PlugInInstructions.open({});
+            }
+          },
 
-            }
-          },
-          {
-            id: "javasciprt",
-            name: "脚本",
-            click: () => {
-              PulgJavascript.open()
-            }
-          },
           {
             id: "ope",
-            name: "控制",
+            name: "控制器设置",
             click: () => {
               ControllerSettings.open()
             }
           },
-          {
-            id: "ope",
-            name: "音频",
-            click: () => {
-              SoundEffects.open({
-                position: {
-                  left: "10px",
-                  bottom: "10px"
-                }
-              })
-            }
-          },
+          // {
+          //   id: "ope",
+          //   name: "音频",
+          //   click: () => {
+          //     SoundEffects.open({
+          //       position: {
+          //         left: "10px",
+          //         bottom: "10px"
+          //       }
+          //     })
+          //   }
+          // },
           {
             id: "ope321",
             name: "局域网网页版",
@@ -203,6 +198,13 @@ export class MenuComponent {
             name: "手机网页版",
             click: () => {
               // this.ReplaceChannelPage.open();
+            }
+          },
+          {
+            id: "javasciprt",
+            name: "脚本",
+            click: () => {
+              PulgJavascript.open()
             }
           },
           {
@@ -298,6 +300,9 @@ export class MenuComponent {
 
     this.init();
 
+    this.sourceChange$= this.AppData.sourceChange().subscribe(x=>{
+      this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
+    })
   }
   init() {
     if (this.data.menu.length == 0) {
@@ -628,6 +633,7 @@ export class MenuComponent {
   ngOnDestroy() {
 
     if (this.change$) this.change$.unsubscribe();
+    if (this.sourceChange$) this.sourceChange$.unsubscribe();
   }
   cc() {
     this.pulg.openFile();
