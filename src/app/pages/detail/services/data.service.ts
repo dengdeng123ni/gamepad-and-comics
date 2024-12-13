@@ -21,8 +21,8 @@ export class DataService {
 
   is_edit = false;
   edit = false
-  is_locked = true;
-  is_cache = false;
+  is_locked = false;
+  is_cache = true;
   // is_local_record 是否开启 本地阅读记录
   is_local_record = true;
   is_download = false;
@@ -55,7 +55,7 @@ export class DataService {
 
   init() {
     const obj = this.AppData.getOption();
-
+    if(!obj) return
 
     this.is_locked = obj.is_locked;
     this.images_concurrency_limit = obj.images_concurrency_limit;

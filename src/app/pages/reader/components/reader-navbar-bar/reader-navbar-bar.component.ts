@@ -48,7 +48,7 @@ export class ReaderNavbarBarComponent implements OnInit {
     public RoutingController:RoutingControllerService
   ) {
     document.documentElement.style.setProperty('--reader-navbar-bar-zoom', `${((window.innerHeight*0.1)/90)>1?((window.innerHeight*0.1)/90):1}`);
-    this.title= DbEvent.Configs[current.source].name;
+    this.title= DbEvent.Configs[current.source]?.name;
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {
       if (x == true) {
         this.chapter_index = data.chapters.findIndex(x => x.id == data.chapter_id)

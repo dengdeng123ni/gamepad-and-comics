@@ -25,7 +25,7 @@ export class ReplaceChannelControllerService {
   receiver_client_id = null;
   replace_channel_id = null;
 
-  is_enabled=true;
+  is_enabled = true;
 
   add$
 
@@ -91,7 +91,7 @@ export class ReplaceChannelControllerService {
         const list = await this.ReplaceChannelEvent.Events[this.old_data.replace_channel_id].getAll()
         const obj = list.find(x => this.old_data.receiver_client_id == x.id)
         if (obj) {
-          const bool = await this.change(obj.id, this.old_data.replace_channel_id,true)
+          const bool = await this.change(obj.id, this.old_data.replace_channel_id, true)
           if (!bool) {
 
           } else {
@@ -100,18 +100,18 @@ export class ReplaceChannelControllerService {
           }
         }
       }
-    }else{
-      this.is_enabled=false;
+    } else {
+      this.is_enabled = false;
     }
   }
 
-  enabled_change=async (is_enabled)=>{
+  enabled_change = async (is_enabled) => {
     const res = await this.original.webDb.getByKey('data', '_replace_channel')
-    await this.original.webDb.update('data', {...res,is_enabled})
+    await this.original.webDb.update('data', { ...res, is_enabled })
   }
 
 
-  async change(receiver_client_id, replace_channel_id,is_enabled) {
+  async change(receiver_client_id, replace_channel_id, is_enabled) {
     try {
       this.receiver_client_id = receiver_client_id;
       this.replace_channel_id = replace_channel_id;
@@ -209,15 +209,31 @@ export class ReplaceChannelControllerService {
   }
 
   send_message = async (e) => {
-    if (e.function_name == "put" && e.target_source == "caches") {
-      if (e.parameter[0] === "image") {
-        await this.original.webCh.put(e.parameter[0], e.parameter[1], e.parameter[2].clone())
+    if (e.target_source == "caches") {
+      if (e.function_name == "match") {
+        if (e.parameter[0] == "image") {
+          const res = await this.original.webCh.match(...e.parameter)
+          if (res) return res
+        }
+      } else if (e.function_name == "put") {
+        if (e.parameter[0] === "image") {
+          await this.original.webCh.put(e.parameter[0], e.parameter[1], e.parameter[2].clone())
+        }
+        e.parameter[2] = await this.responseToJson(e.parameter[2].clone())
       }
-      e.parameter[2] = await this.responseToJson(e.parameter[2].clone())
-    } else if (e.function_name == "match" && e.target_source == "caches") {
-      if (e.parameter[0] == "image") {
-        const res = await this.original.webCh.match(...e.parameter)
-        if (res) return res
+    } else if (e.target_source == "indexdb") {
+      if (e.function_name == "getByKey") {
+        if (e.parameter[0] == "details") {
+          const res = await this.original.webDb.getByKey(...e.parameter)
+          if (res) return res
+        }else if(e.parameter[0] == "pages"){
+          const res = await this.original.webDb.getByKey(...e.parameter)
+          if (res) return res
+        }
+      }else if (e.function_name == "update") {
+        if (e.parameter[0] == "history") {
+          this.original.webDb.update(...e)
+        }
       }
     }
     const res = await this.ReplaceChannelEvent.Events[this.replace_channel_id].sendMessage({
@@ -226,8 +242,20 @@ export class ReplaceChannelControllerService {
       data: e
     })
     if (!res) return undefined
+
     if (!res.data) {
       return undefined
+    } else if (res.req.target_source == "indexdb") {
+      if (res.req.function_name == "getByKey") {
+        if (res.req.parameter[0] == "details") {
+          this.original.webDb.update(res.req.parameter[0], res.data)
+          return res.data
+        }else if(res.req.parameter[0] == "pages"){
+          this.original.webDb.update(res.req.parameter[0], res.data)
+          return res.data
+        }
+      }
+      return res.data
     } else if (res.req.function_name == "match") {
       const res1 = await this.jsonToResponse(res.data)
       if (res.req.parameter[0] == 'image') this.original.webCh.put(res.req.parameter[0], res.req.parameter[1], res1.clone())

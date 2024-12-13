@@ -25,8 +25,8 @@ export class DataService {
   page_id: string = "";
 
   is_edit = false;
-  is_locked = true;
-  is_cache = false;
+  is_locked = false;
+  is_cache = true;
   is_local_record = true;
   is_offprint = false;
 
@@ -54,9 +54,9 @@ export class DataService {
 
   init() {
     const obj = this.AppData.getOption();
+    if(!obj) return
 
     this.is_locked = obj.is_locked;
-
     this.is_cache = obj.is_cache;
     this.is_download = obj.is_download;
   }
