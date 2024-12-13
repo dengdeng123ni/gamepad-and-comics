@@ -209,6 +209,7 @@ export class ReplaceChannelControllerService {
   }
 
   send_message = async (e) => {
+
     if (e.target_source == "caches") {
       if (e.function_name == "match") {
         if (e.parameter[0] == "image") {
@@ -229,10 +230,25 @@ export class ReplaceChannelControllerService {
         }else if(e.parameter[0] == "pages"){
           const res = await this.original.webDb.getByKey(...e.parameter)
           if (res) return res
+        }else if(e.parameter[0] == "comics_config"){
+          const res = await this.original.webDb.getByKey(...e.parameter)
+          return res
         }
       }else if (e.function_name == "update") {
         if (e.parameter[0] == "history") {
-          this.original.webDb.update(...e)
+          this.original.webDb.update(...e.parameter)
+        }
+        if (e.parameter[0] == "local_pages") {
+          this.original.webDb.update(...e.parameter)
+        }
+        if (e.parameter[0] == "pages") {
+          this.original.webDb.update(...e.parameter)
+        }
+        if (e.parameter[0] == "local_comics") {
+          this.original.webDb.update(...e.parameter)
+        }
+        if (e.parameter[0] == "details") {
+          this.original.webDb.update(...e.parameter)
         }
       }
     }
