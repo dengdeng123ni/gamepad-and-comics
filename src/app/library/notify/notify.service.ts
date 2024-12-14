@@ -17,7 +17,7 @@ export class NotifyService {
 
     message1 = await this.asyncReplace(message1);
     action1 = await this.asyncReplace(action1);
-    this._snackBar.open(message1, action1, config)
+    this._snackBar.open(message1, action1, {...config,duration:1000})
   }
   async asyncReplace(template) {
     const matches = [...template.matchAll(/\$\[([^\]]+)]/g)]; // 提取所有占位符匹配
