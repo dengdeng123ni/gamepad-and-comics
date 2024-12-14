@@ -12,6 +12,8 @@ export * from './image/image.component';
 
 export * from './prompt/prompt.component';
 export * from './prompt/prompt.service';
+export * from './notify/notify.service';
+
 
 
 export * from './indexdb/indexdb-controller.service';

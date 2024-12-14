@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { ImageService, IndexdbControllerService, WebFileService } from 'src/app/library/public-api';
+import { ImageService, IndexdbControllerService, NotifyService, WebFileService } from 'src/app/library/public-api';
 import { compress } from 'image-conversion';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OpenComicsListService } from './open-comics-list.service';
@@ -117,6 +117,7 @@ export class ImageToComponent {
   }
   constructor(public image: ImageService,
     public WebFile: WebFileService,
+    public Notify:NotifyService,
     @Inject(MAT_DIALOG_DATA) public _data,
     public DownloadProgress: DownloadProgressService,
     private _snackBar: MatSnackBar,
@@ -259,7 +260,7 @@ export class ImageToComponent {
         }
       )
     } else {
-      this._snackBar.open('打开文件夹失败', '', {
+      this.Notify.messageBox('打开文件夹失败', '', {
         duration: 1500,
         horizontalPosition: 'center',
         verticalPosition: 'top',

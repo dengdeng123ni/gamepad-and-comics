@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
-import { GamepadControllerService, I18nService, IndexdbControllerService, KeyboardControllerService, KeyboardEventService } from 'src/app/library/public-api';
+import { GamepadControllerService, I18nService, IndexdbControllerService, KeyboardControllerService, KeyboardEventService, NotifyService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -13,7 +13,7 @@ export class ControllerSettingsComponent {
   handleKeyDown = (event: KeyboardEvent) => {
     if (this.is_key_capture) {
       if (event.key == "Enter" || event.key == "c" || event.key == "Tab" || event.key == "Escape") {
-        this._snackBar.open(`${event.key} 内置快捷键,不可选择`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+        this.Notify.messageBox(`${event.key} $[内置快捷键,不可选择]`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
         return
       }
       if (event.code == "Space") {
@@ -224,7 +224,7 @@ export class ControllerSettingsComponent {
     public GetKeyboardKey: GetKeyboardKeyService,
     public GamepadController: GamepadControllerService,
     public webDb: IndexdbControllerService,
-    private _snackBar: MatSnackBar,
+    public Notify:NotifyService,
     public I18n: I18nService,
     public KeyboardController: KeyboardControllerService
   ) {

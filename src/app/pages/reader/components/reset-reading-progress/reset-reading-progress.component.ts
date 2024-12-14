@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DbControllerService, I18nService, IndexdbControllerService } from 'src/app/library/public-api';
+import { DbControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { ResetReadingProgressService } from './reset-reading-progress.service';
 
@@ -13,7 +13,6 @@ import { DataService } from '../../services/data.service';
 export class ResetReadingProgressComponent {
 
   constructor(
-    public i18n: I18nService,
     public data:DataService,
     public current: CurrentService,
     public resetReadingProgress: ResetReadingProgressService,

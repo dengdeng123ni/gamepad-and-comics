@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CacheControllerService, ContextMenuControllerService, ContextMenuEventService, IndexdbControllerService, PromptService, PulgService } from 'src/app/library/public-api';
+import { CacheControllerService, ContextMenuControllerService, ContextMenuEventService, IndexdbControllerService, NotifyService, PromptService, PulgService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CurrentService } from '../../services/current.service';
@@ -41,6 +41,7 @@ export class PulgJavascriptComponent {
     public ContextMenuController: ContextMenuControllerService,
     private _snackBar: MatSnackBar,
     public prompt:PromptService,
+    public Notify:NotifyService,
     public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init();
@@ -76,7 +77,7 @@ export class PulgJavascriptComponent {
                   await this.scriptCache(blob, name, {
                     'url': url
                   })
-                  this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+                  this.Notify.messageBox("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
                   this.list = await this.getAll();
                 }
               } else {
@@ -100,7 +101,7 @@ export class PulgJavascriptComponent {
     const blob = await res.blob();
     await this.webCh.put('script',n.src, new Response(blob));
 
-    this._snackBar.open("更新成功", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+    this.Notify.messageBox("更新成功", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
   async change(n) {
 
@@ -147,7 +148,7 @@ export class PulgJavascriptComponent {
     const blob = await res.blob()
     await this.pulg.loadBlodJs(blob)
     await this.scriptCache(blob, name)
-    this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+    this.Notify.messageBox("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
     this.list = await this.getAll();
   }
   async getAll() {
@@ -168,7 +169,7 @@ export class PulgJavascriptComponent {
     const blob = await files[0].getFile();
     await this.pulg.loadBlodJs(blob)
     await this.scriptCache(blob, blob.name)
-    this._snackBar.open("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+    this.Notify.messageBox("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
   async scriptCache(blob, name, obj = {}) {
     const response = new Response(blob);

@@ -16,9 +16,6 @@ export class PromptService {
   ) {
 
   }
-  async init(){
-    const res=await this.fire("2313");
-  }
 
   fire=async (name, value?):Promise<string>=> {
     // const res=window.prompt(name, value??'')
@@ -65,7 +62,6 @@ export class PromptService {
       _f();
     })
   }
-
 
 
 

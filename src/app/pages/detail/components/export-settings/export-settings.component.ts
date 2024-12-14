@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ExportSettingsService } from './export-settings.service';
 import { DataService } from '../../services/data.service';
-import { DbControllerService, DownloadService, I18nService } from 'src/app/library/public-api';
+import { DbControllerService, DownloadService } from 'src/app/library/public-api';
 import { LoadingService } from '../loading/loading.service';
 import { CurrentService } from '../../services/current.service';
 
@@ -17,8 +17,7 @@ export class ExportSettingsComponent {
     public download: DownloadService,
     public data: DataService,
     public current: CurrentService,
-    public loading: LoadingService,
-    public i18n: I18nService
+    public loading: LoadingService
   ) {
     this.pageOrder = this.data.comics_config.is_page_order;
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { AppDataService, ChaptersItem, DbNovelsControllerService, HistoryService, ImageService, IndexdbControllerService, MessageFetchService } from 'src/app/library/public-api';
+import { AppDataService, ChaptersItem, DbNovelsControllerService, HistoryService, ImageService, IndexdbControllerService, MessageFetchService, NotifyService } from 'src/app/library/public-api';
 import { Subject } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,6 +21,7 @@ export class CurrentService {
   reader_modes = ['double_page_reader', 'up_down_page_reader', 'left_right_page_reader', 'one_page_reader']
   constructor(
     public DbNovelsController: DbNovelsControllerService,
+    public Notify:NotifyService,
     public data: DataService,
     public webDb: IndexdbControllerService,
     public image: ImageService,
@@ -284,14 +285,14 @@ export class CurrentService {
   async _unlock(chapter_id) {
     const bool = await this.DbNovelsController.Unlock(chapter_id)
     if (bool) {
-      this._snackBar.open('解锁成功,以重新获取数据', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+      this.Notify.messageBox('解锁成功,以重新获取数据', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
       await this.DbNovelsController.delWebDbPages(chapter_id)
       const pages = await this.DbNovelsController.getPages(chapter_id)
       for (let index = 0; index < pages.length; index++) {
         await this.DbNovelsController.delWebDbImage(pages[index].src)
       }
     } else {
-      this._snackBar.open('解锁失败,需要到对应网站查看', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+      this.Notify.messageBox('解锁失败,需要到对应网站查看', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
     }
     return bool
 

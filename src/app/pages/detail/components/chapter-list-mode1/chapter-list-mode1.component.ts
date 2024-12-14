@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { AppDataService, ContextMenuEventService, DbControllerService, I18nService, RoutingControllerService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, I18nService, NotifyService, RoutingControllerService } from 'src/app/library/public-api';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { CurrentService } from '../../services/current.service';
@@ -42,6 +42,7 @@ export class ChapterListMode1Component {
     public exportSettings: ExportSettingsService,
     public DbController: DbControllerService,
     public RoutingController: RoutingControllerService,
+    public Notify:NotifyService,
     private _snackBar: MatSnackBar,
     public AppData: AppDataService,
     public I18n:I18nService
@@ -66,8 +67,7 @@ export class ChapterListMode1Component {
                 for (let index = 0; index < pages.length; index++) {
                   await this.DbController.delWebDbImage(pages[index].src)
                 }
-                const 已完成 = await this.I18n.getTranslatedText('已完成')
-                this._snackBar.open(已完成, '', {  duration: 1000 })
+                this.Notify.messageBox('已完成', '', {  duration: 1000 })
               }
             }
           },
@@ -82,17 +82,12 @@ export class ChapterListMode1Component {
                     this.DbController.getImage(x.src)
                   );
                   await Promise.all(pagesPromises);
-                  const 已完成 = await this.I18n.getTranslatedText('已完成')
-                  const 第 = await this.I18n.getTranslatedText('第')
-                  const 页 = await this.I18n.getTranslatedText('页')
-                  this._snackBar.open(`${list[index].title} ${第}${i + 1}${页}/${pages.length}${页}`, 已完成)
+                  this.Notify.messageBox(`${list[index].title} ${i + 1}/${pages.length}`, '已完成')
                 }
 
-                const 已完成 = await this.I18n.getTranslatedText('已完成')
-                this._snackBar.open(`${list[index].title}`, 已完成)
+                this.Notify.messageBox(`${list[index].title}`, '已完成')
               }
-              const 已完成 = await this.I18n.getTranslatedText('已完成')
-              this._snackBar.open(已完成, '', {
+              this.Notify.messageBox('已完成', '', {
                 duration: 1000
               })
             }
@@ -104,8 +99,8 @@ export class ChapterListMode1Component {
                 await this.DbController.delWebDbPages(chapter_id)
                 const pages = await this.DbController.getPages(chapter_id)
               }
-              const 已完成 = await this.I18n.getTranslatedText('已完成')
-              this._snackBar.open(已完成, '', {
+
+              this.Notify.messageBox('已完成', '', {
                 duration: 1000
               })
             }

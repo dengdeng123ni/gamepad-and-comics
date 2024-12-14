@@ -201,7 +201,7 @@ export class GamepadExplanationComponent {
       // if(message){
       //  if(this.message!=message){
       //   this.message=message;
-      //   this._snackBar.open(message, null, { panelClass: "_chapter_prompt", duration: 1500, horizontalPosition: 'start', verticalPosition: 'bottom', });
+      //   this.Notify.messageBox(message, null, { panelClass: "_chapter_prompt", duration: 1500, horizontalPosition: 'start', verticalPosition: 'bottom', });
       //  }
       // }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { AppDataService, CacheControllerService, DbControllerService, DbEventService, I18nService, IndexdbControllerService } from 'src/app/library/public-api';
+import { AppDataService, CacheControllerService, DbControllerService, DbEventService, I18nService, IndexdbControllerService, NotifyService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class LocalCachService {
     public DbController: DbControllerService,
     public AppData: AppDataService,
     public webDb: IndexdbControllerService,
-    private _snackBar: MatSnackBar,
+    public Notify:NotifyService,
     private webCh:CacheControllerService,
     public DbEvent: DbEventService,
 
@@ -135,16 +135,12 @@ export class LocalCachService {
       await this.webDb.update('details', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, creation_time: new Date().getTime(), chapters } })))
 
 
-      const 缓存完成 = await this.I18n.getTranslatedText('缓存完成')
-      this._snackBar.open(`${res.title} ${x.title} ${缓存完成}`, '', {
-        duration: 3000,
+      this.Notify.messageBox(`${res.title} ${x.title} $[缓存完成]`, '', {
         horizontalPosition: 'end',
         verticalPosition: 'bottom',
       });
     }
-    const 缓存完成 = await this.I18n.getTranslatedText('缓存完成')
-    this._snackBar.open(`${res.title} ${缓存完成}`, '', {
-      duration: 5000,
+    this.Notify.messageBox(`${res.title} $[缓存完成]`, '', {
       horizontalPosition: 'end',
       verticalPosition: 'bottom',
     });

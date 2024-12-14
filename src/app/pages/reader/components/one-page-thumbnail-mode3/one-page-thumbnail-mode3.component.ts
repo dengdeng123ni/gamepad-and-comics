@@ -3,7 +3,7 @@ import { OnePageThumbnailMode3Service } from './one-page-thumbnail-mode3.service
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { ContextMenuEventService } from 'src/app/library/public-api';
+import { ContextMenuEventService, NotifyService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 interface DialogData {
   chapter_id: string;
@@ -24,6 +24,7 @@ export class OnePageThumbnailMode3Component {
     public OnePageThumbnailMode3: OnePageThumbnailMode3Service,
     @Inject(MAT_BOTTOM_SHEET_DATA) public _data: DialogData,
     private zone: NgZone,
+    public Notify:NotifyService,
     private _snackBar: MatSnackBar,
     public ContextMenuEvent: ContextMenuEventService
   ) {
@@ -100,7 +101,7 @@ export class OnePageThumbnailMode3Component {
 
     setTimeout(()=>{
       if(!bool){
-        this._snackBar.open("图片数据缓冲中,请稍后再试", null, { panelClass: "_chapter_prompt",
+        this.Notify.messageBox("图片数据缓冲中,请稍后再试", null, { panelClass: "_chapter_prompt",
           horizontalPosition: 'center',
           verticalPosition: 'top',
           duration: 1000

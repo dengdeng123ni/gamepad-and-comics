@@ -2,7 +2,7 @@ import { Component, Inject, NgZone } from '@angular/core';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { OnePageThumbnailMode2Service } from './one-page-thumbnail-mode2.service';
-import { ContextMenuEventService } from 'src/app/library/public-api';
+import { ContextMenuEventService, NotifyService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 interface DialogData {
   chapter_id: string;
@@ -26,6 +26,7 @@ export class OnePageThumbnailMode2Component {
     public current: CurrentService,
     public data: DataService,
     public OnePageThumbnailMode2: OnePageThumbnailMode2Service,
+    public Notify:NotifyService,
     private zone: NgZone,
     private _snackBar: MatSnackBar,
     public ContextMenuEvent:ContextMenuEventService
@@ -110,7 +111,7 @@ export class OnePageThumbnailMode2Component {
 
     setTimeout(()=>{
       if(!bool){
-        this._snackBar.open("图片数据缓冲中,请稍后再试", null, { panelClass: "_chapter_prompt",
+        this.Notify.messageBox("图片数据缓冲中,请稍后再试", null, { panelClass: "_chapter_prompt",
           horizontalPosition: 'center',
           verticalPosition: 'top',
           duration: 1000,

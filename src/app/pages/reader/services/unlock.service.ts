@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, DialogPosition } from '@angular/material/dialog';
 import { UnlockComponent } from '../components/unlock/unlock.component';
-import { DbControllerService, DbEventService, GamepadEventService } from 'src/app/library/public-api';
+import { DbControllerService, DbEventService, GamepadEventService, NotifyService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
@@ -22,6 +22,7 @@ export class UnlockService {
     public DbController: DbControllerService,
     public DbEvent: DbEventService,
     private _snackBar: MatSnackBar,
+    public Notify:NotifyService,
     public GamepadEvent: GamepadEventService
   ) {
     GamepadEvent.registerAreaEvent('chapter_unlock', {
@@ -38,7 +39,7 @@ export class UnlockService {
     if (this.DbEvent.Events[source]?.Unlock) {
       this.openUnlock();
     } else {
-      this._snackBar.open('当前章节未解锁,需要到对应网站解锁.', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+      this.Notify.messageBox('当前章节未解锁,需要到对应网站解锁', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
     }
   }
   async openUnlock(){

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { I18nService } from 'src/app/library/public-api';
 import { CurrentService } from './current.service';
 import { DataService } from './data.service';
+import { NotifyService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class PromptService {
   constructor(
     public current: CurrentService,
     public data: DataService,
-    private _snackBar: MatSnackBar,
-    public I18n: I18nService
+    public Notify:NotifyService,
+    private _snackBar: MatSnackBar
   ) {
 
     current.pageStatu$.subscribe(async (x) => {
@@ -30,7 +30,7 @@ export class PromptService {
 
         //    }else{
         //     const 页码 = await this.I18n.getTranslatedText('页码')
-        //     this._snackBar.open(`${页码}: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+        //     this.Notify.messageBox(`${页码}: ${this.data.page_index+1} / ${this.data.pages.length}`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
         //     this.ooo=ooo;
         //   }
 
@@ -39,30 +39,26 @@ export class PromptService {
       }
       if (!this.obj[x]) this.obj[x] = 0;
       this.obj[x]++;
-      const 第一页 = await this.I18n.getTranslatedText('第一页')
-      const 最后一页 = await this.I18n.getTranslatedText('最后一页')
-      const 第一章 = await this.I18n.getTranslatedText('第一章')
-      const 最终章 = await this.I18n.getTranslatedText('最终章')
       Object.keys(this.obj).forEach(x => {
         if (this.obj[x] == 1) {
-          if (x == "page_first")   this._snackBar.open(第一页, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-          if (x == "page_last") this._snackBar.open(最后一页, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
-          if (x == "chapter_first") this._snackBar.open(第一章, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-          if (x == "chapter_last") this._snackBar.open(最终章, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
-          // if (x == "page") this._snackBar.open("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+          if (x == "page_first")   this.Notify.messageBox('第一页', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
+          if (x == "page_last") this.Notify.messageBox('最后一页', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+          if (x == "chapter_first") this.Notify.messageBox('第一章', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
+          if (x == "chapter_last") this.Notify.messageBox('最终章', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
+          // if (x == "page") this.Notify.messageBox("最终章", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'end', verticalPosition: 'top', });
           this.obj[x] = 0;
         }
       })
       if (x == "chapter") {
         const obj = this.data.chapters.find(x => x.id == this.data.chapter_id)
-        if (obj) this._snackBar.open(obj.title, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+        if (obj) this.Notify.messageBox(obj.title, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
       }
 
     })
   }
 
   chapterPrompt(data) {
-    this._snackBar.open(data, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
+    this.Notify.messageBox(data, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
 
 

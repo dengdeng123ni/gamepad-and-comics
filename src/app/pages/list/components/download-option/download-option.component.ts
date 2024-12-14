@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DownloadOptionService } from './download-option.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DownloadEventService, WebFileService } from 'src/app/library/public-api';
+import { DownloadEventService, NotifyService, WebFileService } from 'src/app/library/public-api';
 import { DownloadProgressService } from '../download-progress/download-progress.service';
 @Component({
   selector: 'app-download-option',
@@ -18,6 +18,7 @@ export class DownloadOptionComponent {
     public DownloadOption: DownloadOptionService,
     public DownloadProgress: DownloadProgressService,
     public WebFile: WebFileService,
+    public Notify:NotifyService,
     public DownloadEvent: DownloadEventService,
     @Inject(MAT_DIALOG_DATA) public _data,
     private _snackBar: MatSnackBar
@@ -59,7 +60,7 @@ export class DownloadOptionComponent {
         }
       )
     } else {
-      this._snackBar.open('打开文件夹失败', '', {
+      this.Notify.messageBox('打开文件夹失败', '', {
         duration: 1500,
         horizontalPosition: 'center',
         verticalPosition: 'top',
@@ -85,7 +86,7 @@ export class DownloadOptionComponent {
             pageOrder: this.option.pageOrder,
             page: this.option.page,
             downloadChapterAtrer: x => {
-              this._snackBar.open(x.title, '下载完成', {
+              this.Notify.messageBox(x.title, '下载完成', {
                 duration: 1500,
                 horizontalPosition: 'end',
                 verticalPosition: 'bottom',

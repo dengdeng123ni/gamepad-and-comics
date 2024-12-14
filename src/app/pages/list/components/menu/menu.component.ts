@@ -200,7 +200,7 @@ export class MenuComponent {
           },
           {
             id: "ope",
-            name: "语言设置",
+            name: "language",
             click: () => {
               this.LanguageSettings.open()
             }
