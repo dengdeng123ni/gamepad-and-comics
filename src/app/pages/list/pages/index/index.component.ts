@@ -22,6 +22,8 @@ import { Platform } from '@angular/cdk/platform';
 import { SelectInputNumberService } from '../../components/select-input-number/select-input-number.service';
 import { SelectTagMultipleService } from '../../components/select-tag-multiple/select-tag-multiple.service';
 import { ReplaceChannelPageService } from '../../components/replace-channel-page/replace-channel-page.service';
+import { MobileWebQrcodeService } from '../../components/mobile-web-qrcode/mobile-web-qrcode.service';
+import { LanguageSettingsService } from '../../components/language-settings/language-settings.service';
 
 @Component({
   selector: 'app-index',
@@ -56,8 +58,11 @@ export class IndexComponent {
     public SelectInputNumber:SelectInputNumberService,
     public SelectTagMultiple:SelectTagMultipleService,
     public ReplaceChannelPage:ReplaceChannelPageService,
+    public MobileWebQrcode:MobileWebQrcodeService,
+    public LanguageSettings:LanguageSettingsService,
     public MenuSearch: MenuSearchService
   ) {
+
 
     this.has_backdrop= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     // this.MenuSearch.open({

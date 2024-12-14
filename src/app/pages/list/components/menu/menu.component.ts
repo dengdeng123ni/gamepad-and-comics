@@ -20,6 +20,8 @@ import { UrlUsageGuideService } from '../url-usage-guide/url-usage-guide.service
 import { GetKeyboardKeyService } from '../get-keyboard-key/get-keyboard-key.service';
 import { PageThemeService } from '../page-theme/page-theme.service';
 import { ReplaceChannelPageService } from '../replace-channel-page/replace-channel-page.service';
+import { MobileWebQrcodeService } from '../mobile-web-qrcode/mobile-web-qrcode.service';
+import { LanguageSettingsService } from '../language-settings/language-settings.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -76,7 +78,7 @@ export class MenuComponent {
   }
   change$ = null;
 
-  sourceChange$=null;
+  sourceChange$ = null;
 
   constructor(
     public data: DataService,
@@ -103,6 +105,8 @@ export class MenuComponent {
     public AboutSoftware: AboutSoftwareService,
     public PlugInInstructions: PlugInInstructionsService,
     public ReplaceChannelPage: ReplaceChannelPageService,
+    public LanguageSettings:LanguageSettingsService,
+    public MobileWebQrcode:MobileWebQrcodeService,
     public UrlUsageGuide: UrlUsageGuideService,
     public PageTheme: PageThemeService,
     public prompt: PromptService,
@@ -132,41 +136,75 @@ export class MenuComponent {
         menu: [
           {
 
-              id: "ooeo",
-              name: "其他",
-              submenu:[
-                {
-                  id: "javasciprt",
-                  name: "主题",
-                  click: () => {
-                    this.PageTheme.open({
-                      position: {
-                        left: "10px",
-                        bottom: "100px"
-                      },
-                      panelClass: "_controller_settings",
-                      backdropClass: "_reader_config_bg",
-                    });
-                  }
-                },
-                {
-                  id: "ope3",
-                  name: "支持网站",
-                  click: () => {
-                    this.UrlUsageGuide.open({});
-                  }
-                },
-              ]
+            id: "ooeo",
+            name: "其他",
+            submenu: [
+              {
+                id: "javasciprt",
+                name: "主题",
+                click: () => {
+                  this.PageTheme.open({
+                    position: {
+                      left: "10px",
+                      bottom: "100px"
+                    },
+                    panelClass: "_controller_settings",
+                    backdropClass: "_reader_config_bg",
+                  });
+                }
+              },
+              {
+                id: "ope3",
+                name: "支持网站",
+                click: () => {
+                  this.UrlUsageGuide.open({});
+                }
+              },
+            ]
           },
-
           {
-            id: "ope3",
-            name: "扩展安装说明",
+
+            id: "ooeo",
+            name: "网页版",
+            submenu: [
+              {
+                id: "ope321",
+                name: "打开局域网连接",
+                click: () => {
+                  // this.ReplaceChannelPage.open();
+                }
+              },
+              {
+                id: "ope321",
+                name: "手机版二维码",
+                click: () => {
+                  this.MobileWebQrcode.open();
+                  // this.ReplaceChannelPage.open();
+                }
+              },
+              {
+                id: "ope321",
+                name: "Github 在线链接",
+                click: () => {
+                  // this.ReplaceChannelPage.open();
+                }
+              },
+              {
+                id: "ope3",
+                name: "专用浏览器扩展插件",
+                click: () => {
+                  this.PlugInInstructions.open({});
+                }
+              },
+            ]
+          },
+          {
+            id: "ope",
+            name: "语言设置",
             click: () => {
-              this.PlugInInstructions.open({});
+              this.LanguageSettings.open()
             }
           },
-
           {
             id: "ope",
             name: "控制器设置",
@@ -174,32 +212,7 @@ export class MenuComponent {
               ControllerSettings.open()
             }
           },
-          // {
-          //   id: "ope",
-          //   name: "音频",
-          //   click: () => {
-          //     SoundEffects.open({
-          //       position: {
-          //         left: "10px",
-          //         bottom: "10px"
-          //       }
-          //     })
-          //   }
-          // },
-          {
-            id: "ope321",
-            name: "局域网网页版",
-            click: () => {
-              // this.ReplaceChannelPage.open();
-            }
-          },
-          {
-            id: "ope321",
-            name: "手机网页版",
-            click: () => {
-              // this.ReplaceChannelPage.open();
-            }
-          },
+
           {
             id: "javasciprt",
             name: "脚本",
@@ -300,13 +313,13 @@ export class MenuComponent {
 
     this.init();
 
-    this.sourceChange$= this.AppData.sourceChange().subscribe((x:any)=>{
-      if(this.menu.is_init) return
+    this.sourceChange$ = this.AppData.sourceChange().subscribe((x: any) => {
+      if (this.menu.is_init) return
       if (x.id == "temporary_file") return
       if (x.id == "local_cache") return
       if (x.id == "temporary_data") return
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
-      this.menu.is_init=true;
+      this.menu.is_init = true;
     })
   }
   init() {
@@ -524,15 +537,15 @@ export class MenuComponent {
         id: 'add',
         icon: "add",
         name: '打开文件夹',
-        disabled:document.body.getAttribute('replace_channel')=='true'?true:false,
+        disabled: document.body.getAttribute('replace_channel') == 'true' ? true : false,
         click: (e) => {
           this.openTemporaryFile();
         }
       })
-      if(this.menu.temporary_file.length){
-        this.menu.temporary_file.forEach(x=>{
+      if (this.menu.temporary_file.length) {
+        this.menu.temporary_file.forEach(x => {
           this.data.menu.push({
-            id:x.id,
+            id: x.id,
             icon: "subject",
             name: x.name,
             click: e => {
@@ -733,9 +746,9 @@ export class MenuComponent {
       }
     })
     this.webDb.update('temporary_file', {
-      id:id,
-      name:files_arr[0].path.split("/")[0]
-   })
+      id: id,
+      name: files_arr[0].path.split("/")[0]
+    })
     for (let index = 0; index < this.temporaryFile.data.length; index++) {
       const x = this.temporaryFile.data[index];
       chapters = [...chapters, ...x.chapters];

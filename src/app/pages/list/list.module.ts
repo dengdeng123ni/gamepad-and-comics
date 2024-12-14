@@ -43,6 +43,8 @@ import { AdvancedSearchComponent } from './components/advanced-search/advanced-s
 import { SelectInputNumberComponent } from './components/select-input-number/select-input-number.component';
 import { SelectTagMultipleComponent } from './components/select-tag-multiple/select-tag-multiple.component';
 import { ReplaceChannelPageComponent } from './components/replace-channel-page/replace-channel-page.component';
+import { MobileWebQrcodeComponent } from './components/mobile-web-qrcode/mobile-web-qrcode.component';
+import { LanguageSettingsComponent } from './components/language-settings/language-settings.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,9 @@ import { ReplaceChannelPageComponent } from './components/replace-channel-page/r
     AdvancedSearchComponent,
     SelectInputNumberComponent,
     SelectTagMultipleComponent,
-    ReplaceChannelPageComponent
+    ReplaceChannelPageComponent,
+    MobileWebQrcodeComponent,
+    LanguageSettingsComponent,
   ],
   imports: [
     CommonModule,

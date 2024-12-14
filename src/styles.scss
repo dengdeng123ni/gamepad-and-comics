@@ -229,6 +229,7 @@ body[pattern=gamepad][locked_region=novels_chapters_list] {
   [region=menu_search_input][select=true],
   [region=menu_search_comics_item][select=true],
   [region=novels_chapters_item][select=true],
+
   [region=reset_reading_progress][select=true],
   [region=novels_chapters_item][select=true] {
     position: relative;
@@ -296,6 +297,8 @@ body[pattern=gamepad]{
   [region=chip_option][select=true],
   [region=chip_option_v32][select=true],
   [region=select_input_number_item][select=true],
+  [region=mobile_web_qrcode_item][select=true],
+
   [region=select_tag_multiple_item][select=true],
   [region=pulg_javascript_item][select=true]
   {
