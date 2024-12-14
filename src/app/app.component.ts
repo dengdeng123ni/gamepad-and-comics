@@ -307,6 +307,7 @@ export class AppComponent {
     if(bool){
       this.translate.setDefaultLang(language);
       this.translate.use(language);
+      document.querySelector("html").setAttribute('lang',language)
     }else{
       let arr = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].filter(x => navigator.languages.includes(x));
       if (arr && arr.length) {
@@ -314,6 +315,7 @@ export class AppComponent {
         this.translate.use(arr[0]);
         document.body.setAttribute('language', arr[0])
         localStorage.setItem("language",arr[0])
+        document.querySelector("html").setAttribute('lang',arr[0])
       } else {
         this.translate.addLangs(["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"]);
         this.translate.setDefaultLang('en');
@@ -322,6 +324,7 @@ export class AppComponent {
         document.title = 游戏手柄与漫画;
         document.body.setAttribute('language', 'en')
         localStorage.setItem("language",'en')
+        document.querySelector("html").setAttribute('lang','en')
       }
     }
   }
