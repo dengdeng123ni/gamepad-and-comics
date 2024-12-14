@@ -150,7 +150,43 @@ export class AppComponent {
         this.ReplaceChannelController.original.webDb.deleteByKey('temporary_file', x.id)
       })
     });
+
+
     this.getClientId();
+
+  this.ContextMenuController.onkeydown().subscribe((event:KeyboardEvent)=>{
+    if (document.body.getAttribute('onkeyboard') == 'true') return true
+    let key = "";
+    if (event.key == "F12") return true
+    if (event.key == "Backspace") return true
+
+
+    if (event.code == "Space") key = "Space";
+    else key = event.key;
+    const obj = this.keys.find(x => x == key)
+    if (obj) {
+
+
+      this.keydown.next(key)
+      return false
+    } else {
+      const bool = this.GamepadController.device2(key);
+      if (bool) {
+        if (event.key == "Tab") {
+          this.is_tab = true;
+          return true
+        }
+        if (event.key == "Enter") return false
+        return true
+      } else {
+        this.keys.push(key)
+        if (event.key == "Enter") return false
+        return true
+      }
+    }
+
+  })
+
     window._gh_page_reset = () => {
       this.is_loading_page = false;
       setTimeout(() => {
@@ -211,6 +247,16 @@ export class AppComponent {
       }
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
+    GamepadEvent.registerAreaEvent("content_menu",{
+      MoveEnd:e=>{
+        e.focus()
+      }
+    } as any)
+    GamepadEvent.registerAreaEvent("content_menu_submenu",{
+      MoveEnd:e=>{
+        e.focus()
+      }
+    } as any)
     // GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
     GamepadEvent.registerConfig("select", { region: ["option"] })
 

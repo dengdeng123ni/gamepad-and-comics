@@ -35,7 +35,6 @@ export class ComicsInfoComponent {
           id: "open_href",
           name: "打开链接",
           click: e => {
-            console.log(e);
             if (e) window.open(e, '_blank')
             // console.log(e.srcElement.getAttribute('href'));
 

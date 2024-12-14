@@ -70,7 +70,6 @@ export class ContextMenuService {
       menuItems = [...menuItems, ...arr1]
     }
     this.data = this.generateMenuData(menuItems, menuOptions);
-    console.log(this.data);
     this.currentKey = menuOptions.key;
     this.menuEvent.open(menuOptions.x, menuOptions.y);
   }

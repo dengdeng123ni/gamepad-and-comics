@@ -15,6 +15,7 @@ export class HistoryService {
     id: string,
     title: string,
     cover: string,
+    href:string
   }) {
     if(!obj.cover) return
     const res: any = await this.webDb.getByKey("history", obj.id)

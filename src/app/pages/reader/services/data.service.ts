@@ -15,6 +15,7 @@ export class DataService {
     title: '',
     author: '',
     styles: [],
+    href:"",
     intro: ""
   };
 

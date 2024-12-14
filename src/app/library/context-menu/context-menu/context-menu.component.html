@@ -17,6 +17,7 @@
           [attr.select]="index == 0"
           [attr.default]="index == 0"
           [attr.region]="'content_menu'"
+          (keydown)="onKeyDown($event)"
           (click)="
             item.submenu
               ? submenuOpen($event)
@@ -37,6 +38,7 @@
           [attr.select]="index == 0"
           [attr.default]="index == 0"
           [attr.region]="'content_menu'"
+          (keydown)="onKeyDown($event)"
           [attr.svg_filter]="'text_primary'"
           (click)="on($event,item.arg)"
           [matTooltipShowDelay]="10000"
@@ -61,6 +63,7 @@
         [attr.default]="false"
         [attr.svg_filter]="'text_primary'"
         [attr.region]="'content_menu_submenu'"
+        (keydown)="onKeyDown($event)"
         (click)="
           item.submenu
             ? submenuOpen($event)
@@ -80,6 +83,7 @@
         [attr.select]="false"
         [attr.default]="false"
         [attr.region]="'content_menu_submenu'"
+        (keydown)="onKeyDown($event)"
         [attr.svg_filter]="'text_primary'"
         (click)="on($event,item.arg)"
         [matTooltipShowDelay]="10000"
@@ -101,6 +105,7 @@
       [attr.select]="false"
       [attr.default]="false"
       [attr.region]="'content_menu_children'"
+      (keydown)="onKeyDown($event)"
       (click)="on($event,item.arg)"
       [matTooltipShowDelay]="10000"
       [matTooltip]="item.name | translate"

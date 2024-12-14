@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuControllerService } from '../context-menu-controller.service';
 import { ContextMenuService } from './context-menu.service';
@@ -10,27 +10,31 @@ import { ContextMenuService } from './context-menu.service';
 })
 
 export class ContextMenuComponent implements OnInit {
+
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;
   constructor(
     public contextMenu: ContextMenuService,
-    public ContextMenuController:ContextMenuControllerService,
-    ) {
+    public ContextMenuController: ContextMenuControllerService,
+  ) {
     this.contextMenu.registerEvent({
-      open:this.open,
-      close:()=>this.menu.closeMenu()
+      open: this.open,
+      close: () => this.menu.closeMenu()
     });
 
 
 
   }
-
+  onKeyDown = (event: KeyboardEvent) => {
+    if (event.code == "ArrowRight") this.ContextMenuController.onkeydown$.next(event)
+    if (event.code == "ArrowLeft") this.ContextMenuController.onkeydown$.next(event)
+  }
   ngOnInit(): void {
 
   }
   close = () => {
     this.contextMenu.beforeClosed$.next({ key: this.contextMenu.currentKey })
   }
-  open = (x:number, y:number) => {
+  open = (x: number, y: number) => {
     setTimeout(() => {
       let node = (document.getElementById(`menu_content`) as any);
       node.style.top = `${y}px`;
@@ -38,12 +42,12 @@ export class ContextMenuComponent implements OnInit {
       this.menu.openMenu();
     })
   }
-  on($event,data){
-   this.contextMenu.afterClosed$.next({...data,PointerEvent:$event,'trigger':"contextmenu"})
+  on($event, data) {
+    this.contextMenu.afterClosed$.next({ ...data, PointerEvent: $event, 'trigger': "contextmenu" })
   }
-  submenuOpen(e:any) {
+  submenuOpen(e: any) {
     e.stopPropagation();
-    e.target.children[0].click();
+    e.target.click();
   }
 
 

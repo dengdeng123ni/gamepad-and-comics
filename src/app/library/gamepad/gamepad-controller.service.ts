@@ -269,7 +269,7 @@ export class GamepadControllerService {
     this.current = this.getCurrentObj(nodePrevious);
     this.setupHoverObserver(nodePrevious)
     nodePrevious.setAttribute("select", "true");
-    this.scrollToElement(nodePrevious, "UP");
+    this.scrollToElement(nodePrevious,"UP",region);
   }
   setMoveTargetNext() {
     const node = this.getCurrentNode();
@@ -529,6 +529,13 @@ export class GamepadControllerService {
             }
             funs[direction]();
 
+
+          }
+          const region=element.getAttribute('region');
+          if(region){
+            if (this.GamepadEvent.areaEvents[region]?.MoveEnd) {
+              this.GamepadEvent.areaEvents[region].MoveEnd(element);
+            }
           }
           observer.unobserve(element);
         });

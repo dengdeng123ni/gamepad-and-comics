@@ -402,6 +402,23 @@ export class ComicsListV2Component {
     })
 
     ContextMenuEvent.register('comics_item', {
+      send:($event,menu)=>{
+        let data=[]
+        const href=$event.getAttribute('href')
+        if(href){
+          data.unshift({
+            id:"href",
+            name:"打开链接",
+            click:list=>{
+              for (let index = 0; index < list.length; index++) {
+                const x = list[index];
+                if (x) window.open(x.href, '_blank')
+              }
+            }
+          })
+        }
+        return [...data,...menu]
+      },
       on: async (e: any) => {
         if (e.value) {
           const index = this.list.findIndex(x => x.id.toString() == e.value.toString());

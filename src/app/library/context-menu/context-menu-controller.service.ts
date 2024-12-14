@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ContextMenuEventService } from './context-menu-event.service';
 import { ContextMenuService } from './context-menu/context-menu.service';
+import { Subject } from 'rxjs';
 declare const window: any;
 @Injectable({
   providedIn: 'root'
@@ -112,5 +113,9 @@ export class ContextMenuControllerService {
   // 关闭右键菜单
   public close(): void {
     this.contextMenu.close();
+  }
+  onkeydown$=new Subject();
+  onkeydown(){
+    return this.onkeydown$
   }
 }

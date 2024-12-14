@@ -54,7 +54,8 @@ export class CurrentService {
     this.history.update({
       id: comic_id,
       title: this.data.details.title,
-      cover: this.data.details.cover
+      cover: this.data.details.cover,
+      href:this.data.details.href
     })
   }
 
