@@ -58,7 +58,7 @@ export class DbEventService {
     window._gh_novels_register = this.novels_register;
     window._gh_set_data = this.set_data;
     window._gh_get_data = this.get_data;
-    if (window.location.port=="4200") {
+    if (window.location.port == "4200") {
       function loadCSSFromString(cssString) {
         // 创建 <style> 元素
         const style = document.createElement('style');
@@ -95,6 +95,21 @@ export class DbEventService {
     `;
 
       loadCSSFromString(cssString);
+      setTimeout(() => {
+        window._gh_menu_register('comics_item', [
+          {
+            name: "打开网站对应链接",
+            source: "ehentai",
+            click: (e) => {
+              const b64_to_utf8 = (str) => {
+                return decodeURIComponent(window.atob(str));
+              }
+              const url=b64_to_utf8(e[0].id)
+              window.open(url)
+            }
+          }
+        ])
+      }, 0)
       window._gh_comics_register({
         id: "ehentai",
         name: "ehentai",
@@ -839,6 +854,7 @@ export class DbEventService {
               const title = x.querySelector(".glname .glink")?.textContent?.trim();
               obj["title"] = title;
               const id = x.querySelector(".glname a")?.href
+              obj["href"] = id;
               obj["id"] = window.btoa(encodeURIComponent(id));
               const subTitle = x.querySelector(".gl1c")?.textContent
               obj["subTitle"] = subTitle;
@@ -1235,6 +1251,7 @@ export class DbEventService {
           }
         }
       });
+
       window._gh_comics_register({
         id: "bilibili",
         name: "哔哩哔哩漫画",

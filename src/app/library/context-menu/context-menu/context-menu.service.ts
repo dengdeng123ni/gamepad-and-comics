@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 interface MenuItem {
-  id: string;
-  name: string;
-  text: boolean;
+  id?: string;
+  name?: string;
+  text?: boolean;
   data?: any;
-  value:string;
-  click:Function,
+  value?: string;
+  source?: string;
+  type?: string;
+  click?: Function,
   arg?: {
     key: string;
     parent?: string;
     id: string;
+    type: string;
     name: string;
     text: boolean;
     data?: any;
@@ -43,7 +46,7 @@ export class ContextMenuService {
   public afterClosed$ = new Subject();
   public beforeClosed$ = new Subject();
 
-  constructor() {}
+  constructor() { }
 
   // 设置菜单事件对象
   registerEvent(menuEvent: any): void {
@@ -51,8 +54,23 @@ export class ContextMenuService {
   }
 
   // 打开菜单
-  open(menuItems: MenuItem[],menuOptions: MenuOptions,): void {
+  open(menuItems: MenuItem[], menuOptions: MenuOptions,): void {
+    const source = document.body.getAttribute('source')
+    let arr = [];
+    let arr1 = [];
+    if (source) arr = menuItems.filter(x => x.source == source)
+    arr1 = menuItems.filter(x => x.type == 'global')
+    menuItems = menuItems.filter(x => !x.source && x.type != 'global')
+    if (arr.length) {
+      menuItems.push({ type: 'separator',id:'_123' })
+      menuItems = [...menuItems, ...arr]
+    }
+    if (arr1.length) {
+      menuItems.push({ type: 'separator',id:'_456' })
+      menuItems = [...menuItems, ...arr1]
+    }
     this.data = this.generateMenuData(menuItems, menuOptions);
+    console.log(this.data);
     this.currentKey = menuOptions.key;
     this.menuEvent.open(menuOptions.x, menuOptions.y);
   }
@@ -80,16 +98,19 @@ export class ContextMenuService {
       if (menuItem.submenu) {
         menuItem.submenu = this.generateMenuData(menuItem.submenu, menuOptions);
       } else {
-        menuItem.arg = {
-          key: menuOptions.key,
-          value: menuOptions.value,
-          parent: menuItem.arg?.parent,
-          id: menuItem.id,
-          name: menuItem.name,
-          text: menuItem.text,
-          data: menuItem.data,
-          click:menuItem.click
-        };
+        if (menuItem.id) {
+          menuItem.arg = {
+            key: menuOptions.key,
+            value: menuOptions.value,
+            parent: menuItem.arg?.parent,
+            id: menuItem.id,
+            name: menuItem.name,
+            text: menuItem.text,
+            type: menuItem.type,
+            data: menuItem.data,
+            click: menuItem.click
+          };
+        }
       }
       return menuItem;
     });

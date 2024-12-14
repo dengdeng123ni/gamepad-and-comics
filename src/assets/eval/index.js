@@ -2,51 +2,51 @@ class MessageFetchService {
   _data_proxy_response = {};
   _data_proxy_request = {};
   constructor() {
-      window.electron.receiveMessage('message-from-main', async (event, message) => {
-        console.log(message);
+      if(window.electron){
+        window.electron.receiveMessage('message-from-main', async (event, message) => {
+            if (message.type == "proxy_response") {
+                let rsponse = message.data;
+                const blob = new Blob([rsponse.body]);
+                delete rsponse.body;
+                const headers = new Headers();
+                rsponse.headers.forEach((x) => {
+                    headers.append(x.name, x.value);
+                })
+                rsponse.headers = headers;
 
-          if (message.type == "proxy_response") {
-              let rsponse = message.data;
-              const blob = new Blob([rsponse.body]);
-              delete rsponse.body;
-              const headers = new Headers();
-              rsponse.headers.forEach((x) => {
-                  headers.append(x.name, x.value);
-              })
-              rsponse.headers = headers;
+                this._data_proxy_response[message.id] = new Response(blob, rsponse)
 
-              this._data_proxy_response[message.id] = new Response(blob, rsponse)
+                setTimeout(() => {
+                    this._data_proxy_response[message.id] = undefined;
+                    this._data_proxy_request[message.id] = undefined;
+                }, 40000)
+            } else if (message.type == "execute_script_data") {
+                this._data_proxy_response[message.id] = message.data;
+                setTimeout(() => {
+                    this._data_proxy_response[message.id] = undefined;
+                }, 40000)
+            } else if (message.type == "proxy_data") {
+                this._data_proxy_response[message.id] = message.data;
+                setTimeout(() => {
+                    this._data_proxy_response[message.id] = undefined;
+                }, 40000)
+            } else if (message.type == "electron_send_local") {
+                const res = await window._gh_receive_message(message.data)
+                this.postMessage({
+                    send_client_id: message.send_client_id,
+                    receiver_client_id: message.receiver_client_id,
+                    type: "electron_receive_local",
+                    data: res,
+                    id:message.id
+                })
+            }
 
-              setTimeout(() => {
-                  this._data_proxy_response[message.id] = undefined;
-                  this._data_proxy_request[message.id] = undefined;
-              }, 40000)
-          } else if (message.type == "execute_script_data") {
-              this._data_proxy_response[message.id] = message.data;
-              setTimeout(() => {
-                  this._data_proxy_response[message.id] = undefined;
-              }, 40000)
-          } else if (message.type == "proxy_data") {
-              this._data_proxy_response[message.id] = message.data;
-              setTimeout(() => {
-                  this._data_proxy_response[message.id] = undefined;
-              }, 40000)
-          } else if (message.type == "electron_send_local") {
-              const res = await window._gh_receive_message(message.data)
-              this.postMessage({
-                  send_client_id: message.send_client_id,
-                  receiver_client_id: message.receiver_client_id,
-                  type: "electron_receive_local",
-                  data: res,
-                  id:message.id
-              })
-          }
+        });
 
-      });
-
-      window._gh_fetch = this.fetch;
-      window._gh_get_html = this.getHtml;
-      window._gh_execute_eval = this.execute_eval;
+        window._gh_fetch = this.fetch;
+        window._gh_get_html = this.getHtml;
+        window._gh_execute_eval = this.execute_eval;
+      }
   }
 
   postMessage = (data) => {
@@ -271,5 +271,5 @@ class MessageFetchService {
 
 }
 
-if(false) new MessageFetchService()
+new MessageFetchService()
 

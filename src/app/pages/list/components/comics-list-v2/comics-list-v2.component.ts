@@ -78,9 +78,9 @@ export class ComicsListV2Component {
 
   params = {
     gh_data: "",
-    _gh_condition:""
+    _gh_condition: ""
   }
-  is_phone=false;
+  is_phone = false;
   constructor(
     public data: DataService,
     public current: CurrentService,
@@ -99,13 +99,13 @@ export class ComicsListV2Component {
     private _snackBar: MatSnackBar,
     public DownloadOption: DownloadOptionService,
     public App: AppDataService,
-    public platform:Platform,
-    public prompt:PromptService,
-    public AdvancedSearch:AdvancedSearchService,
+    public platform: Platform,
+    public prompt: PromptService,
+    public AdvancedSearch: AdvancedSearchService,
     public LocalCach: LocalCachService,
 
   ) {
-    this.is_phone= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
+    this.is_phone = (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
 
     KeyboardEvent.registerGlobalEventY({
       "a": () => {
@@ -246,7 +246,7 @@ export class ComicsListV2Component {
         const obj: any = await this.webDb.getByKey('query_fixed', this.menu_id)
 
         this.url = `${obj.name}`
-        this.query_option=obj.data;
+        this.query_option = obj.data;
 
         ComicsListV2.register({
           id: this.id,
@@ -315,10 +315,10 @@ export class ComicsListV2Component {
             return list
           }
         })
-        if(this.params._gh_condition){
-          const c=JSON.parse(decodeURIComponent(window.atob(this.params._gh_condition)));
-          this.query.list.forEach(x=>{
-            if(c[x.id]) x.value=c[x.id]
+        if (this.params._gh_condition) {
+          const c = JSON.parse(decodeURIComponent(window.atob(this.params._gh_condition)));
+          this.query.list.forEach(x => {
+            if (c[x.id]) x.value = c[x.id]
           })
 
 
@@ -327,14 +327,14 @@ export class ComicsListV2Component {
       }
 
       const data: any = await this.get(this.id);
-      if(this.params._gh_condition){
+      if (this.params._gh_condition) {
         let obj = {};
         for (let index = 0; index < this.query.list.length; index++) {
           const c = this.query.list[index]
           if (c.value) obj[c.id] = c.value
         }
         this.on_135(obj)
-      }else if (data && this.params.gh_data != "reset") {
+      } else if (data && this.params.gh_data != "reset") {
 
         data.list.forEach(x => {
           x.selected = false;
@@ -431,11 +431,11 @@ export class ComicsListV2Component {
 
   }
 
-  on_8474(){
+  on_8474() {
     this.AdvancedSearch.open({
-      list:this.query.list,
-      query_fixed:this.query_fixed,
-      change:this.on_135
+      list: this.query.list,
+      query_fixed: this.query_fixed,
+      change: this.on_135
     })
   }
   getAllParams(url) {
@@ -454,7 +454,37 @@ export class ComicsListV2Component {
   }
   query_fixed = async (e) => {
     const name = await this.prompt.fire("请输入新名称", "");
-    if (name !== null) {
+
+    if (name === null) {
+
+    } else if (name === "") {
+      const generateRandomName = (length = 4) => {
+        const chars = '1234567890';
+        let name = '';
+        for (let i = 0; i < length; i++) {
+          name += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return name;
+      }
+      const name= generateRandomName()
+      const obj = {
+        id: new Date().getTime().toString(),
+        name: name,
+        source: this.source,
+        data: {
+          menu_id: this.menu_id,
+          page_num: 1,
+          ...e
+        }
+      }
+      await this.webDb.update('query_fixed', obj)
+
+      setTimeout(() => {
+        this.current._updateMenu()
+      })
+
+
+    } else {
       if (name != "") {
         const obj = {
           id: new Date().getTime().toString(),
@@ -468,12 +498,10 @@ export class ComicsListV2Component {
         }
         await this.webDb.update('query_fixed', obj)
 
-        setTimeout(()=>{
+        setTimeout(() => {
           this.current._updateMenu()
         })
       }
-    } else {
-
     }
   }
 

@@ -8,62 +8,54 @@
 ></div>
 <mat-menu #menu="matMenu">
   <ng-template matMenuContent let-name="data">
-    <div *ngFor="let item of name; let index = index">
-      <button
-        [attr._id]="'content_menu_' + index"
-        [attr.select]="index == 0"
-        [attr.default]="index == 0"
-        [attr.region]="'content_menu'"
-        (click)="
-          item.submenu
-            ? submenuOpen($event)
-            : on($event,item.arg)
-        "
-        [attr.svg_filter]="'text_primary'"
-        mat-menu-item
-        *ngIf="item.submenu"
-        [matMenuTriggerFor]="submenu"
-        [matMenuTriggerData]="{ data: item.submenu }"
-        [matTooltipShowDelay]="10000"
-        [matTooltip]="item.name | translate"
-      >
-        {{ item.name | translate  }}
-      </button>
-      <button
-        [attr._id]="'content_menu_' + index"
-        [attr.select]="index == 0"
-        [attr.default]="index == 0"
-        [attr.region]="'content_menu'"
-        [attr.svg_filter]="'text_primary'"
-        (click)="on($event,item.arg)"
-        [matTooltipShowDelay]="10000"
-        [matTooltip]="item.name | translate"
-        mat-menu-item
-        *ngIf="!item.submenu"
-      >
-        {{ item.name | translate }}
-      </button>
-    </div>
+    @for (item of name; track index; let index = $index) {
+      <mat-divider *ngIf="item.type=='separator'" style="margin: 4px 16px;"></mat-divider>
+      @if (item.type!='separator') {
+        @if (item.submenu) {
+          <button
+          [attr._id]="'content_menu_' + index"
+          [attr.select]="index == 0"
+          [attr.default]="index == 0"
+          [attr.region]="'content_menu'"
+          (click)="
+            item.submenu
+              ? submenuOpen($event)
+              : on($event,item.arg)
+          "
+          [attr.svg_filter]="'text_primary'"
+          mat-menu-item
+          [matMenuTriggerFor]="submenu"
+          [matMenuTriggerData]="{ data: item.submenu }"
+          [matTooltipShowDelay]="10000"
+          [matTooltip]="item.name | translate"
+        >
+          {{ item.name | translate  }}
+        </button>
+        }@else{
+          <button
+          [attr._id]="'content_menu_' + index"
+          [attr.select]="index == 0"
+          [attr.default]="index == 0"
+          [attr.region]="'content_menu'"
+          [attr.svg_filter]="'text_primary'"
+          (click)="on($event,item.arg)"
+          [matTooltipShowDelay]="10000"
+          [matTooltip]="item.name | translate"
+          mat-menu-item
+          *ngIf="!item.submenu"
+        >
+          {{ item.name | translate }}
+        </button>
+        }
+      }
+    }
   </ng-template>
 </mat-menu>
 <mat-menu #submenu="matMenu">
   <ng-template matMenuContent let-name="data">
-    <!-- <div *ngFor="let item of name;let index=index">
-            <button mat-menu-item
-            [attr._id]="'content_menu_submenu_'+index"
-            [attr.select]="false"
-            [attr.default]="false"
-            [attr.region]="'content_menu_submenu'"
-            (click)="on($event,item.arg)"
-            [matTooltipShowDelay]="10000"
-            [matTooltip]="item.name ? item.name :item.name | translate"
-            >
-              {{item.name ? item.name :item.name | translate}}
-            </button>
-        </div> -->
-    <!-- 有问题 -->
-    <div *ngFor="let item of name; let index = index">
-      <button
+    @for (item of name; track index; let index = $index) {
+      @if (item.submenu) {
+        <button
         [attr._id]="'content_menu_submenu' + index"
         [attr.select]="false"
         [attr.default]="false"
@@ -75,7 +67,6 @@
             : on($event,item.arg)
         "
         mat-menu-item
-        *ngIf="item.submenu"
         [matMenuTriggerFor]="children"
         [matMenuTriggerData]="{ data: item.submenu }"
         [matTooltipShowDelay]="10000"
@@ -83,7 +74,8 @@
       >
         {{ item.name | translate }}
       </button>
-      <button
+      }@else{
+        <button
         [attr._id]="'content_menu_submenu' + index"
         [attr.select]="false"
         [attr.default]="false"
@@ -93,15 +85,16 @@
         [matTooltipShowDelay]="10000"
         [matTooltip]="item.name | translate"
         mat-menu-item
-        *ngIf="!item.submenu"
       >
         {{ item.name | translate }}
       </button>
-    </div>
+      }
+    }
   </ng-template>
 </mat-menu>
 <mat-menu #children="matMenu">
   <ng-template matMenuContent let-name="data">
+
     <div
       *ngFor="let item of name; let index = index"
       [attr._id]="'content_menu_children_' + index"

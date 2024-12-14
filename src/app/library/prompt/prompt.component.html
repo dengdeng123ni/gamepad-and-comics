@@ -5,6 +5,6 @@
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions style="display: flex;justify-content: end;">
-  <button mat-button (click)="data.close()"> {{'取消' | translate}}</button>
-  <button mat-button color="primary" (click)="data.save(data.value)"> {{'确认' | translate}}</button>
+  <button mat-button  [attr.region]="'prompt_item'" (click)="data.close()"> {{'取消' | translate}}</button>
+  <button mat-button  [attr.region]="'prompt_item'" [attr.select]="'true'" color="primary" (click)="data.save(data.value)"> {{'确认' | translate}}</button>
 </mat-dialog-actions>

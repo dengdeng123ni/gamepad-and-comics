@@ -52,7 +52,9 @@ export class IndexService {
 
       this.ContextMenuEvent.registerMenu('comics_item', [
         {
-          name: "下载", id: "download", click: async (list) => {
+          name: "下载", id: "download",
+
+          click: async (list) => {
             this.DownloadOption.open(list)
           }
         },
@@ -141,6 +143,43 @@ export class IndexService {
                     const pages = await this.DbController.getPages(chapter_id)
                   }
                   this.Notify.messageBox(`${list[index].title}`, '已完成', { duration: 1000 })
+                }
+              }
+            },
+            {
+              name: "JSON", id: "json", click: async (list) => {
+                for (let index = 0; index < list.length; index++) {
+
+                  let res = await this.DbController.getDetail(list[index].id)
+                  for (let index = 0; index < res.chapters.length; index++) {
+                    const chapter_id = res.chapters[index].id;
+                    const pages = await this.DbController.getPages(chapter_id)
+                    res.chapters[index].pages=pages
+                  }
+                  const jsonString = JSON.stringify(res, null, 2); // 格式化 JSON
+                  const blob = new Blob([jsonString], { type: "application/json" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `${list[index].title}_web.json`; // 指定下载的文件名
+                  a.click();
+                  URL.revokeObjectURL(url); // 释放 URL
+                }
+                for (let index = 0; index < list.length; index++) {
+                  let res:any = (await this.webDb.getByKey('details',list[index].id) as any).data
+                  for (let index = 0; index < res.chapters.length; index++) {
+                    const chapter_id = res.chapters[index].id;
+                    const pages = (await this.webDb.getByKey('pages',chapter_id) as any).data
+                    res.chapters[index].pages=pages
+                  }
+                  const jsonString = JSON.stringify(res, null, 2); // 格式化 JSON
+                  const blob = new Blob([jsonString], { type: "application/json" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `${list[index].title}.json`; // 指定下载的文件名
+                  a.click();
+                  URL.revokeObjectURL(url); // 释放 URL
                 }
               }
             },

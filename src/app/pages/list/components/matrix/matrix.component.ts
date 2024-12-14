@@ -50,19 +50,42 @@ export class MatrixComponent {
     this.input_change();
   }
   async on() {
-    const userInput = await this.prompt.fire("请输入新名称", "");
-    if (userInput !== null) {
-      if (userInput != "") {
-        const obj={
-          id: `_${new Date().getTime()}`,
-          name: userInput,
-          value: this.values
-        }
-        await this.webDb.update('color_matrix', obj)
-        this.save(obj)
-      }
-    } else {
+    const name = await this.prompt.fire("请输入新名称", "");
 
+    if (name === null) {
+
+    } else if (name === "") {
+      const generateRandomName = (length = 4) => {
+        const chars = '1234567890';
+        let name = '';
+        for (let i = 0; i < length; i++) {
+          name += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return name;
+      }
+      const name= generateRandomName()
+      const obj={
+        id: `_${new Date().getTime()}`,
+        name: name,
+        value: this.values
+      }
+      await this.webDb.update('color_matrix', obj)
+      this.save(obj)
+    }else{
+      if (name !== null) {
+        if (name != "") {
+          const obj={
+            id: `_${new Date().getTime()}`,
+            name: name,
+            value: this.values
+          }
+          await this.webDb.update('color_matrix', obj)
+          this.save(obj)
+        }
+      } else {
+
+      }
     }
+
   }
 }

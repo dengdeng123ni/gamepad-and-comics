@@ -36,20 +36,21 @@ export class MessageFetchService {
       name: '插件'
     }, {
       sendMessage: async e => {
-       const data= await fetch(`${window.location.origin}/api/local/send`, {
+        const data = await fetch(`${window.location.origin}/api/local/send`, {
           method: 'POST', // 指定请求方法为 POST
           headers: {
             'Content-Type': 'application/json', // 指定请求体的格式为 JSON
           },
           body: JSON.stringify(e), // 将数据序列化为 JSON 字符串
         })
-        return data.json();
+        const res = await data.json();
+        return res
       },
       getAll: async e => {
-        const data= await fetch(`${window.location.origin}/api/local/getAll`)
-
-         return data.json();
-       },
+        const data = await fetch(`${window.location.origin}/api/local/getAll`)
+        const res = await data.json();
+        return res
+      },
     })
 
   }
@@ -164,7 +165,7 @@ export class MessageFetchService {
       const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
-            bool=false;
+            bool = false;
             r(this._data_proxy_response[id].clone())
           } else {
             if (bool) getData()
@@ -174,7 +175,7 @@ export class MessageFetchService {
       getData()
 
       setTimeout(() => {
-        if(bool){
+        if (bool) {
           bool = false;
           r(new Response())
           j(new Response())
@@ -209,7 +210,7 @@ export class MessageFetchService {
       const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
-            bool=false;
+            bool = false;
             r(this._data_proxy_response[id].clone())
           } else {
             if (bool) getData()
@@ -219,7 +220,7 @@ export class MessageFetchService {
       getData()
 
       setTimeout(() => {
-        if(bool){
+        if (bool) {
           bool = false;
           r(new Response())
           j(new Response())
@@ -266,6 +267,7 @@ export class MessageFetchService {
       }, 30000)
     })
   }
+
   getProxyRequestLocal = async (e) => {
     const id = Math.random().toString(36).substring(2, 9)
     const jsonString = {
@@ -319,7 +321,7 @@ export class MessageFetchService {
       const getData = () => {
         setTimeout(() => {
           if (this._data_proxy_response[id]) {
-            bool=false;
+            bool = false;
             r(this._data_proxy_response[id])
           } else {
             if (bool) getData()
@@ -329,7 +331,7 @@ export class MessageFetchService {
       getData()
 
       setTimeout(() => {
-        if(bool){
+        if (bool) {
           bool = false;
           r(new Response())
           j(new Response())
@@ -338,8 +340,6 @@ export class MessageFetchService {
       }, 40000)
     })
   }
-
-
 
   async readStreamToString(stream: ReadableStream<Uint8Array>) {
     const reader = stream.getReader();

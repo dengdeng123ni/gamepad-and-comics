@@ -38,8 +38,8 @@
     margin-bottom: 20px;">
         {{'下载完成'|translate}}
        </div>
-       <button mat-button color="primary" [attr.region]="'item'"
-       (click)="close()"> {{'关闭'|translate}}</button>
+       <button mat-button color="primary" [attr.region]="'download_progress_item'" [attr.select]="'true'"
+       (click)="close()" cdkFocusInitial> {{'关闭'|translate}}</button>
      </div>
     <div class="list" style="display: flex;flex-direction: column;overflow: auto;height: 100%;">
       <div class="item" *ngFor="let n of WebFile.logs" style="font-size: 14px;margin: 4px 0;">

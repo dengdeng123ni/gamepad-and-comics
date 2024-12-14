@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 interface MenuItem {
-  id: string;
+  id?: string;
   name: string;
+  type?: string;
+  source?: string;
   data?: any;
   click?: Function,
   submenu?: MenuItem[];
 }
-
+import CryptoJS from 'crypto-js'
 declare let window: any;
 
 @Injectable({
@@ -21,18 +23,10 @@ export class ContextMenuEventService {
 
   public menu: { [key: string]: any } = {};
   constructor() {
-    window._gh_menu_register = this.registerMenu;
+    window._gh_menu_register = this.registerWindowMenu;
     // ['comics_item','chapters_items','one_page_thumbnail_item','double_page_thumbnail_item']
-    // window._gh_menu_register('comics_list', [
-    //   {
-    //     name: "测试点击",
-    //     id: "1223",
-    //     click: (e) => {
-    //       console.log(e);
 
-    //     }
-    //   }
-    // ])
+
 
 
 
@@ -46,7 +40,22 @@ export class ContextMenuEventService {
     if (menu) this.onMenu(key, menu)
   }
 
+  registerWindowMenu = (key: string, menu: Array<MenuItem>) => {
+    menu.forEach(x => {
+      if (!x.id) x.id = CryptoJS.MD5(x.name).toString().toLowerCase();
+      if (!x.source) x.type = 'global'
+    })
+    if (!this.menu[key]) this.menu[key] = [];
+    for (let index = 0; index < menu.length; index++) {
+      this.logoutMenu(key, menu[index].id)
+    }
+    this.menu[key] = [...this.menu[key], ...menu]
+  }
+
   registerMenu = (key: string, menu: Array<MenuItem>) => {
+    menu.forEach(x => {
+      if (!x.id) x.id = CryptoJS.MD5(x.name).toString().toLowerCase();
+    })
     if (!this.menu[key]) this.menu[key] = [];
     for (let index = 0; index < menu.length; index++) {
       this.logoutMenu(key, menu[index].id)
@@ -60,11 +69,15 @@ export class ContextMenuEventService {
   }
 
   onMenu = (key: string, content: Array<MenuItem>) => {
+    content.forEach(x => {
+      if (!x.id) x.id = CryptoJS.MD5(x.name).toString().toLowerCase();
+    })
     if (!this.menu[key]) this.menu[key] = [];
     for (let index = 0; index < content.length; index++) {
       this.logoutMenu(key, content[index].id)
     }
     this.menu[key] = [...content, ...this.menu[key]]
+
   }
 
 

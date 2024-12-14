@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PromptComponent } from './prompt.component';
+import { GamepadEventService } from '../public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,17 @@ export class PromptService {
   value = "";
   constructor(
     public _dialog: MatDialog,
+    public GamepadEvent:GamepadEventService
   ) {
+    GamepadEvent.registerAreaEvent('prompt_item', {
+      B: () => setTimeout(() => {
+        this.value = null;
+        this.dialogRef.close()
+      })
+    })
+    GamepadEvent.registerConfig('prompt', {
+      region: ['prompt_item'],
+    });
 
   }
 
@@ -32,6 +43,7 @@ export class PromptService {
             this.value = value1;
           },
           close: () => {
+            this.value = null;
             this.dialogRef.close()
           }
         },

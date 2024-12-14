@@ -11,7 +11,7 @@ export class DownloadProgressComponent {
   @HostListener('window:beforeunload', ['$event'])
   beforeunload = (event: KeyboardEvent) => {
     var e:any = (window as any).event  || e;
-    e.returnValue = ("确定离开当前页面吗？");
+    if(!this.WebFile.is_download_free) e.returnValue = ("确定离开当前页面吗？");
   }
   list = [
   ];

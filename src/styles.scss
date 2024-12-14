@@ -286,6 +286,8 @@ body[pattern=gamepad][locked_region=detail]{
     }
   }
 }
+
+
 body[pattern=gamepad]{
 
   [region=replace_channel_page_item][select=true],
@@ -298,7 +300,8 @@ body[pattern=gamepad]{
   [region=chip_option_v32][select=true],
   [region=select_input_number_item][select=true],
   [region=mobile_web_qrcode_item][select=true],
-
+  [region=prompt_item][select=true],
+  [region=download_progress_item][select=true],
   [region=select_tag_multiple_item][select=true],
   [region=pulg_javascript_item][select=true]
   {
