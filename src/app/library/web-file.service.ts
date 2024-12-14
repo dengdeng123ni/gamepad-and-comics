@@ -194,9 +194,9 @@ export class WebFileService {
       const pages = await this.DbController.getPages(x.id);
       this.addlog(`${加载成功} ${x.title}`)
       for (let j = 0; j < pages.length; j++) {
-        this.addlog(`${加载中} ${x.title} ${第} ${j} ${图片}`)
+        this.addlog(`${加载中} ${x.title}_${j} ${图片}`)
         await this.DbController.getImage(pages[j].src)
-        this.addlog(`${加载成功} ${x.title} ${第} ${j} ${图片}`)
+        this.addlog(`${加载成功} ${x.title}_${j} ${图片}`)
       }
 
       // this.addlog(`加载中 ${comics_id}`)

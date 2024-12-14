@@ -169,16 +169,23 @@ export class AppComponent {
     this.keydown.pipe(bufferCount(1)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))
     });
-    let obj = {};
-    Object.keys(
-{}
+    // ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
+    // 英语 俄语 中文 德语 葡萄牙语 法语 西班牙語 日语 韩语 意大利语 土耳其语 匈牙利语
 
-    ).forEach(x => {
-      obj[x] = `${x}123213`
+//     let obj = {}
 
-    })
-    console.log(obj);
-
+//     let arr=[]
+//     Object.keys(obj).forEach(x => {
+//       arr.push(obj[x])
+//     })
+//     console.log(obj,arr.join(" @ "));
+//      let str=`
+//     `
+// let arr2=  str.split('@').map(x=>x.trim())
+//     let obj2={}
+//     Object.keys(obj).forEach((x,i) => {
+//       obj2[x] = `${arr2[i]}`
+//     })
 
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
@@ -291,33 +298,42 @@ export class AppComponent {
       this.GamepadController.GamepadSound.opened = res.is_enabled_sound;
     }
   }
-  async init() {
-    await this.webCh.init();
-    let arr = ['zh', 'en'].filter(x => navigator.languages.includes(x));
 
-    if (arr && arr.length) {
-      this.translate.setDefaultLang('zh');
-      this.translate.use('zh');
-      document.body.setAttribute('language', 'zh')
-    } else {
-      // this.translate.addLangs(['zh', 'en']);
-      // this.translate.setDefaultLang('en');
-      // this.translate.use('en');
-      // const 手柄与漫画 = await this.I18n.getTranslatedText('手柄与漫画')
-      // document.title = 手柄与漫画;
-      // document.body.setAttribute('language', 'en')
+  async setLanguage(){
+    const language=localStorage.getItem("language")
+    let bool = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].includes(language)
+    console.log(bool);
+
+    if(bool){
+      this.translate.setDefaultLang(language);
+      this.translate.use(language);
+    }else{
+      let arr = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].filter(x => navigator.languages.includes(x));
+      if (arr && arr.length) {
+        this.translate.setDefaultLang(arr[0]);
+        this.translate.use(arr[0]);
+        document.body.setAttribute('language', arr[0])
+        localStorage.setItem("language",arr[0])
+      } else {
+        this.translate.addLangs(["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"]);
+        this.translate.setDefaultLang('en');
+        this.translate.use('en');
+        const 游戏手柄与漫画 = await this.I18n.getTranslatedText('游戏手柄与漫画')
+        document.title = 游戏手柄与漫画;
+        document.body.setAttribute('language', 'en')
+        localStorage.setItem("language",'en')
+      }
     }
-
-
-
-
+  }
+  async init() {
+    this.setLanguage()
+    await this.webCh.init();
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();
     await this.as12312();
     if (!obj1["noscript"]) await this.pulg.init();
     setTimeout(() => {
       this.getj342();
-
 
       setTimeout(() => {
 

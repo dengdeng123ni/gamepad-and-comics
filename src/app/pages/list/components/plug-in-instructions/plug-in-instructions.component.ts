@@ -16,7 +16,7 @@ export class PlugInInstructionsComponent {
     "点击加载解压缩的扩展",
     "打开我们解压后的插件文件夹",
     "点击确认",
-    "成功插件列表会显示 手柄与漫画插件",
+    "成功插件列表会显示 游戏手柄与漫画插件",
   ]
   constructor() {
 
@@ -24,7 +24,7 @@ export class PlugInInstructionsComponent {
 
   on() {
     const c = document.querySelector("base").href + 'assets/zip/extended.zip';
-    this.downloadFile(c, '手柄与漫画插件')
+    this.downloadFile(c, '游戏手柄与漫画插件')
   }
 
   downloadFile(url, fileName) {
