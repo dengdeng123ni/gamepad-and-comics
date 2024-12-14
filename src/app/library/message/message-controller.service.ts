@@ -65,6 +65,7 @@ export class MessageControllerService {
           window.postMessage(jsonString);
         } else if (event.data.type == "init") {
           this.init();
+          this.ping();
         }
       }
     }, false);
@@ -80,5 +81,19 @@ export class MessageControllerService {
         name: navigator.userAgent
       }
     });
+  }
+
+  ping(){
+    // 插件销毁,每3秒上报数据
+    setTimeout(()=>{
+      window.postMessage({
+        target: 'background',
+        type: "add_browser_client",
+        client: {
+          id: document.body.getAttribute("client_id"),
+          name: navigator.userAgent
+        }
+      });
+    },3000)
   }
 }

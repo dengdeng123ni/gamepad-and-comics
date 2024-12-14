@@ -19,6 +19,7 @@ import { NovelsDetailModule } from './pages/novels-detail/novels-detail.module';
 import { NovelsRdeaderModule } from './pages/novels-reader/novels-reader.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+
 const dbConfig: DBConfig = {
   name: 'db',
   version: 41,
