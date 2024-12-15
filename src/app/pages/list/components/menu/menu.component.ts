@@ -172,11 +172,10 @@ export class MenuComponent {
                 id: "ope321",
                 name: "打开局域网连接",
                 click: () => {
-                  const href= window.location.hostname;
-                  if(this.isValidIPv4(href)){
-                    window.open(href,'_blank')
+                  if(AppData.local_network_url){
+                    window.open(`${AppData.local_network_url}`,'_blank')
                   }else{
-                    this.Notify.messageBox('IP')
+                    this.Notify.messageBox("ERROR")
                   }
                 }
               },
@@ -184,12 +183,10 @@ export class MenuComponent {
                 id: "ope321",
                 name: "手机版二维码",
                 click: () => {
-                  const href= window.location.hostname;
-                  if(this.isValidIPv4(href)){
-                    window.open(href,'_blank')
+                  if(AppData.local_network_url){
                     this.MobileWebQrcode.open();
                   }else{
-                    this.Notify.messageBox('IP')
+                    this.Notify.messageBox("ERROR")
                   }
                 }
               },

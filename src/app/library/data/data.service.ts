@@ -13,6 +13,10 @@ export class AppDataService {
   is_pulg = false;
   is_pwa = false;
   is_web_worker=false;
+
+  local_network_url="";
+
+
   public sourceChange() {
     return this.source$
   }
