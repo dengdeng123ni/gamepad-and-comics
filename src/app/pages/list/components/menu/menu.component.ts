@@ -323,6 +323,8 @@ export class MenuComponent {
     })
   }
   init() {
+    this.data.menu_2=[];
+    this.data.menu=[];
     if (this.data.menu.length == 0) {
       Object.keys(this.DbEvent.Events).forEach((x) => {
         if (x == "temporary_file") return
@@ -416,6 +418,8 @@ export class MenuComponent {
         // this.data.menu[index].expanded=true;
       }
       if (!this.data.menu_2_obj) this.data.menu_2_obj = this.data.menu_2[0]
+      if (this.data.menu_2.length==0) this.data.menu_2_obj =null
+
       if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
       this.menu.url_to_list.forEach(x => {
         this.data.menu.push({

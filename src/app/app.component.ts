@@ -383,9 +383,8 @@ export class AppComponent {
     if (!obj1["noscript"]) await this.pulg.init();
     setTimeout(() => {
       this.getj342();
-
+      this.ReplaceChannelController.init();
       setTimeout(() => {
-
         if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
         this.is_loading_page = true;
         this.GamepadController.init();
@@ -396,7 +395,7 @@ export class AppComponent {
           this.ParamsController.init()
           this.TouchmoveController.init();
           this.RoutingController.strRouterReader(obj1["url"]);
-          this.ReplaceChannelController.init();
+
           this.get123();
 
           if (!obj1["url"]) {

@@ -69,8 +69,6 @@ export class SelectTagMultipleComponent {
         }, 100)
       },
       "A": (e) => {
-        // console.log(document.querySelector("[select=true][region=chip_option_v32] button"));
-
         setTimeout(() => {
           if (document.querySelector("[select=true][region=chip_option_v32] button").getAttribute("aria-selected") == "true") {
             (document.querySelector("[select=true][region=chip_option_v32] button") as any).click()

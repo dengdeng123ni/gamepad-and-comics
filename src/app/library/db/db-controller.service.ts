@@ -366,7 +366,6 @@ export class DbControllerService {
       let blob = new Blob([], {
         type: 'image/jpeg'
       });
-
       if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getImage"]) {
         if (id.substring(7, 21) == "localhost:7700") {
           let url = id;

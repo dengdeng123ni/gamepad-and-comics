@@ -29,8 +29,12 @@ export class OnePageThumbnailMode1Component {
     public ContextMenuEvent: ContextMenuEventService
   ) {
     this.init(this._data);
-    if (data.is_cache) {
-      ContextMenuEvent.register('one_page_thumbnail_item', {
+    this.registerInit()
+
+  }
+  async registerInit(){
+    if (this.data.is_cache) {
+      this.ContextMenuEvent.register('one_page_thumbnail_item', {
         on: async e => {
           if (e.id == "delete") {
             this.current._delPage(this.data.chapter_id, parseInt(e.value)).then(() => {
@@ -79,15 +83,13 @@ export class OnePageThumbnailMode1Component {
         ]
       })
     } else {
-      ContextMenuEvent.register('one_page_thumbnail_item', {
+      this.ContextMenuEvent.register('one_page_thumbnail_item', {
         on: async e => {
           e.click(this.data.pages[parseInt(e.value)])
         }
       })
     }
-
   }
-
   async init(_data?: DialogData) {
     let bool=false;
 

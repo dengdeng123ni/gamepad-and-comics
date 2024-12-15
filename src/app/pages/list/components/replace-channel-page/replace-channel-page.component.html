@@ -29,7 +29,7 @@
       <mat-divider [vertical]="true" style="        margin: 12px 4px;
       border-right-width: 2px;
     "></mat-divider>
-      <button mat-button  [attr.select]="'true'" class="name" style="cursor: pointer;"  [attr.region]="'replace_channel_page_item'">
+      <button mat-button  [attr.select]="'true'" class="name" style="cursor: pointer;"  [attr.region]="'replace_channel_page_item'" (click)="closeReplace()">
          {{'关闭通道' | translate}}
       </button>
     </div>

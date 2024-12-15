@@ -326,7 +326,10 @@ export class GamepadControllerService {
   // document.querySelector("#section_item_1679231989932").
   getCurrentObj(node) {
     const position = node.getBoundingClientRect();
-    return { id: node.getAttribute("_id"), index: 0, select: node.getAttribute("select") == "true", start: node.getAttribute("select") == "true", region: node.getAttribute("region"), position }
+    return { id: node.getAttribute("_id"), index: 0,
+      select: node.getAttribute("select") == "true",
+       start: node.getAttribute("default") == "true",
+        region: node.getAttribute("region"), position }
   }
   oldRegion = null;
 
@@ -346,7 +349,7 @@ export class GamepadControllerService {
     let index = 0;
     for (let node of this.nodes) {
       const position = node.getBoundingClientRect();
-      list.push({ id: node.getAttribute("_id"), index: index, select: node.getAttribute("select") == "true", start: node.getAttribute("select") == "true", region: node.getAttribute("region"), position });
+      list.push({ id: node.getAttribute("_id"), index: index, select: node.getAttribute("select") == "true", start: node.getAttribute("default") == "true", region: node.getAttribute("region"), position });
       index++;
     }
     this.list = list;
@@ -384,6 +387,7 @@ export class GamepadControllerService {
 
   getCurrentNode = () => {
     let current = null;
+
     current = this.list.find(x => x.select == true);
     if (!current) current = this.list.find(x => x.start == true);
     if (!current) current = this.list[0];
@@ -535,7 +539,9 @@ export class GamepadControllerService {
           if(region){
             if (this.GamepadEvent.areaEvents[region]?.MoveEnd) {
               this.GamepadEvent.areaEvents[region].MoveEnd(element);
+
             }
+            // element.focus()
           }
           observer.unobserve(element);
         });

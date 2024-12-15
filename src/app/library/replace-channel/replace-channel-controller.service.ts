@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IndexdbControllerService, CacheControllerService, DbEventService, DbControllerService, ReplaceChannelEventService } from '../public-api';
 
-
+import CryptoJS from 'crypto-js'
 declare global {
   interface Window {
     _gh_receive_message?: (message: any) => Promise<any>;
@@ -32,6 +32,10 @@ export class ReplaceChannelControllerService {
   old_data = null
 
   is_free = false;
+
+  current_md5 = "";
+
+  is_loading_free = false;
   constructor(
     public ReplaceChannelEvent: ReplaceChannelEventService,
     public DbController: DbControllerService,
@@ -76,8 +80,109 @@ export class ReplaceChannelControllerService {
     }
     this.default_trigger()
   }
+  goBack(){
+    this.webCh.match=this.original.webCh.match.bind(null);
+    this.webCh.put=this.original.webCh.put.bind(null);
+    this.webCh.delete=this.original.webCh.delete.bind(null);
+    this.webCh.keys=this.original.webCh.keys.bind(null);
 
+    this.webDb.getAll=this.original.webDb.getAll.bind(null);
+    this.webDb.update=this.original.webDb.update.bind(null);
+    this.webDb.deleteByKey=this.original.webDb.deleteByKey.bind(null);
+    this.webDb.getByKey=this.original.webDb.getByKey.bind(null);
+    const events = {
 
+    }
+    Object.keys(this.original.DbEvent.Events).forEach(x => {
+      if (!events[x]) events[x] = {}
+      Object.keys(this.original.DbEvent.Events[x]).forEach(c => {
+        events[x][c] = this.original.DbEvent.Events[x][c].bind(null);
+      })
+    })
+    this.DbEvent.Events=events;
+    this.DbEvent.Configs=this.original.DbEvent.Configs;
+
+    if (window._gh_menu_update) window._gh_menu_update()
+    if (window._gh_page_reset) window._gh_page_reset()
+    this.enabled_change(false);
+    // window.location.reload();
+
+  }
+  replaceWebDb_WebCh(){
+    this.webDb.getAll = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'getAll',
+        target_source: 'indexdb',
+
+      })
+      return res
+    }
+    this.webDb.update = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'update',
+        target_source: 'indexdb',
+
+      })
+      return res
+    }
+    this.webDb.deleteByKey = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'deleteByKey',
+        target_source: 'indexdb',
+
+      })
+      return res
+    }
+    this.webDb.getByKey = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'getByKey',
+        target_source: 'indexdb',
+
+      })
+      return res
+    }
+    this.webCh.match = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'match',
+        target_source: 'caches',
+
+      })
+      return res
+    }
+    this.webCh.put = async (...e): Promise<any> => {
+
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'put',
+        target_source: 'caches',
+
+      })
+      return res
+    }
+    this.webCh.delete = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'delete',
+        target_source: 'caches',
+
+      })
+      return res
+    }
+    this.webCh.keys = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'keys',
+        target_source: 'caches',
+
+      })
+      return res
+    }
+  }
   async default_trigger() {
     if (this.is_free) return
     if (this.old_data) {
@@ -86,11 +191,38 @@ export class ReplaceChannelControllerService {
       this.old_data = await this.original.webDb.getByKey('data', '_replace_channel')
     }
     if (this.old_data && this.old_data.is_enabled) {
+      const res = await this.original.webDb.getByKey('data', '_replace_channel_db_event')
+      if (res) {
+        if (res.configs) this.DbEvent.Configs = res.configs;
+        if (res.events) {
+          this.DbEvent.Events = {};
+          Object.keys(res.events).forEach(x => {
+            if (!this.DbEvent.Events[x]) this.DbEvent.Events[x] = {} as any;
+            Object.keys(res.events[x]).forEach(c => {
+              this.DbEvent.Events[x][c] = async (...e): Promise<any> => {
+                const res = await this.send_message({
+                  parameter: e,
+                  function_name: c,
+                  source: x,
+                  target_source: 'builtin',
+
+                })
+                return res
+              }
+            })
+          });
+          if (window._gh_menu_update) window._gh_menu_update()
+          if (window._gh_page_reset) window._gh_page_reset()
+          this.current_md5 = res.md5;
+        }
+        this.replaceWebDb_WebCh()
+      }
       const bool = Object.keys(this.ReplaceChannelEvent.Configs).includes(this.old_data.replace_channel_id);
       if (bool) {
         const list = await this.ReplaceChannelEvent.Events[this.old_data.replace_channel_id].getAll()
         const obj = list.find(x => this.old_data.receiver_client_id == x.id)
         if (obj) {
+
           const bool = await this.change(obj.id, this.old_data.replace_channel_id, true)
           if (!bool) {
 
@@ -110,7 +242,6 @@ export class ReplaceChannelControllerService {
     await this.original.webDb.update('data', { ...res, is_enabled })
   }
 
-
   async change(receiver_client_id, replace_channel_id, is_enabled) {
     try {
       this.receiver_client_id = receiver_client_id;
@@ -126,79 +257,7 @@ export class ReplaceChannelControllerService {
         function_name: 'db_event',
         target_source: 'other'
       })
-      this.webDb.getAll = async (...e): Promise<any> => {
-        const res = await this.send_message({
-          parameter: e,
-          function_name: 'getAll',
-          target_source: 'indexdb',
-
-        })
-        return res
-      }
-      this.webDb.update = async (...e): Promise<any> => {
-        const res = await this.send_message({
-          parameter: e,
-          function_name: 'update',
-          target_source: 'indexdb',
-
-        })
-        return res
-      }
-      this.webDb.deleteByKey = async (...e): Promise<any> => {
-        const res = await this.send_message({
-          parameter: e,
-          function_name: 'deleteByKey',
-          target_source: 'indexdb',
-
-        })
-        return res
-      }
-      this.webDb.getByKey = async (...e): Promise<any> => {
-        const res = await this.send_message({
-          parameter: e,
-          function_name: 'getByKey',
-          target_source: 'indexdb',
-
-        })
-        return res
-      }
-      this.webCh.match = async (...e): Promise<any> => {
-        const res = await this.send_message({
-          parameter: e,
-          function_name: 'match',
-          target_source: 'caches',
-
-        })
-        return res
-      }
-      this.webCh.put = async (...e): Promise<any> => {
-
-        const res = await this.send_message({
-          parameter: e,
-          function_name: 'put',
-          target_source: 'caches',
-
-        })
-        return res
-      }
-      this.webCh.delete = async (...e): Promise<any> => {
-        const res = await this.send_message({
-          parameter: e,
-          function_name: 'delete',
-          target_source: 'caches',
-
-        })
-        return res
-      }
-      this.webCh.keys = async (...e): Promise<any> => {
-        const res = await this.send_message({
-          parameter: e,
-          function_name: 'keys',
-          target_source: 'caches',
-
-        })
-        return res
-      }
+      this.replaceWebDb_WebCh()
       return true
     } catch (error) {
       return false
@@ -209,7 +268,6 @@ export class ReplaceChannelControllerService {
   }
 
   send_message = async (e) => {
-
     if (e.target_source == "caches") {
       if (e.function_name == "match") {
         if (e.parameter[0] == "image") {
@@ -227,14 +285,14 @@ export class ReplaceChannelControllerService {
         if (e.parameter[0] == "details") {
           const res = await this.original.webDb.getByKey(...e.parameter)
           if (res) return res
-        }else if(e.parameter[0] == "pages"){
+        } else if (e.parameter[0] == "pages") {
           const res = await this.original.webDb.getByKey(...e.parameter)
           if (res) return res
-        }else if(e.parameter[0] == "comics_config"){
+        } else if (e.parameter[0] == "comics_config") {
           const res = await this.original.webDb.getByKey(...e.parameter)
           return res
         }
-      }else if (e.function_name == "update") {
+      } else if (e.function_name == "update") {
         if (e.parameter[0] == "history") {
           this.original.webDb.update(...e.parameter)
         }
@@ -252,11 +310,17 @@ export class ReplaceChannelControllerService {
         }
       }
     }
-    const res = await this.ReplaceChannelEvent.Events[this.replace_channel_id].sendMessage({
-      send_client_id: this.send_client_id,
-      receiver_client_id: this.receiver_client_id,
-      data: e
-    })
+    let res;
+    if (this.receiver_client_id) {
+      res = await this.ReplaceChannelEvent.Events[this.replace_channel_id].sendMessage({
+        send_client_id: this.send_client_id,
+        receiver_client_id: this.receiver_client_id,
+        data: e
+      })
+    } else {
+      res = await this.receive_message(e)
+    }
+
     if (!res) return undefined
 
     if (!res.data) {
@@ -266,7 +330,7 @@ export class ReplaceChannelControllerService {
         if (res.req.parameter[0] == "details") {
           this.original.webDb.update(res.req.parameter[0], res.data)
           return res.data
-        }else if(res.req.parameter[0] == "pages"){
+        } else if (res.req.parameter[0] == "pages") {
           this.original.webDb.update(res.req.parameter[0], res.data)
           return res.data
         }
@@ -280,6 +344,12 @@ export class ReplaceChannelControllerService {
       const res1 = this.base64ToBlob(res.data)
       return res1
     } else if (res.req.function_name == "db_event") {
+      if(res.data.client_id==this.send_client_id) return
+
+      await this.original.webDb.update('data', {
+        id: "_replace_channel_db_event",
+        ...res.data
+      })
       if (res.data.configs) this.DbEvent.Configs = res.data.configs;
       if (res.data.events) {
         this.DbEvent.Events = {};
@@ -307,6 +377,7 @@ export class ReplaceChannelControllerService {
     }
   }
   receive_message = async (e) => {
+   try {
     let res
     if (e.target_source == "indexdb") {
       res = await this.original.webDb[e.function_name](...e.parameter)
@@ -330,6 +401,8 @@ export class ReplaceChannelControllerService {
     } else if (e.target_source == "other") {
 
       if (e.function_name == "db_event") {
+
+
         let events = {}
         Object.keys(this.original.DbEvent.Events).forEach(x => {
           if (!events[x]) events[x] = {}
@@ -337,16 +410,28 @@ export class ReplaceChannelControllerService {
             events[x][c] = true;
           })
         })
+
+        const id = CryptoJS.MD5(JSON.stringify(
+          {
+            events,
+            configs: this.original.DbEvent.Configs
+          }
+        )).toString().toLowerCase();
         res = {
           events,
-          configs: this.original.DbEvent.Configs
+          configs: this.original.DbEvent.Configs,
+          client_id:this.send_client_id
         }
       }
     }
     return { data: res, req: e }
-  }
-  get_all_client = async () => {
-    //
+   } catch (error) {
+    console.log(error);
+
+    return { data: null, req: e }
+   }
+
+
   }
   blobToBase64 = async (blob) => {
     return new Promise((r, j) => {

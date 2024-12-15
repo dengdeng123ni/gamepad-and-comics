@@ -4,13 +4,13 @@
   </div> -->
   <div class="title"
     style="font-size: 16px;margin-bottom: 12px;display: flex;justify-content: space-between;align-items: center;">
-    高级查询
+    {{'高级查询' | translate}}
     <div> <button mat-icon-button class="icon"  [matTooltipShowDelay]="333"
-      [matTooltip]="'固定查询条件'" (click)="fixed()" [attr.region]="'advanced_search_restart'">
+      [matTooltip]="'固定查询条件'| translate" (click)="fixed()" [attr.region]="'advanced_search_restart'">
         <mat-icon>push_pin</mat-icon>
       </button>
       <button mat-icon-button class="icon"  [matTooltipShowDelay]="333"
-      [matTooltip]="'重新'" (click)="restart()" [attr.region]="'advanced_search_restart'">
+      [matTooltip]="'重新'| translate" (click)="restart()" [attr.region]="'advanced_search_restart'">
         <mat-icon>restart_alt</mat-icon>
       </button>
     </div>
@@ -21,7 +21,7 @@
         <textarea matInput type="text" [(ngModel)]="n.value" (focus)="focus()" (blur)="blur()"></textarea>
       </mat-form-field>
       <div style="display: flex;justify-content: right;padding: 8px 0;">
-        <button mat-button (click)="on()" id="search" [attr.region]="'advanced_search_input'">搜索</button>
+        <button mat-button (click)="on()" id="search" [attr.region]="'advanced_search_input'" [attr.default]="'true'">{{'搜索' | translate}}</button>
       </div>
       <mat-divider style="margin: 2px 0;"></mat-divider>
     </div>
@@ -57,8 +57,8 @@
       </div>
       <mat-form-field class="select" style="   width: 100%;" [attr.region]="'advanced_search_item'"
         [attr.type]="'select'">
-        <mat-select [(ngModel)]="n.value" (openedChange)="openedChange($event)">
-          <mat-option [value]="item.value" *ngFor="let item of n.options;let index=index" [attr.region]="'option'"
+        <mat-select [(ngModel)]="n.value" (openedChange)="openedChange($event,n.value)">
+          <mat-option [value]="item.value" *ngFor="let item of n.options;let index=index" [attr.region]="'option'" (click)="on12321(n,item,$event)"
             [attr.select]="index==0">{{item.label}}</mat-option>
         </mat-select>
       </mat-form-field>

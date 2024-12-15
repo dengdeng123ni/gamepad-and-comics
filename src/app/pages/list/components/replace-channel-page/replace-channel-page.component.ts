@@ -20,7 +20,9 @@ export class ReplaceChannelPageComponent {
     this.init()
   }
 
-
+  closeReplace(){
+     this.ReplaceChannelController.goBack();
+  }
   async init() {
     const list=Object.keys(this.ReplaceChannelEvent.Configs);
 

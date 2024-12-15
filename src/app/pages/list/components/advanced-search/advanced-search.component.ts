@@ -1,4 +1,4 @@
-import { Component, Inject, Input, Optional } from '@angular/core';
+import { Component, HostListener, Inject, Input, Optional } from '@angular/core';
 import { GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
 import { AdvancedSearchService } from './advanced-search.service';
@@ -13,7 +13,24 @@ import { Platform } from '@angular/cdk/platform';
   styleUrl: './advanced-search.component.scss'
 })
 export class AdvancedSearchComponent {
+  @HostListener('window:click', ['$event'])
+  onClickKey = (event: PointerEvent) => {
+    if(document.activeElement.tagName=="BUTTON"){
+      const node=document?.activeElement?.parentNode?.parentNode;
 
+      if(node){
+       let type=(node as any)?.getAttribute('type')
+       if(type=="chip"){
+        setTimeout(() => {
+          (document.activeElement as any).blur()
+        }, 20)
+       }
+      }
+    }
+
+
+
+  }
   @Input() list: Array<any> = [];
   @Input() change: Function;
   @Input() query_fixed: Function;
@@ -35,6 +52,10 @@ export class AdvancedSearchComponent {
       this.query_fixed=data.query_fixed;
     }
 
+    // const pattern=document.body.getAttribute('pattern')
+    // if(pattern=="gamepad"){
+    //   document.get
+    // }
 
     GamepadEvent.registerAreaEvent("advanced_search_input", {
       A: e => {
@@ -101,7 +122,6 @@ export class AdvancedSearchComponent {
         }, 100)
       },
       "A": (e) => {
-        // console.log(document.querySelector("[select=true][region=chip_option] button"));
 
         setTimeout(() => {
           if (document.querySelector("[select=true][region=chip_option] button").getAttribute("aria-selected") == "true") {
@@ -159,16 +179,31 @@ export class AdvancedSearchComponent {
   restart() {
     this.list.forEach(x => x.value = undefined)
   }
+  old_value=""
+  openedChange(e,value) {
 
-  openedChange(e) {
+
     if (e == true) {
       document.body.setAttribute("locked_region", "select")
+      if(value) this.old_value=value;
     } else {
       if (document.body.getAttribute("locked_region") == "select") document.body.setAttribute("locked_region", document.body.getAttribute("router"))
       setTimeout(() => {
         (document.activeElement as any).blur()
       }, 0)
     }
+
+  }
+  on12321(e,n,$event){
+
+    if(e.value){
+      const index=this.list.findIndex(x=>x.id==e.id)
+      if($event.target.getAttribute("aria-selected")=="true"){
+        if(this.old_value==this.list[index].value)  this.list[index].value=null;
+      }
+    }
+
+
 
   }
    on123=async (e)=>{
