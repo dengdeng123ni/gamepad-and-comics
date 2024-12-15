@@ -137,7 +137,20 @@ export class PulgService {
 
   }
 
-
+  async scriptCache(blob, name, obj = {}) {
+    const response = new Response(blob);
+    const id=new Date().getTime();
+    const request = `http://localhost:7700/script/${id}`;
+    this.webCh.put('script',request, response);
+    this.webDb.update('script',{
+      id:id,
+      date:id,
+      name:name,
+      is_enabled:true,
+      src:request,
+      ...obj
+    })
+  }
   loadJS(url) {
     var script = document.createElement('script');
     script.type = 'text/javascript';

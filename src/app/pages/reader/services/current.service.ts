@@ -216,6 +216,7 @@ export class CurrentService {
   async _getNextChapterId(id?): Promise<string | null> {
     if (!id) id = this.data.chapter_id;
     const index = this.data.chapters.findIndex(x => x.id == id);
+    if(index==-1) return null
     const obj = this.data.chapters[index + 1];
     if (obj) {
       return obj.id
@@ -226,6 +227,7 @@ export class CurrentService {
   async _getPreviousChapterId(id?): Promise<string | null> {
     if (!id) id = this.data.chapter_id;
     const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
+    if(index==-1) return null
     const obj = this.data.chapters[index - 1];
     if (obj) {
       return obj.id

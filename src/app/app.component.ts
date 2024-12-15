@@ -105,6 +105,8 @@ export class AppComponent {
   // 语音控制
   // 事件列表 列出可以使用的函数
   //
+
+  is_first_enable = false;
   constructor(
     public ReplaceChannelController: ReplaceChannelControllerService,
     public CacheController: CacheControllerService,
@@ -154,38 +156,38 @@ export class AppComponent {
 
     this.getClientId();
 
-  this.ContextMenuController.onkeydown().subscribe((event:KeyboardEvent)=>{
-    if (document.body.getAttribute('onkeyboard') == 'true') return true
-    let key = "";
-    if (event.key == "F12") return true
-    if (event.key == "Backspace") return true
+    this.ContextMenuController.onkeydown().subscribe((event: KeyboardEvent) => {
+      if (document.body.getAttribute('onkeyboard') == 'true') return true
+      let key = "";
+      if (event.key == "F12") return true
+      if (event.key == "Backspace") return true
 
 
-    if (event.code == "Space") key = "Space";
-    else key = event.key;
-    const obj = this.keys.find(x => x == key)
-    if (obj) {
+      if (event.code == "Space") key = "Space";
+      else key = event.key;
+      const obj = this.keys.find(x => x == key)
+      if (obj) {
 
 
-      this.keydown.next(key)
-      return false
-    } else {
-      const bool = this.GamepadController.device2(key);
-      if (bool) {
-        if (event.key == "Tab") {
-          this.is_tab = true;
+        this.keydown.next(key)
+        return false
+      } else {
+        const bool = this.GamepadController.device2(key);
+        if (bool) {
+          if (event.key == "Tab") {
+            this.is_tab = true;
+            return true
+          }
+          if (event.key == "Enter") return false
+          return true
+        } else {
+          this.keys.push(key)
+          if (event.key == "Enter") return false
           return true
         }
-        if (event.key == "Enter") return false
-        return true
-      } else {
-        this.keys.push(key)
-        if (event.key == "Enter") return false
-        return true
       }
-    }
 
-  })
+    })
 
     window._gh_page_reset = () => {
       this.is_loading_page = false;
@@ -208,20 +210,20 @@ export class AppComponent {
     // ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
     // 英语 俄语 中文 德语 葡萄牙语 法语 西班牙語 日语 韩语 意大利语 土耳其语 匈牙利语
 
-//     let obj = {}
+    //     let obj = {}
 
-//     let arr=[]
-//     Object.keys(obj).forEach(x => {
-//       arr.push(obj[x])
-//     })
-//     console.log(obj,arr.join(" @ "));
-//      let str=`
-//     `
-// let arr2=  str.split('@').map(x=>x.trim())
-//     let obj2={}
-//     Object.keys(obj).forEach((x,i) => {
-//       obj2[x] = `${arr2[i]}`
-//     })
+    //     let arr=[]
+    //     Object.keys(obj).forEach(x => {
+    //       arr.push(obj[x])
+    //     })
+    //     console.log(obj,arr.join(" @ "));
+    //      let str=`
+    //     `
+    // let arr2=  str.split('@').map(x=>x.trim())
+    //     let obj2={}
+    //     Object.keys(obj).forEach((x,i) => {
+    //       obj2[x] = `${arr2[i]}`
+    //     })
 
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
@@ -247,13 +249,13 @@ export class AppComponent {
       }
     })
     GamepadEvent.registerConfig("content_menu", { region: ["content_menu", "content_menu_submenu"] })
-    GamepadEvent.registerAreaEvent("content_menu",{
-      MoveEnd:e=>{
+    GamepadEvent.registerAreaEvent("content_menu", {
+      MoveEnd: e => {
         e.focus()
       }
     } as any)
-    GamepadEvent.registerAreaEvent("content_menu_submenu",{
-      MoveEnd:e=>{
+    GamepadEvent.registerAreaEvent("content_menu_submenu", {
+      MoveEnd: e => {
         e.focus()
       }
     } as any)
@@ -272,6 +274,7 @@ export class AppComponent {
     if (!clientId) {
       clientId = `_${Date.now()}`;
       localStorage.setItem('clientId', clientId);
+      this.is_first_enable = true;
     }
     document.body.setAttribute('client_id', clientId)
     this.ReplaceChannelController.send_client_id = clientId;
@@ -287,23 +290,6 @@ export class AppComponent {
     const params = new URLSearchParams(url.split('?')[1]);
     const allParams = Object.fromEntries((params as any).entries());
     return allParams
-  }
-
-  async get123() {
-
-    // const list:any = await this.MessageFetch.getAllTabs();
-    // console.log(list);
-    // for (let index = 0; index < list.length; index++) {
-    //   console.log(list[index].url);
-
-    //   try {
-    //     await this.RoutingController.strRouterReader(list[index].url);
-    //   } catch (error) {
-
-    //   }
-    //   await this.sleep(3000)
-    // }
-
   }
   sleep = (duration) => {
     return new Promise(resolve => {
@@ -327,41 +313,32 @@ export class AppComponent {
       return 'Unknown';
     }
   }
-  async as12312() {
-    try {
-      const res = await fetch(window.location.origin + '/assets/eval/index.js')
-      if (res) {
-        this.pulg.loadJS(window.location.origin + '/assets/eval/index.js')
-      }
-    } catch (error) {
 
-    }
-  }
-  async getj342() {
-    const res: any =await this.webDb.getByKey('data', 'gamepad_controller_config');
+  async gampadConfigset() {
+    const res: any = await this.webDb.getByKey('data', 'gamepad_controller_config');
     if (res) {
       this.GamepadController.is_voice_controller = res.is_enabled_voice;
       this.GamepadController.GamepadSound.opened = res.is_enabled_sound;
     }
   }
 
-  async setLanguage(){
-    const language=localStorage.getItem("language")
+  async setLanguage() {
+    const language = localStorage.getItem("language")
     let bool = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].includes(language)
     console.log(bool);
 
-    if(bool){
+    if (bool) {
       this.translate.setDefaultLang(language);
       this.translate.use(language);
-      document.querySelector("html").setAttribute('lang',language)
-    }else{
+      document.querySelector("html").setAttribute('lang', language)
+    } else {
       let arr = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].filter(x => navigator.languages.includes(x));
       if (arr && arr.length) {
         this.translate.setDefaultLang(arr[0]);
         this.translate.use(arr[0]);
         document.body.setAttribute('language', arr[0])
-        localStorage.setItem("language",arr[0])
-        document.querySelector("html").setAttribute('lang',arr[0])
+        localStorage.setItem("language", arr[0])
+        document.querySelector("html").setAttribute('lang', arr[0])
       } else {
         this.translate.addLangs(["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"]);
         this.translate.setDefaultLang('en');
@@ -369,9 +346,44 @@ export class AppComponent {
         const 游戏手柄与漫画 = await this.I18n.getTranslatedText('游戏手柄与漫画')
         document.title = 游戏手柄与漫画;
         document.body.setAttribute('language', 'en')
-        localStorage.setItem("language",'en')
-        document.querySelector("html").setAttribute('lang','en')
+        localStorage.setItem("language", 'en')
+        document.querySelector("html").setAttribute('lang', 'en')
       }
+    }
+  }
+  async configSet() {
+    try {
+      const res = await fetch(document.querySelector("base").href + 'assets/config.json')
+      const config = await res.json();
+
+      if(config.default_load_script){
+        const default_load_script = config.default_load_script;
+        for (let index = 0; index < default_load_script.length; index++) {
+          const x = default_load_script[index];
+          const url = `${document.querySelector("base").href}${x}`
+          const res = await fetch(url)
+          const blob = await res.blob();
+          await this.pulg.loadBlodJs(blob)
+        }
+      }
+      if (this.is_first_enable) {
+         // 第一次启用
+           // 第一次加载默认脚本
+        const default_register_script = config.default_register_script;
+        for (let index = 0; index < default_register_script.length; index++) {
+          const x = default_register_script[index];
+          const url = `${document.querySelector("base").href}${x}`
+          const res = await fetch(url)
+          const name = window.decodeURI(url.split("/").at(-1))
+          const blob = await res.blob();
+          await this.pulg.loadBlodJs(blob)
+          await this.pulg.scriptCache(blob, name)
+        }
+      }
+
+    } catch (error) {
+      console.log(error);
+
     }
   }
   async init() {
@@ -379,10 +391,10 @@ export class AppComponent {
     await this.webCh.init();
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();
-    await this.as12312();
+    await this.configSet();
     if (!obj1["noscript"]) await this.pulg.init();
     setTimeout(() => {
-      this.getj342();
+      this.gampadConfigset();
       this.ReplaceChannelController.init();
       setTimeout(() => {
         if (navigator) navigator?.serviceWorker?.controller?.postMessage({ type: "_init" })
@@ -393,10 +405,9 @@ export class AppComponent {
         setTimeout(() => {
           this.App.init();
           this.ParamsController.init()
-          this.TouchmoveController.init();
+          this.TouchmoveController.init();// 触摸初始化
           this.RoutingController.strRouterReader(obj1["url"]);
 
-          this.get123();
 
           if (!obj1["url"]) {
             // window.addEventListener('visibilitychange', () => {

@@ -36,7 +36,7 @@ export class MessageFetchService {
       name: '插件'
     }, {
       sendMessage: async e => {
-        const data = await fetch(`${window.location.origin}/api/local/send`, {
+        const data = await fetch(`${document.querySelector("base").href}api/local/send`, {
           method: 'POST', // 指定请求方法为 POST
           headers: {
             'Content-Type': 'application/json', // 指定请求体的格式为 JSON
@@ -47,7 +47,7 @@ export class MessageFetchService {
         return res
       },
       getAll: async e => {
-        const data = await fetch(`${window.location.origin}/api/local/getAll`)
+        const data = await fetch(`${document.querySelector("base").href}api/local/getAll`)
         const res = await data.json();
         return res
       },

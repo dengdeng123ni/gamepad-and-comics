@@ -68,7 +68,6 @@ export class ComicsInfoComponent {
   }
   back() {
     this.RoutingController.navigate('list')
-    // if (!url) url = window.location.origin
     // const urlObj = new URL(url);
     // let arr = [...urlObj.pathname.split("/")];
     // arr.shift()

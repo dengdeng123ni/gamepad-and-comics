@@ -13,7 +13,7 @@ interface DialogData {
 export class OnePageThumbnailMode1Service {
 
   constructor(private _sheet: MatBottomSheet, public GamepadEvent: GamepadEventService) {
-    GamepadEvent.registerAreaEvent('one_page_mode1', {
+    GamepadEvent.registerAreaEvent('one_page_item', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('one_page_mode1', {

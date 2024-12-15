@@ -9,7 +9,7 @@ export class OnePageThumbnailMode2Service {
   constructor(
      public GamepadEvent: GamepadEventService
   ) {
-    GamepadEvent.registerAreaEvent('thumbnail_sidebar_left', {
+    GamepadEvent.registerAreaEvent('one_page_thumbnail_mode2', {
       B: () => setTimeout(() => this.close())
     })
     GamepadEvent.registerConfig('thumbnail_sidebar_left', {
