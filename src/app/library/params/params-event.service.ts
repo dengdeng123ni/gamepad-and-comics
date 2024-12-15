@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
 
+import CryptoJS from 'crypto-js'
 declare let window: any;
 @Injectable({
   providedIn: 'root'
 })
 export class ParamsEventService {
   //
-  public params_types: { [key: string]: Function } = {};
 
-  public params: { [key: string]: Function } = {};
+  public Configs: { [key: string]: Array<string> } = {};
+
+
+  public Events: { [key: string]: Function } = {};
 
   constructor() {
     window._gh_register_params = this._register_params;
   }
 
-  _register_params=(key, event)=> {
-    this.params[key] = event;
+  _register_params=(parameterName, event)=> {
+    const id = CryptoJS.MD5(JSON.stringify(parameterName)).toString().toLowerCase();
+    this.Configs[id] = parameterName;
+    this.Events[id] = event;
   }
 }

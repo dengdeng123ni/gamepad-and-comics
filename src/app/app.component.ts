@@ -353,6 +353,7 @@ export class AppComponent {
   }
   async configSet() {
     try {
+      // document.querySelector("base").href+'?receiver_client_id=replace_channel_id=is_enabled=true'
       const res = await fetch(document.querySelector("base").href + 'assets/config.json')
       const config = await res.json();
 

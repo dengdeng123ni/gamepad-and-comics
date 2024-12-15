@@ -4,7 +4,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { TemporaryFileService } from './temporary-file.service';
-import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, IndexdbControllerService, LocalCachService, PromptService, PulgService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, IndexdbControllerService, LocalCachService, NotifyService, PromptService, PulgService } from 'src/app/library/public-api';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
@@ -109,6 +109,7 @@ export class MenuComponent {
     public MobileWebQrcode:MobileWebQrcodeService,
     public UrlUsageGuide: UrlUsageGuideService,
     public PageTheme: PageThemeService,
+    public Notify:NotifyService,
     public prompt: PromptService,
     private zone: NgZone
   ) {
@@ -171,22 +172,33 @@ export class MenuComponent {
                 id: "ope321",
                 name: "打开局域网连接",
                 click: () => {
-                  // this.ReplaceChannelPage.open();
+                  const href= window.location.hostname;
+                  if(this.isValidIPv4(href)){
+                    window.open(href,'_blank')
+                  }else{
+                    this.Notify.messageBox('IP')
+                  }
                 }
               },
               {
                 id: "ope321",
                 name: "手机版二维码",
                 click: () => {
-                  this.MobileWebQrcode.open();
-                  // this.ReplaceChannelPage.open();
+                  const href= window.location.hostname;
+                  if(this.isValidIPv4(href)){
+                    window.open(href,'_blank')
+                    this.MobileWebQrcode.open();
+                  }else{
+                    this.Notify.messageBox('IP')
+                  }
                 }
               },
               {
                 id: "ope321",
                 name: "Github 在线链接",
                 click: () => {
-                  // this.ReplaceChannelPage.open();
+                  window.open("https://dengdeng123ni.github.io/gamepad-and-comics-v3/",'_blank')
+
                 }
               },
               {
@@ -321,6 +333,10 @@ export class MenuComponent {
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
       this.menu.is_init = true;
     })
+  }
+   isValidIPv4(ip) {
+    const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/;
+    return ipv4Regex.test(ip);
   }
   init() {
     this.data.menu_2=[];

@@ -21,45 +21,27 @@ export class ParamsControllerService {
     //     })
     //     this.RoutingController.routerReader('temporary_data', id)
     //   })
+
     ParamsEvent._register_params(
-      'pages', async e => {
+     ['pages'], async e => {
       const id = await TemporaryDataController.add_comics(e.pages.split(","), {
         title: e.title
       })
       this.RoutingController.routerReader('temporary_data', id)
     })
 
-    ParamsEvent._register_params(
-      'load_javascript', async e => {
-
-    })
-
-    ParamsEvent._register_params(
-      'load_js', async e => {
-
-    })
-
-    ParamsEvent._register_params(
-      'loadJs', async e => {
-
-    })
-
-
-    ParamsEvent._register_params(
-      'load_github_javascript', async e => {
-
-    })
 
   }
 
   init() {
     const obj = this.getAllParams(window.location.href)
+    if(JSON.stringify(obj) === '{}') return
     const keys = Object.keys(obj)
-    for (let index = 0; index < keys.length; index++) {
-      const c = this.ParamsEvent.params[keys[index]]
-      if (c) {
-        c(obj)
-        break;
+    const keys123= Object.keys(this.ParamsEvent.Configs)
+    for (let index = 0; index < keys123.length; index++) {
+      let rhg= this.ParamsEvent.Configs[keys123[index]].sort()
+      if(rhg.toString()==keys.sort().toString()){
+        this.ParamsEvent.Events[keys123[index]](obj)
       }
     }
   }

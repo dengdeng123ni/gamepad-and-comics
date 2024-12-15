@@ -16,12 +16,14 @@ export class MessageFetchService {
   }
   constructor(private sanitizer: DomSanitizer,
     private webCh: CacheControllerService,
-    public ReplaceChannelEvent: ReplaceChannelEventService
+    public ReplaceChannelEvent: ReplaceChannelEventService,
   ) {
     window._gh_fetch = this.fetch;
     window._gh_get_html = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
     window.CryptoJS = CryptoJS;
+
+     // window 'receiver_client_id=_420000000000&replace_channel_id=_gh_application&is_enabled=true'
     // window._gh_new_page = this.new_page;
     this.ReplaceChannelEvent.register({
       id: 'plugins',
@@ -32,7 +34,7 @@ export class MessageFetchService {
     })
 
     this.ReplaceChannelEvent.register({
-      id: 'https',
+      id: '_gh_application',
       name: '插件'
     }, {
       sendMessage: async e => {

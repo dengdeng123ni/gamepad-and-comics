@@ -27,6 +27,7 @@ export class MobileWebQrcodeComponent {
     const js = document.querySelector("base").href + 'assets/js/qrcode.min.js'
     await this.Pulg.loadBlobJs(js)
     setTimeout(() => {
+      // window 'receiver_client_id=_1733828966951&replace_channel_id=plugins&is_enabled=true'
       window.QRCode.toDataURL("https://example.com", { width: 265, heigth: 265 }, (error, url) => {
         this.url = url;
       });
