@@ -40,3 +40,6 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 // 数据源配置
 // 图片变化
 // 阅读记录 加入阅读
+// 允许粘贴
+// APK 版本
+// 
