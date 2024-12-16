@@ -45,6 +45,7 @@ import { SelectTagMultipleComponent } from './components/select-tag-multiple/sel
 import { ReplaceChannelPageComponent } from './components/replace-channel-page/replace-channel-page.component';
 import { MobileWebQrcodeComponent } from './components/mobile-web-qrcode/mobile-web-qrcode.component';
 import { LanguageSettingsComponent } from './components/language-settings/language-settings.component';
+import { ArchivePageComponent } from './components/archive-page/archive-page.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { LanguageSettingsComponent } from './components/language-settings/langua
     ReplaceChannelPageComponent,
     MobileWebQrcodeComponent,
     LanguageSettingsComponent,
+    ArchivePageComponent,
   ],
   imports: [
     CommonModule,

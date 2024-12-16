@@ -10,89 +10,95 @@ export class ArchiveControllerService {
   constructor(
     public webDb: IndexdbControllerService,
     private db: NgxIndexedDBService,
-    public DbController:DbControllerService,
+    public DbController: DbControllerService,
     public webCh: CacheControllerService
   ) {
-    setTimeout(()=>{
-      this.init()
-    },2000)
+
   }
 
-  async init(){
-  //  const res= await this.webDb.getByKey('image','d5ff1662e9c3fd7b2d61194172c54f29')
-  //  console.log(res);
-
+  async init() {
+    //  const res= await this.webDb.getByKey('image','d5ff1662e9c3fd7b2d61194172c54f29')
+    //  console.log(res);
+    // file_download file_upload
   }
 
   export = async () => {
-    await this.open();
-    const names = await this.webDb.getDbNames();
-    for (let index = 0; index < names.length; index++) {
-      const x = names[index];
-      const res = await this.webDb.getAll(x as any)
-      const blob=this.jsonToBlob(res)
-      this.post(`data/IndexedDB/${x}.json`,blob)
-    }
+    const bool = await this.open();
+    if (bool) {
+      const names = await this.webDb.getDbNames();
+      for (let index = 0; index < names.length; index++) {
+        const x = names[index];
+        const res = await this.webDb.getAll(x as any)
+        const blob = this.jsonToBlob(res)
+        this.post(`data/IndexedDB/${x}.json`, blob)
+      }
 
-    const script = await this.webDb.getAll('script') as any;
-    for (let index = 0; index < script.length; index++) {
-      const x = script[index];
-      const c= await this.webCh.match('script',x.src)
-      const blob= await c.blob();
-      this.post(`data/Cache/script/${x.id}`,blob)
-    }
+      const script = await this.webDb.getAll('script') as any;
+      for (let index = 0; index < script.length; index++) {
+        const x = script[index];
+        const c = await this.webCh.match('script', x.src)
+        const blob = await c.blob();
+        this.post(`data/Cache/script/${x.id}`, blob)
+      }
 
-    const image = await this.webDb.getAll('image') as any;
-    for (let index = 0; index < image.length; index++) {
-      const x = image[index];
-      const c= await this.webCh.match('image',x.src)
-      const blob= await c.blob();
-      this.post(`data/Cache/image/${x.id}`,blob)
+      const image = await this.webDb.getAll('image') as any;
+      for (let index = 0; index < image.length; index++) {
+        const x = image[index];
+        const c = await this.webCh.match('image', x.src)
+        const blob = await c.blob();
+        this.post(`data/Cache/image/${x.id}`, blob)
+      }
+      return true
+    } else {
+      return false
     }
   }
 
   import = async () => {
-    await this.open();
-    const res=await this.getPaths();
-    const names = await this.webDb.getDbNames();
-    for (let index = 0; index < names.length; index++) {
-      const x = names[index];
-      const obj=res.find(c=>c.path==`data/IndexedDB/${x}.json`)
-      if(obj){
-        const file = await obj.dirHandle.getFile()
-        const text = await file.text();
-        const json=JSON.parse(text);
-        for (let index = 0; index < json.length; index++) {
-          await this.webDb.update(x as any,json[index])
+    const bool = await this.open();
+    if (bool) {
+      const res = await this.getPaths();
+      const names = await this.webDb.getDbNames();
+      for (let index = 0; index < names.length; index++) {
+        const x = names[index];
+        const obj = res.find(c => c.path == `data/IndexedDB/${x}.json`)
+        if (obj) {
+          const file = await obj.dirHandle.getFile()
+          const text = await file.text();
+          const json = JSON.parse(text);
+          for (let index = 0; index < json.length; index++) {
+            await this.webDb.update(x as any, json[index])
+          }
         }
       }
-    }
 
-    const script = await this.webDb.getAll('script') as any;
-    for (let index = 0; index < script.length; index++) {
-      const x = script[index];
-      const obj=res.find(c=>c.path==`data/Cache/script/${x.id}`)
-      if(obj){
-        const file = await obj.dirHandle.getFile()
-        await this.webCh.put('script',x.src,new Response(file))
+      const script = await this.webDb.getAll('script') as any;
+      for (let index = 0; index < script.length; index++) {
+        const x = script[index];
+        const obj = res.find(c => c.path == `data/Cache/script/${x.id}`)
+        if (obj) {
+          const file = await obj.dirHandle.getFile()
+          await this.webCh.put('script', x.src, new Response(file))
+        }
       }
-    }
 
-    const image = await this.webDb.getAll('image') as any;
-    for (let index = 0; index < image.length; index++) {
-      const x = image[index];
-      const obj=res.find(c=>c.path==`data/Cache/image/${x.id}`)
-      if(obj){
-        const file = await obj.dirHandle.getFile()
-        await this.webCh.put('image',x.src,new Response(file))
+      const image = await this.webDb.getAll('image') as any;
+      for (let index = 0; index < image.length; index++) {
+        const x = image[index];
+        const obj = res.find(c => c.path == `data/Cache/image/${x.id}`)
+        if (obj) {
+          const file = await obj.dirHandle.getFile()
+          await this.webCh.put('image', x.src, new Response(file))
+        }
       }
+      return true
+    } else {
+      return false
     }
-
-
   }
 
   async getPaths() {
-    let paths=[];
+    let paths = [];
     const handleDirectoryEntry = async (dirHandle: any, out: { [x: string]: {}; }, path: any) => {
       if (dirHandle.kind === "directory") {
         for await (const entry of dirHandle.values()) {

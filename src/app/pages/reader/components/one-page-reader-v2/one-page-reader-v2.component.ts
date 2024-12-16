@@ -324,7 +324,8 @@ export class OnePageReaderV2Component {
 
 
     if (res.primary.src) current = current + `<img content_menu_key="pages_item"  style="width: 100%;
-    height: auto;
+    height: auto;max-height: 100%;
+    max-width: 100%;
     object-fit: contain;"  current_page chapter_id="${chapter_id}" index="${res.primary.index}" width="_100"   page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
@@ -376,7 +377,8 @@ export class OnePageReaderV2Component {
     const c = res.primary.end || res.primary.start || res.secondary.src;
 
     if (res.primary.src) current = current + `<img content_menu_key="pages_item" style="width: 100%;
-    height: auto;
+    height: auto;max-height: 100%;
+    max-width: 100%;
     object-fit: contain;"  current_page chapter_id=${chapter_id} index="${res.primary.index}" width="_100"  page_id="${res.primary.id}" src="${res.primary.src}" />`;
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
@@ -452,11 +454,11 @@ export class OnePageReaderV2Component {
       const size = this.data.comics_config.page_height / 100;
       if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
         const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width < window.innerWidth ? width + 'px' : '100vw'}`);
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${'100vw'}`);
       } else {
 
         const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width < window.innerWidth ? width + 'px' : '100vw'}`);
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${'100vw'}`);
       }
       this.is_1 = true
     }

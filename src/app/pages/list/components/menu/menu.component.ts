@@ -22,6 +22,7 @@ import { PageThemeService } from '../page-theme/page-theme.service';
 import { ReplaceChannelPageService } from '../replace-channel-page/replace-channel-page.service';
 import { MobileWebQrcodeService } from '../mobile-web-qrcode/mobile-web-qrcode.service';
 import { LanguageSettingsService } from '../language-settings/language-settings.service';
+import { ArchivePageService } from '../archive-page/archive-page.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -109,6 +110,7 @@ export class MenuComponent {
     public LanguageSettings:LanguageSettingsService,
     public MobileWebQrcode:MobileWebQrcodeService,
     public UrlUsageGuide: UrlUsageGuideService,
+    public ArchivePage:ArchivePageService,
     public PageTheme: PageThemeService,
     public Notify:NotifyService,
     public prompt: PromptService,
@@ -136,6 +138,7 @@ export class MenuComponent {
           e.click()
         },
         menu: [
+
           {
 
             id: "ooeo",
@@ -162,13 +165,7 @@ export class MenuComponent {
                   this.UrlUsageGuide.open({});
                 }
               },
-              {
-                id: "ope3243241",
-                name: "存档",
-                click: () => {
-                   this.ArchiveController.export();
-                }
-              },
+
             ]
           },
           {
@@ -212,6 +209,26 @@ export class MenuComponent {
                 name: "专用浏览器扩展插件",
                 click: () => {
                   this.PlugInInstructions.open({});
+                }
+              },
+            ]
+          },
+          {
+            id: "ope3243241",
+            name: "存档",
+            submenu: [
+              {
+                id: "ope32531",
+                name: "导出数据",
+                click: () => {
+
+                }
+              },
+              {
+                id: "ope34521",
+                name: "导入数据",
+                click: () => {
+
                 }
               },
             ]

@@ -1,6 +1,6 @@
 <div class="warp">
   <div class="img" (click)="continue()">
-    <app-image [objectFit]="'cover'" loading="lazy" [width]="224" [height]="298" [src]="info.cover" alt="" />
+    <app-image [objectFit]="'contain'" class="_image" loading="lazy" [width]="224" [height]="298" [src]="info.cover" alt="" />
   </div>
   <div class="info">
     <div class="title" [attr.svg_filter]="'text_primary'" [attr.size]="info.title.length>20" [attr.href]="info.href"
