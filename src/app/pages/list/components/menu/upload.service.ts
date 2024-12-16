@@ -101,136 +101,7 @@ export class UploadService {
       ...x.comics
     }))
   }
-  async subscribe_to_file_directory(files, api, id) {
 
-    const deepMerge = (obj1, obj2) => {
-      var isPlain1 = isPlainObject(obj1);
-      var isPlain2 = isPlainObject(obj2);
-      //obj1或obj2中只要其中一个不是对象，则按照浅合并的规则进行合并
-      if (!isPlain1 || !isPlain2) return shallowMerge(obj1, obj2);
-      //如果都是对象，则进行每一层级的递归合并
-      let keys = [
-        ...Object.keys(obj2),
-        ...Object.getOwnPropertySymbols(obj2)
-      ]
-      keys.forEach(function (key) {
-        obj1[key] = deepMerge(obj1[key], obj2[key]);//这里递归调用
-      });
-
-      return obj1;
-    }
-    const shallowMerge = (obj1, obj2) => {
-      var isPlain1 = isPlainObject(obj1);
-      var isPlain2 = isPlainObject(obj2);
-      //只要obj1不是对象，那么不管obj2是不是对象，都用obj2直接替换obj1
-      if (!isPlain1) return obj2;
-      //走到这一步时，说明obj1肯定是对象，那如果obj2不是对象，则还是以obj1为主
-      if (!isPlain2) return obj1;
-      //如果上面两个条件都不成立，那说明obj1和obj2肯定都是对象， 则遍历obj2 进行合并
-      let keys = [
-        ...Object.keys(obj2),
-        ...Object.getOwnPropertySymbols(obj2)
-      ]
-      keys.forEach(function (key) {
-        obj1[key] = obj2[key];
-      });
-
-      return obj1;
-    }
-
-    const isPlainObject = (obj) => {
-      var proto, Ctor;
-      if (!obj || Object.prototype.toString.call(obj) !== "[object Object]") {
-        return false;
-      }
-      proto = Object.getPrototypeOf(obj);
-      if (!proto) return true;
-      Ctor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
-      return typeof Ctor === "function" && Function.prototype.toString.call(Ctor) === Function.prototype.toString.call(Object);
-    }
-
-    let obj = {
-      chapter: [],
-      chapters: [],
-      roll: [],
-      roll_extra_episode: [],
-    };
-    files.forEach(x => {
-      const paths = x.path.split(".");
-      const type = paths.at(-1);
-      if (!["gif", "png", "jpg", "jpeg", "bmp", "webp"].includes(type)) return
-      x['relativePath'] = x['path'];
-      x['name'] = x.path.split("/").at(-1);
-      if (x['relativePath'].split("/").length == 2) obj.chapter.push(x)
-      if (x['relativePath'].split("/").length == 3) obj.chapters.push(x)
-      if (x['relativePath'].split("/").length == 4) obj.roll.push(x)
-      if (x['relativePath'].split("/").length == 5) obj.roll_extra_episode.push(x)
-    })
-
-    if (obj.chapter.length) await this.addChapter(obj.chapter)
-    if (obj.chapters.length) await this.addChapters(obj.chapters)
-    if (obj.roll.length) await this.addRoll(obj.roll)
-    if (obj.roll_extra_episode.length) await this.addRollExtraEpisode(obj.roll_extra_episode)
-
-    const time = new Date().getTime();
-    let j = 0;
-    const comicsAll: any = await this.webDB.getAll('comics');
-    const stateAll: any = await this.webDB.getAll('state');
-    for (let index = 0; index < this.list.length; index++) {
-      const { comics, state } = this.list[index];
-      const obj = comicsAll.find(x => x.title == comics.title);
-      if (!obj) {
-        for (let index = 0; index < comics.chapters.length; index++) {
-          comics.id = time + j;
-          state.id = time + j;
-          comics.chapters[index].id = time + j;
-          comics.chapters[index].date = time + j;
-          comics.chapters[index].pages = comics.chapters[index].pages.map(x => {
-            j++;
-            return { id: time + j, src: `${api}/file/${x.id}`, small: `${api}/file/${x.id}` }
-          })
-          j++;
-        }
-        comics.cover = comics.chapters[0].pages[0];
-        state.chapter.id = comics.chapters[0].id;
-        comics.source = "local_server";
-        comics.config = { id: id };
-        state.isFirstPageCover = false;
-        state.pageOrder = false;
-        await this.webDB.update('comics', comics)
-        await this.webDB.update('state', state)
-      } else {
-        const newState = stateAll.find(x => x.id == obj.id);
-        const index = obj.chapters.findIndex(c => c.id == newState.chapter.id)
-        for (let index = 0; index < comics.chapters.length; index++) {
-          comics.id = time + j;
-          state.id = time + j;
-          comics.chapters[index].id = time + j;
-          comics.chapters[index].date = time + j;
-          comics.chapters[index].pages = comics.chapters[index].pages.map(x => {
-            j++;
-            return { id: time + j, src: `${api}/file/${x.id}`, small: `${api}/file/${x.id}` }
-          })
-          j++;
-        }
-        comics.cover = comics.chapters[0].pages[0];
-        state.chapter.id = comics.chapters[index].id;
-        state.chapter.title = comics.chapters[index].title;
-        state.isFirstPageCover = false;
-        state.pageOrder = false;
-        delete comics.id;
-        delete comics.createTime;
-        delete comics.source;
-
-        const newComics = deepMerge(obj, comics);
-        state.id = newComics.id;
-        await this.webDB.update('comics', newComics)
-        await this.webDB.update('state', state)
-      }
-    }
-    this.list = [];
-    return
-  }
 
   async image(files) {
 
@@ -588,8 +459,6 @@ export class UploadService {
     state.chapter.id = comics.chapters[0].id;
     state.isFirstPageCover = false;
     state.pageOrder = false;
-    const res = await Promise.all([this.webDB.update('comics', comics), this.webDB.update('state', state)])
-    return res
   }
 
   async addGithubPages(comics, state, isCompress = false) {

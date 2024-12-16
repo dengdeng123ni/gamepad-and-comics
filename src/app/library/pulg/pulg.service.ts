@@ -102,10 +102,7 @@ export class PulgService {
     const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
   }
-  async getAll() {
-    const list = await this.webCh.keys('script')
-    return list
-  }
+
   async get(url) {
     const e = await this.webCh.match('script',url)
     const blob = await e.blob()

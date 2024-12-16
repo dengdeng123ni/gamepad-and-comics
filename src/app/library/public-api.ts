@@ -14,11 +14,10 @@ export * from './prompt/prompt.component';
 export * from './prompt/prompt.service';
 export * from './notify/notify.service';
 
-
-
 export * from './indexdb/indexdb-controller.service';
 export * from './indexdb/caches-controller.service';
 export * from './ws/ws-controller.service';
+export * from './archive/archive-controller.service';
 
 export * from './replace-channel/replace-channel-controller.service';
 export * from './replace-channel/replace-channel-event.service';
@@ -31,7 +30,6 @@ export * from './gamepad/gamepad-input.service';
 export * from './gamepad/gamepad-sound.service';
 export * from './gamepad/keyboard-event.service';
 export * from './gamepad/keyboard-controller.service';
-
 
 export * from './touchmove/touchmove-controller.service';
 export * from './touchmove/touchmove-event.service';

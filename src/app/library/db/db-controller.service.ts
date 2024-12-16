@@ -56,8 +56,7 @@ export class DbControllerService {
       const config = this.DbEvent.Configs[option.source]
       let obn = JSON.parse(JSON.stringify(obj))
       delete obn['page_size'];
-
-      const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
+      const id = CryptoJS.MD5(JSON.stringify({ data: obn, source: option.source })).toString().toLowerCase();
       if (this.lists[id] && config.is_cache) {
         return JSON.parse(JSON.stringify(this.lists[id]))
       } else {
@@ -66,19 +65,14 @@ export class DbControllerService {
           const get = async () => {
             const data = await this.DbEvent.Events[option.source]["getList"](obj);
             if (data.length == 0) return []
-            const response = new Response(new Blob([JSON.stringify(data)], { type: 'application/json' }), {
-              headers: { 'Content-Type': 'application/json', 'Cache-Timestamp': new Date().getTime().toString() }
-            });
-            this.webCh.put('list', request, response);
+            await this.webDb.update('list', { id: id, source: option.source, creation_time: new Date().getTime(), data: data })
             return data
           }
-          const request = `http://localhost:7700/${option.source}/${id}`;
-          const cachedData = await this.webCh.match('list', request);
-          if (cachedData) {
-            const cacheTimestamp = parseInt(cachedData.headers.get('Cache-Timestamp'))
-            const currentTime = Date.now();
-            const cacheDuration = currentTime - cacheTimestamp;
-            if (cacheDuration) {
+          const res_db:any = await this.webDb.getByKey('list', id);
+          if (res_db) {
+            if (res_db.creation_time) {
+              const currentTime = Date.now();
+              const cacheDuration = currentTime - res_db.creation_time;
               get().then(x => {
                 this.lists[id] = x;
               });
@@ -86,8 +80,8 @@ export class DbControllerService {
             } else {
               // console.log('缓存有效，返回数据');
             }
-            const data = await cachedData.json();
-            res = data;
+
+            res = res_db.data;
           } else {
             const data = await get();
             res = data;
@@ -498,14 +492,16 @@ export class DbControllerService {
               }
 
             }
+            let image_id=null;
 
             const id1 = await getImageURL2(url);
-
+            image_id=id1;
             let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
             if (blob.size < 3000 && blob.type.split("/")[0] == "image") {
 
 
               const id2 = await getImageURL(url);
+              image_id=id2;
               blob = await this.DbEvent.Events[option.source]["getImage"](id2)
             }
 
@@ -513,9 +509,27 @@ export class DbControllerService {
             const response = new Response(blob);
             const request = url;
 
+
+            const record = async (url, blob) => {
+              const image = await createImageBitmap(blob)
+              // 其他用途防止黑盒 caches.keys()
+              this.webDb.update('image', {
+                id: CryptoJS.MD5(url).toString().toLowerCase(),
+                creation_time: new Date().getTime(),
+                type: blob.type,
+                source:option.source,
+                src: url,
+                page_id:image_id,
+                width: image.width,
+                height: image.height
+              })
+              image.close()
+            }
+
             if (blob.size > 3000 && blob.type.split("/")[0] == "image") {
               this.webCh.put('image', request, response.clone());
               const blob1 = await response.clone().blob()
+              record(id, blob1)
               return blob1
             }
             else {
@@ -523,6 +537,7 @@ export class DbControllerService {
                 const c = await createImageBitmap(blob)
                 this.webCh.put('image', request, response.clone());
                 const blob1 = await response.clone().blob()
+                record(id, blob1)
                 return blob1
               }
             }

@@ -68,7 +68,8 @@ export class ReplaceChannelControllerService {
         getAll: this.webDb.getAll.bind(null),
         update: this.webDb.update.bind(null),
         deleteByKey: this.webDb.deleteByKey.bind(null),
-        getByKey: this.webDb.getByKey.bind(null)
+        getByKey: this.webDb.getByKey.bind(null),
+        getDbNames: this.webDb.getByKey.bind(null),
       },
       webCh: {
         match: this.webCh.match.bind(null),
@@ -88,11 +89,14 @@ export class ReplaceChannelControllerService {
     this.webCh.put = this.original.webCh.put.bind(null);
     this.webCh.delete = this.original.webCh.delete.bind(null);
     this.webCh.keys = this.original.webCh.keys.bind(null);
+    this.webCh.getAllcacheNames = this.original.webCh.getAllcacheNames.bind(null);
 
     this.webDb.getAll = this.original.webDb.getAll.bind(null);
     this.webDb.update = this.original.webDb.update.bind(null);
     this.webDb.deleteByKey = this.original.webDb.deleteByKey.bind(null);
     this.webDb.getByKey = this.original.webDb.getByKey.bind(null);
+    this.webDb.getDbNames = this.original.webDb.getDbNames.bind(null);
+
     const events = {
 
     }
@@ -148,6 +152,15 @@ export class ReplaceChannelControllerService {
       })
       return res
     }
+    this.webDb.getDbNames = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'getDbNames',
+        target_source: 'indexdb',
+
+      })
+      return res
+    }
     this.webCh.match = async (...e): Promise<any> => {
       const res = await this.send_message({
         parameter: e,
@@ -185,6 +198,16 @@ export class ReplaceChannelControllerService {
       })
       return res
     }
+    this.webCh.getAllcacheNames = async (...e): Promise<any> => {
+      const res = await this.send_message({
+        parameter: e,
+        function_name: 'keys',
+        target_source: 'caches',
+
+      })
+      return res
+    }
+
   }
   async default_trigger() {
     if (this.is_free) return
@@ -322,6 +345,7 @@ export class ReplaceChannelControllerService {
     } else {
       res = await this.receive_message(e)
     }
+console.log(res);
 
     if (!res) return undefined
 
@@ -335,12 +359,23 @@ export class ReplaceChannelControllerService {
         } else if (res.req.parameter[0] == "pages") {
           this.original.webDb.update(res.req.parameter[0], res.data)
           return res.data
+        }else if (res.req.parameter[0] == "image") {
+          console.log(res.req.parameter[0]);
+
+          this.original.webDb.update(res.req.parameter[0], res.data)
+          return res.data
         }
       }
       return res.data
     } else if (res.req.function_name == "match") {
       const res1 = await this.jsonToResponse(res.data)
-      if (res.req.parameter[0] == 'image') this.original.webCh.put(res.req.parameter[0], res.req.parameter[1], res1.clone())
+      if (res.req.parameter[0] == 'image') {
+        const id=CryptoJS.MD5(res.req.parameter[1]).toString().toLowerCase();
+        console.log(id,res.req.parameter[1]);
+
+        this.webDb.getByKey('image',id)
+        this.original.webCh.put(res.req.parameter[0], res.req.parameter[1], res1.clone())
+      }
       return res1.clone()
     } else if (res.req.function_name == "getImage") {
       const res1 = this.base64ToBlob(res.data)

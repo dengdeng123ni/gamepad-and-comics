@@ -305,22 +305,16 @@ export class CurrentService {
     }
   }
   async _getImageHW(id) {
-    const res: any = await this.webDb.getByKey("imageHW", id)
-
-    if (res) {
-      return {
-        width: res.width,
-        height: res.height
-      }
-    } else {
-      return null
+    return {
+      width:0,
+      height: 0
     }
   }
   async _setImageHW(id, option: {
     width: number,
     height: number
   }) {
-    await this.webDb.update("imageHW", { 'id': id, ...option })
+
   }
 
   async _setChapterIndex(id: string, index: number) {

@@ -49,11 +49,11 @@ export class ParamsControllerService {
       })
 
   }
-  // objectToBase64(obj) {
-  //   const jsonString = JSON.stringify(obj);
-  //   const base64String = window.btoa(encodeURIComponent(jsonString));
-  //   return base64String;
-  // }
+  objectToBase64(obj) {
+    const jsonString = JSON.stringify(obj);
+    const base64String = window.btoa(encodeURIComponent(jsonString));
+    return base64String;
+  }
 
   init() {
     const obj = this.getAllParams(window.location.href)

@@ -4,7 +4,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
 import { TemporaryFileService } from './temporary-file.service';
-import { AppDataService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, IndexdbControllerService, LocalCachService, NotifyService, PromptService, PulgService } from 'src/app/library/public-api';
+import { AppDataService, ArchiveControllerService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, IndexdbControllerService, LocalCachService, NotifyService, PromptService, PulgService } from 'src/app/library/public-api';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
@@ -105,6 +105,7 @@ export class MenuComponent {
     public AboutSoftware: AboutSoftwareService,
     public PlugInInstructions: PlugInInstructionsService,
     public ReplaceChannelPage: ReplaceChannelPageService,
+    public ArchiveController:ArchiveControllerService,
     public LanguageSettings:LanguageSettingsService,
     public MobileWebQrcode:MobileWebQrcodeService,
     public UrlUsageGuide: UrlUsageGuideService,
@@ -161,6 +162,13 @@ export class MenuComponent {
                   this.UrlUsageGuide.open({});
                 }
               },
+              {
+                id: "ope3243241",
+                name: "存档",
+                click: () => {
+                   this.ArchiveController.export();
+                }
+              },
             ]
           },
           {
@@ -168,6 +176,7 @@ export class MenuComponent {
             id: "ooeo",
             name: "网页版",
             submenu: [
+
               {
                 id: "ope321",
                 name: "打开局域网连接",

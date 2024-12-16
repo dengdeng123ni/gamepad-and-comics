@@ -38,6 +38,9 @@ export class CacheControllerService {
   public keys = async (cacheName: "image" | "list" | "assets" | "script", request?: RequestInfo | URL): Promise<ReadonlyArray<Request>> => {
     return await this.data[cacheName].keys(request)
   }
+  public getAllcacheNames = async ():Promise<Array<string>> => {
+    return ['image', 'list', 'assets', 'script']
+  }
 
 
 

@@ -22,17 +22,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 41,
+  version: 2,
   objectStoresMeta: [
     {
       store: 'temporary_file',
-      storeConfig: { keyPath: 'id', autoIncrement: false },
-      storeSchema: [
-        { name: 'id', keypath: 'id', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'exe_file',
       storeConfig: { keyPath: 'id', autoIncrement: false },
       storeSchema: [
         { name: 'id', keypath: 'id', options: { unique: false } },
@@ -238,20 +231,6 @@ const dbConfig: DBConfig = {
     },
     {
       store: 'image',
-      storeConfig: { keyPath: 'image_id', autoIncrement: false },
-      storeSchema: [
-        { name: 'image_id', keypath: 'image_id', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'imageHW',
-      storeConfig: { keyPath: 'id', autoIncrement: false },
-      storeSchema: [
-        { name: 'id', keypath: 'id', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'image_info',
       storeConfig: { keyPath: 'id', autoIncrement: false },
       storeSchema: [
         { name: 'id', keypath: 'id', options: { unique: false } },
