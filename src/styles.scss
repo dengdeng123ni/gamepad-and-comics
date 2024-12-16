@@ -290,6 +290,7 @@ body[pattern=gamepad][locked_region=detail]{
 
 body[pattern=gamepad]{
 
+  [region=archive_page_item][select=true],
   [region=replace_channel_page_item][select=true],
   [region=advanced_search_input][select=true],
   [region=advanced_search_restart][select=true],

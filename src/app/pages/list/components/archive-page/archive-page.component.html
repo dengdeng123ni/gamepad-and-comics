@@ -1,11 +1,49 @@
-<button mat-button aria-label="Example icon button with a vertical three dot icon">
-  <mat-icon>more_vert</mat-icon>
-</button>
+<div class="warp" style="padding: 12px;overflow: hidden;">
+  <div class="title" [attr.svg_filter]="'text_secondary'">
+    {{'存档'|translate}}
+  </div>
+  <div class="content">
+    <div class="left">
+      <button mat-icon-button  [disabled]="true" style="
+      width: 184px;
+      height: 184px;
+      transform: scale(4.5);
+">
+        <mat-icon>file_download</mat-icon>
+      </button>
+      <button mat-button
+      [attr.select]="true" (click)="on()"
+      [attr.region]="'archive_page_item'"
+      >{{'导出数据'|translate}}</button>
+    </div>
+    <mat-divider [vertical]="true" style="margin: 36px;"></mat-divider>
+    <div class="right">
+      <button mat-icon-button  [disabled]="true" style="
+      width: 184px;
+      height: 184px;
+      transform: scale(4.5);
+">
+        <mat-icon>file_upload</mat-icon>
+      </button>
+      <button mat-button   (click)="on2()"  [attr.region]="'archive_page_item'" > {{'导入数据'|translate}}</button>
+    </div>
+  </div>
+  <div class="log" style="    height: 16px;
+  padding: 12px 0;
+  background: #303030;
+  overflow: auto;
+  width: 100%;
+  margin-top: 12px;
+">
+    <div style="display: flex;">
+      <div style="    margin-left: 16px;
+    opacity: 0.34;">{{'日志'|translate}}</div>
+       <div class="" style="display: flex;flex-direction: column;">
+        <div class="item" *ngFor="let item of list">
+          {{item}}
+        </div>
+       </div>
+    </div>
+  </div>
+</div>
 
-
-<button mat-button color="primary" aria-label="Example icon button with a home icon">
-  <mat-icon>home</mat-icon>
-  <span>
-    导入数据
-  </span>
-</button>

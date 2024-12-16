@@ -216,22 +216,9 @@ export class MenuComponent {
           {
             id: "ope3243241",
             name: "存档",
-            submenu: [
-              {
-                id: "ope32531",
-                name: "导出数据",
-                click: () => {
-
-                }
-              },
-              {
-                id: "ope34521",
-                name: "导入数据",
-                click: () => {
-
-                }
-              },
-            ]
+            click: () => {
+              this.ArchivePage.open()
+            }
           },
           {
             id: "ope",
