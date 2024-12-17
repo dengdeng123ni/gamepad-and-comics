@@ -42,4 +42,7 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 // 阅读记录 加入阅读
 // 允许粘贴
 // APK 版本
+// 数据源配置翻译 
+// 脚本MD5
+// PDF 转 图片
 // 

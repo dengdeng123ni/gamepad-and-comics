@@ -74,7 +74,7 @@ export class PulgService {
   }
 
   async loadAllAssets() {
-    if(window.location.protocol=="https:"){
+    if (window.location.protocol == "https:") {
       const res = await this.MessageFetch.cacheFetch(document.querySelector("base").href + 'ngsw.json')
       if (!res.ok) return
       const json = await res.json();
@@ -94,7 +94,7 @@ export class PulgService {
     const url = `http://localhost:7700/script/${blob.name}`;
     const response = new Response(blob);
     const request = url;
-    await this.webCh.put('script',request, response);
+    await this.webCh.put('script', request, response);
     const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
   }
@@ -104,13 +104,13 @@ export class PulgService {
   }
 
   async get(url) {
-    const e = await this.webCh.match('script',url)
+    const e = await this.webCh.match('script', url)
     const blob = await e.blob()
     const url1: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     return url1.changingThisBreaksApplicationSecurity
   }
   async delete(url) {
-    const list = await this.webCh.delete('script',url)
+    const list = await this.webCh.delete('script', url)
   }
   async registerScript(id: string, blob: any, option = {}) {
     // 'swiper-bundle.min'
@@ -119,13 +119,13 @@ export class PulgService {
   }
   async loadAllScript() {
 
-    const list:any = await this.webDb.getAll('script')
+    const list: any = await this.webDb.getAll('script')
 
     for (let index = 0; index < list.length; index++) {
       const e = list[index];
-      if(e.is_enabled){
-        const res = await this.webCh.match('script',e.src);
-        const blob=await res.blob();
+      if (e.is_enabled) {
+        const res = await this.webCh.match('script', e.src);
+        const blob = await res.blob();
         const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
         this.loadJS(url.changingThisBreaksApplicationSecurity)
       }
@@ -134,17 +134,41 @@ export class PulgService {
 
   }
 
+  calculateBlobMD5 = async (blob) => {
+    return new Promise((resolve, reject) => {
+      // 使用 FileReader 读取 Blob
+      const reader = new FileReader();
+
+      // 成功读取
+      reader.onload = () => {
+        // 将 Blob 转换为 WordArray（CryptoJS 可处理格式）
+        const wordArray = CryptoJS.lib.WordArray.create(reader.result);
+        // 计算 MD5
+        const md5Hash = CryptoJS.MD5(wordArray).toString();
+        resolve(md5Hash);
+      };
+
+      // 读取错误
+      reader.onerror = () => {
+        reject("Error reading the blob.");
+      };
+
+      // 将 Blob 读取为 ArrayBuffer
+      reader.readAsArrayBuffer(blob);
+    });
+  }
+
   async scriptCache(blob, name, obj = {}) {
     const response = new Response(blob);
-    const id=new Date().getTime();
+    const id=await this.calculateBlobMD5(blob)
     const request = `http://localhost:7700/script/${id}`;
-    this.webCh.put('script',request, response);
-    this.webDb.update('script',{
-      id:id,
-      date:id,
-      name:name,
-      is_enabled:true,
-      src:request,
+    this.webCh.put('script', request, response);
+    this.webDb.update('script', {
+      id: id,
+      date: new Date().getTime(),
+      name: name,
+      is_enabled: true,
+      src: request,
       ...obj
     })
   }

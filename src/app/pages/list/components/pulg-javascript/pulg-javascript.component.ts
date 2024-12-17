@@ -74,7 +74,7 @@ export class PulgJavascriptComponent {
                   const res = await window._gh_fetch(url)
                   const name = window.decodeURI(url.split("/").at(-1))
                   const blob = await res.blob();
-                  await this.scriptCache(blob, name, {
+                  await this.pulg.scriptCache(blob, name, {
                     'url': url
                   })
                   this.Notify.messageBox("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
@@ -147,7 +147,7 @@ export class PulgJavascriptComponent {
     const res = await window._gh_fetch(url)
     const blob = await res.blob()
     await this.pulg.loadBlodJs(blob)
-    await this.scriptCache(blob, name)
+    await this.pulg.scriptCache(blob, name)
     this.Notify.messageBox("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
     this.list = await this.getAll();
   }
@@ -168,23 +168,10 @@ export class PulgJavascriptComponent {
     const files = await (window as any).showOpenFilePicker()
     const blob = await files[0].getFile();
     await this.pulg.loadBlodJs(blob)
-    await this.scriptCache(blob, blob.name)
+    await this.pulg.scriptCache(blob, blob.name)
     this.Notify.messageBox("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }
-  async scriptCache(blob, name, obj = {}) {
-    const response = new Response(blob);
-    const id=new Date().getTime();
-    const request = `http://localhost:7700/script/${id}`;
-    this.webCh.put('script',request, response);
-    this.webDb.update('script',{
-      id:id,
-      date:id,
-      name:name,
-      is_enabled:true,
-      src:request,
-      ...obj
-    })
-  }
+
   async del(n) {
     this.webCh.delete('script',n.src);
     this.webDb.deleteByKey('script',n.id)
