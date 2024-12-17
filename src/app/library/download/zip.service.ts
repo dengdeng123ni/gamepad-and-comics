@@ -47,7 +47,7 @@ export class ZipService {
         context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
         context.drawImage(img1, x.images[1].x, x.images[1].y, x.images[1].width, x.images[1].height);
       }
-      let dataURL = canvas.toDataURL("image/jpeg",0.92);
+      let dataURL = canvas.toDataURL("image/webp",0.92);
       const blob = this.base64ToBlob(dataURL, "jpeg");
       images.push(blob);
     }
@@ -117,7 +117,7 @@ export class ZipService {
     let context = canvas.getContext('2d');
     context.rect(0, 0, canvas.width, canvas.height);
     context.drawImage(image1, 0, 0, canvas.width, canvas.height);
-    let dataURL = canvas.toDataURL("image/jpeg");
+    let dataURL = canvas.toDataURL("image/webp");
     return new Promise((r, j) => {
       var img = new Image();
       img.src = dataURL;

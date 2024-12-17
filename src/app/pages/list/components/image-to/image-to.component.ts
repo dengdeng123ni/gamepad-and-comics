@@ -164,7 +164,7 @@ export class ImageToComponent {
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     const newImageData = this.applyColorMatrix(imageData, this.saturateMatrix);
     context.putImageData(newImageData, 0, 0);
-    let dataURL = canvas.toDataURL("image/jpeg");
+    let dataURL = canvas.toDataURL("image/webp");
     return dataURL
   }
 
@@ -206,7 +206,7 @@ export class ImageToComponent {
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     const newImageData = this.applyColorMatrix(imageData, matrix);
     context.putImageData(newImageData, 0, 0);
-    let dataURL = canvas.toDataURL("image/jpeg");
+    let dataURL = canvas.toDataURL("image/webp");
     return this.base64ToBlob(dataURL)
   }
   imageCcompress = async (blob, option) => {

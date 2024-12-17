@@ -18,9 +18,9 @@ export class ParamsControllerService {
 
     // ParamsEvent._register_params_key_type(
     //   'comics', async e => {
-    //     const id = await TemporaryDataController.add_comics(e.pages.split(","), {
-    //       title: e.title
-    //     })
+        // const id = await TemporaryDataController.add_comics(e.pages.split(","), {
+        //   title: e.title
+        // })
     //     this.RoutingController.routerReader('temporary_data', id)
     //   })
 

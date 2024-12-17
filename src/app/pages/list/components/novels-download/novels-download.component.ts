@@ -95,7 +95,7 @@ export class NovelsDownloadComponent {
     const obj = await this.DbNovelsController.getDetail(id, {
       source: source
     })
-    let arr1 = obj.chapters.slice(0, 100)
+    let arr1 = obj.chapters
     let novelContent = '';
     for (let index = 0; index < arr1.length; index++) {
       const x = arr1[index]
@@ -121,7 +121,7 @@ export class NovelsDownloadComponent {
     const obj = await this.DbNovelsController.getDetail(id, {
       source: source
     })
-    let arr1 = obj.chapters.slice(0, 100);
+    let arr1 = obj.chapters;
     let novelContent = '';
     novelContent = novelContent + `### ${obj.title}\n\n`
 
@@ -159,7 +159,7 @@ export class NovelsDownloadComponent {
       source: source
     })
 
-    let arr1 = obj.chapters.slice(0, 100);
+    let arr1 = obj.chapters;
     const  cover=await this.image.getImageBase64(obj.cover)
     let jsonp = {
       title:obj.title??"",

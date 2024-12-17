@@ -9,7 +9,8 @@ export class TemporaryFileService {
   data: any = [];
   chapters: any = [];
   menu:any=[];
-  constructor(public MessageEvent: MessageEventService,
+  constructor(
+    public MessageEvent: MessageEventService,
     public DbEvent: DbEventService
   ) {
     // MessageEvent.service_worker_register('temporary_file', async event => {

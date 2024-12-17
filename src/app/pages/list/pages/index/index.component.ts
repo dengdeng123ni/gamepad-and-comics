@@ -60,6 +60,7 @@ export class IndexComponent {
     public ReplaceChannelPage:ReplaceChannelPageService,
     public MobileWebQrcode:MobileWebQrcodeService,
     public LanguageSettings:LanguageSettingsService,
+
     public MenuSearch: MenuSearchService
   ) {
 

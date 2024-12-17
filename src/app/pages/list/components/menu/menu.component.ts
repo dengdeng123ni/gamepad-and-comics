@@ -23,6 +23,7 @@ import { ReplaceChannelPageService } from '../replace-channel-page/replace-chann
 import { MobileWebQrcodeService } from '../mobile-web-qrcode/mobile-web-qrcode.service';
 import { LanguageSettingsService } from '../language-settings/language-settings.service';
 import { ArchivePageService } from '../archive-page/archive-page.service';
+import { PdfToImageService } from '../../services/pdf-to-image.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -102,6 +103,7 @@ export class MenuComponent {
     public UrlToComicsId: UrlToComicsIdService,
     public MenuSearch: MenuSearchService,
     public route: ActivatedRoute,
+    public PdfToImage:PdfToImageService,
     public SoundEffects: SoundEffectsService,
     public AboutSoftware: AboutSoftwareService,
     public PlugInInstructions: PlugInInstructionsService,
@@ -163,6 +165,13 @@ export class MenuComponent {
                 name: "支持网站",
                 click: () => {
                   this.UrlUsageGuide.open({});
+                }
+              },
+              {
+                id: "ope3123",
+                name: "PDF转图片",
+                click: () => {
+                  this.PdfToImage.to();
                 }
               },
 

@@ -782,8 +782,17 @@ export class DbControllerService {
     }
   }
   async addImage(url, blob) {
+    const image = await createImageBitmap(blob)
     const response = new Response(blob);
     const request = url;
+    this.webDb.update('image', {
+      id: CryptoJS.MD5(url).toString().toLowerCase(),
+      creation_time: new Date().getTime(),
+      type: blob.type,
+      src: url,
+      width: image.width,
+      height: image.height
+    })
     await this.webCh.put('image', request, response);
   }
 

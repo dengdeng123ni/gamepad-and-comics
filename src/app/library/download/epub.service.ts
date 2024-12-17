@@ -103,7 +103,7 @@ export class EpubService {
         context.fillStyle = "rgb(255,255,255)";
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
-        let dataURL = canvas.toDataURL("image/jpeg",0.83);
+        let dataURL = canvas.toDataURL("image/webp",0.83);
         let blobs = await this.separateImage(dataURL);
         if (pageOrder) {
           this.blobs.push(blobs[0])
@@ -122,7 +122,7 @@ export class EpubService {
           context.fillStyle = "rgb(255,255,255)";
           context.fillRect(0, 0, canvas.width, canvas.height);
           context.drawImage(img, 0, 0, img.width, img.height);
-          let dataURL = canvas.toDataURL("image/jpeg",0.83);
+          let dataURL = canvas.toDataURL("image/webp",0.83);
           const blob = this.base64ToBlob(dataURL, "jpeg");
           return blob
         }
@@ -174,7 +174,7 @@ export class EpubService {
     ctx.fillStyle = "rgb(255,255,255)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, x, y, drawWidth, drawHeight);
-    let dataURL1 = canvas.toDataURL("image/jpeg",0.83);
+    let dataURL1 = canvas.toDataURL("image/webp",0.83);
     const blob1 = this.base64ToBlob(dataURL1, "jpeg")
     return blob1
   }
@@ -207,7 +207,7 @@ export class EpubService {
     canvas4.height = this.book.pageSize[1];
     let context4 = canvas4.getContext('2d');
     context4.rect(0, 0, canvas4.width, canvas4.height);
-    let dataURL1 = canvas4.toDataURL("image/jpeg",0.83);
+    let dataURL1 = canvas4.toDataURL("image/webp",0.83);
     const blob1 = this.base64ToBlob(dataURL1, "jpeg");
     return blob1
   }
@@ -227,8 +227,8 @@ export class EpubService {
     context2.rect(0, 0, canvas2.width, canvas2.height);
 
     context2.drawImage(image1, canvas1.width, 0, image1.width, image1.height, 0, 0, image1.width, image1.height);
-    let dataURL1 = canvas1.toDataURL("image/jpeg",0.83);
-    let dataURL2 = canvas2.toDataURL("image/jpeg",0.83);
+    let dataURL1 = canvas1.toDataURL("image/webp",0.83);
+    let dataURL2 = canvas2.toDataURL("image/webp",0.83);
 
     const image2: any = await this.createImage(dataURL1);
     let canvas3 = document.createElement('canvas');
@@ -253,8 +253,8 @@ export class EpubService {
     context4.fillRect(0, 0, canvas4.width, canvas4.height);
     context4.drawImage(image3, 0, (this.book.pageSize[1] - height2) / 2, this.book.pageSize[0], height2);
 
-    let dataURL3 = canvas3.toDataURL("image/jpeg",0.83);
-    let dataURL4 = canvas4.toDataURL("image/jpeg",0.83);
+    let dataURL3 = canvas3.toDataURL("image/webp",0.83);
+    let dataURL4 = canvas4.toDataURL("image/webp",0.83);
     const blob1 = this.base64ToBlob(dataURL3, "jpeg");
     const blob2 = this.base64ToBlob(dataURL4, "jpeg");
 
@@ -468,7 +468,7 @@ export class EpubService {
     let context = canvas.getContext('2d');
     context.rect(0, 0, canvas.width, canvas.height);
     context.drawImage(image1, 0, 0, canvas.width, canvas.height);
-    let dataURL = canvas.toDataURL("image/jpeg",0.83);
+    let dataURL = canvas.toDataURL("image/webp",0.83);
     return new Promise((r, j) => {
       var img = new Image();
       img.src = dataURL;

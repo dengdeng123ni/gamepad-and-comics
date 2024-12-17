@@ -44,7 +44,7 @@ export class PdfService {
       let context = canvas.getContext('2d');
       context.rect(0, 0, canvas.width, canvas.height);
       context.drawImage(image1, 0, 0, canvas.width, canvas.height);
-      let dataURL = canvas.toDataURL("image/jpeg",0.92);
+      let dataURL = canvas.toDataURL("image/webp",0.92);
       return new Promise((r, j) => {
         var img = new Image();
         img.src = dataURL;
@@ -57,14 +57,20 @@ export class PdfService {
     const pageOne = async (list) => {
       const doc = new jsPDF();
       doc.deletePage(1);
-      for (let i = 0; i < list.length; i++) {
-        const img: any = await compressImage(list[i]);
-        if (img.height < img.width) {
-          doc.addPage([img.width, img.height], "l")
-        } else {
-          doc.addPage([img.width, img.height], "p")
+
+      for (let i = 0; i < list.length; i += 4) {
+        const batch = list.slice(i, i + 4);
+        const promises = await Promise.all(batch.map(x => compressImage(list[i])));
+        for (let index = 0; index < promises.length; index++) {
+          const img: any =  promises[index];
+          if (img.height < img.width) {
+            doc.addPage([img.width, img.height], "l")
+          } else {
+            doc.addPage([img.width, img.height], "p")
+          }
+          doc.addImage(img, 'JPG', 0, 0, img.width, img.height)
         }
-        doc.addImage(img, 'JPG', 0, 0, img.width, img.height)
+
       }
       return doc.output('blob');
     }
