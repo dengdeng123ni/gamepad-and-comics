@@ -1,0 +1,8 @@
+{
+  "default_register_script":[
+    "assets/loadable-js/ehentai网站资源支持.js"
+  ],
+  "default_load_script":[
+    "assets/eval/index.js"
+  ]
+}

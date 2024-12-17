@@ -1,8 +1,8 @@
 {
-  "name": "手柄与漫画",
-  "short_name": "手柄与漫画",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "游戏手柄与漫画",
+  "short_name": "游戏手柄与漫画",
+  "theme_color": "#303030",
+  "background_color": "#303030",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
