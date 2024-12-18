@@ -351,15 +351,18 @@ export class MenuComponent {
       if (x.id == "temporary_data") return
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
       this.menu.is_init = true;
+
     })
   }
    isValidIPv4(ip) {
     const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/;
     return ipv4Regex.test(ip);
   }
-  init() {
+  init(source?) {
     this.data.menu_2=[];
     this.data.menu=[];
+    if(!source) source=this.AppData.source;
+
     if (this.data.menu.length == 0) {
       Object.keys(this.DbEvent.Events).forEach((x) => {
         if (x == "temporary_file") return
@@ -444,16 +447,17 @@ export class MenuComponent {
         this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })
-      if (['local_cache', 'temporary_file', 'temporary_data'].includes(this.AppData.source)) {
+      if (['local_cache', 'temporary_file', 'temporary_data'].includes( source)) {
         this.data.menu_2_obj = this.data.menu_2[0]
 
       } else {
-        this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
+        this.data.menu_2_obj = this.data.menu_2.find(x => x.id == source)
         // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
         // this.data.menu[index].expanded=true;
       }
       if (!this.data.menu_2_obj) this.data.menu_2_obj = this.data.menu_2[0]
       if (this.data.menu_2.length==0) this.data.menu_2_obj =null
+      console.log(this.data.menu_2_obj);
 
       if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
       this.menu.url_to_list.forEach(x => {
@@ -506,46 +510,52 @@ export class MenuComponent {
           }
         })
       })
-      if (this.menu.query_fixed.length) this.data.menu.push({ type: 'separator' })
+      let bool=true;
       this.menu.query_fixed.forEach(x => {
-        this.data.menu.push({
-          id: x.id,
-          icon: "radio_button_unchecked",
-          name: x.name,
-          content_menu: [
-            {
-              id: "delete",
-              name: "删除",
-              click: async () => {
-                await this.webDb.deleteByKey('query_fixed', x.id)
-                this.data.menu = this.data.menu.filter(c => c.id != x.id)
-              }
-            },
-
-            {
-              id: "ei39",
-              name: "重命名",
-              click: async () => {
-                const name = await this.prompt.fire("请输入新名称", "");
-                if (name !== null) {
-                  if (name != "") {
-                    const obj: any = await this.webDb.getByKey('query_fixed', x.id)
-                    obj.name = name
-                    await this.webDb.update('query_fixed', obj)
-                    let index = this.data.menu.findIndex(c => c.id == x.id)
-                    this.data.menu[index].name = name;
-                  }
-                } else {
-
+        if(this.data.menu_2_obj&&x.source==this.data.menu_2_obj.id){
+        if (this.menu.query_fixed.length&&bool) {
+          bool=false;
+          this.data.menu.push({ type: 'separator' })
+        }
+          this.data.menu.push({
+            id: x.id,
+            icon: "radio_button_unchecked",
+            name: x.name,
+            content_menu: [
+              {
+                id: "delete",
+                name: "删除",
+                click: async () => {
+                  await this.webDb.deleteByKey('query_fixed', x.id)
+                  this.data.menu = this.data.menu.filter(c => c.id != x.id)
                 }
-              }
-            },
-          ],
+              },
 
-          click: async (e) => {
-            this.router.navigate(['query', 'query_fixed', x.source, x.id]);
-          }
-        })
+              {
+                id: "ei39",
+                name: "重命名",
+                click: async () => {
+                  const name = await this.prompt.fire("请输入新名称", "");
+                  if (name !== null) {
+                    if (name != "") {
+                      const obj: any = await this.webDb.getByKey('query_fixed', x.id)
+                      obj.name = name
+                      await this.webDb.update('query_fixed', obj)
+                      let index = this.data.menu.findIndex(c => c.id == x.id)
+                      this.data.menu[index].name = name;
+                    }
+                  } else {
+
+                  }
+                }
+              },
+            ],
+
+            click: async (e) => {
+              this.router.navigate(['query', 'query_fixed', x.source, x.id]);
+            }
+          })
+        }
       })
 
 
@@ -660,7 +670,7 @@ export class MenuComponent {
     let obj: any = await this.DropDownMenu.open(list);
     if (obj) {
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == obj.id)
-
+      this.init(obj.id)
 
     }
   }

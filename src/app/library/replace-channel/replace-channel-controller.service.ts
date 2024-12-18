@@ -345,8 +345,6 @@ export class ReplaceChannelControllerService {
     } else {
       res = await this.receive_message(e)
     }
-console.log(res);
-
     if (!res) return undefined
 
     if (!res.data) {
@@ -371,8 +369,6 @@ console.log(res);
       const res1 = await this.jsonToResponse(res.data)
       if (res.req.parameter[0] == 'image') {
         const id=CryptoJS.MD5(res.req.parameter[1]).toString().toLowerCase();
-        console.log(id,res.req.parameter[1]);
-
         this.webDb.getByKey('image',id)
         this.original.webCh.put(res.req.parameter[0], res.req.parameter[1], res1.clone())
       }

@@ -60,7 +60,7 @@ export class PdfService {
 
       for (let i = 0; i < list.length; i += 4) {
         const batch = list.slice(i, i + 4);
-        const promises = await Promise.all(batch.map(x => compressImage(list[i])));
+        const promises = await Promise.all(batch.map(x => compressImage(x)));
         for (let index = 0; index < promises.length; index++) {
           const img: any =  promises[index];
           if (img.height < img.width) {

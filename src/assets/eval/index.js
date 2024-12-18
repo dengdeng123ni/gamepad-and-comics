@@ -46,9 +46,15 @@ class MessageFetchService {
         window._gh_fetch = this.fetch;
         window._gh_get_html = this.getHtml;
         window._gh_execute_eval = this.execute_eval;
+        window.open=this.open;
       }
   }
-
+  open=(url)=>{
+    this.postMessage({
+        type: "window_open",
+        url: url
+    });
+  }
   postMessage = (data) => {
       window.electron.sendMessage('message-from-renderer', data);
   }

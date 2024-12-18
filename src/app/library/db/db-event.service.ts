@@ -104,7 +104,7 @@ export class DbEventService {
               const b64_to_utf8 = (str) => {
                 return decodeURIComponent(window.atob(str));
               }
-              const url=b64_to_utf8(e[0].id)
+              const url = b64_to_utf8(e[0].id)
               window.open(url)
             }
           }
@@ -1928,6 +1928,11 @@ export class DbEventService {
             }
           }
         ],
+        // i18n: {
+        //   cn: {
+
+        //   }
+        // }
       }, {
         getList: async (obj) => {
           const res = await window._gh_get_html(`https://hanime1.me/comics?page=${obj.page_num}`, {

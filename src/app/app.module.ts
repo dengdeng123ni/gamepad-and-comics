@@ -17,8 +17,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { CompositeModule } from './composite/composite.module';
 import { NovelsDetailModule } from './pages/novels-detail/novels-detail.module';
 import { NovelsRdeaderModule } from './pages/novels-reader/novels-reader.module';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { CustomTranslateLoader } from './custom-translate-loader.service';
 
 const dbConfig: DBConfig = {
   name: 'db',
@@ -261,9 +261,7 @@ const dbConfig: DBConfig = {
   ]
 };
 
-function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+
 
 @NgModule({
   declarations: [
@@ -276,8 +274,7 @@ function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
+        useClass: CustomTranslateLoader,
       }
     }),
     AppRoutingModule,

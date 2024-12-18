@@ -331,6 +331,7 @@ export class AppComponent {
     if (bool) {
       this.translate.setDefaultLang(language);
       this.translate.use(language);
+
       document.querySelector("html").setAttribute('lang', language)
     } else {
       let arr = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].filter(x => navigator.languages.includes(x));

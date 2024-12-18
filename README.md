@@ -41,7 +41,12 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 // 图片变化
 // 阅读记录 加入阅读
 // 允许粘贴 
-// APK 版本 ??难以完成 
+// APK 版本 ?? 难以完成 
 // 数据源配置翻译  
-// PDF 转 图片
+// api 调用自己 控制
+// 收藏固定
+// 标签
+// 作者
+// 4*4
+// 漫画标签
 // 
