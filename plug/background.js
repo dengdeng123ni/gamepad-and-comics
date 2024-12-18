@@ -72,8 +72,6 @@ chrome.runtime.onMessage.addListener(
       return
     }
 
-    // get_all_browser_client
-
     if (request.type == "get_all_browser_client") {
       chrome.tabs.query({}, function (tabs) {
         _client_data= _client_data.filter(
@@ -101,9 +99,6 @@ chrome.runtime.onMessage.addListener(
       })
       return
     }
-
-    // -------------------------------------------
-
     // 通道信息
     if (request.type == "proxy_request_local") {
       request.target = "page"

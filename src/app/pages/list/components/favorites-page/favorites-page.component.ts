@@ -62,7 +62,7 @@ export class FavoritesPageComponent {
         source: this.AppData.source,
       }
       await this.webDb.update('favorites_menu', obj)
-
+      this.getAll()
       setTimeout(() => {
         window._gh_menu_update()
       })
@@ -76,7 +76,7 @@ export class FavoritesPageComponent {
           source: this.AppData.source,
         }
         await this.webDb.update('favorites_menu', obj)
-
+        this.getAll()
         setTimeout(() => {
           window._gh_menu_update()
         })

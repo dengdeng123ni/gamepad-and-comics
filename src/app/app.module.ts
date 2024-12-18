@@ -8,7 +8,7 @@ import { HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
 import { GamepadVioceComponent } from './library/gamepad/gamepad-vioce/gamepad-vioce.component';
 import { MaterialModule } from './library/material.module';
-import { ContextMenuComponent } from './library/public-api';
+import { ContextMenuComponent, CustomTranslateLoader } from './library/public-api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailModule } from './pages/detail/detail.module';
 import { ListModule } from './pages/list/list.module';
@@ -18,7 +18,6 @@ import { CompositeModule } from './composite/composite.module';
 import { NovelsDetailModule } from './pages/novels-detail/novels-detail.module';
 import { NovelsRdeaderModule } from './pages/novels-reader/novels-reader.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { CustomTranslateLoader } from './custom-translate-loader.service';
 
 const dbConfig: DBConfig = {
   name: 'db',

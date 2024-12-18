@@ -7,7 +7,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CustomTranslateLoader implements TranslateLoader {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+
+  ) {}
 
   // 通过 URL 或其他动态参数来获取翻译文件
   getTranslation(lang: string): Observable<any> {

@@ -2,6 +2,10 @@
  * Public API Surface of library
  */
 
+export * from './translate/translate-controller.service'
+export * from './translate/translate-event.service'
+export * from './translate/custom-translate-loader.service'
+
 export * from './context-menu/context-menu-controller.service';
 export * from './context-menu/context-menu-event.service';
 export * from './context-menu/context-menu/context-menu.component';
