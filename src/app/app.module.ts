@@ -22,8 +22,22 @@ import { CustomTranslateLoader } from './custom-translate-loader.service';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 2,
+  version: 3,
   objectStoresMeta: [
+    {
+      store: 'favorites_menu',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+    {
+      store: 'favorites_comics',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
     {
       store: 'temporary_file',
       storeConfig: { keyPath: 'id', autoIncrement: false },

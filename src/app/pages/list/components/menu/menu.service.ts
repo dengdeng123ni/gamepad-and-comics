@@ -21,6 +21,7 @@ export class MenuService {
   mode_1=2;
 
   is_init=false;
+  favorites_menu=[];
 
 
   constructor(public data: DataService,
@@ -60,6 +61,7 @@ export class MenuService {
   async get() {
     this.url_to_list = await this.webDb.getAll('url_to_list')
     this.query_fixed = await this.webDb.getAll('query_fixed')
+    this.favorites_menu = await this.webDb.getAll('favorites_menu')
     this.temporary_file = await this.webDb.getAll('temporary_file')
     const res: any = await this.webDb.getByKey("data", this.key)
     if (res) {

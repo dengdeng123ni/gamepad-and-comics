@@ -24,6 +24,7 @@ import { SelectTagMultipleService } from '../../components/select-tag-multiple/s
 import { ReplaceChannelPageService } from '../../components/replace-channel-page/replace-channel-page.service';
 import { MobileWebQrcodeService } from '../../components/mobile-web-qrcode/mobile-web-qrcode.service';
 import { LanguageSettingsService } from '../../components/language-settings/language-settings.service';
+import { FavoritesPageService } from '../../components/favorites-page/favorites-page.service';
 
 @Component({
   selector: 'app-index',
@@ -60,10 +61,10 @@ export class IndexComponent {
     public ReplaceChannelPage:ReplaceChannelPageService,
     public MobileWebQrcode:MobileWebQrcodeService,
     public LanguageSettings:LanguageSettingsService,
-
+    public FavoritesPage:FavoritesPageService,
     public MenuSearch: MenuSearchService
   ) {
-
+    // this.FavoritesPage.open()
 
     this.has_backdrop= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     // this.MenuSearch.open({

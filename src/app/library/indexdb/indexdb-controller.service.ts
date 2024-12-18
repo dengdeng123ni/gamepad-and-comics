@@ -35,9 +35,9 @@ type DataType =
   | "image"
   | "script"
   | "data_v2"
+  | "favorites_menu"
+  | "favorites_comics"
   | "router";
-
-
 
 
 @Injectable({

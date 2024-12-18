@@ -12,6 +12,7 @@ import { DownloadOptionService } from '../download-option/download-option.servic
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Platform } from '@angular/cdk/platform';
 import { AdvancedSearchService } from '../advanced-search/advanced-search.service';
+import { FavoritesPageService } from '../favorites-page/favorites-page.service';
 
 @Component({
   selector: 'app-comics-list-v2',
@@ -102,6 +103,7 @@ export class ComicsListV2Component {
     public platform: Platform,
     public prompt: PromptService,
     public AdvancedSearch: AdvancedSearchService,
+    public FavoritesPage:FavoritesPageService,
     public LocalCach: LocalCachService,
 
   ) {
@@ -264,6 +266,45 @@ export class ComicsListV2Component {
         })
 
 
+      }else if (type == "favorites") {
+        this.menu_id = sid;
+        this.source = source;
+        this.id = `${type}_${source}_${sid}`;
+        this.key = this.id;
+        this.App.setsource(this.source);
+        const obj: any = await this.webDb.getByKey('favorites_menu', this.menu_id)
+
+        this.url = `${obj.name}`
+
+        ComicsListV2.register({
+          id: this.id,
+          type: type,
+          page_size: 20
+        }, {
+          Add: async (obj) => {
+            const res=(await this.webDb.getAll('favorites_comics') as any)
+            res.forEach(x=>{
+              x.sid=x.id;
+              x.id=x.comics_id;
+
+            })
+            return res
+            .sort((a, b) => b.add_favorites_date - a.add_favorites_date)
+            .filter(x => x.source == source && this.menu_id==x.favorites_id).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
+          },
+          Init: async (obj) => {
+            const res=(await this.webDb.getAll('favorites_comics') as any)
+            res.forEach(x=>{
+              x.sid=x.id;
+              x.id=x.comics_id;
+            })
+            return res
+            .sort((a, b) => b.add_favorites_date - a.add_favorites_date)
+            .filter(x => x.source == source && this.menu_id==x.favorites_id).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
+          }
+        })
+
+
       } else if (type == "temporary_file") {
         this.id = `${sid}`;
         this.key = this.id;
@@ -406,7 +447,7 @@ export class ComicsListV2Component {
         let data=[]
         const href=$event.getAttribute('href')
         if(href){
-          data.unshift({
+          data.push({
             id:"href",
             name:"打开链接",
             click:list=>{
@@ -416,8 +457,45 @@ export class ComicsListV2Component {
               }
             }
           })
+          data.push({
+            id:"add_favorites",
+            name:"加入收藏",
+            click:list=>{
+              this.FavoritesPage.open(list)
+            }
+          })
         }
-        return [...data,...menu]
+        let arr=[...data,...menu,];
+        if(this.type=="favorites"){
+          arr.push(
+            {
+              id:"delete",
+              name:"删除",
+              click:list=>{
+                 for (let index = 0; index < list.length; index++) {
+                  let node = document.querySelector(`[_id='${list[index].id}']`)
+                  if (node) node.remove();
+                  this.webDb.deleteByKey('favorites_comics',list[index].sid)
+                 }
+              }
+            }
+          )
+        }else if(this.type=="history"){
+          arr.push(
+            {
+              id:"delete",
+              name:"删除",
+              click:list=>{
+                 for (let index = 0; index < list.length; index++) {
+                  let node = document.querySelector(`[_id='${list[index].id}']`)
+                  if (node) node.remove();
+                  this.webDb.deleteByKey('history',list[index].id)
+                 }
+              }
+            }
+          )
+        }
+        return arr
       },
       on: async (e: any) => {
         if (e.value) {
@@ -497,7 +575,7 @@ export class ComicsListV2Component {
       await this.webDb.update('query_fixed', obj)
 
       setTimeout(() => {
-        this.current._updateMenu()
+        window._gh_menu_update()
       })
 
 
@@ -516,7 +594,7 @@ export class ComicsListV2Component {
         await this.webDb.update('query_fixed', obj)
 
         setTimeout(() => {
-          this.current._updateMenu()
+          window._gh_menu_update()
         })
       }
     }

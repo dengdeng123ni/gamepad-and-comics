@@ -46,6 +46,7 @@ import { ReplaceChannelPageComponent } from './components/replace-channel-page/r
 import { MobileWebQrcodeComponent } from './components/mobile-web-qrcode/mobile-web-qrcode.component';
 import { LanguageSettingsComponent } from './components/language-settings/language-settings.component';
 import { ArchivePageComponent } from './components/archive-page/archive-page.component';
+import { FavoritesPageComponent } from './components/favorites-page/favorites-page.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { ArchivePageComponent } from './components/archive-page/archive-page.com
     MobileWebQrcodeComponent,
     LanguageSettingsComponent,
     ArchivePageComponent,
+    FavoritesPageComponent,
   ],
   imports: [
     CommonModule,

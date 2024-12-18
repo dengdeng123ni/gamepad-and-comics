@@ -358,6 +358,7 @@ export class MenuComponent {
     const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/;
     return ipv4Regex.test(ip);
   }
+  // favorite_border
   init(source?) {
     this.data.menu_2=[];
     this.data.menu=[];
@@ -457,7 +458,6 @@ export class MenuComponent {
       }
       if (!this.data.menu_2_obj) this.data.menu_2_obj = this.data.menu_2[0]
       if (this.data.menu_2.length==0) this.data.menu_2_obj =null
-      console.log(this.data.menu_2_obj);
 
       if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
       this.menu.url_to_list.forEach(x => {
@@ -557,7 +557,57 @@ export class MenuComponent {
           })
         }
       })
+      let bool2=true;
+      this.menu.favorites_menu.forEach(x => {
+        if(this.data.menu_2_obj&&x.source==this.data.menu_2_obj.id){
+        if (this.menu.favorites_menu.length&&bool2) {
+          bool2=false;
+          this.data.menu.push({ type: 'separator' })
+        }
+          this.data.menu.push({
+            id: x.id,
+            icon: "favorite_border",
+            name: x.name,
+            content_menu: [
+              {
+                id: "delete",
+                name: "删除",
+                click: async () => {
+                  await this.webDb.deleteByKey('favorites_menu', x.id)
+                  this.data.menu = this.data.menu.filter(c => c.id != x.id)
+                }
+              },
+              {
+                id: "ei39",
+                name: "重命名",
+                click: async () => {
+                  const name = await this.prompt.fire("请输入新名称", "");
+                  if (name !== null) {
+                    if (name != "") {
+                      const obj: any = await this.webDb.getByKey('favorites_menu', x.id)
+                      obj.name = name
+                      await this.webDb.update('favorites_menu', obj)
+                      let index = this.data.menu.findIndex(c => c.id == x.id)
+                      this.data.menu[index].name = name;
+                    }
+                  } else {
 
+                  }
+                }
+              },
+            ],
+
+            click: async (e) => {
+              this.router.navigate(['query', 'favorites', x.source, x.id],{
+                queryParams: {
+                  gh_data: 'reset',
+
+                }
+              });
+            }
+          })
+        }
+      })
 
 
       this.data.menu.push({ type: 'separator' })
