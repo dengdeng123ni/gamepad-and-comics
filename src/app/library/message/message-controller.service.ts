@@ -54,7 +54,7 @@ export class MessageControllerService {
           MessageEvent.OtherEvents['specify_link'](event.data.data)
         } else if (event.data.type == "proxy_request_local") {
           const res = await window._gh_receive_message(event.data.data)
-          const jsonString = {
+          const json  = {
             send_client_id: event.data.send_client_id,
             receiver_client_id: event.data.receiver_client_id,
             type: 'proxy_response_local',
@@ -62,14 +62,26 @@ export class MessageControllerService {
             data: res,
             id: event.data.id
           };
-          window.postMessage(jsonString);
+          window.postMessage(json);
         } else if (event.data.type == "init") {
           this.init();
           this.ping();
+        } else if(event.data.type=="eval"){
+          const data = await this.executeEval(event.data.javascript);
+          const json = {
+            type: 'eval',
+            target: 'background',
+            data: data,
+            id: event.data.id
+          };
+          window.postMessage(json);
         }
       }
     }, false);
 
+  }
+  async executeEval(code) {
+    return window.eval(code)
   }
 
   init = async () => {
@@ -94,6 +106,9 @@ export class MessageControllerService {
           name: navigator.userAgent
         }
       });
-    },3000)
+    },6000)
   }
+
+
+  // window.eval=
 }

@@ -76,7 +76,12 @@ chrome.runtime.onMessage.addListener(
 
     if (request.type == "get_all_browser_client") {
       chrome.tabs.query({}, function (tabs) {
+        _client_data= _client_data.filter(
+          (item, index, self) => index === self.findIndex((t) => t.client.id === item.client.id)
+        );
         _client_data = _client_data.filter(x => tabs.find(c => c.id == x.tabId))
+
+
         chrome.tabs.sendMessage(sender.tab.id, {
           id: request.id,
           target: "page",
@@ -86,13 +91,14 @@ chrome.runtime.onMessage.addListener(
       })
       return
     } else if (request.type == "add_browser_client") {
-      const obj = _client_data.find(x => x.tabId == sender.tab.id)
-      if (!obj) {
-        _client_data.push({
-          tabId: sender.tab.id,
-          client: request.client
-        })
-      }
+      _client_data.push({
+        tabId: sender.tab.id,
+        client: request.client
+      })
+      chrome.tabs.sendMessage(sender.tab.id, {
+        target: "page",
+        type: "proxy_data"
+      })
       return
     }
 

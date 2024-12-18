@@ -236,10 +236,7 @@ export class MessageFetchService {
   ) => {
     let id = ''
     let bool = true;
-    id = CryptoJS.MD5(JSON.stringify({
-      type: "get_all_browser_client",
-      target: 'background'
-    })).toString().toLowerCase()
+    id = new Date().getTime().toString()
     if (!this._data_proxy_request[id]) {
       this._data_proxy_request[id] = true;
 
@@ -264,8 +261,8 @@ export class MessageFetchService {
       getData()
       setTimeout(() => {
         bool = false;
-        r(new Response(""))
-        j(new Response(""))
+        r(null)
+        j(null)
       }, 30000)
     })
   }
