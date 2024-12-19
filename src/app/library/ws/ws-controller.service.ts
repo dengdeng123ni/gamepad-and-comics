@@ -102,7 +102,9 @@ export class WsControllerService {
       getAll: async () => {
         const data = await fetch(`http://localhost:7708/api/ws/getAll`)
         const res = await data.json();
-        return res
+        return res.filter((item, index, self) =>
+          index === self.findIndex((t) => (t.id === item.id))
+        );
       },
     })
 
@@ -124,7 +126,9 @@ export class WsControllerService {
       getAll: async () => {
         const data = await fetch(`${document.querySelector("base").href}api/ws/getAll`)
         const res = await data.json();
-        return res
+        return res.filter((item, index, self) =>
+          index === self.findIndex((t) => (t.id === item.id))
+        );
       },
     })
   }
