@@ -109,6 +109,7 @@ export class AppComponent {
   is_first_enable = false;
   constructor(
     public ReplaceChannelController: ReplaceChannelControllerService,
+
     public CacheController: CacheControllerService,
     private webCh: CacheControllerService,
     public GamepadController: GamepadControllerService,
@@ -393,6 +394,7 @@ export class AppComponent {
   }
   async init() {
     this.setLanguage()
+    this.WsController.init()
     await this.webCh.init();
     const obj1 = this.getAllParams(window.location.href);
     await this.MessageFetch.init();

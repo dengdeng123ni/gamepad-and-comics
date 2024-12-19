@@ -39,7 +39,7 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 // 允许粘贴 
 // 数据源配置翻译  
 // api 调用自己 控制
-// 4*4 
+
 // 漫画标签
 // 标签 
 // 作者 
