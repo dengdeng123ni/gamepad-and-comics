@@ -35,7 +35,7 @@ export class MessageFetchService {
 
     this.ReplaceChannelEvent.register({
       id: '_gh_application',
-      name: '插件'
+      name: '应用'
     }, {
       sendMessage: async e => {
         const data = await fetch(`${document.querySelector("base").href}api/local/send`, {

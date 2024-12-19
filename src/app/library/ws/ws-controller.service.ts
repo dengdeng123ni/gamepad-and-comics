@@ -14,7 +14,7 @@ export class WsControllerService {
   constructor(public ReplaceChannelEvent: ReplaceChannelEventService,) {
     this.ReplaceChannelEvent.register({
       id: 'ws',
-      name: '插件'
+      name: 'ws'
     }, {
       sendMessage: (e) => {
         const id = Math.random().toString(36).substring(2, 9)
@@ -86,11 +86,9 @@ export class WsControllerService {
 
     this.ReplaceChannelEvent.register({
       id: 'http_ws',
-      name: '插件'
+      name: 'http_ws'
     }, {
       sendMessage: async e => {
-        console.log(e);
-
         const data = await fetch(`http://localhost:7708/api/ws/send`, {
           method: 'POST', // 指定请求方法为 POST
           headers: {
@@ -104,8 +102,28 @@ export class WsControllerService {
       getAll: async () => {
         const data = await fetch(`http://localhost:7708/api/ws/getAll`)
         const res = await data.json();
-        console.log(res);
+        return res
+      },
+    })
 
+    this.ReplaceChannelEvent.register({
+      id: 'https_ws',
+      name: 'https_ws'
+    }, {
+      sendMessage: async e => {
+        const data = await fetch(`${document.querySelector("base").href}api/ws/send`, {
+          method: 'POST', // 指定请求方法为 POST
+          headers: {
+            'Content-Type': 'application/json', // 指定请求体的格式为 JSON
+          },
+          body: JSON.stringify(e), // 将数据序列化为 JSON 字符串
+        })
+        const res = await data.json();
+        return res
+      },
+      getAll: async () => {
+        const data = await fetch(`${document.querySelector("base").href}api/ws/getAll`)
+        const res = await data.json();
         return res
       },
     })
