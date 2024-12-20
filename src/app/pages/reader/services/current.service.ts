@@ -711,6 +711,7 @@ export class CurrentService {
 
   async _loadPages(chapter_id) {
     const res = await this.webDb.getByKey('pages', chapter_id) as any;
+
     if (res.is_load_free_pages) {
 
     } else {

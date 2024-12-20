@@ -60,12 +60,12 @@ declare global {
     _gh_gamepad_down?: (gamepad_buttons: string) => void; // 模拟手柄按下
     _gh_gamepad_up?: (gamepad_buttons: string) => void; // 模拟手柄抬起
     _gh_gamepad_press?: (gamepad_buttons: string) => void; // 模拟手柄连续按下
-    _gh_novels_get_pages?: Function; // 获取小说章节
-    _gh_novels_get_detail?: Function; // 获取小说详情
-    _gh_comics_search?: Function; // 搜索漫画
     CryptoJS?: any; // 加密
     QRCode?: any; // 二维码
     _gh_data?: any // 数据
+    _gh_novels_get_pages?: Function; // 获取小说章节
+    _gh_novels_get_detail?: Function; // 获取小说详情
+    _gh_comics_search?: Function; // 搜索漫画
   }
 }
 
