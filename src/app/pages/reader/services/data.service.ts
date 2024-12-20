@@ -40,7 +40,18 @@ export class DataService {
     first_cover_background_color: "default",
     page_switching_effect: "平滑",
     page_height: 100,
-    border_radius: 4
+    border_radius: 4,
+    nine_grid:{
+      1:"",
+      2:"",
+      3:"",
+      4:"",
+      5:"",
+      6:"",
+      7:"",
+      8:"",
+      9:""
+    }
   }
 
   is_init_free = false;

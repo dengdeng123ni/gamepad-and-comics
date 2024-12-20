@@ -241,6 +241,8 @@ export class OnePageReaderV2Component {
 
   async next() {
     const nodes = this.swiper.slides[0].querySelectorAll("[current_page]");
+    if(this.swiper.activeIndex>2) return
+
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
       const node = nodes[index];
@@ -267,6 +269,8 @@ export class OnePageReaderV2Component {
   }
   async previous() {
     const nodes = this.swiper.slides[this.swiper.slides.length - 1].querySelectorAll("[current_page]");
+
+    if((this.swiper.activeIndex+2)<(this.swiper.slides.length - 1)) return
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
       const node = nodes[index];
@@ -356,8 +360,10 @@ export class OnePageReaderV2Component {
           this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
+        console.log(this.swiper.activeIndex,getrange(this.swiper.activeIndex+3, this.swiper.slides.length - 1).reverse());
+
         this.swiper.removeSlide(getrange(this.swiper.activeIndex+3, this.swiper.slides.length - 1).reverse());
-        await this.sleep(628);
+        await this.sleep(581);
         this.ccc = false;
       }
       this.prependSlide(current)
@@ -408,8 +414,11 @@ export class OnePageReaderV2Component {
           this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
+
+        console.log(this.swiper.activeIndex,getrange(0,this.swiper.activeIndex - 3));
+
         this.swiper.removeSlide(getrange(0,this.swiper.activeIndex - 3));
-        await this.sleep(628);
+        await this.sleep(581);
         this.ccc = false;
       }
       this.appendSlide(current)
