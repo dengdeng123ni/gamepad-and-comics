@@ -6,6 +6,7 @@ declare global {
   interface Window {
     _gh_receive_message?: (message: any) => Promise<any>;
     _gh_send_message?: (message: any) => Promise<any>;
+    _gh_translate_register?:Function
     get_all_client: Function
     _gh_menu_update?: Function
     _gh_page_reset?: Function;

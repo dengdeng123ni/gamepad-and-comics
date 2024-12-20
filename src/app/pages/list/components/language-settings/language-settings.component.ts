@@ -22,6 +22,6 @@ export class LanguageSettingsComponent  {
   use(language){
     localStorage.setItem("language",language)
     this.translate.setDefaultLang(language);
-    this.translate.use(language);
+    this.translate.reloadLang(language).subscribe();
   }
 }

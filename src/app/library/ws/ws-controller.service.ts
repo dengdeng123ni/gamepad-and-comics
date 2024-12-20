@@ -96,6 +96,8 @@ export class WsControllerService {
           },
           body: JSON.stringify(e), // 将数据序列化为 JSON 字符串
         })
+
+
         const res = await data.json();
         return res
       },
@@ -138,15 +140,6 @@ export class WsControllerService {
 
     this.socket = new WebSocket("ws://localhost:7703");
 
-    // window.postMessage({
-    //   type: "website_proxy_request",
-    //   target:'background',
-    //   target_website: (init as any).proxy,
-    // });
-
-
-
-
     // 监听连接打开事件
     this.socket.addEventListener('open', async () => {
       const jsonData = { type: "init", name: navigator.userAgent, id: document.body.getAttribute('client_id') };
@@ -188,9 +181,18 @@ export class WsControllerService {
         this._data[c.id] = c.data.filter((item, index, self) =>
           index === self.findIndex((t) => (t.id === item.id))
         );
+      } else if (c.type == "http_send_eval") {
+        const data = await this.executeEval(c.javascript);
+        const obj = {
+          type: 'http_receive_eval',
+          data: data??'g93h_void',
+          id: c.id
+        };
+        const jsonString = JSON.stringify(obj);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        this.socket.send(blob);
       }
     });
-
     // 监听错误事件
     this.socket.addEventListener('error', (error) => {
       console.error('客户端错误', error);
@@ -201,6 +203,19 @@ export class WsControllerService {
       console.log('关闭客户端链接');
     });
   }
-
+  async executeEval(code) {
+    // console.log(code);
+    // await fetch(`http://localhost:7708/api/ws/client/synamic/javascript`, {
+    //   method: 'POST', // 指定请求方法为 POST
+    //   headers: {
+    //     'Content-Type': 'application/json', // 指定请求体的格式为 JSON
+    //   },
+    //   body: JSON.stringify({
+    //     client_id: "_1734344962130",
+    //     javascript: `window._gh_gamepad_down('DOWN')`
+    //   }) // 将数据序列化为 JSON 字符串
+    // })
+    return window.eval(code)
+  }
 
 }

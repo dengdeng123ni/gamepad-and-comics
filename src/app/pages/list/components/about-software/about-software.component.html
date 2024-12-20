@@ -6,7 +6,31 @@
   <div class="list">
     <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
+        {{'客户端ID' | translate}}{{this.size}}
+      </div>
+      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+    </div>
+    <div class="item">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
+        {{'客户端名称' | translate}}{{this.size}}
+      </div>
+      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+    </div>
+    <div class="item">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
         {{'已使用缓存空间' | translate}}{{this.size}}
+      </div>
+      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+    </div>
+    <div class="item">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
+        {{'本地IP' | translate}}{{this.size}}
+      </div>
+      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+    </div>
+    <div class="item">
+      <div class="name" [attr.svg_filter]="'text_secondary'">
+        {{'局域网IP' | translate}}{{this.size}}
       </div>
       <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
     </div>
@@ -28,6 +52,7 @@
       </div>
       <button mat-button [attr.svg_filter]="'text_primary'" [attr.region]="'about_software_item'" (click)="update222()"> {{'更新' | translate}}</button>
     </div>
+
     <!-- <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
         {{'交流群' | translate}} 639294484

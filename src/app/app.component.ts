@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService, CacheControllerService, ReplaceChannelControllerService, WsControllerService, ArchiveControllerService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService, CacheControllerService, ReplaceChannelControllerService, WsControllerService, ArchiveControllerService, TranslateEventService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -109,7 +109,7 @@ export class AppComponent {
   is_first_enable = false;
   constructor(
     public ReplaceChannelController: ReplaceChannelControllerService,
-
+    public TranslateEvent: TranslateEventService,
     public CacheController: CacheControllerService,
     private webCh: CacheControllerService,
     public GamepadController: GamepadControllerService,
@@ -139,7 +139,7 @@ export class AppComponent {
     public DownloadEvent: DownloadEventService,
     public ParamsController: ParamsControllerService,
     public TouchmoveController: TouchmoveControllerService,
-    public ArchiveController:ArchiveControllerService,
+    public ArchiveController: ArchiveControllerService,
     private translate: TranslateService,
     public webDb: IndexdbControllerService,
     public DbEvent: DbEventService,
@@ -211,6 +211,15 @@ export class AppComponent {
     this.keydown.pipe(bufferCount(1)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))
     });
+    this.TranslateEvent.update$.subscribe(x => {
+      const language = this.translate.getDefaultLang()
+      if (x == language) {
+        this.translate.setDefaultLang(language);
+        this.translate.reloadLang(language).subscribe(x=>{
+
+        });
+      }
+    })
     // ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
     // 英语 俄语 中文 德语 葡萄牙语 法语 西班牙語 日语 韩语 意大利语 土耳其语 匈牙利语
 
@@ -329,25 +338,24 @@ export class AppComponent {
   async setLanguage() {
     const language = localStorage.getItem("language")
     let bool = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].includes(language)
-    console.log(bool);
 
     if (bool) {
       this.translate.setDefaultLang(language);
-      this.translate.use(language);
+      this.translate.use(language).subscribe();
 
       document.querySelector("html").setAttribute('lang', language)
     } else {
       let arr = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].filter(x => navigator.languages.includes(x));
       if (arr && arr.length) {
         this.translate.setDefaultLang(arr[0]);
-        this.translate.use(arr[0]);
+        this.translate.use(arr[0]).subscribe();
         document.body.setAttribute('language', arr[0])
         localStorage.setItem("language", arr[0])
         document.querySelector("html").setAttribute('lang', arr[0])
       } else {
         this.translate.addLangs(["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"]);
         this.translate.setDefaultLang('en');
-        this.translate.use('en');
+        this.translate.use('en').subscribe();
         const 游戏手柄与漫画 = await this.I18n.getTranslatedText('游戏手柄与漫画')
         document.title = 游戏手柄与漫画;
         document.body.setAttribute('language', 'en')
@@ -362,7 +370,7 @@ export class AppComponent {
       const res = await fetch(document.querySelector("base").href + 'assets/config.json')
       const config = await res.json();
 
-      if(config.default_load_script){
+      if (config.default_load_script) {
         const default_load_script = config.default_load_script;
         for (let index = 0; index < default_load_script.length; index++) {
           const x = default_load_script[index];
@@ -373,8 +381,8 @@ export class AppComponent {
         }
       }
       if (this.is_first_enable) {
-         // 第一次启用
-           // 第一次加载默认脚本
+        // 第一次启用
+        // 第一次加载默认脚本
         const default_register_script = config.default_register_script;
         for (let index = 0; index < default_register_script.length; index++) {
           const x = default_register_script[index];

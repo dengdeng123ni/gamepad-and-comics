@@ -32,7 +32,15 @@ export class GamepadControllerService {
     private router: Router
   ) {
 
-
+    window._gh_gamepad_down = e => {
+      this.GamepadInput.down$.next(e)
+    }
+    window._gh_gamepad_up = e => {
+      this.GamepadInput.up$.next(e)
+    }
+    window._gh_gamepad_press = e => {
+      this.GamepadInput.press$.next(e)
+    }
   }
 
   init() {
@@ -44,18 +52,18 @@ export class GamepadControllerService {
       if (x == "Y") this.Y = false;
     })
     this.GamepadInput.press().subscribe((e: string) => {
-      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER","LEFT_ANALOG_DOWN",
-      "LEFT_ANALOG_RIGHT",
-      "RIGHT_ANALOG_DOWN",
-      "RIGHT_ANALOG_RIGHT",
-      "DPAD_DOWN",
-      "DPAD_RIGHT",
-      "LEFT_ANALOG_LEFT",
-      "LEFT_ANALOG_UP",
-      "RIGHT_ANALOG_LEFT",
-      "RIGHT_ANALOG_UP",
-      "DPAD_LEFT",
-      "DPAD_UP"].includes(e)) {
+      if (["UP", "DOWN", "LEFT", "RIGHT", "LEFT_BUMPER", "RIGHT_BUMPER", "LEFT_ANALOG_DOWN",
+        "LEFT_ANALOG_RIGHT",
+        "RIGHT_ANALOG_DOWN",
+        "RIGHT_ANALOG_RIGHT",
+        "DPAD_DOWN",
+        "DPAD_RIGHT",
+        "LEFT_ANALOG_LEFT",
+        "LEFT_ANALOG_UP",
+        "RIGHT_ANALOG_LEFT",
+        "RIGHT_ANALOG_UP",
+        "DPAD_LEFT",
+        "DPAD_UP"].includes(e)) {
         this.device(e);
       }
     });
@@ -159,29 +167,29 @@ export class GamepadControllerService {
   is_voice_controller = false;
 
 
-  is_when_inputting=false;
+  is_when_inputting = false;
 
 
 
   device(input: string) {
 
-    let is_11=["LEFT_ANALOG_DOWN",
-    "LEFT_ANALOG_RIGHT",
-    "RIGHT_ANALOG_DOWN",
-    "RIGHT_ANALOG_RIGHT",
-    "DPAD_DOWN",
-    "DPAD_RIGHT",
-    "LEFT_ANALOG_LEFT",
-    "LEFT_ANALOG_UP",
-    "RIGHT_ANALOG_LEFT",
-    "RIGHT_ANALOG_UP",
-    "DPAD_LEFT",
-    "DPAD_UP"].includes(input);
+    let is_11 = ["LEFT_ANALOG_DOWN",
+      "LEFT_ANALOG_RIGHT",
+      "RIGHT_ANALOG_DOWN",
+      "RIGHT_ANALOG_RIGHT",
+      "DPAD_DOWN",
+      "DPAD_RIGHT",
+      "LEFT_ANALOG_LEFT",
+      "LEFT_ANALOG_UP",
+      "RIGHT_ANALOG_LEFT",
+      "RIGHT_ANALOG_UP",
+      "DPAD_LEFT",
+      "DPAD_UP"].includes(input);
     if (document.visibilityState === "hidden" || this.pause) return;
     if (input === "Y") this.Y = true;
-    if(!is_11) this.getCurrentTarget();
+    if (!is_11) this.getCurrentTarget();
 
-    if(!is_11) this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
+    if (!is_11) this.GamepadEventBefore$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region, index: this.current.index });
 
     const region = this.current.region;
 
@@ -201,30 +209,30 @@ export class GamepadControllerService {
       }
     })
     if (!this.current) return
-    if(!is_11) this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
+    if (!is_11) this.GamepadEventAfter$.next({ input: input, node: this.nodes[this.current.index], region: this.current.region });
   }
   device2(input: string) {
-    if(this.is_when_inputting){
-      if(input=="Enter"){
-        if (document.body.getAttribute("pattern") !== "gamepad"){
+    if (this.is_when_inputting) {
+      if (input == "Enter") {
+        if (document.body.getAttribute("pattern") !== "gamepad") {
           return
         }
 
 
-      }else if(input=="Escape"){
+      } else if (input == "Escape") {
         return
-      }else{
+      } else {
         return null
       }
     }
-    if(input=="Enter"){
+    if (input == "Enter") {
       // if(document.activeElement.tagName=="INPUT") return
 
 
     }
     this.getCurrentTarget();
     const region = this.current.region;
-    if("Meta"==input) this.Y=true;
+    if ("Meta" == input) this.Y = true;
 
     if (this.Y) {
       if (this.KeyboardEvent?.areaEventsY[region]?.[input]) {
@@ -269,7 +277,7 @@ export class GamepadControllerService {
     this.current = this.getCurrentObj(nodePrevious);
     this.setupHoverObserver(nodePrevious)
     nodePrevious.setAttribute("select", "true");
-    this.scrollToElement(nodePrevious,"UP",region);
+    this.scrollToElement(nodePrevious, "UP", region);
   }
   setMoveTargetNext() {
     const node = this.getCurrentNode();
@@ -326,10 +334,12 @@ export class GamepadControllerService {
   // document.querySelector("#section_item_1679231989932").
   getCurrentObj(node) {
     const position = node.getBoundingClientRect();
-    return { id: node.getAttribute("_id"), index: 0,
+    return {
+      id: node.getAttribute("_id"), index: 0,
       select: node.getAttribute("select") == "true",
-       start: node.getAttribute("default") == "true",
-        region: node.getAttribute("region"), position }
+      start: node.getAttribute("default") == "true",
+      region: node.getAttribute("region"), position
+    }
   }
   oldRegion = null;
 
@@ -372,16 +382,16 @@ export class GamepadControllerService {
     } else {
       if (this.router.url.split("/")[1] == "") {
         document.body.setAttribute("router", "list")
-        document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+        document.body.setAttribute("locked_region", document.body.getAttribute("router"))
         return
       }
       if (this.router.url.split("/")[1] == "detail") {
         document.body.setAttribute("router", "detail")
-        document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+        document.body.setAttribute("locked_region", document.body.getAttribute("router"))
         return
       }
       document.body.setAttribute("router", "reader")
-      document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+      document.body.setAttribute("locked_region", document.body.getAttribute("router"))
     }
   }
 
@@ -527,7 +537,7 @@ export class GamepadControllerService {
           if (x.intersectionRatio != 1) {
             const funs = {
               "UP": () => element.scrollIntoView({ behavior: "smooth", block: "start" }),
-              "LEFT": () => element.scrollIntoView({ behavior: "smooth"}),
+              "LEFT": () => element.scrollIntoView({ behavior: "smooth" }),
               "RIGHT": () => element.scrollIntoView({ behavior: "smooth" }),
               "DOWN": () => element.scrollIntoView({ behavior: "smooth", block: "end" })
             }
@@ -535,8 +545,8 @@ export class GamepadControllerService {
 
 
           }
-          const region=element.getAttribute('region');
-          if(region){
+          const region = element.getAttribute('region');
+          if (region) {
             if (this.GamepadEvent.areaEvents[region]?.MoveEnd) {
               this.GamepadEvent.areaEvents[region].MoveEnd(element);
 
@@ -565,7 +575,7 @@ export class GamepadControllerService {
       node.querySelector("input").click();
     } else if (type == 'checkbox') {
       node.querySelector("[type=checkbox]").click();
-    }else if(type =="select"){
+    } else if (type == "select") {
       node.querySelector("mat-select").click();
     } else {
       node.click();

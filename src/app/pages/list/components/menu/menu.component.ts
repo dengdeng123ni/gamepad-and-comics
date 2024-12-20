@@ -174,6 +174,13 @@ export class MenuComponent {
                   this.PdfToImage.to();
                 }
               },
+              {
+                id: "ope3123",
+                name: "可离线",
+                click: () => {
+
+                }
+              },
 
             ]
           },
@@ -243,7 +250,6 @@ export class MenuComponent {
               ControllerSettings.open()
             }
           },
-
           {
             id: "javasciprt",
             name: "脚本",
