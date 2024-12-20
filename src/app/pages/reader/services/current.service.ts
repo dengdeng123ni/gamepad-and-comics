@@ -710,6 +710,7 @@ export class CurrentService {
 
 
   async _loadPages(chapter_id) {
+    if(!chapter_id) return
     const res = await this.webDb.getByKey('pages', chapter_id) as any;
 
     if (res.is_load_free_pages) {
@@ -762,6 +763,7 @@ export class CurrentService {
   }
 
   async _loadPagesFree(chapter_id) {
+    if(!chapter_id) return true
     const res = await this.webDb.getByKey('pages', chapter_id) as any;
     if (res.is_load_free_pages) {
       return true
