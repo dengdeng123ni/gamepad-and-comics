@@ -137,6 +137,21 @@ export class OnePageReaderV2Component {
     })
 
     this.init();
+    this.setTimeoutSwiper()
+  }
+  async setTimeoutSwiper(){
+    setTimeout(async ()=>{
+       if(this.is_destroy){
+
+       }else{
+        if(this.swiper.slides.length>0&&this.swiper.activeIndex==0){
+          await this.next()
+          this.setTimeoutSwiper()
+        }else{
+          this.setTimeoutSwiper()
+        }
+       }
+    },1000)
   }
   firstPageToggle() {
     this.is_first_page_cover = !this.is_first_page_cover;
@@ -219,7 +234,7 @@ export class OnePageReaderV2Component {
       if (this.is_destroy) return
       setTimeout(() => {
         this.updata();
-      }, 50)
+      }, 3000)
     }
 
   }

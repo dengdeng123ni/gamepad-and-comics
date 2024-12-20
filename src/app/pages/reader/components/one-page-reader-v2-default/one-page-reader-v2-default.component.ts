@@ -19,6 +19,7 @@ export class OnePageReaderV2DefaultComponent {
   change$;
   event$;
   swiper_id = `_${new Date().getTime()}`;
+  is_destroy = false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -130,7 +131,21 @@ export class OnePageReaderV2DefaultComponent {
     })
 
     this.init();
+    this.setTimeoutSwiper()
+  }
+  async setTimeoutSwiper(){
+    setTimeout(async ()=>{
+       if(this.is_destroy){
 
+       }else{
+        if(this.swiper.slides.length>0&&this.swiper.activeIndex==0){
+          await this.next()
+          this.setTimeoutSwiper()
+        }else{
+          this.setTimeoutSwiper()
+        }
+       }
+    },1000)
   }
   firstPageToggle() {
     this.is_first_page_cover = !this.is_first_page_cover;
@@ -145,6 +160,7 @@ export class OnePageReaderV2DefaultComponent {
   ngOnDestroy() {
     this.change$.unsubscribe();
     this.event$.unsubscribe();
+    this.is_destroy = true;
   }
   isSwitch = false;
   async pageToggle() {
@@ -190,22 +206,28 @@ export class OnePageReaderV2DefaultComponent {
     })
   }
   async updata() {
-    // if(!this.swiper.slides[this.swiper.activeIndex]) return
-    const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
-    let indexs = [];
-    for (let index = 0; index < nodes.length; index++) {
-      const node = nodes[index];
-      indexs.push(parseInt(node.getAttribute("index")))
+    if (!this.swiper.slides[this.swiper.activeIndex]) return
+    if (this.swiper.slides[this.swiper.activeIndex]) {
+      const nodes = this.swiper.slides[this.swiper.activeIndex].querySelectorAll("[current_page]");
+      let indexs = [];
+      for (let index = 0; index < nodes.length; index++) {
+        const node = nodes[index];
+        indexs.push(parseInt(node.getAttribute("index")))
+      }
+      const index = indexs.sort((a, b) => b - a)[0];
+      const chapter_id = nodes[0].getAttribute("chapter_id");
+      this.current._change('changePage', {
+        chapter_id: chapter_id,
+        page_index: index,
+        trigger: 'double_page_reader_v2'
+      });
+    } else {
+      if (this.is_destroy) return
+      setTimeout(() => {
+        this.updata();
+      }, 3000)
     }
-    const index = indexs.sort((a, b) => b - a)[0] - 1;
-    const chapter_id = nodes[0].getAttribute("chapter_id");
-    const list = await this.current._getChapter(chapter_id);
 
-    this.current._change('changePage', {
-      chapter_id: chapter_id,
-      page_index: index,
-      trigger: 'double_page_reader_v2'
-    });
   }
 
   async next() {
