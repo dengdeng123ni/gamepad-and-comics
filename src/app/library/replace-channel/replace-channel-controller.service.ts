@@ -47,7 +47,7 @@ export class ReplaceChannelControllerService {
 
     window._gh_receive_message = this.receive_message
     ParamsEvent._register_params(['receiver_client_id', 'replace_channel_id', 'is_enabled'], obj => {
-      this.change(obj.receiver_client_id,obj.replace_channel_id,obj.is_enabled=="true"?true:false)
+      this.change(obj.receiver_client_id, obj.replace_channel_id, obj.is_enabled == "true" ? true : false)
     })
     this.add$ = this.ReplaceChannelEvent.add().subscribe(x => {
       this.default_trigger()
@@ -89,7 +89,6 @@ export class ReplaceChannelControllerService {
     this.webCh.put = this.original.webCh.put.bind(null);
     this.webCh.delete = this.original.webCh.delete.bind(null);
     this.webCh.keys = this.original.webCh.keys.bind(null);
-    this.webCh.getAllcacheNames = this.original.webCh.getAllcacheNames.bind(null);
 
     this.webDb.getAll = this.original.webDb.getAll.bind(null);
     this.webDb.update = this.original.webDb.update.bind(null);
@@ -198,19 +197,13 @@ export class ReplaceChannelControllerService {
       })
       return res
     }
-    this.webCh.getAllcacheNames = async (...e): Promise<any> => {
-      const res = await this.send_message({
-        parameter: e,
-        function_name: 'keys',
-        target_source: 'caches',
 
-      })
-      return res
-    }
 
   }
   async default_trigger() {
+
     if (this.is_free) return
+    if (!this.original?.webDb?.getByKey ) return
     if (this.old_data) {
 
     } else {
@@ -268,7 +261,7 @@ export class ReplaceChannelControllerService {
     await this.original.webDb.update('data', { ...res, is_enabled })
   }
 
-  async change(receiver_client_id:string, replace_channel_id:string, is_enabled:boolean) {
+  async change(receiver_client_id: string, replace_channel_id: string, is_enabled: boolean) {
     try {
       this.receiver_client_id = receiver_client_id;
       this.replace_channel_id = replace_channel_id;
@@ -357,7 +350,7 @@ export class ReplaceChannelControllerService {
         } else if (res.req.parameter[0] == "pages") {
           this.original.webDb.update(res.req.parameter[0], res.data)
           return res.data
-        }else if (res.req.parameter[0] == "image") {
+        } else if (res.req.parameter[0] == "image") {
           console.log(res.req.parameter[0]);
 
           this.original.webDb.update(res.req.parameter[0], res.data)
@@ -368,8 +361,8 @@ export class ReplaceChannelControllerService {
     } else if (res.req.function_name == "match") {
       const res1 = await this.jsonToResponse(res.data)
       if (res.req.parameter[0] == 'image') {
-        const id=CryptoJS.MD5(res.req.parameter[1]).toString().toLowerCase();
-        this.webDb.getByKey('image',id)
+        const id = CryptoJS.MD5(res.req.parameter[1]).toString().toLowerCase();
+        this.webDb.getByKey('image', id)
         this.original.webCh.put(res.req.parameter[0], res.req.parameter[1], res1.clone())
       }
       return res1.clone()

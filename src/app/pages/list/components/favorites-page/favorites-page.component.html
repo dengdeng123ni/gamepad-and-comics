@@ -2,11 +2,11 @@
 flex-direction: column;
 align-items: baseline;
 width: 100%;">
-  <button style="width: 100%;" [attr.region]="'drop_down_menu_item'" mat-button *ngFor="let n of list;let n_index=index" class="item" (click)="on(n_index)" [attr.select]="n_index==0" [attr.current]="n_index==0">
+  <button style="width: 100%;" [attr.region]="'drop_down_menu_item'" mat-button *ngFor="let n of list;let n_index=index" class="item" (click)="on(n_index)" >
     {{n.name | translate}}
   </button>
   <mat-divider style="margin: 4px 0; width: 100%;"></mat-divider>
-  <button style="width: 100%;" [attr.region]="'drop_down_menu_item'" mat-button class="item" (click)="add()" >
+  <button style="width: 100%;" [attr.select]="'true'" [attr.region]="'drop_down_menu_item'" mat-button class="item" (click)="add()" >
     <mat-icon>add</mat-icon>
   </button>
 </div>

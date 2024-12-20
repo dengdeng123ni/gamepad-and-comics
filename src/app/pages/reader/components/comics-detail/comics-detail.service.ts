@@ -10,8 +10,14 @@ export class ComicsDetailService {
   opened=false;
   constructor(
     public _dialog: MatDialog,
-    public GamepadEvent:GamepadEventService
-  ) {
+    public GamepadEvent: GamepadEventService) {
+      GamepadEvent.registerAreaEvent('comics_detail_item', {
+        B: () => setTimeout(() => this.close())
+      })
+      GamepadEvent.registerConfig('comics_detail', {
+        region: ['comics_detail_item'],
+      });
+
 
   }
   open(position?) {
@@ -23,11 +29,14 @@ export class ComicsDetailService {
         backdropClass:"_comics_detail_bg",
         position
       });
-      document.body.setAttribute("locked_region", "_comics_detail")
+      document.body.setAttribute("locked_region", "comics_detail")
       dialogRef.afterClosed().subscribe(result => {
-        if (document.body.getAttribute("locked_region") == "_comics_detail" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
+        if (document.body.getAttribute("locked_region") == "comics_detail" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
         this.opened = false;
       });
     }
+  }
+  close() {
+    this._dialog.closeAll();
   }
 }

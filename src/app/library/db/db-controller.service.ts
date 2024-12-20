@@ -68,7 +68,7 @@ export class DbControllerService {
             await this.webDb.update('list', { id: id, source: option.source, creation_time: new Date().getTime(), data: data })
             return data
           }
-          const res_db:any = await this.webDb.getByKey('list', id);
+          const res_db: any = await this.webDb.getByKey('list', id);
           if (res_db) {
             if (res_db.creation_time) {
               const currentTime = Date.now();
@@ -492,16 +492,15 @@ export class DbControllerService {
               }
 
             }
-            let image_id=null;
+            let image_id = null;
 
             const id1 = await getImageURL2(url);
-            image_id=id1;
+            image_id = id1;
             let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
             if (blob.size < 3000 && blob.type.split("/")[0] == "image") {
 
-
               const id2 = await getImageURL(url);
-              image_id=id2;
+              image_id = id2;
               blob = await this.DbEvent.Events[option.source]["getImage"](id2)
             }
 
@@ -517,16 +516,16 @@ export class DbControllerService {
                 id: CryptoJS.MD5(url).toString().toLowerCase(),
                 creation_time: new Date().getTime(),
                 type: blob.type,
-                source:option.source,
+                source: option.source,
                 src: url,
-                page_id:image_id,
+                page_id: image_id,
                 width: image.width,
                 height: image.height
               })
               image.close()
             }
 
-            if (blob.size > 3000 && blob.type.split("/")[0] == "image") {
+            if (blob.size > 5000 && blob.type.split("/")[0] == "image") {
               this.webCh.put('image', request, response.clone());
               const blob1 = await response.clone().blob()
               record(id, blob1)
@@ -558,7 +557,11 @@ export class DbControllerService {
 
 
             if (blob.size < 5000 && blob.type.split("/")[0] == "image") {
-              blob = await getBlob()
+              const image = await createImageBitmap(blob)
+              if (image.height > 0 && image.width > 0) {
+              } else {
+                blob = await getBlob()
+              }
             }
           } else {
             blob = await getBlob()
@@ -566,6 +569,8 @@ export class DbControllerService {
         } else {
           blob = await this.DbEvent.Events[option.source]["getImage"](id)
         }
+
+
         return blob
       } else {
         return new Blob([], {
@@ -798,6 +803,10 @@ export class DbControllerService {
 
   async delWebDbImage(id) {
     const res = await this.webCh.delete('image', id);
+    if (res) {
+      await this.webDb.deleteByKey('image', CryptoJS.MD5(id).toString().toLowerCase())
+    }
+    return res
   }
 
   async delComicsAllImages(comics_id) {

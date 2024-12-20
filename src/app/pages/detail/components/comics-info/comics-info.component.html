@@ -1,7 +1,10 @@
 <div class="warp">
-  <div class="img" (click)="continue()">
-    <app-image [objectFit]="'contain'" class="_image" loading="lazy" [width]="224" [height]="298" [src]="info.cover" alt="" />
-  </div>
+  <button mat-button style="    height: auto;
+    padding: 0;"  class="img" (click)="continue()">
+
+    <app-image  [attr.content_menu_key]="'comics_item'"
+    [attr.content_menu_value]="info.id" [objectFit]="'contain'" class="_image" loading="lazy" [width]="224" [height]="298" [src]="info.cover" alt="" />
+  </button>
   <div class="info">
     <div class="title" [attr.svg_filter]="'text_primary'" [attr.size]="info.title.length>20" [attr.href]="info.href"
       (click)="on({href:info.href})" [attr.region]="'chapters_text'">{{info.title|translate}}</div>

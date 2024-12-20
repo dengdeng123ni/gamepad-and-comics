@@ -286,6 +286,18 @@ body[pattern=gamepad][locked_region=detail]{
     }
   }
 }
+body[pattern=gamepad]{
+  [region=comics_detail_item][select=true]{
+    position: relative;
+    color: #c2185b;
+    opacity: 1;
+    &::after {
+
+    }
+  }
+}
+
+
 
 
 body[pattern=gamepad]{

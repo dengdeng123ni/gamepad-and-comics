@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { AppDataService, IndexdbControllerService, PromptService } from 'src/app/library/public-api';
+import { AppDataService, IndexdbControllerService, NotifyService, PromptService } from 'src/app/library/public-api';
 import { FavoritesPageService } from './favorites-page.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class FavoritesPageComponent {
     public webDb:IndexdbControllerService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data,
     public FavoritesPage:FavoritesPageService,
+    public Notify:NotifyService,
     public prompt:PromptService
   ){
     console.log(data);
@@ -29,8 +30,6 @@ export class FavoritesPageComponent {
     this.data=this.data;
     for (let index = 0; index < this.data.length; index++) {
       const x = this.data[index];
-      console.log(x);
-
       x.comics_id=x.id;
       x.favorites_id=this.list[index].id;
       x.id=`${x.favorites_id}_${x.comics_id}`
@@ -39,7 +38,8 @@ export class FavoritesPageComponent {
       await this.webDb.update('favorites_comics', x)
     }
     this.FavoritesPage.close();
-    // favorites_id
+    this.Notify.messageBox("已添加")
+
   }
 
   async add(){
