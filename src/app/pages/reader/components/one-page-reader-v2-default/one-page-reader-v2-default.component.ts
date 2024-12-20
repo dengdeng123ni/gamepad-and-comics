@@ -14,11 +14,11 @@ export class OnePageReaderV2DefaultComponent {
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
     document.documentElement.style.setProperty('--double-page-reader-v2-width', '100vw');
-    this.is_1=false;
+    this.is_1 = false;
   }
   change$;
   event$;
-  swiper_id= `_${new Date().getTime()}`;
+  swiper_id = `_${new Date().getTime()}`;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -27,7 +27,7 @@ export class OnePageReaderV2DefaultComponent {
     public GamepadController: GamepadControllerService,
     public GamepadInput: GamepadInputService,
     public KeyboardEvent: KeyboardEventService,
-    public zoom:ZoomService
+    public zoom: ZoomService
 
   ) {
     KeyboardEvent.registerAreaEvent('page_reader', {
@@ -155,12 +155,12 @@ export class OnePageReaderV2DefaultComponent {
       const node = nodes[index];
       indexs.push(parseInt(node.getAttribute("index")))
     }
-    const index = indexs.sort((a, b) => b - a)[0] ;
+    const index = indexs.sort((a, b) => b - a)[0];
     if (index == 0) {
       this.current._pageChange(index);
     } else {
-      if (index >= (this.data.pages.length-2)) {
-        this.current._pageChange( index - (3-nodes.length) );
+      if (index >= (this.data.pages.length - 2)) {
+        this.current._pageChange(index - (3 - nodes.length));
       } else {
         this.current._pageChange(this.isSwitch ? index - 1 : index + 1);
       }
@@ -223,14 +223,14 @@ export class OnePageReaderV2DefaultComponent {
 
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
-        this.addNextSlide(next_chapter_id, res, 0);
-        this.isSwitch=false;
+        await this.addNextSlide(next_chapter_id, res, 0);
+        this.isSwitch = false;
         return
       } else {
         return
       }
     } else {
-      this.addNextSlide(chapter_id, pages, index)
+      await this.addNextSlide(chapter_id, pages, index)
       return
     }
   }
@@ -251,13 +251,13 @@ export class OnePageReaderV2DefaultComponent {
 
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
-        this.addPreviousSlide(next_chapter_id, res, 0);
+        await this.addPreviousSlide(next_chapter_id, res, 0);
         return
       } else {
         return
       }
     } else {
-      this.addPreviousSlide(chapter_id, pages, index)
+      await this.addPreviousSlide(chapter_id, pages, index)
       return
     }
   }
@@ -283,7 +283,7 @@ export class OnePageReaderV2DefaultComponent {
       obj.secondary = undefined;
       if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
         obj.secondary = undefined;
-      }else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
+      } else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
         obj.secondary = undefined;
       }
       if (index >= (total - 1) && !obj.secondary) {
@@ -298,7 +298,7 @@ export class OnePageReaderV2DefaultComponent {
       return page
     }
 
-    const is_first_page_cover= await this.current._getChapter_IsFirstPageCover(chapter_id);
+    const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(chapter_id);
     const res = await getNextPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
@@ -312,7 +312,7 @@ export class OnePageReaderV2DefaultComponent {
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       setTimeout(() => {
-        this.objNextHtml[`${chapter_id}_${index}`]=undefined;
+        this.objNextHtml[`${chapter_id}_${index}`] = undefined;
       }, 1000)
       if (this.swiper.slides.length > 20) {
         this.ccc = true;
@@ -340,10 +340,10 @@ export class OnePageReaderV2DefaultComponent {
         secondary: { src: "", id: null, index: null, width: 0, height: 0, end: false, start: false }
       }
       const obj = await this.isWideImage(list[index], list[index - 1]);
-  obj.secondary = undefined;
+      obj.secondary = undefined;
       if (index == 0 && !this.isSwitch && is_first_page_cover == true) {
         obj.secondary = undefined;
-      }else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
+      } else if (index == 0 && this.isSwitch && is_first_page_cover == false) {
         obj.secondary = undefined;
       }
 
@@ -357,7 +357,7 @@ export class OnePageReaderV2DefaultComponent {
       }
       return page
     }
-    const is_first_page_cover= await this.current._getChapter_IsFirstPageCover(chapter_id);
+    const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(chapter_id);
     const res = await getPreviousPages(list, index);
     let current = "";
     const c = res.primary.end || res.primary.start || res.secondary.src;
@@ -369,7 +369,7 @@ export class OnePageReaderV2DefaultComponent {
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       setTimeout(() => {
-        this.objPreviousHtml[`${chapter_id}_${index}`]=undefined;
+        this.objPreviousHtml[`${chapter_id}_${index}`] = undefined;
       }, 1000)
       if (this.swiper.slides.length > 20) {
         this.ccc = true;
@@ -385,7 +385,7 @@ export class OnePageReaderV2DefaultComponent {
       this.appendSlide(current)
     }
   }
-    sleep = (duration) => {
+  sleep = (duration) => {
     return new Promise(resolve => {
       setTimeout(resolve, duration);
     })
@@ -432,17 +432,17 @@ export class OnePageReaderV2DefaultComponent {
     if (secondary) secondary.src = await this.current._getImage(secondary.src)
 
     const [imgPrimary, imgSecondary] = await Promise.all([this.loadImage(primary?.src), this.loadImage(secondary?.src)]);
-    if (primary&&imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
-    if (secondary&&imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
-    if (imgPrimary.width != 0&&imgPrimary.width == imgSecondary.width && !this.is_1) {
-      const size=this.data.comics_config.page_height/100;
+    if (primary && imgPrimary.width == 0 && imgPrimary.height == 0) primary.src = "error"
+    if (secondary && imgSecondary.width == 0 && imgSecondary.height == 0) secondary.src = "error"
+    if (imgPrimary.width != 0 && imgPrimary.width == imgSecondary.width && !this.is_1) {
+      const size = this.data.comics_config.page_height / 100;
       if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
-        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${ '100vw'}`);
+        const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${'100vw'}`);
       } else {
 
-        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${ '100vw'}`);
+        const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${'100vw'}`);
       }
       this.is_1 = true
     }

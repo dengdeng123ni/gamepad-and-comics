@@ -240,13 +240,13 @@ export class OnePageReaderV2Component {
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
         this.isSwitch = false;
-        this.addNextSlide(next_chapter_id, res, 0);
+        await this.addNextSlide(next_chapter_id, res, 0);
         return
       } else {
         return
       }
     } else {
-      this.addNextSlide(chapter_id, pages, index)
+      await this.addNextSlide(chapter_id, pages, index)
       return
     }
   }
@@ -267,13 +267,13 @@ export class OnePageReaderV2Component {
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
 
-        this.addPreviousSlide(next_chapter_id, res, res.length - 1);
+        await this.addPreviousSlide(next_chapter_id, res, res.length - 1);
         return
       } else {
         return
       }
     } else {
-      this.addPreviousSlide(chapter_id, pages, index)
+      await this.addPreviousSlide(chapter_id, pages, index)
       return
     }
   }

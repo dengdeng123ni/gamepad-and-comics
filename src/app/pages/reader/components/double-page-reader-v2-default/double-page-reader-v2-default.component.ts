@@ -18,7 +18,7 @@ export class DoublePageReaderV2DefaultComponent {
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
     document.documentElement.style.setProperty('--double-page-reader-v2-width', '100vw');
-    this.is_1=false;
+    this.is_1 = false;
   }
   change$;
   event$;
@@ -257,13 +257,13 @@ export class DoublePageReaderV2DefaultComponent {
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
         this.isSwitch = false;
-        this.addNextSlide(next_chapter_id, res, 0);
+        await this.addNextSlide(next_chapter_id, res, 0);
         return
       } else {
         return
       }
     } else {
-      this.addNextSlide(chapter_id, pages, index)
+      await this.addNextSlide(chapter_id, pages, index)
       return
     }
   }
@@ -284,13 +284,13 @@ export class DoublePageReaderV2DefaultComponent {
       if (next_chapter_id) {
         const res = await this.current._getChapter(next_chapter_id);
 
-        this.addPreviousSlide(next_chapter_id, res, res.length - 1);
+        await this.addPreviousSlide(next_chapter_id, res, res.length - 1);
         return
       } else {
         return
       }
     } else {
-      this.addPreviousSlide(chapter_id, pages, index)
+      await this.addPreviousSlide(chapter_id, pages, index)
       return
     }
   }
@@ -351,7 +351,7 @@ export class DoublePageReaderV2DefaultComponent {
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       setTimeout(() => {
-        this.objNextHtml[`${chapter_id}_${index}`]=undefined;
+        this.objNextHtml[`${chapter_id}_${index}`] = undefined;
       }, 1000)
       if (this.swiper.slides.length > 20) {
         this.ccc = true;
@@ -404,7 +404,7 @@ export class DoublePageReaderV2DefaultComponent {
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       setTimeout(() => {
-        this.objPreviousHtml[`${chapter_id}_${index}`]=undefined;
+        this.objPreviousHtml[`${chapter_id}_${index}`] = undefined;
       }, 1000)
       if (this.swiper.slides.length > 20) {
         this.ccc = true;
@@ -425,11 +425,11 @@ export class DoublePageReaderV2DefaultComponent {
       setTimeout(resolve, duration);
     })
   }
-  async getBlankPage(res){
+  async getBlankPage(res) {
 
-    let current=""
+    let current = ""
 
-    if (this.data.comics_config.first_cover_background_color == "default"&&this.data.comics_config.background_color!="frosted_glass") {
+    if (this.data.comics_config.first_cover_background_color == "default" && this.data.comics_config.background_color != "frosted_glass") {
       let base64 = this.generateBase64(res.primary.width, res.primary.height, this.data.comics_config.background_color)
       current = current + `<img type="none" src="${base64}" />`;
     } else if (this.data.comics_config.first_cover_background_color == "transparent") {
@@ -496,12 +496,12 @@ export class DoublePageReaderV2DefaultComponent {
     if (imgPrimary.width != 0 && imgPrimary.width == imgSecondary.width && imgPrimary.height == imgSecondary.height && !this.is_1) {
       const size = this.data.comics_config.page_height / 100;
       if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
-        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width<window.innerWidth?width+'px':'100vw'}`);
+        const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width < window.innerWidth ? width + 'px' : '100vw'}`);
       } else {
 
-        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (2*size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width<window.innerWidth?width+'px':'100vw'}`);
+        const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (2 * size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width < window.innerWidth ? width + 'px' : '100vw'}`);
       }
       this.is_1 = true
     }
