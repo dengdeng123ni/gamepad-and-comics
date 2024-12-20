@@ -60,6 +60,8 @@ declare global {
     _gh_gamepad_down?: (gamepad_buttons: string) => void; // 模拟手柄按下
     _gh_gamepad_up?: (gamepad_buttons: string) => void; // 模拟手柄抬起
     _gh_gamepad_press?: (gamepad_buttons: string) => void; // 模拟手柄连续按下
+    _gh_web_db?: any;
+    _gh_web_caches?: any
     CryptoJS?: any; // 加密
     QRCode?: any; // 二维码
     _gh_data?: any // 数据

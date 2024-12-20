@@ -13,6 +13,12 @@ export class CacheControllerService {
   }
   is_cache = true;
   constructor() {
+    window._gh_web_caches= {
+      getAll: this.match,
+      update: this.put,
+      deleteByKey: this.delete,
+      getByKey: this.keys
+    }
   }
 
 

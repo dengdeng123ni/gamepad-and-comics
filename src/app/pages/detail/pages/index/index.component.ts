@@ -73,11 +73,11 @@ export class IndexComponent {
     })
   }
   openedChange(bool) {
-    //  if(bool){
-    //   document.body.setAttribute("locked_region", "menu")
-    //  }else{
-    //   if (document.body.getAttribute("locked_region") == "menu") document.body.setAttribute("locked_region",document.body.getAttribute("router"))
-    //  }
+    if (bool) {
+
+    } else {
+      this.menu.opened = false;
+    }
     this.menu.post()
   }
   ngOnDestroy() {

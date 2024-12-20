@@ -50,7 +50,12 @@ export class IndexdbControllerService {
 
     // window._gh_send_message
     // window._gh_receive_message\
-
+    window._gh_web_db = {
+      getAll: this.getAll,
+      update: this.update,
+      deleteByKey: this.deleteByKey,
+      getByKey: this.getByKey
+    }
 
   }
 
