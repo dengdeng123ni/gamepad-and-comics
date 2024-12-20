@@ -41,6 +41,7 @@ import { ExportSettingsComponent } from './components/export-settings/export-set
 import { LoadingComponent } from './components/loading/loading.component';
 import { ReaderBackgroundSettingsComponent } from './components/reader-background-settings/reader-background-settings.component';
 import { RepliesPageComponent } from './components/replies-page/replies-page.component';
+import { SettingsNineGridComponent } from './components/settings-nine-grid/settings-nine-grid.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { RepliesPageComponent } from './components/replies-page/replies-page.com
     LoadingComponent,
     ExportSettingsComponent,
     ReaderBackgroundSettingsComponent,
-    RepliesPageComponent
+    RepliesPageComponent,
+    SettingsNineGridComponent
   ],
   imports: [
     CommonModule,

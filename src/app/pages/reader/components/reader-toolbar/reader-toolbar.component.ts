@@ -166,6 +166,7 @@ export class ReaderToolbarComponent {
       })
     } else {
       ContextMenuEvent.logoutMenu('comics_reader', 'export_settings')
+      ContextMenuEvent.logoutMenu('pages_item', 'export_settings')
     }
     menu.push({
       id: "full",
@@ -181,6 +182,13 @@ export class ReaderToolbarComponent {
       },
       menu: menu
     })
+    ContextMenuEvent.register('pages_item', {
+      on: async (e: any) => {
+        e.click(e.PointerEvent)
+      },
+      menu: menu
+    })
+
     current.init$.subscribe(x => {
       if (this.data.chapters[0].is_locked === undefined || !this.data.is_locked) this.is_locked = false;
 
