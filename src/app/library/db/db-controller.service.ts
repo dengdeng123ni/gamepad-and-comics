@@ -581,6 +581,7 @@ export class DbControllerService {
       })
     }
   }
+
   getReplies = async (obj: {
     comics_id: string,
     page_index: number
@@ -727,17 +728,23 @@ export class DbControllerService {
       return false
     }
   }
-  async putWebDbDetail(id, res) {
+  async putWebDbDetail(id, obj) {
     this.details[id] = null;
-    this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: res })))
+    const res: any = await this.webDb.getByKey('details', id)
+    if (res) {
+      await this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: res.source, data: obj })))
+    }
   }
   async delWebDbPages(id) {
     this.pages[id] = null;
     await this.webDb.deleteByKey('pages', id)
   }
-  async putWebDbPages(id, pages) {
+  async putWebDbPages(id, pages, obj = {}) {
     this.pages[id] = null;
-    await this.webDb.update('pages', { id, data: JSON.parse(JSON.stringify(pages)) })
+    const res: any = await this.webDb.getByKey('pages', id)
+    if (res) {
+      await this.webDb.update('pages', { ...res, data: JSON.parse(JSON.stringify(pages)), ...obj })
+    }
   }
   load = {};
   async loadPages(id, option?: {

@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { UnlockService } from './unlock.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import CryptoJS from 'crypto-js'
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +21,7 @@ export class CurrentService {
   constructor(
     public DbController: DbControllerService,
     public data: DataService,
-    public Notify:NotifyService,
+    public Notify: NotifyService,
     public webDb: IndexdbControllerService,
     private webCh: CacheControllerService,
     public image: ImageService,
@@ -147,7 +148,7 @@ export class CurrentService {
       id: comics_id,
       title: this.data.details.title,
       cover: this.data.details.cover,
-      href:this.data.details.href
+      href: this.data.details.href
     })
     document.documentElement.style.setProperty('--reader-background-color', this.data.comics_config.background_color)
     setTimeout(() => {
@@ -216,7 +217,7 @@ export class CurrentService {
   async _getNextChapterId(id?): Promise<string | null> {
     if (!id) id = this.data.chapter_id;
     const index = this.data.chapters.findIndex(x => x.id == id);
-    if(index==-1) return null
+    if (index == -1) return null
     const obj = this.data.chapters[index + 1];
     if (obj) {
       return obj.id
@@ -227,7 +228,7 @@ export class CurrentService {
   async _getPreviousChapterId(id?): Promise<string | null> {
     if (!id) id = this.data.chapter_id;
     const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
-    if(index==-1) return null
+    if (index == -1) return null
     const obj = this.data.chapters[index - 1];
     if (obj) {
       return obj.id
@@ -495,7 +496,7 @@ export class CurrentService {
   }
   async _setChapterIndex(id: string, index: number) {
 
-    await  this.webDb.update("last_read_chapter_page", { 'chapter_id': id.toString(), "page_index": index })
+    await this.webDb.update("last_read_chapter_page", { 'chapter_id': id.toString(), "page_index": index })
   }
   async _getChapterRead(comics_id: string) {
     const res: any = await this.webDb.getByKey("read_comics_chapter", comics_id.toString())
@@ -694,7 +695,7 @@ export class CurrentService {
     return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
   }
   async _getImage(src) {
-    if(!src) return ""
+    if (!src) return ""
     if (this.App.is_pwa && src.substring(7, 21) == "localhost:7700") {
       await this.image.getImageBlob(src)
       return src
@@ -709,29 +710,71 @@ export class CurrentService {
 
 
   async _loadPages(chapter_id) {
-    const pages = await this._getChapter(chapter_id)
-    let arr=[]
-    for (let index = 0; index < pages.length; index++) {
-      const x = pages[index];
-      const c = await this.webCh.match('image',x.src);
-      if (!c) {
-        arr.push(x)
+    const res = await this.webDb.getByKey('pages', chapter_id) as any;
+    if (res.is_load_free_pages) {
+
+    } else {
+      const pages = await this._getChapter(chapter_id)
+      let load = []
+      let on_load = [];
+      for (let index = 0; index < pages.length; index++) {
+        const x = pages[index];
+        const c = await this.webCh.match('image', x.src);
+        if (!c) {
+          load.push(x)
+        } else {
+          on_load.push(x)
+        }
+      }
+      if (on_load.length == pages.length) {
+        const res: any = await this.webDb.getByKey('pages', chapter_id)
+        for (let index = 0; index < on_load.length; index++) {
+          const x = on_load[index];
+          const id = CryptoJS.MD5(x.src).toString().toLowerCase()
+          const obj = await this.webDb.getByKey('image', id) as any
+          if (obj) {
+            res.data[index].width = obj.width;
+            res.data[index].height = obj.height;
+          } else {
+            const me = await this.webCh.match('image', x.src);
+            const blob = await me.blob()
+            const image = await createImageBitmap(blob)
+            const url = x.src;
+            await this.webDb.update('image', {
+              id: CryptoJS.MD5(url).toString().toLowerCase(),
+              creation_time: new Date().getTime(),
+              type: blob.type,
+              src: url,
+              width: image.width,
+              height: image.height
+            })
+            res.data[index].width = image.width;
+            res.data[index].height = image.height;
+          }
+        }
+        await this.DbController.putWebDbPages(chapter_id, res.data, {source:this.source,is_load_free_pages: true })
+      } else {
+        this.await_load_pages = load;
+        this._loadImage2();
       }
     }
-    this.await_load_pages=arr;
-    this._loadImage2();
   }
 
   async _loadPagesFree(chapter_id) {
-    const pages = await this._getChapter(chapter_id)
-    for (let index = 0; index < pages.length; index++) {
-      const x = pages[index];
-      const c = await this.webCh.match('image',x.src);
-      if (!c) {
-        await this._getImage(x.src)
+    const res = await this.webDb.getByKey('pages', chapter_id) as any;
+    if (res.is_load_free_pages) {
+      return true
+    } else {
+      const pages = await this._getChapter(chapter_id)
+      for (let index = 0; index < pages.length; index++) {
+        const x = pages[index];
+        const c = await this.webCh.match('image', x.src);
+        if (!c) {
+          await this._getImage(x.src)
+        }
       }
+      return true
     }
-    return true
   }
 
   async _loadImage2() {
@@ -772,7 +815,7 @@ export class CurrentService {
     this.data.page_index = option.page_index;
     this.data.pages = pages;
 
-    if( this.data.chapter_id!=option.chapter_id){
+    if (this.data.chapter_id != option.chapter_id) {
       this.data.chapter_id = option.chapter_id;
       history.replaceState(null, "", `comics/${this.source}/${this.data.comics_id}/${this.data.chapter_id}`);
     }

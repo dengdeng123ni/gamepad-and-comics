@@ -95,7 +95,7 @@ export class DbEventService {
 
       loadCSSFromString(cssString);
       setTimeout(() => {
-        window._gh_menu_register('comics_item', [
+        window._gh_context_menu_register('comics_item', [
           {
             name: "打开网站对应链接",
             source: "ehentai",
