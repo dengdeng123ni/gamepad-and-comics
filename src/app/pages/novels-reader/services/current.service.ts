@@ -86,14 +86,14 @@ export class CurrentService {
     return this.event$
   }
 
-  async _init(source: string, comic_id: string, chapter_id: string) {
+  async _init(source: string, comics_id: string, chapter_id: string) {
     this.source = source;
 
     this.data.is_init_free = false;
     this.data.chapter_id = chapter_id;
-    this.data.comics_id = comic_id;
+    this.data.comics_id = comics_id;
 
-    const _res = await Promise.all([this.DbNovelsController.getPages(chapter_id, { source: source }), this.DbNovelsController.getDetail(comic_id, { source: source })  ])
+    const _res = await Promise.all([this.DbNovelsController.getPages(chapter_id, { source: source }), this.DbNovelsController.getDetail(comics_id, { source: source })  ])
 
     if (_res[0] && _res[1]) {
 

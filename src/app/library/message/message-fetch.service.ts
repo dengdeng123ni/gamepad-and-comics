@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { DomSanitizer } from '@angular/platform-browser';
 import { CacheControllerService, ReplaceChannelEventService } from '../public-api';
-declare let window: any;
 @Injectable({
   providedIn: 'root'
 })

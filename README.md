@@ -32,8 +32,6 @@ Support the author: [Steam Store Page](https://store.steampowered.com/app/207050
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify it.
 
-
-
 // 数据源配置
 // 图片变化
 // 允许粘贴  

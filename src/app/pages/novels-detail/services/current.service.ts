@@ -23,11 +23,11 @@ export class CurrentService {
   public init() {
     return this.init$
   }
-  async _init(source, comic_id: string) {
+  async _init(source, comics_id: string) {
     this.source=source;
     this.data.is_init_free = false;
-    this.data.comics_id = comic_id;
-    const _res = await Promise.all([this.DbController.getDetail(comic_id, { source: source }), this._getWebDbComicsConfig(comic_id)])
+    this.data.comics_id = comics_id;
+    const _res = await Promise.all([this.DbController.getDetail(comics_id, { source: source }), this._getWebDbComicsConfig(comics_id)])
     const res = _res[0];
     this.data.comics_config = _res[1];
     if (this.data.is_local_record) {
@@ -52,7 +52,7 @@ export class CurrentService {
     this.data.is_init_free = true;
     this.init$.next(this.data)
     this.history.update({
-      id: comic_id,
+      id: comics_id,
       title: this.data.details.title,
       cover: this.data.details.cover,
       href:this.data.details.href
@@ -74,10 +74,10 @@ export class CurrentService {
     }
   }
 
-  async _delChapter(comic_id:any,chapter_id: string) {
-    let detail = await this.DbController.getDetail(comic_id, { source: this.source })
+  async _delChapter(comics_id:any,chapter_id: string) {
+    let detail = await this.DbController.getDetail(comics_id, { source: this.source })
     detail.chapters = detail.chapters.filter(x => x.id.toString() !== chapter_id.toString());
-    await this.DbController.putWebDbDetail(comic_id, detail);
+    await this.DbController.putWebDbDetail(comics_id, detail);
   }
   async _getChapter(id: string): Promise<Array<PagesItem>> {
     // let list = [];

@@ -18,6 +18,8 @@ interface GamepadEvents {
   SELECT?: Function;
   START?: Function;
   SPECIAL?: Function;
+
+  MoveEnd?: Function;
 }
 
 interface HoverEvents {

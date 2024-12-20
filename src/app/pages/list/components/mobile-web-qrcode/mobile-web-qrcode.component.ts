@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AppDataService, PulgService } from 'src/app/library/public-api';
 import { MobileWebQrcodeService } from './mobile-web-qrcode.service';
-declare let window: any;
 
 @Component({
   selector: 'app-mobile-web-qrcode',

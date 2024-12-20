@@ -11,8 +11,6 @@ interface Events {
   Image: Function
 }
 
-declare let window: any;
-
 @Injectable({
   providedIn: 'root'
 })

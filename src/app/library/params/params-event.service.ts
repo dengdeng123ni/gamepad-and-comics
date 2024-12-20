@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import CryptoJS from 'crypto-js'
-declare let window: any;
 @Injectable({
   providedIn: 'root'
 })

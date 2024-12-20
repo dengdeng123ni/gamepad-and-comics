@@ -9,7 +9,6 @@ interface MenuItem {
   submenu?: MenuItem[];
 }
 import CryptoJS from 'crypto-js'
-declare let window: any;
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,7 @@ export class ContextMenuEventService {
 
   public menu: { [key: string]: any } = {};
   constructor() {
-    window._gh_menu_register = this.registerWindowMenu;
+    window._gh_context_menu_register = this.registerWindowMenu;
     // ['comics_item','chapters_items','one_page_thumbnail_item','double_page_thumbnail_item']
 
 

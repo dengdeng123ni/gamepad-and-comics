@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { Injectable, NgZone } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { ContextMenuControllerService } from '../context-menu/context-menu-controller.service';
@@ -131,6 +131,7 @@ export class GamepadControllerService {
 
   }
   runs = [];
+  isRunning=false;
   sleep = (duration) => {
     return new Promise(resolve => {
       setTimeout(resolve, duration);
@@ -277,7 +278,7 @@ export class GamepadControllerService {
     this.current = this.getCurrentObj(nodePrevious);
     this.setupHoverObserver(nodePrevious)
     nodePrevious.setAttribute("select", "true");
-    this.scrollToElement(nodePrevious, "UP", region);
+    this.scrollToElement(nodePrevious, "UP");
   }
   setMoveTargetNext() {
     const node = this.getCurrentNode();

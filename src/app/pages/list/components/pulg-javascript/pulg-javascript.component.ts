@@ -4,7 +4,6 @@ import { DataService } from '../../services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CurrentService } from '../../services/current.service';
 
-declare let window: any;
 @Component({
   selector: 'app-pulg-javascript',
   templateUrl: './pulg-javascript.component.html',

@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { AppDataService, CacheControllerService, IndexdbControllerService } from '../public-api';
 import { DbEventService } from './db-event.service';
 
-declare let window: any;
 @Injectable({
   providedIn: 'root'
 })

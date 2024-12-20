@@ -494,7 +494,7 @@ window._gh_comics_register(
           }
         };
         list = json.data.map((x) => {
-          return { id: x.comic_id, cover: httpUrlToHttps(x.vcover), title: x.title, subTitle: `看到 ${x.last_ep_short_title} 话 / 共 ${x.latest_ep_short_title} 话` };
+          return { id: x.comics_id, cover: httpUrlToHttps(x.vcover), title: x.title, subTitle: `看到 ${x.last_ep_short_title} 话 / 共 ${x.latest_ep_short_title} 话` };
         });
       } else if (obj.query_type == "update") {
         const res = await window._gh_fetch(
@@ -522,7 +522,7 @@ window._gh_comics_register(
           }
         };
         list = json.data.list.map((x) => {
-          return { id: x.comic_id, cover: httpUrlToHttps(x.vertical_cover), title: x.title, subTitle: `更新 ${x.short_title} 话` };
+          return { id: x.comics_id, cover: httpUrlToHttps(x.vertical_cover), title: x.title, subTitle: `更新 ${x.short_title} 话` };
         });
       } else if (obj.menu_id == "ranking") {
         const res = await window._gh_fetch(
@@ -550,7 +550,7 @@ window._gh_comics_register(
           }
         };
         list = json.data.list.map((x) => {
-          return { id: x.comic_id, cover: httpUrlToHttps(x.vertical_cover), title: x.title, subTitle: `更新 ${x.total} 话` };
+          return { id: x.comics_id, cover: httpUrlToHttps(x.vertical_cover), title: x.title, subTitle: `更新 ${x.total} 话` };
         });
       } else if (obj.query_type == "home") {
         const res = await window._gh_fetch(
@@ -578,7 +578,7 @@ window._gh_comics_register(
           }
         };
         list = json.data.roll_six_comics.map((x) => {
-          return { id: x.comic_id, cover: httpUrlToHttps(x.vertical_cover), title: x.title, subTitle: `${x.recommendation}` };
+          return { id: x.comics_id, cover: httpUrlToHttps(x.vertical_cover), title: x.title, subTitle: `${x.recommendation}` };
         });
       }
       return list;
@@ -592,7 +592,7 @@ window._gh_comics_register(
             "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "content-type": "application/json;charset=UTF-8",
           },
-          body: `{\"comic_id\":${id}}`,
+          body: `{\"comics_id\":${id}}`,
           method: "POST",
         },
         {

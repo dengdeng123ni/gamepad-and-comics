@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 
 import { IndexdbControllerService } from '../public-api';
-declare let window: any;
 @Injectable({
   providedIn: 'root'
 })

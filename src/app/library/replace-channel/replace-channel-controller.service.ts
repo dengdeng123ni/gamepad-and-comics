@@ -2,17 +2,7 @@ import { Injectable } from '@angular/core';
 import { IndexdbControllerService, CacheControllerService, DbEventService, DbControllerService, ReplaceChannelEventService, ParamsEventService } from '../public-api';
 
 import CryptoJS from 'crypto-js'
-declare global {
-  interface Window {
-    _gh_receive_message?: (message: any) => Promise<any>;
-    _gh_send_message?: (message: any) => Promise<any>;
-    _gh_translate_register?:Function
-    get_all_client: Function
-    _gh_menu_update?: Function
-    _gh_page_reset?: Function;
-    _gh_data?: any
-  }
-}
+
 
 @Injectable({
   providedIn: 'root'

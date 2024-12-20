@@ -109,14 +109,14 @@ export class CurrentService {
     return this.event$
   }
 
-  async _init(source: string, comic_id: string, chapter_id: string) {
+  async _init(source: string, comics_id: string, chapter_id: string) {
     this.source = source;
 
     this.data.is_init_free = false;
     this.data.chapter_id = chapter_id;
-    this.data.comics_id = comic_id;
+    this.data.comics_id = comics_id;
 
-    const _res = await Promise.all([this.DbController.getPages(chapter_id, { source: source }), this.DbController.getDetail(comic_id, { source: source }), this._getChapterIndex(chapter_id), this._getWebDbComicsConfig(comic_id)])
+    const _res = await Promise.all([this.DbController.getPages(chapter_id, { source: source }), this.DbController.getDetail(comics_id, { source: source }), this._getChapterIndex(chapter_id), this._getWebDbComicsConfig(comics_id)])
 
     if (_res[0] && _res[1]) {
 
@@ -144,7 +144,7 @@ export class CurrentService {
     this.init$.next(this.data)
     this.data.is_init_free = true;
     this.history.update({
-      id: comic_id,
+      id: comics_id,
       title: this.data.details.title,
       cover: this.data.details.cover,
       href:this.data.details.href
@@ -296,10 +296,10 @@ export class CurrentService {
   async _pagePrevious() {
     this._change("previousPage", { page_index: this.data.page_index, chapter_id: this.data.chapter_id })
   }
-  async _delChapter(comic_id: any, chapter_id: string) {
+  async _delChapter(comics_id: any, chapter_id: string) {
     let detail = await this.DbController.getDetail(chapter_id, { source: this.source })
     detail.chapters = detail.chapters.filter(x => x.id !== chapter_id);
-    await this.DbController.putWebDbDetail(comic_id, detail);
+    await this.DbController.putWebDbDetail(comics_id, detail);
   }
   async _delPage(chapter_id: string, page_index: number) {
     let pages = await this.DbController.getPages(chapter_id, { source: this.source })

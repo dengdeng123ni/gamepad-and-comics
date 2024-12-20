@@ -38,6 +38,37 @@ export const slideInAnimation =
     ])
   ]);
 
+
+
+declare global {
+  interface Window {
+    _gh_receive_message?: (message: any) => Promise<any>; // 通道接收消息
+    _gh_translate_register?: (lang: string, json: any) => void // 注册翻译
+    _gh_menu_update?: () => void; // 更新菜单
+    _gh_page_reset?: () => void; // 重置页面
+    _gh_execute_eval?: (url: string, javascript: string) => Promise<any>; // 执行代码
+    _gh_fetch?: (url: RequestInfo | URL, init?: RequestInit) => Promise<Response>; // 请求
+    _gh_add_comics?: (pages: Array<string>, option: { title?: string }) => Promise<string> // 添加漫画 返回漫画ID
+    _gh_register_params?: Function; // 注册参数
+    _gh_generate_file_path?: (name: string, event: (e: any) => string) => void; // 生成文件路径
+    _gh_get_html?: (url: RequestInfo | URL) => Promise<Response>;  // 获取html
+    _gh_comics_get_image?: (page_id: string, option?: { source: string, is_cache?: boolean }) => Promise<Blob>; // 获取漫画图片
+    _gh_comics_get_pages?: (chapter_id: string, option?: { source: string, is_cache?: boolean }) => Promise<Array<any>>; // 获取漫画章节
+    _gh_comics_get_detail?: (comics_id: string, option?: { source: string, is_cache?: boolean }) => Promise<any>; // 获取漫画详情
+    _gh_comics_get_list?: (obj: any, option?: { source: string, is_cache?: boolean }) => Promise<Array<any>>; // 获取漫画列表
+    _gh_context_menu_register?: (key: string, menuItem: Array<{ id?: string; name: string; type?: string; source?: string; data?: any; click?: Function, submenu?: any; }>) => void; // 注册右键菜单
+    _gh_gamepad_down?: (gamepad_buttons: string) => void; // 模拟手柄按下
+    _gh_gamepad_up?: (gamepad_buttons: string) => void; // 模拟手柄抬起
+    _gh_gamepad_press?: (gamepad_buttons: string) => void; // 模拟手柄连续按下
+    _gh_novels_get_pages?: Function; // 获取小说章节
+    _gh_novels_get_detail?: Function; // 获取小说详情
+    _gh_comics_search?: Function; // 搜索漫画
+    CryptoJS?: any; // 加密
+    QRCode?: any; // 二维码
+    _gh_data?: any // 数据
+  }
+}
+
 declare let navigator: any;
 @Component({
   selector: 'app-root',
@@ -215,7 +246,7 @@ export class AppComponent {
       const language = this.translate.getDefaultLang()
       if (x == language) {
         this.translate.setDefaultLang(language);
-        this.translate.reloadLang(language).subscribe(x=>{
+        this.translate.reloadLang(language).subscribe(x => {
 
         });
       }

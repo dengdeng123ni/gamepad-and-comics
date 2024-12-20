@@ -5,7 +5,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import CryptoJS from 'crypto-js'
 import { CacheControllerService, IndexdbControllerService, MessageFetchService } from '../public-api';
 
-declare let window: any;
 @Injectable({
   providedIn: 'root'
 })
