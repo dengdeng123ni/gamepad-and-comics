@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CacheControllerService } from 'src/app/library/public-api';
+import { CacheControllerService, NotifyService, PromptService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-about-software',
@@ -8,11 +8,29 @@ import { CacheControllerService } from 'src/app/library/public-api';
 })
 export class AboutSoftwareComponent {
   size = 0;
-  constructor(private webCh: CacheControllerService,) {
+  clientId = localStorage.getItem('clientId');
+  clientName = localStorage.getItem('clientName');
+
+
+  local_ip="";
+  local_network_ip="";
+  constructor(
+    private webCh: CacheControllerService,
+    public prompt: PromptService,
+    public Notify: NotifyService
+
+  ) {
     navigator.storage.estimate().then(estimate => {
 
       this.size = this.formatSizeUnits(estimate.usage)
     });
+    this.init()
+  }
+  init(){
+    fetch("http://localhost:7708/api/get/ip").then(res=>res.json()).then(res=>{
+      this.local_ip=`http://localhost:7708`;
+      this.local_network_ip=`https://${res.IP}:7707`;
+    })
   }
   formatSizeUnits(bytes) {
     if (bytes >= 1073741824) { bytes = (bytes / 1073741824).toFixed(2) + " GB"; }
@@ -36,6 +54,20 @@ export class AboutSoftwareComponent {
     window.open('https://qm.qq.com/q/Dc2xkSPgMo')
 
   }
+  copy(e) {
+    navigator.clipboard.writeText(e);
+    this.Notify.messageBox("复制成功")
+  }
+  async rename() {
+    const name = await this.prompt.fire("请输入新名称", "");
+    if (name === null) {
+    } else if (name === "") {
+    } else {
+      this.clientName = name;
+      localStorage.setItem('clientName', name);
+    }
+  }
+
   async del() {
 
 

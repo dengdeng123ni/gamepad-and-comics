@@ -73,6 +73,18 @@ body {
   }
 }
 
+
+._reader_navbar_bar_v2{
+  .mdc-dialog__surface {
+    background: transparent;
+  }
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    background: transparent;
+    box-shadow: none !important;
+  }
+}
+
+
 ._history_comics_list {
   max-width: none;
   width: 100%;

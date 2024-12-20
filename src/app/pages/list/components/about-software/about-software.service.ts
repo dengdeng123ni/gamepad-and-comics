@@ -19,8 +19,9 @@ export class AboutSoftwareService {
     GamepadEvent.registerConfig('about_software', {
       region: ['about_software_item'],
     });
+    // this.open()
   }
-  open(config:MatDialogConfig) {
+  open(config?:MatDialogConfig) {
     if (this.opened == false) {
       this.opened = true;
 

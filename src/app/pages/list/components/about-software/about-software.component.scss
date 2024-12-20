@@ -1,5 +1,5 @@
 .warp{
-  width: 240px;
+  width: 280px;
   padding: 12px;
   .title{
     font-size: 18px;
@@ -12,7 +12,17 @@
     justify-content: space-between;
     align-items: center;
     .name{
+      color: rgba(255, 255, 255, .87);
+      font-size: 14px;
+    }
+    .subTitle{
       color: rgba(255, 255, 255, .34);
+      font-size: 12px;
     }
   }
+}
+.list{
+  display: grid ;
+      grid-template-columns: 1fr;
+      gap: 4px;
 }

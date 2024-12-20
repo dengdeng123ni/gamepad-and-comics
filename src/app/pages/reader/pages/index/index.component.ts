@@ -19,6 +19,7 @@ import { ComicsSettingsService } from '../../components/comics-settings/comics-s
 import { FilterService } from '../../components/filter/filter.service';
 import { RepliesPageService } from '../../components/replies-page/replies-page.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { ReaderNavbarBarV2Service } from '../../components/reader-navbar-bar-v2/reader-navbar-bar-v2.service';
 export const scaleFadeAnimation = trigger('scaleFadeAnimation', [
   transition(':enter', [
     style({ opacity: 0 }),
@@ -58,6 +59,7 @@ export class IndexComponent {
     public ContextMenuEvent: ContextMenuEventService,
     public filter: FilterService,
     public Prompt: PromptService,
+    public ReaderNavbarBarV2:ReaderNavbarBarV2Service,
     public RepliesPage: RepliesPageService
   ) {
 

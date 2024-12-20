@@ -90,7 +90,7 @@ export class MessageControllerService {
       type: "add_browser_client",
       client: {
         id: document.body.getAttribute("client_id"),
-        name: navigator.userAgent
+        name: document.body.getAttribute("client_name")
       }
     });
   }
@@ -103,7 +103,7 @@ export class MessageControllerService {
         type: "add_browser_client",
         client: {
           id: document.body.getAttribute("client_id"),
-          name: navigator.userAgent
+          name: document.body.getAttribute("client_name")
         }
       });
     },6000)

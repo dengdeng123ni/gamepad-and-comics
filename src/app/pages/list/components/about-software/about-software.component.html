@@ -1,63 +1,61 @@
 <div class="warp">
   <div class="title" [attr.svg_filter]="'text_secondary'">
-    {{'关于软件' | translate}}
+    -{{'关于软件' | translate}}-
   </div>
-
   <div class="list">
     <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
-        {{'客户端ID' | translate}}{{this.size}}
+      <div class="left">
+        <div class="name" [attr.svg_filter]="'text_secondary'">
+          {{'客户端ID' | translate}}
+        </div>
+        <div class="subTitle">
+          {{clientId}}
+        </div>
       </div>
-      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+      <button mat-button (click)="copy(clientId)" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'复制'|translate}}</button>
     </div>
     <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
-        {{'客户端名称' | translate}}{{this.size}}
+        {{'客户端名称' | translate}}
+        <div class="subTitle">
+          {{clientName}}
+        </div>
       </div>
-      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+      <button mat-button (click)="rename()" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'">{{'重命名'|translate}}</button>
     </div>
     <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
-        {{'已使用缓存空间' | translate}}{{this.size}}
+        {{'本地服务器' | translate}}
+        <div class="subTitle">
+           {{local_ip}}
+        </div>
       </div>
-      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+      <button mat-button (click)="copy(local_ip)" [disabled]="!local_ip" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'">{{'复制'|translate}}</button>
     </div>
     <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
-        {{'本地IP' | translate}}{{this.size}}
+        {{'局域网服务器' | translate}}
+        <div class="subTitle">
+        {{local_network_ip}}
+        </div>
       </div>
-      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+      <button mat-button (click)="copy(local_network_ip)" [disabled]="!local_ip" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'">{{'复制'|translate}}</button>
     </div>
+
     <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
-        {{'局域网IP' | translate}}{{this.size}}
+        {{'已使用缓存空间' | translate}}
+        <div class="subTitle">
+          {{this.size}}
+        </div>
       </div>
-      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
     </div>
     <!-- <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
-        软件版本
-      </div>
-      <button mat-button [disabled]="true" [attr.svg_filter]="'text_primary'">2.01</button>
-    </div>
-    <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
-        插件版本
-      </div>
-      <button mat-button [disabled]="true" [attr.svg_filter]="'text_primary'" >2.01</button>
-    </div> -->
-    <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
         {{'强制更新版本' | translate}}
       </div>
       <button mat-button [attr.svg_filter]="'text_primary'" [attr.region]="'about_software_item'" (click)="update222()"> {{'更新' | translate}}</button>
-    </div>
-
-    <!-- <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
-        {{'交流群' | translate}} 639294484
-      </div>
-      <button mat-button (click)="open3()" [attr.svg_filter]="'text_primary'"> {{'打开' | translate}}</button>
     </div> -->
     <div class="item">
       <div class="name" [attr.svg_filter]="'text_secondary'">
@@ -73,4 +71,3 @@
     </div>
   </div>
 </div>
-<!-- https://github.com/dengdeng123ni/gamepad-and-comics-v3/ -->

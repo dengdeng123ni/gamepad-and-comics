@@ -42,6 +42,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ReaderBackgroundSettingsComponent } from './components/reader-background-settings/reader-background-settings.component';
 import { RepliesPageComponent } from './components/replies-page/replies-page.component';
 import { SettingsNineGridComponent } from './components/settings-nine-grid/settings-nine-grid.component';
+import { ReaderNavbarBarV2Component } from './components/reader-navbar-bar-v2/reader-navbar-bar-v2.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { SettingsNineGridComponent } from './components/settings-nine-grid/setti
     ExportSettingsComponent,
     ReaderBackgroundSettingsComponent,
     RepliesPageComponent,
-    SettingsNineGridComponent
+    SettingsNineGridComponent,
+    ReaderNavbarBarV2Component
   ],
   imports: [
     CommonModule,

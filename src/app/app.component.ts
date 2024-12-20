@@ -317,12 +317,18 @@ export class AppComponent {
 
   getClientId() {
     let clientId = localStorage.getItem('clientId');
+    let clientName = localStorage.getItem('clientName');
     if (!clientId) {
       clientId = `_${Date.now()}`;
       localStorage.setItem('clientId', clientId);
+      localStorage.setItem('clientName', clientId);
       this.is_first_enable = true;
+    }else if (!clientName) {
+      localStorage.setItem('clientName', clientId);
     }
+
     document.body.setAttribute('client_id', clientId)
+    document.body.setAttribute('client_name', clientName)
     this.ReplaceChannelController.send_client_id = clientId;
 
   }

@@ -142,7 +142,7 @@ export class WsControllerService {
 
     // 监听连接打开事件
     this.socket.addEventListener('open', async () => {
-      const jsonData = { type: "init", name: navigator.userAgent, id: document.body.getAttribute('client_id') };
+      const jsonData = { type: "init", name: document.body.getAttribute("client_name"), id: document.body.getAttribute('client_id') };
       const jsonString = JSON.stringify(jsonData);
       const blob = new Blob([jsonString], { type: "application/json" });
       this.socket.send(blob);

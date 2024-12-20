@@ -176,7 +176,7 @@ export class MenuComponent {
               },
               {
                 id: "ope3123",
-                name: "可离线",
+                name: "离线",
                 click: () => {
 
                 }
