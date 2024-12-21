@@ -103,7 +103,7 @@ export class ComicsListV2Component {
     public platform: Platform,
     public prompt: PromptService,
     public AdvancedSearch: AdvancedSearchService,
-    public FavoritesPage:FavoritesPageService,
+    public FavoritesPage: FavoritesPageService,
     public LocalCach: LocalCachService,
 
   ) {
@@ -266,7 +266,7 @@ export class ComicsListV2Component {
         })
 
 
-      }else if (type == "favorites") {
+      } else if (type == "favorites") {
         this.menu_id = sid;
         this.source = source;
         this.id = `${type}_${source}_${sid}`;
@@ -282,25 +282,25 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const res=(await this.webDb.getAll('favorites_comics') as any)
-            res.forEach(x=>{
-              x.sid=x.id;
-              x.id=x.comics_id;
+            const res = (await this.webDb.getAll('favorites_comics') as any)
+            res.forEach(x => {
+              x.sid = x.id;
+              x.id = x.comics_id;
 
             })
             return res
-            .sort((a, b) => b.add_favorites_date - a.add_favorites_date)
-            .filter(x => x.source == source && this.menu_id==x.favorites_id).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
+              .sort((a, b) => b.add_favorites_date - a.add_favorites_date)
+              .filter(x => x.source == source && this.menu_id == x.favorites_id).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
           },
           Init: async (obj) => {
-            const res=(await this.webDb.getAll('favorites_comics') as any)
-            res.forEach(x=>{
-              x.sid=x.id;
-              x.id=x.comics_id;
+            const res = (await this.webDb.getAll('favorites_comics') as any)
+            res.forEach(x => {
+              x.sid = x.id;
+              x.id = x.comics_id;
             })
             return res
-            .sort((a, b) => b.add_favorites_date - a.add_favorites_date)
-            .filter(x => x.source == source && this.menu_id==x.favorites_id).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
+              .sort((a, b) => b.add_favorites_date - a.add_favorites_date)
+              .filter(x => x.source == source && this.menu_id == x.favorites_id).slice((obj.page_num - 1) * obj.page_size, (obj.page_num) * obj.page_size);
           }
         })
 
@@ -368,6 +368,10 @@ export class ComicsListV2Component {
       }
 
       const data: any = await this.get(this.id);
+      this.ListNode.nativeElement.style = "opacity: 0;"
+      setTimeout(() => {
+        this.ListNode.nativeElement.style = ""
+      }, 800)
       if (this.params._gh_condition) {
         let obj = {};
         for (let index = 0; index < this.query.list.length; index++) {
@@ -419,16 +423,20 @@ export class ComicsListV2Component {
         if (this.list.length == 0) {
           this.page_num = 0;
         }
+        // this.ListNode.nativeElement.scrollTop = data.scrollTop;
+
         this.zone.run(() => {
-          setTimeout(async () => {
+          setTimeout(() => {
             this.ListNode.nativeElement.scrollTop = data.scrollTop;
-            await this.overflow()
-            this.ListNode.nativeElement.scrollTop = data.scrollTop;
+            this.ListNode.nativeElement.style = ""
+            this.overflow()
           })
         })
 
-      } else {
+        // this.ListNode.nativeElement.scrollTop = data.scrollTop;
 
+      } else {
+        this.ListNode.nativeElement.style = ""
         if (this.type == "multipy") {
           this.getDatac123123();
           this.init();
@@ -443,14 +451,14 @@ export class ComicsListV2Component {
     })
 
     ContextMenuEvent.register('comics_item', {
-      send:($event,menu)=>{
-        let data=[]
-        const href=$event.getAttribute('href')
-        if(href){
+      send: ($event, menu) => {
+        let data = []
+        const href = $event.getAttribute('href')
+        if (href) {
           data.push({
-            id:"href",
-            name:"打开链接",
-            click:list=>{
+            id: "href",
+            name: "打开链接",
+            click: list => {
               for (let index = 0; index < list.length; index++) {
                 const x = list[index];
                 if (x) window.open(x.href, '_blank')
@@ -458,29 +466,29 @@ export class ComicsListV2Component {
             }
           })
           data.push({
-            id:"add_favorites",
-            name:"加入收藏",
-            click:list=>{
+            id: "add_favorites",
+            name: "加入收藏",
+            click: list => {
               this.FavoritesPage.open(list)
             }
           })
         }
-        let arr=[...data,...menu,];
-        if(this.type=="favorites"){
+        let arr = [...data, ...menu,];
+        if (this.type == "favorites") {
           arr.push(
             {
-              id:"delete",
-              name:"删除",
-              click:list=>{
-                 for (let index = 0; index < list.length; index++) {
+              id: "delete",
+              name: "删除",
+              click: list => {
+                for (let index = 0; index < list.length; index++) {
                   let node = document.querySelector(`[_id='${list[index].id}']`)
                   if (node) node.remove();
-                  this.webDb.deleteByKey('favorites_comics',list[index].sid)
-                 }
+                  this.webDb.deleteByKey('favorites_comics', list[index].sid)
+                }
               }
             }
           )
-        }else if(this.type=="history"){
+        } else if (this.type == "history") {
           // arr.push(
           //   {
           //     id:"delete",
@@ -561,7 +569,7 @@ export class ComicsListV2Component {
         }
         return name;
       }
-      const name= generateRandomName()
+      const name = generateRandomName()
       const obj = {
         id: new Date().getTime().toString(),
         name: name,
