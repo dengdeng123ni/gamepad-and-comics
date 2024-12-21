@@ -10,7 +10,7 @@ export class ConfirmComponent {
 
   @HostListener('window:keydown', ['$event'])
     handleKeyDown=(event: KeyboardEvent)=> {
-      if (event.key == "Enter") this.data.save(this.data.value);
+      if (event.key == "Enter") this.data.save();
 
       // return
     }

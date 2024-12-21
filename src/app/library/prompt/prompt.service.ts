@@ -102,11 +102,9 @@ export class PromptService {
         }
       });
       document.body.setAttribute("locked_region", "prompt")
-      document.body.setAttribute("onkeyboard", "true")
 
       this.dialogRef.afterClosed().subscribe(result => {
         if (document.body.getAttribute("locked_region") == "prompt" && this.opened) document.body.setAttribute("locked_region", document.body.getAttribute("router"))
-        document.body.setAttribute("onkeyboard", "false")
         this.opened = false;
       });
     }
