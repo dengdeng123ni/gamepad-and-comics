@@ -102,6 +102,8 @@ export class ReplaceChannelControllerService {
     if (window._gh_menu_update) window._gh_menu_update()
     if (window._gh_page_reset) window._gh_page_reset()
     this.enabled_change(false);
+    document.body.setAttribute('receiver_client_id', "")
+    document.body.setAttribute('replace_channel_id', "")
     // window.location.reload();
 
   }
