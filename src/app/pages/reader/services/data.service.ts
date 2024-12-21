@@ -41,17 +41,18 @@ export class DataService {
     page_switching_effect: "平滑",
     page_height: 100,
     border_radius: 4,
-    nine_grid:{
-      1:"",
-      2:"",
-      3:"",
-      4:"",
-      5:"",
-      6:"",
-      7:"",
-      8:"",
-      9:""
-    }
+  }
+
+  nine_grid={
+    1:"",
+    2:"",
+    3:"",
+    4:"",
+    5:"comics_toolbar",
+    6:"",
+    7:"",
+    8:"",
+    9:""
   }
 
   is_init_free = false;
@@ -61,7 +62,10 @@ export class DataService {
   constructor(public AppData: AppDataService,public platform:Platform) {
      this.comics_config.is_double_page=!(window.innerWidth < 480 && (this.platform.ANDROID || this.platform.IOS))
 
-
+    const igh=  localStorage.getItem("nine_grid");
+    if(igh){
+      this.nine_grid=JSON.parse(igh)
+    }
   }
 
   init() {
@@ -72,6 +76,8 @@ export class DataService {
     this.is_cache = obj.is_cache;
     this.is_download = obj.is_download;
   }
+
+
 
 
 

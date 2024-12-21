@@ -1,1 +1,3 @@
-<p>settings-nine-grid works!</p>
+<div class="list">
+  <button mat-button class="item" *ngFor="let n of list" (click)="on(n.index)">{{n.name}}</button>
+</div>

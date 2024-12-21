@@ -18,6 +18,7 @@ import { FilterService } from '../filter/filter.service';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { ChaptersFirstCoverSettingsService } from '../chapters-first-cover-settings/chapters-first-cover-settings.service';
 import { RepliesPageService } from '../replies-page/replies-page.service';
+import { SettingsNineGridService } from '../settings-nine-grid/settings-nine-grid.service';
 
 @Component({
   selector: 'app-reader-toolbar',
@@ -60,6 +61,7 @@ export class ReaderToolbarComponent {
     public ExportSettings: ExportSettingsService,
     public ContextMenuEvent: ContextMenuEventService,
     public RoutingController: RoutingControllerService,
+     public SettingsNineGrid: SettingsNineGridService,
     public RepliesPage: RepliesPageService
   ) {
     let menu = [

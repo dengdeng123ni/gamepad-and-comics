@@ -24,8 +24,6 @@ export class ReaderNavbarBarV2Service {
     // })
    }
    open() {
-    console.log(123);
-
      if (this.opened == false) {
        this.opened = true;
 

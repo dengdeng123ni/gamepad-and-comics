@@ -20,6 +20,7 @@ import { FilterService } from '../../components/filter/filter.service';
 import { RepliesPageService } from '../../components/replies-page/replies-page.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ReaderNavbarBarV2Service } from '../../components/reader-navbar-bar-v2/reader-navbar-bar-v2.service';
+import { SettingsNineGridService } from '../../components/settings-nine-grid/settings-nine-grid.service';
 export const scaleFadeAnimation = trigger('scaleFadeAnimation', [
   transition(':enter', [
     style({ opacity: 0 }),
@@ -36,7 +37,7 @@ export const scaleFadeAnimation = trigger('scaleFadeAnimation', [
   animations: [scaleFadeAnimation]
 })
 export class IndexComponent {
-  is_exist_image=false;
+  is_exist_image = false;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -59,10 +60,11 @@ export class IndexComponent {
     public ContextMenuEvent: ContextMenuEventService,
     public filter: FilterService,
     public Prompt: PromptService,
-    public ReaderNavbarBarV2:ReaderNavbarBarV2Service,
+    public ReaderNavbarBarV2: ReaderNavbarBarV2Service,
+    public SettingsNineGrid: SettingsNineGridService,
     public RepliesPage: RepliesPageService
   ) {
-
+    // this.SettingsNineGrid.open()
     GamepadEvent.registerAreaEvent('page_reader', {
       B: () => window.history.back()
     })
@@ -114,12 +116,12 @@ export class IndexComponent {
   }
   ngAfterViewInit() {
     const observer = new MutationObserver((mutationsList, observer) => {
-       if(document.querySelector("img")){
-        this.is_exist_image=true;
+      if (document.querySelector("img")) {
+        this.is_exist_image = true;
         observer.disconnect();
-       }
+      }
     });
-    const config = { attributes: false, childList: true,subtree:true };
+    const config = { attributes: false, childList: true, subtree: true };
     observer.observe(document.querySelector("#_reader_pages"), config);
     this.getIsImage();
 

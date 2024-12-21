@@ -481,19 +481,19 @@ export class ComicsListV2Component {
             }
           )
         }else if(this.type=="history"){
-          arr.push(
-            {
-              id:"delete",
-              name:"删除",
-              click:list=>{
-                 for (let index = 0; index < list.length; index++) {
-                  let node = document.querySelector(`[_id='${list[index].id}']`)
-                  if (node) node.remove();
-                  this.webDb.deleteByKey('history',list[index].id)
-                 }
-              }
-            }
-          )
+          // arr.push(
+          //   {
+          //     id:"delete",
+          //     name:"删除",
+          //     click:list=>{
+          //        for (let index = 0; index < list.length; index++) {
+          //         let node = document.querySelector(`[_id='${list[index].id}']`)
+          //         if (node) node.remove();
+          //         this.webDb.deleteByKey('history',list[index].id)
+          //        }
+          //     }
+          //   }
+          // )
         }
         return arr
       },

@@ -85,7 +85,7 @@ import { ReaderNavbarBarV2Component } from './components/reader-navbar-bar-v2/re
     ReaderBackgroundSettingsComponent,
     RepliesPageComponent,
     SettingsNineGridComponent,
-    ReaderNavbarBarV2Component
+    ReaderNavbarBarV2Component,
   ],
   imports: [
     CommonModule,

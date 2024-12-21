@@ -85,6 +85,12 @@
         class="icon filter_image_list" (click)="doublePageThumbnail.open()" [matTooltipShowDelay]="333" [matTooltip]="'双页缩略图'| translate" >
         <mat-icon>grid_view</mat-icon>
       </button>
+
+      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button
+      class="icon filter_image_list" (click)="SettingsNineGrid.open()" [matTooltipShowDelay]="333" [matTooltip]="'双页缩略图'| translate" >
+      <mat-icon>grid_on</mat-icon>
+    </button>
+
       <!-- <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="openReaderChangeView($event)">
         <mat-icon>chrome_reader_mode</mat-icon>
       </button> -->
