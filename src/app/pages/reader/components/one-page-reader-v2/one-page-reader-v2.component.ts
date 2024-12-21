@@ -604,6 +604,7 @@ export class OnePageReaderV2Component {
         forceToAxis: false,
         thresholdTime: 1000,
       },
+      zoom:true,
       grabCursor: true,
       ...objc
     });

@@ -22,20 +22,20 @@ export class ReaderConfigComponent {
     "卡片",
     "旋转"
   ]
-  is_open=false
+  is_open = false
   constructor(public data: DataService, public current: CurrentService,
     public GamepadController: GamepadControllerService,
     public focusMonitor: FocusMonitor,
-    public TouchmoveEvent:TouchmoveEventService,
-    public ReaderConfig:ReaderConfigService,
+    public TouchmoveEvent: TouchmoveEventService,
+    public ReaderConfig: ReaderConfigService,
     public GamepadEvent: GamepadEventService
   ) {
-    TouchmoveEvent.register('reader_config',{
-      LEFT:()=>{
+    TouchmoveEvent.register('reader_config', {
+      LEFT: () => {
         this.ReaderConfig.close();
         this.ReaderConfig.close_bottom_sheet();
       },
-      RIGHT:()=>{
+      RIGHT: () => {
         this.ReaderConfig.close();
         this.ReaderConfig.close_bottom_sheet();
       },
@@ -63,48 +63,54 @@ export class ReaderConfigComponent {
 
     //   },
     //   })
-setTimeout(()=>{
-  this.is_open=true;
-},300)
+    setTimeout(() => {
+      this.is_open = true;
+    }, 300)
   }
-  change(e) { if(!this.is_open) return
+  change(e) {
+    if (!this.is_open) return
     this.data.comics_config.reader_mode = e;
   }
-  change1(e) { if(!this.is_open) return
+  change1(e) {
+    if (!this.is_open) return
     this.data.comics_config.is_double_page = e;
   }
-  change2(e) { if(!this.is_open) return
+  change2(e) {
+    if (!this.is_open) return
     this.data.comics_config.is_page_order = e;
   }
-  change3(e) { if(!this.is_open) return
+  change3(e) {
+    if (!this.is_open) return
     this.data.comics_config.background_color = e;
     document.documentElement.style.setProperty('--reader-background-color', this.data.comics_config.background_color)
   }
-  change6(e) { if(!this.is_open) return
+  change6(e) {
+    if (!this.is_open) return
     this.data.comics_config.border_radius = e;
   }
 
   change5(e) {
-    if(!this.is_open) return
+    if (!this.is_open) return
     this.data.comics_config.page_height = e;
-    this.data.is_init_free=false;
-    setTimeout(()=>{
-      this.data.is_init_free=true;
+    this.data.is_init_free = false;
+    setTimeout(() => {
+      this.data.is_init_free = true;
     })
   }
   change4(e) {
-    if(!this.is_open) return
+    if (!this.is_open) return
     this.data.comics_config.first_cover_background_color = e;
-    this.data.is_init_free=false;
-    setTimeout(()=>{
-      this.data.is_init_free=true;
+    this.data.is_init_free = false;
+    setTimeout(() => {
+      this.data.is_init_free = true;
     })
   }
-  on_switch(n){ if(!this.is_open) return
-    this.data.comics_config.page_switching_effect=n;
-    this.data.is_init_free=false;
-    setTimeout(()=>{
-      this.data.is_init_free=true;
+  on_switch(n) {
+    if (!this.is_open) return
+    this.data.comics_config.page_switching_effect = n;
+    this.data.is_init_free = false;
+    setTimeout(() => {
+      this.data.is_init_free = true;
     })
 
   }

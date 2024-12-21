@@ -645,6 +645,7 @@ export class DoublePageReaderV2Component {
         forceToAxis: false,
         thresholdTime: 1000,
       },
+      zoom:true,
       grabCursor: true,
       ...objc
     });

@@ -383,6 +383,7 @@ export class OnePageReaderComponent {
         forceToAxis: false,
         thresholdTime: 500,
       },
+      zoom:true,
       grabCursor: true,
     });
     // this.swiper.stop

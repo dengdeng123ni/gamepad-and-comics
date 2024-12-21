@@ -486,7 +486,6 @@ export class OnePageReaderV2DefaultComponent {
 
   ngAfterViewInit() {
     this.zoom.init();
-    this.zoom.init();
     let obj = {
       none: {
         name: "无",
@@ -586,6 +585,7 @@ export class OnePageReaderV2DefaultComponent {
         forceToAxis: false,
         thresholdTime: 1000,
       },
+      zoom:true,
       grabCursor: true,
       ...objc
     });
