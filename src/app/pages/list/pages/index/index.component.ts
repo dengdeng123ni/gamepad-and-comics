@@ -67,6 +67,7 @@ export class IndexComponent {
     // this.FavoritesPage.open()
 
     this.has_backdrop= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
+
     // this.MenuSearch.open({
     //   position:{
     //     left:"10px",
@@ -105,11 +106,9 @@ export class IndexComponent {
     this.init();
     TouchmoveEvent.register('list',{
       LEFT:()=>{
-        this.has_backdrop = true;
         this.menu.opened = true;
       },
       RIGHT:()=>{
-        this.has_backdrop = false;
         this.menu.opened = false;
       },
     })

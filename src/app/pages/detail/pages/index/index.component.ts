@@ -63,11 +63,9 @@ export class IndexComponent {
 
     TouchmoveEvent.register('detail',{
       LEFT:()=>{
-        this.has_backdrop = true;
         this.menu.opened = true;
       },
       RIGHT:()=>{
-        this.has_backdrop = false;
         this.menu.opened = false;
       },
     })

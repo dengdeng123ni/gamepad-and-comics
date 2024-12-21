@@ -285,6 +285,7 @@
     .list{
       grid-template-columns:1fr 1fr;
       padding: 4px;
+      gap: 0;
       .item {
         padding: 8px;
       }
