@@ -368,9 +368,9 @@ export class ComicsListV2Component {
       }
 
       const data: any = await this.get(this.id);
-      this.ListNode.nativeElement.style = "opacity: 0;"
+      if(this.ListNode&&this.ListNode.nativeElement) this.ListNode.nativeElement.style = "opacity: 0;"
       setTimeout(() => {
-        this.ListNode.nativeElement.style = ""
+        if(this.ListNode&&this.ListNode.nativeElement)  this.ListNode.nativeElement.style = ""
       }, 800)
       if (this.params._gh_condition) {
         let obj = {};
@@ -425,10 +425,14 @@ export class ComicsListV2Component {
         }
         // this.ListNode.nativeElement.scrollTop = data.scrollTop;
 
+        function isTablet() {
+          const userAgent = navigator.userAgent.toLowerCase();
+            /ipad|tablet|android(?!.*mobile)/.test(userAgent);
+        }
         this.zone.run(() => {
           setTimeout(() => {
             this.ListNode.nativeElement.scrollTop = data.scrollTop;
-            this.ListNode.nativeElement.style = ""
+            if(this.ListNode&&this.ListNode.nativeElement)   this.ListNode.nativeElement.style = ""
             this.overflow()
           })
         })
@@ -436,7 +440,7 @@ export class ComicsListV2Component {
         // this.ListNode.nativeElement.scrollTop = data.scrollTop;
 
       } else {
-        this.ListNode.nativeElement.style = ""
+        if(this.ListNode&&this.ListNode.nativeElement)  this.ListNode.nativeElement.style = ""
         if (this.type == "multipy") {
           this.getDatac123123();
           this.init();

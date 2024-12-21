@@ -33,9 +33,11 @@ export class ReaderConfigComponent {
     TouchmoveEvent.register('reader_config',{
       LEFT:()=>{
         this.ReaderConfig.close();
+        this.ReaderConfig.close_bottom_sheet();
       },
       RIGHT:()=>{
-
+        this.ReaderConfig.close();
+        this.ReaderConfig.close_bottom_sheet();
       },
     })
     // this.GamepadEvent.registerAreaEvent("reader_config_item", {

@@ -47,3 +47,16 @@
       [matTooltipPosition]="'right'"></div>
   </div>
 </div>
+
+
+<div class="edge_corner" style="right: 12px;bottom: 12px;" *ngIf="is_tablet">
+  <div class="button"  style="width: 20vh;height: 20vh;" >
+    <div class="triangle"  style="filter: blur(4px); background: rgba(255, 255, 255, 0.005); border-radius: 4px;min-width: 20vh;height: 20vh;clip-path:polygon(0 100%, 100% 100%, 100% 0%);" (click)="continue()" [attr.opened]="menu.opened" [matTooltipShowDelay]="300" [matTooltip]="'打开侧边栏'"
+      [matTooltipPosition]="'right'">
+      <span style="transform: translateX(4vh) translateY(4vh) rotate(-50deg);">
+        继续
+      </span>
+    </div>
+  </div>
+</div>
+

@@ -55,7 +55,7 @@ export class DoublePageThumbnailComponent {
         this.doublePageThumbnail.close();
       },
       RIGHT:()=>{
-
+        this.doublePageThumbnail.close();
       },
     })
   }

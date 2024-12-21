@@ -87,7 +87,7 @@ export class OnePageThumbnailMode3Component {
         this.OnePageThumbnailMode3.close();
       },
       RIGHT:()=>{
-
+        this.OnePageThumbnailMode3.close();
       },
     })
   }

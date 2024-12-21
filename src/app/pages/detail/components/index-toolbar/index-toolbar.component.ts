@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
 import { DataService } from '../../services/data.service';
+import { CurrentService } from '../../services/current.service';
 
 @Component({
   selector: 'app-index-toolbar',
@@ -9,8 +10,18 @@ import { DataService } from '../../services/data.service';
 })
 export class IndexToolbarComponent {
   isfullscreen = !!document.fullscreenElement;
-  constructor(public menu:MenuService,public data:DataService){
+  is_tablet=false;
+  constructor(public menu:MenuService,
+    public data:DataService,
+    public current:CurrentService
 
+
+  ){
+   this.is_tablet=this.isTablet()
+  }
+  isTablet() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return /ipad|tablet|android(?!.*mobile)/.test(userAgent);
   }
   isFullChange() {
     this.isfullscreen = !this.isfullscreen
@@ -29,5 +40,9 @@ export class IndexToolbarComponent {
   }
   on1(){
     this.data.is_edit=!this.data.is_edit;
+  }
+
+  continue() {
+    this.current.routerReader(this.data.comics_id, this.data.chapter_id)
   }
 }

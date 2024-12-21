@@ -184,6 +184,8 @@ export class AppComponent {
   ) {
     window._gh_data = {};
 
+    console.log(this.platform);
+
 
     window.addEventListener("beforeunload", async (event) => {
       const list: any = await this.ReplaceChannelController.original.webDb.getAll('temporary_file')
