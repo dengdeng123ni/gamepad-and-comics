@@ -184,8 +184,6 @@ export class AppComponent {
   ) {
     window._gh_data = {};
 
-    console.log(this.platform);
-
 
     window.addEventListener("beforeunload", async (event) => {
       const list: any = await this.ReplaceChannelController.original.webDb.getAll('temporary_file')
@@ -261,12 +259,15 @@ export class AppComponent {
     // ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
     // 英语 俄语 中文 德语 葡萄牙语 法语 西班牙語 日语 韩语 意大利语 土耳其语 匈牙利语
 
-    //     let obj = {}
+        let obj = {}
 
     //     let arr=[]
-    //     Object.keys(obj).forEach(x => {
-    //       arr.push(obj[x])
-    //     })
+        // Object.keys(
+        // ).forEach(x => {
+        //   obj[x]=`${x}123`
+        // })
+        // console.log(obj);
+
     //     console.log(obj,arr.join(" @ "));
     //      let str=`
     //     `
