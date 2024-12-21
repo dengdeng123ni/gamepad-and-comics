@@ -3,7 +3,7 @@ import { OnePageThumbnailMode3Service } from './one-page-thumbnail-mode3.service
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { ContextMenuEventService, NotifyService } from 'src/app/library/public-api';
+import { ContextMenuEventService, NotifyService, TouchmoveEventService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 interface DialogData {
   chapter_id: string;
@@ -26,7 +26,8 @@ export class OnePageThumbnailMode3Component {
     private zone: NgZone,
     public Notify:NotifyService,
     private _snackBar: MatSnackBar,
-    public ContextMenuEvent: ContextMenuEventService
+    public ContextMenuEvent: ContextMenuEventService,
+    public TouchmoveEvent:TouchmoveEventService
   ) {
     this.init(this._data);
     if (data.is_cache) {
@@ -81,7 +82,14 @@ export class OnePageThumbnailMode3Component {
     } else {
       ContextMenuEvent.register('one_page_thumbnail_item', {})
     }
+    TouchmoveEvent.register('one_page_mode3',{
+      LEFT:()=>{
+        this.OnePageThumbnailMode3.close();
+      },
+      RIGHT:()=>{
 
+      },
+    })
   }
   async init2(_data?: DialogData) {
 

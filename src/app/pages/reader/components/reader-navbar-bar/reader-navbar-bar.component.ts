@@ -8,6 +8,7 @@ import { DataService } from '../../services/data.service';
 import { RoutingControllerService } from 'src/app/library/routing-controller.service';
 import { DbEventService } from 'src/app/library/public-api';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-reader-navbar-bar',
@@ -37,6 +38,7 @@ export class ReaderNavbarBarComponent implements OnInit {
   change$ = new Subject<number>();
   readerNavbarBarChange$;
   chapter_index = 0;
+  is_phone=false;
   constructor(
     public readerNavbarBar: ReaderNavbarBarService,
     public ReaderConfig:ReaderConfigService,
@@ -45,8 +47,10 @@ export class ReaderNavbarBarComponent implements OnInit {
     public data: DataService,
     public readerSection: ReaderSectionService,
     public DbEvent:DbEventService,
+    public platform: Platform,
     public RoutingController:RoutingControllerService
   ) {
+    this.is_phone= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     document.documentElement.style.setProperty('--reader-navbar-bar-zoom', `${((window.innerHeight*0.1)/90)>1?((window.innerHeight*0.1)/90):1}`);
     this.title= DbEvent.Configs[current.source]?.name;
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {

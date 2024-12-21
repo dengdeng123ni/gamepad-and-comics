@@ -68,16 +68,17 @@
       </mat-slider>
       <button
         mat-icon-button
-        *ngIf="zIndex > 0"
+        *ngIf="zIndex > 0&&!is_phone"
         [attr.region]="'reader_navbar_bar_buttom_item'"
         [disabled]="data.chapter_id == data.chapters[0].id"
         (click)="current._chapterPrevious()"
+
       >
         <mat-icon>chevron_left</mat-icon>
       </button>
       <button
         mat-icon-button
-        *ngIf="zIndex > 0"
+        *ngIf="zIndex > 0&&!is_phone"
         [attr.region]="'reader_navbar_bar_buttom_item'"
         [attr.select]="true"
         [disabled]="

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
-import { GamepadControllerService, GamepadEventService } from 'src/app/library/public-api';
+import { GamepadControllerService, GamepadEventService, TouchmoveEventService } from 'src/app/library/public-api';
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
+import { ReaderConfigService } from './reader-config.service';
 @Component({
   selector: 'app-reader-config',
   templateUrl: './reader-config.component.html',
@@ -25,8 +26,18 @@ export class ReaderConfigComponent {
   constructor(public data: DataService, public current: CurrentService,
     public GamepadController: GamepadControllerService,
     public focusMonitor: FocusMonitor,
+    public TouchmoveEvent:TouchmoveEventService,
+    public ReaderConfig:ReaderConfigService,
     public GamepadEvent: GamepadEventService
   ) {
+    TouchmoveEvent.register('reader_config',{
+      LEFT:()=>{
+        this.ReaderConfig.close();
+      },
+      RIGHT:()=>{
+
+      },
+    })
     // this.GamepadEvent.registerAreaEvent("reader_config_item", {
     //   "UP": e => {
     //     this.GamepadController.setCurrentTarget("UP")

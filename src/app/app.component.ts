@@ -9,6 +9,7 @@ import { TestService } from './composite/test/test.service';
 import { bufferCount, Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { TranslateService } from '@ngx-translate/core';
+import { Platform } from '@angular/cdk/platform';
 export const slideInAnimation =
   trigger('routeAnimation', [
     transition('* <=> *', [
@@ -178,6 +179,7 @@ export class AppComponent {
     public DbEvent: DbEventService,
     public Prompt: PromptService,
     public I18n: I18nService,
+    public platform: Platform,
     public App: AppDataService
   ) {
     window._gh_data = {};
@@ -240,6 +242,7 @@ export class AppComponent {
     } else {
       document.body.setAttribute("is_ios", 'false')
     }
+    document.body.setAttribute("is_phone", (window.innerWidth < 480 && (platform.ANDROID || platform.IOS)).toString())
 
     this.keydown.pipe(bufferCount(1)).subscribe((e: any) => {
       this.GamepadController.device2(e.at(-1))

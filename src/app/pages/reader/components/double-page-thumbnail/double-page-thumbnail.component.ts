@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DoublePageThumbnailService } from './double-page-thumbnail.service';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
-import { ContextMenuEventService, I18nService, IndexdbControllerService, UtilsService } from 'src/app/library/public-api';
+import { ContextMenuEventService, I18nService, IndexdbControllerService, TouchmoveEventService, UtilsService } from 'src/app/library/public-api';
 
 
 interface DialogData {
@@ -44,12 +44,20 @@ export class DoublePageThumbnailComponent {
     public doublePageThumbnail: DoublePageThumbnailService,
     public webDb: IndexdbControllerService,
     public I18n:I18nService,
-    public ContextMenuEvent: ContextMenuEventService
+    public ContextMenuEvent: ContextMenuEventService,
+    public TouchmoveEvent:TouchmoveEventService
   ) {
     this.init(_data);
     this.get()
     this.registerInit()
+    TouchmoveEvent.register('double_page_thumbnail',{
+      LEFT:()=>{
+        this.doublePageThumbnail.close();
+      },
+      RIGHT:()=>{
 
+      },
+    })
   }
   async registerInit(){
     const 页之前插入=await this.I18n.getTranslatedText('页之前插入')

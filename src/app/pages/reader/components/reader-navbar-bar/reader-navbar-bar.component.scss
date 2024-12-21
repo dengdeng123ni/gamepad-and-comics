@@ -36,7 +36,8 @@
 
 
 .bottom{
-  width: 100vw;
+  width: calc(100vw - 16px);
+  padding: 0 8px;
   height: 8vh;
   min-height: 64px;
   background: rgba(0, 0, 0, .8);

@@ -65,10 +65,19 @@
   @media screen and (min-width: 0px) and (max-width: 480px) {
     app-image {
       width: 100% !important;
+      height: auto;
       img{
         width: 100% !important;
         object-fit: contain;
       }
+    }
+    .item{
+      margin:0;
+      margin-bottom: 20px;
+
+    }
+    .img{
+      padding: 4px;
     }
   }
 
