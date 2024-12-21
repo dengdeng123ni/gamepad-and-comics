@@ -52,9 +52,7 @@ export class PulgService {
     const css = document.querySelector("base").href + 'assets/css/swiper-bundle.min.css'
     await this.loadBlobJs(js)
     await this.loadBlobCss(css)
-    setTimeout(() => {
-      this.loadAllAssets();
-    }, 100)
+
   }
 
   async loadBlobJs(js) {

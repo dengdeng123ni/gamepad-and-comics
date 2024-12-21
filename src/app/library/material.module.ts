@@ -54,7 +54,8 @@ import { ReadRecordChapterComponent } from './read-record-chapter/read-record-ch
 import { ContextMenuEditComponent } from './context-menu/context-menu-edit/context-menu-edit.component';
 import { DropDownMenuComponent } from './context-menu/drop-down-menu/drop-down-menu.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { PromptComponent } from './prompt/prompt.component';
+import { PromptComponent } from './prompt/prompt/prompt.component';
+import { ConfirmComponent } from './prompt/confirm/confirm.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -166,7 +167,8 @@ import { PromptComponent } from './prompt/prompt.component';
     ReadRecordChapterComponent,
     ContextMenuEditComponent,
     DropDownMenuComponent,
-    PromptComponent
+    PromptComponent,
+    ConfirmComponent
   ]
 })
 export class MaterialModule {

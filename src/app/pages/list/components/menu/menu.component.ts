@@ -24,6 +24,7 @@ import { MobileWebQrcodeService } from '../mobile-web-qrcode/mobile-web-qrcode.s
 import { LanguageSettingsService } from '../language-settings/language-settings.service';
 import { ArchivePageService } from '../archive-page/archive-page.service';
 import { PdfToImageService } from '../../services/pdf-to-image.service';
+import { WebpageOfflineService } from '../../services/webpage-offline.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -103,19 +104,20 @@ export class MenuComponent {
     public UrlToComicsId: UrlToComicsIdService,
     public MenuSearch: MenuSearchService,
     public route: ActivatedRoute,
-    public PdfToImage:PdfToImageService,
+    public PdfToImage: PdfToImageService,
     public SoundEffects: SoundEffectsService,
     public AboutSoftware: AboutSoftwareService,
     public PlugInInstructions: PlugInInstructionsService,
     public ReplaceChannelPage: ReplaceChannelPageService,
-    public ArchiveController:ArchiveControllerService,
-    public LanguageSettings:LanguageSettingsService,
-    public MobileWebQrcode:MobileWebQrcodeService,
+    public ArchiveController: ArchiveControllerService,
+    public LanguageSettings: LanguageSettingsService,
+    public MobileWebQrcode: MobileWebQrcodeService,
     public UrlUsageGuide: UrlUsageGuideService,
-    public ArchivePage:ArchivePageService,
+    public ArchivePage: ArchivePageService,
     public PageTheme: PageThemeService,
-    public Notify:NotifyService,
+    public Notify: NotifyService,
     public prompt: PromptService,
+    public WebpageOffline: WebpageOfflineService,
     private zone: NgZone
   ) {
 
@@ -140,7 +142,28 @@ export class MenuComponent {
           e.click()
         },
         menu: [
+          {
 
+            id: "ooeo",
+            name: "离线",
+            submenu: [
+              {
+                id: "javasciprt",
+                name: "进入",
+                click: () => {
+                  this.WebpageOffline.enter()
+                }
+              },
+              {
+                id: "ope3",
+                name: "退出",
+                click: () => {
+                  this.WebpageOffline.exit();
+                }
+              },
+
+            ]
+          },
           {
 
             id: "ooeo",
@@ -174,13 +197,6 @@ export class MenuComponent {
                   this.PdfToImage.to();
                 }
               },
-              {
-                id: "ope3123",
-                name: "离线",
-                click: () => {
-
-                }
-              },
 
             ]
           },
@@ -194,9 +210,9 @@ export class MenuComponent {
                 id: "ope321",
                 name: "打开局域网连接",
                 click: () => {
-                  if(AppData.local_network_url){
-                    window.open(`${AppData.local_network_url}`,'_blank')
-                  }else{
+                  if (AppData.local_network_url) {
+                    window.open(`${AppData.local_network_url}`, '_blank')
+                  } else {
                     this.Notify.messageBox("ERROR")
                   }
                 }
@@ -205,9 +221,9 @@ export class MenuComponent {
                 id: "ope321",
                 name: "手机版二维码",
                 click: () => {
-                  if(AppData.local_network_url){
+                  if (AppData.local_network_url) {
                     this.MobileWebQrcode.open();
-                  }else{
+                  } else {
                     this.Notify.messageBox("ERROR")
                   }
                 }
@@ -216,7 +232,7 @@ export class MenuComponent {
                 id: "ope321",
                 name: "Github 在线链接",
                 click: () => {
-                  window.open("https://dengdeng123ni.github.io/gamepad-and-comics-v3/",'_blank')
+                  window.open("https://dengdeng123ni.github.io/gamepad-and-comics-v3/", '_blank')
 
                 }
               },
@@ -360,15 +376,15 @@ export class MenuComponent {
 
     })
   }
-   isValidIPv4(ip) {
+  isValidIPv4(ip) {
     const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/;
     return ipv4Regex.test(ip);
   }
   // favorite_border
   init(source?) {
-    this.data.menu_2=[];
-    this.data.menu=[];
-    if(!source) source=this.AppData.source;
+    this.data.menu_2 = [];
+    this.data.menu = [];
+    if (!source) source = this.AppData.source;
 
     if (this.data.menu.length == 0) {
       Object.keys(this.DbEvent.Events).forEach((x) => {
@@ -454,7 +470,7 @@ export class MenuComponent {
         this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })
-      if (['local_cache', 'temporary_file', 'temporary_data'].includes( source)) {
+      if (['local_cache', 'temporary_file', 'temporary_data'].includes(source)) {
         this.data.menu_2_obj = this.data.menu_2[0]
 
       } else {
@@ -463,7 +479,7 @@ export class MenuComponent {
         // this.data.menu[index].expanded=true;
       }
       if (!this.data.menu_2_obj) this.data.menu_2_obj = this.data.menu_2[0]
-      if (this.data.menu_2.length==0) this.data.menu_2_obj =null
+      if (this.data.menu_2.length == 0) this.data.menu_2_obj = null
 
       if (this.menu.url_to_list.length) this.data.menu.push({ type: 'separator' })
       this.menu.url_to_list.forEach(x => {
@@ -516,13 +532,13 @@ export class MenuComponent {
           }
         })
       })
-      let bool=true;
+      let bool = true;
       this.menu.query_fixed.forEach(x => {
-        if(this.data.menu_2_obj&&x.source==this.data.menu_2_obj.id){
-        if (this.menu.query_fixed.length&&bool) {
-          bool=false;
-          this.data.menu.push({ type: 'separator' })
-        }
+        if (this.data.menu_2_obj && x.source == this.data.menu_2_obj.id) {
+          if (this.menu.query_fixed.length && bool) {
+            bool = false;
+            this.data.menu.push({ type: 'separator' })
+          }
           this.data.menu.push({
             id: x.id,
             icon: "radio_button_unchecked",
@@ -563,13 +579,13 @@ export class MenuComponent {
           })
         }
       })
-      let bool2=true;
+      let bool2 = true;
       this.menu.favorites_menu.forEach(x => {
-        if(this.data.menu_2_obj&&x.source==this.data.menu_2_obj.id){
-        if (this.menu.favorites_menu.length&&bool2) {
-          bool2=false;
-          this.data.menu.push({ type: 'separator' })
-        }
+        if (this.data.menu_2_obj && x.source == this.data.menu_2_obj.id) {
+          if (this.menu.favorites_menu.length && bool2) {
+            bool2 = false;
+            this.data.menu.push({ type: 'separator' })
+          }
           this.data.menu.push({
             id: x.id,
             icon: "favorite_border",
@@ -604,7 +620,7 @@ export class MenuComponent {
             ],
 
             click: async (e) => {
-              this.router.navigate(['query', 'favorites', x.source, x.id],{
+              this.router.navigate(['query', 'favorites', x.source, x.id], {
                 queryParams: {
                   gh_data: 'reset',
 

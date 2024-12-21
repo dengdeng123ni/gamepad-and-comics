@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.title|translate}}</h1>
+<div mat-dialog-content style="width: 320px;">
+  {{data.content|translate}}
+</div>
+<div mat-dialog-actions style="    justify-content: end;">
+  <button mat-button  [attr.region]="'prompt_item'" (click)="data.close()"> {{'取消' | translate}}</button>
+  <button mat-button  cdkFocusInitial [attr.region]="'prompt_item'" [attr.select]="'true'" color="primary" (click)="data.save(data.value)"> {{'确认' | translate}}</button>
+</div>

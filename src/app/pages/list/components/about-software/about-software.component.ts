@@ -89,11 +89,7 @@ export class AboutSoftwareComponent {
     }
   }
   async update222() {
-    if (confirm("你确定要强制更新吗?")) {
-      await caches.delete('assets');
+    await caches.delete('assets');
       location.reload();
-    } else {
-
-    }
   }
 }

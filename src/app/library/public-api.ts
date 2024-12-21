@@ -14,7 +14,7 @@ export * from './context-menu/drop-down-menu/drop-down-menu.service';
 export * from './image/image.service';
 export * from './image/image.component';
 
-export * from './prompt/prompt.component';
+export * from './prompt/prompt/prompt.component';
 export * from './prompt/prompt.service';
 export * from './notify/notify.service';
 

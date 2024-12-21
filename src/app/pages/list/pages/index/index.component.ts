@@ -64,6 +64,7 @@ export class IndexComponent {
     public FavoritesPage:FavoritesPageService,
     public MenuSearch: MenuSearchService
   ) {
+    // this.WebpageOffline.open();
     // this.FavoritesPage.open()
 
     this.has_backdrop= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
