@@ -69,9 +69,8 @@ export class AboutSoftwareComponent {
   }
 
   async del() {
-
-
-    if (confirm("你确定要清除所有缓存吗？")) {
+    const bool= await this.prompt._confirm("你确定要清除所有缓存吗")
+    if(bool){
       if ('caches' in window) {
         await caches.delete('image');
       }
@@ -84,8 +83,6 @@ export class AboutSoftwareComponent {
         });
       }
       location.reload();
-    } else {
-      console.log("用户选择了取消");
     }
   }
   async update222() {

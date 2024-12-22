@@ -1,7 +1,7 @@
 <div class="warp" id="download_option">
   <div class="left">
-    <div class="title">配置</div>
-    <mat-divider style="margin: 4px 0;"></mat-divider>
+    <!-- <div class="title">配置</div>
+    <mat-divider style="margin: 4px 0;"></mat-divider> -->
     <div class="list">
       <!-- <div class="item">
         <div class="name">类型</div>
@@ -11,16 +11,16 @@
         </div>
       </div> -->
       <div class="item">
-        <div class="name">点击后跳转</div>
+        <div class="name">{{ "点击后跳转" | translate }}</div>
         <mat-radio-group [(ngModel)]="data.config.click_type">
           <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" [value]="1"
-            style="display: flex;">章节</mat-radio-button>
+            style="display: flex;">  {{ "章节" | translate }}</mat-radio-button>
           <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" [value]="2"
-            style="display: flex;">漫画</mat-radio-button>
-            <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" [value]="3"
+            style="display: flex;">  {{ "漫画" | translate }}</mat-radio-button>
+            <!-- <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" [value]="3"
             style="display: flex;">漫画/章节</mat-radio-button>
             <mat-radio-button [attr.type]="'radio'" [attr.region]="'item'" class="radio_button" [value]="4"
-            style="display: flex;">章节/漫画</mat-radio-button>
+            style="display: flex;">章节/漫画</mat-radio-button> -->
         </mat-radio-group>
       </div>
     </div>

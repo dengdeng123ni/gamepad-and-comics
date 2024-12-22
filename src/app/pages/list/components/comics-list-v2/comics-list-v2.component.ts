@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Platform } from '@angular/cdk/platform';
 import { AdvancedSearchService } from '../advanced-search/advanced-search.service';
 import { FavoritesPageService } from '../favorites-page/favorites-page.service';
+import { ComicsListConfigService } from '../comics-list-config/comics-list-config.service';
 
 @Component({
   selector: 'app-comics-list-v2',
@@ -104,6 +105,7 @@ export class ComicsListV2Component {
     public prompt: PromptService,
     public AdvancedSearch: AdvancedSearchService,
     public FavoritesPage: FavoritesPageService,
+    public ComicsListConfig:ComicsListConfigService,
     public LocalCach: LocalCachService,
 
   ) {
@@ -531,6 +533,13 @@ export class ComicsListV2Component {
           name: "编辑",
           click: e => {
             this.data.is_edit = !this.data.is_edit;
+          }
+        },
+        {
+          id: "edit",
+          name: "点击后跳转",
+          click: e => {
+           this.ComicsListConfig.open();
           }
         }
       ]
