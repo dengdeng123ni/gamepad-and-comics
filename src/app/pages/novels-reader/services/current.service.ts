@@ -325,7 +325,6 @@ export class CurrentService {
   }
 
   close() {
-    this._setWebDbComicsConfig(this.data.comics_id);
     this.data.is_init_free = false;
     const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id)
     if (this.data.chapters.length > 1) this.history.update_progress(this.data.comics_id, `${this.data.is_offprint ? Math.ceil((this.data.page_index / this.data.pages.length) * 100) : Math.ceil((index / this.data.chapters.length) * 100)}%`)

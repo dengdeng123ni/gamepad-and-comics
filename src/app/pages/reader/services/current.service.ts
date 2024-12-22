@@ -828,7 +828,7 @@ export class CurrentService {
 
 
     } else if (type == "changeChapter") {
-      this._setWebDbComicsConfig(this.data.comics_id);
+
     }
     this._updateChapterRead(this.data.chapter_id);
     const types = ['initPage', 'closePage', 'changePage', 'nextPage', 'previousPage', 'nextChapter', 'previousChapter', 'changeChapter'];
@@ -837,7 +837,6 @@ export class CurrentService {
 
   close() {
     this.is_destroy = true;
-    this._setWebDbComicsConfig(this.data.comics_id);
     this.data.is_init_free = false;
     const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id)
     if (this.data.chapters.length > 1) this.history.update_progress(this.data.comics_id, `${this.data.is_offprint ? Math.ceil((this.data.page_index / this.data.pages.length) * 100) : Math.ceil((index / this.data.chapters.length) * 100)}%`)
