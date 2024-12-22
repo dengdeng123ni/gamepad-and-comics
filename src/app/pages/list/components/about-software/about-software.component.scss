@@ -1,5 +1,6 @@
 .warp{
-  width: 280px;
+  min-width: 280px;
+  max-width: 360px;
   padding: 12px;
   .title{
     font-size: 18px;

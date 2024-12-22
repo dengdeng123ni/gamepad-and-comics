@@ -11,7 +11,7 @@
         style="color: rgba(255, 255, 255, 0.34)"
         *ngIf="query.name"
       >
-        {{ query.name }}
+        {{ query.name | translate}}
       </div>
     </div>
     <div
@@ -25,7 +25,7 @@
         style="color: rgba(255, 255, 255, 0.34)"
         *ngIf="query.name"
       >
-        {{ query.name }}
+        {{ query.name| translate }}
       </div>
       <div class="list">
         <button
@@ -41,14 +41,14 @@
           [attr.current]="false"
           (click)="on(index)"
         >
-          {{ c.label }}
+          {{ c.label| translate }}
         </button>
       </div>
     </div>
     <div class="multipy" *ngIf="type == 'multipy'">
       <div class="list" *ngFor="let c of query.list; let c_index = index">
         <div class="title" style="color: rgba(255, 255, 255, 0.34)">
-          {{ c.name }}
+          {{ c.name| translate }}
         </div>
         <button
           [attr.region]="'comics_option'"
@@ -58,7 +58,7 @@
           class="item"
           [attr.current]="n.index == c.index"
         >
-          {{ n.name }}
+          {{ n.name| translate }}
         </button>
       </div>
     </div>
