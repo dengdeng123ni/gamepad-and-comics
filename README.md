@@ -30,6 +30,6 @@ Support the author: [Steam Store Page](https://store.steampowered.com/app/207050
 
 ## 📜 License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify it.
+This work is licensed under a [Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
 
 

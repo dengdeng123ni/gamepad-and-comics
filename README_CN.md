@@ -11,7 +11,7 @@
 
 - **多控制方式**：支持键盘、手柄、鼠标和语音控制，适配不同用户的操作习惯。
 - **本地漫画支持**：快速加载本地漫画，方便用户离线阅读。
-- **在线漫画集成**：通过[插件](https://github.com/dengdeng123ni/gamepad-and-comics-v3/blob/main/src/assets/zip)和[API](https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js)，对接热门漫画网站，在线获取内容。
+- **在线漫画集成**：通过，对接热门漫画网站，在线获取内容。
 - **多种阅读模式**：
   - 双页阅读
   - 单页阅读
@@ -30,4 +30,8 @@
 
 ## 📜 许可证
 
-本项目遵循 [MIT License](https://opensource.org/licenses/MIT)。欢迎自由使用和修改。
+本作品采用 [署名-非商业性使用 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc/4.0/) 进行许可。
+
+
+
+
