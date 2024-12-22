@@ -21,6 +21,8 @@ export class TemporaryFileService {
     // })]
 
 
+
+
     DbEvent.comics_register({
       id:"temporary_file",
       name: "本地文件",

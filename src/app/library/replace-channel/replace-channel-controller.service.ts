@@ -43,6 +43,7 @@ export class ReplaceChannelControllerService {
     this.add$ = this.ReplaceChannelEvent.add().subscribe(x => {
       this.default_trigger()
     })
+
   }
   async init() {
     const events = {
@@ -73,6 +74,7 @@ export class ReplaceChannelControllerService {
         Configs: this.DbEvent.Configs
       }
     }
+
     this.default_trigger()
   }
   goBack() {
@@ -371,6 +373,8 @@ export class ReplaceChannelControllerService {
       })
       if (res.data.configs) this.DbEvent.Configs = res.data.configs;
       if (res.data.events) {
+        console.log(res.data.events);
+
         this.DbEvent.Events = {};
         Object.keys(res.data.events).forEach(x => {
           if (!this.DbEvent.Events[x]) this.DbEvent.Events[x] = {} as any;
