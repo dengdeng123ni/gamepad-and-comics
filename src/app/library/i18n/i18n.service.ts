@@ -29,12 +29,26 @@ export class I18nService {
 
 
 
-
+    this.translate.addLangs(["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"]);
 
   }
 
   async getTranslatedText(name) {
     return await firstValueFrom(this.translate.get(name))
+  }
+
+  async setLang(language){
+    this.translate.setDefaultLang(language);
+    this.translate.use(language).subscribe();
+    document.body.setAttribute('language', language)
+    document.querySelector("html").setAttribute('lang', language)
+    const 游戏手柄与漫画 = await this.getTranslatedText('游戏手柄与漫画')
+    document.title = 游戏手柄与漫画;
+  }
+
+  async setDefaultLang(language){
+    localStorage.setItem("language", language)
+    this.setLang(language)
   }
 
 

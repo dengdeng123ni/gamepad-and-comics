@@ -15,4 +15,11 @@ export class TranslateControllerService {
   getTranslation(key) {
     return this.TranslateEvent.Configs[key] ?? {}
   }
+
+  getCurrentTranslation() {
+    const key = document.body.getAttribute('language')
+
+    return key ? this.TranslateEvent.Configs[key] ?? {} : {}
+  }
+
 }

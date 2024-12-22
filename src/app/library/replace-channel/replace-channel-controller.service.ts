@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IndexdbControllerService, CacheControllerService, DbEventService, DbControllerService, ReplaceChannelEventService, ParamsEventService } from '../public-api';
+import { IndexdbControllerService, CacheControllerService, DbEventService, DbControllerService, ReplaceChannelEventService, ParamsEventService, TranslateControllerService, I18nService, TranslateEventService } from '../public-api';
 
 import CryptoJS from 'crypto-js'
 
@@ -29,8 +29,11 @@ export class ReplaceChannelControllerService {
   is_loading_free = false;
   constructor(
     public ReplaceChannelEvent: ReplaceChannelEventService,
+    public TranslateController:TranslateControllerService,
+    public TranslateEvent:TranslateEventService,
     public DbController: DbControllerService,
     public DbEvent: DbEventService,
+    public I18n:I18nService,
     public webDb: IndexdbControllerService,
     public ParamsEvent: ParamsEventService,
     public webCh: CacheControllerService
@@ -371,10 +374,13 @@ export class ReplaceChannelControllerService {
         id: "_replace_channel_db_event",
         ...res.data
       })
+
+      if(res.data.current_language_translate_json) {
+         this.TranslateEvent.register(res.data.language,res.data.current_language_translate_json)
+      }
+      if(res.data.language) this.I18n.setLang(res.data.language)
       if (res.data.configs) this.DbEvent.Configs = res.data.configs;
       if (res.data.events) {
-        console.log(res.data.events);
-
         this.DbEvent.Events = {};
         Object.keys(res.data.events).forEach(x => {
           if (!this.DbEvent.Events[x]) this.DbEvent.Events[x] = {} as any;
@@ -385,7 +391,6 @@ export class ReplaceChannelControllerService {
                 function_name: c,
                 source: x,
                 target_source: 'builtin',
-
               })
               return res
             }
@@ -434,13 +439,9 @@ export class ReplaceChannelControllerService {
             })
           })
 
-          const id = CryptoJS.MD5(JSON.stringify(
-            {
-              events,
-              configs: this.original.DbEvent.Configs
-            }
-          )).toString().toLowerCase();
           res = {
+            language:document.body.getAttribute('language'),
+            current_language_translate_json:this.TranslateController.getCurrentTranslation(),
             events,
             configs: this.original.DbEvent.Configs,
             client_id: this.send_client_id

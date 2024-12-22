@@ -12,17 +12,15 @@ export class LanguageSettingsComponent  {
 
   constructor(
     public anguageSettings:LanguageSettingsService,
-    public i18n:I18nService,
+    public I18n:I18nService,
     private translate: TranslateService,
+
     private http: HttpClient) { }
 
   ngAfterViewInit() {
 
   }
-  use(language){
-    localStorage.setItem("language",language)
-    this.translate.setDefaultLang(language);
-    this.translate.reloadLang(language).subscribe();
-    this.translate.use(language).subscribe();
+  async use(language){
+    this.I18n.setDefaultLang(language)
   }
 }

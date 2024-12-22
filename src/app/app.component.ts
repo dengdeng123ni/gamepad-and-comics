@@ -385,27 +385,13 @@ export class AppComponent {
     let bool = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].includes(language)
 
     if (bool) {
-      this.translate.setDefaultLang(language);
-      this.translate.use(language).subscribe();
-
-      document.querySelector("html").setAttribute('lang', language)
+      this.I18n.setLang(language)
     } else {
       let arr = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].filter(x => navigator.languages.includes(x));
       if (arr && arr.length) {
-        this.translate.setDefaultLang(arr[0]);
-        this.translate.use(arr[0]).subscribe();
-        document.body.setAttribute('language', arr[0])
-        localStorage.setItem("language", arr[0])
-        document.querySelector("html").setAttribute('lang', arr[0])
+        this.I18n.setDefaultLang( arr[0])
       } else {
-        this.translate.addLangs(["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"]);
-        this.translate.setDefaultLang('en');
-        this.translate.use('en').subscribe();
-        const 游戏手柄与漫画 = await this.I18n.getTranslatedText('游戏手柄与漫画')
-        document.title = 游戏手柄与漫画;
-        document.body.setAttribute('language', 'en')
-        localStorage.setItem("language", 'en')
-        document.querySelector("html").setAttribute('lang', 'en')
+        this.I18n.setDefaultLang('en')
       }
     }
   }
