@@ -9,6 +9,28 @@ import { firstValueFrom } from 'rxjs';
 export class I18nService {
 
   constructor(private translate: TranslateService) {
+
+
+    // function getAllNameValues(obj) {
+    //   let values = [];
+    //   for (const key in obj) {
+    //     if (obj.hasOwnProperty(key)) {
+    //       if (key === 'name'||key === 'label') {
+    //         values.push(obj[key]); // 如果属性名是 'name'，将值添加到结果中
+    //       }
+    //       if (typeof obj[key] === 'object' && obj[key] !== null) {
+    //         values = values.concat(getAllNameValues(obj[key])); // 递归处理嵌套对象
+    //       }
+    //     }
+    //   }
+    //   return values;
+    // }
+
+
+
+
+
+
   }
 
   async getTranslatedText(name) {

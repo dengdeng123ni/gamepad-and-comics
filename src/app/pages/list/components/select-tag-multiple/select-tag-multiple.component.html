@@ -3,7 +3,7 @@
     <div style=" font-size: 18px;
     opacity: 0.34;
     text-align: center; ">
-       {{name}}
+       {{name | translate}}
     </div>
     <div class="toolbar">
       <button mat-button (click)="close()" [attr.region]="'select_tag_multiple_item'">{{'关闭' | translate}}</button>
@@ -17,7 +17,7 @@
     text-align: left;
     justify-content: start;">{{n.title}}</button>
     <mat-chip-listbox [multiple]="true" [(ngModel)]="n.value">
-      <mat-chip-option class="tag" *ngFor="let c of n.tags;let cindex=index" [value]="c.index" [attr.region]="'chip_option_v32'" [attr.type]="'chip'">{{c.label}}</mat-chip-option>
+      <mat-chip-option class="tag" *ngFor="let c of n.tags;let cindex=index" [value]="c.index" [attr.region]="'chip_option_v32'" [attr.type]="'chip'">{{c.label | translate}}</mat-chip-option>
     </mat-chip-listbox>
   </div>
 </div>
