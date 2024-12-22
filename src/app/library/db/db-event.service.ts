@@ -125,12 +125,11 @@ export class DbEventService {
               conditions: [
                 {
                   "id": "f_search",
-                  "label": "关键字",
                   "type": "search"
                 },
                 {
                   "id": "f_cats",
-                  "label": "类别",
+                  "name": "类别",
                   "type": "tag",
                   "options": [
                     {
@@ -177,557 +176,555 @@ export class DbEventService {
                 },
                 {
                   "id": "f_tag",
-                  "label": "标签",
+                  "name": "标签",
                   "type": "tag_multiple",
                   "options": [
-                    {
-                      "title": "语言:",
-                      "tags": [
-                        {
-                          "name": "korean",
-                          "id": "language:korean"
-                        },
-                        {
-                          "name": "已翻译",
-                          "id": "language:translated"
-                        },
-                        {
-                          "name": "中文",
-                          "id": "language:chinese"
-                        },
-                        {
-                          "name": "重写",
-                          "id": "language:rewrite"
-                        },
-                        {
-                          "name": "泰国",
-                          "id": "language:thai"
-                        },
-                        {
-                          "name": "英语",
-                          "id": "language:english"
-                        },
-                        {
-                          "name": "西班牙语",
-                          "id": "language:spanish"
-                        }
-                      ]
-                    },
-                    {
-                      "title": "女:",
-                      "tags": [
-                        {
-                          "name": "领子",
-                          "id": "female:collar"
-                        },
-                        {
-                          "name": "皮带",
-                          "id": "female:leash"
-                        },
-                        {
-                          "name": "丝袜",
-                          "id": "female:stockings"
-                        },
-                        {
-                          "name": "ahegao",
-                          "id": "female:ahegao"
-                        },
-                        {
-                          "name": "巨乳",
-                          "id": "female:\"big breasts$\""
-                        },
-                        {
-                          "name": "口交",
-                          "id": "female:blowjob"
-                        },
-                        {
-                          "name": "舔阴",
-                          "id": "female:cunnilingus"
-                        },
-                        {
-                          "name": "亲吻",
-                          "id": "female:kissing"
-                        },
-                        {
-                          "name": "nakadashi",
-                          "id": "female:nakadashi"
-                        },
-                        {
-                          "name": "paizuri",
-                          "id": "female:paizuri"
-                        },
-                        {
-                          "name": "喷水",
-                          "id": "female:squirting"
-                        },
-                        {
-                          "name": "mesuiki",
-                          "id": "female:mesuiki"
-                        },
-                        {
-                          "name": "乳头刺激",
-                          "id": "female:\"nipple stimulation$\""
-                        },
-                        {
-                          "name": "马尾辫",
-                          "id": "female:ponytail"
-                        },
-                        {
-                          "name": "唯一女性",
-                          "id": "female:\"sole female$\""
-                        },
-                        {
-                          "name": "sumata",
-                          "id": "female:sumata"
-                        },
-                        {
-                          "name": "x-ray",
-                          "id": "female:x-ray"
-                        },
-                        {
-                          "name": "摘花",
-                          "id": "female:defloration"
-                        },
-                        {
-                          "name": "浸渍",
-                          "id": "female:impregnation"
-                        },
-                        {
-                          "name": "强奸",
-                          "id": "female:rape"
-                        },
-                        {
-                          "name": "女学生制服",
-                          "id": "female:\"schoolgirl uniform$\""
-                        },
-                        {
-                          "name": "露阴癖",
-                          "id": "female:exhibitionism"
-                        },
-                        {
-                          "name": "毛茸茸的",
-                          "id": "female:hairy"
-                        },
-                        {
-                          "name": "羞辱",
-                          "id": "female:humiliation"
-                        },
-                        {
-                          "name": "公共用途",
-                          "id": "female:\"public use$\""
-                        },
-                        {
-                          "name": "睡觉",
-                          "id": "female:sleeping"
-                        },
-                        {
-                          "name": "连裤袜",
-                          "id": "female:pantyhose"
-                        },
-                        {
-                          "name": "bbw",
-                          "id": "female:bbw"
-                        },
-                        {
-                          "name": "大屁股",
-                          "id": "female:\"big ass$\""
-                        },
-                        {
-                          "name": "精灵",
-                          "id": "female:elf"
-                        },
-                        {
-                          "name": "fishnets",
-                          "id": "female:fishnets"
-                        },
-                        {
-                          "name": "不寻常的牙齿",
-                          "id": "female:\"unusual teeth$\""
-                        },
-                        {
-                          "name": "醉酒",
-                          "id": "female:drunk"
-                        },
-                        {
-                          "name": "女性统治",
-                          "id": "female:femdom"
-                        },
-                        {
-                          "name": "指法",
-                          "id": "female:fingering"
-                        },
-                        {
-                          "name": "手淫",
-                          "id": "female:masturbation"
-                        },
-                        {
-                          "name": "大乳晕",
-                          "id": "female:\"big areolae$\""
-                        },
-                        {
-                          "name": "扶他那里",
-                          "id": "female:futanari"
-                        },
-                        {
-                          "name": "比基尼",
-                          "id": "female:bikini"
-                        },
-                        {
-                          "name": "后宫",
-                          "id": "female:harem"
-                        },
-                        {
-                          "name": "kemonomimi",
-                          "id": "female:kemonomimi"
-                        },
-                        {
-                          "name": "泳衣",
-                          "id": "female:swimsuit"
-                        },
-                        {
-                          "name": "尾巴",
-                          "id": "female:tail"
-                        },
-                        {
-                          "name": "美人痣",
-                          "id": "female:\"beauty mark$\""
-                        },
-                        {
-                          "name": "口交脸",
-                          "id": "female:\"blowjob face$\""
-                        },
-                        {
-                          "name": "bukkake",
-                          "id": "female:bukkake"
-                        },
-                        {
-                          "name": "双重渗透",
-                          "id": "female:\"double penetration$\""
-                        },
-                        {
-                          "name": "无情的性爱",
-                          "id": "female:\"emotionless sex$\""
-                        },
-                        {
-                          "name": "拍摄",
-                          "id": "female:filming"
-                        },
-                        {
-                          "name": "勒索",
-                          "id": "female:blackmail"
-                        },
-                        {
-                          "name": "netorare",
-                          "id": "female:netorare"
-                        },
-                        {
-                          "name": "正文",
-                          "id": "female:\"body writing$\""
-                        },
-                        {
-                          "name": "兔女郎",
-                          "id": "female:\"bunny girl$\""
-                        },
-                        {
-                          "name": "手套",
-                          "id": "female:gloves"
-                        },
-                        {
-                          "name": "gyaru",
-                          "id": "female:gyaru"
-                        },
-                        {
-                          "name": "哺乳",
-                          "id": "female:lactation"
-                        },
-                        {
-                          "name": "内衣",
-                          "id": "female:lingerie"
-                        },
-                        {
-                          "name": "shimaidon",
-                          "id": "female:shimaidon"
-                        },
-                        {
-                          "name": "不寻常的学生",
-                          "id": "female:\"unusual pupils$\""
-                        },
-                        {
-                          "name": "性玩具",
-                          "id": "female:\"sex toys$\""
-                        },
-                        {
-                          "name": "Yuri",
-                          "id": "female:yuri"
-                        },
-                        {
-                          "name": "遮眼刘海",
-                          "id": "female:\"eye-covering bang$\""
-                        },
-                        {
-                          "name": "巨乳",
-                          "id": "female:\"huge breasts$\""
-                        },
-                        {
-                          "name": "milf",
-                          "id": "female:milf"
-                        },
-                        {
-                          "name": "大乳头",
-                          "id": "female:\"big nipples$\""
-                        },
-                        {
-                          "name": "作弊",
-                          "id": "female:cheating"
-                        },
-                        {
-                          "name": "女牛仔",
-                          "id": "female:cowgirl"
-                        },
-                        {
-                          "name": "彩绘指甲",
-                          "id": "female:\"painted nails$\""
-                        },
-                        {
-                          "name": "发髻",
-                          "id": "female:\"hair buns$\""
-                        },
-                        {
-                          "name": "乳头内陷",
-                          "id": "female:\"inverted nipples$\""
-                        },
-                        {
-                          "name": "小乳房",
-                          "id": "female:\"small breasts$\""
-                        },
-                        {
-                          "name": "petplay",
-                          "id": "female:petplay"
-                        }
-                      ]
-                    },
-                    {
-                      "title": "其他:",
-                      "tags": [
-                        {
-                          "name": "马赛克审查",
-                          "id": "other:\"mosaic censorship$\""
-                        },
-                        {
-                          "name": "全彩",
-                          "id": "other:\"full color$\""
-                        },
-                        {
-                          "name": "未经审查",
-                          "id": "other:uncensored"
-                        },
-                        {
-                          "name": "多作品系列",
-                          "id": "other:\"multi-work series$\""
-                        },
-                        {
-                          "name": "故事情节",
-                          "id": "other:\"story arc$\""
-                        },
-                        {
-                          "name": "soushuuhen",
-                          "id": "other:soushuuhen"
-                        },
-                        {
-                          "name": "粗略翻译",
-                          "id": "other:\"rough translation$\""
-                        },
-                        {
-                          "name": "汇编",
-                          "id": "other:compilation"
-                        }
-                      ]
-                    },
-                    {
-                      "title": "男:",
-                      "tags": [
-                        {
-                          "name": "bbm",
-                          "id": "male:bbm"
-                        },
-                        {
-                          "name": "眼镜",
-                          "id": "male:glasses"
-                        },
-                        {
-                          "name": "肛门",
-                          "id": "male:anal"
-                        },
-                        {
-                          "name": "熊孩子",
-                          "id": "male:\"bear boy$\""
-                        },
-                        {
-                          "name": "大阴茎",
-                          "id": "male:\"big penis$\""
-                        },
-                        {
-                          "name": "catboy",
-                          "id": "male:catboy"
-                        },
-                        {
-                          "name": "狗男孩",
-                          "id": "male:\"dog boy$\""
-                        },
-                        {
-                          "name": "毛茸茸",
-                          "id": "male:furry"
-                        },
-                        {
-                          "name": "巨大的阴茎",
-                          "id": "male:\"huge penis$\""
-                        },
-                        {
-                          "name": "仅限男性",
-                          "id": "male:\"males only$\""
-                        },
-                        {
-                          "name": "多次性高潮",
-                          "id": "male:\"multiple orgasms$\""
-                        },
-                        {
-                          "name": "肌肉",
-                          "id": "male:muscle"
-                        },
-                        {
-                          "name": "狼孩",
-                          "id": "male:\"wolf boy$\""
-                        },
-                        {
-                          "name": "yaoi",
-                          "id": "male:yaoi"
-                        },
-                        {
-                          "name": "肛交",
-                          "id": "male:\"anal intercourse$\""
-                        },
-                        {
-                          "name": "避孕套",
-                          "id": "male:condom"
-                        },
-                        {
-                          "name": "唯一男性",
-                          "id": "male:\"sole male$\""
-                        },
-                        {
-                          "name": "dilf",
-                          "id": "male:dilf"
-                        },
-                        {
-                          "name": "cowman",
-                          "id": "male:cowman"
-                        },
-                        {
-                          "name": "角",
-                          "id": "male:horns"
-                        },
-                        {
-                          "name": "穿孔",
-                          "id": "male:piercing"
-                        },
-                        {
-                          "name": "深色皮肤",
-                          "id": "male:\"dark skin$\""
-                        },
-                        {
-                          "name": "束缚",
-                          "id": "male:bondage"
-                        },
-                        {
-                          "name": "onahole",
-                          "id": "male:onahole"
-                        },
-                        {
-                          "name": "摩擦法",
-                          "id": "male:frottage"
-                        },
-
-                        {
-                          "name": "tomgirl",
-                          "id": "male:tomgirl"
-                        },
-                        {
-                          "name": "校服",
-                          "id": "male:\"schoolboy uniform$\""
-                        },
-                        {
-                          "name": "双性恋",
-                          "id": "male:bisexual"
-                        },
-                        {
-                          "name": "crossdressing",
-                          "id": "male:crossdressing"
-                        },
-                        {
-                          "name": "嗯三人行",
-                          "id": "male:\"mmm threesome$\""
-                        },
-
-                        {
-                          "name": "出汗",
-                          "id": "male:sweating"
-                        },
-                        {
-                          "name": "卖淫",
-                          "id": "male:prostitution"
-                        },
-                        {
-                          "name": "大球",
-                          "id": "male:\"big balls$\""
-                        },
-                        {
-                          "name": "大肌肉",
-                          "id": "male:\"big muscles$\""
-                        },
-                        {
-                          "name": "疤痕",
-                          "id": "male:scar"
-                        },
-                        {
-                          "name": "精神控制",
-                          "id": "male:\"mind control$\""
-                        },
-                        {
-                          "name": "贞操带",
-                          "id": "male:\"chastity belt$\""
-                        }
-                      ]
-                    },
-                    {
-                      "title": "混合:",
-                      "tags": [
-                        {
-                          "name": "乱伦",
-                          "id": "mixed:incest"
-                        },
-                        {
-                          "name": "inseki",
-                          "id": "mixed:inseki"
-                        },
-                        {
-                          "name": "ffm 三人行",
-                          "id": "mixed:\"ffm threesome$\""
-                        },
-                        {
-                          "name": "组",
-                          "id": "mixed:group"
-                        },
-                        {
-                          "name": "mmf 三人行",
-                          "id": "mixed:\"mmf threesome$\""
-                        }
-                      ]
-                    }
+                      {
+                          "title": "语言:",
+                          "tags": [
+                              {
+                                  "label": "korean",
+                                  "value": "language:korean"
+                              },
+                              {
+                                  "label": "已翻译",
+                                  "value": "language:translated"
+                              },
+                              {
+                                  "label": "中文",
+                                  "value": "language:chinese"
+                              },
+                              {
+                                  "label": "重写",
+                                  "value": "language:rewrite"
+                              },
+                              {
+                                  "label": "泰国",
+                                  "value": "language:thai"
+                              },
+                              {
+                                  "label": "英语",
+                                  "value": "language:english"
+                              },
+                              {
+                                  "label": "西班牙语",
+                                  "value": "language:spanish"
+                              }
+                          ]
+                      },
+                      {
+                          "title": "女:",
+                          "tags": [
+                              {
+                                  "label": "领子",
+                                  "value": "female:collar"
+                              },
+                              {
+                                  "label": "皮带",
+                                  "value": "female:leash"
+                              },
+                              {
+                                  "label": "丝袜",
+                                  "value": "female:stockings"
+                              },
+                              {
+                                  "label": "ahegao",
+                                  "value": "female:ahegao"
+                              },
+                              {
+                                  "label": "巨乳",
+                                  "value": "female:\"big breasts$\""
+                              },
+                              {
+                                  "label": "口交",
+                                  "value": "female:blowjob"
+                              },
+                              {
+                                  "label": "舔阴",
+                                  "value": "female:cunnilingus"
+                              },
+                              {
+                                  "label": "亲吻",
+                                  "value": "female:kissing"
+                              },
+                              {
+                                  "label": "nakadashi",
+                                  "value": "female:nakadashi"
+                              },
+                              {
+                                  "label": "paizuri",
+                                  "value": "female:paizuri"
+                              },
+                              {
+                                  "label": "喷水",
+                                  "value": "female:squirting"
+                              },
+                              {
+                                  "label": "mesuiki",
+                                  "value": "female:mesuiki"
+                              },
+                              {
+                                  "label": "乳头刺激",
+                                  "value": "female:\"nipple stimulation$\""
+                              },
+                              {
+                                  "label": "马尾辫",
+                                  "value": "female:ponytail"
+                              },
+                              {
+                                  "label": "唯一女性",
+                                  "value": "female:\"sole female$\""
+                              },
+                              {
+                                  "label": "sumata",
+                                  "value": "female:sumata"
+                              },
+                              {
+                                  "label": "x-ray",
+                                  "value": "female:x-ray"
+                              },
+                              {
+                                  "label": "摘花",
+                                  "value": "female:defloration"
+                              },
+                              {
+                                  "label": "浸渍",
+                                  "value": "female:impregnation"
+                              },
+                              {
+                                  "label": "强奸",
+                                  "value": "female:rape"
+                              },
+                              {
+                                  "label": "女学生制服",
+                                  "value": "female:\"schoolgirl uniform$\""
+                              },
+                              {
+                                  "label": "露阴癖",
+                                  "value": "female:exhibitionism"
+                              },
+                              {
+                                  "label": "毛茸茸的",
+                                  "value": "female:hairy"
+                              },
+                              {
+                                  "label": "羞辱",
+                                  "value": "female:humiliation"
+                              },
+                              {
+                                  "label": "公共用途",
+                                  "value": "female:\"public use$\""
+                              },
+                              {
+                                  "label": "睡觉",
+                                  "value": "female:sleeping"
+                              },
+                              {
+                                  "label": "连裤袜",
+                                  "value": "female:pantyhose"
+                              },
+                              {
+                                  "label": "bbw",
+                                  "value": "female:bbw"
+                              },
+                              {
+                                  "label": "大屁股",
+                                  "value": "female:\"big ass$\""
+                              },
+                              {
+                                  "label": "精灵",
+                                  "value": "female:elf"
+                              },
+                              {
+                                  "label": "fishnets",
+                                  "value": "female:fishnets"
+                              },
+                              {
+                                  "label": "不寻常的牙齿",
+                                  "value": "female:\"unusual teeth$\""
+                              },
+                              {
+                                  "label": "醉酒",
+                                  "value": "female:drunk"
+                              },
+                              {
+                                  "label": "女性统治",
+                                  "value": "female:femdom"
+                              },
+                              {
+                                  "label": "指法",
+                                  "value": "female:fingering"
+                              },
+                              {
+                                  "label": "手淫",
+                                  "value": "female:masturbation"
+                              },
+                              {
+                                  "label": "大乳晕",
+                                  "value": "female:\"big areolae$\""
+                              },
+                              {
+                                  "label": "扶他那里",
+                                  "value": "female:futanari"
+                              },
+                              {
+                                  "label": "比基尼",
+                                  "value": "female:bikini"
+                              },
+                              {
+                                  "label": "后宫",
+                                  "value": "female:harem"
+                              },
+                              {
+                                  "label": "kemonomimi",
+                                  "value": "female:kemonomimi"
+                              },
+                              {
+                                  "label": "泳衣",
+                                  "value": "female:swimsuit"
+                              },
+                              {
+                                  "label": "尾巴",
+                                  "value": "female:tail"
+                              },
+                              {
+                                  "label": "美人痣",
+                                  "value": "female:\"beauty mark$\""
+                              },
+                              {
+                                  "label": "口交脸",
+                                  "value": "female:\"blowjob face$\""
+                              },
+                              {
+                                  "label": "bukkake",
+                                  "value": "female:bukkake"
+                              },
+                              {
+                                  "label": "双重渗透",
+                                  "value": "female:\"double penetration$\""
+                              },
+                              {
+                                  "label": "无情的性爱",
+                                  "value": "female:\"emotionless sex$\""
+                              },
+                              {
+                                  "label": "拍摄",
+                                  "value": "female:filming"
+                              },
+                              {
+                                  "label": "勒索",
+                                  "value": "female:blackmail"
+                              },
+                              {
+                                  "label": "netorare",
+                                  "value": "female:netorare"
+                              },
+                              {
+                                  "label": "正文",
+                                  "value": "female:\"body writing$\""
+                              },
+                              {
+                                  "label": "兔女郎",
+                                  "value": "female:\"bunny girl$\""
+                              },
+                              {
+                                  "label": "手套",
+                                  "value": "female:gloves"
+                              },
+                              {
+                                  "label": "gyaru",
+                                  "value": "female:gyaru"
+                              },
+                              {
+                                  "label": "哺乳",
+                                  "value": "female:lactation"
+                              },
+                              {
+                                  "label": "内衣",
+                                  "value": "female:lingerie"
+                              },
+                              {
+                                  "label": "shimaidon",
+                                  "value": "female:shimaidon"
+                              },
+                              {
+                                  "label": "不寻常的学生",
+                                  "value": "female:\"unusual pupils$\""
+                              },
+                              {
+                                  "label": "性玩具",
+                                  "value": "female:\"sex toys$\""
+                              },
+                              {
+                                  "label": "Yuri",
+                                  "value": "female:yuri"
+                              },
+                              {
+                                  "label": "遮眼刘海",
+                                  "value": "female:\"eye-covering bang$\""
+                              },
+                              {
+                                  "label": "巨乳",
+                                  "value": "female:\"huge breasts$\""
+                              },
+                              {
+                                  "label": "milf",
+                                  "value": "female:milf"
+                              },
+                              {
+                                  "label": "大乳头",
+                                  "value": "female:\"big nipples$\""
+                              },
+                              {
+                                  "label": "作弊",
+                                  "value": "female:cheating"
+                              },
+                              {
+                                  "label": "女牛仔",
+                                  "value": "female:cowgirl"
+                              },
+                              {
+                                  "label": "彩绘指甲",
+                                  "value": "female:\"painted nails$\""
+                              },
+                              {
+                                  "label": "发髻",
+                                  "value": "female:\"hair buns$\""
+                              },
+                              {
+                                  "label": "乳头内陷",
+                                  "value": "female:\"inverted nipples$\""
+                              },
+                              {
+                                  "label": "小乳房",
+                                  "value": "female:\"small breasts$\""
+                              },
+                              {
+                                  "label": "petplay",
+                                  "value": "female:petplay"
+                              }
+                          ]
+                      },
+                      {
+                          "title": "其他:",
+                          "tags": [
+                              {
+                                  "label": "马赛克审查",
+                                  "value": "other:\"mosaic censorship$\""
+                              },
+                              {
+                                  "label": "全彩",
+                                  "value": "other:\"full color$\""
+                              },
+                              {
+                                  "label": "未经审查",
+                                  "value": "other:uncensored"
+                              },
+                              {
+                                  "label": "多作品系列",
+                                  "value": "other:\"multi-work series$\""
+                              },
+                              {
+                                  "label": "故事情节",
+                                  "value": "other:\"story arc$\""
+                              },
+                              {
+                                  "label": "soushuuhen",
+                                  "value": "other:soushuuhen"
+                              },
+                              {
+                                  "label": "粗略翻译",
+                                  "value": "other:\"rough translation$\""
+                              },
+                              {
+                                  "label": "汇编",
+                                  "value": "other:compilation"
+                              }
+                          ]
+                      },
+                      {
+                          "title": "男:",
+                          "tags": [
+                              {
+                                  "label": "bbm",
+                                  "value": "male:bbm"
+                              },
+                              {
+                                  "label": "眼镜",
+                                  "value": "male:glasses"
+                              },
+                              {
+                                  "label": "肛门",
+                                  "value": "male:anal"
+                              },
+                              {
+                                  "label": "熊孩子",
+                                  "value": "male:\"bear boy$\""
+                              },
+                              {
+                                  "label": "大阴茎",
+                                  "value": "male:\"big penis$\""
+                              },
+                              {
+                                  "label": "catboy",
+                                  "value": "male:catboy"
+                              },
+                              {
+                                  "label": "狗男孩",
+                                  "value": "male:\"dog boy$\""
+                              },
+                              {
+                                  "label": "毛茸茸",
+                                  "value": "male:furry"
+                              },
+                              {
+                                  "label": "巨大的阴茎",
+                                  "value": "male:\"huge penis$\""
+                              },
+                              {
+                                  "label": "仅限男性",
+                                  "value": "male:\"males only$\""
+                              },
+                              {
+                                  "label": "多次性高潮",
+                                  "value": "male:\"multiple orgasms$\""
+                              },
+                              {
+                                  "label": "肌肉",
+                                  "value": "male:muscle"
+                              },
+                              {
+                                  "label": "狼孩",
+                                  "value": "male:\"wolf boy$\""
+                              },
+                              {
+                                  "label": "yaoi",
+                                  "value": "male:yaoi"
+                              },
+                              {
+                                  "label": "肛交",
+                                  "value": "male:\"anal intercourse$\""
+                              },
+                              {
+                                  "label": "避孕套",
+                                  "value": "male:condom"
+                              },
+                              {
+                                  "label": "唯一男性",
+                                  "value": "male:\"sole male$\""
+                              },
+                              {
+                                  "label": "dilf",
+                                  "value": "male:dilf"
+                              },
+                              {
+                                  "label": "cowman",
+                                  "value": "male:cowman"
+                              },
+                              {
+                                  "label": "角",
+                                  "value": "male:horns"
+                              },
+                              {
+                                  "label": "穿孔",
+                                  "value": "male:piercing"
+                              },
+                              {
+                                  "label": "深色皮肤",
+                                  "value": "male:\"dark skin$\""
+                              },
+                              {
+                                  "label": "束缚",
+                                  "value": "male:bondage"
+                              },
+                              {
+                                  "label": "onahole",
+                                  "value": "male:onahole"
+                              },
+                              {
+                                  "label": "摩擦法",
+                                  "value": "male:frottage"
+                              },
+                              {
+                                  "label": "tomgirl",
+                                  "value": "male:tomgirl"
+                              },
+                              {
+                                  "label": "校服",
+                                  "value": "male:\"schoolboy uniform$\""
+                              },
+                              {
+                                  "label": "双性恋",
+                                  "value": "male:bisexual"
+                              },
+                              {
+                                  "label": "crossdressing",
+                                  "value": "male:crossdressing"
+                              },
+                              {
+                                  "label": "嗯三人行",
+                                  "value": "male:\"mmm threesome$\""
+                              },
+                              {
+                                  "label": "出汗",
+                                  "value": "male:sweating"
+                              },
+                              {
+                                  "label": "卖淫",
+                                  "value": "male:prostitution"
+                              },
+                              {
+                                  "label": "大球",
+                                  "value": "male:\"big balls$\""
+                              },
+                              {
+                                  "label": "大肌肉",
+                                  "value": "male:\"big muscles$\""
+                              },
+                              {
+                                  "label": "疤痕",
+                                  "value": "male:scar"
+                              },
+                              {
+                                  "label": "精神控制",
+                                  "value": "male:\"mind control$\""
+                              },
+                              {
+                                  "label": "贞操带",
+                                  "value": "male:\"chastity belt$\""
+                              }
+                          ]
+                      },
+                      {
+                          "title": "混合:",
+                          "tags": [
+                              {
+                                  "label": "乱伦",
+                                  "value": "mixed:incest"
+                              },
+                              {
+                                  "label": "inseki",
+                                  "value": "mixed:inseki"
+                              },
+                              {
+                                  "label": "ffm 三人行",
+                                  "value": "mixed:\"ffm threesome$\""
+                              },
+                              {
+                                  "label": "组",
+                                  "value": "mixed:group"
+                              },
+                              {
+                                  "label": "mmf 三人行",
+                                  "value": "mixed:\"mmf threesome$\""
+                              }
+                          ]
+                      }
                   ]
-                },
+              },
                 {
                   "id": "f_srdd",
-                  "label": "最低评分",
+                  "name": "最低评分",
                   "type": "select",
                   "options": [
                     { "label": "1", "value": 1 },
@@ -739,7 +736,7 @@ export class DbEventService {
                 },
                 {
                   "id": "language",
-                  "label": "语言",
+                  "name": "语言",
                   "type": "select",
                   "options": [
                     { "label": "中文", "value": "chinese" }
@@ -747,19 +744,19 @@ export class DbEventService {
                 },
                 {
                   "id": "f_sh",
-                  "label": "浏览已删除画廊",
+                  "name": "浏览已删除画廊",
                   "type": "toggle"
                 },
                 {
                   "id": "f_spf",
-                  "label": "最小页数",
+                  "name": "最小页数",
                   "type": "slider",
                   min: 1,
                   max: 300
                 },
                 {
                   "id": "f_spt",
-                  "label": "最大页数",
+                  "name": "最大页数",
                   "type": "slider",
                   min: 1,
                   max: 2000
@@ -795,19 +792,19 @@ export class DbEventService {
               conditions: [
                 {
                   order: 4,
-                  name: "日"
+                  label: "日"
                 },
                 {
                   order: 3,
-                  name: "月"
+                  label: "月"
                 },
                 {
                   order: 2,
-                  name: "年"
+                  label: "年"
                 },
                 {
                   order: 1,
-                  name: "总"
+                  label: "总"
                 },
               ]
             }
@@ -906,6 +903,8 @@ export class DbEventService {
             const list = await getList(`https://e-hentai.org/toplist.php?tl=${tl}&p=${obj.page_num - 1}`)
             return list
           } else if (obj.menu_id == "advanced_search") {
+            console.log(obj);
+
             let url = "https://e-hentai.org/?";
             if (obj.language && obj.f_search) obj.f_search = obj.f_search + " language:chinese"
             if (obj.language && !obj.f_search) obj.f_search = "language:chinese"
@@ -915,7 +914,7 @@ export class DbEventService {
               if (!obj.f_search) obj.f_search = '';
 
               obj.f_tag.forEach(x => {
-                obj.f_search = obj.f_search + ' ' + x.id
+                obj.f_search = obj.f_search + ' ' + x.value
 
               })
             }

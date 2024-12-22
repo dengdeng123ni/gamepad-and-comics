@@ -208,9 +208,10 @@ export class AdvancedSearchComponent {
   }
    on123=async (e)=>{
     const index=this.list.findIndex(x=>x.id==e.id)
+
     const arr=await this.SelectTagMultiple.change({
       list:e.options,
-      name:e.label,
+      name:e.name,
       value:this.list[index].value??[]
     });
     this.list[index].value=arr;

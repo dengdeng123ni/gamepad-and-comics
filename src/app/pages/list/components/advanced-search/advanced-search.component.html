@@ -27,7 +27,7 @@
     </div>
     <div *ngIf="n.type=='tag'" class="tagv1">
       <div class="title" style="font-size: 16px;margin: 12px 0;">
-        {{n.label}}
+        {{n.name}}
       </div>
       <mat-chip-listbox [(ngModel)]="n.value">
         <mat-chip-option style="border-radius: 4px;
@@ -39,21 +39,21 @@
     </div>
     <div *ngIf="n.type=='tag_multiple'" [attr.region]="'advanced_search_item'" [attr.type]="'slide'">
       <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;align-items: center;">
-        {{n.label}}
+        {{n.name}}
         <button mat-icon-button style="padding: 0;width: 30px;height: 30px;" (click)="on123(n)">
           <mat-icon style="width: 18px;height: 18px;font-size: 18px;">add</mat-icon>
         </button>
       </div>
       <mat-chip-listbox  >
         <mat-chip-option style="border-radius: 4px;padding: 0;" [disabled]="true"
-          *ngFor="let item of n.value">{{item.name}}</mat-chip-option>
+          *ngFor="let item of n.value">{{item.label}}</mat-chip-option>
 
       </mat-chip-listbox>
     </div>
 
     <div *ngIf="n.type=='select'">
       <div class="title" style="font-size: 16px;margin: 12px 0;">
-        {{n.label}}
+        {{n.name}}
       </div>
       <mat-form-field class="select" style="   width: 100%;" [attr.region]="'advanced_search_item'"
         [attr.type]="'select'">
@@ -65,7 +65,7 @@
     </div>
     <div *ngIf="n.type=='slider'">
       <div class="title" style="font-size: 16px;margin: 12px 0;">
-        {{n.label}} {{n.value}}
+        {{n.name}} {{n.value}}
       </div>
       <div [attr.region]="'advanced_search_slider'" [attr.type]="'slider'"  [attr.index]="index" [attr.min]="n.min" [attr.max]="n.max">
         <mat-slider style="min-height: 44px;width: calc(100% - 16px);z-index: 2;" [min]="n.min" [max]="n.max">
@@ -75,7 +75,7 @@
     </div>
     <div *ngIf="n.type=='toggle'" [attr.region]="'advanced_search_item'" [attr.type]="'slide'">
       <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;">
-        {{n.label}}
+        {{n.name}}
         <mat-slide-toggle style="z-index: 2;" [attr.type]="'slide'" [(ngModel)]="n.value"></mat-slide-toggle>
       </div>
     </div>

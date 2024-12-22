@@ -17,7 +17,7 @@
     text-align: left;
     justify-content: start;">{{n.title}}</button>
     <mat-chip-listbox [multiple]="true" [(ngModel)]="n.value">
-      <mat-chip-option class="tag" *ngFor="let c of n.tags;let cindex=index" [value]="c.index" [attr.region]="'chip_option_v32'" [attr.type]="'chip'">{{c.name}}</mat-chip-option>
+      <mat-chip-option class="tag" *ngFor="let c of n.tags;let cindex=index" [value]="c.index" [attr.region]="'chip_option_v32'" [attr.type]="'chip'">{{c.label}}</mat-chip-option>
     </mat-chip-listbox>
   </div>
 </div>
