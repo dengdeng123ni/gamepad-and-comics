@@ -40,7 +40,7 @@
   max-height: 100%;
   width: 100%;
   grid-template-rows: min-content;
-
+  content-visibility: auto;
 
   .item {
     display: flex;

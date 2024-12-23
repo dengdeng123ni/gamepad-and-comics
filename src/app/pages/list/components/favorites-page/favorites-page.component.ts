@@ -26,12 +26,12 @@ export class FavoritesPageComponent {
   async getAll(){
     this.list = await this.webDb.getAll('favorites_menu')
   }
-  async on(index){
+  async on(e_index){
     this.data=this.data;
     for (let index = 0; index < this.data.length; index++) {
       const x = this.data[index];
       x.comics_id=x.id;
-      x.favorites_id=this.list[index].id;
+      x.favorites_id=this.list[e_index].id;
       x.id=`${x.favorites_id}_${x.comics_id}`
       x.source=this.AppData.source;
       x.add_favorites_date=new Date().getTime()

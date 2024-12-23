@@ -333,7 +333,7 @@ export class NovelsListComponent {
   async cache() {
     const list = this.getSelectedData();
     for (let index = 0; index < list.length; index++) {
-      await this.LocalCach.save(list[index].id);
+      // await this.LocalCach.save(list[index].id);
     }
   }
 

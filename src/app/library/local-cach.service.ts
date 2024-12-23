@@ -100,10 +100,10 @@ export class LocalCachService {
     return results;
   }
 
-  async save(id: any) {
+  async save(id: any,source) {
 
     let res = await this.DbController.getDetail(id, {
-      source: this.AppData.source,
+      source: source,
       is_cache: true
     });
     res.id = `7700_${res.id}`.toString();
@@ -111,16 +111,16 @@ export class LocalCachService {
     for (let index = 0; index < res.chapters.length; index++) {
       let x = res.chapters[index];
       await this.DbController.getImage(x.cover, {
-        source: this.AppData.source,
+        source: source,
         is_cache: true
       })
       let pages = await this.DbController.getPages(x.id, {
-        source: this.AppData.source,
+        source: source,
         is_cache: true
       })
       for (let index = 0; index < pages.length; index++) {
         const images = await createImageBitmap(await this.DbController.getImage(pages[index].src, {
-          source: this.AppData.source,
+          source: source,
           is_cache: true
         }))
         pages[index].width = images.width;
