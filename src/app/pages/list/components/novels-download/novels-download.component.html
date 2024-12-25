@@ -16,8 +16,8 @@
             <div class="mezzanine"></div>
           </div>
           <div class="info">
-            <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
-            <div class="progress" [attr.router_reader]="true" [attr.svg_filter]="'text_secondary'">{{n.download_status}}
+            <div class="name" [attr.router_reader]="true" >{{n.title}}</div>
+            <div class="progress" [attr.router_reader]="true" >{{n.download_status}}
             </div>
             <mat-progress-bar mode="indeterminate" *ngIf="n.download_status=='下载中'" style="    width: 100%;
               position: absolute;

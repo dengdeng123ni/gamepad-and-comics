@@ -1,73 +1,73 @@
 <div class="warp">
-  <div class="title" [attr.svg_filter]="'text_secondary'">
+  <div class="title" >
     -{{'关于软件' | translate}}-
   </div>
   <div class="list">
     <div class="item">
       <div class="left">
-        <div class="name" [attr.svg_filter]="'text_secondary'">
+        <div class="name" >
           {{'客户端ID' | translate}}
         </div>
         <div class="subTitle">
           {{clientId}}
         </div>
       </div>
-      <button mat-button (click)="copy(clientId)" [attr.region]="'about_software_item'" [attr.select]="'true'" [attr.svg_filter]="'text_primary'">{{'复制'|translate}}</button>
+      <button mat-button (click)="copy(clientId)" [attr.region]="'about_software_item'" [attr.select]="'true'" >{{'复制'|translate}}</button>
     </div>
     <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
+      <div class="name" >
         {{'客户端名称' | translate}}
         <div class="subTitle">
           {{clientName}}
         </div>
       </div>
-      <button mat-button (click)="rename()" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'">{{'重命名'|translate}}</button>
+      <button mat-button (click)="rename()" [attr.region]="'about_software_item'" >{{'重命名'|translate}}</button>
     </div>
     <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
+      <div class="name" >
         {{'本地服务器' | translate}}
         <div class="subTitle">
            {{local_ip}}
         </div>
       </div>
-      <button mat-button (click)="copy(local_ip)" [disabled]="!local_ip" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'">{{'复制'|translate}}</button>
+      <button mat-button (click)="copy(local_ip)" [disabled]="!local_ip" [attr.region]="'about_software_item'" >{{'复制'|translate}}</button>
     </div>
     <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
+      <div class="name" >
         {{'局域网服务器' | translate}}
         <div class="subTitle">
         {{local_network_ip}}
         </div>
       </div>
-      <button mat-button (click)="copy(local_network_ip)" [disabled]="!local_ip" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'">{{'复制'|translate}}</button>
+      <button mat-button (click)="copy(local_network_ip)" [disabled]="!local_ip" [attr.region]="'about_software_item'" >{{'复制'|translate}}</button>
     </div>
 
     <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
+      <div class="name" >
         {{'已使用缓存空间' | translate}}
         <div class="subTitle">
           {{this.size}}
         </div>
       </div>
-      <button mat-button (click)="del()" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'">{{'清除'|translate}}</button>
+      <button mat-button (click)="del()" [attr.region]="'about_software_item'" >{{'清除'|translate}}</button>
     </div>
     <!-- <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
+      <div class="name" >
         {{'强制更新版本' | translate}}
       </div>
-      <button mat-button [attr.svg_filter]="'text_primary'" [attr.region]="'about_software_item'" (click)="update222()"> {{'更新' | translate}}</button>
+      <button mat-button  [attr.region]="'about_software_item'" (click)="update222()"> {{'更新' | translate}}</button>
     </div> -->
     <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
+      <div class="name" >
         {{'github' | translate}}
       </div>
-      <button mat-button (click)="opeo()" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'"> {{'打开' | translate}}</button>
+      <button mat-button (click)="opeo()" [attr.region]="'about_software_item'" > {{'打开' | translate}}</button>
     </div>
     <div class="item">
-      <div class="name" [attr.svg_filter]="'text_secondary'">
+      <div class="name" >
         {{'赞助作者' | translate}}
       </div>
-      <button mat-button (click)="open2()" [attr.region]="'about_software_item'" [attr.svg_filter]="'text_primary'"> {{'赞助' | translate}}</button>
+      <button mat-button (click)="open2()" [attr.region]="'about_software_item'" > {{'赞助' | translate}}</button>
     </div>
   </div>
 </div>

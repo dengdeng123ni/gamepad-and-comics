@@ -14,11 +14,11 @@
             <app-image [objectFit]="'cover'" class="image" loading="lazy" [src]="n.data.chapter.cover" />
           </div>
           <div class="info">
-            <div class="name" [attr.svg_filter]="'text_primary'">
+            <div class="name" >
               {{ n.data.chapter.title }}
             </div>
             <div class="buttom">
-              <div class="sub_title" *ngIf="n.pub_time" [attr.svg_filter]="'text_secondary'">
+              <div class="sub_title" *ngIf="n.pub_time" >
                 <!-- {{n.chapter.pub_time | date:'YYYY-MM-dd'}} -->
               </div>
             </div>

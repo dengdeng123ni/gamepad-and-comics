@@ -4,7 +4,7 @@
 
     font-size: 24px;
     opacity: 0.24;
-    margin: 8px 0;" [attr.svg_filter]="'text_secondary'">-{{'全部脚本' | translate}}-</div>
+    margin: 8px 0;" >-{{'全部脚本' | translate}}-</div>
   </div> -->
   <div style="display: flex ;
       justify-content: space-between;
@@ -21,7 +21,7 @@
     <div style="display: flex;">
       <mat-checkbox style="margin-right: 10px;" [(ngModel)]="ReplaceChannelController.is_enabled"
         (change)="change123()"  [attr.region]="'replace_channel_page_item'" [attr.type]="'checkbox'"> {{'打开时触发' | translate}}</mat-checkbox>
-      <!-- <button mat-button [attr.svg_filter]="'text_primary'" [attr.select]="'true'" class="name" style="cursor: pointer;"
+      <!-- <button mat-button  [attr.select]="'true'" class="name" style="cursor: pointer;"
         [attr.menu_key]="'pulg_javascript_add'" [attr.region]="'replace_channel_page_item'">
         <mat-icon>add</mat-icon>
         添加

@@ -2,10 +2,10 @@
 <div class="head" *ngIf="!data.is_edit">
 
   <div class="choice" *ngIf="type=='single'" [attr.justify_content]="!query.name">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
+    <div class="title"  style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
   </div>
   <div class="choice" *ngIf="type=='choice'" [attr.justify_content]="!query.name">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
+    <div class="title"  style="color:rgba(255,255,255,.34)" *ngIf="query.name">{{query.name}}</div>
     <div class="list">
       <button [attr.region]="'comics_option'" mat-button *ngFor="let c of query.list;let index=index"
         class="item"
@@ -28,13 +28,13 @@
     </div>
   </div>
   <div class="choice" *ngIf="type=='local_cache'">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">缓存</div>
+    <div class="title"  style="color:rgba(255,255,255,.34)">缓存</div>
   </div>
   <div class="choice" *ngIf="type=='history'">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">历史记录</div>
+    <div class="title"  style="color:rgba(255,255,255,.34)">历史记录</div>
   </div>
   <div class="choice" *ngIf="type=='temporary_file'">
-    <div class="title" [attr.svg_filter]="'text_secondary'" style="color:rgba(255,255,255,.34)">全部漫画</div>
+    <div class="title"  style="color:rgba(255,255,255,.34)">全部漫画</div>
   </div>
 </div>
 
@@ -61,8 +61,8 @@
         <app-image [src]="n.cover" style="position: absolute;" />
         <div class="mezzanine"></div>
       </div>
-      <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
-      <div class="progress" [attr.router_reader]="true" [attr.svg_filter]="'text_secondary'">{{n.subTitle}}</div>
+      <div class="name" [attr.router_reader]="true" >{{n.title}}</div>
+      <div class="progress" [attr.router_reader]="true" >{{n.subTitle}}</div>
       <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="data.is_edit" [(ngModel)]="n.selected"></mat-checkbox>
     </button>
   </div>

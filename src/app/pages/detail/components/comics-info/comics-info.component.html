@@ -6,21 +6,21 @@
     [attr.content_menu_value]="info.id" [objectFit]="'contain'" class="_image" loading="lazy" [width]="224" [height]="298" [src]="info.cover" alt="" />
   </button>
   <div class="info">
-    <div class="title" [attr.svg_filter]="'text_primary'" [attr.size]="info.title.length>20" [attr.href]="info.href"
+    <div class="title"  [attr.size]="info.title.length>20" [attr.href]="info.href"
       (click)="on({href:info.href})" [attr.region]="'chapters_text'">{{info.title|translate}}</div>
     <div class="author">
       <div class="item" *ngFor="let item of info.author" (click)="on(item)" >
-        <span class="name" [attr.svg_filter]="'text_secondary'" [attr.content_menu_key]="'chapters_text'" [attr.content_menu_value]="item.href"  [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name|translate}}</span>
+        <span class="name"  [attr.content_menu_key]="'chapters_text'" [attr.content_menu_value]="item.href"  [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name|translate}}</span>
         <span class="dividing">,</span>
       </div>
     </div>
     <div class="styles" *ngIf="info.styles">
       <div class="item" style="margin-right: 0px;" *ngFor="let item of info.styles" (click)="on(item)"  >
-        <span class="name" [attr.svg_filter]="'text_secondary'"  [attr.content_menu_key]="'chapters_text'" [attr.content_menu_value]="item.href"  [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name | translate}}</span>
+        <span class="name"   [attr.content_menu_key]="'chapters_text'" [attr.content_menu_value]="item.href"  [attr.region]="'chapters_text'" [attr.href]="item.href">{{item.name | translate}}</span>
         <span class="dividing">,</span>
       </div>
     </div>
-    <div class="intro" [attr.svg_filter]="'text_secondary'">
+    <div class="intro" >
       {{info.intro | translate}}
     </div>
   </div>

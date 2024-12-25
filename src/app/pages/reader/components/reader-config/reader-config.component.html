@@ -1,7 +1,7 @@
 <div class="warp" >
   <div class="list">
     <div class="item">
-      <div class="left" [attr.svg_filter]="'text_secondary'">
+      <div class="left" >
         {{'阅读模式'|translate}}
       </div>
       <div class="right">
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'">
-      <div class="left" [attr.svg_filter]="'text_secondary'">
+      <div class="left" >
         {{'页面模式'|translate}}
       </div>
       <div class="right">
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
-      <div class="left" [attr.svg_filter]="'text_secondary'">
+      <div class="left" >
         {{'翻页方向'|translate}}
       </div>
       <div class="right">
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
-      <div class="left" [attr.svg_filter]="'text_secondary'">
+      <div class="left" >
         {{'背景颜色'|translate}}
       </div>
       <div class="right">
@@ -50,7 +50,7 @@
 
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
-      <div class="left" [attr.svg_filter]="'text_secondary'">
+      <div class="left" >
         {{'切换特效'|translate}}
       </div>
       <div class="right" >
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
-      <div class="left" [attr.svg_filter]="'text_secondary'">
+      <div class="left" >
         {{'封面背景'|translate}}
       </div>
       <div class="right">
@@ -73,7 +73,7 @@
       </div>
     </div>
     <!-- <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
-      <div class="left" [attr.svg_filter]="'text_secondary'">
+      <div class="left" >
         {{'图片大小'|translate}}
       </div>
       <div class="right">
@@ -86,7 +86,7 @@
       </div>
     </div> -->
     <!-- <div class="item" *ngIf="data.comics_config.reader_mode=='double_page_reader'||data.comics_config.reader_mode=='left_right_page_reader'">
-      <div class="left" [attr.svg_filter]="'text_secondary'">
+      <div class="left" >
         {{'圆角'|translate}}
       </div>
       <div class="right">

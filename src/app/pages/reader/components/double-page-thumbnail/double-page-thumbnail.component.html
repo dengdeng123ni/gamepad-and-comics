@@ -2,16 +2,16 @@
 
 
 <mat-drawer-container autosize style="height: 100vh;background: transparent;" *ngIf="is_init_free"  (click)="close2()" >
-  <mat-drawer [opened]="opened" mode="side" style="min-width: 224px;" id="scroll" [attr.svg_filter]="'background_secondary'">
+  <mat-drawer [opened]="opened" mode="side" style="min-width: 224px;" id="scroll" >
     <div class="menu">
-      <div class="title" [attr.svg_filter]="'text_secondary'">
+      <div class="title" >
         {{'全部章节'|translate}}({{data.chapters.length}})
       </div>
       <div class="list">
         <button [matTooltipShowDelay]="3000" [matTooltip]="n.title" [id]="'_'+n.id" (click)="on2(n)" class="item"
           [attr.select]="false" [attr.region]="'double_page_thumbnail_item'"
           *ngFor="let n of data.chapters;let index=index" mat-button>
-          <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==chapter_id" [attr.svg_filter]="'text_primary'">
+          <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==chapter_id" >
             <span> {{n.title}}</span>
             <mat-icon class="icon" *ngIf="data.is_locked&&n.is_locked">lock</mat-icon>
             <mat-icon class="icon" *ngIf="data.is_locked&&!n.is_locked">lock_open</mat-icon>
@@ -21,7 +21,7 @@
     </div>
   </mat-drawer>
 <!-- [svg_filter]="background_primary" -->
-  <div class="content" style="position: relative;"  [attr.svg_filter]="'background_primary'" >
+  <div class="content" style="position: relative;"  >
     <div class="switch_left_position">
       <div style="
           min-width: 32px;

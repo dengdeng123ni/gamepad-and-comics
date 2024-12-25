@@ -1,24 +1,24 @@
 <div class="reader_toolbar_left">
   <div class="list top">
     <div class="item">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="back()" [matTooltipShowDelay]="333" [matTooltip]="'返回'| translate" >
         <mat-icon>keyboard_return</mat-icon>
       </button>
     </div>
     <div class="item mt-5">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1"
+      <button  matTooltipPosition="right" tabIndex="-1"
         *ngIf="data.comics_config.reader_mode=='double_page_reader'" mat-icon-button class="icon"
         (click)="ChaptersFirstCoverSettings.open()" [matTooltipShowDelay]="333" [matTooltip]="'设置第一页封面'| translate" >
         <!-- <mat-icon>radio_button_unchecked</mat-icon> -->
         <mat-icon>radio_button_checked</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right"
+      <button  matTooltipPosition="right"
         *ngIf="data.comics_config.reader_mode=='double_page_reader'" tabIndex="-1" mat-icon-button class="icon"
         (click)="togglePage()" [matTooltipShowDelay]="333" [matTooltip]="'切页'| translate" >
         <mat-icon>swap_horiz</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right"
+      <button  matTooltipPosition="right"
         *ngIf="data.comics_config.reader_mode=='left_right_page_reader'" tabIndex="-1" mat-icon-button class="icon"
         (click)="togglePage2()" [matTooltipShowDelay]="333" [matTooltip]="'切页'| translate" >
         <mat-icon>swap_horiz</mat-icon>
@@ -31,35 +31,35 @@
 
   <div class="list bottom">
     <div class="item">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="imageRotation()" [matTooltipShowDelay]="333" [matTooltip]="'旋转'| translate" >
         <mat-icon>screen_rotation</mat-icon>
       </button>
     </div>
     <!-- <div class="item mt-5" id="reader_toolbar_page" *ngIf="data.is_edit">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="separatePage()" [matTooltipShowDelay]="333" [matTooltip]="'返回'| translate" >
         <mat-icon>call_split</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="mergePage()" [matTooltipShowDelay]="333" [matTooltip]="'返回'| translate" >
         <mat-icon>merge</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="insertPage()" [matTooltipShowDelay]="333" [matTooltip]="'返回'| translate" >
         <mat-icon>insert_page_break</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button
         class="icon delete" (click)="openDeleteMenu($event)">
         <mat-icon>delete</mat-icon>
       </button>
     </div> -->
     <div class="item mt-5" id="reader_toolbar_section">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button
         (click)="openList($event)" class="icon subject" [matTooltipShowDelay]="333" [matTooltip]="'章节'| translate" >
         <mat-icon>subject</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'"
+      <button
       [disabled]="data.chapter_id == data?.chapters[0]?.id" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="previous()"   >
         <mat-icon>chevron_left</mat-icon>
@@ -67,7 +67,7 @@
       <button  [disabled]="
       data.chapter_id ==
       data.chapters[data.chapters.length - 1]?.id
-    " [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+    "  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="next()"  >
         <mat-icon>chevron_right</mat-icon>
       </button>
@@ -77,16 +77,16 @@
 <div class="reader_toolbar_right">
   <div class="list top">
     <div class="item">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="chaptersThumbnail.open()" [matTooltipShowDelay]="333" [matTooltip]="'章节'| translate" >
         <mat-icon>subject</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="doublePageThumbnail.open()" [matTooltipShowDelay]="333" [matTooltip]="'双页缩略图'| translate" >
         <mat-icon>grid_view</mat-icon>
       </button>
 
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button
       class="icon filter_image_list" (click)="SettingsNineGrid.open()" [matTooltipShowDelay]="333" [matTooltip]="'双页缩略图'| translate" >
       <mat-icon>grid_on</mat-icon>
     </button>
@@ -94,11 +94,11 @@
       <!-- <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="openReaderChangeView($event)">
         <mat-icon>chrome_reader_mode</mat-icon>
       </button> -->
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="openReaderSettings($event)" [matTooltipShowDelay]="333" [matTooltip]="'设置'| translate" >
         <mat-icon>settings</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
         (click)="on_input_color($event)" [matTooltipShowDelay]="333" [matTooltip]="''| translate" >
         <mat-icon>palette</mat-icon>
       </button>
@@ -113,21 +113,21 @@
       </button> -->
     </div>
     <div class="item mt-5">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="filterOpen($event)" [matTooltipShowDelay]="333" [matTooltip]="'滤镜'| translate" >
         <mat-icon>filter</mat-icon>
       </button>
     </div>
     <div class="item mt-5">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button [matTooltipShowDelay]="333" [matTooltip]="'单页缩略图'| translate"
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button [matTooltipShowDelay]="333" [matTooltip]="'单页缩略图'| translate"
         class="icon filter_image_list" (click)="onePageThumbnailMode2.isToggle()">
         <mat-icon style="transform: rotate(180deg) scale(1.35) rotateY(36deg);">view_sidebar</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button [matTooltipShowDelay]="333" [matTooltip]="'单页缩略图'| translate"
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button [matTooltipShowDelay]="333" [matTooltip]="'单页缩略图'| translate"
         class="icon filter_image_list" (click)="onePageThumbnailMode1.open()">
         <mat-icon style="transform: rotate(90deg) scale(1.35) rotateY(36deg);">view_sidebar</mat-icon>
       </button>
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button [matTooltipShowDelay]="333" [matTooltip]="'单页缩略图'| translate"
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button [matTooltipShowDelay]="333" [matTooltip]="'单页缩略图'| translate"
         class="icon filter_image_list" (click)="onePageThumbnailMode3.open()">
         <mat-icon>view_comfy</mat-icon>
       </button>
@@ -137,7 +137,7 @@
       </button> -->
     </div>
     <div class="item mt-5">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button
         class="icon filter_image_list" (click)="resetReadingProgress.open()" [matTooltipShowDelay]="333" [matTooltip]="'重置阅读进度'| translate" >
         <mat-icon>restart_alt</mat-icon>
       </button>
@@ -169,22 +169,22 @@
     </div> -->
 
     <div class="flex flex-col item mt-5 bottom" >
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="OpenComicsDetail($event)" [matTooltipShowDelay]="333" [matTooltip]="'详情'| translate" >
         <mat-icon>info</mat-icon>
       </button>
-      <!-- <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+      <!-- <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="openReplies($event)">
         <mat-icon>comment</mat-icon>
       </button> -->
-      <button [attr.svg_filter]="'text_primary'" *ngIf="data.is_download" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+      <button  *ngIf="data.is_download" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="openExportSettings($event)">
         <mat-icon>file_download</mat-icon>
       </button>
     </div>
 
     <div class="flex flex-col item mt-5 bottom">
-      <button [attr.svg_filter]="'text_primary'" matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
+      <button  matTooltipPosition="left" tabIndex="-1" mat-icon-button class="icon"
         (click)="isFullChange()" [matTooltipShowDelay]="333" [matTooltip]="'全屏'| translate" >
         <mat-icon *ngIf="isfullscreen">fullscreen_exit</mat-icon>
         <mat-icon *ngIf="!isfullscreen">fullscreen</mat-icon>
@@ -205,13 +205,13 @@
     </div> -->
     <div *ngIf="type=='list'" style="max-height: 40vh;">
       <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
-        (click)="onItem(item.id)" [attr._id]="'_menu_item_'+item.id" [attr.svg_filter]="'text_primary'">
-        <mat-icon [attr.svg_filter]="'text_primary'" class="icon" style="    width: 18px;
+        (click)="onItem(item.id)" [attr._id]="'_menu_item_'+item.id" >
+        <mat-icon  class="icon" style="    width: 18px;
         height: 18px;
         line-height: 18px;
         font-size: 18px;
         margin-right: 10px;" *ngIf="is_locked&&item.is_locked">lock</mat-icon>
-        <mat-icon [attr.svg_filter]="'text_primary'" class="icon" style="    width: 18px;
+        <mat-icon  class="icon" style="    width: 18px;
         height: 18px;
         line-height: 18px;
         font-size: 18px;

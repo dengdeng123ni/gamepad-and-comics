@@ -168,27 +168,27 @@ export class MenuComponent {
             id: "ooeo",
             name: "其他",
             submenu: [
-              {
-                id: "javasciprt",
-                name: "主题",
-                click: () => {
-                  this.PageTheme.open({
-                    position: {
-                      left: "10px",
-                      bottom: "100px"
-                    },
-                    panelClass: "_controller_settings",
-                    backdropClass: "_reader_config_bg",
-                  });
-                }
-              },
-              {
-                id: "ope3",
-                name: "支持网站",
-                click: () => {
-                  this.UrlUsageGuide.open({});
-                }
-              },
+              // {
+              //   id: "javasciprt",
+              //   name: "主题",
+              //   click: () => {
+              //     this.PageTheme.open({
+              //       position: {
+              //         left: "10px",
+              //         bottom: "100px"
+              //       },
+              //       panelClass: "_controller_settings",
+              //       backdropClass: "_reader_config_bg",
+              //     });
+              //   }
+              // },
+              // {
+              //   id: "ope3",
+              //   name: "支持网站",
+              //   click: () => {
+              //     this.UrlUsageGuide.open({});
+              //   }
+              // },
               {
                 id: "ope3123",
                 name: "PDF转图片",

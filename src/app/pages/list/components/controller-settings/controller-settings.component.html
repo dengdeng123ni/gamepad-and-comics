@@ -4,7 +4,7 @@
 
     font-size: 24px;
     opacity: 0.24;
-    margin: 12px 0;" [attr.svg_filter]="'text_secondary'">-{{'控制器设置' | translate}}-</div>
+    margin: 12px 0;" >-{{'控制器设置' | translate}}-</div>
   </div>
 
 <div style="display: flex;">
@@ -13,13 +13,13 @@
     <div style="display: flex;flex-direction: column;">
       <div>
         <button mat-button [attr.region]="'item'" [attr.default]="true" [attr.select]="true" (click)="reset()"
-        cdkFocusInitial [attr.svg_filter]="'text_primary'">{{'恢复默认配置' | translate}}</button>
+        cdkFocusInitial >{{'恢复默认配置' | translate}}</button>
       </div>
       <div style="    display: flex ;
           justify-content: space-between;
           width: 200px;
           align-items: center;">
-        <button mat-button [disabled]="true" (click)="reset()" [attr.svg_filter]="'text_secondary'">{{'语音控制' |
+        <button mat-button [disabled]="true" (click)="reset()" >{{'语音控制' |
           translate}}</button>
         <mat-slide-toggle style="z-index: 2;" [attr.region]="'item'" [attr.select]="false" [attr.type]="'slide'"
           [(ngModel)]="GamepadController.is_voice_controller"></mat-slide-toggle>
@@ -28,7 +28,7 @@
           justify-content: space-between;
           width: 200px;
           align-items: center;">
-        <button mat-button [disabled]="true" (click)="reset()" [attr.svg_filter]="'text_secondary'">{{'控制器音效' |
+        <button mat-button [disabled]="true" (click)="reset()" >{{'控制器音效' |
           translate}}</button>
         <mat-slide-toggle style="z-index: 2;" [attr.region]="'item'" [attr.select]="false" [attr.type]="'slide'"
           [(ngModel)]="GamepadController.GamepadSound.opened"></mat-slide-toggle>
@@ -51,23 +51,23 @@
         </div>
         <div class="right">
           <div class="icon" style="display: flex; justify-content: center;">
-            <button mat-icon-button [disabled]="true" [attr.svg_filter]="'text_secondary'">
+            <button mat-icon-button [disabled]="true" >
               <mat-icon>keyboard</mat-icon>
             </button>
           </div>
           <div class="icon" style="display: flex; justify-content: center;">
-            <button mat-icon-button [disabled]="true" [attr.svg_filter]="'text_secondary'"
+            <button mat-icon-button [disabled]="true"
               style="    transform: scale(.82) translateY(0px);">
               <mat-icon>mouse</mat-icon>
             </button>
           </div>
           <div class="icon" style="display: flex; justify-content: center;">
-            <button mat-icon-button [disabled]="true" [attr.svg_filter]="'text_secondary'">
+            <button mat-icon-button [disabled]="true" >
               <mat-icon>sports_esports</mat-icon>
             </button>
           </div>
           <div class="icon" style="display: flex; justify-content: center;">
-            <button mat-icon-button [disabled]="true" [attr.svg_filter]="'text_secondary'">
+            <button mat-icon-button [disabled]="true" >
               <mat-icon>mic</mat-icon>
             </button>
           </div>
@@ -75,16 +75,16 @@
       </div>
       <!-- ↓ ← → -->
       <div class="item" *ngFor="let n of list;let index=index">
-        <div class="left" [attr.svg_filter]="'text_secondary'">{{n.name | translate}}</div>
+        <div class="left" >{{n.name | translate}}</div>
         <div class="right">
-          <button [attr.svg_filter]="'text_primary'" mat-button [attr.region]="'item'" [attr.select]="false"
+          <button  mat-button [attr.region]="'item'" [attr.select]="false"
             [disabled]="!n.keyboard?.edit" (click)="on(n.id)">{{(n.keyboard?.name?n.keyboard?.name:'-')|
             translate}}</button>
-          <button [attr.svg_filter]="'text_primary'" mat-button [attr.region]="'item'" [attr.select]="false"
+          <button  mat-button [attr.region]="'item'" [attr.select]="false"
             [disabled]="!n.mouse?.edit">{{(n.mouse?.name?n.mouse?.name:'-' )| translate}}</button>
-          <button [attr.svg_filter]="'text_primary'" mat-button [attr.region]="'item'" [attr.select]="false"
+          <button  mat-button [attr.region]="'item'" [attr.select]="false"
             [disabled]="!n.gamepad?.edit">{{(n.gamepad?.name?n.gamepad?.name:'-' )| translate}}</button>
-          <button [attr.svg_filter]="'text_primary'" mat-button [attr.region]="'item'" [attr.select]="false"
+          <button  mat-button [attr.region]="'item'" [attr.select]="false"
             [disabled]="!n.voice?.edit">{{(n.voice?.name?n.voice?.name:'-' )| translate}}</button>
         </div>
       </div>

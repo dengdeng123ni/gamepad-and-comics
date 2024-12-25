@@ -20,8 +20,8 @@
       <div class="mezzanine"></div>
     </div>
     <div class="info">
-      <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
-      <!-- <div class="progress" [attr.router_reader]="true" [attr.svg_filter]="'text_secondary'">{{n.subTitle}}</div> -->
+      <div class="name" [attr.router_reader]="true" >{{n.title}}</div>
+      <!-- <div class="progress" [attr.router_reader]="true" >{{n.subTitle}}</div> -->
       <mat-checkbox class="checkbox" [color]="'primary'" *ngIf="is_edit" [(ngModel)]="n.selected"></mat-checkbox>
     </div>
   </button>

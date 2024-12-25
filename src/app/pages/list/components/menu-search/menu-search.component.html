@@ -27,7 +27,7 @@
           <div class="mezzanine"></div>
         </div>
         <div class="info">
-          <div class="name" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">{{n.title}}</div>
+          <div class="name" [attr.router_reader]="true" >{{n.title}}</div>
         </div>
       </button>
     </div>
@@ -47,11 +47,11 @@
         [attr.content_menu_value]="n.id"
         [attr.multiple]="false" (click)="on2(n)">
         <div class="img"   style="    width: 24px;min-width: 24px;">
-          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">folder_open</mat-icon>
+          <mat-icon class="icon" >folder_open</mat-icon>
         </div>
         <div class="info">
-          <div class="name" style="margin: 0;" [attr.router_reader]="true" [attr.svg_filter]="'text_primary'">使用 {{n.name}} 搜索</div>
-          <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">arrow_forward</mat-icon> -->
+          <div class="name" style="margin: 0;" [attr.router_reader]="true" >使用 {{n.name}} 搜索</div>
+          <!-- <mat-icon class="icon" >arrow_forward</mat-icon> -->
         </div>
       </button>
     </div>

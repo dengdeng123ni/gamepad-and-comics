@@ -1,5 +1,5 @@
 <div class="warp">
-  <div class="title" [attr.svg_filter]="'text_secondary'">
+  <div class="title" >
     {{'全部章节' |  translate}}({{data.chapters.length}})
   </div>
   <div class="list" >
@@ -7,9 +7,9 @@
       [attr.select]="n.id==data.chapter_id" [attr.region]="'reader_section'"
       *ngFor="let n of data.chapters;let index=index" mat-button >
       <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==data.chapter_id">
-        <span [attr.svg_filter]="'text_primary'"> {{n.title}}</span>
-        <mat-icon class="icon" *ngIf="is_locked&&n.is_locked" [attr.svg_filter]="'text_primary'">lock</mat-icon>
-        <mat-icon class="icon" *ngIf="is_locked&&!n.is_locked" [attr.svg_filter]="'text_primary'">lock_open</mat-icon>
+        <span > {{n.title}}</span>
+        <mat-icon class="icon" *ngIf="is_locked&&n.is_locked" >lock</mat-icon>
+        <mat-icon class="icon" *ngIf="is_locked&&!n.is_locked" >lock_open</mat-icon>
       </div>
     </button>
   </div>

@@ -23,7 +23,7 @@
               ? submenuOpen($event)
               : on($event,item.arg)
           "
-          [attr.svg_filter]="'text_primary'"
+
           mat-menu-item
           [matMenuTriggerFor]="submenu"
           [matMenuTriggerData]="{ data: item.submenu }"
@@ -39,7 +39,7 @@
           [attr.default]="index == 0"
           [attr.region]="'content_menu'"
           (keydown)="onKeyDown($event)"
-          [attr.svg_filter]="'text_primary'"
+
           (click)="on($event,item.arg)"
           [matTooltipShowDelay]="10000"
           [matTooltip]="item.name | translate"
@@ -61,7 +61,7 @@
         [attr._id]="'content_menu_submenu' + index"
         [attr.select]="false"
         [attr.default]="false"
-        [attr.svg_filter]="'text_primary'"
+
         [attr.region]="'content_menu_submenu'"
         (keydown)="onKeyDown($event)"
         (click)="
@@ -84,7 +84,7 @@
         [attr.default]="false"
         [attr.region]="'content_menu_submenu'"
         (keydown)="onKeyDown($event)"
-        [attr.svg_filter]="'text_primary'"
+
         (click)="on($event,item.arg)"
         [matTooltipShowDelay]="10000"
         [matTooltip]="item.name | translate"

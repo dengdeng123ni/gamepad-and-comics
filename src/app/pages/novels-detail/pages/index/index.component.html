@@ -1,4 +1,4 @@
-<mat-drawer-container autosize [hasBackdrop]="false" (click)="on($event)" [attr.svg_filter]="'background_secondary'" >
+<mat-drawer-container autosize [hasBackdrop]="false" (click)="on($event)"  >
   <!-- <mat-drawer style="
   border: 1px solid;
   border-radius: 4px;
@@ -7,13 +7,13 @@
   " [opened]="data.is_left_drawer_opened" (mouseleave)="drawer_mouseleave($event)" [mode]="data.left_drawer_mode" class="example-sidenav" mode="side">
    <app-comics-info [info]="data.details" (on_back)="back()" (on_continue)="continue()"></app-comics-info>
 </mat-drawer> -->
-<mat-drawer  style="    border: 0;" [opened]="menu.opened" [position]="menu.position" [attr.svg_filter]="'background_secondary'" [autoFocus]="false" (openedChange)="openedChange($event)" class="example-sidenav" mode="side">
+<mat-drawer  style="    border: 0;" [opened]="menu.opened" [position]="menu.position"  [autoFocus]="false" (openedChange)="openedChange($event)" class="example-sidenav" mode="side">
   <div class="left" style="    margin-left: 0.4rem;">
     <app-comics-toolbar></app-comics-toolbar>
     <app-comics-info *ngIf="data.is_init_free"></app-comics-info>
   </div>
 </mat-drawer>
-  <div class="container" [attr.svg_filter]="'background_secondary'" (mouseleave)="mouseleave($event)" [attr.edit]="data.is_edit" >
+  <div class="container"  (mouseleave)="mouseleave($event)" [attr.edit]="data.is_edit" >
 
     <div class="content" [attr.svg_filter]="'background_primary'">
       <app-chapter-list-mode1 *ngIf="data.is_init_free"></app-chapter-list-mode1>

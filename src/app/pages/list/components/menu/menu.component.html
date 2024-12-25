@@ -14,8 +14,8 @@
   position: relative;    overflow: hidden;
     display: flex;
     justify-content: start;" (click)="openMenuSearch()">
-    <mat-icon class="icon" [attr.svg_filter]="'text_primary'">search</mat-icon>
-    <div class="name" style="color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'">
+    <mat-icon class="icon" >search</mat-icon>
+    <div class="name" style="color: rgba(255, 255, 255, 0.34);" >
       {{'搜索'|translate}}
     </div>
   </button>
@@ -23,8 +23,8 @@
     <div [attr.type]="'expansion'" *ngIf="data.menu_2_obj">
       <button mat-button *ngIf="data.menu_2_obj" style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
         (click)="opensource()" [attr.content_menu_value]="data.menu_2_obj.id" >
-        <!-- <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon> -->
-        <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" [attr.svg_filter]="'text_primary'">
+        <!-- <mat-icon class="icon" >{{n.icon}}</mat-icon> -->
+        <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" >
           {{data.menu_2_obj.name}}
         </div>
       </button>
@@ -36,8 +36,8 @@
             id:data.menu_2_obj.id,
             name:data.menu_2_obj.name
           })">
-        <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{c.icon}}</mat-icon>
-        <div class="name" [attr.svg_filter]="'text_primary'">
+        <mat-icon class="icon" >{{c.icon}}</mat-icon>
+        <div class="name" >
           {{c.name | translate}}
         </div>
       </button>
@@ -52,8 +52,8 @@
           [disabled]="n.disabled"
           [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
           [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id" [attr.content_menu_key]="'menu_item_v2'" [attr.content_menu_value]="n.id">
-          <mat-icon class="icon" [attr.svg_filter]="'text_primary'" >{{n.icon}}</mat-icon>
-          <div class="name" [attr.svg_filter]="'text_primary'">
+          <mat-icon class="icon"  >{{n.icon}}</mat-icon>
+          <div class="name" >
               {{n.name | translate}}
           </div>
         </button>
@@ -70,8 +70,8 @@
         mat-button class="item"
           [attr.region]="'menu_item'" [attr.default]="false" [attr.default]="false" (click)="on3fee(n)"
           [attr.content_menu_value]="n.id" [attr.content_menu_key]="'menu_item_v3'">
-          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
-          <div class="name" [attr.svg_filter]="'text_primary'">
+          <mat-icon class="icon" >{{n.icon}}</mat-icon>
+          <div class="name" >
               {{n.name | translate}}
           </div>
         </button>
@@ -87,8 +87,8 @@
           [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id"
           [attr.content_menu_value]="n.id" [attr.content_menu_key]="'menu_item_v3'"
           >
-          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
-          <div class="name" [attr.svg_filter]="'text_primary'">
+          <mat-icon class="icon" >{{n.icon}}</mat-icon>
+          <div class="name" >
             {{n.name | translate}}
           </div>
         </button>
@@ -105,8 +105,8 @@
               <mat-panel-title>
                 <button mat-button class="item" [attr.region]="'menu_item'" [attr.default]="false"
                   [attr.default]="false" (click)="is_on(n)" [attr.content_menu_value]="n.id" [attr.content_menu_key]="'menu_item_v1'">
-                  <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
-                  <div class="name" [attr.svg_filter]="'text_primary'">
+                  <mat-icon class="icon" >{{n.icon}}</mat-icon>
+                  <div class="name" >
                       {{n.name | translate}}
                   </div>
                 </button>
@@ -120,8 +120,8 @@
                 id:n.id,
                 name:n.name
               })">
-              <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{c.icon}}</mat-icon>
-              <div class="name" [attr.svg_filter]="'text_primary'">
+              <mat-icon class="icon" >{{c.icon}}</mat-icon>
+              <div class="name" >
                 {{c.name}}
               </div>
             </button>
@@ -136,8 +136,8 @@
           [attr.select]="menu.current_menu_id==n.id&&data.currend_read_comics_id==''"
           [attr.selected]="menu.current_menu_id==n.id" style="margin-top: 4px;" mat-button class="item"
           [attr.region]="'menu_item'" (click)="on($event,n)" [attr._id]="n.id">
-          <mat-icon class="icon" [attr.svg_filter]="'text_primary'">{{n.icon}}</mat-icon>
-          <div class="name" [attr.svg_filter]="'text_primary'">
+          <mat-icon class="icon" >{{n.icon}}</mat-icon>
+          <div class="name" >
               {{n.name | translate}}
           </div>
         </button>
@@ -148,7 +148,7 @@
   <div class="settings">
     <button [attr.menu_key]="'_gh_settings'" [attr.menu_value]="'_gh_settings'" mat-icon-button (click)="onMenu($event)"
       [attr.region]="'menu_item'" style="border-radius: 4px;">
-      <mat-icon [attr.svg_filter]="'text_primary'" class="icon">settings</mat-icon>
+      <mat-icon  class="icon">settings</mat-icon>
     </button>
   </div>
 

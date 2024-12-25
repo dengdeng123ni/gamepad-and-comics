@@ -7,7 +7,7 @@
     >
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
         *ngIf="query.name"
       >
@@ -21,7 +21,7 @@
     >
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
         *ngIf="query.name"
       >
@@ -64,8 +64,8 @@
     </div>
     <div class="choice" *ngIf="type == 'advanced_search'" style="display: flex;flex-direction: column;">
       <button mat-button  [attr.region]="'comics_option'"  style=" width: 100%;" *ngIf="is_phone" (click)="on_8474()" id="advanced_search">
-        <mat-icon class="icon" [attr.svg_filter]="'text_primary'">search</mat-icon>
-        <div class="name"  [attr.svg_filter]="'text_primary'" >
+        <mat-icon class="icon" >search</mat-icon>
+        <div class="name"   >
           {{'搜索'|translate}}
         </div>
       </button>
@@ -74,7 +74,7 @@
     <div class="choice" *ngIf="type == 'local_cache'">
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
       >
         {{ "缓存" | translate }}
@@ -83,7 +83,7 @@
     <div class="choice" *ngIf="type == 'temporary_data'">
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
       >
         {{ "临时数据" | translate }}
@@ -92,7 +92,7 @@
     <div class="choice" *ngIf="type == 'history'">
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
       >
         {{ "历史记录" | translate }}
@@ -101,7 +101,7 @@
     <div class="choice" *ngIf="type == 'temporary_file'">
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
       >
         {{ "全部漫画" | translate }}
@@ -110,7 +110,7 @@
     <div class="choice" *ngIf="type == 'url_to_list'">
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
       >
         {{ url | translate }}
@@ -119,7 +119,7 @@
     <div class="choice" *ngIf="type == 'query_fixed'">
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
       >
         {{ url | translate }}
@@ -128,7 +128,7 @@
     <div class="choice" *ngIf="type == 'favorites'">
       <div
         class="title"
-        [attr.svg_filter]="'text_secondary'"
+
         style="color: rgba(255, 255, 255, 0.34)"
       >
         {{ url | translate }}
@@ -188,14 +188,14 @@
         <div
           class="name"
           [attr.router_reader]="true"
-          [attr.svg_filter]="'text_primary'"
+
         >
           {{ n.title }}
         </div>
         <div
           class="progress"
           [attr.router_reader]="true"
-          [attr.svg_filter]="'text_secondary'"
+
         >
           {{ n.subTitle }}
         </div>

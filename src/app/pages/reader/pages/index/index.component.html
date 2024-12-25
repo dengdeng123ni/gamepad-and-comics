@@ -1,5 +1,5 @@
 <mat-drawer-container autosize>
-  <mat-drawer [opened]="left.opened" mode="side" style="min-width: 192px;" id="scroll" [attr.svg_filter]="'background_secondary'">
+  <mat-drawer [opened]="left.opened" mode="side" style="min-width: 192px;" id="scroll" >
     <app-one-page-thumbnail-mode2 *ngIf="left.opened"></app-one-page-thumbnail-mode2>
   </mat-drawer>
   <div [attr.region]="'page_reader'"  [attr.content_menu_key]="'comics_reader'"  id="_reader_pages"  class="_reader" [attr.svg_filter]="'background_primary'">
