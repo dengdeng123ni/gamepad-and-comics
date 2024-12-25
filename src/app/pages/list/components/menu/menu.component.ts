@@ -381,6 +381,7 @@ export class MenuComponent {
   }
   // favorite_border
   init(source?) {
+
     this.data.menu_2 = [];
     this.data.menu = [];
     if (!source) source = this.AppData.source;

@@ -229,6 +229,10 @@ export class AppComponent {
     })
 
     window._gh_page_reset = () => {
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('gh_data', 'reset');
+      window.history.pushState({}, '', url);
       this.is_loading_page = false;
       setTimeout(() => {
         this.is_loading_page = true

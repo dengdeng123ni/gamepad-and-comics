@@ -29,11 +29,11 @@ export class ReplaceChannelControllerService {
   is_loading_free = false;
   constructor(
     public ReplaceChannelEvent: ReplaceChannelEventService,
-    public TranslateController:TranslateControllerService,
-    public TranslateEvent:TranslateEventService,
+    public TranslateController: TranslateControllerService,
+    public TranslateEvent: TranslateEventService,
     public DbController: DbControllerService,
     public DbEvent: DbEventService,
-    public I18n:I18nService,
+    public I18n: I18nService,
     public webDb: IndexdbControllerService,
     public ParamsEvent: ParamsEventService,
     public webCh: CacheControllerService
@@ -201,7 +201,7 @@ export class ReplaceChannelControllerService {
   async default_trigger() {
 
     if (this.is_free) return
-    if (!this.original?.webDb?.getByKey ) return
+    if (!this.original?.webDb?.getByKey) return
     if (this.old_data) {
 
     } else {
@@ -375,10 +375,10 @@ export class ReplaceChannelControllerService {
         ...res.data
       })
 
-      if(res.data.current_language_translate_json) {
-         this.TranslateEvent.register(res.data.language,res.data.current_language_translate_json)
+      if (res.data.current_language_translate_json) {
+        this.TranslateEvent.register(res.data.language, res.data.current_language_translate_json)
       }
-      if(res.data.language) this.I18n.setLang(res.data.language)
+      if (res.data.language) this.I18n.setLang(res.data.language)
       if (res.data.configs) this.DbEvent.Configs = res.data.configs;
       if (res.data.events) {
         this.DbEvent.Events = {};
@@ -396,6 +396,7 @@ export class ReplaceChannelControllerService {
             }
           })
         });
+
         if (window._gh_menu_update) window._gh_menu_update()
         if (window._gh_page_reset) window._gh_page_reset()
       }
@@ -440,8 +441,8 @@ export class ReplaceChannelControllerService {
           })
 
           res = {
-            language:document.body.getAttribute('language'),
-            current_language_translate_json:this.TranslateController.getCurrentTranslation(),
+            language: document.body.getAttribute('language'),
+            current_language_translate_json: this.TranslateController.getCurrentTranslation(),
             events,
             configs: this.original.DbEvent.Configs,
             client_id: this.send_client_id
