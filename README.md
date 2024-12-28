@@ -33,3 +33,6 @@ Support the author: [Steam Store Page](https://store.steampowered.com/app/207050
 This work is licensed under a [Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
 
 
+// 新的阅读器 自定义 
+
+// 历史记录结合高级查询

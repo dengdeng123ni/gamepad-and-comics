@@ -136,6 +136,9 @@ export class ComicsListV2Component {
           await this.put()
         }
       }
+      // 新的阅读器 参考
+      // 动态菜单功能
+      //
       const type = params.get('id')
       let source = params.get('sid')
       const sid = params.get('pid')
