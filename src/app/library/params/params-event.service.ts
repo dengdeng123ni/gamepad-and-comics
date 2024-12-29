@@ -13,7 +13,7 @@ export class ParamsEventService {
   public Events: { [key: string]: Function } = {};
 
   constructor() {
-    window._gh_register_params = this._register_params;
+    window._gh_params_register = this._register_params;
   }
 
   _register_params=(parameterName, event)=> {

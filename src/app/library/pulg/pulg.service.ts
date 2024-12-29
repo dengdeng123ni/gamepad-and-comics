@@ -29,14 +29,14 @@ export class PulgService {
       const c = await this.MessageFetch.cacheFetch(e)
       const blob = await c.blob();
       const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      this.loadJS(url.changingThisBreaksApplicationSecurity)
+      this.loadJS(url.changingThisBreaksApplicationSecurity,e.split("/").at(-1))
     }
     await this.sleep(300)
   }
   async load2(e) {
     if ("browser-image-compression" == e || "图片压缩" == e) {
       const url2 = document.querySelector("base").href + 'assets/js/browser-image-compression.js'
-      this.loadJS(url2)
+      this.loadJS(url2,url2.split("/").at(-1))
     }
     await this.sleep(100)
 
@@ -60,7 +60,7 @@ export class PulgService {
     const c = await this.MessageFetch.cacheFetch(js)
     const blob = await c.blob();
     const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-    this.loadJS(url.changingThisBreaksApplicationSecurity)
+    this.loadJS(url.changingThisBreaksApplicationSecurity,js.split("/").at(-1))
   }
 
   async loadBlobCss(css) {
@@ -93,11 +93,11 @@ export class PulgService {
     const request = url;
     await this.webCh.put('script', request, response);
     const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-    this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
+    this.loadJS(bloburl.changingThisBreaksApplicationSecurity,url.split("/").at(-1))
   }
-  async loadBlodJs(blob) {
+  async loadBlodJs(blob,name) {
     const bloburl: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-    this.loadJS(bloburl.changingThisBreaksApplicationSecurity)
+    this.loadJS(bloburl.changingThisBreaksApplicationSecurity,name)
   }
 
   async get(url) {
@@ -124,7 +124,7 @@ export class PulgService {
         const res = await this.webCh.match('script', e.src);
         const blob = await res.blob();
         const url: any = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-        this.loadJS(url.changingThisBreaksApplicationSecurity)
+        this.loadJS(url.changingThisBreaksApplicationSecurity,e.name)
       }
     }
 
@@ -169,10 +169,11 @@ export class PulgService {
       ...obj
     })
   }
-  loadJS(url) {
+  loadJS(url,name) {
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
+    script.setAttribute('name',name);
     document.body.appendChild(script);
   }
   loadCss(url) {

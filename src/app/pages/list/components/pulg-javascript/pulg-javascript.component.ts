@@ -145,7 +145,7 @@ export class PulgJavascriptComponent {
   async loadJs(url, name) {
     const res = await window._gh_fetch(url)
     const blob = await res.blob()
-    await this.pulg.loadBlodJs(blob)
+    await this.pulg.loadBlodJs(blob,name)
     await this.pulg.scriptCache(blob, name)
     this.Notify.messageBox("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
     this.list = await this.getAll();
@@ -166,7 +166,7 @@ export class PulgJavascriptComponent {
   async openFile() {
     const files = await (window as any).showOpenFilePicker()
     const blob = await files[0].getFile();
-    await this.pulg.loadBlodJs(blob)
+    await this.pulg.loadBlodJs(blob, blob.name)
     await this.pulg.scriptCache(blob, blob.name)
     this.Notify.messageBox("加载脚本成功,页面刷新加载脚本", null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
   }

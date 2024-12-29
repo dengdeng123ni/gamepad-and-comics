@@ -50,7 +50,6 @@ declare global {
     _gh_execute_eval?: (url: string, javascript: string) => Promise<any>; // 执行代码
     _gh_fetch?: (url: RequestInfo | URL, init?: RequestInit) => Promise<Response>; // 请求
     _gh_add_comics?: (pages: Array<string>, option: { title?: string }) => Promise<string> // 添加漫画 返回漫画ID
-    _gh_register_params?: Function; // 注册参数
     _gh_generate_file_path?: (name: string, event: (e: any) => string) => void; // 生成文件路径
     _gh_get_html?: (url: RequestInfo | URL) => Promise<Response>;  // 获取html
     _gh_comics_get_image?: (page_id: string, option?: { source: string, is_cache?: boolean }) => Promise<Blob>; // 获取漫画图片
@@ -69,8 +68,21 @@ declare global {
     _gh_novels_get_pages?: Function; // 获取小说章节
     _gh_novels_get_detail?: Function; // 获取小说详情
     _gh_comics_search?: Function; // 搜索漫画
+    _gh_params_register?: Function; // 注册参数
+
+    _gh_list_menu_register?: Function //  列表菜单注册
+    _gh_reader_register?: Function // web组件 name id
+    _gh_region_register?: Function; // 区域注册
+
   }
 }
+//
+// 输入法问题 可以解决
+// _gh_region_set
+// body.setbuudygj
+// key   加入哪个菜单 name 便于管理
+// id name  getLIst qeury
+// 加入笔趣阁
 
 declare let navigator: any;
 @Component({
@@ -152,7 +164,7 @@ export class AppComponent {
     public MessageController: MessageControllerService,
     public MessageFetch: MessageFetchService,
     public MessageEvent: MessageEventService,
-    public TemporaryFile:TemporaryFileService,
+    public TemporaryFile: TemporaryFileService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
     public WsController: WsControllerService,
@@ -263,14 +275,14 @@ export class AppComponent {
     // ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"];
     // 英语 俄语 中文 德语 葡萄牙语 法语 西班牙語 日语 韩语 意大利语 土耳其语 匈牙利语
 
-        let obj = {}
+    let obj = {}
 
     //     let arr=[]
-        // Object.keys(
-        // ).forEach(x => {
-        //   obj[x]=`${x}123`
-        // })
-        // console.log(obj);
+    // Object.keys(
+    // ).forEach(x => {
+    //   obj[x]=`${x}123`
+    // })
+    // console.log(obj);
 
     //     console.log(obj,arr.join(" @ "));
     //      let str=`
@@ -333,7 +345,7 @@ export class AppComponent {
       localStorage.setItem('clientId', clientId);
       localStorage.setItem('clientName', clientId);
       this.is_first_enable = true;
-    }else if (!clientName) {
+    } else if (!clientName) {
       localStorage.setItem('clientName', clientId);
     }
 
@@ -393,7 +405,7 @@ export class AppComponent {
     } else {
       let arr = ["en", "ru", "zh", "de", "pt", "fr", "es", "ja", "ko", "it", "tr", "hu"].filter(x => navigator.languages.includes(x));
       if (arr && arr.length) {
-        this.I18n.setDefaultLang( arr[0])
+        this.I18n.setDefaultLang(arr[0])
       } else {
         this.I18n.setDefaultLang('en')
       }
@@ -412,7 +424,7 @@ export class AppComponent {
           const url = `${document.querySelector("base").href}${x}`
           const res = await fetch(url)
           const blob = await res.blob();
-          await this.pulg.loadBlodJs(blob)
+          await this.pulg.loadBlodJs(blob, url)
         }
       }
       if (this.is_first_enable) {
@@ -425,7 +437,7 @@ export class AppComponent {
           const res = await fetch(url)
           const name = window.decodeURI(url.split("/").at(-1))
           const blob = await res.blob();
-          await this.pulg.loadBlodJs(blob)
+          await this.pulg.loadBlodJs(blob, url)
           await this.pulg.scriptCache(blob, name)
         }
       }
