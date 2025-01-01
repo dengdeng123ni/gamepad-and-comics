@@ -703,8 +703,6 @@ export class CurrentService {
       return src
     } else {
       const res=await this.image.getImageBase64(src)
-      console.log(res);
-
       return res
     }
   }
