@@ -165,7 +165,6 @@ export class AdvancedSearchComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.list);
 
   }
 
