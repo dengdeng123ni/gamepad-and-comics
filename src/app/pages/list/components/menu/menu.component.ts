@@ -686,11 +686,7 @@ export class MenuComponent {
                 click: () => {
                   this.menu.current_menu_pid = `${c.id}`;
                   this.menu.current_menu_id = `${c.id}`
-                  this.router.navigate(['query', 'custom',x, c.id], {
-                    queryParams: {
-                      gh_data: 'reset',
-                    }
-                  });
+                  this.router.navigate(['query', 'custom',x, c.id]);
                 }
               }
             )

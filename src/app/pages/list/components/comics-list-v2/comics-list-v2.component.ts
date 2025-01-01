@@ -156,9 +156,7 @@ export class ComicsListV2Component {
         this.type=obj.query.type;
         if (obj.query.conditions) {
           this.query.list = obj.query.conditions;
-          if(obj.query.updateConditions) obj.query.updateConditions().then(x=>{
-            this.query.list =x;
-          })
+          if(obj.query.updateConditions) this.query.list = await obj.query.updateConditions();
 
         }
         if (obj.query.name) this.query.name = obj.query.name;
@@ -420,7 +418,10 @@ export class ComicsListV2Component {
 
       }
 
+
       const data: any = await this.get(this.id);
+
+
       if(this.ListNode&&this.ListNode.nativeElement) this.ListNode.nativeElement.style = "opacity: 0;"
       setTimeout(() => {
         if(this.ListNode&&this.ListNode.nativeElement)  this.ListNode.nativeElement.style = ""
@@ -433,7 +434,6 @@ export class ComicsListV2Component {
         }
         this.on_135(obj)
       } else if (data && this.params.gh_data != "reset") {
-
         data.list.forEach(x => {
           x.selected = false;
         })
@@ -449,6 +449,7 @@ export class ComicsListV2Component {
           this.list = data.list;
         } else if (this.type == "advanced_search") {
           let obj = {};
+         if(type=="custom")   this.query.list=data.query.list;
           for (let index = 0; index < this.query.list.length; index++) {
             const c = this.query.list[index]
             if (c.value) obj[c.id] = c.value
@@ -764,6 +765,7 @@ export class ComicsListV2Component {
         this.list[index].selected = !this.list[index].selected;
       } else {
         if(this.ComicsListV2.Events[this.key].Click){
+          this.data.currend_read_comics_id=data.id;
           await this.ComicsListV2.Events[this.key].Click({
             PointerEvent:$event,
             data:data

@@ -1,3 +1,4 @@
+let data=[];
 window._gh_list_menu_register(
   {
     id: "history",
