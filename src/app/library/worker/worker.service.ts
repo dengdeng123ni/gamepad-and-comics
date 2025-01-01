@@ -6,22 +6,26 @@ import { AppDataService, ImageService } from '../public-api';
 })
 export class WorkerService {
   _data = {};
-  worker = new Worker(new URL('./app.worker', import.meta.url));
 
+  worker=null
   constructor(public App: AppDataService,
     public Image: ImageService
 
   ) {
-    this.worker.onmessage = async ({ data }) => {
-      if (data.type == "UrlToBolbUrl") {
-        this._data[data.id] = data;
-      } else if (data.type == "init") {
-        this.App.is_web_worker = true;
-      } else if (data.type == "load_image") {
-        const url = await this.Image.getImageToLocalUrl(data.data);
-        this._data[data.id] = { id: data.id, data: url };
-      }
-    };
+    if(window.caches){
+      this.worker= new Worker(new URL('./app.worker', import.meta.url));
+      this.worker.onmessage = async ({ data }) => {
+        if (data.type == "UrlToBolbUrl") {
+          this._data[data.id] = data;
+        } else if (data.type == "init") {
+          this.App.is_web_worker = true;
+        } else if (data.type == "load_image") {
+          const url = await this.Image.getImageToLocalUrl(data.data);
+          this._data[data.id] = { id: data.id, data: url };
+        }
+      };
+    }
+
 
   }
 

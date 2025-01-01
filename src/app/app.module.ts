@@ -21,7 +21,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 3,
+  version: 4,
   objectStoresMeta: [
     {
       store: 'favorites_menu',
@@ -271,9 +271,40 @@ const dbConfig: DBConfig = {
       ]
     },
 
+    {
+      store: 'caches_image',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+
+    {
+      store: 'caches_list',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+
+    {
+      store: 'caches_assets',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+
+    {
+      store: 'caches_script',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: false } },
+      ]
+    },
+
   ]
 };
-
 
 
 @NgModule({

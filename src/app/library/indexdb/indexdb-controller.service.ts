@@ -37,8 +37,11 @@ type DataType =
   | "data_v2"
   | "favorites_menu"
   | "favorites_comics"
+  | "caches_image"
+  | "caches_list"
+  | "caches_assets"
+  | "caches_script"
   | "router";
-
 
 @Injectable({
   providedIn: 'root'
