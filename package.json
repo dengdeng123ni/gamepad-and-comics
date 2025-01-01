@@ -3,7 +3,7 @@
   "description": "一款离线漫画阅读器，支持多种控制方式，包括键盘、手柄、鼠标和语音。帮助用户更轻松地阅读本地漫画，同时支持通过插件和 API 对接在线漫画平台，实现丰富的阅读体验。",
   "author": "dengdeng123ni <2648736010@qq.com>",
   "version": "3.0.1",
-  "license": "Creative Commons BY-NC 4.0",
+  "license": "GNU General Public License v3.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
