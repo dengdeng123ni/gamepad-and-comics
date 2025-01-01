@@ -30,7 +30,7 @@
 
 ## 📜 许可证
 
-本作品采用 [署名-非商业性使用 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc/4.0/) 进行许可。
+该项目根据 GNU 通用公共许可证 v3.0 授权。有关详细信息，请参阅 [LICENSE](./LICENSE) 文件。
 
 
 
