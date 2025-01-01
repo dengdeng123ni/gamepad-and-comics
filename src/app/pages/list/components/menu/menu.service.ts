@@ -13,6 +13,9 @@ export class MenuService {
   opened = true;
   mode = 'side';
   position: "start" | "end" = 'start';
+
+  source="";
+
   url_to_list=[];
   query_fixed=[];
   temporary_file=[];
@@ -69,6 +72,7 @@ export class MenuService {
       this.mode = res.mode;
       this.position = res.position;
       this.mode_1=2;
+      this.source=res.source;
       if(this.mode_1==1||this.mode_1==2||this.mode_1==3){
 
       }else{

@@ -476,7 +476,7 @@ export class MenuComponent {
         this.data.menu_2_obj = this.data.menu_2[0]
 
       } else {
-        this.data.menu_2_obj = this.data.menu_2.find(x => x.id == source)
+        this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.menu.source)
         // const index= this.data.menu.findIndex(x=>x.id==this.AppData.source)
         // this.data.menu[index].expanded=true;
       }
@@ -784,6 +784,7 @@ export class MenuComponent {
     let obj: any = await this.DropDownMenu.open(list);
     if (obj) {
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == obj.id)
+      this.menu.source=obj.id;
       this.init(obj.id)
 
     }
