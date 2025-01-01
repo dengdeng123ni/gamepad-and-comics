@@ -8,7 +8,7 @@ export class TemporaryFileService {
   files: any = [];
   data: any = [];
   chapters: any = [];
-  menu:any=[];
+  menu: any = [];
   constructor(
     public MessageEvent: MessageEventService,
     public DbEvent: DbEventService
@@ -24,16 +24,17 @@ export class TemporaryFileService {
 
 
     DbEvent.comics_register({
-      id:"temporary_file",
+      id: "temporary_file",
       name: "本地文件",
-      is_download:true,
+      is_visible: false,
+      is_download: true,
       is_cache: false
     }, {
-     getList: async (obj: any) => {
+      getList: async (obj: any) => {
         let list = [];
-        list = this.data.filter((x: { temporary_file_id: any; })=>obj.temporary_file_id==x.temporary_file_id).map((x: any) => {
+        list = this.data.filter((x: { temporary_file_id: any; }) => obj.temporary_file_id == x.temporary_file_id).map((x: any) => {
           return { id: x.id, cover: x.chapters[0].pages[0].id.toString(), title: x.title, subTitle: `${x.chapters[0].title}` }
-        }).slice((obj.page_num - 1) * obj.page_size, obj.page_size*obj.page_num);
+        }).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
         return list
       },
       getDetail: async (id: string) => {
@@ -58,7 +59,7 @@ export class TemporaryFileService {
             is_locked: false
 
           })),
-          chapter_id:obj.chapters[0].id
+          chapter_id: obj.chapters[0].id
         }
       },
       getPages: async (id: string) => {
@@ -82,9 +83,9 @@ export class TemporaryFileService {
       },
       getImage: async (id: string) => {
         const obj = this.files.find((x: { id: string; }) => x.id == id);
-        if(obj.blob instanceof File){
+        if (obj.blob instanceof File) {
           return obj.blob
-        }else{
+        } else {
           const blob = await obj.blob.getFile();
           return blob
         }

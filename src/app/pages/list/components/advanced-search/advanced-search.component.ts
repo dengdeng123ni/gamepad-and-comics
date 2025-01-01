@@ -6,6 +6,7 @@ import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { SelectInputNumberService } from '../select-input-number/select-input-number.service';
 import { SelectTagMultipleService } from '../select-tag-multiple/select-tag-multiple.service';
 import { Platform } from '@angular/cdk/platform';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-advanced-search',
@@ -13,18 +14,23 @@ import { Platform } from '@angular/cdk/platform';
   styleUrl: './advanced-search.component.scss'
 })
 export class AdvancedSearchComponent {
+  dateRange = {
+    start: null, // 开始日期
+    end: null,   // 结束日期
+  };
+
   @HostListener('window:click', ['$event'])
   onClickKey = (event: PointerEvent) => {
-    if(document.activeElement.tagName=="BUTTON"){
-      const node=document?.activeElement?.parentNode?.parentNode;
+    if (document.activeElement.tagName == "BUTTON") {
+      const node = document?.activeElement?.parentNode?.parentNode;
 
-      if(node){
-       let type=(node as any)?.getAttribute('type')
-       if(type=="chip"){
-        setTimeout(() => {
-          (document.activeElement as any).blur()
-        }, 20)
-       }
+      if (node) {
+        let type = (node as any)?.getAttribute('type')
+        if (type == "chip") {
+          setTimeout(() => {
+            (document.activeElement as any).blur()
+          }, 20)
+        }
       }
     }
 
@@ -38,19 +44,20 @@ export class AdvancedSearchComponent {
   constructor(public GamepadEvent: GamepadEventService,
     public WhenInputting: WhenInputtingService,
     public AdvancedSearch: AdvancedSearchService,
-    public SelectInputNumber:SelectInputNumberService,
-    public SelectTagMultiple:SelectTagMultipleService,
+    public SelectInputNumber: SelectInputNumberService,
+    public SelectTagMultiple: SelectTagMultipleService,
     public platform: Platform,
     @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data,
     public GamepadController: GamepadControllerService
 
 
   ) {
-    if(data) {
-      this.list=data.list;
-      this.change=data.change;
-      this.query_fixed=data.query_fixed;
+    if (data) {
+      this.list = data.list;
+      this.change = data.change;
+      this.query_fixed = data.query_fixed;
     }
+
 
     // const pattern=document.body.getAttribute('pattern')
     // if(pattern=="gamepad"){
@@ -140,14 +147,14 @@ export class AdvancedSearchComponent {
       A: async e => {
 
 
-        if (e.getAttribute('type')=="slider") {
-          const value=await this.SelectInputNumber.change({
-            max:parseInt(e.getAttribute('max')),
-            min:parseInt(e.getAttribute('min'))
+        if (e.getAttribute('type') == "slider") {
+          const value = await this.SelectInputNumber.change({
+            max: parseInt(e.getAttribute('max')),
+            min: parseInt(e.getAttribute('min'))
           })
-          if(value===null) return
-          this.list[parseInt(e.getAttribute('index'))].value=value;
-        }else{
+          if (value === null) return
+          this.list[parseInt(e.getAttribute('index'))].value = value;
+        } else {
           e.click()
           return
         }
@@ -157,12 +164,24 @@ export class AdvancedSearchComponent {
     // SelectInputNumber
   }
 
-  // radio_button_unchecked
+  ngOnInit(): void {
+    console.log(this.list);
+
+  }
 
   fixed() {
     let obj = {};
     for (let index = 0; index < this.list.length; index++) {
       const c = this.list[index]
+      if (c.type == "time_range") {
+        if (c.start && c.end) c.value = { start: c.start.getTime(), end: c.end.getTime() }
+        else c.value = null
+      }
+      if (c.type == "time") {
+        if (c.date) c.value = c.date.getTime()
+        else c.value = null
+      }
+
       if (c.value) obj[c.id] = c.value
     }
     if (this.query_fixed) this.query_fixed(obj)
@@ -172,20 +191,36 @@ export class AdvancedSearchComponent {
     let obj = {};
     for (let index = 0; index < this.list.length; index++) {
       const c = this.list[index]
-      if (c.value) obj[c.id] = c.value
+      if (c.type == "time_range") {
+        if (c.start && c.end) c.value = { start: c.start.getTime(), end: c.end.getTime() }
+        else c.value = null
+      }
+      if (c.type == "time") {
+        if (c.date) c.value = c.date.getTime()
+        else c.value = null
+      }
+
+
+
+
+
+      if (c.value) obj[c.id] = c.value;
     }
     if (this.change) this.change(obj)
   }
   restart() {
-    this.list.forEach(x => x.value = undefined)
+    this.list.forEach(x =>{
+      x.value = undefined;
+      x.start= undefined;
+      x.end= undefined;
+      x.date= undefined;
+    })
   }
-  old_value=""
-  openedChange(e,value) {
-
-
+  old_value = ""
+  openedChange(e, value) {
     if (e == true) {
       document.body.setAttribute("locked_region", "select")
-      if(value) this.old_value=value;
+      if (value) this.old_value = value;
     } else {
       if (document.body.getAttribute("locked_region") == "select") document.body.setAttribute("locked_region", document.body.getAttribute("router"))
       setTimeout(() => {
@@ -194,29 +229,32 @@ export class AdvancedSearchComponent {
     }
 
   }
-  on12321(e,n,$event){
+  on12321(e, n, $event) {
 
-    if(e.value){
-      const index=this.list.findIndex(x=>x.id==e.id)
-      if($event.target.getAttribute("aria-selected")=="true"){
-        if(this.old_value==this.list[index].value)  this.list[index].value=null;
+    if (e.value) {
+      const index = this.list.findIndex(x => x.id == e.id)
+      if ($event.target.getAttribute("aria-selected") == "true") {
+        if (this.old_value == this.list[index].value) this.list[index].value = null;
       }
     }
 
 
 
   }
-   on123=async (e)=>{
-    const index=this.list.findIndex(x=>x.id==e.id)
 
-    const arr=await this.SelectTagMultiple.change({
-      list:e.options,
-      name:e.name,
-      value:this.list[index].value??[]
+
+
+  on123 = async (e) => {
+    const index = this.list.findIndex(x => x.id == e.id)
+
+    const arr = await this.SelectTagMultiple.change({
+      list: e.options,
+      name: e.name,
+      value: this.list[index].value ?? []
     });
-    this.list[index].value=arr;
-    if((window.innerWidth < 480 && (this.platform.ANDROID || this.platform.IOS))){
-       (document.querySelector("#advanced_search")as any).click()
+    this.list[index].value = arr;
+    if ((window.innerWidth < 480 && (this.platform.ANDROID || this.platform.IOS))) {
+      (document.querySelector("#advanced_search") as any).click()
     }
   }
   focus() {

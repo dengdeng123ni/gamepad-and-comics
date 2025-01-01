@@ -28,6 +28,10 @@ export class RoutingControllerService {
       }
     })
 
+    window._gh_navigate=(e)=>{
+      this.router.navigate(e)
+    }
+
 
   }
 

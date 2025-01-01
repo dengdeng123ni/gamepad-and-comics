@@ -358,223 +358,216 @@ export class DbControllerService {
       let blob = new Blob([], {
         type: 'image/jpeg'
       });
-      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getImage"]) {
-        if (id.substring(7, 21) == "localhost:7700") {
-          let url = id;
-          const getBlob = async () => {
-            const getImageURL2 = async (id: string) => {
-              const arr = id.split("/")
-              const name = arr[3];
-              const type = arr[4];
+      if (id.substring(7, 21) == "localhost:7700") {
+        let url = id;
+        const getBlob = async () => {
+          const getImageURL2 = async (id: string) => {
+            const arr = id.split("/")
+            const source = arr[3];
+            const type = arr[4];
 
-              if (type == "page") {
-                const chapter_id = arr[5];
-                const index = arr[6];
-                const url = this.image_url[`${name}_page_${chapter_id}_${index}`];
-                if (url) {
-                  return url
-                } else {
-                  await this.waitForCondition()
-                  let resc = (await this.webDb.getByKey('pages', chapter_id) as any)
-                  if (resc) {
-                    resc = resc.data;
-                  } else {
-                    resc = await this.getPages(chapter_id, { source: option.source, is_cache: false, is_update: true })
-                  }
 
-                  resc.forEach((x, i) => {
-                    this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
-                  })
-                  this.isConditionMet = false;
-                  return this.image_url[`${name}_page_${chapter_id}_${index}`];
-                }
-              } else if (type == "comics") {
-                const comics_id = arr[5];
-                const url = this.image_url[`${name}_comics_${comics_id}`];
-                if (url) {
-                  return url
-                } else {
-                  await this.waitForCondition()
-                  let res = (await this.webDb.getByKey('details', comics_id) as any)
-                  if (res) {
-                    res = res.data;
-                  } else {
-                    res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
-                  }
-                  this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-                  res.chapters.forEach(x => {
-                    this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-                  })
-                  this.isConditionMet = false;
-                  return this.image_url[`${name}_comics_${comics_id}`];
-                }
-              } else if (type == "chapter") {
-                const comics_id = arr[5];
-                const chapter_id = arr[6];
-                const url = this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
-                if (url) {
-                  return url
-                } else {
-                  await this.waitForCondition()
-                  let res = (await this.webDb.getByKey('details', comics_id) as any)
-                  if (res) {
-                    res = res.data;
-                  } else {
-                    res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
-                  }
-                  this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-                  res.chapters.forEach(x => {
-                    this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-                  })
-                  this.isConditionMet = false;
-                  return this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
-                }
+            if (type == "page") {
+              const chapter_id = arr[5];
+              const index = arr[6];
+              const url = this.image_url[`${source}_page_${chapter_id}_${index}`];
+              if (url) {
+                return url
               } else {
-                return ""
+                await this.waitForCondition()
+                let resc = (await this.webDb.getByKey('pages', chapter_id) as any)
+                if (resc) {
+                  resc = resc.data;
+                } else {
+                  resc = await this.getPages(chapter_id, { source: source, is_cache: false, is_update: true })
+                }
+
+                resc.forEach((x, i) => {
+                  this.image_url[`${source}_page_${chapter_id}_${i}`] = x.src;
+                })
+                this.isConditionMet = false;
+                return this.image_url[`${source}_page_${chapter_id}_${index}`];
               }
-
-            }
-            const getImageURL = async (id: string) => {
-              const arr = id.split("/")
-              const name = arr[3];
-              const type = arr[4];
-              if (type == "page") {
-                const chapter_id = arr[5];
-                const index = arr[6];
-                const url = this.image_url[`${name}_page_${chapter_id}_${index}`];
-                if (url) {
-                  return url
-                } else {
-                  await this.waitForCondition()
-
-                  let resc = await this.getPages(chapter_id, { source: option.source, is_cache: false, is_update: true })
-                  resc.forEach((x, i) => {
-                    this.image_url[`${name}_page_${chapter_id}_${i}`] = x.src;
-                  })
-                  this.isConditionMet = false;
-                  return this.image_url[`${name}_page_${chapter_id}_${index}`];
-                }
-              } else if (type == "comics") {
-                const comics_id = arr[5];
-                const url = this.image_url[`${name}_comics_${comics_id}`];
-                if (url) {
-                  return url
-                } else {
-                  await this.waitForCondition()
-                  let res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
-                  this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-                  res.chapters.forEach(x => {
-                    this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-                  })
-                  this.isConditionMet = false;
-                  return this.image_url[`${name}_comics_${comics_id}`];
-                }
-              } else if (type == "chapter") {
-                const comics_id = arr[5];
-                const chapter_id = arr[6];
-                const url = this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
-                if (url) {
-                  return url
-                } else {
-                  await this.waitForCondition()
-                  let res = await this.getDetail(comics_id, { source: option.source, is_cache: false, is_update: true })
-                  this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
-                  res.chapters.forEach(x => {
-                    this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
-                  })
-                  this.isConditionMet = false;
-                  return this.image_url[`${name}_chapter_${comics_id}_${chapter_id}`];
-                }
+            } else if (type == "comics") {
+              const comics_id = arr[5];
+              const url = this.image_url[`${source}_comics_${comics_id}`];
+              if (url) {
+                return url
               } else {
-                return ""
+                await this.waitForCondition()
+                let res = (await this.webDb.getByKey('details', comics_id) as any)
+                if (res) {
+                  res = res.data;
+                } else {
+                  res = await this.getDetail(comics_id, { source: source, is_cache: false, is_update: true })
+                }
+                this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+                res.chapters.forEach(x => {
+                  this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                })
+                this.isConditionMet = false;
+                return this.image_url[`${source}_comics_${comics_id}`];
               }
-
-            }
-            let image_id = null;
-
-            const id1 = await getImageURL2(url);
-            image_id = id1;
-            let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
-            if (blob.size < 3000 && blob.type.split("/")[0] == "image") {
-
-              const id2 = await getImageURL(url);
-              image_id = id2;
-              blob = await this.DbEvent.Events[option.source]["getImage"](id2)
-            }
-
-
-            const response = new Response(blob);
-            const request = url;
-
-
-            const record = async (url, blob) => {
-              const image = await createImageBitmap(blob)
-              // 其他用途防止黑盒 caches.keys()
-              this.webDb.update('image', {
-                id: CryptoJS.MD5(url).toString().toLowerCase(),
-                creation_time: new Date().getTime(),
-                type: blob.type,
-                source: option.source,
-                src: url,
-                page_id: image_id,
-                width: image.width,
-                height: image.height
-              })
-              image.close()
+            } else if (type == "chapter") {
+              const comics_id = arr[5];
+              const chapter_id = arr[6];
+              const url = this.image_url[`${source}_chapter_${comics_id}_${chapter_id}`];
+              if (url) {
+                return url
+              } else {
+                await this.waitForCondition()
+                let res = (await this.webDb.getByKey('details', comics_id) as any)
+                if (res) {
+                  res = res.data;
+                } else {
+                  res = await this.getDetail(comics_id, { source: source, is_cache: false, is_update: true })
+                }
+                this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+                res.chapters.forEach(x => {
+                  this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                })
+                this.isConditionMet = false;
+                return this.image_url[`${source}_chapter_${comics_id}_${chapter_id}`];
+              }
+            } else {
+              return ""
             }
 
-            if (blob.size > 5000 && blob.type.split("/")[0] == "image") {
+          }
+          const getImageURL = async (id: string) => {
+            const arr = id.split("/")
+            const source = arr[3];
+            const type = arr[4];
+            if (type == "page") {
+              const chapter_id = arr[5];
+              const index = arr[6];
+              const url = this.image_url[`${source}_page_${chapter_id}_${index}`];
+              if (url) {
+                return url
+              } else {
+                await this.waitForCondition()
+
+                let resc = await this.getPages(chapter_id, { source: source, is_cache: false, is_update: true })
+                resc.forEach((x, i) => {
+                  this.image_url[`${source}_page_${chapter_id}_${i}`] = x.src;
+                })
+                this.isConditionMet = false;
+                return this.image_url[`${source}_page_${chapter_id}_${index}`];
+              }
+            } else if (type == "comics") {
+              const comics_id = arr[5];
+              const url = this.image_url[`${source}_comics_${comics_id}`];
+              if (url) {
+                return url
+              } else {
+                await this.waitForCondition()
+                let res = await this.getDetail(comics_id, { source: source, is_cache: false, is_update: true })
+                this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+                res.chapters.forEach(x => {
+                  this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                })
+                this.isConditionMet = false;
+                return this.image_url[`${source}_comics_${comics_id}`];
+              }
+            } else if (type == "chapter") {
+              const comics_id = arr[5];
+              const chapter_id = arr[6];
+              const url = this.image_url[`${source}_chapter_${comics_id}_${chapter_id}`];
+              if (url) {
+                return url
+              } else {
+                await this.waitForCondition()
+                let res = await this.getDetail(comics_id, { source: source, is_cache: false, is_update: true })
+                this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
+                res.chapters.forEach(x => {
+                  this.image_url[`${config.id}_chapter_${res.id}_${x.id}`] = x.cover;
+                })
+                this.isConditionMet = false;
+                return this.image_url[`${source}_chapter_${comics_id}_${chapter_id}`];
+              }
+            } else {
+              return ""
+            }
+
+          }
+          let image_id = null;
+
+          const id1 = await getImageURL2(url);
+          image_id = id1;
+          let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+          if (blob.size < 3000 && blob.type.split("/")[0] == "image") {
+
+            const id2 = await getImageURL(url);
+            image_id = id2;
+            blob = await this.DbEvent.Events[option.source]["getImage"](id2)
+          }
+
+
+          const response = new Response(blob);
+          const request = url;
+
+
+          const record = async (url, blob) => {
+            const image = await createImageBitmap(blob)
+            // 其他用途防止黑盒 caches.keys()
+            this.webDb.update('image', {
+              id: CryptoJS.MD5(url).toString().toLowerCase(),
+              creation_time: new Date().getTime(),
+              type: blob.type,
+              source: option.source,
+              src: url,
+              page_id: image_id,
+              width: image.width,
+              height: image.height
+            })
+            image.close()
+          }
+
+          if (blob.size > 5000 && blob.type.split("/")[0] == "image") {
+            this.webCh.put('image', request, response.clone());
+            const blob1 = await response.clone().blob()
+            record(id, blob1)
+            return blob1
+          }
+          else {
+            if (blob.type == "binary/octet-stream") {
+              const c = await createImageBitmap(blob)
               this.webCh.put('image', request, response.clone());
               const blob1 = await response.clone().blob()
               record(id, blob1)
               return blob1
             }
-            else {
-              if (blob.type == "binary/octet-stream") {
-                const c = await createImageBitmap(blob)
-                this.webCh.put('image', request, response.clone());
-                const blob1 = await response.clone().blob()
-                record(id, blob1)
-                return blob1
-              }
-            }
-            const res2 = await this.webCh.match('image', url);
-            if (res2) {
-              const blob2 = await res2.blob()
-              return blob2
-            } else {
-              return blob
-            }
           }
-
-          const res = await this.webCh.match('image', url);
-
-          if (res) {
-
-            blob = await res.blob()
-
-
-            if (blob.size < 5000 && blob.type.split("/")[0] == "image") {
-              const image = await createImageBitmap(blob)
-              if (image.height > 0 && image.width > 0) {
-              } else {
-                blob = await getBlob()
-              }
-            }
+          const res2 = await this.webCh.match('image', url);
+          if (res2) {
+            const blob2 = await res2.blob()
+            return blob2
           } else {
-            blob = await getBlob()
+            return blob
           }
-        } else {
-          blob = await this.DbEvent.Events[option.source]["getImage"](id)
         }
 
+        const res = await this.webCh.match('image', url);
 
-        return blob
+        if (res) {
+
+          blob = await res.blob()
+
+
+          if (blob.size < 5000 && blob.type.split("/")[0] == "image") {
+            const image = await createImageBitmap(blob)
+            if (image.height > 0 && image.width > 0) {
+            } else {
+              blob = await getBlob()
+            }
+          }
+        } else {
+          blob = await getBlob()
+        }
       } else {
-        return new Blob([], {
-          type: 'image/jpeg'
-        })
+        blob = await this.DbEvent.Events[option.source]["getImage"](id)
       }
+      return blob
     } catch (error) {
       return new Blob([], {
         type: 'image/jpeg'

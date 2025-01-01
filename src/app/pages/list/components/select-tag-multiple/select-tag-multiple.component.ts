@@ -26,6 +26,8 @@ export class SelectTagMultipleComponent {
       x.value = data.value.map(x=>x.index);
       x.tags.forEach((c,i2)=>{
         c.index=`${i}_${i2}`
+        c.parent_id=x.id;
+        c.parent_title=x.title;
       })
     })
     GamepadEvent.registerAreaEvent('chip_option_v32', {

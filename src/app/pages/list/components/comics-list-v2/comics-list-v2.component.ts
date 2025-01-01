@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
 import { map, throttleTime, Subject } from 'rxjs';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, IndexdbControllerService, KeyboardEventService, LocalCachService, PromptService, WebFileService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, IndexdbControllerService, KeyboardEventService, ListMenuControllerService, ListMenuEventService, LocalCachService, PromptService, WebFileService } from 'src/app/library/public-api';
 
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
@@ -100,6 +100,8 @@ export class ComicsListV2Component {
     public history: HistoryService,
     private _snackBar: MatSnackBar,
     public DownloadOption: DownloadOptionService,
+    public ListMenuController: ListMenuControllerService,
+     public ListMenuEvent: ListMenuEventService,
     public App: AppDataService,
     public platform: Platform,
     public prompt: PromptService,
@@ -138,14 +140,57 @@ export class ComicsListV2Component {
       }
       // 新的阅读器 参考
       // 动态菜单功能
+      // 偷懒
       //
       const type = params.get('id')
       let source = params.get('sid')
       const sid = params.get('pid')
       if (!source) source = type;
-      this.source = source;
-      this.type = type;
-      this.App.setsource(source)
+
+      if(type=="custom"){
+
+        this.id = `${type}_${source}_${sid}`;
+        this.key = this.id;
+        const arr=this.ListMenuEvent.Content[source]
+        const obj=arr.find(x=>x.id==sid)
+        this.type=obj.query.type;
+        if (obj.query.conditions) {
+          this.query.list = obj.query.conditions;
+          if(obj.query.updateConditions) obj.query.updateConditions().then(x=>{
+            this.query.list =x;
+          })
+
+        }
+        if (obj.query.name) this.query.name = obj.query.name;
+        else this.query.name = ''
+
+
+        ComicsListV2.register({
+          id: this.id,
+          type: type,
+          page_size: 20
+        }, {
+          Add: async (json) => {
+            const res= await obj.getList({ ...this.query_option, ...json })
+            return res
+          },
+          Init: async (json) => {
+            const res= await obj.getList({ ...this.query_option, ...json })
+            return res
+          },
+          Click: async(json)=>{
+            return await obj.query.click(json)
+
+          }
+        })
+        this.source = null;
+        this.App.setsource(null)
+      }else{
+        this.source = source;
+        this.type = type;
+        this.App.setsource(source)
+      }
+
       if (type == "history") {
         this.id = `${type}_${source}`;
         this.key = this.id;
@@ -328,46 +373,49 @@ export class ComicsListV2Component {
           }
         })
       } else if (sid) {
-        this.menu_id = sid;
-        this.source = source;
-        const obj = this.DbEvent.Configs[source].menu.find(x => x.id == sid);
-        this.id = `${type}_${source}_${sid}`;
-        if (obj.query.conditions) {
-          this.query.list = obj.query.conditions;
-        }
-        if (obj.query.name) this.query.name = obj.query.name;
-        else this.query.name = ''
-        this.key = this.id;
-        this.App.setsource(this.source);
-        const e: any = this.query.list[this.query.default_index];
-        this.query_option = {
-          menu_id: this.menu_id,
-          ...e,
-        }
-        ComicsListV2.register({
-          id: this.id,
-          type: type,
-          page_size: obj.query.page_size
-        }, {
-          Add: async (obj) => {
-
-            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
-
-
-            return list
-          },
-          Init: async (obj) => {
-            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
-            return list
+        if(type!="custom") {
+          this.menu_id = sid;
+          this.source = source;
+          const obj = this.DbEvent.Configs[source].menu.find(x => x.id == sid);
+          this.id = `${type}_${source}_${sid}`;
+          if (obj.query.conditions) {
+            this.query.list = obj.query.conditions;
+            if(obj.query.updateConditions) this.query.list = await obj.query.updateConditions();
           }
-        })
-        if (this.params._gh_condition) {
-          const c = JSON.parse(decodeURIComponent(window.atob(this.params._gh_condition)));
-          this.query.list.forEach(x => {
-            if (c[x.id]) x.value = c[x.id]
+          if (obj.query.name) this.query.name = obj.query.name;
+          else this.query.name = ''
+          this.key = this.id;
+          this.App.setsource(this.source);
+          const e: any = this.query.list[this.query.default_index];
+          this.query_option = {
+            menu_id: this.menu_id,
+            ...e,
+          }
+          ComicsListV2.register({
+            id: this.id,
+            type: type,
+            page_size: obj.query.page_size
+          }, {
+            Add: async (obj) => {
+
+              const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+
+
+              return list
+            },
+            Init: async (obj) => {
+              const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+              return list
+            }
           })
+          if (this.params._gh_condition) {
+            const c = JSON.parse(decodeURIComponent(window.atob(this.params._gh_condition)));
+            this.query.list.forEach(x => {
+              if (c[x.id]) x.value = c[x.id]
+            })
 
 
+          }
         }
 
       }
@@ -389,6 +437,8 @@ export class ComicsListV2Component {
         data.list.forEach(x => {
           x.selected = false;
         })
+
+
         this.page_num = data.page_num;
         if (this.type == "multipy") {
           this.query.list = data.query.list;
@@ -713,6 +763,13 @@ export class ComicsListV2Component {
       if (this.data.is_edit || this._ctrl) {
         this.list[index].selected = !this.list[index].selected;
       } else {
+        if(this.ComicsListV2.Events[this.key].Click){
+          await this.ComicsListV2.Events[this.key].Click({
+            PointerEvent:$event,
+            data:data
+          })
+          return
+        }
         const nodec: any = $event.target;
         if (this.data.config.click_type == 1) {
           this.current.routerDetail(this.source, data.id)

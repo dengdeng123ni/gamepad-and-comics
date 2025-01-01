@@ -63,8 +63,8 @@ export class AppDataService {
   setsource(source: string) {
     this.source = source;
     const x = this.DbEvent.Configs[source];
-    if(x) this.sourceConfig=x;
-    if(x) this.source$.next(x)
+     this.sourceConfig=x;
+     this.source$.next(x)
     document.body.setAttribute('source',source)
   }
   getOption() {

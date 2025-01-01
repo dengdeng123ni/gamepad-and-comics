@@ -28,15 +28,15 @@ interface HoverEvents {
 }
 
 interface Config {
-  region:Array<string>,
-  queryStr?:string
+  region: Array<string>,
+  queryStr?: string
 }
 
-interface VoiceConfig{
-  event:Function,
-  keywords:Array<string>
-  key:string,
-  region:string
+interface VoiceConfig {
+  event: Function,
+  keywords: Array<string>
+  key: string,
+  region: string
 }
 
 @Injectable({
@@ -59,7 +59,9 @@ export class GamepadEventService {
 
   public voiceEvents: Record<string, any> = {};
 
-  constructor() { }
+  constructor() {
+    window._gh_region_register = this.registerConfig
+  }
 
   // Register Y, area event as the first trigger
   registerAreaEventY(key: string, gamepad: GamepadEvents): void {
@@ -111,18 +113,18 @@ export class GamepadEventService {
     this.hoverEvents[key] = hover;
   }
 
-  registerConfig(key: string, config: Config): void {
-    const list=config.region;
-    const str=list.map(x=>`[region=${x}]`).toString();
-    config.queryStr=str;
+  registerConfig = (key: string, config: Config): void => {
+    const list = config.region;
+    const str = list.map(x => `[region=${x}]`).toString();
+    config.queryStr = str;
     this.configs[key] = config;
   }
 
-  registerVoice(config:VoiceConfig){
-    if(! this.voiceEvents[config.region]) this.voiceEvents[config.region]={};
+  registerVoice(config: VoiceConfig) {
+    if (!this.voiceEvents[config.region]) this.voiceEvents[config.region] = {};
     this.voiceEvents[config.region][config.key] = {
-       keywords:config.keywords,
-       event:config.event
+      keywords: config.keywords,
+      event: config.event
     };
   }
 

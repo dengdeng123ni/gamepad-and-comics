@@ -11,6 +11,9 @@ export * from './context-menu/context-menu-event.service';
 export * from './context-menu/context-menu/context-menu.component';
 export * from './context-menu/drop-down-menu/drop-down-menu.service';
 
+export * from './list-menu/list-menu-controller.service';
+export * from './list-menu/list-menu-event.service';
+
 export * from './image/image.service';
 export * from './image/image.component';
 

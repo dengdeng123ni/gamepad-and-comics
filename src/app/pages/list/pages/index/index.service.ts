@@ -47,6 +47,14 @@ export class IndexService {
   }
 
   updateComicsItem(x) {
+   if(!x){
+    this.ContextMenuEvent.logoutMenu('comics_item', 'data')
+    this.ContextMenuEvent.logoutMenu('comics_item', 'delete')
+    this.ContextMenuEvent.logoutMenu('chapters_item', 'data')
+    this.ContextMenuEvent.logoutMenu('comics_item', 'download')
+    this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
+    this.ContextMenuEvent.logoutMenu('comics_item', 'image_to')
+   }
 
     if (x.is_download) {
 

@@ -31,7 +31,7 @@ export class ComicsDetailComponent {
   }
   on(e) {
     if (e.router) {
-      this.router.navigate(['/query', 'advanced_search', 'ehentai', e.router[0]], {
+      this.router.navigate(['/query', 'advanced_search', this.current.source, e.router[0]], {
         queryParams: {
           _gh_condition: window.btoa(encodeURIComponent(JSON.stringify(e.router[1]))),
         }

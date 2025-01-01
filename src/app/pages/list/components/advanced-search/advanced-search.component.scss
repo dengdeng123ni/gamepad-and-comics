@@ -47,14 +47,15 @@
   .mat-mdc-text-field-wrapper {
     border-radius: 4px;
   }
-.tagv1{
-  .mat-mdc-chip-set .mdc-evolution-chip-set__chips {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-left: 0px;
+
+  .tagv1 {
+    .mat-mdc-chip-set .mdc-evolution-chip-set__chips {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-left: 0px;
+    }
   }
-}
 
 
 
@@ -81,12 +82,28 @@
     #advanced_search {
       width: calc(100% - 24px);
     }
-    .mat-mdc-form-field{
+
+    .mat-mdc-form-field {
       width: 100%;
     }
+
     .mat-mdc-form-field-infix {
       width: 100%;
 
+    }
+  }
+
+  div[type=time_range],div[type=time]{
+    .mat-mdc-form-field {
+      width: 100%;
+    }
+
+    .mat-mdc-form-field-focus-overlay {
+      width: 100%;
+    }
+
+    .mat-mdc-form-field-type-mat-date-range-input .mat-mdc-form-field-infix {
+      width: 100%;
     }
   }
 

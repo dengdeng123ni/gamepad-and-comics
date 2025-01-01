@@ -41,6 +41,9 @@ export class GamepadControllerService {
     window._gh_gamepad_press = e => {
       this.GamepadInput.press$.next(e)
     }
+
+
+
   }
 
   init() {

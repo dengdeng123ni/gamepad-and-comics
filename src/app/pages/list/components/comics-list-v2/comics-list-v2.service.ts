@@ -3,6 +3,7 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 interface Events {
   Init: Function;
   Add: Function;
+  Click?:Function
 }
 interface Config {
   id: string,
@@ -44,6 +45,10 @@ export class ComicsListV2Service {
 
   async add(key: string, option) {
     option.page_size = this.Configs[key]?.page_size ??20;
+    return await this.Events[key].Add(option)
+  }
+
+  async click(key: string, option) {
     return await this.Events[key].Add(option)
   }
 }

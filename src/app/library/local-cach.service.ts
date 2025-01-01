@@ -21,6 +21,7 @@ export class LocalCachService {
     DbEvent.comics_register({
       id: "temporary_data",
       name: "临时数据",
+      is_visible: false,
       is_download: true,
       is_cache: true
     }, {
@@ -43,6 +44,7 @@ export class LocalCachService {
     DbEvent.comics_register({
       id: "local_cache",
       name: "本地缓存",
+      is_visible: false,
       is_download: true,
       is_cache: true
     }, {

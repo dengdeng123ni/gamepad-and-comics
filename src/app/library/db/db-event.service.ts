@@ -20,6 +20,7 @@ interface Config {
   name?: string,
   menu?: Array<any>;
   href?: string,
+  is_visible?: boolean,
   is_locked?: boolean;
   is_download?: boolean;
   is_cache?: boolean;
@@ -57,6 +58,15 @@ export class DbEventService {
     window._gh_novels_register = this.novels_register;
     window._gh_set_data = this.set_data;
     window._gh_get_data = this.get_data;
+    window._gh_source_get_all_name = () => {
+      return Object.keys(this.Configs).map(x => x)
+    }
+    window._gh_source_get_config = (x) => {
+      return this.Configs[x]
+    }
+    window._gh_source_get_event = (x) => {
+      return this.Events[x]
+    }
     if (window.location.port == "4200") {
       function loadCSSFromString(cssString) {
         // 创建 <style> 元素
@@ -2887,6 +2897,7 @@ export class DbEventService {
     config = {
       name: key,
       type: 'novels',
+      is_visible: true,
       is_cache: false,
       is_download: false,
       images_concurrency_limit: 3,

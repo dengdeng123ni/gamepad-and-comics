@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService, CacheControllerService, ReplaceChannelControllerService, WsControllerService, ArchiveControllerService, TranslateEventService, TemporaryFileService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService, CacheControllerService, ReplaceChannelControllerService, WsControllerService, ArchiveControllerService, TranslateEventService, TemporaryFileService, ListMenuEventService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -69,12 +69,16 @@ declare global {
     _gh_novels_get_detail?: Function; // 获取小说详情
     _gh_comics_search?: Function; // 搜索漫画
     _gh_params_register?: Function; // 注册参数
-
+    _gh_navigate?: Function; // 注册参数
     _gh_list_menu_register?: Function //  列表菜单注册
     _gh_reader_register?: Function // web组件 name id
     _gh_region_register?: Function; // 区域注册
-
+    _gh_source_get_all_name: Function; // 获取所有数据名称
+    _gh_source_get_config: Function; // 获取所有数据名称
+    _gh_source_get_event: Function; // 获取所有数据名称
   }
+
+
 }
 
 //
@@ -168,6 +172,7 @@ export class AppComponent {
     public TemporaryFile: TemporaryFileService,
     public DbController: DbControllerService,
     public ContextMenuController: ContextMenuControllerService,
+    public ListMenuEvent:ListMenuEventService,
     public WsController: WsControllerService,
     private contexts: ChildrenOutletContexts,
     public ccc: WebFileService,

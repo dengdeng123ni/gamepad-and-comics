@@ -3,7 +3,7 @@ import { DataService } from '../../services/data.service';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
-import { AppDataService, ArchiveControllerService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, IndexdbControllerService, LocalCachService, NotifyService, PromptService, PulgService, TemporaryFileService } from 'src/app/library/public-api';
+import { AppDataService, ArchiveControllerService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, IndexdbControllerService, ListMenuControllerService, ListMenuEventService, LocalCachService, NotifyService, PromptService, PulgService, TemporaryFileService } from 'src/app/library/public-api';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
@@ -107,6 +107,7 @@ export class MenuComponent {
     public SoundEffects: SoundEffectsService,
     public AboutSoftware: AboutSoftwareService,
     public PlugInInstructions: PlugInInstructionsService,
+    public ListMenuController: ListMenuControllerService,
     public ReplaceChannelPage: ReplaceChannelPageService,
     public ArchiveController: ArchiveControllerService,
     public LanguageSettings: LanguageSettingsService,
@@ -116,6 +117,7 @@ export class MenuComponent {
     public PageTheme: PageThemeService,
     public Notify: NotifyService,
     public prompt: PromptService,
+    public ListMenuEvent: ListMenuEventService,
     public WebpageOffline: WebpageOfflineService,
     private zone: NgZone
   ) {
@@ -630,9 +632,31 @@ export class MenuComponent {
           })
         }
       })
+      Object.keys(this.ListMenuEvent.Configs).forEach(x => {
+        if (this.ListMenuEvent.Configs[x].target == "separate") {
+          this.data.menu.push({ type: 'separator' })
+          this.ListMenuEvent.Content[x].forEach(c => {
+            this.data.menu.push(
+              {
+                ...c,
+                click: () => {
+                  this.menu.current_menu_pid = `${c.id}`;
+                  this.menu.current_menu_id = `${c.id}_custom`
+                  this.router.navigate(['query', 'custom',x, c.id], {
+                    queryParams: {
+                      gh_data: 'reset',
+                    }
+                  });
+                }
+              }
+            )
+          })
+        }
+      })
 
 
       this.data.menu.push({ type: 'separator' })
+
       this.data.menu.push({
         id: 'cached',
         icon: "cached",
@@ -652,6 +676,28 @@ export class MenuComponent {
           this.router.navigate(['query', 'temporary_data']);
         }
       })
+
+      Object.keys(this.ListMenuEvent.Configs).forEach(x => {
+        if (this.ListMenuEvent.Configs[x].target == "built_in") {
+          this.ListMenuEvent.Content[x].forEach(c => {
+            this.data.menu.push(
+              {
+                ...c,
+                click: () => {
+                  this.menu.current_menu_pid = `${c.id}`;
+                  this.menu.current_menu_id = `${c.id}`
+                  this.router.navigate(['query', 'custom',x, c.id], {
+                    queryParams: {
+                      gh_data: 'reset',
+                    }
+                  });
+                }
+              }
+            )
+          })
+        }
+      })
+
 
       this.data.menu.push({ type: 'separator' })
       this.data.menu.push({
