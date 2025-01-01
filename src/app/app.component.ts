@@ -41,6 +41,7 @@ export const slideInAnimation =
 
 
 
+
 declare global {
   interface Window {
     _gh_receive_message?: (message: any) => Promise<any>; // 通道接收消息
@@ -77,7 +78,9 @@ declare global {
     _gh_source_get_config: Function; // 获取所有数据名称
     _gh_source_get_event: Function; // 获取所有数据名称
   }
-
+  interface Navigator{
+    userAgentData:any
+  }
 
 }
 
@@ -89,7 +92,6 @@ declare global {
 // id name  getLIst qeury
 // 加入笔趣阁
 
-declare let navigator: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

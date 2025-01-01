@@ -695,12 +695,17 @@ export class CurrentService {
     return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
   }
   async _getImage(src) {
+    console.log(src,this.App.is_pwa);
+
     if (!src) return ""
     if (this.App.is_pwa && src.substring(7, 21) == "localhost:7700") {
       await this.image.getImageBlob(src)
       return src
     } else {
-      return await this.image.getImageBase64(src)
+      const res=await this.image.getImageBase64(src)
+      console.log(res);
+
+      return res
     }
   }
 

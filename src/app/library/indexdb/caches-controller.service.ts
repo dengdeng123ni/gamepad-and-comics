@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IndexdbControllerService } from '../public-api';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class CacheControllerService {
     script: null
   }
   is_cache = true;
-  constructor(private webDb: IndexdbControllerService,) {
+  constructor(private db: NgxIndexedDBService) {
     window._gh_web_caches = {
       getAll: this.match,
       update: this.put,
@@ -34,12 +36,13 @@ export class CacheControllerService {
         return {
           match: async (request: string) => {
             try {
-              const res: any = await this.webDb.getByKey(storeName, request)
+              const res: any = await firstValueFrom(this.db.getByKey(storeName, request))
               if (res) {
                 const headers = new Headers();
                 res.data.headers.forEach(([name, value]) => {
                   headers.append(name, value);
                 });
+
                 return new Response(new Blob([res.data.body]), {
                   status: res.data.status,
                   statusText: res.data.statusText,
@@ -54,7 +57,8 @@ export class CacheControllerService {
           },
           put: async (request: string, response: Response) => {
             try {
-              const buffer = await response.arrayBuffer();
+              const buffer = await response.clone().arrayBuffer();
+
               const headersArray = [];
               response.headers.forEach((value, name) => {
                 headersArray.push([name, value]);
@@ -66,15 +70,16 @@ export class CacheControllerService {
                 headers: headersArray,
                 body: buffer,
               };
-              await this.webDb.update(storeName, { id: request, data: data })
+              await firstValueFrom(this.db.update(storeName, { id: request, data: data }))
               return true
             } catch (error) {
+
               return false
             }
           },
           delete: async (request: string) => {
             try {
-              await this.webDb.deleteByKey(storeName, request)
+              const res = await firstValueFrom(this.db.deleteByKey(storeName, request))
               return true
             } catch (error) {
               return false

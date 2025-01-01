@@ -11,7 +11,7 @@ import { GamepadToolbarService } from './gamepad-toolbar.service';
 export class GamepadToolbarComponent {
 
   isfullscreen = !!document.fullscreenElement;
-  isMobile = (navigator as any).userAgentData.mobile;
+  isMobile = navigator?.userAgentData?.mobile;
 
   double_page_reader: any = {}
   constructor(

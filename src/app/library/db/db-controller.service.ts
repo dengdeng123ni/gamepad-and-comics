@@ -550,9 +550,7 @@ export class DbControllerService {
         const res = await this.webCh.match('image', url);
 
         if (res) {
-
           blob = await res.blob()
-
 
           if (blob.size < 5000 && blob.type.split("/")[0] == "image") {
             const image = await createImageBitmap(blob)

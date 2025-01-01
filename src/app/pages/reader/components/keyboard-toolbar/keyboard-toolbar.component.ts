@@ -21,7 +21,7 @@ import { ChaptersFirstCoverSettingsService } from '../chapters-first-cover-setti
 })
 export class KeyboardToolbarComponent {
   isfullscreen = !!document.fullscreenElement;
-  isMobile = (navigator as any).userAgentData.mobile;
+  isMobile = navigator?.userAgentData?.mobile;
 
   double_page_reader: any = {}
   @ViewChild(MatMenuTrigger) menu: MatMenuTrigger | any;

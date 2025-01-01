@@ -27,7 +27,7 @@ import { SettingsNineGridService } from '../settings-nine-grid/settings-nine-gri
 })
 export class ReaderToolbarComponent {
   isfullscreen = !!document.fullscreenElement;
-  isMobile = (navigator as any).userAgentData.mobile;
+  isMobile = navigator?.userAgentData?.mobile;
   is_locked = true;
   double_page_reader: any = {}
 

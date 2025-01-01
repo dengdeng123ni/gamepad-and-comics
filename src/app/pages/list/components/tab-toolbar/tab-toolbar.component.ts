@@ -13,7 +13,7 @@ import { TabService } from 'src/app/library/tab.service';
 export class TabToolbarComponent {
 
   isfullscreen = !!document.fullscreenElement;
-  isMobile = (navigator as any).userAgentData.mobile;
+  isMobile = navigator?.userAgentData?.mobile;
 
   double_page_reader: any = {}
   constructor(
