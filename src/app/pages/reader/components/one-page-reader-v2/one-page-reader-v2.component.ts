@@ -139,19 +139,19 @@ export class OnePageReaderV2Component {
     this.init();
     this.setTimeoutSwiper()
   }
-  async setTimeoutSwiper(){
-    setTimeout(async ()=>{
-       if(this.is_destroy){
+  async setTimeoutSwiper() {
+    setTimeout(async () => {
+      if (this.is_destroy) {
 
-       }else{
-        if(this.swiper.slides.length>0&&this.swiper.activeIndex==0){
+      } else {
+        if (this.swiper.slides.length > 0 && this.swiper.activeIndex == 0) {
           await this.next()
           this.setTimeoutSwiper()
-        }else{
+        } else {
           this.setTimeoutSwiper()
         }
-       }
-    },1000)
+      }
+    }, 1000)
   }
   firstPageToggle() {
     this.is_first_page_cover = !this.is_first_page_cover;
@@ -241,7 +241,7 @@ export class OnePageReaderV2Component {
 
   async next() {
     const nodes = this.swiper.slides[0].querySelectorAll("[current_page]");
-    if(this.swiper.activeIndex>2) return
+    if (this.swiper.activeIndex > 2) return
 
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
@@ -270,7 +270,7 @@ export class OnePageReaderV2Component {
   async previous() {
     const nodes = this.swiper.slides[this.swiper.slides.length - 1].querySelectorAll("[current_page]");
 
-    if((this.swiper.activeIndex+2)<(this.swiper.slides.length - 1)) return
+    if ((this.swiper.activeIndex + 2) < (this.swiper.slides.length - 1)) return
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
       const node = nodes[index];
@@ -360,9 +360,9 @@ export class OnePageReaderV2Component {
           this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
-        console.log(this.swiper.activeIndex,getrange(this.swiper.activeIndex+3, this.swiper.slides.length - 1).reverse());
+        console.log(this.swiper.activeIndex, getrange(this.swiper.activeIndex + 3, this.swiper.slides.length - 1).reverse());
 
-        this.swiper.removeSlide(getrange(this.swiper.activeIndex+3, this.swiper.slides.length - 1).reverse());
+        this.swiper.removeSlide(getrange(this.swiper.activeIndex + 3, this.swiper.slides.length - 1).reverse());
         await this.sleep(581);
         this.ccc = false;
       }
@@ -415,9 +415,9 @@ export class OnePageReaderV2Component {
         }
         const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
 
-        console.log(this.swiper.activeIndex,getrange(0,this.swiper.activeIndex - 3));
+        console.log(this.swiper.activeIndex, getrange(0, this.swiper.activeIndex - 3));
 
-        this.swiper.removeSlide(getrange(0,this.swiper.activeIndex - 3));
+        this.swiper.removeSlide(getrange(0, this.swiper.activeIndex - 3));
         await this.sleep(581);
         this.ccc = false;
       }
@@ -437,7 +437,9 @@ export class OnePageReaderV2Component {
       this.swiper.prependSlide
         (`
      <div class="swiper-slide" style="display: flex;">
-     ${src}
+     <div class="swiper-zoom-container">
+     <div style="display: flex;" class="swiper-zoom-target">  ${src}</div>
+     </div>
      </div>
     `)
 
@@ -450,7 +452,9 @@ export class OnePageReaderV2Component {
       this.swiper.appendSlide
         (`
      <div class="swiper-slide" style="display: flex;">
-     ${src}
+       <div class="swiper-zoom-container">
+     <div style="display: flex;" class="swiper-zoom-target">${src}</div>
+     </div>
      </div>
     `)
     }
@@ -503,7 +507,6 @@ export class OnePageReaderV2Component {
   }
 
   ngAfterViewInit() {
-    this.zoom.init();
     this.zoom.init();
     let obj = {
       none: {
@@ -604,7 +607,7 @@ export class OnePageReaderV2Component {
         forceToAxis: false,
         thresholdTime: 1000,
       },
-      zoom:true,
+      zoom: true,
       grabCursor: true,
       ...objc
     });

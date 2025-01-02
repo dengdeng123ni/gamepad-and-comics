@@ -15,13 +15,14 @@ export class DoublePageReaderV2Component {
   @HostListener('window:resize', ['$event'])
   resize = (event: KeyboardEvent) => {
     document.documentElement.style.setProperty('--double-page-reader-v2-width', '100vw');
-    this.is_1=false;
+    this.is_1 = false;
   }
   change$;
   event$;
   is_destroy = false;
 
   swiper_id = `_${new Date().getTime()}`;
+
 
   constructor(
     public current: CurrentService,
@@ -34,7 +35,7 @@ export class DoublePageReaderV2Component {
     public zoom: ZoomService
 
   ) {
-
+    // this.is_phone=(window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     KeyboardEvent.registerAreaEvent('page_reader', {
 
       "c": () => {
@@ -143,19 +144,19 @@ export class DoublePageReaderV2Component {
 
     this.setTimeoutSwiper()
   }
-  async setTimeoutSwiper(){
-    setTimeout(async ()=>{
-       if(this.is_destroy){
+  async setTimeoutSwiper() {
+    setTimeout(async () => {
+      if (this.is_destroy) {
 
-       }else{
-        if(this.swiper.slides.length>0&&this.swiper.activeIndex==0){
+      } else {
+        if (this.swiper.slides.length > 0 && this.swiper.activeIndex == 0) {
           await this.next()
           this.setTimeoutSwiper()
-        }else{
+        } else {
           this.setTimeoutSwiper()
         }
-       }
-    },1000)
+      }
+    }, 1000)
   }
 
 
@@ -250,7 +251,7 @@ export class DoublePageReaderV2Component {
 
   async next() {
     const nodes = this.swiper.slides[0].querySelectorAll("[current_page]");
-    if(this.swiper.activeIndex>2) return
+    if (this.swiper.activeIndex > 2) return
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
       const node = nodes[index];
@@ -284,7 +285,7 @@ export class DoublePageReaderV2Component {
   }
   async previous() {
     const nodes = this.swiper.slides[this.swiper.slides.length - 1].querySelectorAll("[current_page]");
-    if((this.swiper.activeIndex+2)<(this.swiper.slides.length - 1)) return
+    if ((this.swiper.activeIndex + 2) < (this.swiper.slides.length - 1)) return
 
     let indexs = [];
     for (let index = 0; index < nodes.length; index++) {
@@ -369,7 +370,7 @@ export class DoublePageReaderV2Component {
     if (!!current) {
       this.objNextHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       setTimeout(() => {
-        this.objNextHtml[`${chapter_id}_${index}`]=undefined;
+        this.objNextHtml[`${chapter_id}_${index}`] = undefined;
       }, 1000)
 
       if (this.swiper.slides.length > 20) {
@@ -380,7 +381,7 @@ export class DoublePageReaderV2Component {
           this.objNextHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
-        this.swiper.removeSlide(getrange(this.swiper.activeIndex+3, this.swiper.slides.length - 1).reverse());
+        this.swiper.removeSlide(getrange(this.swiper.activeIndex + 3, this.swiper.slides.length - 1).reverse());
 
 
         await this.sleep(581);
@@ -425,7 +426,7 @@ export class DoublePageReaderV2Component {
     if (!!current) {
       this.objPreviousHtml[`${chapter_id}_${index}`] = `${chapter_id}_${index}`;
       setTimeout(() => {
-        this.objPreviousHtml[`${chapter_id}_${index}`]=undefined;
+        this.objPreviousHtml[`${chapter_id}_${index}`] = undefined;
       }, 1000)
       if (this.swiper.slides.length > 20) {
         this.ccc = true;
@@ -435,7 +436,7 @@ export class DoublePageReaderV2Component {
           this.objPreviousHtml[`${x.getAttribute('chapter_id')}_${x.getAttribute('index')}`] = undefined;
         }
         const getrange = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => i + min)
-        this.swiper.removeSlide(getrange(0,this.swiper.activeIndex - 3));
+        this.swiper.removeSlide(getrange(0, this.swiper.activeIndex - 3));
         await this.sleep(581);
         this.ccc = false;
       }
@@ -469,24 +470,31 @@ export class DoublePageReaderV2Component {
     return current
   }
   prependSlide(src: string) {
-
+    // if(this.swiper.slides.length>5) this.swiper.removeSlide((this.swiper.slides.length-1));
     if (
       !!src
     ) {
       this.swiper.prependSlide
         (`
      <div class="swiper-slide" style="display: flex;">
-     ${src}
+     <div class="swiper-zoom-container">
+     <div style="display: flex;" class="swiper-zoom-target">  ${src}</div>
+     </div>
      </div>
     `)
+
+
     }
   }
   appendSlide(src: string) {
+    // if(this.swiper.slides.length>5) this.swiper.removeSlide(0);
     if (!!src) {
       this.swiper.appendSlide
         (`
      <div class="swiper-slide" style="display: flex;">
-     ${src}
+       <div class="swiper-zoom-container">
+     <div style="display: flex;" class="swiper-zoom-target">${src}</div>
+     </div>
      </div>
     `)
     }
@@ -519,12 +527,12 @@ export class DoublePageReaderV2Component {
     if (imgPrimary.width != 0 && imgPrimary.width == imgSecondary.width && imgPrimary.height == imgSecondary.height && !this.is_1) {
       const size = this.data.comics_config.page_height / 100;
       if (imgPrimary.width > imgPrimary.height || imgSecondary.width > imgSecondary.height) {
-        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width<window.innerWidth?width+'px':'100vw'}`);
+        const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width < window.innerWidth ? width + 'px' : '100vw'}`);
       } else {
 
-        const width=((imgPrimary.width / imgPrimary.height) * window.innerHeight * (2*size));
-        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width<window.innerWidth?width+'px':'100vw'}`);
+        const width = ((imgPrimary.width / imgPrimary.height) * window.innerHeight * (2 * size));
+        document.documentElement.style.setProperty('--double-page-reader-v2-width', `${width < window.innerWidth ? width + 'px' : '100vw'}`);
       }
       this.is_1 = true
     }
@@ -645,7 +653,7 @@ export class DoublePageReaderV2Component {
         forceToAxis: false,
         thresholdTime: 1000,
       },
-      zoom:true,
+      zoom: true,
       grabCursor: true,
       ...objc
     });

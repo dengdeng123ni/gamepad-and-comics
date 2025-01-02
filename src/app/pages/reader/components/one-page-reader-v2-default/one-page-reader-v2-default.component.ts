@@ -416,24 +416,31 @@ export class OnePageReaderV2DefaultComponent {
     })
   }
   prependSlide(src: string) {
+    // if(this.swiper.slides.length>5) this.swiper.removeSlide((this.swiper.slides.length-1));
     if (
       !!src
     ) {
       this.swiper.appendSlide
         (`
      <div class="swiper-slide" style="display: flex;">
-     ${src}
+     <div class="swiper-zoom-container">
+     <div style="display: flex;" class="swiper-zoom-target">  ${src}</div>
+     </div>
      </div>
     `)
-    }
 
+
+    }
   }
   appendSlide(src: string) {
+    // if(this.swiper.slides.length>5) this.swiper.removeSlide(0);
     if (!!src) {
       this.swiper.prependSlide
         (`
      <div class="swiper-slide" style="display: flex;">
-     ${src}
+       <div class="swiper-zoom-container">
+     <div style="display: flex;" class="swiper-zoom-target">${src}</div>
+     </div>
      </div>
     `)
     }
