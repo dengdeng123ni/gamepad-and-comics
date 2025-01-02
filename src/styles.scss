@@ -164,6 +164,7 @@ app-image {
 .swiper-slide {
   display: flex;
   justify-content: center;
+  overflow: initial !important;
 }
 
 ._loading_cover_bg {
