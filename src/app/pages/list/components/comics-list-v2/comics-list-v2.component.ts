@@ -867,11 +867,15 @@ export class ComicsListV2Component {
     this.ListNode.nativeElement.addEventListener('scroll', (e: any) => {
       this.scroll$.next(e)
     }, true)
-    this.scroll$.pipe(throttleTime(300)).subscribe(e => {
+    this.scroll$.subscribe(e => {
       this.handleScroll(e);
     })
 
+
+
   }
+
+
 
   async init() {
     this.page_num = 1;
