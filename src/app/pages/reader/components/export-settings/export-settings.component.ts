@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ExportSettingsService } from './export-settings.service';
 import { DataService } from '../../services/data.service';
-import { DbControllerService, DownloadService } from 'src/app/library/public-api';
+import { DbComicsControllerService, DownloadService } from 'src/app/library/public-api';
 import { LoadingService } from '../loading/loading.service';
 import { CurrentService } from '../../services/current.service';
 
@@ -13,7 +13,7 @@ import { CurrentService } from '../../services/current.service';
 export class ExportSettingsComponent {
   constructor(
     public exportSettings: ExportSettingsService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public download: DownloadService,
     public data: DataService,
     public current: CurrentService,
@@ -46,7 +46,7 @@ export class ExportSettingsComponent {
     if (chapters.length == 0) return
     for (let index = 0; index < chapters.length; index++) {
       const x = chapters[index]
-      const pages = await this.DbController.getPages(x.id);
+      const pages = await this.DbComicsController.getPages(x.id);
       const isFirstPageCover = this.isFirstPageCover;
       if (this.type == "IMAGES") {
         await this.download.downloadTallImage(`${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), pages.map((x: { src: any; }) => x.src), this.direction)

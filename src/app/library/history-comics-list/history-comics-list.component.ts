@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DbControllerService, HistoryService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
+import { DbComicsControllerService, HistoryService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 import { HistoryComicsListService } from './history-comics-list.service';
 
 
@@ -14,7 +14,7 @@ export class HistoryComicsListComponent {
   list = [];
 
   constructor(public history: HistoryService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService,
     public RoutingController:RoutingControllerService,
     public router: Router,

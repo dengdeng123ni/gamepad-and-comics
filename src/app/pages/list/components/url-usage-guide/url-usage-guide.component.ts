@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DbEventService } from 'src/app/library/public-api';
+import { DbComicsEventService } from 'src/app/library/public-api';
 import { UrlUsageGuideService } from './url-usage-guide.service';
 
 @Component({
@@ -10,12 +10,12 @@ import { UrlUsageGuideService } from './url-usage-guide.service';
 export class UrlUsageGuideComponent {
   list=[];
   constructor(
-    public DbEvent:DbEventService,
+    public DbComicsEvent:DbComicsEventService,
     public UrlUsageGuide:UrlUsageGuideService
   ){
-    Object.keys(this.DbEvent.Configs).forEach(x=>{
-      if(this.DbEvent.Configs[x].href){
-        this.list.push(this.DbEvent.Configs[x])
+    Object.keys(this.DbComicsEvent.Configs).forEach(x=>{
+      if(this.DbComicsEvent.Configs[x].href){
+        this.list.push(this.DbComicsEvent.Configs[x])
       }
     })
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbControllerService, MessageFetchService } from '../public-api';
+import { DbComicsControllerService, MessageFetchService } from '../public-api';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ImageService {
 
   _data: any = {};
-  constructor(public _http: MessageFetchService, public DbController: DbControllerService, private sanitizer: DomSanitizer) {
+  constructor(public _http: MessageFetchService, public DbComicsController: DbComicsControllerService, private sanitizer: DomSanitizer) {
     this.del();
   }
 
@@ -86,7 +86,7 @@ export class ImageService {
     if (src.substring(0, 10) == "data:image") {
       return this.base64ToBlob(src)
     }
-    const blob = await this.DbController.getImage(src);
+    const blob = await this.DbComicsController.getImage(src);
     return blob
   }
   base64ToBlob(base64Data) {

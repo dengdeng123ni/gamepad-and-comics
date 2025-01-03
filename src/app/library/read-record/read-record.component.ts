@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 
 import { ReadRecordService } from './read-record.service';
 import { Router } from '@angular/router';
-import { DbControllerService, IndexdbControllerService } from '../public-api';
+import { DbComicsControllerService, IndexdbControllerService } from '../public-api';
 
 @Component({
   selector: 'app-read-record',
@@ -12,7 +12,12 @@ import { DbControllerService, IndexdbControllerService } from '../public-api';
 })
 export class ReadRecordComponent {
   list = [];
-  constructor(public webDb: IndexdbControllerService, public ReadRecord: ReadRecordService, public router: Router,public DbController:DbControllerService) {
+  constructor(
+    public webDb: IndexdbControllerService,
+    public ReadRecord: ReadRecordService,
+    public router: Router,
+    public DbComicsController: DbComicsControllerService
+  ) {
     this.init();
   }
 
@@ -36,7 +41,7 @@ export class ReadRecordComponent {
     days.forEach(x => {
       arr.unshift(JSON.parse(JSON.stringify({
         day: x,
-        list: this.uniqueFunc(list.filter(c => c.day == x), 'comics_id').sort((a,b)=>b.id-a.id)
+        list: this.uniqueFunc(list.filter(c => c.day == x), 'comics_id').sort((a, b) => b.id - a.id)
       })))
     })
     this.list = arr;
@@ -65,7 +70,7 @@ export class ReadRecordComponent {
   }
 
   async routerReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
+    const _res: any = await Promise.all([this.DbComicsController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/comics', source, comics_id, _res[1].chapter_id])
     } else {

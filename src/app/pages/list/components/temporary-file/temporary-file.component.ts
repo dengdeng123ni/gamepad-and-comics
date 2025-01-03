@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
-import { DbControllerService, QueryEventService } from 'src/app/library/public-api';
+import { DbComicsControllerService, QueryEventService } from 'src/app/library/public-api';
 declare const window: any;
 @Component({
   selector: 'app-temporary-file',
@@ -15,7 +15,7 @@ export class TemporaryFileComponent {
   name = '';
   constructor(public data: DataService,
     public route: ActivatedRoute,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public QueryEvent: QueryEventService
   ) {
 
@@ -29,11 +29,11 @@ export class TemporaryFileComponent {
         uid: `temporary_file_${this.id}`,
       }, {
         Add: async (obj) => {
-          const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file' });
+          const list = await this.DbComicsController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file' });
           return list
         },
         Init: async (obj) => {
-          const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file' });
+          const list = await this.DbComicsController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file' });
           return list
         }
       })

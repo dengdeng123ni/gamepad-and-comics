@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, debounceTime } from 'rxjs';
-import { DbEventService } from 'src/app/library/public-api';
+import { DbComicsEventService } from 'src/app/library/public-api';
 import { RoutingControllerService } from 'src/app/library/routing-controller.service';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
@@ -44,11 +44,11 @@ export class ReaderNavbarBarV2Component {
     public router: Router,
     public data: DataService,
     public readerSection: ReaderSectionService,
-    public DbEvent:DbEventService,
+    public DbComicsEvent:DbComicsEventService,
     public RoutingController:RoutingControllerService
   ) {
     document.documentElement.style.setProperty('--reader-navbar-bar-zoom', `${((window.innerHeight*0.1)/90)>1?((window.innerHeight*0.1)/90):1}`);
-    this.title= DbEvent.Configs[current.source]?.name;
+    this.title= DbComicsEvent.Configs[current.source]?.name;
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {
       if (x == true) {
         this.chapter_index = data.chapters.findIndex(x => x.id == data.chapter_id)

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
-import { AppDataService, ContextMenuEventService, DbControllerService, IndexdbControllerService, LocalCachService, NotifyService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbComicsControllerService, IndexdbControllerService, LocalCachService, NotifyService } from 'src/app/library/public-api';
 import { MenuService } from '../../components/menu/menu.service';
 import { DownloadOptionService } from '../../components/download-option/download-option.service';
 
@@ -21,7 +21,7 @@ export class IndexService {
     public AppData: AppDataService,
     public DownloadOption: DownloadOptionService,
     public LocalCach: LocalCachService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService,
     public Notify:NotifyService,
     public router: Router,
@@ -109,14 +109,14 @@ export class IndexService {
             {
               name: "重置数据", id: "reset_data", click: async (list) => {
                 for (let index = 0; index < list.length; index++) {
-                  this.DbController.delWebDbDetail(list[index].id)
-                  const res = await this.DbController.getDetail(list[index].id)
+                  this.DbComicsController.delWebDbDetail(list[index].id)
+                  const res = await this.DbComicsController.getDetail(list[index].id)
                   for (let index = 0; index < res.chapters.length; index++) {
                     const chapter_id = res.chapters[index].id;
-                    await this.DbController.delWebDbPages(chapter_id)
-                    const pages = await this.DbController.getPages(chapter_id)
+                    await this.DbComicsController.delWebDbPages(chapter_id)
+                    const pages = await this.DbComicsController.getPages(chapter_id)
                     for (let index = 0; index < pages.length; index++) {
-                      await this.DbController.delWebDbImage(pages[index].src)
+                      await this.DbComicsController.delWebDbImage(pages[index].src)
                     }
                   }
                   this.Notify.messageBox(`${list[index].title}`, '已完成', { duration: 1000 })
@@ -126,12 +126,12 @@ export class IndexService {
             {
               name: "提前加载", id: "load", click: async (list) => {
                 for (let index = 0; index < list.length; index++) {
-                  const res = await this.DbController.getDetail(list[index].id)
+                  const res = await this.DbComicsController.getDetail(list[index].id)
                   for (let index = 0; index < res.chapters.length; index++) {
                     const chapter_id = res.chapters[index].id;
-                    const pages = await this.DbController.getPages(chapter_id)
+                    const pages = await this.DbComicsController.getPages(chapter_id)
                     for (let index2 = 0; index2 < pages.length; index2++) {
-                      await this.DbController.getImage(pages[index2].src)
+                      await this.DbComicsController.getImage(pages[index2].src)
                       this.Notify.messageBox(`${res.chapters[index].title} ${index2 + 1}/${pages.length}`, '已完成')
                     }
                     this.Notify.messageBox(`${list[index].title} ${res.chapters[index].title}`, '已完成')
@@ -143,12 +143,12 @@ export class IndexService {
             {
               name: "重新获取", id: "reset_get", click: async (list) => {
                 for (let index = 0; index < list.length; index++) {
-                  this.DbController.delWebDbDetail(list[index].id)
-                  const res = await this.DbController.getDetail(list[index].id)
+                  this.DbComicsController.delWebDbDetail(list[index].id)
+                  const res = await this.DbComicsController.getDetail(list[index].id)
                   for (let index = 0; index < res.chapters.length; index++) {
                     const chapter_id = res.chapters[index].id;
-                    await this.DbController.delWebDbPages(chapter_id)
-                    const pages = await this.DbController.getPages(chapter_id)
+                    await this.DbComicsController.delWebDbPages(chapter_id)
+                    const pages = await this.DbComicsController.getPages(chapter_id)
                   }
                   this.Notify.messageBox(`${list[index].title}`, '已完成', { duration: 1000 })
                 }
@@ -158,10 +158,10 @@ export class IndexService {
               name: "JSON", id: "json", click: async (list) => {
                 for (let index = 0; index < list.length; index++) {
 
-                  let res = await this.DbController.getDetail(list[index].id)
+                  let res = await this.DbComicsController.getDetail(list[index].id)
                   for (let index = 0; index < res.chapters.length; index++) {
                     const chapter_id = res.chapters[index].id;
-                    const pages = await this.DbController.getPages(chapter_id)
+                    const pages = await this.DbComicsController.getPages(chapter_id)
                     res.chapters[index].pages=pages
                   }
                   const jsonString = JSON.stringify(res, null, 2); // 格式化 JSON
@@ -235,7 +235,7 @@ export class IndexService {
   }
 
   async resetReadingProgress(comics_id) {
-    const detail = await this.DbController.getDetail(comics_id)
+    const detail = await this.DbComicsController.getDetail(comics_id)
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
       this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 })
@@ -247,14 +247,14 @@ export class IndexService {
     await this.webDb.deleteByKey('history', comics_id.toString())
     await this.webDb.deleteByKey('local_comics', comics_id)
     await this.webDb.deleteByKey('local_comics', comics_id.toString())
-    this.DbController.delComicsAllImages(comics_id)
+    this.DbComicsController.delComicsAllImages(comics_id)
   }
 
   async delCache2(comics_id) {
     await this.webDb.deleteByKey('history', comics_id.toString())
     await this.webDb.deleteByKey('temporary_details', comics_id)
     await this.webDb.deleteByKey('temporary_details', comics_id.toString())
-    this.DbController.delComicsAllImages(comics_id)
+    this.DbComicsController.delComicsAllImages(comics_id)
   }
 
 

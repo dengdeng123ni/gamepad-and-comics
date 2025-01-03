@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 
 import { AppDataService, CacheControllerService, IndexdbControllerService } from '../public-api';
-import { DbEventService } from './db-event.service';
+import { DbComicsEventService } from './db-comics-event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class DbNovelsControllerService {
   image_url = {};
   constructor(
     private AppData: AppDataService,
-    private DbEvent: DbEventService,
+    private DbComicsEvent: DbComicsEventService,
     private webDb: IndexdbControllerService,
     private webCh: CacheControllerService
   ) {
@@ -36,9 +36,9 @@ export class DbNovelsControllerService {
   }) => {
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source]
+    const config = this.DbComicsEvent.Configs[option.source]
 
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
+    if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["getDetail"]) {
       if (this.details[id] && config.is_cache) {
         return JSON.parse(JSON.stringify(this.details[id]))
       } else {
@@ -51,13 +51,13 @@ export class DbNovelsControllerService {
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
 
           } else {
-            res = await this.DbEvent.Events[option.source]["getDetail"](id);
+            res = await this.DbComicsEvent.Events[option.source]["getDetail"](id);
             this.webDb.update('novels_details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
           }
         } else {
-          res = await this.DbEvent.Events[option.source]["getDetail"](id);
+          res = await this.DbComicsEvent.Events[option.source]["getDetail"](id);
         }
 
         if (!Array.isArray(res.author)) {
@@ -78,9 +78,9 @@ export class DbNovelsControllerService {
     try {
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
-      const config = this.DbEvent.Configs[option.source]
+      const config = this.DbComicsEvent.Configs[option.source]
 
-      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
+      if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["getPages"]) {
         // const is_wait = await this.waitForRepetition(id)
         if (this.pages[id]) {
           return JSON.parse(JSON.stringify(this.pages[id]))
@@ -92,12 +92,12 @@ export class DbNovelsControllerService {
               res = res.data;
 
             } else {
-              res = await this.DbEvent.Events[option.source]["getPages"](id);
+              res = await this.DbComicsEvent.Events[option.source]["getPages"](id);
               this.webDb.update('novels_pages', { id, source: option.source, data: JSON.parse(JSON.stringify(res)) })
 
             }
           } else {
-            res = await this.DbEvent.Events[option.source]["getPages"](id);
+            res = await this.DbComicsEvent.Events[option.source]["getPages"](id);
           }
           res.forEach((x, i) => {
             if (!x.id) x.id = `${i}`;
@@ -124,8 +124,8 @@ export class DbNovelsControllerService {
   }) {
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["Unlock"]) {
-      return await this.DbEvent.Events[option.source]["Unlock"](id);
+    if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["Unlock"]) {
+      return await this.DbComicsEvent.Events[option.source]["Unlock"](id);
     } else {
       return false
     }

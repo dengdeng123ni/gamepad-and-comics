@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbControllerService, DownloadService, I18nService } from './public-api';
+import { DbComicsControllerService, DownloadService, I18nService } from './public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class WebFileService {
 
   ];
   is_download_free = false;
-  constructor(public DbController: DbControllerService,
+  constructor(public DbComicsController: DbComicsControllerService,
     public I18n: I18nService,
     public download: DownloadService,) {
   }
@@ -183,24 +183,24 @@ export class WebFileService {
       return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').replace(/[\'\"\\\/\b\f\n\r\t]/g, '').replace(/[\@\#\$\%\^\&\*\{\}\:\"\<\>\?]/).trim()
     }
     this.addlog(`${加载中} ${comics_id}`)
-    let { chapters, title, option: config } = await this.DbController.getDetail(comics_id)
-    let detail = await this.DbController.getDetail(comics_id);
+    let { chapters, title, option: config } = await this.DbComicsController.getDetail(comics_id)
+    let detail = await this.DbComicsController.getDetail(comics_id);
     this.addlog(`${加载成功} ${title}`)
     if (option?.chapters_ids?.length) chapters = chapters.filter(x => option.chapters_ids.includes(x.id))
     const is_offprint = chapters.length == 1 ? true : false;
     for (let chapter_index = 0; chapter_index < chapters.length; chapter_index++) {
       const x = chapters[chapter_index];
       this.addlog(`${加载中} ${x.title}`)
-      const pages = await this.DbController.getPages(x.id);
+      const pages = await this.DbComicsController.getPages(x.id);
       this.addlog(`${加载成功} ${x.title}`)
       for (let j = 0; j < pages.length; j++) {
         this.addlog(`${加载中} ${x.title}_${j} ${图片}`)
-        await this.DbController.getImage(pages[j].src)
+        await this.DbComicsController.getImage(pages[j].src)
         this.addlog(`${加载成功} ${x.title}_${j} ${图片}`)
       }
 
       // this.addlog(`加载中 ${comics_id}`)
-      // await Promise.all(pages.map(x => this.DbController.getImage(x.src)))
+      // await Promise.all(pages.map(x => this.DbComicsController.getImage(x.src)))
       if (option?.type) {
         if (option.type == "JPG") {
           if (option.page == "double") {
@@ -231,7 +231,7 @@ export class WebFileService {
             }
           } else {
             const downloadImage = async (x2, index) => {
-              let blob = await this.DbController.getImage(x2.src)
+              let blob = await this.DbComicsController.getImage(x2.src)
 
               if (option.imageChange) blob = await option.imageChange(blob);
               if (option.getPath) {
@@ -256,7 +256,7 @@ export class WebFileService {
                   await this.post(`${config.source}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
                 }
               } else {
-                const blob = await this.DbController.getImage(x2.src)
+                const blob = await this.DbComicsController.getImage(x2.src)
                 if (blob.size > 500) {
                   if (is_offprint) {
                     await this.post(`${config.source}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, DialogPosition } from '@angular/material/dialog';
 import { UnlockComponent } from '../components/unlock/unlock.component';
-import { DbControllerService, DbEventService, GamepadEventService, NotifyService } from 'src/app/library/public-api';
+import { DbComicsControllerService, DbComicsEventService, GamepadEventService, NotifyService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
@@ -19,8 +19,8 @@ export class UnlockService {
   chapter_id=null;
   constructor(
     public _dialog: MatDialog,
-    public DbController: DbControllerService,
-    public DbEvent: DbEventService,
+    public DbComicsController: DbComicsControllerService,
+    public DbComicsEvent: DbComicsEventService,
     private _snackBar: MatSnackBar,
     public Notify:NotifyService,
     public GamepadEvent: GamepadEventService
@@ -36,7 +36,7 @@ export class UnlockService {
     this.chapter_id=chapter_id;
     if(this._data[chapter_id]) return
     else this._data[chapter_id]= chapter_id;
-    if (this.DbEvent.Events[source]?.Unlock) {
+    if (this.DbComicsEvent.Events[source]?.Unlock) {
       this.openUnlock();
     } else {
       this.Notify.messageBox('当前章节未解锁,需要到对应网站解锁', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });

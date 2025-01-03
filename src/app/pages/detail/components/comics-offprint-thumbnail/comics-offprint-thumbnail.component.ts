@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { DbControllerService } from 'src/app/library/public-api';
+import { DbComicsControllerService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 
 @Component({
@@ -10,12 +10,12 @@ import { CurrentService } from '../../services/current.service';
 })
 export class ComicsOffprintThumbnailComponent {
   list = []
-  constructor(public data: DataService,public current:CurrentService, public DbController: DbControllerService,) {
+  constructor(public data: DataService,public current:CurrentService, public DbComicsController: DbComicsControllerService,) {
     this.getList(this.data.chapters[0].id)
 
   }
   async getList(id) {
-    const list = await this.DbController.getPages(id);
+    const list = await this.DbComicsController.getPages(id);
 
     this.list = list;
   }

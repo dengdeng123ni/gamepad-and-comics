@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbControllerService, HistoryService, IndexdbControllerService, PagesItem } from 'src/app/library/public-api';
+import { DbComicsControllerService, HistoryService, IndexdbControllerService, PagesItem } from 'src/app/library/public-api';
 import { DataService } from './data.service';
 
 import { Subject } from 'rxjs';
@@ -14,7 +14,7 @@ export class CurrentService {
   public init$ = new Subject<any>();
   public source;
   constructor(
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public data: DataService,
     public webDb: IndexdbControllerService,
     public router: Router,
@@ -27,7 +27,7 @@ export class CurrentService {
     this.source=source;
     this.data.is_init_free = false;
     this.data.comics_id = comics_id;
-    const _res = await Promise.all([this.DbController.getDetail(comics_id, { source: source }), this._getWebDbComicsConfig(comics_id)])
+    const _res = await Promise.all([this.DbComicsController.getDetail(comics_id, { source: source }), this._getWebDbComicsConfig(comics_id)])
     const res = _res[0];
     this.data.comics_config = _res[1];
     if (this.data.is_local_record) {
@@ -75,9 +75,9 @@ export class CurrentService {
   }
 
   async _delChapter(comics_id:any,chapter_id: string) {
-    let detail = await this.DbController.getDetail(comics_id, { source: this.source })
+    let detail = await this.DbComicsController.getDetail(comics_id, { source: this.source })
     detail.chapters = detail.chapters.filter(x => x.id.toString() !== chapter_id.toString());
-    await this.DbController.putWebDbDetail(comics_id, detail);
+    await this.DbComicsController.putWebDbDetail(comics_id, detail);
   }
   async _getChapter(id: string): Promise<Array<PagesItem>> {
     // let list = [];
@@ -87,9 +87,9 @@ export class CurrentService {
     //   list = ;
     //   this._chapters[id] = list;
     // }
-    const c = await this.DbController.getPages(id, { source: this.source })
+    const c = await this.DbComicsController.getPages(id, { source: this.source })
     setTimeout(() => {
-      this.DbController.loadPages(id, { source: this.source })
+      this.DbComicsController.loadPages(id, { source: this.source })
     }, 1000)
     return c
   }
@@ -101,25 +101,25 @@ export class CurrentService {
 
 
   async _delPage(chapter_id: string, page_index: number) {
-    let pages = await this.DbController.getPages(chapter_id, { source: this.source })
+    let pages = await this.DbComicsController.getPages(chapter_id, { source: this.source })
     pages.splice(page_index, 1)
-    await this.DbController.putWebDbPages(chapter_id, pages)
+    await this.DbComicsController.putWebDbPages(chapter_id, pages)
   }
   async _addPage(chapter_id: string, page_index: number, blob: Blob) {
-    let pages = await this.DbController.getPages(chapter_id, { source: this.source })
+    let pages = await this.DbComicsController.getPages(chapter_id, { source: this.source })
     let c = `http://localhost:7700/chapter/insert_page/${page_index}_${new Date().getTime()}`
-    await this.DbController.addImage(c, blob)
+    await this.DbComicsController.addImage(c, blob)
     pages.splice(page_index, 0, {
       id: `${page_index}_${new Date().getTime()}`,
       src: c,
       width: 0,
       height: 0
     })
-    await this.DbController.putWebDbPages(chapter_id, pages)
+    await this.DbComicsController.putWebDbPages(chapter_id, pages)
   }
   async _insertWhitePage(chapter_id: string, page_index: number) {
-    let pages = await this.DbController.getPages(chapter_id, { source: this.source })
-    const blob = await this.DbController.getImage(pages[page_index].src, { source: this.source });
+    let pages = await this.DbComicsController.getPages(chapter_id, { source: this.source })
+    const blob = await this.DbComicsController.getImage(pages[page_index].src, { source: this.source });
     const blob2 = await this.getImageBase64(blob);
     await this._addPage(chapter_id, page_index, blob2)
   }
@@ -151,8 +151,8 @@ export class CurrentService {
     return fileData
   }
   async _separatePage(chapter_id: string, page_index: number) {
-    let pages = await this.DbController.getPages(chapter_id, { source: this.source })
-    const blob = await this.DbController.getImage(pages[page_index].src, { source: this.source });
+    let pages = await this.DbComicsController.getPages(chapter_id, { source: this.source })
+    const blob = await this.DbComicsController.getImage(pages[page_index].src, { source: this.source });
     const image1 = await createImageBitmap(blob);
     let canvas1 = document.createElement('canvas');
     canvas1.width = (image1.width / 2);
@@ -170,8 +170,8 @@ export class CurrentService {
     let dataURL2 = canvas2.toDataURL("image/png");
     let c1 = `http://localhost:7700/chapter/insert_page/${page_index}_1_${new Date().getTime()}`
     let c2 = `http://localhost:7700/chapter/insert_page/${page_index}_2_${new Date().getTime()}`
-    await this.DbController.addImage(c1, this.base64ToBlob(dataURL1))
-    await this.DbController.addImage(c2, this.base64ToBlob(dataURL2))
+    await this.DbComicsController.addImage(c1, this.base64ToBlob(dataURL1))
+    await this.DbComicsController.addImage(c2, this.base64ToBlob(dataURL2))
     pages.splice(page_index, 0, {
       id: `${page_index}_1_${new Date().getTime()}`,
       src: c2,
@@ -185,16 +185,16 @@ export class CurrentService {
       height: 0
     })
     pages.splice(page_index + 2, 1)
-    await this.DbController.putWebDbPages(chapter_id, pages)
+    await this.DbComicsController.putWebDbPages(chapter_id, pages)
   }
 
   async _mergePage(chapter_id: string, page_index1: number, page_index2: number) {
-    let pages = await this.DbController.getPages(chapter_id, { source: this.source })
-    const blob1 = await this.DbController.getImage(pages[page_index1].src, { source: this.source });
-    const blob2 = await this.DbController.getImage(pages[page_index2].src, { source: this.source });
+    let pages = await this.DbComicsController.getPages(chapter_id, { source: this.source })
+    const blob1 = await this.DbComicsController.getImage(pages[page_index1].src, { source: this.source });
+    const blob2 = await this.DbComicsController.getImage(pages[page_index2].src, { source: this.source });
     const blob = await this.mergePage([blob1, blob2].reverse());
     let c = `http://localhost:7700/chapter/insert_page/${page_index1}_${page_index2}_${new Date().getTime()}`
-    await this.DbController.addImage(c, blob)
+    await this.DbComicsController.addImage(c, blob)
     pages.splice(page_index1, 0, {
       id: `${page_index1}_${page_index2}_${new Date().getTime()}`,
       src: c,
@@ -203,7 +203,7 @@ export class CurrentService {
     })
     pages.splice(page_index1 + 1, 1)
     pages.splice(page_index2, 1)
-    await this.DbController.putWebDbPages(chapter_id, pages)
+    await this.DbComicsController.putWebDbPages(chapter_id, pages)
   }
 
   base64ToBlob = (data) => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppDataService, CacheControllerService, IndexdbControllerService } from 'src/app/library/public-api';
-import { DbEventService } from './db-event.service';
+import { DbComicsEventService } from './db-comics-event.service';
 
 import CryptoJS from 'crypto-js'
 interface Item { id: string | number, cover: string, title: string, subTitle: string }
@@ -14,7 +14,7 @@ interface Events {
 @Injectable({
   providedIn: 'root'
 })
-export class DbControllerService {
+export class DbComicsControllerService {
 
   lists: any = {};
   query: any = {};
@@ -31,7 +31,7 @@ export class DbControllerService {
   image_url = {};
   constructor(
     private AppData: AppDataService,
-    private DbEvent: DbEventService,
+    private DbComicsEvent: DbComicsEventService,
     private webDb: IndexdbControllerService,
     private webCh: CacheControllerService
   ) {
@@ -51,7 +51,7 @@ export class DbControllerService {
     try {
       if (!option.is_cache) option.is_cache = true;
       if (!option.source) option.source = this.AppData.source;
-      const config = this.DbEvent.Configs[option.source]
+      const config = this.DbComicsEvent.Configs[option.source]
       let obn = JSON.parse(JSON.stringify(obj))
       delete obn['page_size'];
       const id = CryptoJS.MD5(JSON.stringify({ data: obn, source: option.source })).toString().toLowerCase();
@@ -61,7 +61,7 @@ export class DbControllerService {
         let res;
         if (config.is_cache) {
           const get = async () => {
-            const data = await this.DbEvent.Events[option.source]["getList"](obj);
+            const data = await this.DbComicsEvent.Events[option.source]["getList"](obj);
             if (data.length == 0) return []
             await this.webDb.update('list', { id: id, source: option.source, creation_time: new Date().getTime(), data: data })
             return data
@@ -85,7 +85,7 @@ export class DbControllerService {
             res = data;
           }
         } else {
-          const data = await this.DbEvent.Events[option.source]["getList"](obj);
+          const data = await this.DbComicsEvent.Events[option.source]["getList"](obj);
           res = data;
         }
 
@@ -114,10 +114,10 @@ export class DbControllerService {
       if (!id) return null
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
-      let config = this.DbEvent.Configs[option.source]
+      let config = this.DbComicsEvent.Configs[option.source]
       if (option && option.is_cache === true) config.is_cache = true
       if (option && option.is_cache === false) config.is_cache = false
-      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getDetail"]) {
+      if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["getDetail"]) {
 
         if (this.details[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.details[id]))
@@ -137,7 +137,7 @@ export class DbControllerService {
                 if (!x.cover) x.cover = res.cover;
               })
             } else {
-              res = await this.DbEvent.Events[option.source]["getDetail"](id);
+              res = await this.DbComicsEvent.Events[option.source]["getDetail"](id);
               this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
               this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
               if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
@@ -148,7 +148,7 @@ export class DbControllerService {
               })
             }
           } else if (option.is_update) {
-            res = await this.DbEvent.Events[option.source]["getDetail"](id);
+            res = await this.DbComicsEvent.Events[option.source]["getDetail"](id);
             this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
             this.image_url[`${config.id}_comics_${res.id}`] = res.cover;
             if (res.cover && res.cover.substring(7, 21) != "localhost:7700") res.cover = `http://localhost:7700/${config.id}/comics/${res.id}`;
@@ -158,7 +158,7 @@ export class DbControllerService {
               if (!x.cover) x.cover = res.cover;
             })
           } else {
-            res = await this.DbEvent.Events[option.source]["getDetail"](id);
+            res = await this.DbComicsEvent.Events[option.source]["getDetail"](id);
           }
 
           if (!Array.isArray(res.author)) {
@@ -187,10 +187,10 @@ export class DbControllerService {
       if (!id) return []
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
-      let config = this.DbEvent.Configs[option.source]
+      let config = this.DbComicsEvent.Configs[option.source]
       if (option && option.is_cache === true) config.is_cache = true
       if (option && option.is_cache === false) config.is_cache = false
-      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getPages"]) {
+      if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["getPages"]) {
         // const is_wait = await this.waitForRepetition(id)
         if (this.pages[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.pages[id]))
@@ -210,7 +210,7 @@ export class DbControllerService {
                 }
               })
             } else {
-              res = await this.DbEvent.Events[option.source]["getPages"](id);
+              res = await this.DbComicsEvent.Events[option.source]["getPages"](id);
               const isEmpty = (value) => {
                 if (value === null || value === undefined) {
                   // null 或 undefined
@@ -237,7 +237,7 @@ export class DbControllerService {
               }
               if (isEmpty(res)) {
                 console.log("获取数据错误,重新获取中", res);
-                res = await this.DbEvent.Events[option.source]["getPages"](id)
+                res = await this.DbComicsEvent.Events[option.source]["getPages"](id)
               }
               if (typeof res[0] === 'string') {
                 let arr = res;
@@ -261,7 +261,7 @@ export class DbControllerService {
               })
             }
           } else if (option.is_update) {
-            res = await this.DbEvent.Events[option.source]["getPages"](id);
+            res = await this.DbComicsEvent.Events[option.source]["getPages"](id);
             const isEmpty = (value) => {
               if (value === null || value === undefined) {
                 // null 或 undefined
@@ -288,7 +288,7 @@ export class DbControllerService {
             }
             if (isEmpty(res)) {
               console.log("获取数据错误,重新获取中", res);
-              res = await this.DbEvent.Events[option.source]["getPages"](id)
+              res = await this.DbComicsEvent.Events[option.source]["getPages"](id)
             }
             if (typeof res[0] === 'string') {
               let arr = res;
@@ -311,7 +311,7 @@ export class DbControllerService {
               if (x.src && x.src.substring(7, 21) != "localhost:7700") x.src = `http://localhost:7700/${config.id}/page/${id}/${i}`;
             })
           } else {
-            res = await this.DbEvent.Events[option.source]["getPages"](id);
+            res = await this.DbComicsEvent.Events[option.source]["getPages"](id);
             if (typeof res[0] === 'string') {
               let arr = res;
               let data = [];
@@ -353,7 +353,7 @@ export class DbControllerService {
     try {
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
-      let config = this.DbEvent.Configs[option.source]
+      let config = this.DbComicsEvent.Configs[option.source]
       if (option && option.is_cache) config.is_cache = true
       let blob = new Blob([], {
         type: 'image/jpeg'
@@ -494,12 +494,12 @@ export class DbControllerService {
 
           const id1 = await getImageURL2(url);
           image_id = id1;
-          let blob = await this.DbEvent.Events[option.source]["getImage"](id1)
+          let blob = await this.DbComicsEvent.Events[option.source]["getImage"](id1)
           if (blob.size < 3000 && blob.type.split("/")[0] == "image") {
 
             const id2 = await getImageURL(url);
             image_id = id2;
-            blob = await this.DbEvent.Events[option.source]["getImage"](id2)
+            blob = await this.DbComicsEvent.Events[option.source]["getImage"](id2)
           }
 
 
@@ -563,7 +563,7 @@ export class DbControllerService {
           blob = await getBlob()
         }
       } else {
-        blob = await this.DbEvent.Events[option.source]["getImage"](id)
+        blob = await this.DbComicsEvent.Events[option.source]["getImage"](id)
       }
       return blob
     } catch (error) {
@@ -585,11 +585,11 @@ export class DbControllerService {
       const id = `${obj.comics_id}_${obj.page_index}`
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
-      let config = this.DbEvent.Configs[option.source]
+      let config = this.DbComicsEvent.Configs[option.source]
       if (option && option.is_cache === true) config.is_cache = true
       if (option && option.is_cache === false) config.is_cache = false
       config.is_cache = false
-      if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["getReplies"]) {
+      if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["getReplies"]) {
         if (this.replies[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.replies[id]))
         } else {
@@ -599,12 +599,12 @@ export class DbControllerService {
             if (res) {
               res = res.data;
             } else {
-              res = await this.DbEvent.Events[option.source]["getReplies"](obj);
+              res = await this.DbComicsEvent.Events[option.source]["getReplies"](obj);
               this.webDb.update('replies', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
 
             }
           } else {
-            res = await this.DbEvent.Events[option.source]["getReplies"](obj);
+            res = await this.DbComicsEvent.Events[option.source]["getReplies"](obj);
           }
 
 
@@ -629,9 +629,9 @@ export class DbControllerService {
 
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source]
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["Search"]) {
-      let res = await this.DbEvent.Events[option.source]["Search"](obj);
+    const config = this.DbComicsEvent.Configs[option.source]
+    if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["Search"]) {
+      let res = await this.DbComicsEvent.Events[option.source]["Search"](obj);
       res.forEach(x => {
         this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
         x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
@@ -645,9 +645,9 @@ export class DbControllerService {
     try {
       if (!option.is_cache) option.is_cache = true;
       if (!option.source) option.source = this.AppData.source;
-      const config = this.DbEvent.Configs[option.source]
+      const config = this.DbComicsEvent.Configs[option.source]
 
-      if (!(this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["UrlToList"])) return []
+      if (!(this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["UrlToList"])) return []
       let obn = JSON.parse(JSON.stringify({ url, source: option.source }))
       const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
       if (this.lists[id] && config.is_cache) {
@@ -656,7 +656,7 @@ export class DbControllerService {
         let res;
         if (config.is_cache) {
           const get = async () => {
-            const data = await this.DbEvent.Events[option.source]["UrlToList"](url);
+            const data = await this.DbComicsEvent.Events[option.source]["UrlToList"](url);
             if (data.length == 0) return []
             const response = new Response(new Blob([JSON.stringify(data)], { type: 'application/json' }), {
               headers: { 'Content-Type': 'application/json', 'Cache-Timestamp': new Date().getTime().toString() }
@@ -685,7 +685,7 @@ export class DbControllerService {
             res = data;
           }
         } else {
-          const data = await this.DbEvent.Events[option.source]["UrlToList"](url);
+          const data = await this.DbComicsEvent.Events[option.source]["UrlToList"](url);
           res = data;
         }
 
@@ -701,7 +701,7 @@ export class DbControllerService {
   UrlToDetailId = async (url: any, option?: {
     source: string
   }) => {
-    let res = await this.DbEvent.Events[option.source]["UrlToDetailId"](url);
+    let res = await this.DbComicsEvent.Events[option.source]["UrlToDetailId"](url);
     return res
   }
   async delWebDbDetail(id) {
@@ -713,8 +713,8 @@ export class DbControllerService {
   }) {
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;
-    if (this.DbEvent.Events[option.source] && this.DbEvent.Events[option.source]["Unlock"]) {
-      return await this.DbEvent.Events[option.source]["Unlock"](id);
+    if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["Unlock"]) {
+      return await this.DbComicsEvent.Events[option.source]["Unlock"](id);
     } else {
       return false
     }
@@ -743,7 +743,7 @@ export class DbControllerService {
   }) {
     if (!option) option = { source: this.AppData.source }
     if (!option.source) option.source = this.AppData.source;
-    const config = this.DbEvent.Configs[option.source];
+    const config = this.DbComicsEvent.Configs[option.source];
     if (!config.is_preloading || !config.is_cache) return
 
     if (this.load[id]) {

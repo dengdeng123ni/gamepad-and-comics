@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 
-import { DbControllerService, IndexdbControllerService } from '../public-api';
+import { DbComicsControllerService, IndexdbControllerService } from '../public-api';
 import { ReadRecordChapterService } from './read-record-chapter.service';
 
 @Component({
@@ -12,7 +12,12 @@ import { ReadRecordChapterService } from './read-record-chapter.service';
 })
 export class ReadRecordChapterComponent {
   list = [];
-  constructor(public webDb: IndexdbControllerService, public ReadRecordChapter: ReadRecordChapterService, public router: Router,public DbController:DbControllerService) {
+  constructor(
+    public webDb: IndexdbControllerService,
+    public ReadRecordChapter: ReadRecordChapterService,
+    public router: Router,
+    public DbComicsController:DbComicsControllerService
+  ) {
     this.init();
   }
 
@@ -74,7 +79,7 @@ export class ReadRecordChapterComponent {
   }
 
   async routerReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id),this.webDb.getByKey("last_read_comics", comics_id.toString())])
+    const _res: any = await Promise.all([this.DbComicsController.getDetail(comics_id),this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/comics', source, comics_id, _res[1].chapter_id])
     } else {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 
-import { DbControllerService, DbEventService, GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
+import { DbComicsControllerService, DbComicsEventService, GamepadEventService, IndexdbControllerService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { MenuSearchService } from './menu-search.service';
 import { WhenInputtingService } from '../when-inputting/when-inputting.service';
@@ -26,18 +26,18 @@ export class MenuSearchComponent {
   }
 
   constructor(public webDb: IndexdbControllerService,
-    public DbEvent:DbEventService,
+    public DbComicsEvent:DbComicsEventService,
     public GamepadEvent:GamepadEventService,
     public MenuSearch:MenuSearchService,
     public WhenInputting:WhenInputtingService,
-    public DbController:DbControllerService,
+    public DbComicsController:DbComicsControllerService,
     public router: Router,
     public current:CurrentService
   ) {
 
-    Object.keys(DbEvent.Events).forEach(x=>{
-      if(DbEvent.Events[x].Search){
-         this.arr.push(DbEvent.Configs[x])
+    Object.keys(DbComicsEvent.Events).forEach(x=>{
+      if(DbComicsEvent.Events[x].Search){
+         this.arr.push(DbComicsEvent.Configs[x])
       }
     });
     this.init();
@@ -91,10 +91,10 @@ export class MenuSearchComponent {
     return arr
   }
   on(e){
-    if(this.DbEvent.Configs[e.source].type=="comics"){
+    if(this.DbComicsEvent.Configs[e.source].type=="comics"){
       this.MenuSearch.close();
       this.current.routerReader(e.source,e.id)
-    }else if(this.DbEvent.Configs[e.source].type=="novels"){
+    }else if(this.DbComicsEvent.Configs[e.source].type=="novels"){
       this.MenuSearch.close();
       this.routerNovelsReader(e.source,e.id)
     }else{
@@ -105,7 +105,7 @@ export class MenuSearchComponent {
 
   }
   async routerNovelsReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
+    const _res: any = await Promise.all([this.DbComicsController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {

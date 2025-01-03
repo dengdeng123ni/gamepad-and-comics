@@ -35,7 +35,7 @@ interface Tab {
 @Injectable({
   providedIn: 'root'
 })
-export class DbEventService {
+export class DbComicsEventService {
   public Events: { [key: string]: Events } = {};
 
 

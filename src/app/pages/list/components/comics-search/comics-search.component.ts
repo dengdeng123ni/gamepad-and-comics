@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, NgZone, ViewChild } from '@angular/core';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, GamepadEventService, HistoryService, IndexdbControllerService, QueryEventService, WebFileService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbComicsControllerService, DbComicsEventService, GamepadEventService, HistoryService, IndexdbControllerService, QueryEventService, WebFileService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute, NavigationStart, ParamMap, Router } from '@angular/router';
 import { Subject, map, throttleTime } from 'rxjs';
@@ -74,9 +74,9 @@ export class ComicsSearchComponent {
     public WebFile: WebFileService,
     private zone: NgZone,
     public route: ActivatedRoute,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
     public ComicsListV2: ComicsListV2Service,
     public ComicsSelectType: ComicsSelectTypeService,
     public GamepadEvent: GamepadEventService,
@@ -122,7 +122,7 @@ export class ComicsSearchComponent {
       this.value = value;
       this.keyword = value;
       this.App.setsource(source)
-      const obj = this.DbEvent.Configs[source].menu.find(x => x.id == 'search');
+      const obj = this.DbComicsEvent.Configs[source].menu.find(x => x.id == 'search');
       if (obj.query.page_size) this.page_size = obj.query.page_size;
 
 
@@ -184,17 +184,17 @@ export class ComicsSearchComponent {
         const nodec: any = $event.target
         if (nodec.getAttribute("router_reader")) {
 
-          if (this.DbEvent.Configs[this.source].type == "comics") {
+          if (this.DbComicsEvent.Configs[this.source].type == "comics") {
             this.current.routerDetail(this.source, data.id)
-          } else if (this.DbEvent.Configs[this.source].type == "novels") {
+          } else if (this.DbComicsEvent.Configs[this.source].type == "novels") {
             this.routerNovelsReader(this.source, data.id)
           } else {
             this.current.routerReader(this.source, data.id)
           }
         } else {
-          if (this.DbEvent.Configs[this.source].type == "comics") {
+          if (this.DbComicsEvent.Configs[this.source].type == "comics") {
             this.current.routerDetail(this.source, data.id)
-          } else if (this.DbEvent.Configs[this.source].type == "novels") {
+          } else if (this.DbComicsEvent.Configs[this.source].type == "novels") {
             this.routerNovelsDetail(this.source, data.id)
           } else {
             this.current.routerReader(this.source, data.id)
@@ -211,7 +211,7 @@ export class ComicsSearchComponent {
 
 
   async routerNovelsReader(source, comics_id) {
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
+    const _res: any = await Promise.all([this.DbComicsController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {
@@ -254,12 +254,12 @@ export class ComicsSearchComponent {
 
   async initFiast(obj) {
     if (this.value == '') return []
-    return await this.DbController.Search({ keyword: this.value, ...obj }, { source: this.source });
+    return await this.DbComicsController.Search({ keyword: this.value, ...obj }, { source: this.source });
   }
 
   async add(obj) {
     if (this.value == '') return []
-    return await this.DbController.Search({ keyword: this.value, ...obj }, { source: this.source });
+    return await this.DbComicsController.Search({ keyword: this.value, ...obj }, { source: this.source });
   }
 
   async init() {

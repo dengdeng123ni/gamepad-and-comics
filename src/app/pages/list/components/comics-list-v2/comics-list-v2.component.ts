@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd, NavigationStart } from '@angular/router';
 import { map, throttleTime, Subject } from 'rxjs';
-import { AppDataService, ContextMenuEventService, DbControllerService, DbEventService, HistoryService, IndexdbControllerService, KeyboardEventService, ListMenuControllerService, ListMenuEventService, LocalCachService, PromptService, WebFileService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbComicsControllerService, DbComicsEventService, HistoryService, IndexdbControllerService, KeyboardEventService, ListMenuControllerService, ListMenuEventService, LocalCachService, PromptService, WebFileService } from 'src/app/library/public-api';
 
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
@@ -91,9 +91,9 @@ export class ComicsListV2Component {
     public WebFile: WebFileService,
     private zone: NgZone,
     public route: ActivatedRoute,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
     public ComicsListV2: ComicsListV2Service,
     public KeyboardEvent: KeyboardEventService,
     public ComicsSelectType: ComicsSelectTypeService,
@@ -282,7 +282,7 @@ export class ComicsListV2Component {
             return []
           },
           Init: async () => {
-            return await this.DbController.UrlToList(decodeURIComponent(window.atob(sid)), {
+            return await this.DbComicsController.UrlToList(decodeURIComponent(window.atob(sid)), {
               source: this.source
             })
           }
@@ -304,11 +304,11 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+            const list = await this.DbComicsController.getList({ ...this.query_option, ...obj }, { source: this.source });
             return list
           },
           Init: async (obj) => {
-            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+            const list = await this.DbComicsController.getList({ ...this.query_option, ...obj }, { source: this.source });
             return list
           }
         })
@@ -362,11 +362,11 @@ export class ComicsListV2Component {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
+            const list = await this.DbComicsController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
             return list
           },
           Init: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
+            const list = await this.DbComicsController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
             return list
           }
         })
@@ -374,7 +374,7 @@ export class ComicsListV2Component {
         if(type!="custom") {
           this.menu_id = sid;
           this.source = source;
-          const obj = this.DbEvent.Configs[source].menu.find(x => x.id == sid);
+          const obj = this.DbComicsEvent.Configs[source].menu.find(x => x.id == sid);
           this.id = `${type}_${source}_${sid}`;
           if (obj.query.conditions) {
             this.query.list = obj.query.conditions;
@@ -396,13 +396,13 @@ export class ComicsListV2Component {
           }, {
             Add: async (obj) => {
 
-              const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+              const list = await this.DbComicsController.getList({ ...this.query_option, ...obj }, { source: this.source });
 
 
               return list
             },
             Init: async (obj) => {
-              const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+              const list = await this.DbComicsController.getList({ ...this.query_option, ...obj }, { source: this.source });
               return list
             }
           })
@@ -696,7 +696,7 @@ export class ComicsListV2Component {
   }
 
   async resetReadingProgress(comics_id) {
-    const detail = await this.DbController.getDetail(comics_id)
+    const detail = await this.DbComicsController.getDetail(comics_id)
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
       this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 })
@@ -708,7 +708,7 @@ export class ComicsListV2Component {
     await this.webDb.deleteByKey('history', comics_id.toString())
     await this.webDb.deleteByKey('local_comics', comics_id)
     await this.webDb.deleteByKey('local_comics', comics_id.toString())
-    this.DbController.delComicsAllImages(comics_id)
+    this.DbComicsController.delComicsAllImages(comics_id)
   }
   async cache() {
     const list = this.getSelectedData();

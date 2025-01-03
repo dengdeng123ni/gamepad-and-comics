@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { DbControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
+import { DbComicsControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ declare const window: any;
 })
 export class CurrentService {
   constructor(
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public RoutingController: RoutingControllerService,
     public router: Router,
     public webDb: IndexdbControllerService,

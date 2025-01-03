@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CacheControllerService, DbControllerService, IndexdbControllerService } from '../public-api';
+import { CacheControllerService, DbComicsControllerService, IndexdbControllerService } from '../public-api';
 import CryptoJS from 'crypto-js'
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Subject } from 'rxjs';
@@ -14,7 +14,7 @@ export class ArchiveControllerService {
   constructor(
     public webDb: IndexdbControllerService,
     private db: NgxIndexedDBService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webCh: CacheControllerService
   ) {
 

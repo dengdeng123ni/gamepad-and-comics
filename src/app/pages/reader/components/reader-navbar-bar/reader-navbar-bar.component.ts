@@ -6,7 +6,7 @@ import { ReaderNavbarBarService } from './reader-navbar-bar.service';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { RoutingControllerService } from 'src/app/library/routing-controller.service';
-import { DbEventService } from 'src/app/library/public-api';
+import { DbComicsEventService } from 'src/app/library/public-api';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { Platform } from '@angular/cdk/platform';
 
@@ -46,13 +46,13 @@ export class ReaderNavbarBarComponent implements OnInit {
     public router: Router,
     public data: DataService,
     public readerSection: ReaderSectionService,
-    public DbEvent:DbEventService,
+    public DbComicsEvent:DbComicsEventService,
     public platform: Platform,
     public RoutingController:RoutingControllerService
   ) {
     this.is_phone= (window.innerWidth < 480 && (platform.ANDROID || platform.IOS))
     document.documentElement.style.setProperty('--reader-navbar-bar-zoom', `${((window.innerHeight*0.1)/90)>1?((window.innerHeight*0.1)/90):1}`);
-    this.title= DbEvent.Configs[current.source]?.name;
+    this.title= DbComicsEvent.Configs[current.source]?.name;
     this.readerNavbarBarChange$ = this.readerNavbarBar.change().subscribe(x => {
       if (x == true) {
         this.chapter_index = data.chapters.findIndex(x => x.id == data.chapter_id)

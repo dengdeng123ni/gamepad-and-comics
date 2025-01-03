@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/rout
 
 import { map, throttleTime, Subject } from 'rxjs';
 import { LocalCachService } from 'src/app/library/local-cach.service';
-import { ContextMenuEventService, DbControllerService, DbEventService, KeyboardEventService, HistoryService, AppDataService, IndexdbControllerService } from 'src/app/library/public-api';
+import { ContextMenuEventService, DbComicsControllerService, DbComicsEventService, KeyboardEventService, HistoryService, AppDataService, IndexdbControllerService } from 'src/app/library/public-api';
 import { WebFileService } from 'src/app/library/web-file.service';
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
@@ -74,9 +74,9 @@ export class NovelsListComponent {
     public WebFile: WebFileService,
     private zone: NgZone,
     public route: ActivatedRoute,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
     public NovelsList: NovelsListService,
     public KeyboardEvent: KeyboardEventService,
     public ComicsSelectType: ComicsSelectTypeService,
@@ -165,18 +165,18 @@ export class NovelsListComponent {
           page_size: 20
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
+            const list = await this.DbComicsController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
             return list
           },
           Init: async (obj) => {
-            const list = await this.DbController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
+            const list = await this.DbComicsController.getList({ temporary_file_id: this.id, ...obj }, { source: 'temporary_file', is_cache: false });
             return list
           }
         })
       } else if (sid) {
         this.menu_id = sid;
         this.source = source;
-        const obj = this.DbEvent.Configs[source].menu.find(x => x.id == sid);
+        const obj = this.DbComicsEvent.Configs[source].menu.find(x => x.id == sid);
         this.id = `${type}_${source}_${sid}`;
         if (obj.query.list) this.query.list = obj.query.list;
 
@@ -196,11 +196,11 @@ export class NovelsListComponent {
           page_size: obj.query.page_size
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+            const list = await this.DbComicsController.getList({ ...this.query_option, ...obj }, { source: this.source });
             return list
           },
           Init: async (obj) => {
-            const list = await this.DbController.getList({ ...this.query_option, ...obj }, { source: this.source });
+            const list = await this.DbComicsController.getList({ ...this.query_option, ...obj }, { source: this.source });
             return list
           }
         })
@@ -316,7 +316,7 @@ export class NovelsListComponent {
   }
 
   async resetReadingProgress(comics_id) {
-    const detail = await this.DbController.getDetail(comics_id)
+    const detail = await this.DbComicsController.getDetail(comics_id)
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
       this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 })
@@ -328,7 +328,7 @@ export class NovelsListComponent {
     await this.webDb.deleteByKey('history', comics_id.toString())
     await this.webDb.deleteByKey('local_comics', comics_id)
     await this.webDb.deleteByKey('local_comics', comics_id.toString())
-    this.DbController.delComicsAllImages(comics_id)
+    this.DbComicsController.delComicsAllImages(comics_id)
   }
   async cache() {
     const list = this.getSelectedData();
@@ -353,7 +353,7 @@ export class NovelsListComponent {
   }
   async routerReader(source, comics_id) {
     this.data.currend_read_comics_id = comics_id;
-    const _res: any = await Promise.all([this.DbController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
+    const _res: any = await Promise.all([this.DbComicsController.getDetail(comics_id), this.webDb.getByKey("last_read_comics", comics_id.toString())])
     if (_res[1]) {
       this.router.navigate(['/novels', source, comics_id, _res[1].chapter_id])
     } else {

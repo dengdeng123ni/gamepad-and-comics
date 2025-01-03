@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { AppDataService, ContextMenuEventService, DbControllerService, I18nService, IndexdbControllerService, NotifyService, RoutingControllerService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbComicsControllerService, I18nService, IndexdbControllerService, NotifyService, RoutingControllerService } from 'src/app/library/public-api';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { CurrentService } from '../../services/current.service';
@@ -40,7 +40,7 @@ export class ChapterListMode1Component {
     public doublePageThumbnail: DoublePageThumbnailService,
     public ContextMenuEvent: ContextMenuEventService,
     public exportSettings: ExportSettingsService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public RoutingController: RoutingControllerService,
     public Notify:NotifyService,
     private _snackBar: MatSnackBar,
@@ -63,10 +63,10 @@ export class ChapterListMode1Component {
             name: "重置数据", id: "reset_data", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 const chapter_id = list[index].id;
-                await this.DbController.delWebDbPages(chapter_id)
-                const pages = await this.DbController.getPages(chapter_id)
+                await this.DbComicsController.delWebDbPages(chapter_id)
+                const pages = await this.DbComicsController.getPages(chapter_id)
                 for (let index = 0; index < pages.length; index++) {
-                  await this.DbController.delWebDbImage(pages[index].src)
+                  await this.DbComicsController.delWebDbImage(pages[index].src)
                 }
                 this.Notify.messageBox('已完成', '', {  duration: 1000 })
               }
@@ -76,11 +76,11 @@ export class ChapterListMode1Component {
             name: "提前加载", id: "load", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 const chapter_id = list[index].id;
-                let pages = await this.DbController.getPages(chapter_id)
+                let pages = await this.DbComicsController.getPages(chapter_id)
                 for (let i = 0; i < pages.length; i += data.images_concurrency_limit) {
                   const batch = pages.slice(i, i + data.images_concurrency_limit);
                   const pagesPromises = batch.map(x =>
-                    this.DbController.getImage(x.src)
+                    this.DbComicsController.getImage(x.src)
                   );
                   await Promise.all(pagesPromises);
                   this.Notify.messageBox(`${list[index].title} ${i + 1}/${pages.length}`, '已完成')
@@ -97,8 +97,8 @@ export class ChapterListMode1Component {
             name: "重新获取", id: "reset_get", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 const chapter_id = list[index].id;
-                await this.DbController.delWebDbPages(chapter_id)
-                const pages = await this.DbController.getPages(chapter_id)
+                await this.DbComicsController.delWebDbPages(chapter_id)
+                const pages = await this.DbComicsController.getPages(chapter_id)
               }
 
               this.Notify.messageBox('已完成', '', {
@@ -111,7 +111,7 @@ export class ChapterListMode1Component {
             name: "删除", id: "delete", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
                 await this.current._delChapter(this.data.comics_id, list[index].id)
-                const r = await this.DbController.getDetail(this.data.comics_id);
+                const r = await this.DbComicsController.getDetail(this.data.comics_id);
                 this.data.chapters = r.chapters;
               }
             }
@@ -119,7 +119,7 @@ export class ChapterListMode1Component {
           {
             name: "JSON", id: "json", click: async (list) => {
               for (let index = 0; index < list.length; index++) {
-                const res = await this.DbController.getPages(list[index].id)
+                const res = await this.DbComicsController.getPages(list[index].id)
                 const jsonString = JSON.stringify(res, null, 2); // 格式化 JSON
                 const blob = new Blob([jsonString], { type: "application/json" });
                 const url = URL.createObjectURL(blob);
@@ -152,12 +152,12 @@ export class ChapterListMode1Component {
             name: "合并章节", id: "delete1", click: async (list) => {
               let arr=[];
               for (let index = 0; index < list.length; index++) {
-                 const c= await this.DbController.getPages(list[index].id);
+                 const c= await this.DbComicsController.getPages(list[index].id);
                  arr.push(...c)
               }
               const _id=`_${new Date().getTime()}`;
-              const c=await this.DbController.putWebDbPages(_id,arr);
-              let detail = await this.DbController.getDetail(this.data.comics_id, { source: this.current.source })
+              const c=await this.DbComicsController.putWebDbPages(_id,arr);
+              let detail = await this.DbComicsController.getDetail(this.data.comics_id, { source: this.current.source })
               const index= detail.chapters.findIndex(x=>x.id.toString()==list[0].id.toString())
               let obj= JSON.parse(JSON.stringify(detail.chapters[index]));
               obj.id=_id;
@@ -166,8 +166,8 @@ export class ChapterListMode1Component {
               for (let index = 0; index < list.length; index++) {
               detail.chapters=detail.chapters.filter(x=>x.id!=list[index].id)
              }
-             await this.DbController.putWebDbDetail(this.data.comics_id, detail);
-             const r = await this.DbController.getDetail(this.data.comics_id);
+             await this.DbComicsController.putWebDbDetail(this.data.comics_id, detail);
+             const r = await this.DbComicsController.getDetail(this.data.comics_id);
              this.data.chapters = r.chapters;
             }
           },

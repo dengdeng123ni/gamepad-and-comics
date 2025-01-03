@@ -1,7 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, ParamMap, Router } from '@angular/router';
 import { map } from 'rxjs';
-import { DbControllerService, DbEventService, IndexdbControllerService, QueryEventService } from 'src/app/library/public-api';
+import { DbComicsControllerService, DbComicsEventService, IndexdbControllerService, QueryEventService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 
 
@@ -29,10 +29,10 @@ export class ComicsCustomChoiceComponent {
   is_init_free = false;
   constructor(
     public route: ActivatedRoute,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
     public QueryEvent: QueryEventService,
     public data: DataService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService,
     private router: Router,
     private zone: NgZone,
@@ -44,7 +44,7 @@ export class ComicsCustomChoiceComponent {
       const sid = params.get('sid')
       this.menu_id = sid;
       this.source = id;
-      const obj = this.DbEvent.Configs[id].menu.find(x => x.id == sid);
+      const obj = this.DbComicsEvent.Configs[id].menu.find(x => x.id == sid);
       this.uid = `choice_${id}_${sid}`;
 
       this.list = obj.query.list;
@@ -64,12 +64,12 @@ export class ComicsCustomChoiceComponent {
           page_size:obj.query.page_size
         }, {
           Add: async (obj) => {
-            const list = await this.DbController.getList({ ...this.option, ...obj }, { source: this.source });
+            const list = await this.DbComicsController.getList({ ...this.option, ...obj }, { source: this.source });
             return list
           },
           Init: async (obj) => {
             this.obj = obj;
-            const list = await this.DbController.getList({ ...this.option, ...obj }, { source: this.source });
+            const list = await this.DbComicsController.getList({ ...this.option, ...obj }, { source: this.source });
             return list
           }
         })
@@ -88,7 +88,7 @@ export class ComicsCustomChoiceComponent {
       menu_id: this.menu_id,
       ...e,
     }
-    this.data.list = await this.DbController.getList({ ...this.option, ...this.obj }, { source: this.source });
+    this.data.list = await this.DbComicsController.getList({ ...this.option, ...this.obj }, { source: this.source });
   }
   utf8_to_b64(str: string) {
     return window.btoa(unescape(encodeURIComponent(str)));

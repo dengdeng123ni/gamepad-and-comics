@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IndexdbControllerService, CacheControllerService, DbEventService, DbControllerService, ReplaceChannelEventService, ParamsEventService, TranslateControllerService, I18nService, TranslateEventService } from '../public-api';
+import { IndexdbControllerService, CacheControllerService, DbComicsEventService, DbComicsControllerService, ReplaceChannelEventService, ParamsEventService, TranslateControllerService, I18nService, TranslateEventService } from '../public-api';
 
 import CryptoJS from 'crypto-js'
 
@@ -31,8 +31,8 @@ export class ReplaceChannelControllerService {
     public ReplaceChannelEvent: ReplaceChannelEventService,
     public TranslateController: TranslateControllerService,
     public TranslateEvent: TranslateEventService,
-    public DbController: DbControllerService,
-    public DbEvent: DbEventService,
+    public DbComicsController: DbComicsControllerService,
+    public DbComicsEvent: DbComicsEventService,
     public I18n: I18nService,
     public webDb: IndexdbControllerService,
     public ParamsEvent: ParamsEventService,
@@ -52,10 +52,10 @@ export class ReplaceChannelControllerService {
     const events = {
 
     }
-    Object.keys(this.DbEvent.Events).forEach(x => {
+    Object.keys(this.DbComicsEvent.Events).forEach(x => {
       if (!events[x]) events[x] = {}
-      Object.keys(this.DbEvent.Events[x]).forEach(c => {
-        events[x][c] = this.DbEvent.Events[x][c].bind(null);
+      Object.keys(this.DbComicsEvent.Events[x]).forEach(c => {
+        events[x][c] = this.DbComicsEvent.Events[x][c].bind(null);
       })
     })
     this.original = {
@@ -72,9 +72,9 @@ export class ReplaceChannelControllerService {
         delete: this.webCh.delete.bind(null),
         keys: this.webCh.keys.bind(null),
       },
-      DbEvent: {
+      DbComicsEvent: {
         Events: events,
-        Configs: this.DbEvent.Configs
+        Configs: this.DbComicsEvent.Configs
       }
     }
 
@@ -95,14 +95,14 @@ export class ReplaceChannelControllerService {
     const events = {
 
     }
-    Object.keys(this.original.DbEvent.Events).forEach(x => {
+    Object.keys(this.original.DbComicsEvent.Events).forEach(x => {
       if (!events[x]) events[x] = {}
-      Object.keys(this.original.DbEvent.Events[x]).forEach(c => {
-        events[x][c] = this.original.DbEvent.Events[x][c].bind(null);
+      Object.keys(this.original.DbComicsEvent.Events[x]).forEach(c => {
+        events[x][c] = this.original.DbComicsEvent.Events[x][c].bind(null);
       })
     })
-    this.DbEvent.Events = events;
-    this.DbEvent.Configs = this.original.DbEvent.Configs;
+    this.DbComicsEvent.Events = events;
+    this.DbComicsEvent.Configs = this.original.DbComicsEvent.Configs;
 
     if (window._gh_menu_update) window._gh_menu_update()
     if (window._gh_page_reset) window._gh_page_reset()
@@ -210,13 +210,13 @@ export class ReplaceChannelControllerService {
     if (this.old_data && this.old_data.is_enabled) {
       const res = await this.original.webDb.getByKey('data', '_replace_channel_db_event')
       if (res) {
-        if (res.configs) this.DbEvent.Configs = res.configs;
+        if (res.configs) this.DbComicsEvent.Configs = res.configs;
         if (res.events) {
-          this.DbEvent.Events = {};
+          this.DbComicsEvent.Events = {};
           Object.keys(res.events).forEach(x => {
-            if (!this.DbEvent.Events[x]) this.DbEvent.Events[x] = {} as any;
+            if (!this.DbComicsEvent.Events[x]) this.DbComicsEvent.Events[x] = {} as any;
             Object.keys(res.events[x]).forEach(c => {
-              this.DbEvent.Events[x][c] = async (...e): Promise<any> => {
+              this.DbComicsEvent.Events[x][c] = async (...e): Promise<any> => {
                 const res = await this.send_message({
                   parameter: e,
                   function_name: c,
@@ -379,13 +379,13 @@ export class ReplaceChannelControllerService {
         this.TranslateEvent.register(res.data.language, res.data.current_language_translate_json)
       }
       if (res.data.language) this.I18n.setLang(res.data.language)
-      if (res.data.configs) this.DbEvent.Configs = res.data.configs;
+      if (res.data.configs) this.DbComicsEvent.Configs = res.data.configs;
       if (res.data.events) {
-        this.DbEvent.Events = {};
+        this.DbComicsEvent.Events = {};
         Object.keys(res.data.events).forEach(x => {
-          if (!this.DbEvent.Events[x]) this.DbEvent.Events[x] = {} as any;
+          if (!this.DbComicsEvent.Events[x]) this.DbComicsEvent.Events[x] = {} as any;
           Object.keys(res.data.events[x]).forEach(c => {
-            this.DbEvent.Events[x][c] = async (...e): Promise<any> => {
+            this.DbComicsEvent.Events[x][c] = async (...e): Promise<any> => {
               const res = await this.send_message({
                 parameter: e,
                 function_name: c,
@@ -422,7 +422,7 @@ export class ReplaceChannelControllerService {
           res = await this.responseToJson(res)
         }
       } else if (e.target_source == "builtin") {
-        res = await this.original.DbEvent.Events[e.source][e.function_name](...e.parameter);
+        res = await this.original.DbComicsEvent.Events[e.source][e.function_name](...e.parameter);
         if (e.function_name == "getImage") {
           res = await this.blobToBase64(res)
         }
@@ -433,9 +433,9 @@ export class ReplaceChannelControllerService {
 
 
           let events = {}
-          Object.keys(this.original.DbEvent.Events).forEach(x => {
+          Object.keys(this.original.DbComicsEvent.Events).forEach(x => {
             if (!events[x]) events[x] = {}
-            Object.keys(this.original.DbEvent.Events[x]).forEach(c => {
+            Object.keys(this.original.DbComicsEvent.Events[x]).forEach(c => {
               events[x][c] = true;
             })
           })
@@ -444,7 +444,7 @@ export class ReplaceChannelControllerService {
             language: document.body.getAttribute('language'),
             current_language_translate_json: this.TranslateController.getCurrentTranslation(),
             events,
-            configs: this.original.DbEvent.Configs,
+            configs: this.original.DbComicsEvent.Configs,
             client_id: this.send_client_id
           }
         }

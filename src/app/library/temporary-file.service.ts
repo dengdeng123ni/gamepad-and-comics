@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbEventService, MessageEventService } from 'src/app/library/public-api';
+import { DbComicsEventService, MessageEventService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class TemporaryFileService {
   menu: any = [];
   constructor(
     public MessageEvent: MessageEventService,
-    public DbEvent: DbEventService
+    public DbComicsEvent: DbComicsEventService
   ) {
     // MessageEvent.service_worker_register('temporary_file', async event => {
     //   const id = parseInt(event.data.id);
@@ -23,7 +23,7 @@ export class TemporaryFileService {
 
 
 
-    DbEvent.comics_register({
+    DbComicsEvent.comics_register({
       id: "temporary_file",
       name: "本地文件",
       is_visible: false,

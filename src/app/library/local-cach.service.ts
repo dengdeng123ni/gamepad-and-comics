@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { AppDataService, CacheControllerService, DbControllerService, DbEventService, I18nService, IndexdbControllerService, NotifyService } from 'src/app/library/public-api';
+import { AppDataService, CacheControllerService, DbComicsControllerService, DbComicsEventService, I18nService, IndexdbControllerService, NotifyService } from 'src/app/library/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +9,16 @@ import { AppDataService, CacheControllerService, DbControllerService, DbEventSer
 export class LocalCachService {
 
   constructor(
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public AppData: AppDataService,
     public webDb: IndexdbControllerService,
     public Notify:NotifyService,
     private webCh:CacheControllerService,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
 
     public I18n: I18nService
   ) {
-    DbEvent.comics_register({
+    DbComicsEvent.comics_register({
       id: "temporary_data",
       name: "临时数据",
       is_visible: false,
@@ -41,7 +41,7 @@ export class LocalCachService {
         return (await this.webDb.getByKey("temporary_pages", id) as any).data
       }
     });
-    DbEvent.comics_register({
+    DbComicsEvent.comics_register({
       id: "local_cache",
       name: "本地缓存",
       is_visible: false,
@@ -104,24 +104,24 @@ export class LocalCachService {
 
   async save(id: any,source) {
 
-    let res = await this.DbController.getDetail(id, {
+    let res = await this.DbComicsController.getDetail(id, {
       source: source,
       is_cache: true
     });
     res.id = `7700_${res.id}`.toString();
-    await this.DbController.getImage(res.cover)
+    await this.DbComicsController.getImage(res.cover)
     for (let index = 0; index < res.chapters.length; index++) {
       let x = res.chapters[index];
-      await this.DbController.getImage(x.cover, {
+      await this.DbComicsController.getImage(x.cover, {
         source: source,
         is_cache: true
       })
-      let pages = await this.DbController.getPages(x.id, {
+      let pages = await this.DbComicsController.getPages(x.id, {
         source: source,
         is_cache: true
       })
       for (let index = 0; index < pages.length; index++) {
-        const images = await createImageBitmap(await this.DbController.getImage(pages[index].src, {
+        const images = await createImageBitmap(await this.DbComicsController.getImage(pages[index].src, {
           source: source,
           is_cache: true
         }))

@@ -3,7 +3,7 @@ import { DataService } from '../../services/data.service';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UploadService } from './upload.service';
-import { AppDataService, ArchiveControllerService, ContextMenuControllerService, ContextMenuEventService, DbEventService, DropDownMenuService, IndexdbControllerService, ListMenuControllerService, ListMenuEventService, LocalCachService, NotifyService, PromptService, PulgService, TemporaryFileService } from 'src/app/library/public-api';
+import { AppDataService, ArchiveControllerService, ContextMenuControllerService, ContextMenuEventService, DbComicsEventService, DropDownMenuService, IndexdbControllerService, ListMenuControllerService, ListMenuEventService, LocalCachService, NotifyService, PromptService, PulgService, TemporaryFileService } from 'src/app/library/public-api';
 import { MenuService } from './menu.service';
 import { CurrentService } from '../../services/current.service';
 import { ActivatedRoute, NavigationEnd, NavigationStart, ParamMap, Router } from '@angular/router';
@@ -88,7 +88,7 @@ export class MenuComponent {
     public upload: UploadService,
     public temporaryFile: TemporaryFileService,
     public AppData: AppDataService,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
     public LocalCach: LocalCachService,
     public webDb: IndexdbControllerService,
     public menu: MenuService,
@@ -315,7 +315,7 @@ export class MenuComponent {
             id: "open_href",
             name: "打开网站",
             click: (e) => {
-              window.open(this.DbEvent.Configs[e].href)
+              window.open(this.DbComicsEvent.Configs[e].href)
             }
           }
         ]
@@ -343,7 +343,7 @@ export class MenuComponent {
             id: "open_href",
             name: "打开网站",
             click: (e) => {
-              window.open(this.DbEvent.Configs[e].href)
+              window.open(this.DbComicsEvent.Configs[e].href)
             }
           }
         ]
@@ -359,7 +359,7 @@ export class MenuComponent {
             id: "open_href",
             name: "打开网站",
             click: (e) => {
-              window.open(this.DbEvent.Configs[e].href)
+              window.open(this.DbComicsEvent.Configs[e].href)
             }
           }
         ]
@@ -389,7 +389,7 @@ export class MenuComponent {
     if (!source) source = this.AppData.source;
 
     if (this.data.menu.length == 0) {
-      Object.keys(this.DbEvent.Events).forEach((x) => {
+      Object.keys(this.DbComicsEvent.Events).forEach((x) => {
         if (x == "temporary_file") return
         if (x == "local_cache") return
         if (x == "temporary_data") return
@@ -397,13 +397,13 @@ export class MenuComponent {
         let obj = {
           id: x,
           icon: "folder_open",
-          name: this.DbEvent.Configs[x].name,
+          name: this.DbComicsEvent.Configs[x].name,
           submenu: [],
           expanded: true
         };
-        if (this.DbEvent.Configs[x].menu) {
-          for (let index = 0; index < this.DbEvent.Configs[x].menu.length; index++) {
-            const j122 = this.DbEvent.Configs[x].menu[index]
+        if (this.DbComicsEvent.Configs[x].menu) {
+          for (let index = 0; index < this.DbComicsEvent.Configs[x].menu.length; index++) {
+            const j122 = this.DbComicsEvent.Configs[x].menu[index]
             let obj1 = {
               ...j122,
               click: () => {
@@ -434,7 +434,7 @@ export class MenuComponent {
             obj.submenu.push(obj1)
           }
         }
-        if (this.DbEvent.Configs[x].type == "comics") {
+        if (this.DbComicsEvent.Configs[x].type == "comics") {
           obj.submenu.push(
             {
               id: "history",
@@ -718,7 +718,7 @@ export class MenuComponent {
           })
         })
       }
-      this.change$ = this.DbEvent.add().subscribe((x: any) => {
+      this.change$ = this.DbComicsEvent.add().subscribe((x: any) => {
         let obj = {
           id: x,
           icon: "home",
@@ -770,13 +770,13 @@ export class MenuComponent {
   }
   async opensource() {
     let list = [];
-    Object.keys(this.DbEvent.Events).forEach(x => {
+    Object.keys(this.DbComicsEvent.Events).forEach(x => {
       if (x == "temporary_file") return
       if (x == "local_cache") return
       if (x == "temporary_data") return
       let obj = {
         id: x,
-        name: this.DbEvent.Configs[x].name
+        name: this.DbComicsEvent.Configs[x].name
       };
       list.push(obj)
     })
@@ -930,7 +930,7 @@ export class MenuComponent {
   on3fee(e) {
     this.menu.current_menu_pid = `${e.id}`;
     this.menu.current_menu_id = `${e.id}_history`
-    if (this.DbEvent.Configs[e.id].type == "comics") {
+    if (this.DbComicsEvent.Configs[e.id].type == "comics") {
       this.router.navigate(['query', 'history', e.id], {
         queryParams: {
           gh_data: 'reset',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DbControllerService } from 'src/app/library/public-api';
+import { DbComicsControllerService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
 
@@ -11,7 +11,7 @@ import { CurrentService } from '../../services/current.service';
 export class RepliesPageComponent {
 
   constructor(
-    public DbController:DbControllerService,
+    public DbComicsController:DbComicsControllerService,
     public current:CurrentService,
     public data:DataService
   ) {
@@ -20,7 +20,7 @@ export class RepliesPageComponent {
 
   async init() {
 
-    this.list= await this.DbController.getReplies({
+    this.list= await this.DbComicsController.getReplies({
       comics_id:this.data.comics_id,
       page_index:1
     },{

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map } from 'rxjs';
-import { DbEventService, QueryEventService, DbControllerService, IndexdbControllerService } from 'src/app/library/public-api';
+import { DbComicsEventService, QueryEventService, DbComicsControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 import { DataService } from '../../services/data.service';
 import { ComicsSelectTypeService } from '../comics-select-type/comics-select-type.service';
 
@@ -29,11 +29,11 @@ export class ComicsCustomMultipyComponent {
   is_init_free = false;
   constructor(
     public route: ActivatedRoute,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
     public QueryEvent: QueryEventService,
     public ComicsSelectType: ComicsSelectTypeService,
     public data: DataService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService
   ) {
     let id$ = this.route.paramMap.pipe(map((params: ParamMap) => params));
@@ -43,7 +43,7 @@ export class ComicsCustomMultipyComponent {
       this.menu_id = sid;
       this.source = id;
       this.uid = `multipy_${id}_${sid}`;
-      const obj = this.DbEvent.Configs[id].menu.find(x => x.id == sid);
+      const obj = this.DbComicsEvent.Configs[id].menu.find(x => x.id == sid);
       this.lists = obj.query.list;
       QueryEvent.register({
         id: "multipy",
@@ -51,12 +51,12 @@ export class ComicsCustomMultipyComponent {
         page_size: obj.query.page_size
       }, {
         Add: async (obj) => {
-          const list = await this.DbController.getList({ ...this.option, ...obj }, { source: this.source });
+          const list = await this.DbComicsController.getList({ ...this.option, ...obj }, { source: this.source });
           return list
         },
         Init: async (obj) => {
           this.obj = obj;
-          const list = await this.DbController.getList({ ...this.option, ...obj }, { source: this.source });
+          const list = await this.DbComicsController.getList({ ...this.option, ...obj }, { source: this.source });
           return list
         }
       })
@@ -86,7 +86,7 @@ export class ComicsCustomMultipyComponent {
     const ic = await this.ComicsSelectType.getType(e.tag, index, { position: { top: `${y}px`, left: `${x}px` } }) as any
     this.lists[index].index = ic;
     this.getData();
-    this.data.list = await this.DbController.getList({ ...this.option, ...this.obj }, { source: this.source });
+    this.data.list = await this.DbComicsController.getList({ ...this.option, ...this.obj }, { source: this.source });
   }
 
   getData() {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DbEventService } from 'src/app/library/public-api';
+import { DbComicsEventService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { UrlToComicsIdService } from './url-to-comics-id.service';
 
@@ -10,7 +10,7 @@ import { UrlToComicsIdService } from './url-to-comics-id.service';
 })
 export class UrlToComicsIdComponent {
   constructor(
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
     public current: CurrentService,
     public urlToComicsId: UrlToComicsIdService
   ) {

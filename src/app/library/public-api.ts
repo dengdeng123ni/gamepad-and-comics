@@ -48,9 +48,10 @@ export * from './params/params-controller.service';
 export * from './download/download.service';
 export * from './i18n/i18n.service';
 export * from './data/data.service';
-export * from './db/db-controller.service';
-export * from './db/db-event.service';
+export * from './db/db-comics-controller.service';
+export * from './db/db-comics-event.service';
 export * from './db/db-novels-controller.service';
+export * from './db/db-novels-event.service';
 
 export * from './download/download-controller.service';
 export * from './download/download-event.service';

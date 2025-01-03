@@ -11,7 +11,7 @@ import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { ComicsDetailService } from '../comics-detail/comics-detail.service';
-import { ContextMenuEventService, DbControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
+import { ContextMenuEventService, DbComicsControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 
 import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
 import { FilterService } from '../filter/filter.service';
@@ -54,7 +54,7 @@ export class ReaderToolbarComponent {
     public ReaderConfig: ReaderConfigService,
     public ComicsDetail: ComicsDetailService,
     public ChaptersFirstCoverSettings: ChaptersFirstCoverSettingsService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService,
     public filter: FilterService,
     public resetReadingProgress: ResetReadingProgressService,

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { map, async } from 'rxjs';
-import { DbControllerService, IndexdbControllerService } from 'src/app/library/public-api';
+import { DbComicsControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-developer-page',
@@ -12,7 +12,7 @@ import { DbControllerService, IndexdbControllerService } from 'src/app/library/p
 export class DeveloperPageComponent {
   source
   constructor(public webDb: IndexdbControllerService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public router: Router,
     public route: ActivatedRoute,
 
@@ -25,18 +25,18 @@ export class DeveloperPageComponent {
   }
   value = ""
   async on() {
-    const c = await this.DbController.UrlToDetailId(this.value,{
+    const c = await this.DbComicsController.UrlToDetailId(this.value,{
       source:this.source
     });
     console.log("已匹配到当前ID:", c);
     console.log("开始获取漫画数据");
-    const j = await this.DbController.getDetail(c,{
+    const j = await this.DbComicsController.getDetail(c,{
       source:this.source,
       is_cache:false
     });
     console.log("获取漫画数据成功",j);
     console.log("开始获取章节数据");
-    const e = await this.DbController.getPages(j.chapters[0].id,{
+    const e = await this.DbComicsController.getPages(j.chapters[0].id,{
       source:this.source,
       is_cache:false
     });

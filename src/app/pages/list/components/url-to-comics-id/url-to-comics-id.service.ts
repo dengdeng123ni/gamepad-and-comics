@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DbEventService, GamepadEventService } from 'src/app/library/public-api';
+import { DbComicsEventService, GamepadEventService } from 'src/app/library/public-api';
 import { UrlToComicsIdComponent } from './url-to-comics-id.component';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class UrlToComicsIdService {
   constructor(
     public _dialog: MatDialog,
     public GamepadEvent: GamepadEventService,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
   ) {
     GamepadEvent.registerAreaEvent('item', {
       B: () => setTimeout(() => this.close())
@@ -48,9 +48,9 @@ export class UrlToComicsIdService {
 
   async UrlToDetailIdAll(url) {
     this.list = []
-    for (let index = 0; index < Object.keys(this.DbEvent.Events).length; index++) {
-      const x = Object.keys(this.DbEvent.Events)[index];
-      if (this.DbEvent.Events[x]["UrlToDetailId"]) {
+    for (let index = 0; index < Object.keys(this.DbComicsEvent.Events).length; index++) {
+      const x = Object.keys(this.DbComicsEvent.Events)[index];
+      if (this.DbComicsEvent.Events[x]["UrlToDetailId"]) {
         await this.UrlToDetailId(x, url)
       }
     }
@@ -60,12 +60,12 @@ export class UrlToComicsIdService {
   }
 
   async UrlToComicsId(url):Promise<any> {
-    for (let index = 0; index < Object.keys(this.DbEvent.Events).length; index++) {
-      const x = Object.keys(this.DbEvent.Events)[index];
-      if (this.DbEvent.Events[x]["UrlToDetailId"]) {
-        const id = await this.DbEvent.Events[x]["UrlToDetailId"](url);
+    for (let index = 0; index < Object.keys(this.DbComicsEvent.Events).length; index++) {
+      const x = Object.keys(this.DbComicsEvent.Events)[index];
+      if (this.DbComicsEvent.Events[x]["UrlToDetailId"]) {
+        const id = await this.DbComicsEvent.Events[x]["UrlToDetailId"](url);
         if (id) {
-          const detail = await this.DbEvent.Events[x]["getDetail"](id);
+          const detail = await this.DbComicsEvent.Events[x]["getDetail"](id);
           if (detail) {
             return {oright:x,title:detail.title,id:id}
           }
@@ -78,13 +78,13 @@ export class UrlToComicsIdService {
 
 
   async UrlToDetailId(x, url) {
-    const id = await this.DbEvent.Events[x]["UrlToDetailId"](url);
+    const id = await this.DbComicsEvent.Events[x]["UrlToDetailId"](url);
     if (id) {
-      const detail = await this.DbEvent.Events[x]["getDetail"](id);
+      const detail = await this.DbComicsEvent.Events[x]["getDetail"](id);
       if (detail) {
         this.list.push({
           id: x,
-          name: this.DbEvent.Configs[x].name,
+          name: this.DbComicsEvent.Configs[x].name,
           detail: detail
         })
       }

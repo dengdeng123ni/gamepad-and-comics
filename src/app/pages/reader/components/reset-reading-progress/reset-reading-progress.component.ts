@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DbControllerService, IndexdbControllerService } from 'src/app/library/public-api';
+import { DbComicsControllerService, IndexdbControllerService } from 'src/app/library/public-api';
 import { CurrentService } from '../../services/current.service';
 import { ResetReadingProgressService } from './reset-reading-progress.service';
 
@@ -16,7 +16,7 @@ export class ResetReadingProgressComponent {
     public data:DataService,
     public current: CurrentService,
     public resetReadingProgress: ResetReadingProgressService,
-    public DbController:DbControllerService,
+    public DbComicsController:DbComicsControllerService,
     public webDb: IndexdbControllerService,
   ) {
 
@@ -32,7 +32,7 @@ export class ResetReadingProgressComponent {
   }
 
   async reset(comics_id) {
-    const detail = await this.DbController.getDetail(comics_id,{source:this.current.source})
+    const detail = await this.DbComicsController.getDetail(comics_id,{source:this.current.source})
     for (let index = 0; index < detail.chapters.length; index++) {
       const x = detail.chapters[index];
       this.webDb.update("last_read_chapter_page", { 'chapter_id': x.id.toString(), "page_index": 0 })

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { DbEventService } from '../public-api';
+import { DbComicsEventService } from '../public-api';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class AppDataService {
     return this.source$
   }
   sourceConfig={};
-  constructor(public DbEvent: DbEventService,
+  constructor(public DbComicsEvent: DbComicsEventService,
     public router: Router,
 
   ) {
@@ -62,12 +62,12 @@ export class AppDataService {
 
   setsource(source: string) {
     this.source = source;
-    const x = this.DbEvent.Configs[source];
+    const x = this.DbComicsEvent.Configs[source];
      this.sourceConfig=x;
      this.source$.next(x)
     document.body.setAttribute('source',source)
   }
   getOption() {
-    return this.DbEvent.Configs[this.source]
+    return this.DbComicsEvent.Configs[this.source]
   }
 }

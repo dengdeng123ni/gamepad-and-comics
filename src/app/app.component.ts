@@ -1,5 +1,5 @@
 import { Component, HostListener, Query } from '@angular/core';
-import { AppDataService, ContextMenuControllerService, DbControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService, CacheControllerService, ReplaceChannelControllerService, WsControllerService, ArchiveControllerService, TranslateEventService, TemporaryFileService, ListMenuEventService } from './library/public-api';
+import { AppDataService, ContextMenuControllerService, DbComicsControllerService, ImageService, RoutingControllerService, MessageControllerService, MessageEventService, PulgService, WorkerService, LocalCachService, TabService, SvgService, HistoryComicsListService, KeyboardEventService, WebFileService, ReadRecordService, ImageToControllerService, KeyboardControllerService, MessageFetchService, DownloadEventService, DbComicsEventService, ParamsControllerService, I18nService, TouchmoveControllerService, PromptService, IndexdbControllerService, CacheControllerService, ReplaceChannelControllerService, WsControllerService, ArchiveControllerService, TranslateEventService, TemporaryFileService, ListMenuEventService } from './library/public-api';
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
@@ -172,7 +172,7 @@ export class AppComponent {
     public MessageFetch: MessageFetchService,
     public MessageEvent: MessageEventService,
     public TemporaryFile: TemporaryFileService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public ContextMenuController: ContextMenuControllerService,
     public ListMenuEvent:ListMenuEventService,
     public WsController: WsControllerService,
@@ -197,7 +197,7 @@ export class AppComponent {
     public ArchiveController: ArchiveControllerService,
     private translate: TranslateService,
     public webDb: IndexdbControllerService,
-    public DbEvent: DbEventService,
+    public DbComicsEvent: DbComicsEventService,
     public Prompt: PromptService,
     public I18n: I18nService,
     public platform: Platform,
@@ -303,7 +303,7 @@ export class AppComponent {
 
     MessageEvent.service_worker_register('local_image', async (event: any) => {
       const data = event.data;
-      await DbController.getImage(data.id)
+      await DbComicsController.getImage(data.id)
       return { id: data.id, type: "local_image" }
     })
 

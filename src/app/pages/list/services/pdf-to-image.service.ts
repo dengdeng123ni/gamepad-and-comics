@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { compressAccurately } from 'image-conversion';
-import { DbControllerService, PulgService, RoutingControllerService } from 'src/app/library/public-api';
+import { DbComicsControllerService, PulgService, RoutingControllerService } from 'src/app/library/public-api';
 import { TemporaryDataControllerService } from 'src/app/library/temporary-data/temporary-data-controller.service';
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class PdfToImageService {
 
   constructor(
     public pulg:PulgService,
-    public DbController: DbControllerService,
+    public DbComicsController: DbComicsControllerService,
     public TemporaryDataController:TemporaryDataControllerService,
     public RoutingController:RoutingControllerService
   ) {
@@ -67,7 +67,7 @@ export class PdfToImageService {
       viewport: viewport,
     }).promise;
     const blob= await this.scaleCanvas(canvas, 2480)
-    await this.DbController.addImage(`http://localhost:7700/temporary_data/chapter/${md5}/${i}`,blob)
+    await this.DbComicsController.addImage(`http://localhost:7700/temporary_data/chapter/${md5}/${i}`,blob)
   }
 
   scaleCanvas(canvas, targetWidth = null, targetHeight = null) {

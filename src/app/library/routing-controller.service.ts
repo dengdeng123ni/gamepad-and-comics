@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
-import { DbControllerService, DbEventService, IndexdbControllerService } from './public-api';
+import { DbComicsControllerService, DbComicsEventService, IndexdbControllerService } from './public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ export class RoutingControllerService {
   constructor(
     public webDb: IndexdbControllerService,
     public router: Router,
-    public DbEvent: DbEventService,
-    public DbController: DbControllerService
+    public DbComicsEvent: DbComicsEventService,
+    public DbComicsController: DbComicsControllerService
 
   ) {
     router.events.subscribe((event) => {
@@ -54,12 +54,12 @@ export class RoutingControllerService {
     })
   }
   async UrlToComicsId(url): Promise<any> {
-    for (let index = 0; index < Object.keys(this.DbEvent.Events).length; index++) {
-      const x = Object.keys(this.DbEvent.Events)[index];
-      if (this.DbEvent.Events[x]["UrlToDetailId"]) {
-        const id = await this.DbEvent.Events[x]["UrlToDetailId"](url);
+    for (let index = 0; index < Object.keys(this.DbComicsEvent.Events).length; index++) {
+      const x = Object.keys(this.DbComicsEvent.Events)[index];
+      if (this.DbComicsEvent.Events[x]["UrlToDetailId"]) {
+        const id = await this.DbComicsEvent.Events[x]["UrlToDetailId"](url);
         if (id) {
-          const detail = await this.DbEvent.Events[x]["getDetail"](id);
+          const detail = await this.DbComicsEvent.Events[x]["getDetail"](id);
           if (detail) {
             return { oright: x, title: detail.title, id: id }
           }
@@ -69,10 +69,10 @@ export class RoutingControllerService {
     return null
   }
   async UrlToList(url): Promise<any> {
-    for (let index = 0; index < Object.keys(this.DbEvent.Events).length; index++) {
-      const x = Object.keys(this.DbEvent.Events)[index];
-      if (this.DbEvent.Events[x]["UrlToList"]) {
-        const res = await this.DbController["UrlToList"](url, {
+    for (let index = 0; index < Object.keys(this.DbComicsEvent.Events).length; index++) {
+      const x = Object.keys(this.DbComicsEvent.Events)[index];
+      if (this.DbComicsEvent.Events[x]["UrlToList"]) {
+        const res = await this.DbComicsController["UrlToList"](url, {
           source: x
         });
         if (res && res.length) {
@@ -131,9 +131,9 @@ export class RoutingControllerService {
     }
   }
   async routerReader(source, comics_id) {
-    if ("novels" == this.DbEvent.Configs[source].type) {
+    if ("novels" == this.DbComicsEvent.Configs[source].type) {
       const _res: any = await Promise.all([
-        this.DbController.getDetail(comics_id, {
+        this.DbComicsController.getDetail(comics_id, {
           source: source
         }), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
       if (_res[1]) {
@@ -143,7 +143,7 @@ export class RoutingControllerService {
       }
     } else {
       const _res: any = await Promise.all([
-        this.DbController.getDetail(comics_id, {
+        this.DbComicsController.getDetail(comics_id, {
           source: source
         }), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
       if (_res[1]) {
@@ -154,7 +154,7 @@ export class RoutingControllerService {
     }
   }
   async routerDetail(source, comics_id) {
-    if ("novels" == this.DbEvent.Configs[source].type) {
+    if ("novels" == this.DbComicsEvent.Configs[source].type) {
       this.router.navigate(['/novels_detail', source, comics_id]);
     } else {
       this.router.navigate(['/detail', source, comics_id]);
