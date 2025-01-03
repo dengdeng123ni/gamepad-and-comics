@@ -23,7 +23,6 @@ import { UrlToComicsIdComponent } from './components/url-to-comics-id/url-to-com
 import { TabToolbarComponent } from './components/tab-toolbar/tab-toolbar.component';
 import { ComicsListConfigComponent } from './components/comics-list-config/comics-list-config.component';
 import { ImageToComponent } from './components/image-to/image-to.component';
-import { CompositeModule } from 'src/app/composite/composite.module';
 import { DownloadProgressComponent } from './components/download-progress/download-progress.component';
 import { WhenInputtingComponent } from './components/when-inputting/when-inputting.component';
 import { MenuSearchComponent } from './components/menu-search/menu-search.component';
@@ -47,6 +46,7 @@ import { MobileWebQrcodeComponent } from './components/mobile-web-qrcode/mobile-
 import { LanguageSettingsComponent } from './components/language-settings/language-settings.component';
 import { ArchivePageComponent } from './components/archive-page/archive-page.component';
 import { FavoritesPageComponent } from './components/favorites-page/favorites-page.component';
+import { ImageToComicsListComponent } from './components/image-to-comics-list/image-to-comics-list.component';
 
 @NgModule({
   declarations: [
@@ -91,11 +91,11 @@ import { FavoritesPageComponent } from './components/favorites-page/favorites-pa
     LanguageSettingsComponent,
     ArchivePageComponent,
     FavoritesPageComponent,
+    ImageToComicsListComponent,
   ],
   imports: [
     CommonModule,
     ListRoutingModule,
-    CompositeModule,
     MaterialModule,
     TranslateModule
   ],

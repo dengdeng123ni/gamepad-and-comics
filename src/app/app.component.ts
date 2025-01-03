@@ -5,7 +5,6 @@ import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
-import { TestService } from './composite/test/test.service';
 import { bufferCount, Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { TranslateService } from '@ngx-translate/core';
@@ -190,7 +189,6 @@ export class AppComponent {
     public readRecord: ReadRecordService,
     public ReadRecordChapter: ReadRecordChapterService,
     public ImageToController: ImageToControllerService,
-    public testService: TestService,
     public DownloadEvent: DownloadEventService,
     public ParamsController: ParamsControllerService,
     public TouchmoveController: TouchmoveControllerService,

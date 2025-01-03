@@ -2,11 +2,11 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-comics-list-v11',
-  templateUrl: './comics-list-v11.component.html',
-  styleUrl: './comics-list-v11.component.scss'
+  selector: 'app-image-to-comics-list',
+  templateUrl: './image-to-comics-list.component.html',
+  styleUrl: './image-to-comics-list.component.scss'
 })
-export class ComicsListV11Component {
+export class ImageToComicsListComponent {
   list = [];
   is_edit=false;
   constructor(@Inject(MAT_DIALOG_DATA) public _data,){

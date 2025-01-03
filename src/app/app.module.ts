@@ -14,7 +14,6 @@ import { DetailModule } from './pages/detail/detail.module';
 import { ListModule } from './pages/list/list.module';
 import { ReaderModule } from './pages/reader/reader.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { CompositeModule } from './composite/composite.module';
 import { NovelsDetailModule } from './pages/novels-detail/novels-detail.module';
 import { NovelsRdeaderModule } from './pages/novels-reader/novels-reader.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -329,7 +328,6 @@ const dbConfig: DBConfig = {
     ListModule,
     DetailModule,
     ReaderModule,
-    CompositeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { DataService } from '../../services/data.service';
-import { ComicsListV11Component } from 'src/app/composite/public-api';
 import { IndexdbControllerService } from 'src/app/library/public-api';
+import { ImageToComicsListComponent } from '../image-to-comics-list/image-to-comics-list.component';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class OpenComicsListService {
   public opened: boolean = false;
   open(config?: MatDialogConfig) {
     if (this.opened == false) {
-      const dialogRef = this._dialog.open(ComicsListV11Component, config);
+      const dialogRef = this._dialog.open(ImageToComicsListComponent, config);
       document.body.setAttribute("locked_region", "image_to")
       dialogRef.afterClosed().subscribe(() => {
         if (document.body.getAttribute("locked_region") == "image_to" && this.opened) document.body.setAttribute("locked_region",document.body.getAttribute("router"))
