@@ -194,178 +194,7 @@ app-index{
 }
 
 
-html{
-  body[pattern=gamepad][locked_region=list],
-body[pattern=gamepad][locked_region=detail],
-body[pattern=gamepad][locked_region=reader],
-body[pattern=gamepad][locked_region=chapters_thumbnail],
-body[pattern=gamepad][locked_region=double_page_thumbnail],
-body[pattern=gamepad][locked_region=gamepad_left_circle_toolbar],
-body[pattern=gamepad][locked_region=menu],
-body[pattern=gamepad][locked_region=one_page_mode1],
-body[pattern=gamepad][locked_region=comics_type],
-body[pattern=gamepad][locked_region=thumbnail_sidebar_left],
-body[pattern=gamepad][locked_region=one_page_mode3],
-body[pattern=gamepad][locked_region=kyboard_toolbar],
-body[pattern=gamepad][locked_region=reader_config],
-body[pattern=gamepad][locked_region=chapters_list],
-body[pattern=gamepad][locked_region=reset_reading_progress],
-body[pattern=gamepad][locked_region=export_settings],
-body[pattern=gamepad][locked_region=chapter_unlock],
-body[pattern=gamepad][locked_region=history_comics_list],
-body[pattern=gamepad][locked_region=menu_search],
-body[pattern=gamepad][locked_region=download_option],
-body[pattern=gamepad][locked_region=url_usage_guide],
-body[pattern=gamepad][locked_region=plug_in_instructions],
-body[pattern=gamepad][locked_region=controller_settings],
-body[pattern=gamepad][locked_region=sound_effects],
-body[pattern=gamepad][locked_region=pulg_javascript],
-body[pattern=gamepad][locked_region=dialog],
 
-body[pattern=gamepad][locked_region=novels_chapters_list] {
-
-  [region=item][select=true],
-  [region=input][select=true],
-  [region=one_page_item][select=true],
-  [region=comics_option][select=true],
-  [region=chapters_item][select=true],
-  [region=continue][select=true],
-  [region=back][select=true],
-  [region=double_page_thumbnail_item][select=true],
-  [region=gamepad_toolabr_right][select=true],
-  [region=menu_item][select=true],
-  [region=comics_type_item][select=true],
-  [region=one_page_thumbnail_mode2][select=true],
-  [region=one_page_thumbnail_mode3][select=true],
-  [region=kyboard_toolbar_item][select=true],
-  [region=reader_config_item][select=true],
-  [region=menu_search_input][select=true],
-  [region=menu_search_comics_item][select=true],
-  [region=novels_chapters_item][select=true],
-
-  [region=reset_reading_progress][select=true],
-  [region=novels_chapters_item][select=true] {
-    position: relative;
-
-    &::after {
-      @extend .default_frame;
-    }
-  }
-}
-
-body[pattern=gamepad][locked_region=list] {
-
-  [region=context_menu_edit_item][select=true],
-  [region=input][select=true],
-
-  [region=comics_option][select=true],
-  [region=comics_item][select=true],
-  [region=menu_input][select=true],
-  [region=settings][select=true],
-  [region=novels_item][select=true] {
-    position: relative;
-
-    &::after {
-      @extend .default_frame;
-    }
-  }
-}
-
-body[pattern=gamepad][locked_region=drop_down_menu]{
-  [region=drop_down_menu_item][select=true]{
-    position: relative;
-
-    &::after {
-      @extend .default_frame;
-    }
-  }
-}
-body[pattern=gamepad][locked_region=select]{
-  [region=option][select=true]{
-    position: relative;
-
-    &::after {
-      @extend .default_frame;
-    }
-  }
-}
-body[pattern=gamepad][locked_region=detail]{
-  [region=chapters_text][select=true]{
-    position: relative;
-    color: #c2185b;
-    opacity: 1;
-    &::after {
-
-    }
-  }
-}
-body[pattern=gamepad]{
-  [region=comics_detail_item][select=true]{
-    position: relative;
-    color: #c2185b;
-    opacity: 1;
-    &::after {
-
-    }
-  }
-}
-
-
-
-
-body[pattern=gamepad]{
-
-  [region=archive_page_item][select=true],
-  [region=replace_channel_page_item][select=true],
-  [region=advanced_search_input][select=true],
-  [region=advanced_search_restart][select=true],
-  [region=advanced_search_item][select=true],
-  [region=advanced_search_slider][select=true],
-  [region=about_software_item][select=true],
-  [region=chip_option][select=true],
-  [region=chip_option_v32][select=true],
-  [region=select_input_number_item][select=true],
-  [region=mobile_web_qrcode_item][select=true],
-  [region=prompt_item][select=true],
-  [region=download_progress_item][select=true],
-  [region=select_tag_multiple_item][select=true],
-  [region=language_setting][select=true],
-  [region=pulg_javascript_item][select=true]
-
-  {
-    position: relative;
-
-    &::after {
-      @extend .default_frame;
-    }
-  }
-}
-
-
-
-body[pattern=gamepad][locked_region=content_menu] {
-
-  [region=content_menu][select=true],
-  [region=content_menu_submenu][select=true] {
-    position: relative;
-
-    &::after {
-      @extend .default_frame;
-    }
-  }
-}
-  .default_frame {
-    content: "";
-    position: absolute;
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    left: 0;
-    border: 2px solid #ffffff57;
-    border-radius: 4px;
-    top: 0;
-    // z-index: -1;
-  }
-}
 
 
 [type=checkbox][select=true] {
@@ -503,4 +332,189 @@ body[is_phone=true]{
     display: none;  /* 隐藏滚动条按钮（上下箭头） */
   }
 
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  html{
+    body[pattern=gamepad][locked_region=list],
+  body[pattern=gamepad][locked_region=detail],
+  body[pattern=gamepad][locked_region=reader],
+  body[pattern=gamepad][locked_region=chapters_thumbnail],
+  body[pattern=gamepad][locked_region=double_page_thumbnail],
+  body[pattern=gamepad][locked_region=gamepad_left_circle_toolbar],
+  body[pattern=gamepad][locked_region=menu],
+  body[pattern=gamepad][locked_region=one_page_mode1],
+  body[pattern=gamepad][locked_region=comics_type],
+  body[pattern=gamepad][locked_region=thumbnail_sidebar_left],
+  body[pattern=gamepad][locked_region=one_page_mode3],
+  body[pattern=gamepad][locked_region=kyboard_toolbar],
+  body[pattern=gamepad][locked_region=reader_config],
+  body[pattern=gamepad][locked_region=chapters_list],
+  body[pattern=gamepad][locked_region=reset_reading_progress],
+  body[pattern=gamepad][locked_region=export_settings],
+  body[pattern=gamepad][locked_region=chapter_unlock],
+  body[pattern=gamepad][locked_region=history_comics_list],
+  body[pattern=gamepad][locked_region=menu_search],
+  body[pattern=gamepad][locked_region=download_option],
+  body[pattern=gamepad][locked_region=url_usage_guide],
+  body[pattern=gamepad][locked_region=plug_in_instructions],
+  body[pattern=gamepad][locked_region=controller_settings],
+  body[pattern=gamepad][locked_region=sound_effects],
+  body[pattern=gamepad][locked_region=pulg_javascript],
+  body[pattern=gamepad][locked_region=dialog],
+
+  body[pattern=gamepad][locked_region=novels_chapters_list] {
+
+    [region=item][select=true],
+    [region=input][select=true],
+    [region=one_page_item][select=true],
+    [region=comics_option][select=true],
+    [region=chapters_item][select=true],
+    [region=continue][select=true],
+    [region=back][select=true],
+    [region=double_page_thumbnail_item][select=true],
+    [region=gamepad_toolabr_right][select=true],
+    [region=menu_item][select=true],
+    [region=comics_type_item][select=true],
+    [region=one_page_thumbnail_mode2][select=true],
+    [region=one_page_thumbnail_mode3][select=true],
+    [region=kyboard_toolbar_item][select=true],
+    [region=reader_config_item][select=true],
+    [region=menu_search_input][select=true],
+    [region=menu_search_comics_item][select=true],
+    [region=novels_chapters_item][select=true],
+
+    [region=reset_reading_progress][select=true],
+    [region=novels_chapters_item][select=true] {
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+
+  body[pattern=gamepad][locked_region=list] {
+
+    [region=context_menu_edit_item][select=true],
+    [region=input][select=true],
+
+    [region=comics_option][select=true],
+    [region=comics_item][select=true],
+    [region=menu_input][select=true],
+    [region=settings][select=true],
+    [region=novels_item][select=true] {
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+
+  body[pattern=gamepad][locked_region=drop_down_menu]{
+    [region=drop_down_menu_item][select=true]{
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+  body[pattern=gamepad][locked_region=select]{
+    [region=option][select=true]{
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+  body[pattern=gamepad][locked_region=detail]{
+    [region=chapters_text][select=true]{
+      position: relative;
+      color: #c2185b;
+      opacity: 1;
+      &::after {
+
+      }
+    }
+  }
+  body[pattern=gamepad]{
+    [region=comics_detail_item][select=true]{
+      position: relative;
+      color: #c2185b;
+      opacity: 1;
+      &::after {
+
+      }
+    }
+  }
+
+
+
+
+  body[pattern=gamepad]{
+
+    [region=archive_page_item][select=true],
+    [region=replace_channel_page_item][select=true],
+    [region=advanced_search_input][select=true],
+    [region=advanced_search_restart][select=true],
+    [region=advanced_search_item][select=true],
+    [region=advanced_search_slider][select=true],
+    [region=about_software_item][select=true],
+    [region=chip_option][select=true],
+    [region=chip_option_v32][select=true],
+    [region=select_input_number_item][select=true],
+    [region=mobile_web_qrcode_item][select=true],
+    [region=prompt_item][select=true],
+    [region=download_progress_item][select=true],
+    [region=select_tag_multiple_item][select=true],
+    [region=language_setting][select=true],
+    [region=pulg_javascript_item][select=true]
+
+    {
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+
+
+
+  body[pattern=gamepad][locked_region=content_menu] {
+
+    [region=content_menu][select=true],
+    [region=content_menu_submenu][select=true] {
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+    .default_frame {
+      content: "";
+      position: absolute;
+      width: calc(100% - 4px);
+      height: calc(100% - 4px);
+      left: 0;
+      border: 2px solid #ffffff57;
+      border-radius: 4px;
+      top: 0;
+      // z-index: -1;
+    }
   }
