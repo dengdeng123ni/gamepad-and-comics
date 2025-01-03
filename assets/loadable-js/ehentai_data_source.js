@@ -1,39 +1,26 @@
-function loadCSSFromString(cssString) {
-  // 创建 <style> 元素
-  const style = document.createElement('style');
-  style.type = 'text/css';
+window._gh_translate_register('en', { "搜索": "Search", "类别": "Category", "同人志": "Doujinshi", "漫画": "Comics", "艺术家 CG": "Artist CG", "游戏 CG": "Game CG", "西方": "Western", "非 H": "Non-H", "图像集": "Image Sets", "角色扮演": "Cosplay", "亚洲色情": "Asian Porn", "杂项": "Miscellaneous", "标签": "Tags", "最低评分": "Lowest Rating", "语言": "Language", "中文": "Chinese", "英语": "English", "韩语": "Korean", "泰国": "Thai", "西班牙语": "Spanish", "已翻译": "Translated", "重写": "Rewritten", "浏览已删除画廊": "Browse Deleted Galleries", "最小页数": "Minimum Pages", "最大页数": "Maximum Pages", "最新": "Newest", "热门": "Popular", "排行榜": "Rankings", "日": "Day", "月": "Month", "年": "Year", "总": "Total", "收藏": "Favorites" })
 
-  // 检查浏览器支持性并插入 CSS 字符串
-  if (style.styleSheet) {
-    // 针对 IE 浏览器
-    style.styleSheet.cssText = cssString;
-  } else {
-    // 针对现代浏览器
-    style.appendChild(document.createTextNode(cssString));
-  }
+window._gh_translate_register('ru', { "搜索": "Поиск", "类别": "Категории", "同人志": "Додзинси", "漫画": "Комиксы", "艺术家 CG": "Художник CG", "游戏 CG": "Компьютерная графика", "西方": "Вестерн", "非 H": "Non-H", "图像集": "Коллекция изображений", "角色扮演": "Косплей", "亚洲色情": "Азиатское порно", "杂项": "Разное", "标签": "Теги", "最低评分": "Самый низкий рейтинг", "语言": "Язык", "中文": "Китайский", "英语": "Английский", "韩语": "Корейский", "泰国": "Тайский", "西班牙语": "Испанский", "已翻译": "Уже перевел", "重写": "Переписать", "浏览已删除画廊": "Просмотреть удаленную галерею", "最小页数": "Минимум страниц", "最大页数": "Максимум страниц", "最新": "Последние", "热门": "Популярные", "排行榜": "Рейтинг", "日": "День", "月": "Месяц", "年": "Год", "总": "Всего", "收藏": "Коллекции" })
 
-  // 将 <style> 元素添加到 <head> 中
-  document.head.appendChild(style);
-}
+window._gh_translate_register('de', { "搜索": "Suche", "类别": "Kategorien", "同人志": "Doujinshi", "漫画": "Comics", "艺术家 CG": "Künstler CG", "游戏 CG": "Spiel CG", "西方": "Western", "非 H": "Non-H", "图像集": "Bildersammlung", "角色扮演": "Cosplay", "亚洲色情": "Asiatischer Porno", "杂项": "Verschiedenes", "标签": "Tags", "最低评分": "Niedrigste Bewertung", "语言": "Sprache", "中文": "Chinesisch", "英语": "Englisch", "韩语": "Koreanisch", "泰国": "Thailändisch", "西班牙语": "Spanisch", "已翻译": "Bereits übersetzt", "重写": "Umschreiben", "浏览已删除画廊": "Gelöschte Galerie anzeigen", "最小页数": "Mindestseiten", "最大页数": "Maximale Seiten", "最新": "Neueste", "热门": "Beliebtheit", "排行榜": "Ranking", "日": "Tag", "月": "Monat", "年": "Jahr", "总": "Gesamt", "收藏": "Sammlungen" })
 
-// 使用示例
-const cssString =
-  `
-body[source=ehentai] app-comics-list-v2 [region=comics_item]{
-    aspect-ratio: 162 / 262 !important
-}
-body[source=ehentai] app-comics-list-v2 .choice{
-margin: 12px 18px 0 !important
-}
+window._gh_translate_register('pt', { "搜索": "Pesquisar", "类别": "Categorias", "同人志": "Doujinshi", "漫画": "Quadrinhos", "艺术家 CG": "Artista CG", "游戏 CG": "Game CG", "西方": "Western", "非 H": "Non-H", "图像集": "Coleção de imagens", "角色扮演": "Cosplay", "亚洲色情": "Asian Porn", "杂项": "Diversos", "标签": "Tags", "最低评分": "Classificação mais baixa", "语言": "Idioma", "中文": "Chinês", "英语": "Inglês", "韩语": "Coreano", "泰国": "Tailandês", "西班牙语": "Espanhol", "已翻译": "Já traduziu", "重写": "Reescrever", "浏览已删除画廊": "Ver galeria excluída", "最小页数": "Mínimo de páginas", "最大页数": "Máximo de páginas", "最新": "Mais recentes", "热门": "Popular", "排行榜": "Classificação", "日": "Dia", "月": "Mês", "年": "Ano", "总": "Total", "收藏": "Coleções" })
 
-@media screen and (min-width: 0px) and (max-width: 720px) {
-body[source=ehentai] app-comics-list-v2 .choice{
-margin: 12px 16px 0 !important
-}
-}
-`;
+window._gh_translate_register('fr', { "搜索": "Recherche", "类别": "Catégories", "同人志": "Doujinshi", "漫画": "Bandes dessinées", "艺术家 CG": "Artiste CG", "游戏 CG": "Jeu CG", "西方": "Western", "非 H": "Non-H", "图像集": "Collection d'images", "角色扮演": "Cosplay", "亚洲色情": "Porno asiatique", "杂项": "Divers", "标签": "Tags", "最低评分": "Les moins bien notés", "语言": "Langue", "中文": "Chinois", "英语": "Anglais", "韩语": "Coréen", "泰国": "Thaï", "西班牙语": "Espagnol", "已翻译": "Déjà traduit", "重写": "Réécrire", "浏览已删除画廊": "Afficher la galerie supprimée", "最小页数": "Pages minimales", "最大页数": "Pages maximales", "最新": "Dernières", "热门": "Populaires", "排行榜": "Classement", "日": "Jour", "月": "Mois", "年": "Année", "总": "Total", "收藏": "Collections" })
 
-loadCSSFromString(cssString);
+window._gh_translate_register('es', { "搜索": "Buscar", "类别": "Categorías", "同人志": "Doujinshi", "漫画": "Cómics", "艺术家 CG": "Artista CG", "游戏 CG": "Juego CG", "西方": "Occidental", "非 H": "No H", "图像集": "Colección de imágenes", "角色扮演": "Cosplay", "亚洲色情": "Porno asiático", "杂项": "Varios", "标签": "Etiquetas", "最低评分": "Calificación más baja", "语言": "Idioma", "中文": "Chino", "英语": "Inglés", "韩语": "Coreano", "泰国": "Tailandés", "西班牙语": "Español", "已翻译": "Ya traduzco", "重写": "Reescribir", "浏览已删除画廊": "Ver galería eliminada", "最小页数": "Páginas mínimas", "最大页数": "Páginas máximas", "最新": "Últimas", "热门": "Popular", "排行榜": "Clasificación", "日": "Día", "月": "Mes", "年": "Año", "总": "Total", "收藏": "Colecciones" })
+
+window._gh_translate_register('ja', { "搜索": "検索", "类别": "カテゴリー", "同人志": "同人誌", "漫画": "コミック", "艺术家 CG": "アーティストCG", "游戏 CG": "ゲームCG", "西方": "洋画", "非 H": "非H", "图像集": "画像集", "角色扮演": "コスプレ", "亚洲色情": "アジアポルノ", "杂项": "その他", "标签": "タグ", "最低评分": "最低評価", "语言": "言語", "中文": "中国語", "英语": "英語", "韩语": "韓国語", "泰国": "タイ語", "西班牙语": "スペイン語", "已翻译": "翻訳済み", "重写": "書き換え", "浏览已删除画廊": "削除されたギャラリーを表示", "最小页数": "最小ページ数", "最大页数": "最大ページ数", "最新": "最新", "热门": "人気", "排行榜": "ランキング", "日": "日", "月": "月", "年": "年", "总": "合計", "收藏": "コレクション" })
+
+window._gh_translate_register('ko', { "搜索": "검색", "类别": "카테고리", "同人志": "동인지", "漫画": "만화", "艺术家 CG": "아티스트 CG", "游戏 CG": "게임 CG", "西方": "서양", "非 H": "Non-H", "图像集": "이미지 컬렉션", "角色扮演": "코스프레", "亚洲色情": "아시아 포르노", "杂项": "기타", "标签": "태그", "最低评分": "최저 등급", "语言": "언어", "中文": "중국어", "英语": "영어", "韩语": "한국어", "泰国": "태국어", "西班牙语": "스페인어", "已翻译": "이미 번역됨", "重写": "다시 쓰기", "浏览已删除画廊": "삭제된 갤러리 보기", "最小页数": "최소 페이지", "最大页数": "최대 페이지", "最新": "최신", "热门": "인기", "排行榜": "순위", "日": "일", "月": "월", "年": "연도", "总": "총", "收藏": "컬렉션" })
+
+window._gh_translate_register('it', { "搜索": "Cerca", "类别": "Categorie", "同人志": "Doujinshi", "漫画": "Fumetti", "艺术家 CG": "Artista CG", "游戏 CG": "Gioco CG", "西方": "Western", "非 H": "Non-H", "图像集": "Raccolta immagini", "角色扮演": "Cosplay", "亚洲色情": "Porno asiatico", "杂项": "Varie", "标签": "Tag", "最低评分": "Voto più basso", "语言": "Lingua", "中文": "Cinese", "英语": "Inglese", "韩语": "Coreano", "泰国": "Tailandese", "西班牙语": "Spagnolo", "已翻译": "Traduci già", "重写": "Riscrivi", "浏览已删除画廊": "Visualizza galleria eliminata", "最小页数": "Pagine minime", "最大页数": "Pagine massime", "最新": "Più recenti", "热门": "Popolari", "排行榜": "Classifica", "日": "Giorno", "月": "Mese", "年": "Anno", "总": "Totale", "收藏": "Raccolte" })
+
+window._gh_translate_register('tr', { "搜索": "Arama", "类别": "Kategoriler", "同人志": "Doujinshi", "漫画": "Çizgi Roman", "艺术家 CG": "Sanatçı CG", "游戏 CG": "Oyun CG", "西方": "Batı", "非 H": "H Olmayan", "图像集": "Resim Koleksiyonu", "角色扮演": "Cosplay", "亚洲色情": "Asya Pornosu", "杂项": "Çeşitli", "标签": "Etiketler", "最低评分": "En Düşük Puanlı", "语言": "Dil", "中文": "Çince", "英语": "İngilizce", "韩语": "Korece", "泰国": "Tayca", "西班牙语": "İspanyolca", "已翻译": "Zaten Çeviri", "重写": "Yeniden Yaz", "浏览已删除画廊": "Silinen Galeriyi Görüntüle", "最小页数": "Minimum Sayfa", "最大页数": "Maksimum Sayfa", "最新": "En Son", "热门": "Popüler", "排行榜": "Sıralama", "日": "Gün", "月": "Ay", "年": "Yıl", "总": "Toplam", "收藏": "Koleksiyonlar" })
+
+window._gh_translate_register('hu', { "搜索": "Keresés", "类别": "Kategóriák", "同人志": "Doujinshi", "漫画": "Képregény", "艺术家 CG": "Artist CG", "游戏 CG": "Game CG", "西方": "Western", "非 H": "Non-H", "图像集": "Képgyűjtemény", "角色扮演": "Cosplay", "亚洲色情": "Ázsiai pornó", "杂项": "Vegyes", "标签": "Címkék", "最低评分": "Legalacsonyabb értékelésű", "语言": "Nyelv", "中文": "Kínai", "英语": "Angol", "韩语": "Koreai", "泰国": "Thai", "西班牙语": "Spanyol", "已翻译": "Már fordítom", "重写": "Újraírás", "浏览已删除画廊": "Törölt galéria megtekintése", "最小页数": "Minimális oldalszám", "最大页数": "Maximum oldalszám", "最新": "Legújabb", "热门": "Népszerű", "排行榜": "Rangsor", "日": "Nap", "月": "Hónap", "年": "Év", "总": "Összesen", "收藏": "Gyűjtemények" })
+
+
 window._gh_comics_register({
   id: "ehentai",
   name: "ehentai",
@@ -50,12 +37,11 @@ window._gh_comics_register({
         conditions: [
           {
             "id": "f_search",
-            "label": "关键字",
             "type": "search"
           },
           {
             "id": "f_cats",
-            "label": "类别",
+            "name": "类别",
             "type": "tag",
             "options": [
               {
@@ -102,39 +88,39 @@ window._gh_comics_register({
           },
           {
             "id": "f_tag",
-            "label": "标签",
+            "name": "标签",
             "type": "tag_multiple",
             "options": [
               {
                 "title": "语言:",
                 "tags": [
                   {
-                    "name": "korean",
-                    "id": "language:korean"
+                    "label": "korean",
+                    "value": "language:korean"
                   },
                   {
-                    "name": "已翻译",
-                    "id": "language:translated"
+                    "label": "已翻译",
+                    "value": "language:translated"
                   },
                   {
-                    "name": "中文",
-                    "id": "language:chinese"
+                    "label": "中文",
+                    "value": "language:chinese"
                   },
                   {
-                    "name": "重写",
-                    "id": "language:rewrite"
+                    "label": "重写",
+                    "value": "language:rewrite"
                   },
                   {
-                    "name": "泰国",
-                    "id": "language:thai"
+                    "label": "泰国",
+                    "value": "language:thai"
                   },
                   {
-                    "name": "英语",
-                    "id": "language:english"
+                    "label": "英语",
+                    "value": "language:english"
                   },
                   {
-                    "name": "西班牙语",
-                    "id": "language:spanish"
+                    "label": "西班牙语",
+                    "value": "language:spanish"
                   }
                 ]
               },
@@ -142,292 +128,292 @@ window._gh_comics_register({
                 "title": "女:",
                 "tags": [
                   {
-                    "name": "领子",
-                    "id": "female:collar"
+                    "label": "领子",
+                    "value": "female:collar"
                   },
                   {
-                    "name": "皮带",
-                    "id": "female:leash"
+                    "label": "皮带",
+                    "value": "female:leash"
                   },
                   {
-                    "name": "丝袜",
-                    "id": "female:stockings"
+                    "label": "丝袜",
+                    "value": "female:stockings"
                   },
                   {
-                    "name": "ahegao",
-                    "id": "female:ahegao"
+                    "label": "ahegao",
+                    "value": "female:ahegao"
                   },
                   {
-                    "name": "巨乳",
-                    "id": "female:\"big breasts$\""
+                    "label": "巨乳",
+                    "value": "female:\"big breasts$\""
                   },
                   {
-                    "name": "口交",
-                    "id": "female:blowjob"
+                    "label": "口交",
+                    "value": "female:blowjob"
                   },
                   {
-                    "name": "舔阴",
-                    "id": "female:cunnilingus"
+                    "label": "舔阴",
+                    "value": "female:cunnilingus"
                   },
                   {
-                    "name": "亲吻",
-                    "id": "female:kissing"
+                    "label": "亲吻",
+                    "value": "female:kissing"
                   },
                   {
-                    "name": "nakadashi",
-                    "id": "female:nakadashi"
+                    "label": "nakadashi",
+                    "value": "female:nakadashi"
                   },
                   {
-                    "name": "paizuri",
-                    "id": "female:paizuri"
+                    "label": "paizuri",
+                    "value": "female:paizuri"
                   },
                   {
-                    "name": "喷水",
-                    "id": "female:squirting"
+                    "label": "喷水",
+                    "value": "female:squirting"
                   },
                   {
-                    "name": "mesuiki",
-                    "id": "female:mesuiki"
+                    "label": "mesuiki",
+                    "value": "female:mesuiki"
                   },
                   {
-                    "name": "乳头刺激",
-                    "id": "female:\"nipple stimulation$\""
+                    "label": "乳头刺激",
+                    "value": "female:\"nipple stimulation$\""
                   },
                   {
-                    "name": "马尾辫",
-                    "id": "female:ponytail"
+                    "label": "马尾辫",
+                    "value": "female:ponytail"
                   },
                   {
-                    "name": "唯一女性",
-                    "id": "female:\"sole female$\""
+                    "label": "唯一女性",
+                    "value": "female:\"sole female$\""
                   },
                   {
-                    "name": "sumata",
-                    "id": "female:sumata"
+                    "label": "sumata",
+                    "value": "female:sumata"
                   },
                   {
-                    "name": "x-ray",
-                    "id": "female:x-ray"
+                    "label": "x-ray",
+                    "value": "female:x-ray"
                   },
                   {
-                    "name": "摘花",
-                    "id": "female:defloration"
+                    "label": "摘花",
+                    "value": "female:defloration"
                   },
                   {
-                    "name": "浸渍",
-                    "id": "female:impregnation"
+                    "label": "浸渍",
+                    "value": "female:impregnation"
                   },
                   {
-                    "name": "强奸",
-                    "id": "female:rape"
+                    "label": "强奸",
+                    "value": "female:rape"
                   },
                   {
-                    "name": "女学生制服",
-                    "id": "female:\"schoolgirl uniform$\""
+                    "label": "女学生制服",
+                    "value": "female:\"schoolgirl uniform$\""
                   },
                   {
-                    "name": "露阴癖",
-                    "id": "female:exhibitionism"
+                    "label": "露阴癖",
+                    "value": "female:exhibitionism"
                   },
                   {
-                    "name": "毛茸茸的",
-                    "id": "female:hairy"
+                    "label": "毛茸茸的",
+                    "value": "female:hairy"
                   },
                   {
-                    "name": "羞辱",
-                    "id": "female:humiliation"
+                    "label": "羞辱",
+                    "value": "female:humiliation"
                   },
                   {
-                    "name": "公共用途",
-                    "id": "female:\"public use$\""
+                    "label": "公共用途",
+                    "value": "female:\"public use$\""
                   },
                   {
-                    "name": "睡觉",
-                    "id": "female:sleeping"
+                    "label": "睡觉",
+                    "value": "female:sleeping"
                   },
                   {
-                    "name": "连裤袜",
-                    "id": "female:pantyhose"
+                    "label": "连裤袜",
+                    "value": "female:pantyhose"
                   },
                   {
-                    "name": "bbw",
-                    "id": "female:bbw"
+                    "label": "bbw",
+                    "value": "female:bbw"
                   },
                   {
-                    "name": "大屁股",
-                    "id": "female:\"big ass$\""
+                    "label": "大屁股",
+                    "value": "female:\"big ass$\""
                   },
                   {
-                    "name": "精灵",
-                    "id": "female:elf"
+                    "label": "精灵",
+                    "value": "female:elf"
                   },
                   {
-                    "name": "fishnets",
-                    "id": "female:fishnets"
+                    "label": "fishnets",
+                    "value": "female:fishnets"
                   },
                   {
-                    "name": "不寻常的牙齿",
-                    "id": "female:\"unusual teeth$\""
+                    "label": "不寻常的牙齿",
+                    "value": "female:\"unusual teeth$\""
                   },
                   {
-                    "name": "醉酒",
-                    "id": "female:drunk"
+                    "label": "醉酒",
+                    "value": "female:drunk"
                   },
                   {
-                    "name": "女性统治",
-                    "id": "female:femdom"
+                    "label": "女性统治",
+                    "value": "female:femdom"
                   },
                   {
-                    "name": "指法",
-                    "id": "female:fingering"
+                    "label": "指法",
+                    "value": "female:fingering"
                   },
                   {
-                    "name": "手淫",
-                    "id": "female:masturbation"
+                    "label": "手淫",
+                    "value": "female:masturbation"
                   },
                   {
-                    "name": "大乳晕",
-                    "id": "female:\"big areolae$\""
+                    "label": "大乳晕",
+                    "value": "female:\"big areolae$\""
                   },
                   {
-                    "name": "扶他那里",
-                    "id": "female:futanari"
+                    "label": "扶他那里",
+                    "value": "female:futanari"
                   },
                   {
-                    "name": "比基尼",
-                    "id": "female:bikini"
+                    "label": "比基尼",
+                    "value": "female:bikini"
                   },
                   {
-                    "name": "后宫",
-                    "id": "female:harem"
+                    "label": "后宫",
+                    "value": "female:harem"
                   },
                   {
-                    "name": "kemonomimi",
-                    "id": "female:kemonomimi"
+                    "label": "kemonomimi",
+                    "value": "female:kemonomimi"
                   },
                   {
-                    "name": "泳衣",
-                    "id": "female:swimsuit"
+                    "label": "泳衣",
+                    "value": "female:swimsuit"
                   },
                   {
-                    "name": "尾巴",
-                    "id": "female:tail"
+                    "label": "尾巴",
+                    "value": "female:tail"
                   },
                   {
-                    "name": "美人痣",
-                    "id": "female:\"beauty mark$\""
+                    "label": "美人痣",
+                    "value": "female:\"beauty mark$\""
                   },
                   {
-                    "name": "口交脸",
-                    "id": "female:\"blowjob face$\""
+                    "label": "口交脸",
+                    "value": "female:\"blowjob face$\""
                   },
                   {
-                    "name": "bukkake",
-                    "id": "female:bukkake"
+                    "label": "bukkake",
+                    "value": "female:bukkake"
                   },
                   {
-                    "name": "双重渗透",
-                    "id": "female:\"double penetration$\""
+                    "label": "双重渗透",
+                    "value": "female:\"double penetration$\""
                   },
                   {
-                    "name": "无情的性爱",
-                    "id": "female:\"emotionless sex$\""
+                    "label": "无情的性爱",
+                    "value": "female:\"emotionless sex$\""
                   },
                   {
-                    "name": "拍摄",
-                    "id": "female:filming"
+                    "label": "拍摄",
+                    "value": "female:filming"
                   },
                   {
-                    "name": "勒索",
-                    "id": "female:blackmail"
+                    "label": "勒索",
+                    "value": "female:blackmail"
                   },
                   {
-                    "name": "netorare",
-                    "id": "female:netorare"
+                    "label": "netorare",
+                    "value": "female:netorare"
                   },
                   {
-                    "name": "正文",
-                    "id": "female:\"body writing$\""
+                    "label": "正文",
+                    "value": "female:\"body writing$\""
                   },
                   {
-                    "name": "兔女郎",
-                    "id": "female:\"bunny girl$\""
+                    "label": "兔女郎",
+                    "value": "female:\"bunny girl$\""
                   },
                   {
-                    "name": "手套",
-                    "id": "female:gloves"
+                    "label": "手套",
+                    "value": "female:gloves"
                   },
                   {
-                    "name": "gyaru",
-                    "id": "female:gyaru"
+                    "label": "gyaru",
+                    "value": "female:gyaru"
                   },
                   {
-                    "name": "哺乳",
-                    "id": "female:lactation"
+                    "label": "哺乳",
+                    "value": "female:lactation"
                   },
                   {
-                    "name": "内衣",
-                    "id": "female:lingerie"
+                    "label": "内衣",
+                    "value": "female:lingerie"
                   },
                   {
-                    "name": "shimaidon",
-                    "id": "female:shimaidon"
+                    "label": "shimaidon",
+                    "value": "female:shimaidon"
                   },
                   {
-                    "name": "不寻常的学生",
-                    "id": "female:\"unusual pupils$\""
+                    "label": "不寻常的学生",
+                    "value": "female:\"unusual pupils$\""
                   },
                   {
-                    "name": "性玩具",
-                    "id": "female:\"sex toys$\""
+                    "label": "性玩具",
+                    "value": "female:\"sex toys$\""
                   },
                   {
-                    "name": "Yuri",
-                    "id": "female:yuri"
+                    "label": "Yuri",
+                    "value": "female:yuri"
                   },
                   {
-                    "name": "遮眼刘海",
-                    "id": "female:\"eye-covering bang$\""
+                    "label": "遮眼刘海",
+                    "value": "female:\"eye-covering bang$\""
                   },
                   {
-                    "name": "巨乳",
-                    "id": "female:\"huge breasts$\""
+                    "label": "巨乳",
+                    "value": "female:\"huge breasts$\""
                   },
                   {
-                    "name": "milf",
-                    "id": "female:milf"
+                    "label": "milf",
+                    "value": "female:milf"
                   },
                   {
-                    "name": "大乳头",
-                    "id": "female:\"big nipples$\""
+                    "label": "大乳头",
+                    "value": "female:\"big nipples$\""
                   },
                   {
-                    "name": "作弊",
-                    "id": "female:cheating"
+                    "label": "作弊",
+                    "value": "female:cheating"
                   },
                   {
-                    "name": "女牛仔",
-                    "id": "female:cowgirl"
+                    "label": "女牛仔",
+                    "value": "female:cowgirl"
                   },
                   {
-                    "name": "彩绘指甲",
-                    "id": "female:\"painted nails$\""
+                    "label": "彩绘指甲",
+                    "value": "female:\"painted nails$\""
                   },
                   {
-                    "name": "发髻",
-                    "id": "female:\"hair buns$\""
+                    "label": "发髻",
+                    "value": "female:\"hair buns$\""
                   },
                   {
-                    "name": "乳头内陷",
-                    "id": "female:\"inverted nipples$\""
+                    "label": "乳头内陷",
+                    "value": "female:\"inverted nipples$\""
                   },
                   {
-                    "name": "小乳房",
-                    "id": "female:\"small breasts$\""
+                    "label": "小乳房",
+                    "value": "female:\"small breasts$\""
                   },
                   {
-                    "name": "petplay",
-                    "id": "female:petplay"
+                    "label": "petplay",
+                    "value": "female:petplay"
                   }
                 ]
               },
@@ -435,36 +421,36 @@ window._gh_comics_register({
                 "title": "其他:",
                 "tags": [
                   {
-                    "name": "马赛克审查",
-                    "id": "other:\"mosaic censorship$\""
+                    "label": "马赛克审查",
+                    "value": "other:\"mosaic censorship$\""
                   },
                   {
-                    "name": "全彩",
-                    "id": "other:\"full color$\""
+                    "label": "全彩",
+                    "value": "other:\"full color$\""
                   },
                   {
-                    "name": "未经审查",
-                    "id": "other:uncensored"
+                    "label": "未经审查",
+                    "value": "other:uncensored"
                   },
                   {
-                    "name": "多作品系列",
-                    "id": "other:\"multi-work series$\""
+                    "label": "多作品系列",
+                    "value": "other:\"multi-work series$\""
                   },
                   {
-                    "name": "故事情节",
-                    "id": "other:\"story arc$\""
+                    "label": "故事情节",
+                    "value": "other:\"story arc$\""
                   },
                   {
-                    "name": "soushuuhen",
-                    "id": "other:soushuuhen"
+                    "label": "soushuuhen",
+                    "value": "other:soushuuhen"
                   },
                   {
-                    "name": "粗略翻译",
-                    "id": "other:\"rough translation$\""
+                    "label": "粗略翻译",
+                    "value": "other:\"rough translation$\""
                   },
                   {
-                    "name": "汇编",
-                    "id": "other:compilation"
+                    "label": "汇编",
+                    "value": "other:compilation"
                   }
                 ]
               },
@@ -472,154 +458,152 @@ window._gh_comics_register({
                 "title": "男:",
                 "tags": [
                   {
-                    "name": "bbm",
-                    "id": "male:bbm"
+                    "label": "bbm",
+                    "value": "male:bbm"
                   },
                   {
-                    "name": "眼镜",
-                    "id": "male:glasses"
+                    "label": "眼镜",
+                    "value": "male:glasses"
                   },
                   {
-                    "name": "肛门",
-                    "id": "male:anal"
+                    "label": "肛门",
+                    "value": "male:anal"
                   },
                   {
-                    "name": "熊孩子",
-                    "id": "male:\"bear boy$\""
+                    "label": "熊孩子",
+                    "value": "male:\"bear boy$\""
                   },
                   {
-                    "name": "大阴茎",
-                    "id": "male:\"big penis$\""
+                    "label": "大阴茎",
+                    "value": "male:\"big penis$\""
                   },
                   {
-                    "name": "catboy",
-                    "id": "male:catboy"
+                    "label": "catboy",
+                    "value": "male:catboy"
                   },
                   {
-                    "name": "狗男孩",
-                    "id": "male:\"dog boy$\""
+                    "label": "狗男孩",
+                    "value": "male:\"dog boy$\""
                   },
                   {
-                    "name": "毛茸茸",
-                    "id": "male:furry"
+                    "label": "毛茸茸",
+                    "value": "male:furry"
                   },
                   {
-                    "name": "巨大的阴茎",
-                    "id": "male:\"huge penis$\""
+                    "label": "巨大的阴茎",
+                    "value": "male:\"huge penis$\""
                   },
                   {
-                    "name": "仅限男性",
-                    "id": "male:\"males only$\""
+                    "label": "仅限男性",
+                    "value": "male:\"males only$\""
                   },
                   {
-                    "name": "多次性高潮",
-                    "id": "male:\"multiple orgasms$\""
+                    "label": "多次性高潮",
+                    "value": "male:\"multiple orgasms$\""
                   },
                   {
-                    "name": "肌肉",
-                    "id": "male:muscle"
+                    "label": "肌肉",
+                    "value": "male:muscle"
                   },
                   {
-                    "name": "狼孩",
-                    "id": "male:\"wolf boy$\""
+                    "label": "狼孩",
+                    "value": "male:\"wolf boy$\""
                   },
                   {
-                    "name": "yaoi",
-                    "id": "male:yaoi"
+                    "label": "yaoi",
+                    "value": "male:yaoi"
                   },
                   {
-                    "name": "肛交",
-                    "id": "male:\"anal intercourse$\""
+                    "label": "肛交",
+                    "value": "male:\"anal intercourse$\""
                   },
                   {
-                    "name": "避孕套",
-                    "id": "male:condom"
+                    "label": "避孕套",
+                    "value": "male:condom"
                   },
                   {
-                    "name": "唯一男性",
-                    "id": "male:\"sole male$\""
+                    "label": "唯一男性",
+                    "value": "male:\"sole male$\""
                   },
                   {
-                    "name": "dilf",
-                    "id": "male:dilf"
+                    "label": "dilf",
+                    "value": "male:dilf"
                   },
                   {
-                    "name": "cowman",
-                    "id": "male:cowman"
+                    "label": "cowman",
+                    "value": "male:cowman"
                   },
                   {
-                    "name": "角",
-                    "id": "male:horns"
+                    "label": "角",
+                    "value": "male:horns"
                   },
                   {
-                    "name": "穿孔",
-                    "id": "male:piercing"
+                    "label": "穿孔",
+                    "value": "male:piercing"
                   },
                   {
-                    "name": "深色皮肤",
-                    "id": "male:\"dark skin$\""
+                    "label": "深色皮肤",
+                    "value": "male:\"dark skin$\""
                   },
                   {
-                    "name": "束缚",
-                    "id": "male:bondage"
+                    "label": "束缚",
+                    "value": "male:bondage"
                   },
                   {
-                    "name": "onahole",
-                    "id": "male:onahole"
+                    "label": "onahole",
+                    "value": "male:onahole"
                   },
                   {
-                    "name": "摩擦法",
-                    "id": "male:frottage"
-                  },
-
-                  {
-                    "name": "tomgirl",
-                    "id": "male:tomgirl"
+                    "label": "摩擦法",
+                    "value": "male:frottage"
                   },
                   {
-                    "name": "校服",
-                    "id": "male:\"schoolboy uniform$\""
+                    "label": "tomgirl",
+                    "value": "male:tomgirl"
                   },
                   {
-                    "name": "双性恋",
-                    "id": "male:bisexual"
+                    "label": "校服",
+                    "value": "male:\"schoolboy uniform$\""
                   },
                   {
-                    "name": "crossdressing",
-                    "id": "male:crossdressing"
+                    "label": "双性恋",
+                    "value": "male:bisexual"
                   },
                   {
-                    "name": "嗯三人行",
-                    "id": "male:\"mmm threesome$\""
-                  },
-
-                  {
-                    "name": "出汗",
-                    "id": "male:sweating"
+                    "label": "crossdressing",
+                    "value": "male:crossdressing"
                   },
                   {
-                    "name": "卖淫",
-                    "id": "male:prostitution"
+                    "label": "嗯三人行",
+                    "value": "male:\"mmm threesome$\""
                   },
                   {
-                    "name": "大球",
-                    "id": "male:\"big balls$\""
+                    "label": "出汗",
+                    "value": "male:sweating"
                   },
                   {
-                    "name": "大肌肉",
-                    "id": "male:\"big muscles$\""
+                    "label": "卖淫",
+                    "value": "male:prostitution"
                   },
                   {
-                    "name": "疤痕",
-                    "id": "male:scar"
+                    "label": "大球",
+                    "value": "male:\"big balls$\""
                   },
                   {
-                    "name": "精神控制",
-                    "id": "male:\"mind control$\""
+                    "label": "大肌肉",
+                    "value": "male:\"big muscles$\""
                   },
                   {
-                    "name": "贞操带",
-                    "id": "male:\"chastity belt$\""
+                    "label": "疤痕",
+                    "value": "male:scar"
+                  },
+                  {
+                    "label": "精神控制",
+                    "value": "male:\"mind control$\""
+                  },
+                  {
+                    "label": "贞操带",
+                    "value": "male:\"chastity belt$\""
                   }
                 ]
               },
@@ -627,24 +611,24 @@ window._gh_comics_register({
                 "title": "混合:",
                 "tags": [
                   {
-                    "name": "乱伦",
-                    "id": "mixed:incest"
+                    "label": "乱伦",
+                    "value": "mixed:incest"
                   },
                   {
-                    "name": "inseki",
-                    "id": "mixed:inseki"
+                    "label": "inseki",
+                    "value": "mixed:inseki"
                   },
                   {
-                    "name": "ffm 三人行",
-                    "id": "mixed:\"ffm threesome$\""
+                    "label": "ffm 三人行",
+                    "value": "mixed:\"ffm threesome$\""
                   },
                   {
-                    "name": "组",
-                    "id": "mixed:group"
+                    "label": "组",
+                    "value": "mixed:group"
                   },
                   {
-                    "name": "mmf 三人行",
-                    "id": "mixed:\"mmf threesome$\""
+                    "label": "mmf 三人行",
+                    "value": "mixed:\"mmf threesome$\""
                   }
                 ]
               }
@@ -652,7 +636,7 @@ window._gh_comics_register({
           },
           {
             "id": "f_srdd",
-            "label": "最低评分",
+            "name": "最低评分",
             "type": "select",
             "options": [
               { "label": "1", "value": 1 },
@@ -664,27 +648,54 @@ window._gh_comics_register({
           },
           {
             "id": "language",
-            "label": "语言",
+            "name": "语言",
             "type": "select",
             "options": [
-              { "label": "中文", "value": "chinese" }
+              {
+                "label": "中文",
+                "value": "language:chinese"
+              },
+              {
+                "label": "英语",
+                "value": "language:english"
+              },
+              {
+                "label": "韩语",
+                "value": "language:korean"
+              },
+              {
+                "label": "泰国",
+                "value": "language:thai"
+              },
+              {
+                "label": "西班牙语",
+                "value": "language:spanish"
+              },
+              {
+                "label": "已翻译",
+                "value": "language:translated"
+              },
+              {
+                "label": "重写",
+                "value": "language:rewrite"
+              },
             ]
           },
           {
             "id": "f_sh",
-            "label": "浏览已删除画廊",
+            "name": "浏览已删除画廊",
             "type": "toggle"
           },
           {
             "id": "f_spf",
-            "label": "最小页数",
+            "name": "最小页数",
             "type": "slider",
             min: 1,
             max: 300
           },
           {
             "id": "f_spt",
-            "label": "最大页数",
+            "name": "最大页数",
             "type": "slider",
             min: 1,
             max: 2000
@@ -720,19 +731,19 @@ window._gh_comics_register({
         conditions: [
           {
             order: 4,
-            name: "日"
+            label: "日"
           },
           {
             order: 3,
-            name: "月"
+            label: "月"
           },
           {
             order: 2,
-            name: "年"
+            label: "年"
           },
           {
             order: 1,
-            name: "总"
+            label: "总"
           },
         ]
       }
@@ -840,7 +851,7 @@ window._gh_comics_register({
         if (!obj.f_search) obj.f_search = '';
 
         obj.f_tag.forEach(x => {
-          obj.f_search = obj.f_search + ' ' + x.id
+          obj.f_search = obj.f_search + ' ' + x.value
 
         })
       }

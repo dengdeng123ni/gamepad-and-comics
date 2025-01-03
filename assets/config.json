@@ -1,6 +1,7 @@
 {
   "default_register_script":[
-    "assets/loadable-js/ehentai网站资源支持.js"
+    "assets/loadable-js/advanced_history_query.js",
+    "assets/loadable-js/ehentai_data_source.js"
   ],
   "default_load_script":[
     "assets/eval/index.js"
