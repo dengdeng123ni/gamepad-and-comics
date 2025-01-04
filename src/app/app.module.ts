@@ -20,8 +20,22 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 const dbConfig: DBConfig = {
   name: 'db',
-  version: 4,
+  version: 5,
   objectStoresMeta: [
+    {
+      store: 'content_menu',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: true } },
+      ]
+    },
+    {
+      store: 'list_menu',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'id', keypath: 'id', options: { unique: true } },
+      ]
+    },
     {
       store: 'favorites_menu',
       storeConfig: { keyPath: 'id', autoIncrement: false },
