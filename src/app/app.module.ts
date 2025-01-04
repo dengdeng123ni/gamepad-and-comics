@@ -346,15 +346,12 @@ const dbConfig: DBConfig = {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:5700'
+      registrationStrategy: 'registerWhenStable:5777'
     }),
-
     NovelsDetailModule,
     NovelsRdeaderModule
   ],
   providers: [
-    provideAnimationsAsync(),
-    provideHttpClient(withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]
 })
