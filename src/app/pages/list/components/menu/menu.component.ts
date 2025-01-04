@@ -675,32 +675,7 @@ export class MenuComponent {
           })
         })
       }
-      this.change$ = this.DbComicsEvent.add().subscribe((x: any) => {
-        let obj = {
-          id: x,
-          icon: "home",
-          name: x.name,
-          submenu: [],
 
-        };
-        if (x.menu) {
-          for (let index = 0; index < x.menu.length; index++) {
-            obj.submenu.push(x.menu[index])
-          }
-        }
-        obj.submenu.push(
-          {
-            id: "history",
-            icon: "history",
-            name: "历史记录",
-
-            click: (e) => {
-              this.router.navigate(['query', 'history', e.parent.id]);
-            }
-          }
-        )
-        this.data.menu.push(obj)
-      })
     }
   }
   async is_on(e) {

@@ -474,7 +474,7 @@ export class DoublePageReaderV2DefaultComponent {
         (`
      <div class="swiper-slide" style="display: flex;">
      <div class="swiper-zoom-container">
-     <div style="display: flex;" class="swiper-zoom-target">  ${src}</div>
+     <div style="display: flex;width: 100%; height: 100%;" class="swiper-zoom-target">  ${src}</div>
      </div>
      </div>
     `)
@@ -489,7 +489,7 @@ export class DoublePageReaderV2DefaultComponent {
         (`
      <div class="swiper-slide" style="display: flex;">
        <div class="swiper-zoom-container">
-     <div style="display: flex;" class="swiper-zoom-target">${src}</div>
+     <div style="display: flex;width: 100%; height: 100%;" class="swiper-zoom-target">${src}</div>
      </div>
      </div>
     `)
