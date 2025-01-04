@@ -40,18 +40,22 @@ export const slideInAnimation =
 
 
 
-
 declare global {
   interface Window {
+
     _gh_receive_message?: (message: any) => Promise<any>; // 通道接收消息
     _gh_translate_register?: (lang: string, json: any) => void // 注册翻译
     _gh_menu_update?: () => void; // 更新菜单
     _gh_page_reset?: () => void; // 重置页面
+
     _gh_execute_eval?: (url: string, javascript: string) => Promise<any>; // 执行代码
     _gh_fetch?: (url: RequestInfo | URL, init?: RequestInit) => Promise<Response>; // 请求
     _gh_add_comics?: (pages: Array<string>, option: { title?: string }) => Promise<string> // 添加漫画 返回漫画ID
     _gh_generate_file_path?: (name: string, event: (e: any) => string) => void; // 生成文件路径
     _gh_get_html?: (url: RequestInfo | URL) => Promise<Response>;  // 获取html
+    _gh_comics_register:Function; // 注册漫画
+    _gh_set_data:Function; // 注册漫画
+    _gh_get_data:Function; // 注册漫画
     _gh_comics_get_image?: (page_id: string, option?: { source: string, is_cache?: boolean }) => Promise<Blob>; // 获取漫画图片
     _gh_comics_get_pages?: (chapter_id: string, option?: { source: string, is_cache?: boolean }) => Promise<Array<any>>; // 获取漫画章节
     _gh_comics_get_detail?: (comics_id: string, option?: { source: string, is_cache?: boolean }) => Promise<any>; // 获取漫画详情

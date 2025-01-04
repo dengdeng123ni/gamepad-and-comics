@@ -786,6 +786,7 @@ export class MenuComponent {
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == obj.id)
       this.menu.source=obj.id;
       this.init(obj.id)
+      this.menu.post();
 
     }
   }

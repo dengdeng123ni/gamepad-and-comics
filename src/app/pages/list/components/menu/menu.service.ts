@@ -56,6 +56,7 @@ export class MenuService {
       opened: this.opened,
       mode: this.mode,
       mode_1:this.mode_1,
+      source:this.source,
       current_menu_id:this.current_menu_id,
       current_menu_pid:this.current_menu_pid
     })
