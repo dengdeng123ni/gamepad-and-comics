@@ -290,36 +290,6 @@ export class MenuComponent {
           }
         ]
       })
-
-
-    ContextMenuEvent.register('menu_item_v3',
-      {
-        send: ($event, data) => {
-          const value = $event.getAttribute("content_menu_value")
-
-          const obj = this.data.menu.find(x => x.id?.toString() == value.toString());
-
-          if (obj.content_menu) {
-            return obj.content_menu
-          } else {
-            return [...data, ...obj.submenu]
-          }
-
-        },
-        on: async (e: any) => {
-
-          e.click(e.value)
-        },
-        menu: [
-          {
-            id: "open_href",
-            name: "打开网站",
-            click: (e) => {
-              window.open(this.DbComicsEvent.Configs[e].href)
-            }
-          }
-        ]
-      })
     ContextMenuEvent.register('menu_item_v2',
       {
         send: ($event, data) => {
@@ -348,22 +318,6 @@ export class MenuComponent {
           }
         ]
       })
-    ContextMenuEvent.register('menu_item_v1',
-      {
-
-        on: async (e: any) => {
-          e.click(e.value)
-        },
-        menu: [
-          {
-            id: "open_href",
-            name: "打开网站",
-            click: (e) => {
-              window.open(this.DbComicsEvent.Configs[e].href)
-            }
-          }
-        ]
-      })
 
     this.init();
 
@@ -376,6 +330,9 @@ export class MenuComponent {
       this.menu.is_init = true;
 
     })
+
+
+
   }
   isValidIPv4(ip) {
     const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$/;
@@ -922,12 +879,7 @@ export class MenuComponent {
     this.temporaryFile.files = [...this.temporaryFile.files, ...files_arr];
 
   }
-  on1() {
-    if (this.menu.mode_1 == 1) this.menu.mode_1 = 2
-    else if (this.menu.mode_1 == 2) this.menu.mode_1 = 2
-    else if (this.menu.mode_1 == 3) this.menu.mode_1 = 2
-    else this.menu.mode_1 = 2;
-  }
+
   on3fee(e) {
     this.menu.current_menu_pid = `${e.id}`;
     this.menu.current_menu_id = `${e.id}_history`

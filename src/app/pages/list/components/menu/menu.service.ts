@@ -21,7 +21,6 @@ export class MenuService {
   temporary_file=[];
   current_menu_id=null;
   current_menu_pid=null;
-  mode_1=2;
 
   is_init=false;
   favorites_menu=[];
@@ -55,7 +54,6 @@ export class MenuService {
       id: this.key,
       opened: this.opened,
       mode: this.mode,
-      mode_1:this.mode_1,
       source:this.source,
       current_menu_id:this.current_menu_id,
       current_menu_pid:this.current_menu_pid
@@ -72,13 +70,7 @@ export class MenuService {
       this.opened = res.opened;
       this.mode = res.mode;
       this.position = res.position;
-      this.mode_1=2;
       this.source=res.source;
-      if(this.mode_1==1||this.mode_1==2||this.mode_1==3){
-
-      }else{
-        this.mode_1=2;
-      }
       if(!this.current_menu_id)  this.current_menu_id=res.current_menu_id;
       if(!this.current_menu_pid)  this.current_menu_pid=res.current_menu_pid;
 
