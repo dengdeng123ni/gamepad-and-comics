@@ -47,6 +47,7 @@ import { LanguageSettingsComponent } from './components/language-settings/langua
 import { ArchivePageComponent } from './components/archive-page/archive-page.component';
 import { FavoritesPageComponent } from './components/favorites-page/favorites-page.component';
 import { ImageToComicsListComponent } from './components/image-to-comics-list/image-to-comics-list.component';
+import { PageStartComponent } from './components/page-start/page-start.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { ImageToComicsListComponent } from './components/image-to-comics-list/im
     ArchivePageComponent,
     FavoritesPageComponent,
     ImageToComicsListComponent,
+    PageStartComponent,
   ],
   imports: [
     CommonModule,
