@@ -24,11 +24,13 @@
   width: 160px;
   text-align: left;
 }
-.item[disabled=true]{
-  .name{
+
+.item[disabled=true] {
+  .name {
     color: rgba(255, 255, 255, 0.5);
   }
 }
+
 .item {
   display: flex;
   margin: 1px 10px;
@@ -137,10 +139,11 @@
 }
 
 :host ::ng-deep {
-  .mdc-text-field{
-  background: transparent !important;
+  .mdc-text-field {
+    background: transparent !important;
     backdrop-filter: brightness(0.92);
-}
+  }
+
   .mat-mdc-button-touch-target {
     height: 100% !important;
   }
@@ -231,15 +234,17 @@
   position: absolute;
   bottom: 15px;
   left: 15px;
-  button{
+
+  button {
     width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .icon{
-    min-width: 24px;
-  }
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      min-width: 24px;
+    }
   }
 
 }
@@ -257,14 +262,28 @@
 
 
 }
-.switch_left:hover{
 
+.switch_left:hover {}
 
-}
-.switch_left_position{
+.switch_left_position {
   opacity: 0;
-  &:hover{
+
+  &:hover {
     opacity: 1;
 
   }
+}
+
+
+.menu_input {
+  backdrop-filter: brightness(0.92);
+  height: 30px;
+  margin: 0 10px 4px;
+  color: rgba(255, 255, 255, .34);
+  width: calc(100% - 20px);
+  font-size: 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: start;
 }
