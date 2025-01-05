@@ -85,10 +85,10 @@
         {{n.name | translate}}
       </div>
       <mat-form-field  color="accent" [attr.region]="'advanced_search_item'">
-        <mat-label>输入时间范围</mat-label>
+        <mat-label>{{'输入时间范围' | translate}}</mat-label>
         <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate placeholder="开始时间" [(ngModel)]="n.start">
-          <input matEndDate placeholder="结束时间" [(ngModel)]="n.end" >
+          <input matStartDate [placeholder]="'开始时间' | translate" [(ngModel)]="n.start">
+          <input matEndDate [placeholder]="'结束时间' | translate" [(ngModel)]="n.end" >
         </mat-date-range-input>
         <mat-hint>YYYY/DD/MM – YYYY/DD/MM</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -100,7 +100,7 @@
         {{n.name | translate}}
       </div>
       <mat-form-field color="accent" [attr.region]="'advanced_search_item'">
-        <mat-label>请输入时间</mat-label>
+        <mat-label>{{'请输入时间' | translate}}</mat-label>
         <input matInput [matDatepicker]="picker1" [(ngModel)]="n.date" >
         <mat-hint>YYYY/DD/MM</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>

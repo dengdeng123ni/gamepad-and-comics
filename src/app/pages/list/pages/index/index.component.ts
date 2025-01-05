@@ -62,6 +62,7 @@ export class IndexComponent {
     public MobileWebQrcode:MobileWebQrcodeService,
     public LanguageSettings:LanguageSettingsService,
     public FavoritesPage:FavoritesPageService,
+
     public MenuSearch: MenuSearchService
   ) {
     // this.WebpageOffline.open();

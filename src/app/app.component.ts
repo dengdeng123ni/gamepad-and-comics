@@ -8,8 +8,6 @@ import { bufferCount, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Platform } from '@angular/cdk/platform';
 
-
-
 declare global {
   interface Window {
     _gh_receive_message?: (message: any) => Promise<any>; // 通道接收消息
@@ -52,7 +50,6 @@ declare global {
   interface Navigator{
     userAgentData:any
   }
-
 }
 
 @Component({
