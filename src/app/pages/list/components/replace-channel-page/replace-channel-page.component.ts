@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReplaceChannelControllerService, ReplaceChannelEventService, WsControllerService } from 'src/app/library/public-api';
+import { NotifyService, ReplaceChannelControllerService, ReplaceChannelEventService, WsControllerService } from 'src/app/library/public-api';
 
 @Component({
   selector: 'app-replace-channel-page',
@@ -10,10 +10,11 @@ export class ReplaceChannelPageComponent {
   list = [
 
   ]
-  displayedColumns = ['position', 'name', 'id', 'operate'];
+  displayedColumns = ['position', 'replace_channel_name','name', 'id', 'operate'];
   is_enabled = true;
   constructor(
     public ReplaceChannelController: ReplaceChannelControllerService,
+    public Notify:NotifyService,
     public ReplaceChannelEvent: ReplaceChannelEventService,
     public WsController: WsControllerService
   ) {
@@ -31,8 +32,11 @@ export class ReplaceChannelPageComponent {
         this.ReplaceChannelEvent.Events[list[index]].getAll().then(res => {
           res.forEach((e, i) => {
             e.replace_channel_id = list[index];
+            e.replace_channel_name=this.ReplaceChannelEvent.Configs[list[index]].name;
           });
           this.list = [...this.list, ...res]
+          console.log(this.list);
+
           this.list.forEach((e, i) => {
             e.index = i + 1
           });
@@ -53,5 +57,12 @@ export class ReplaceChannelPageComponent {
       this.ReplaceChannelController.enabled_change(this.ReplaceChannelController.is_enabled)
     })
   }
-
+  copy(text){
+    navigator.clipboard.writeText(text).then(() => {
+      this.Notify.messageBox("复制成功")
+    }).catch(err => {
+      this.Notify.messageBox("ERROR")
+    });
+  }
 }
+

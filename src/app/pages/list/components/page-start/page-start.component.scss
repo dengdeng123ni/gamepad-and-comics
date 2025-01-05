@@ -13,7 +13,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0; /* 从完全透明 */
-    transform: scale(0.5) rotate(3600deg) rotate3d(1, 1, 1, 45deg); /* 到缩小到一半并旋转180度 */
+    transform: scale(0.5) rotate(0deg) rotate3d(1, 1, 1, 45deg); /* 到缩小到一半并旋转180度 */
   }
   to {
     opacity: 1; /* 到完全可见 */
