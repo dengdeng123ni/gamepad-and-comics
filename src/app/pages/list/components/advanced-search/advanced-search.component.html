@@ -14,8 +14,16 @@
         <mat-icon>restart_alt</mat-icon>
       </button>
     </div>
+
   </div>
   <ng-container *ngFor="let n of list;let index=index">
+    <div class="textarea" *ngIf="n.type!='search'&&index==0">
+      <mat-divider style="margin: 2px 0;"></mat-divider>
+      <div style="display: flex;justify-content: right;padding: 8px 0;">
+        <button mat-button (click)="on()" id="search" [attr.region]="'advanced_search_input'" [attr.default]="'true'">{{'搜索' | translate}}</button>
+      </div>
+      <mat-divider style="margin: 2px 0;"></mat-divider>
+    </div>
     <div class="textarea" *ngIf="n.type=='search'">
       <mat-form-field [attr.region]="'advanced_search_input'">
         <textarea matInput type="text" [(ngModel)]="n.value" (focus)="focus()" (blur)="blur()"></textarea>
@@ -35,7 +43,6 @@
         padding: 0;" [value]="item.value"   [matTooltipShowDelay]="333"
         [matTooltip]="item.label | translate" [attr.region]="'chip_option'" [attr.type]="'chip'"
           *ngFor="let item of n.options">{{item.label | translate}}</mat-chip-option>
-
       </mat-chip-listbox>
     </div>
     <div *ngIf="n.type=='tag_multiple'" [attr.region]="'advanced_search_item'" [attr.type]="'slide'">
