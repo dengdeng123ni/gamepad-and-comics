@@ -23,11 +23,10 @@
               ? submenuOpen($event)
               : on($event,item.arg)
           "
-
           mat-menu-item
           [matMenuTriggerFor]="submenu"
           [matMenuTriggerData]="{ data: item.submenu }"
-          [matTooltipShowDelay]="10000"
+          [matTooltipShowDelay]="3000"
           [matTooltip]="item.name | translate"
         >
           {{ item.name | translate  }}
@@ -41,7 +40,7 @@
           (keydown)="onKeyDown($event)"
 
           (click)="on($event,item.arg)"
-          [matTooltipShowDelay]="10000"
+          [matTooltipShowDelay]="3000"
           [matTooltip]="item.name | translate"
           mat-menu-item
           *ngIf="!item.submenu"
@@ -72,7 +71,7 @@
         mat-menu-item
         [matMenuTriggerFor]="children"
         [matMenuTriggerData]="{ data: item.submenu }"
-        [matTooltipShowDelay]="10000"
+        [matTooltipShowDelay]="3000"
         [matTooltip]="item.name | translate"
       >
         {{ item.name | translate }}
@@ -86,7 +85,7 @@
         (keydown)="onKeyDown($event)"
 
         (click)="on($event,item.arg)"
-        [matTooltipShowDelay]="10000"
+        [matTooltipShowDelay]="3000"
         [matTooltip]="item.name | translate"
         mat-menu-item
       >
@@ -107,7 +106,7 @@
       [attr.region]="'content_menu_children'"
       (keydown)="onKeyDown($event)"
       (click)="on($event,item.arg)"
-      [matTooltipShowDelay]="10000"
+      [matTooltipShowDelay]="3000"
       [matTooltip]="item.name | translate"
       mat-menu-item
     >
