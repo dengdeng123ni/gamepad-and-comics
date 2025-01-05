@@ -123,8 +123,6 @@ window._gh_list_menu_register(
         ],
         click: async (e) => {
            window._gh_navigate(['/detail', e.data.source, e.data.id])
-          // window._gh_navigate()
-
         }
       },
       getList: async (obj) => {
