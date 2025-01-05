@@ -176,6 +176,7 @@ export class GamepadControllerService {
 
 
   device(input: string) {
+   console.log(input);
 
     let is_11 = ["LEFT_ANALOG_DOWN",
       "LEFT_ANALOG_RIGHT",

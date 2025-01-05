@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ControllerSettingsComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
+
     if (this.is_key_capture) {
       if (event.key == "Enter" || event.key == "c" || event.key == "Tab" || event.key == "Escape") {
         this.Notify.messageBox(`${event.key} $[内置快捷键,不可选择]`, null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'center', verticalPosition: 'top', });
@@ -199,22 +200,32 @@ export class ControllerSettingsComponent {
       }
     },
     {
-      id: "previous",
-      name: "移动到上一个"
+      id: "LEFT_BUMPER",
+      name: "移动到上一个",
+      keyboard: {
+        edit: true,
+        name: "-"
+      },
+
     },
     {
-      id: "next",
-      name: "移动到下一个"
+      id: "RIGHT_BUMPER",
+      name: "移动到下一个",
+      keyboard: {
+        edit: true,
+        name: "="
+      },
     },
     {
-      id: "first",
+      id: "LEFT_TRIGGER",
       name: "移动到第一个"
     },
     {
-      id: "last",
+      id: "RIGHT_TRIGGER",
       name: "移动到最后一个"
     }
   ]
+
 
   is_key_capture = false
   key = null;
@@ -240,6 +251,7 @@ export class ControllerSettingsComponent {
     }
     this.list.forEach(x => {
       if (this.KeyboardController.config[x.id]) {
+        console.log(x.id);
 
         x.keyboard.name = this.KeyboardController.config[x.id];
         if (x.keyboard.name == "ArrowUp") x.keyboard.name = "↑";

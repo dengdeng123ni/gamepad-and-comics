@@ -23,6 +23,7 @@ export class ZoomService {
     this.oBox = document.querySelector('.mat-drawer-content')
     this.oDiv = document.querySelector('#_reader_pages')
 
+console.log(this.oBox,this.oDiv);
 
   }
   down(e) {
@@ -256,7 +257,7 @@ export class ZoomService {
     return {
       transX: isNaN(+arr[arr.length - 2]) ? 0 : +arr[arr.length - 2], // 获取translateX
       transY: isNaN(+arr[arr.length - 1].split(')')[0]) ? 0 : +arr[arr.length - 1].split(')')[0], // 获取translateX
-      multiple: +arr[3] // 获取图片缩放比例
+      multiple: isNaN(+arr[3] as any) ?1:+arr[3] // 获取图片缩放比例
     }
   }
   limitBorder = (innerDOM, outerDOM, moveX, moveY, multiple) => {

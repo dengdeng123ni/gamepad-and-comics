@@ -24,13 +24,13 @@ export class KeyboardControllerService {
     "B": "Alt",
     "X": "Shift",
     "Y": "Control",
-    "LEFT_TRIGGER": "左缓冲键",
-    "LEFT_BUMPER": "左扳机键",
-    "RIGHT_TRIGGER": "右缓冲键",
-    "RIGHT_BUMPER": "右扳机键",
-    "SELECT": "视图按钮",
-    "START": "菜单按钮",
-    "SPECIAL": "配置文件按钮"
+    "LEFT_TRIGGER": "",
+    "LEFT_BUMPER": "-",
+    "RIGHT_TRIGGER": "",
+    "RIGHT_BUMPER": "=",
+    "SELECT": "",
+    "START": "",
+    "SPECIAL": ""
   }
 
   public _config = {
@@ -45,9 +45,9 @@ export class KeyboardControllerService {
     "X": "Shift",
     "Y": "Control",
     "LEFT_TRIGGER": "左缓冲键",
-    "LEFT_BUMPER": "左扳机键",
+    "LEFT_BUMPER": "-",
     "RIGHT_TRIGGER": "右缓冲键",
-    "RIGHT_BUMPER": "右扳机键",
+    "RIGHT_BUMPER": "=",
     "SELECT": "视图按钮",
     "START": "菜单按钮",
     "SPECIAL": "配置文件按钮"

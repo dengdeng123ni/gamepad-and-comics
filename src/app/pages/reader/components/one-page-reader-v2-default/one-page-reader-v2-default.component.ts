@@ -42,7 +42,7 @@ export class OnePageReaderV2DefaultComponent {
     })
     GamepadEvent.registerAreaEvent('page_reader', {
       "LEFT": () => {
-        this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_RIGHT");
+        this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_LEFT");
       },
       "UP": () => {
         this.zoom.zoomSize <= 1 ? this.current._pagePrevious() : this.zoom.down("DPAD_UP");
@@ -51,7 +51,7 @@ export class OnePageReaderV2DefaultComponent {
         this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_DOWN");
       },
       "RIGHT": () => {
-        this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_LEFT");
+        this.zoom.zoomSize <= 1 ? this.current._pageNext() : this.zoom.down("DPAD_RIGHT");
       },
       "X": () => {
         this.pageToggle();
