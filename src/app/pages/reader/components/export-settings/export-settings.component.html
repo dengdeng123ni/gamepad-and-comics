@@ -33,7 +33,7 @@
       </button>
     </div>
     <mat-divider style="margin-top: 8px;"></mat-divider>
-    <div class="item" *ngIf="page=='double'">
+    <div class="item" *ngIf="page=='double'" style="flex-wrap: wrap;height: auto;">
       <div class="name">{{'页面顺序'| translate}}</div>
       <div class="options">
         <mat-radio-group [(ngModel)]="pageOrder">
