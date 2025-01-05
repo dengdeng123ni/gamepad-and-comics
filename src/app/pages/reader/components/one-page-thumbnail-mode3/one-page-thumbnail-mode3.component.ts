@@ -18,6 +18,7 @@ export class OnePageThumbnailMode3Component {
   pages: any = [];
   page_index = 0;
   chapter_id = [];
+  chapter_index=0;
   constructor(
     public current: CurrentService,
     public data: DataService,
@@ -29,6 +30,7 @@ export class OnePageThumbnailMode3Component {
     public ContextMenuEvent: ContextMenuEventService,
     public TouchmoveEvent:TouchmoveEventService
   ) {
+    this.chapter_index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
     this.init(this._data);
     if (data.is_cache) {
       ContextMenuEvent.register('one_page_thumbnail_item', {

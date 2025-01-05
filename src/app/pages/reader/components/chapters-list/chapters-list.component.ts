@@ -25,11 +25,13 @@ interface Item {
 export class ChaptersListComponent {
   _ctrl = false;
   is_locked = true;
+  chapter_index=0;
   constructor(public data: DataService,
     public router: Router,
     public current: CurrentService, public doublePageThumbnail: DoublePageThumbnailService, public ContextMenuEvent: ContextMenuEventService,) {
 
     if (this.data.chapters[0].is_locked === undefined || !this.data.is_locked) this.is_locked = false;
+    this.chapter_index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
   }
   on($event: MouseEvent) {
     const node = $event.target as HTMLElement;

@@ -1,4 +1,19 @@
 <div class="warp">
+  <div class="head"  style=" margin: 12px 0;
+  padding: 0px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, .34);
+  flex-direction: row-reverse;
+  border-radius: 4px;
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: start;">
+        <div  >
+          {{ data.details.title }}
+        </div>
+      </div>
   <div class="list">
     <button mat-button class="item" *ngFor="let n of data.chapters; let index = index" [attr._id]="'chapters_item_' + index"
       [attr.select]="n.id == data.chapter_id" [attr.default]="n.id == data.chapter_id" [attr.region]="'chapters_item'"

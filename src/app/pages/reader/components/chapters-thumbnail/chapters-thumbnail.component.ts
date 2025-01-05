@@ -10,6 +10,7 @@ import { DataService } from '../../services/data.service';
 })
 export class ChaptersThumbnailComponent {
   is_locked = true;
+  chapter_index=0;
   constructor(
     public current: CurrentService,
     public data:DataService,
@@ -17,6 +18,7 @@ export class ChaptersThumbnailComponent {
   ) {
 
     if (this.data.chapters[0].is_locked === undefined || !this.data.is_locked) this.is_locked = false;
+    this.chapter_index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
   }
   on(id:string) {
     this.chaptersThumbnail.close();

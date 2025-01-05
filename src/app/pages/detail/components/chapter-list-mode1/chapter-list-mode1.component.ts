@@ -202,11 +202,14 @@ export class ChapterListMode1Component {
             const id = e.value
             const index = await this.current._getChapterIndex(id);
             this.doublePageThumbnail.open({
-              chapter_id: id
+              chapter_id: id,
+              page_index:index
             })
           } else {
+            const index = await this.current._getChapterIndex(this.data.chapter_id);
             this.doublePageThumbnail.open({
-              chapter_id: this.data.chapter_id
+              chapter_id: this.data.chapter_id as any,
+              page_index:index
             })
           }
         }
