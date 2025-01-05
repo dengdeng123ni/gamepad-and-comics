@@ -206,7 +206,11 @@ export class ControllerSettingsComponent {
         edit: true,
         name: "-"
       },
-
+      gamepad: {
+        key: "LEFT_BUMPER",
+        name: "左扳机键",
+        edit: false,
+      }
     },
     {
       id: "RIGHT_BUMPER",
@@ -215,16 +219,40 @@ export class ControllerSettingsComponent {
         edit: true,
         name: "="
       },
+      gamepad: {
+        key: "RIGHT_BUMPER",
+        name: "右扳机键",
+        edit: false,
+      }
     },
     {
       id: "LEFT_TRIGGER",
-      name: "移动到第一个"
+      name: "移动到第一个",
+      keyboard: {
+        edit: true,
+        name: "["
+      },
+      gamepad: {
+        key: "LEFT_TRIGGER",
+        name: "左缓冲键",
+        edit: false,
+      }
     },
     {
       id: "RIGHT_TRIGGER",
-      name: "移动到最后一个"
+      name: "移动到最后一个",
+      keyboard: {
+        edit: true,
+        name: "]"
+      },
+      gamepad: {
+        key: "RIGHT_TRIGGER",
+        name: "右缓冲键",
+        edit: false,
+      }
     }
   ]
+
 
 
   is_key_capture = false
