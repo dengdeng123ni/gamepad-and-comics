@@ -3,51 +3,19 @@ import { AppDataService, ContextMenuControllerService, DbComicsControllerService
 import { GamepadControllerService } from './library/gamepad/gamepad-controller.service';
 import { GamepadEventService } from './library/gamepad/gamepad-event.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
-import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
 import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
 import { bufferCount, Subject } from 'rxjs';
-import CryptoJS from 'crypto-js'
 import { TranslateService } from '@ngx-translate/core';
 import { Platform } from '@angular/cdk/platform';
-export const slideInAnimation =
-  trigger('routeAnimation', [
-    transition('* <=> *', [
-      style({ position: 'relative' }),
-      query(':enter, :leave', [
-        style({
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh'
-        })
-      ]),
-      query(':enter', [
-        style({ top: '100vh' })
-      ]),
-      query(':leave', animateChild()),
-      group([
-        query(':leave', [
-          animate('100ms ease-out', style({ top: '-100vh' }))
-        ]),
-        query(':enter', [
-          animate('100ms ease-out', style({ top: '0vh' }))
-        ])
-      ]),
-      query(':enter', animateChild()),
-    ])
-  ]);
 
 
 
 declare global {
   interface Window {
-
     _gh_receive_message?: (message: any) => Promise<any>; // 通道接收消息
     _gh_translate_register?: (lang: string, json: any) => void // 注册翻译
     _gh_menu_update?: () => void; // 更新菜单
     _gh_page_reset?: () => void; // 重置页面
-
     _gh_execute_eval?: (url: string, javascript: string) => Promise<any>; // 执行代码
     _gh_fetch?: (url: RequestInfo | URL, init?: RequestInit) => Promise<Response>; // 请求
     _gh_add_comics?: (pages: Array<string>, option: { title?: string }) => Promise<string> // 添加漫画 返回漫画ID
@@ -86,14 +54,6 @@ declare global {
   }
 
 }
-
-//
-// 输入法问题 可以解决
-// _gh_region_set
-// body.setbuudygj
-// key   加入哪个菜单 name 便于管理
-// id name  getLIst qeury
-// 加入笔趣阁
 
 @Component({
   selector: 'app-root',
