@@ -52,6 +52,14 @@ declare global {
   }
 }
 
+
+// 插件版本v2
+// 插件版本v3
+// 安卓版本
+// ios 版本
+// 输入法
+// C++
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
