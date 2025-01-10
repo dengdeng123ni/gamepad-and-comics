@@ -1,0 +1,7 @@
+{
+  "name": "gamepad-and-comics",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
