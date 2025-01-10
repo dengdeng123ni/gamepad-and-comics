@@ -6,6 +6,7 @@ import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { ReadRecordChapterService } from './library/read-record-chapter/read-record-chapter.service';
 import { bufferCount, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { CapacitorHttp } from '@capacitor/core';
 import { Platform } from '@angular/cdk/platform';
 
 declare global {
@@ -172,6 +173,10 @@ export class AppComponent {
   ) {
     window._gh_data = {};
 
+
+
+    // window._gh_get_html = this.getHtml;
+    // window._gh_execute_eval = this.execute_eval;
 
     window.addEventListener("beforeunload", async (event) => {
       const list: any = await this.ReplaceChannelController.original.webDb.getAll('temporary_file')
@@ -430,6 +435,13 @@ export class AppComponent {
     await this.MessageFetch.init();
     await this.configSet();
     if (!obj1["noscript"]) await this.pulg.init();
+  //   window._gh_fetch= async (url: string, init?: RequestInit): Promise<Response> => {
+  //     const res= await CapacitorHttp.get({
+  //       url:url,
+  //       method:"no-cors"
+  //     })
+  //     return res as any
+  //  };
     setTimeout(() => {
       this.gampadConfigset();
       this.ReplaceChannelController.init();
