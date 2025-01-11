@@ -471,42 +471,29 @@ export class AppComponent {
             url,
             method,
             headers,
+            responseType: 'blob',
             data: body ? JSON.parse(body) : undefined, // 发送 JSON 数据
             ...rest, // 其他选项
           });
+          function base64ToBlob(base64String, type) {
+            // 解码 base64 字符串
+            const byteCharacters = atob(base64String);
+            const byteArrays = [];
 
-          // 模拟 fetch 的响应对象
-          const fetchLikeResponse = {
-            ok: response.status >= 200 && response.status < 300, // 是否成功
-            status: response.status, // HTTP 状态码
-            statusText: response.statusText || '', // 状态文本
-            headers: {
-              get: (key) => response.headers?.[key.toLowerCase()] || null, // 获取响应头
-            },
-            json: async () => response.data, // 解析为 JSON
-            text: async () => response.data, // 解析为文本
-            blob: async () => {
-              function base64ToBlob(base64String, type) {
-                // 解码 base64 字符串
-                const byteCharacters = atob(base64String);
-                const byteArrays = [];
+            // 将解码后的字符串转换为字节数组
+            for (let i = 0; i < byteCharacters.length; i++) {
+              byteArrays.push(byteCharacters.charCodeAt(i));
+            }
 
-                // 将解码后的字符串转换为字节数组
-                for (let i = 0; i < byteCharacters.length; i++) {
-                  byteArrays.push(byteCharacters.charCodeAt(i));
-                }
-
-                // 使用字节数组创建 Blob 对象
-                const blob = new Blob([new Uint8Array(byteArrays)], { type: type });
-                return blob;
-              }
-              const blob = base64ToBlob(response.data, response.headers['content-type']);
-              return blob
-            },
-          };
-
-
-          return fetchLikeResponse;
+            // 使用字节数组创建 Blob 对象
+            const blob = new Blob([new Uint8Array(byteArrays)], { type: type });
+            return blob;
+          }
+          const blob = base64ToBlob(response.data, response.headers['content-type']);
+          return new Response(blob,{
+            status:response.status,
+            headers:response.headers
+          });
         } catch (error) {
           // 捕获错误并返回类似 fetch 的错误
           throw new Error(`Fetch error: ${error.message}`);
@@ -540,7 +527,7 @@ export class AppComponent {
           setTimeout(() => {
             if (this._data_proxy_response[id]) {
               bool = false;
-              r(this._data_proxy_response[id])
+              r(this._data_proxy_response[id].clone())
             } else {
               if (bool) getData()
             }
