@@ -7,6 +7,7 @@ import { ReadRecordChapterService } from './library/read-record-chapter/read-rec
 import { bufferCount, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { CapacitorHttp } from '@capacitor/core';
+import { VolumeButtons, VolumeButtonsCallback, VolumeButtonsOptions, VolumeButtonsResult } from '@capacitor-community/volume-buttons';
 import { Platform } from '@angular/cdk/platform';
 
 declare global {
@@ -20,9 +21,9 @@ declare global {
     _gh_add_comics?: (pages: Array<string>, option: { title?: string }) => Promise<string> // 添加漫画 返回漫画ID
     _gh_generate_file_path?: (name: string, event: (e: any) => string) => void; // 生成文件路径
     _gh_get_html?: (url: RequestInfo | URL) => Promise<Response>;  // 获取html
-    _gh_comics_register:Function; // 注册漫画
-    _gh_set_data:Function; // 注册漫画
-    _gh_get_data:Function; // 注册漫画
+    _gh_comics_register: Function; // 注册漫画
+    _gh_set_data: Function; // 注册漫画
+    _gh_get_data: Function; // 注册漫画
     _gh_comics_get_image?: (page_id: string, option?: { source: string, is_cache?: boolean }) => Promise<Blob>; // 获取漫画图片
     _gh_comics_get_pages?: (chapter_id: string, option?: { source: string, is_cache?: boolean }) => Promise<Array<any>>; // 获取漫画章节
     _gh_comics_get_detail?: (comics_id: string, option?: { source: string, is_cache?: boolean }) => Promise<any>; // 获取漫画详情
@@ -48,8 +49,8 @@ declare global {
     _gh_source_get_config: Function; // 获取所有数据名称
     _gh_source_get_event: Function; // 获取所有数据名称
   }
-  interface Navigator{
-    userAgentData:any
+  interface Navigator {
+    userAgentData: any
   }
 }
 
@@ -60,6 +61,7 @@ declare global {
 // ios 版本
 // 输入法
 // C++
+
 
 @Component({
   selector: 'app-root',
@@ -127,6 +129,7 @@ export class AppComponent {
   // 语音控制
   // 事件列表 列出可以使用的函数
   //
+  arr=[];
 
   is_first_enable = false;
   constructor(
@@ -143,7 +146,7 @@ export class AppComponent {
     public TemporaryFile: TemporaryFileService,
     public DbComicsController: DbComicsControllerService,
     public ContextMenuController: ContextMenuControllerService,
-    public ListMenuEvent:ListMenuEventService,
+    public ListMenuEvent: ListMenuEventService,
     public WsController: WsControllerService,
     private contexts: ChildrenOutletContexts,
     public ccc: WebFileService,
@@ -171,6 +174,16 @@ export class AppComponent {
     public platform: Platform,
     public App: AppDataService
   ) {
+    const options: VolumeButtonsOptions = {};
+    const callback: VolumeButtonsCallback = (result: VolumeButtonsResult, err?: any) => {
+      if(result.direction=="down"){
+        this.GamepadController.device("DOWN")
+      }else{
+        this.GamepadController.device("UP")
+      }
+    };
+    options.suppressVolumeIndicator = true;
+    VolumeButtons.watchVolume(options, callback);
     window._gh_data = {};
 
 
@@ -435,13 +448,13 @@ export class AppComponent {
     await this.MessageFetch.init();
     await this.configSet();
     if (!obj1["noscript"]) await this.pulg.init();
-  //   window._gh_fetch= async (url: string, init?: RequestInit): Promise<Response> => {
-  //     const res= await CapacitorHttp.get({
-  //       url:url,
-  //       method:"no-cors"
-  //     })
-  //     return res as any
-  //  };
+    //   window._gh_fetch= async (url: string, init?: RequestInit): Promise<Response> => {
+    //     const res= await CapacitorHttp.get({
+    //       url:url,
+    //       method:"no-cors"
+    //     })
+    //     return res as any
+    //  };
     setTimeout(() => {
       this.gampadConfigset();
       this.ReplaceChannelController.init();
