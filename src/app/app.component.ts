@@ -10,6 +10,8 @@ import { CapacitorHttp } from '@capacitor/core';
 import { VolumeButtons, VolumeButtonsCallback, VolumeButtonsOptions, VolumeButtonsResult } from '@capacitor-community/volume-buttons';
 import { Platform } from '@angular/cdk/platform';
 import { StatusBar } from '@capacitor/status-bar';
+
+import CryptoJS from 'crypto-js'
 declare global {
   interface Window {
     _gh_receive_message?: (message: any) => Promise<any>; // 通道接收消息
@@ -73,7 +75,8 @@ export class AppComponent {
   is_data_source = true;
   keys = [];
   is_tab = false;
-
+    _data_proxy_request={}
+    _data_proxy_response={}
   keydown = new Subject()
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
@@ -450,8 +453,10 @@ export class AppComponent {
     if (!obj1["noscript"]) await this.pulg.init();
     await StatusBar.setBackgroundColor({ color: '#303030' });
     await StatusBar.setOverlaysWebView({ overlay: true });
-    window._gh_fetch= async (url: string, init?: RequestInit): Promise<Response> => {
-      async function capacitorFetch(url, options:any = {}) {
+
+
+    window._gh_fetch = async (url: string, init?: RequestInit): Promise<Response> => {
+      async function capacitorFetch(url, options: any = {}) {
         // 默认配置
         const {
           method = 'GET',
@@ -462,7 +467,7 @@ export class AppComponent {
 
         try {
           // 构建 CapacitorHttp 请求
-          const response:any = await CapacitorHttp.request({
+          const response: any = await CapacitorHttp.request({
             url,
             method,
             headers,
@@ -481,7 +486,7 @@ export class AppComponent {
             json: async () => response.data, // 解析为 JSON
             text: async () => response.data, // 解析为文本
             blob: async () => {
-              function base64ToBlob(base64String,type) {
+              function base64ToBlob(base64String, type) {
                 // 解码 base64 字符串
                 const byteCharacters = atob(base64String);
                 const byteArrays = [];
@@ -495,7 +500,7 @@ export class AppComponent {
                 const blob = new Blob([new Uint8Array(byteArrays)], { type: type });
                 return blob;
               }
-              const blob = base64ToBlob(response.data,response.headers['content-type']);
+              const blob = base64ToBlob(response.data, response.headers['content-type']);
               return blob
             },
           };
@@ -507,8 +512,53 @@ export class AppComponent {
           throw new Error(`Fetch error: ${error.message}`);
         }
       }
-      return await capacitorFetch(url,init) as any;
-   };
+
+      let id = CryptoJS.MD5(JSON.stringify({
+        url: url,
+        init: init
+      })).toString().toLowerCase()
+      if (!this._data_proxy_request[id]) {
+        this._data_proxy_request[id] = true;
+        const send = async () => {
+          this._data_proxy_response[id]=await capacitorFetch(url, init) as any;
+        }
+        send();
+        setTimeout(() => {
+          if (!this._data_proxy_response[id]) {
+            send();
+          }
+        }, 10000)
+        setTimeout(() => {
+          if (!this._data_proxy_response[id]) {
+            send();
+          }
+        }, 20000)
+      }
+      let bool = true;
+      return new Promise((r, j) => {
+        const getData = () => {
+          setTimeout(() => {
+            if (this._data_proxy_response[id]) {
+              bool = false;
+              r(this._data_proxy_response[id])
+            } else {
+              if (bool) getData()
+            }
+          }, 33)
+        }
+        getData()
+
+        setTimeout(() => {
+          if (bool) {
+            bool = false;
+            r(new Response())
+            j(new Response())
+          }
+          this._data_proxy_request[id] = undefined;
+          this._data_proxy_response[id] = undefined;
+        }, 40000)
+      })
+    };
     // StatusBar.setOverlaysWebView
     // await StatusBar.hide();
     //   window._gh_fetch= async (url: string, init?: RequestInit): Promise<Response> => {

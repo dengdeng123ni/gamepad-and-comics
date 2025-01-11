@@ -70,9 +70,6 @@ export class MessageFetchService {
     const req = new Request(url, init);
     let body = null;
     if (req.body) body = await this.readStreamToString(req.body)
-    const b64_to_utf8 = (str: string) => {
-      return JSON.parse(decodeURIComponent(escape(window.atob(str))));
-    }
     let id = ''
 
     if (init && (init as any).proxy) {
