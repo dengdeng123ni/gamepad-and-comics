@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CapacitorHttp } from '@capacitor/core';
 import { VolumeButtons, VolumeButtonsCallback, VolumeButtonsOptions, VolumeButtonsResult } from '@capacitor-community/volume-buttons';
 import { Platform } from '@angular/cdk/platform';
-
+import { StatusBar } from '@capacitor/status-bar';
 declare global {
   interface Window {
     _gh_receive_message?: (message: any) => Promise<any>; // 通道接收消息
@@ -129,7 +129,7 @@ export class AppComponent {
   // 语音控制
   // 事件列表 列出可以使用的函数
   //
-  arr=[];
+  arr = [];
 
   is_first_enable = false;
   constructor(
@@ -176,9 +176,9 @@ export class AppComponent {
   ) {
     const options: VolumeButtonsOptions = {};
     const callback: VolumeButtonsCallback = (result: VolumeButtonsResult, err?: any) => {
-      if(result.direction=="down"){
+      if (result.direction == "down") {
         this.GamepadController.device("DOWN")
-      }else{
+      } else {
         this.GamepadController.device("UP")
       }
     };
@@ -448,6 +448,69 @@ export class AppComponent {
     await this.MessageFetch.init();
     await this.configSet();
     if (!obj1["noscript"]) await this.pulg.init();
+    await StatusBar.setBackgroundColor({ color: '#303030' });
+    await StatusBar.setOverlaysWebView({ overlay: true });
+    window._gh_fetch= async (url: string, init?: RequestInit): Promise<Response> => {
+      async function capacitorFetch(url, options:any = {}) {
+        // 默认配置
+        const {
+          method = 'GET',
+          headers = {},
+          body = null,
+          ...rest
+        } = options;
+
+        try {
+          // 构建 CapacitorHttp 请求
+          const response:any = await CapacitorHttp.request({
+            url,
+            method,
+            headers,
+            data: body ? JSON.parse(body) : undefined, // 发送 JSON 数据
+            ...rest, // 其他选项
+          });
+
+          // 模拟 fetch 的响应对象
+          const fetchLikeResponse = {
+            ok: response.status >= 200 && response.status < 300, // 是否成功
+            status: response.status, // HTTP 状态码
+            statusText: response.statusText || '', // 状态文本
+            headers: {
+              get: (key) => response.headers?.[key.toLowerCase()] || null, // 获取响应头
+            },
+            json: async () => response.data, // 解析为 JSON
+            text: async () => response.data, // 解析为文本
+            blob: async () => {
+              function base64ToBlob(base64String,type) {
+                // 解码 base64 字符串
+                const byteCharacters = atob(base64String);
+                const byteArrays = [];
+
+                // 将解码后的字符串转换为字节数组
+                for (let i = 0; i < byteCharacters.length; i++) {
+                  byteArrays.push(byteCharacters.charCodeAt(i));
+                }
+
+                // 使用字节数组创建 Blob 对象
+                const blob = new Blob([new Uint8Array(byteArrays)], { type: type });
+                return blob;
+              }
+              const blob = base64ToBlob(response.data,response.headers['content-type']);
+              return blob
+            },
+          };
+
+
+          return fetchLikeResponse;
+        } catch (error) {
+          // 捕获错误并返回类似 fetch 的错误
+          throw new Error(`Fetch error: ${error.message}`);
+        }
+      }
+      return await capacitorFetch(url,init) as any;
+   };
+    // StatusBar.setOverlaysWebView
+    // await StatusBar.hide();
     //   window._gh_fetch= async (url: string, init?: RequestInit): Promise<Response> => {
     //     const res= await CapacitorHttp.get({
     //       url:url,
