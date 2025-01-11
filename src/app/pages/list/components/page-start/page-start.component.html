@@ -1,27 +1,44 @@
-<div>
-  <button mat-button (click)="on()">
-    测试网络服务
+<div style="overflow: auto;height: 90vh;">
+  <div>
+    <button mat-button (click)="on()">
+      测试网络服务
+    </button>
+  </div>
+  <div *ngIf="is_google">
+    google 链接成功
+  </div>
+
+  <div *ngIf="is_baidu">
+    baidu 链接成功
+  </div>
+  <div *ngIf="is_hentai">
+    hentai 链接成功
+  </div>
+
+
+
+  {{list2|json}}
+
+  {{id}}
+  {{list|json}}
+  <div *ngFor="let n of arr">
+    {{n}}
+    </div>
+
+
+  <button mat-button class="warp" style="    width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.34;" [disabled]="true">
+    <div class="title" style="font-size: 48px;line-height: 56px;">
+      游戏手柄与漫画
+    </div>
+    <div class="author" style="text-align: right;">
+      dengdeng123ni
+    </div>
   </button>
-</div>
-<div *ngIf="is_google">
-  google 链接成功
-</div>
 
-<div *ngIf="is_baidu">
-  baidu 链接成功
 </div>
-
-<button mat-button class="warp" style="    width: 100%;
-height: 100%;
-display: flex;
-position: absolute;
-align-items: center;
-justify-content: center;
-opacity: 0.34;" [disabled]="true">
-  <div class="title" style="font-size: 48px;line-height: 56px;">
-    游戏手柄与漫画
-  </div>
-  <div class="author" style="text-align: right;">
-    dengdeng123ni
-  </div>
-</button>
