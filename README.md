@@ -3,7 +3,7 @@
 > An offline comic reader that supports multiple control methods, including keyboard, gamepad, mouse, and voice commands. It helps users easily read local comics while also integrating with online comic platforms through plugins and APIs, providing a rich reading experience.
 
 ## Project Link  
-[https://dengdeng123ni.github.io/gamepad-and-comics-v3/](https://dengdeng123ni.github.io/gamepad-and-comics-v3/)
+[https://dengdeng123ni.github.io/gamepad-and-comics-v3/](https://dengdeng123ni.github.io/gamepad-and-comics/)
 
 --- 
 
