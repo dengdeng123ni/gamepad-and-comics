@@ -1,0 +1,17 @@
+{
+	"appId": "gamepad.and.comics",
+	"appName": "gamepad-and-comics",
+	"webDir": "dist",
+	"plugins": {
+		"CapacitorHttp": {
+			"enabled": true
+		}
+	},
+	"packageClassList": [
+		"VolumeButtonsPlugin",
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"StatusBarPlugin"
+	]
+}
