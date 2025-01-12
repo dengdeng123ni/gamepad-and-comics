@@ -1,7 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Compiled output
-/dist
+# Compiled output 
 /tmp
 /out-tsc
 /bazel-out
@@ -43,7 +42,7 @@ Thumbs.db
 
 /等待删除
 /angular.json
+/dist
 angular.json
 
-/.vscode
-.vscode
+/yarn

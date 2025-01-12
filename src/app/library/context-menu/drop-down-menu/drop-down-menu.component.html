@@ -1,8 +1,0 @@
-<div class="list" style="    display: flex;
-flex-direction: column;
-align-items: baseline;
-width: 100%;">
-  <button style="width: 100%;" [attr.region]="'drop_down_menu_item'" mat-button *ngFor="let n of ComicsSelectType.list;let n_index=index" class="item" (click)="on(n_index)" [attr.select]="n_index==0" [attr.current]="n_index==0">
-    {{n.name | translate}}
-  </button>
-</div>

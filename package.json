@@ -1,56 +1,53 @@
 {
-  "name": "gamepad-and-comics",
-  "description": "一款离线漫画阅读器，支持多种控制方式，包括键盘、手柄、鼠标和语音。帮助用户更轻松地阅读本地漫画，同时支持通过插件和 API 对接在线漫画平台，实现丰富的阅读体验。",
+  "name": "gamepad-and-comics-electron",
+  "version": "1.0.0",
   "author": "dengdeng123ni <2648736010@qq.com>",
-  "version": "3.0.1",
-  "license": "GNU General Public License v3.0",
+  "main": "main.js",
+  "license": "MIT",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "serve": "ng serve --open --host 0.0.0.0",
-    "servehttps": "ng serve --open --host 0.0.0.0 --ssl true --port=58444",
-    "build": "ng build",
-    "onpwabuild": "ng build --service-worker=false",
-    "watch": "ng build --watch --configuration development",
-    "ghpages": "ng deploy",
-    "hserve": "http-server -p 8080 -c-1 dist/browser",
-    "test": "ng test"
+    "start": "electron .",
+    "serve": "electron .",
+    "build": "electron-builder"
   },
-  "private": true,
-  "dependencies": {
-    "@angular/animations": "^17.3.0",
-    "@angular/cdk": "^17.3.5",
-    "@angular/common": "^17.3.0",
-    "@angular/compiler": "^17.3.0",
-    "@angular/core": "^17.3.0",
-    "@angular/forms": "^17.3.0",
-    "@angular/material": "^17.3.5",
-    "@angular/platform-browser": "^17.3.0",
-    "@angular/platform-browser-dynamic": "^17.3.0",
-    "@angular/router": "^17.3.0",
-    "@angular/service-worker": "^17.3.0",
-    "@ngx-translate/core": "^16.0.3",
-    "crypto-js": "^4.2.0",
-    "image-conversion": "^2.1.1",
-    "material-icons": "^1.13.12",
-    "moment": "^2.30.1",
-    "ngx-indexed-db": "^17.1.0",
-    "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+  "build": {
+    "appId": "gamepad-and-comics-v3.app",
+    "productName": "游戏手柄与漫画",
+    "directories": {
+      "output": "dist"
+    },
+    "icon": "icons/icon",
+    "files": [
+      "public/**/*",
+      "main.js",
+      "preload.js"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.4",
-    "@angular/cli": "^17.3.4",
-    "@angular/compiler-cli": "^17.3.0",
-    "@types/jasmine": "~5.1.0",
-    "angular-cli-ghpages": "^2.0.0-beta.2",
-    "jasmine-core": "~5.1.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.2"
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "electron-fetch": "^1.9.1",
+    "express": "^4.21.1",
+    "get-proxy-settings": "^0.1.13",
+    "global-agent": "^3.0.0",
+    "global-tunnel-ng": "^2.7.1",
+    "https-proxy-agent": "^7.0.5",
+    "node-fetch": "^3.3.2",
+    "open": "^10.1.0",
+    "puppeteer": "^23.10.0",
+    "system-proxy": "^2.0.0",
+    "ws": "^8.18.0"
   }
 }
