@@ -43,7 +43,7 @@ export class AboutSoftwareComponent {
   }
 
   opeo() {
-    window.open('https://github.com/dengdeng123ni/gamepad-and-comics-v3')
+    window.open('https://github.com/dengdeng123ni/gamepad-and-comics')
   }
 
   open2() {

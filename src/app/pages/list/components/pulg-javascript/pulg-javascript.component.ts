@@ -27,7 +27,7 @@ export class PulgJavascriptComponent {
     {
       type: "github",
       name: "dengdeng123ni github",
-      url: "https://github.com/dengdeng123ni/gamepad-and-comics-v3/tree/main/js"
+      url: "https://github.com/dengdeng123ni/gamepad-and-comics/tree/main/js"
     }
   ]
 

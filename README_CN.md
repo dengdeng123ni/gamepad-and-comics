@@ -3,7 +3,7 @@
 > 一款离线漫画阅读器，支持多种控制方式，包括键盘、手柄、鼠标和语音。帮助用户更轻松地阅读本地漫画，同时支持通过插件和 API 对接在线漫画平台，实现丰富的阅读体验。
 
 ## 项目地址  
-[https://dengdeng123ni.github.io/gamepad-and-comics-v3/](https://dengdeng123ni.github.io/gamepad-and-comics-v3/)
+[https://dengdeng123ni.github.io/gamepad-and-comics/](https://dengdeng123ni.github.io/gamepad-and-comics/)
 
 ---
 

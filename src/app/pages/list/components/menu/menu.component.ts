@@ -233,7 +233,7 @@ export class MenuComponent {
                 id: "ope321",
                 name: "Github 在线链接",
                 click: () => {
-                  window.open("https://dengdeng123ni.github.io/gamepad-and-comics-v3/", '_blank')
+                  window.open("https://dengdeng123ni.github.io/gamepad-and-comics/", '_blank')
 
                 }
               },
