@@ -1,0 +1,18 @@
+<lint-module
+    format="1"
+    dir="/Users/zhiangzeng/Desktop/Documents/project/gamepad-and-comics-v2/android/capacitor-cordova-android-plugins"
+    name=":capacitor-cordova-android-plugins"
+    type="LIBRARY"
+    maven="android:capacitor-cordova-android-plugins:"
+    agpVersion="8.2.1"
+    buildFolder="build"
+    bootClassPath="/Users/zhiangzeng/Library/Android/sdk/platforms/android-34/android.jar:/Users/zhiangzeng/Library/Android/sdk/build-tools/34.0.0/core-lambda-stubs.jar"
+    javaSourceLevel="17"
+    compileTarget="android-34"
+    neverShrinking="true">
+  <lintOptions
+      absolutePaths="true"
+      checkReleaseBuilds="true"
+      explainIssues="true"/>
+  <variant name="release"/>
+</lint-module>
