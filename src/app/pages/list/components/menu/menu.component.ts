@@ -143,6 +143,7 @@ export class MenuComponent {
           e.click()
         },
         menu: [
+
           {
 
             id: "ooeo",
@@ -170,27 +171,6 @@ export class MenuComponent {
             id: "ooeo",
             name: "其他",
             submenu: [
-              // {
-              //   id: "javasciprt",
-              //   name: "主题",
-              //   click: () => {
-              //     this.PageTheme.open({
-              //       position: {
-              //         left: "10px",
-              //         bottom: "100px"
-              //       },
-              //       panelClass: "_controller_settings",
-              //       backdropClass: "_reader_config_bg",
-              //     });
-              //   }
-              // },
-              // {
-              //   id: "ope3",
-              //   name: "支持网站",
-              //   click: () => {
-              //     this.UrlUsageGuide.open({});
-              //   }
-              // },
               {
                 id: "ope3123",
                 name: "PDF转图片",
@@ -198,7 +178,14 @@ export class MenuComponent {
                   this.PdfToImage.to();
                 }
               },
+              {
 
+                id: "oo1eo",
+                name: "功能设置",
+                click: () => {
+
+                }
+              },
             ]
           },
           {
@@ -206,7 +193,13 @@ export class MenuComponent {
             id: "ooeo",
             name: "网页版",
             submenu: [
-
+              {
+                id: "ope321",
+                name: "手机版下载",
+                click: () => {
+                  window.open(`https://github.com/dengdeng123ni/gamepad-and-comics/releases/tag/comics`, '_blank')
+                }
+              },
               {
                 id: "ope321",
                 name: "打开局域网连接",
@@ -220,7 +213,7 @@ export class MenuComponent {
               },
               {
                 id: "ope321",
-                name: "手机版二维码",
+                name: "局域网二维码",
                 click: () => {
                   if (AppData.local_network_url) {
                     this.MobileWebQrcode.open();
@@ -234,7 +227,6 @@ export class MenuComponent {
                 name: "Github 在线链接",
                 click: () => {
                   window.open("https://dengdeng123ni.github.io/gamepad-and-comics/", '_blank')
-
                 }
               },
               {
