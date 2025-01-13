@@ -178,14 +178,14 @@ export class MenuComponent {
                   this.PdfToImage.to();
                 }
               },
-              {
+              // {
 
-                id: "oo1eo",
-                name: "功能设置",
-                click: () => {
+              //   id: "oo1eo",
+              //   name: "功能设置",
+              //   click: () => {
 
-                }
-              },
+              //   }
+              // },
             ]
           },
           {
