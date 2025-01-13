@@ -133,6 +133,10 @@ export class ComicsListV2Component {
         const url = new URL(window.location.href);
         url.searchParams.delete('gh_data');
         window.history.pushState({}, '', url);
+      }else if(this.params?._gh_condition){
+        const url = new URL(window.location.href);
+        url.searchParams.delete('_gh_condition');
+        window.history.pushState({}, '', url);
       } else {
         if (this.id) {
           await this.put()

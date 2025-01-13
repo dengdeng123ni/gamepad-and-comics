@@ -47,7 +47,7 @@ export class MenuComponent {
 
 
   on($event, data, parent: any = {}) {
-
+    this.data.currend_read_comics_id=null;
     this.menu.current_menu_pid = parent.id ? `${parent.id}` : data.id;
     this.menu.current_menu_id = parent.id ? `${parent.id}_${data.id}` : data.id;
     this.menu.post();

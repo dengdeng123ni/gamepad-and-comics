@@ -23,7 +23,6 @@ export class ZoomService {
     this.oBox = document.querySelector('.mat-drawer-content')
     this.oDiv = document.querySelector('#_reader_pages')
 
-console.log(this.oBox,this.oDiv);
 
   }
   down(e) {
