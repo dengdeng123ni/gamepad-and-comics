@@ -41,7 +41,8 @@ window._gh_list_menu_register(
               "id": "creation_time",
               "name": "创建时间",
               "type": "time_range"
-            }
+            },
+
           ]
           let history = await window._gh_web_db.getAll('history')
           const details = await window._gh_web_db.getAll('details')
@@ -120,11 +121,7 @@ window._gh_list_menu_register(
             "name": "创建时间",
             "type": "time_range"
           },
-          {
-            "id": "creation_time1",
-            "name": "创建时间2",
-            "type": "time"
-          }
+
         ],
         click: async (e) => {
            window._gh_navigate(['/detail', e.data.source, e.data.id])
