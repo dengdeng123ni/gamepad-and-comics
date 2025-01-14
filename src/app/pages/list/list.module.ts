@@ -48,6 +48,8 @@ import { ArchivePageComponent } from './components/archive-page/archive-page.com
 import { FavoritesPageComponent } from './components/favorites-page/favorites-page.component';
 import { ImageToComicsListComponent } from './components/image-to-comics-list/image-to-comics-list.component';
 import { PageStartComponent } from './components/page-start/page-start.component';
+import { SelectDateComponent } from './components/select-date/select-date.component';
+import { SelectTagSingleComponent } from './components/select-tag-single/select-tag-single.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,8 @@ import { PageStartComponent } from './components/page-start/page-start.component
     FavoritesPageComponent,
     ImageToComicsListComponent,
     PageStartComponent,
+    SelectDateComponent,
+    SelectTagSingleComponent,
   ],
   imports: [
     CommonModule,
