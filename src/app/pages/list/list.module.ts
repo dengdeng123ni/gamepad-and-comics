@@ -51,6 +51,7 @@ import { PageStartComponent } from './components/page-start/page-start.component
 import { SelectDateComponent } from './components/select-date/select-date.component';
 import { SelectTagSingleComponent } from './components/select-tag-single/select-tag-single.component';
 import { SelectTimeRangeComponent } from './components/select-time-range/select-time-range.component';
+import { SelectTimeComponent } from './components/select-time/select-time.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { SelectTimeRangeComponent } from './components/select-time-range/select-
     SelectDateComponent,
     SelectTagSingleComponent,
     SelectTimeRangeComponent,
+    SelectTimeComponent,
   ],
   imports: [
     CommonModule,

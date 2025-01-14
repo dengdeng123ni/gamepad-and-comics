@@ -106,9 +106,9 @@
       <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;">
         {{n.name | translate}}
       </div>
-      <mat-form-field color="accent" [attr.region]="'advanced_search_item'" [attr.type]="'time'">
+      <mat-form-field color="accent" [attr.region]="'advanced_search_item'"  [attr.index]="index" [attr.type]="'time'">
         <mat-label>{{'请输入时间' | translate}}</mat-label>
-        <input matInput [matDatepicker]="picker1" [(ngModel)]="n.date" >
+        <input matInput [attr.date]="true" [attr.value]="n.date" [matDatepicker]="picker1" [(ngModel)]="n.date" >
         <mat-hint>YYYY/DD/MM</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>

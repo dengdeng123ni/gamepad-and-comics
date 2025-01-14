@@ -119,6 +119,11 @@ window._gh_list_menu_register(
             "id": "creation_time",
             "name": "创建时间",
             "type": "time_range"
+          },
+          {
+            "id": "creation_time1",
+            "name": "创建时间2",
+            "type": "time"
           }
         ],
         click: async (e) => {
@@ -164,12 +169,10 @@ window._gh_list_menu_register(
           res=res.filter(x=>{
             return obj.update_time.start<x.last_read_date&&x.last_read_date<obj.update_time.end
           })
-
-
         }
         if(obj.creation_time){
           res=res.filter(x=>{
-            return obj.update_time.start<x.first_read_date&&x.first_read_date<obj.update_time.end
+            return obj.creation_time.start<x.first_read_date&&x.first_read_date<obj.creation_time.end
           })
         }
         if(obj.search){

@@ -1,13 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { SelectTimeRangeService } from './select-time-range.service';
+import { SelectTimeService } from './select-time.service';
 
 @Component({
-  selector: 'app-select-time-range',
-  templateUrl: './select-time-range.component.html',
-  styleUrl: './select-time-range.component.scss'
+  selector: 'app-select-time',
+  templateUrl: './select-time.component.html',
+  styleUrl: './select-time.component.scss'
 })
-export class SelectTimeRangeComponent {
+export class SelectTimeComponent {
+
 
   dateRange = {
     start: {
@@ -29,22 +30,16 @@ export class SelectTimeRangeComponent {
   name=""
 
   constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data,
-    public SelectTimeRange: SelectTimeRangeService
+    public SelectTimeRange: SelectTimeService
   ) {
     if (data) {
       this.name=data.name;
       data=data.data;
-      if (data[0]) {
-        this.setStartTime(data[0])
-      } else {
-        this.setStartTime(new Date().getTime())
-      }
-      if (data[1]) {
-        this.setEndTime(data[1])
+      if (data) {
+        this.setEndTime(data)
       } else {
         this.setEndTime(new Date().getTime())
       }
-
     }
   }
 
@@ -152,9 +147,7 @@ export class SelectTimeRangeComponent {
 
   on() {
 
-    this.SelectTimeRange.value = [
-      new Date(`${this.dateRange.start.YYYY}-${this.dateRange.start.MM}-${this.dateRange.start.DD}`),
-      new Date(`${this.dateRange.end.YYYY}-${this.dateRange.end.MM}-${this.dateRange.end.DD}`)];
+    this.SelectTimeRange.value =  new Date(`${this.dateRange.start.YYYY}-${this.dateRange.start.MM}-${this.dateRange.start.DD}`)
     this.SelectTimeRange.opened = false;
   }
 

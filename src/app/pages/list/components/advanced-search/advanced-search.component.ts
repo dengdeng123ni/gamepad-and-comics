@@ -8,6 +8,7 @@ import { SelectTagMultipleService } from '../select-tag-multiple/select-tag-mult
 import { Platform } from '@angular/cdk/platform';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SelectTimeRangeService } from '../select-time-range/select-time-range.service';
+import { SelectTimeService } from '../select-time/select-time.service';
 
 @Component({
   selector: 'app-advanced-search',
@@ -47,6 +48,7 @@ export class AdvancedSearchComponent {
     public AdvancedSearch: AdvancedSearchService,
     public SelectInputNumber: SelectInputNumberService,
     public SelectTagMultiple: SelectTagMultipleService,
+    public SelectTime:SelectTimeService,
     public SelectTimeRange:SelectTimeRangeService,
     public platform: Platform,
     @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data,
@@ -169,12 +171,24 @@ export class AdvancedSearchComponent {
 
           let end= e.querySelector("[end=true]").getAttribute("value")
           if(end) end= new Date(end).getTime();
-          let res=  await this.SelectTimeRange.change([start,end])
+          let res=  await this.SelectTimeRange.change({
+            name:this.list[parseInt(e.getAttribute('index'))].name,
+            data:[start,end]
+          })
           if(res){
            if(res[0]) this.list[parseInt(e.getAttribute('index'))].start = res[0];
            if(res[1]) this.list[parseInt(e.getAttribute('index'))].end = res[1];
           }
-
+        }else if(e.getAttribute('type') == "time"){
+          let date= e.querySelector("[date=true]").getAttribute("value")
+          if(date) date= new Date(date).getTime();
+          let res=  await this.SelectTime.change({
+            name:this.list[parseInt(e.getAttribute('index'))].name,
+            data:date
+          })
+          if(res){
+            this.list[parseInt(e.getAttribute('index'))].date = res;
+           }
         } else {
           this.GamepadController.leftKey();
           return
