@@ -18,7 +18,6 @@ export class SelectTagMultipleComponent {
     @Inject(MAT_BOTTOM_SHEET_DATA) public data,
 
   ) {
-    console.log(data);
 
     this.list=data.list;
     this.name=data.name;

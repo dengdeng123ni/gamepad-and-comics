@@ -7,6 +7,7 @@ import { SelectInputNumberService } from '../select-input-number/select-input-nu
 import { SelectTagMultipleService } from '../select-tag-multiple/select-tag-multiple.service';
 import { Platform } from '@angular/cdk/platform';
 import { FormGroup, FormControl } from '@angular/forms';
+import { SelectTimeRangeService } from '../select-time-range/select-time-range.service';
 
 @Component({
   selector: 'app-advanced-search',
@@ -46,6 +47,7 @@ export class AdvancedSearchComponent {
     public AdvancedSearch: AdvancedSearchService,
     public SelectInputNumber: SelectInputNumberService,
     public SelectTagMultiple: SelectTagMultipleService,
+    public SelectTimeRange:SelectTimeRangeService,
     public platform: Platform,
     @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public data,
     public GamepadController: GamepadControllerService
@@ -142,7 +144,6 @@ export class AdvancedSearchComponent {
         }, 100)
       }
     })
-
     GamepadEvent.registerAreaEvent("advanced_search_slider", {
       A: async e => {
 
@@ -154,6 +155,28 @@ export class AdvancedSearchComponent {
           })
           if (value === null) return
           this.list[parseInt(e.getAttribute('index'))].value = value;
+        } else {
+          e.click()
+          return
+        }
+      }
+    })
+    GamepadEvent.registerAreaEvent("advanced_search_item", {
+      A: async e => {
+        if (e.getAttribute('type') == "time_range") {
+          let start= e.querySelector("[start=true]").getAttribute("value")
+          if(start) start= new Date(start).getTime();
+
+          let end= e.querySelector("[end=true]").getAttribute("value")
+          if(end) end= new Date(end).getTime();
+          let res=  await this.SelectTimeRange.change([start,end])
+          if(res){
+           if(res[0]) this.list[parseInt(e.getAttribute('index'))].start = res[0];
+           if(res[1]) this.list[parseInt(e.getAttribute('index'))].end = res[1];
+
+
+          }
+
         } else {
           e.click()
           return

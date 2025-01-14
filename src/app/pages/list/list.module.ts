@@ -50,6 +50,7 @@ import { ImageToComicsListComponent } from './components/image-to-comics-list/im
 import { PageStartComponent } from './components/page-start/page-start.component';
 import { SelectDateComponent } from './components/select-date/select-date.component';
 import { SelectTagSingleComponent } from './components/select-tag-single/select-tag-single.component';
+import { SelectTimeRangeComponent } from './components/select-time-range/select-time-range.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { SelectTagSingleComponent } from './components/select-tag-single/select-
     PageStartComponent,
     SelectDateComponent,
     SelectTagSingleComponent,
+    SelectTimeRangeComponent,
   ],
   imports: [
     CommonModule,

@@ -25,6 +25,7 @@ import { ReplaceChannelPageService } from '../../components/replace-channel-page
 import { MobileWebQrcodeService } from '../../components/mobile-web-qrcode/mobile-web-qrcode.service';
 import { LanguageSettingsService } from '../../components/language-settings/language-settings.service';
 import { FavoritesPageService } from '../../components/favorites-page/favorites-page.service';
+import { SelectTimeRangeService } from '../../components/select-time-range/select-time-range.service';
 
 @Component({
   selector: 'app-index',
@@ -62,7 +63,7 @@ export class IndexComponent {
     public MobileWebQrcode:MobileWebQrcodeService,
     public LanguageSettings:LanguageSettingsService,
     public FavoritesPage:FavoritesPageService,
-
+    public SelectTimeRange:SelectTimeRangeService,
     public MenuSearch: MenuSearchService
   ) {
     // this.WebpageOffline.open();

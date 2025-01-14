@@ -21,7 +21,6 @@ export class AboutSoftwareComponent {
 
   ) {
     navigator.storage.estimate().then(estimate => {
-
       this.size = this.formatSizeUnits(estimate.usage)
     });
     this.init()

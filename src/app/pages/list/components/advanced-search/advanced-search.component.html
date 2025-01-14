@@ -87,26 +87,26 @@
         <mat-slide-toggle style="z-index: 2;" [attr.type]="'slide'" [(ngModel)]="n.value"></mat-slide-toggle>
       </div>
     </div>
-    <div *ngIf="n.type=='time_range'"  [attr.type]="'time_range'">
+    <div *ngIf="n.type=='time_range'" [attr.type]="'time_range'">
       <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;">
         {{n.name | translate}}
       </div>
-      <mat-form-field  color="accent" [attr.region]="'advanced_search_item'">
+      <mat-form-field  color="accent" [attr.region]="'advanced_search_item'" [attr.index]="index"  [attr.type]="'time_range'">
         <mat-label>{{'输入时间范围' | translate}}</mat-label>
         <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate [placeholder]="'开始时间' | translate" [(ngModel)]="n.start">
-          <input matEndDate [placeholder]="'结束时间' | translate" [(ngModel)]="n.end" >
+          <input matStartDate [attr.start]="true" [attr.value]="n.start" [placeholder]="'开始时间' | translate" [(ngModel)]="n.start">
+          <input matEndDate  [attr.end]="true" [attr.value]="n.end" [placeholder]="'结束时间' | translate" [(ngModel)]="n.end" >
         </mat-date-range-input>
         <mat-hint>YYYY/DD/MM – YYYY/DD/MM</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
     </div>
-    <div *ngIf="n.type=='time'"  [attr.type]="'time'">
+    <div *ngIf="n.type=='time'" [attr.type]="'time'">
       <div class="title" style="font-size: 16px;margin: 12px 0;display: flex;justify-content: space-between;">
         {{n.name | translate}}
       </div>
-      <mat-form-field color="accent" [attr.region]="'advanced_search_item'">
+      <mat-form-field color="accent" [attr.region]="'advanced_search_item'" [attr.type]="'time'">
         <mat-label>{{'请输入时间' | translate}}</mat-label>
         <input matInput [matDatepicker]="picker1" [(ngModel)]="n.date" >
         <mat-hint>YYYY/DD/MM</mat-hint>

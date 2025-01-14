@@ -1,0 +1,126 @@
+<div class="warp">
+  <div class="title" style="display: flex;justify-content: space-between;align-items: center;">
+    <div style=" font-size: 18px;
+    opacity: 0.34;
+    text-align: center; ">
+       <!-- {{name | translate}} -->
+        时间
+    </div>
+    <div class="toolbar">
+      <button mat-button (click)="close()" [attr.region]="'select_tag_multiple_item'">{{'关闭' | translate}}</button>
+      <button mat-button (click)="on()" [attr.region]="'select_tag_multiple_item'" [attr.select]="true">{{'确认' | translate}}</button>
+    </div>
+  </div>
+  <mat-divider style="margin: 8px 0px;margin-left: 70%;"></mat-divider>
+  <mat-chip-set
+  class="example-chip"
+  cdkDropList
+  cdkDropListOrientation="horizontal" >
+  <mat-chip class="example-box" cdkDrag (click)="changeRangeTime(1)">最近1天</mat-chip>
+  <mat-chip class="example-box" cdkDrag (click)="changeRangeTime(2)">最近1周</mat-chip>
+  <mat-chip class="example-box" cdkDrag (click)="changeRangeTime(3)">最近1月</mat-chip>
+  <mat-chip class="example-box" cdkDrag (click)="changeRangeTime(4)">最近3月</mat-chip>
+</mat-chip-set>
+<mat-divider style="margin: 8px 0px;"></mat-divider>
+  <div class="list">
+    <div class="start">
+      <div class="item">
+        <button mat-button class="button" (click)="start_YYYY_add()" [disabled]="dateRange.start.YYYY==3014">
+          <mat-icon class="icon">expand_less</mat-icon>
+        </button>
+        <button mat-button [disabled]="true">{{dateRange.start.YYYY}}</button>
+        <button mat-button class="button" (click)="start_YYYY_reduce()" [disabled]="dateRange.start.YYYY==1990">
+          <mat-icon class="icon">expand_more</mat-icon>
+        </button>
+      </div>
+      <div class="item" style="    align-items: center;
+      justify-content: center;">
+        <button mat-button [disabled]="true" style="    width: 10px;
+        min-width: 10px;
+        padding: 0;
+        margin: 0;">/</button>
+      </div>
+
+      <div class="item">
+        <button mat-button class="button" [disabled]="dateRange.start.MM==12" (click)="start_MM_add()">
+          <mat-icon class="icon">expand_less</mat-icon>
+        </button>
+        <button mat-button [disabled]="true">{{dateRange.start.MM}}</button>
+        <button mat-button class="button" [disabled]="dateRange.start.MM==1" (click)="start_MM_reduce()">
+          <mat-icon class="icon">expand_more</mat-icon>
+        </button>
+      </div>
+
+      <div class="item" style="    align-items: center;
+      justify-content: center;">
+        <button mat-button [disabled]="true" style="    width: 10px;
+        min-width: 10px;
+        padding: 0;
+        margin: 0;">/</button>
+      </div>
+      <div class="item">
+        <button mat-button class="button" (click)="dateRange.start.DD=dateRange.start.DD+1" [disabled]="dateRange.start.DD==max_start_DD">
+          <mat-icon class="icon">expand_less</mat-icon>
+        </button>
+        <button mat-button [disabled]="true">{{dateRange.start.DD}}</button>
+        <button mat-button class="button" (click)="dateRange.start.DD=dateRange.start.DD-1" [disabled]="dateRange.start.DD==1">
+          <mat-icon class="icon">expand_more</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="item" style="    align-items: center;
+    justify-content: center;">
+      <button mat-button [disabled]="true" style="    width: 40px;
+      min-width: 10px;
+      padding: 0;
+      margin: 0;">-</button>
+    </div>
+
+   <div class="end">
+    <div class="item">
+      <button mat-button class="button" (click)="end_YYYY_add()" [disabled]="dateRange.end.YYYY==3014">
+        <mat-icon class="icon">expand_less</mat-icon>
+      </button>
+      <button mat-button [disabled]="true">{{dateRange.end.YYYY}}</button>
+      <button mat-button class="button" (click)="end_YYYY_reduce()" [disabled]="dateRange.end.YYYY==1990">
+        <mat-icon class="icon">expand_more</mat-icon>
+      </button>
+    </div>
+    <div class="item" style="    align-items: center;
+    justify-content: center;">
+      <button mat-button [disabled]="true" style="    width: 10px;
+      min-width: 10px;
+      padding: 0;
+      margin: 0;">/</button>
+    </div>
+
+    <div class="item">
+      <button mat-button class="button" [disabled]="dateRange.end.MM==12" (click)="end_MM_add()">
+        <mat-icon class="icon">expand_less</mat-icon>
+      </button>
+      <button mat-button [disabled]="true">{{dateRange.end.MM}}</button>
+      <button mat-button class="button" [disabled]="dateRange.end.MM==1" (click)="end_MM_reduce()">
+        <mat-icon class="icon">expand_more</mat-icon>
+      </button>
+    </div>
+
+    <div class="item" style="    align-items: center;
+    justify-content: center;">
+      <button mat-button [disabled]="true" style="    width: 10px;
+      min-width: 10px;
+      padding: 0;
+      margin: 0;">/</button>
+    </div>
+    <div class="item">
+      <button mat-button class="button" (click)="dateRange.end.DD=dateRange.end.DD+1" [disabled]="dateRange.end.DD==max_end_DD">
+        <mat-icon class="icon">expand_less</mat-icon>
+      </button>
+      <button mat-button [disabled]="true">{{dateRange.end.DD}}</button>
+      <button mat-button class="button" (click)="dateRange.end.DD=dateRange.end.DD-1" [disabled]="dateRange.end.DD==1">
+        <mat-icon class="icon">expand_more</mat-icon>
+      </button>
+    </div>
+   </div>
+
+  </div>
+</div>
