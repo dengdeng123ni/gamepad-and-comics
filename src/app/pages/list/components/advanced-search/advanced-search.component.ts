@@ -173,12 +173,10 @@ export class AdvancedSearchComponent {
           if(res){
            if(res[0]) this.list[parseInt(e.getAttribute('index'))].start = res[0];
            if(res[1]) this.list[parseInt(e.getAttribute('index'))].end = res[1];
-
-
           }
 
         } else {
-          e.click()
+          this.GamepadController.leftKey();
           return
         }
       }

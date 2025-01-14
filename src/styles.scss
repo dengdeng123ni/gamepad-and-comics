@@ -502,6 +502,21 @@ body[is_phone=true]{
       }
     }
   }
+
+  body[pattern=gamepad][locked_region=select_time_range]{
+    [region=select_time_range_item][select=true],
+    [region=select_time_range_button][select=true]
+
+    {
+      position: relative;
+
+      &::after {
+        @extend .default_frame;
+      }
+    }
+  }
+
+
   body[pattern=gamepad][locked_region=select]{
     [region=option][select=true]{
       position: relative;

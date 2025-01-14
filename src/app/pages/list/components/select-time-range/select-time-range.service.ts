@@ -16,11 +16,11 @@ export class SelectTimeRangeService {
       private _sheet: MatBottomSheet,
       public GamepadEvent: GamepadEventService
     ) {
-      GamepadEvent.registerAreaEvent('select_tag_multiple_item', {
+      GamepadEvent.registerAreaEvent('select_time_range_item', {
         B: () => setTimeout(() => this.close())
       })
-      GamepadEvent.registerConfig('select_tag_multiple', {
-        region: ['select_tag_multiple_item','chip_option_v32'],
+      GamepadEvent.registerConfig('select_time_range', {
+        region: ['select_time_range_item','select_time_range_button'],
       });
     }
 
@@ -29,12 +29,12 @@ export class SelectTimeRangeService {
         if (this.opened == false) {
           const sheetRef = this._sheet.open(SelectTimeRangeComponent, {
             autoFocus: false,
-            panelClass: "_select_tag_multiple",
+            panelClass: "_select_time_range",
             data:data
           });
-          document.body.setAttribute("locked_region", "select_tag_multiple")
+          document.body.setAttribute("locked_region", "select_time_range")
           sheetRef.afterDismissed().subscribe(() => {
-            if (document.body.getAttribute("locked_region") == "select_tag_multiple" && this.opened) document.body.setAttribute("locked_region", document.body.getAttribute("router"))
+            if (document.body.getAttribute("locked_region") == "select_time_range" && this.opened) document.body.setAttribute("locked_region", document.body.getAttribute("router"))
             this.opened = false;
           });
         }
