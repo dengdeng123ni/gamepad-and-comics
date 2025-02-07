@@ -1,24 +1,36 @@
-
 :host ::ng-deep {
-  app-page-start{
+  app-page-start {
     width: 100%;
     height: 100%
-  };
+  }
+
+  ;
 }
-.warp{
+
+.warp {
   position: absolute;
   bottom: 60px;
   right: 10px;
   filter: opacity(0.3);
   transform: rotate(315deg) !important;
 }
+
 @keyframes fadeIn {
   from {
-    opacity: 0; /* 从完全透明 */
-    transform: scale(0.5) rotate(0deg) rotate3d(1, 1, 1, 45deg); /* 到缩小到一半并旋转180度 */
+    opacity: 0;
+    /* 从完全透明 */
+    transform: scale(0.5) rotate(0deg) rotate3d(1, 1, 1, 45deg);
+    /* 到缩小到一半并旋转180度 */
   }
+
   to {
-    opacity: 1; /* 到完全可见 */
+    opacity: 1;
+    /* 到完全可见 */
     transform: scale(1) rotate(0deg) rotate3d(1, 1, 1, 0deg);
   }
+}
+
+.mat-mdc-button[disabled] {
+  text-align: left;
+  height: auto;
 }
