@@ -85,6 +85,8 @@ export class MessageControllerService {
   }
 
   init = async () => {
+    this.http.init();
+
     window.postMessage({
       target: 'background',
       type: "add_browser_client",

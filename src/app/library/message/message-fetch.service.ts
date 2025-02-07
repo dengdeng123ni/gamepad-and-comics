@@ -17,13 +17,15 @@ export class MessageFetchService {
     private webCh: CacheControllerService,
     public ReplaceChannelEvent: ReplaceChannelEventService,
   ) {
+
+    window.CryptoJS = CryptoJS;
+
+
+  }
+  async init() {
     window._gh_fetch = this.fetch;
     window._gh_get_html = this.getHtml;
     window._gh_execute_eval = this.execute_eval;
-    window.CryptoJS = CryptoJS;
-
-     // window 'receiver_client_id=_420000000000&replace_channel_id=_gh_application&is_enabled=true'
-    // window._gh_new_page = this.new_page;
     this.ReplaceChannelEvent.register({
       id: 'plugins',
       name: '插件'
@@ -31,7 +33,6 @@ export class MessageFetchService {
       sendMessage: this.getProxyRequestLocal,
       getAll: this.getAllBrowserClient
     })
-
     this.ReplaceChannelEvent.register({
       id: '_gh_application',
       name: '应用'
@@ -53,9 +54,6 @@ export class MessageFetchService {
         return res
       },
     })
-
-  }
-  async init() {
   }
   fetch = async (url: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     if (!init) {

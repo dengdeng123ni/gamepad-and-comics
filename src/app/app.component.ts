@@ -420,7 +420,6 @@ export class AppComponent {
     this.WsController.init()
     await this.webCh.init();
     const obj1 = this.getAllParams(window.location.href);
-    await this.MessageFetch.init();
     await this.configSet();
     if (!obj1["noscript"]) await this.pulg.init();
 

@@ -21,6 +21,7 @@ export class LanguageSettingsComponent  {
 
   }
   async use(language){
+    localStorage.setItem('is_first_settngs_language', 'true')
     this.I18n.setDefaultLang(language)
   }
 }
