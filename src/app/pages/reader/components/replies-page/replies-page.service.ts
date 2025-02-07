@@ -21,9 +21,6 @@ export class RepliesPageService {
     GamepadEvent.registerConfig('double_page_thumbnail_item', {
       region: ['chapters_item'],
     });
-    setTimeout(()=>{
-      this.open_bottom_sheet()
-    },3000)
   }
   open() {
     if (this.opened == false) {

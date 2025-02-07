@@ -7,13 +7,13 @@ import { AppDataService, ImageService } from '../public-api';
 export class WorkerService {
   _data = {};
 
-  worker=null
+  worker = null
   constructor(public App: AppDataService,
     public Image: ImageService
 
   ) {
-    if(window.caches){
-      this.worker= new Worker(new URL('./app.worker', import.meta.url));
+    if (false) {
+      this.worker = new Worker(new URL('./app.worker', import.meta.url));
       this.worker.onmessage = async ({ data }) => {
         if (data.type == "UrlToBolbUrl") {
           this._data[data.id] = data;
@@ -31,7 +31,7 @@ export class WorkerService {
 
 
   async UrlToBolbUrl(url): Promise<string> {
-    const get = (url): Promise<string>  => {
+    const get = (url): Promise<string> => {
       const id = Math.round(Math.random() * 1000000000000);
       this.worker.postMessage({ id, type: "UrlToBolbUrl", data: url })
       let bool = true;
@@ -69,4 +69,31 @@ export class WorkerService {
     const res = await this.UrlToBolbUrl('http://localhost:7700/bilibili/comics/26574');
   }
 
+  workerImageCompression(urls, width, quality) {
+    return new Promise((resolve, reject) => {
+      function chunkArray<T>(array: T[], chunkSize: number): T[][] {
+        const chunks: T[][] = [];
+        for (let i = 0; i < array.length; i += chunkSize) {
+          chunks.push(array.slice(i, i + chunkSize));
+        }
+        return chunks;
+      }
+      let max = navigator.hardwareConcurrency * 2;
+      let num = 0;
+      for (let index = 0; index < max; index++) {
+        const worker = new Worker(new URL('./app.worker', import.meta.url));
+        worker.postMessage({ type: "compress_multiple", data: chunkArray(urls, Math.ceil(urls.length / max))[index],width,quality })
+        worker.onmessage = async ({ data }) => {
+          if (data.type == "destroy") {
+            num++
+            worker.terminate();
+            if (num == max) {
+              resolve(urls.map(x => `${x}?width=${width}&quality=${quality}`))
+            }
+          }
+        };
+      }
+    })
+
+  }
 }

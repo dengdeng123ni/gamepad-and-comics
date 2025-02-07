@@ -23,9 +23,6 @@ export class RepliesPageComponent {
     this.list= await this.DbComicsController.getReplies(this.data.comics_id,{
       source:this.current.source
     })
-
-    console.log(this.list);
-
   }
 
   list = []

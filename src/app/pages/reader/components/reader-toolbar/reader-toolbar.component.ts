@@ -11,7 +11,7 @@ import { ReaderChangeService } from '../reader-change/reader-change.service';
 import { SetChapterFirstPageCoverService } from '../set-chapter-first-page-cover/set-chapter-first-page-cover.service';
 import { ReaderConfigService } from '../reader-config/reader-config.service';
 import { ComicsDetailService } from '../comics-detail/comics-detail.service';
-import { ContextMenuEventService, DbComicsControllerService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
+import { ContextMenuEventService, DbComicsControllerService, DbComicsEventService, IndexdbControllerService, RoutingControllerService } from 'src/app/library/public-api';
 
 import { ResetReadingProgressService } from '../reset-reading-progress/reset-reading-progress.service';
 import { FilterService } from '../filter/filter.service';
@@ -62,8 +62,10 @@ export class ReaderToolbarComponent {
     public ContextMenuEvent: ContextMenuEventService,
     public RoutingController: RoutingControllerService,
      public SettingsNineGrid: SettingsNineGridService,
+     public DbComicsEvent: DbComicsEventService,
     public RepliesPage: RepliesPageService
   ) {
+
     let menu = [
       {
         id: "bcak",
@@ -177,6 +179,16 @@ export class ReaderToolbarComponent {
         this.isFullChange();
       }
     })
+
+    if(DbComicsEvent.Events[current.source]['getReplies']){
+      menu.splice(1,0,{
+        id: "openReplies",
+        name: "评价",
+        click: e => {
+          this.openReplies({});
+        }
+      })
+    }
 
     ContextMenuEvent.register('comics_reader', {
       on: async (e: any) => {
