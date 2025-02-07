@@ -273,6 +273,10 @@ export class ReaderToolbarComponent {
 
   }
   openReplies(e) {
+    if (window.innerWidth <= 480) {
+      this.RepliesPage.open_bottom_sheet()
+      return
+    }
     this.RepliesPage.open();
   }
   closeMenu() {

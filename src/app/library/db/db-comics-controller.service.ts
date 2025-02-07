@@ -573,22 +573,18 @@ export class DbComicsControllerService {
     }
   }
 
-  getReplies = async (obj: {
-    comics_id: string,
-    page_index: number
-  }, option?: {
+  getReplies = async (comics_id: string, option?: {
     source: string,
     is_cache?: boolean
   }) => {
     try {
 
-      const id = `${obj.comics_id}_${obj.page_index}`
+      const id = comics_id;
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbComicsEvent.Configs[option.source]
       if (option && option.is_cache === true) config.is_cache = true
       if (option && option.is_cache === false) config.is_cache = false
-      config.is_cache = false
       if (this.DbComicsEvent.Events[option.source] && this.DbComicsEvent.Events[option.source]["getReplies"]) {
         if (this.replies[id] && config.is_cache) {
           return JSON.parse(JSON.stringify(this.replies[id]))
@@ -599,12 +595,12 @@ export class DbComicsControllerService {
             if (res) {
               res = res.data;
             } else {
-              res = await this.DbComicsEvent.Events[option.source]["getReplies"](obj);
+              res = await this.DbComicsEvent.Events[option.source]["getReplies"](comics_id);
               this.webDb.update('replies', JSON.parse(JSON.stringify({ id: id, source: option.source, data: res })))
 
             }
           } else {
-            res = await this.DbComicsEvent.Events[option.source]["getReplies"](obj);
+            res = await this.DbComicsEvent.Events[option.source]["getReplies"](comics_id);
           }
 
 

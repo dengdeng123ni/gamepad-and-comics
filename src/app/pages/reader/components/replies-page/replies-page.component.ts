@@ -20,12 +20,12 @@ export class RepliesPageComponent {
 
   async init() {
 
-    this.list= await this.DbComicsController.getReplies({
-      comics_id:this.data.comics_id,
-      page_index:1
-    },{
+    this.list= await this.DbComicsController.getReplies(this.data.comics_id,{
       source:this.current.source
     })
+
+    console.log(this.list);
+
   }
 
   list = []

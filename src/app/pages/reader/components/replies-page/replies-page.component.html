@@ -1,6 +1,6 @@
 <div class="warp">
   <div class="tee" style="font-size: 18px;">
-    评论
+     {{'评论'|translate}}
   </div>
   <div class="list">
     <div class="item" *ngFor="let n of list">
@@ -12,12 +12,10 @@
           {{n.name}}
         </div>
         <div class="date">
-          {{n.date}}
+          {{n.date | date: 'yyyy-MM-dd HH:mm:ss'}}
         </div>
       </div>
-      <div class="content">
-        {{n.message}}
-      </div>
+      <div class="content" [innerHTML]="n.message"></div>
       <mat-divider></mat-divider>
     </div>
 

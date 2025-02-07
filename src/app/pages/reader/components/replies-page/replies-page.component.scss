@@ -31,3 +31,16 @@
 .user{
   display: flex;
 }
+
+
+@media screen and (min-width: 0px) and (max-width: 480px) {
+  .warp{
+    padding: 0px;
+  }
+
+  .list{
+    height: auto;
+    width: auto;
+    overflow: auto;
+  }
+}

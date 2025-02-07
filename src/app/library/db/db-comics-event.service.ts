@@ -1277,6 +1277,55 @@ export class DbComicsEventService {
             return []
           }
         },
+        getReplies: async (id) => {
+          const b64_to_utf8 = (str) => {
+            return decodeURIComponent(window.atob(str));
+          }
+          const res = await window._gh_fetch(b64_to_utf8(id), {
+            "headers": {
+              "accept": "application/json, text/plain, */*",
+              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "content-type": "application/json;charset=UTF-8"
+            },
+            "body": null,
+            "method": "GET"
+          });
+          const text = await res.text();
+
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(text, 'text/html');
+
+          const nodes = doc.querySelectorAll(".c1")
+
+          let arr = [];
+          for (let index = 0; index < nodes.length; index++) {
+            const node = nodes[index];
+            let obj = {};
+            const name = node.querySelector("div.c3 a")?.textContent ?? '';
+            const message = node.querySelector(".c6").innerHTML;;
+            const date = node.querySelector("div.c3")?.textContent ?? '';
+            obj["name"] = name;
+            obj["message"] = message;
+            obj["date"] = date;
+
+            const text = obj["date"];
+            const match = text.match(/(\d{1,2} \w+ \d{4}), (\d{2}:\d{2})/);
+
+            if (match) {
+              const dateStr = match[1]; // "24 April 2021"
+              const timeStr = match[2]; // "14:57"
+
+              // 解析时间
+              const fullDate = new Date(`${dateStr} ${timeStr} UTC`); // 处理时区问题
+              obj["date"]=fullDate.getTime(); // 转换为 ISO 格式
+            }
+            arr.push(obj)
+          }
+          return arr
+        },
+        postReplies: async (id) => {
+
+        },
         UrlToDetailId: async (id) => {
           if (id.substring(0, 22) == "https://e-hentai.org/g") {
             return window.btoa(encodeURIComponent(id))
@@ -2773,7 +2822,7 @@ export class DbComicsEventService {
 
 
   get_data = async (key: string) => {
-    const res:any = await this.webDb.getByKey('data_v2', key)
+    const res: any = await this.webDb.getByKey('data_v2', key)
     if (res) return res.data
     else return null
   }
