@@ -5,7 +5,7 @@ import getTemplatePageXhtml from './template/page.xhtml'
 import getTemplateFixedLayoutJpCss from './template/fixed-layout-jp.css'
 import getTemplateStandardOpf from './template/standard.opf'
 import getTemplateNavigationDocumentsXhtml from './template/navigation-documents.xhtml'
-import { ImageService,WorkerService } from '../public-api';
+import { ImageService } from '../public-api';
 
 declare const JSZip: any;
 @Injectable({
@@ -57,9 +57,7 @@ export class EpubService {
 
   blobs = [];
 
-  constructor(public image: ImageService,
-    public appWorker: WorkerService,
-  ) { }
+  constructor(public image: ImageService) { }
 
 
 
@@ -78,9 +76,7 @@ export class EpubService {
       this.book.pageSize[1] = height;
     }
     let arr = [];
-console.log(list,this.book.pageSize[0]);
 
-    list = await this.appWorker.workerImageCompression(list,  this.book.pageSize[0], 0.92);
     if (pageOrder) arr = await this.pageDouble(list, false)
     else arr = await this.pageDouble_reverse(list, false)
 
@@ -107,7 +103,7 @@ console.log(list,this.book.pageSize[0]);
         context.fillStyle = "rgb(255,255,255)";
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
-        let dataURL = canvas.toDataURL("image/webp",0.92);
+        let dataURL = canvas.toDataURL("image/webp",0.83);
         let blobs = await this.separateImage(dataURL);
         if (pageOrder) {
           this.blobs.push(blobs[0])
@@ -117,8 +113,23 @@ console.log(list,this.book.pageSize[0]);
           this.blobs.push(blobs[0])
         }
       } else if (x.images.length == 2) {
-        var blob1 = await this.image.getImageBlob(x.images[0].img) as any;
-        var blob2 = await this.image.getImageBlob(x.images[1].img) as any;
+        const imageToblob = (img) => {
+          let canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          let context = canvas.getContext('2d');
+          context.rect(0, 0, canvas.width, canvas.height);
+          context.fillStyle = "rgb(255,255,255)";
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(img, 0, 0, img.width, img.height);
+          let dataURL = canvas.toDataURL("image/webp",0.83);
+          const blob = this.base64ToBlob(dataURL, "jpeg");
+          return blob
+        }
+        var img = await this.createImage(x.images[0].img) as any;
+        var img1 = await this.createImage(x.images[1].img) as any;
+        const blob1 = imageToblob(img)
+        const blob2 = imageToblob(img1)
         if (pageOrder) {
           this.blobs.push(blob1)
           this.blobs.push(blob2)
@@ -443,12 +454,29 @@ console.log(list,this.book.pageSize[0]);
         height: 0
       }
     }
-    const res=await createImageBitmap(await this.image.getImageBlob(src));
-    return {
-      width: res.width,
-      height: res.height,
-      src: src
+    const image1 = await this.createImage(src) as any;
+    let canvas = document.createElement('canvas');
+    canvas.width = image1.width;
+    canvas.height = image1.height;
+    if (canvas.width > canvas.height) {
+      canvas.width = this.book.pageSize[0] * 2;
+      canvas.height = this.book.pageSize[0] * 2 * (image1.height / image1.width);
+    } else {
+      canvas.width = this.book.pageSize[0];
+      canvas.height = this.book.pageSize[0] * (image1.height / image1.width);
     }
+    let context = canvas.getContext('2d');
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image1, 0, 0, canvas.width, canvas.height);
+    let dataURL = canvas.toDataURL("image/webp",0.83);
+    return new Promise((r, j) => {
+      var img = new Image();
+      img.src = dataURL;
+      img.onload = function () {
+        r(img)
+        j(img)
+      };
+    })
   }
   pageDouble = async (list, isFirstPageCover) => {
     let arr = [];

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Injectable } from '@angular/core';
-import { ImageService,WorkerService } from '../public-api';
+import { ImageService } from '../public-api';
 declare const JSZip: any;
 declare const saveAs: any;
 @Injectable({
@@ -9,10 +9,7 @@ declare const saveAs: any;
 export class ZipService {
 
 
-  constructor(public image:ImageService,
-public Worker: WorkerService,
-
-  ) { }
+  constructor(public image:ImageService) { }
   async createZip(
     list: Array<string>, {
     isFirstPageCover = false,
@@ -31,32 +28,30 @@ public Worker: WorkerService,
     let arr = [];
     if (pageOrder) arr = await this.pageDouble(list, isFirstPageCover)
     else arr = await this.pageDouble_reverse(list, isFirstPageCover)
-    // let images = [];
-
-    // for (let index = 0; index < arr.length; index++) {
-    //   const x = arr[index];
-    //   let canvas = document.createElement('canvas');
-    //   canvas.width = x.page.width;
-    //   canvas.height = x.page.height;
-    //   let context = canvas.getContext('2d');
-    //   context.rect(0, 0, canvas.width, canvas.height);
-    //   context.fillStyle = "rgb(255,255,255)";
-    //   context.fillRect(0, 0, canvas.width, canvas.height);
-    //   if (x.images.length == 1) {
-    //     var img = await this.createImage(x.images[0].img) as any;
-    //     context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
-    //   } else if (x.images.length == 2) {
-    //     var img = await this.createImage(x.images[0].img) as any;
-    //     var img1 = await this.createImage(x.images[1].img) as any;
-    //     context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
-    //     context.drawImage(img1, x.images[1].x, x.images[1].y, x.images[1].width, x.images[1].height);
-    //   }
-    //   let dataURL = canvas.toDataURL("image/webp",0.92);
-    //   const blob = this.base64ToBlob(dataURL, "jpeg");
-    //   images.push(blob);
-    // }
-
-    return  await this.Worker.workerImageCompression2(arr)
+    let images = [];
+    for (let index = 0; index < arr.length; index++) {
+      const x = arr[index];
+      let canvas = document.createElement('canvas');
+      canvas.width = x.page.width;
+      canvas.height = x.page.height;
+      let context = canvas.getContext('2d');
+      context.rect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = "rgb(255,255,255)";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      if (x.images.length == 1) {
+        var img = await this.createImage(x.images[0].img) as any;
+        context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
+      } else if (x.images.length == 2) {
+        var img = await this.createImage(x.images[0].img) as any;
+        var img1 = await this.createImage(x.images[1].img) as any;
+        context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
+        context.drawImage(img1, x.images[1].x, x.images[1].y, x.images[1].width, x.images[1].height);
+      }
+      let dataURL = canvas.toDataURL("image/webp",0.92);
+      const blob = this.base64ToBlob(dataURL, "jpeg");
+      images.push(blob);
+    }
+    return images
   }
   base64ToBlob(urlData, type) {
     let arr = urlData.split(',');
@@ -108,12 +103,29 @@ public Worker: WorkerService,
         height: 0
       }
     }
-    const res=await createImageBitmap(await this.image.getImageBlob(src));
-    return {
-      width: res.width,
-      height: res.height,
-      src: src
+    const image1 = await this.createImage(src) as any;
+    let canvas = document.createElement('canvas');
+    canvas.width = image1.width;
+    canvas.height = image1.height;
+    if (canvas.width > canvas.height) {
+      canvas.width = 2480;
+      canvas.height = 2480 * (image1.height / image1.width);
+    } else {
+      canvas.width = 1240;
+      canvas.height = 1240 * (image1.height / image1.width);
     }
+    let context = canvas.getContext('2d');
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image1, 0, 0, canvas.width, canvas.height);
+    let dataURL = canvas.toDataURL("image/webp");
+    return new Promise((r, j) => {
+      var img = new Image();
+      img.src = dataURL;
+      img.onload = function () {
+        r(img)
+        j(img)
+      };
+    })
   }
   pageDouble_reverse = async (list, isFirstPageCover) => {
     let arr = [];

@@ -73,15 +73,15 @@ export class WorkerService {
 
   workerImageCompression(urls, width, quality) {
     return new Promise(async (resolve, reject) => {
-      const res=await Promise.all(urls.map(x => `${x}?width=${width}&quality=${quality}`).map(x=>this.webCh.match('image',x)) )
+      const res = await Promise.all(urls.map(x => `${x}?width=${width}&quality=${quality}`).map(x => this.webCh.match('image', x)))
 
-      if(res){
-        let num=0;
+      if (res) {
+        let num = 0;
         for (let index = 0; index < res.length; index++) {
           const element = res[index];
-          if(element) num++;
+          if (element) num++;
         }
-        if(num==urls.length)  resolve(urls.map(x => `${x}?width=${width}&quality=${quality}`))
+        if (num == urls.length) resolve(urls.map(x => `${x}?width=${width}&quality=${quality}`))
       }
 
       function chunkArray<T>(array: T[], chunkSize: number): T[][] {
@@ -97,7 +97,7 @@ export class WorkerService {
       let num = 0;
       for (let index = 0; index < max; index++) {
         const worker = new Worker(new URL('./app.worker', import.meta.url));
-        worker.postMessage({ type: "compress_multiple", data: chunkArray(urls, Math.ceil(urls.length / max))[index],width,quality })
+        worker.postMessage({ type: "compress_multiple", data: chunkArray(urls, Math.ceil(urls.length / max))[index], width, quality })
         worker.onmessage = async ({ data }) => {
           if (data.type == "destroy") {
             num++
@@ -108,6 +108,51 @@ export class WorkerService {
           }
         };
       }
+    })
+
+  }
+
+  workerImageCompression2(arr) {
+    return new Promise(async (resolve, reject) => {
+
+      function chunkArray<T>(array: T[], chunkSize: number): T[][] {
+        const chunks: T[][] = [];
+        for (let i = 0; i < array.length; i += chunkSize) {
+          chunks.push(array.slice(i, i + chunkSize));
+        }
+        return chunks;
+      }
+
+
+      let max = navigator.hardwareConcurrency * 2;
+      let num = 0;
+      arr.forEach((x, i) => {
+        x.md5 = window.CryptoJS.MD5(JSON.stringify(x)).toString().toLowerCase();
+        x.index = i;
+      })
+
+      for (let index = 0; index < max; index++) {
+        const worker = new Worker(new URL('./app.worker', import.meta.url));
+        worker.postMessage({ type: "compress_multiple2", data: chunkArray(arr, Math.ceil(arr.length / max))[index], quality: 0.92 })
+        worker.onmessage = async ({ data }) => {
+          if (data.type == "destroy") {
+            num++
+            worker.terminate();
+            if (num == max) {
+              let blobs=[];
+              for (let index = 0; index < arr.length; index++) {
+                const x = arr[index];
+                const res=await caches.match(`http://localhost:7700/download/${x.md5}`)
+                const blob=await res.blob()
+                blobs.push(blob)
+              }
+
+              resolve(blobs)
+            }
+          }
+        };
+      }
+
     })
 
   }
