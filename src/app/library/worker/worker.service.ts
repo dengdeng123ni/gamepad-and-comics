@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppDataService, ImageService } from '../public-api';
+import { AppDataService, CacheControllerService, ImageService } from '../public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,9 @@ export class WorkerService {
   _data = {};
 
   worker = null
-  constructor(public App: AppDataService,
+  constructor(
+    public App: AppDataService,
+    private webCh: CacheControllerService,
     public Image: ImageService
 
   ) {
@@ -70,7 +72,18 @@ export class WorkerService {
   }
 
   workerImageCompression(urls, width, quality) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      const res=await Promise.all(urls.map(x => `${x}?width=${width}&quality=${quality}`).map(x=>this.webCh.match('image',x)) )
+
+      if(res){
+        let num=0;
+        for (let index = 0; index < res.length; index++) {
+          const element = res[index];
+          if(element) num++;
+        }
+        if(num==urls.length)  resolve(urls.map(x => `${x}?width=${width}&quality=${quality}`))
+      }
+
       function chunkArray<T>(array: T[], chunkSize: number): T[][] {
         const chunks: T[][] = [];
         for (let i = 0; i < array.length; i += chunkSize) {
@@ -78,6 +91,8 @@ export class WorkerService {
         }
         return chunks;
       }
+
+
       let max = navigator.hardwareConcurrency * 2;
       let num = 0;
       for (let index = 0; index < max; index++) {

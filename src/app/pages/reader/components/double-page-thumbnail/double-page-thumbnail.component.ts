@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DoublePageThumbnailService } from './double-page-thumbnail.service';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
-import { ContextMenuEventService, I18nService, IndexdbControllerService, TouchmoveEventService, UtilsService } from 'src/app/library/public-api';
+import { ContextMenuEventService, I18nService, IndexdbControllerService, TouchmoveEventService, UtilsService, WorkerService } from 'src/app/library/public-api';
 
 
 interface DialogData {
@@ -45,6 +45,7 @@ export class DoublePageThumbnailComponent {
     public webDb: IndexdbControllerService,
     public I18n:I18nService,
     public ContextMenuEvent: ContextMenuEventService,
+    public Worker:WorkerService,
     public TouchmoveEvent:TouchmoveEventService
   ) {
     this.init(_data);
@@ -227,11 +228,12 @@ export class DoublePageThumbnailComponent {
   }
 
   async getDoublePages(pages: { id: string; width: number; height: number; src: string; }[], page_index: number) {
-    const list = pages.map((x: any) => ({
+    const urls=await this.Worker.workerImageCompression(pages.map(x=>x.src),200,0.7);
+    const list = pages.map((x: any,i:number) => ({
       id: x.id,
       width: x.width,
       height: x.height,
-      src: x.src
+      src: urls[i]
     }))
     const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.chapter_id);
 

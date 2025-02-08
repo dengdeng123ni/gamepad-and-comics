@@ -3,7 +3,7 @@ import { OnePageThumbnailMode3Service } from './one-page-thumbnail-mode3.service
 import { CurrentService } from '../../services/current.service';
 import { DataService } from '../../services/data.service';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { ContextMenuEventService, NotifyService, TouchmoveEventService } from 'src/app/library/public-api';
+import { ContextMenuEventService, NotifyService, TouchmoveEventService, WorkerService } from 'src/app/library/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 interface DialogData {
   chapter_id: string;
@@ -28,6 +28,7 @@ export class OnePageThumbnailMode3Component {
     public Notify:NotifyService,
     private _snackBar: MatSnackBar,
     public ContextMenuEvent: ContextMenuEventService,
+    public Worker:WorkerService,
     public TouchmoveEvent:TouchmoveEventService
   ) {
     this.chapter_index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
@@ -97,9 +98,17 @@ export class OnePageThumbnailMode3Component {
 
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
+      const urls:any=await this.Worker.workerImageCompression(this.pages.map(x=>x.src),200,0.7);
+      urls.forEach((x,i)=>{
+        this.pages[i].src=x;
+      })
       this.page_index = this.data.page_index;
     } else {
       this.pages = this.data.pages as any;
+      const urls:any=await this.Worker.workerImageCompression(this.pages.map(x=>x.src),200,0.7);
+      urls.forEach((x,i)=>{
+        this.pages[i].src=x;
+      })
       this.page_index = this.data.page_index;
     }
 
@@ -122,9 +131,17 @@ export class OnePageThumbnailMode3Component {
     bool=await this.current._loadPagesFree(this.data.chapter_id)
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
+      const urls:any=await this.Worker.workerImageCompression(this.pages.map(x=>x.src),200,0.7);
+      urls.forEach((x,i)=>{
+        this.pages[i].src=x;
+      })
       this.page_index = this.data.page_index;
     } else {
       this.pages = this.data.pages as any;
+      const urls:any=await this.Worker.workerImageCompression(this.pages.map(x=>x.src),200,0.7);
+      urls.forEach((x,i)=>{
+        this.pages[i].src=x;
+      })
       this.page_index = this.data.page_index;
     }
     this.zone.run(() => {
