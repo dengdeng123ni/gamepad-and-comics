@@ -49,6 +49,12 @@ export class ExportSettingsComponent {
       const pages = await this.DbComicsController.getPages(x.id);
       const isFirstPageCover = this.isFirstPageCover;
       if (this.type == "IMAGES") {
+    //     if(pages.length>30) {
+    //       this.exportSettings.close();
+    // this.loading.close();
+    // // this.Notify.messageBox('图片数量应小于30张', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
+    // return
+    //     }
         await this.download.downloadTallImage(`${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), pages.map((x: { src: any; }) => x.src), this.direction)
 
       } else {

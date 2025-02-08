@@ -75,6 +75,10 @@
             [value]="'right'">{{'从右往左'|translate}}</mat-radio-button>
         </mat-radio-group>
       </div>
+
     </div>
+    <div style="display: flex;" *ngIf="type=='IMAGES'">
+      <button mat-button [disabled]="true">{{'图片数量应小于30张'|translate}}</button>
+     </div>
   </div>
 </div>

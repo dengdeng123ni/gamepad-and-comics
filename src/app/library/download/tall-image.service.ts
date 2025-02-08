@@ -24,7 +24,10 @@ else  blob = await this.down(imagePaths)
     let images = [];
     let totalWidth = 0;
     let totalHeight = 0;
-
+    let scaleFactor = 1; // 控制缩放比例，0.5代表缩小到原始大小的一半
+    if(imagePaths.length>30){
+      scaleFactor=imagePaths.length/30
+    }
     // 加载所有图片
     const loadPromises = imagePaths.map(async (path) => {
       return await createImageBitmap(await this.image.getImageBlob(path));
@@ -33,15 +36,14 @@ else  blob = await this.down(imagePaths)
     // 当所有图片加载完成后进行拼接
     return await Promise.all(loadPromises).then(e => {
       // 计算 canvas 的宽度为所有图片宽度的平均值
-
       e.forEach(img => {
         images.push(img);
         totalWidth += img.width;
         totalHeight += img.height;
-      })
+      });
 
-      const canvasWidth = totalWidth / images.length;
-      const canvasHeight = totalHeight;
+      const canvasWidth = totalWidth / images.length * scaleFactor;  // 缩小后的宽度
+      const canvasHeight = totalHeight * scaleFactor;  // 缩小后的高度
 
       // 创建 canvas
       const canvas = document.createElement('canvas');
@@ -49,21 +51,25 @@ else  blob = await this.down(imagePaths)
       canvas.height = canvasHeight;
       const ctx = canvas.getContext('2d');
 
-      // 将每张图片依次绘制在 canvas 上
+      // 将每张图片缩小并依次绘制在 canvas 上
       let currentY = 0;
       images.forEach(img => {
-        const offsetX = (canvasWidth - img.width) / 2; // 横向居中
-        ctx.drawImage(img, offsetX, currentY);
-        currentY += img.height; // 更新 y 坐标以绘制下一张图片
+        const scaledWidth = img.width * scaleFactor;  // 计算缩小后的宽度
+        const scaledHeight = img.height * scaleFactor;  // 计算缩小后的高度
+        const offsetX = (canvasWidth - scaledWidth) / 2; // 横向居中
+
+        // 绘制图片到 canvas 上，使用缩小后的宽度和高度
+        ctx.drawImage(img, 0, 0, img.width, img.height, offsetX, currentY, scaledWidth, scaledHeight);
+        currentY += scaledHeight; // 更新 y 坐标以绘制下一张图片
       });
 
-      // 导出拼接后的图片
-      const dataURL = canvas.toDataURL('image/jpeg', 0.83);
+      // 导出拼接后的图片为 Base64 格式
+      const dataURL = canvas.toDataURL('image/jpeg', 0.83); // 控制图片质量
 
+      // 将 Base64 数据转为 Blob 对象
       const blob = this.base64ToBlob(dataURL, "jpeg");
 
-
-      return blob
+      return blob;
     });
   }
   // 从下往上 长图片
