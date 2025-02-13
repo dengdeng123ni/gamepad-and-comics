@@ -335,6 +335,7 @@ export class MenuComponent {
 
     this.data.menu_2 = [];
     this.data.menu = [];
+    if (!source) source = this.menu.source;
     if (!source) source = this.AppData.source;
 
     if (this.data.menu.length == 0) {
@@ -825,15 +826,15 @@ export class MenuComponent {
     // console.log(files_arr);
 
     let chapters: any[] = [];
-    this.data.menu.push({
-      id,
-      icon: "subject",
-      name: files_arr[0].path.split("/")[0],
-      click: e => {
-        this.AppData.setsource('temporary_file')
-        this.router.navigate(['query', 'temporary_file', 'temporary_file', e.id]);
-      }
-    })
+    // this.data.menu.push({
+    //   id,
+    //   icon: "subject",
+    //   name: files_arr[0].path.split("/")[0],
+    //   click: e => {
+    //     this.AppData.setsource('temporary_file')
+    //     this.router.navigate(['query', 'temporary_file', 'temporary_file', e.id]);
+    //   }
+    // })
     this.webDb.update('temporary_file', {
       id: id,
       name: files_arr[0].path.split("/")[0]
@@ -844,7 +845,7 @@ export class MenuComponent {
     }
     this.temporaryFile.chapters = chapters;
     this.temporaryFile.files = [...this.temporaryFile.files, ...files_arr];
-
+    window._gh_menu_update();
   }
 
   on3fee(e) {
