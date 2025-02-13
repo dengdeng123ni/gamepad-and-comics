@@ -43,26 +43,26 @@ export class DoublePageThumbnailComponent {
     @Inject(MAT_DIALOG_DATA) public _data: DialogData,
     public doublePageThumbnail: DoublePageThumbnailService,
     public webDb: IndexdbControllerService,
-    public I18n:I18nService,
+    public I18n: I18nService,
     public ContextMenuEvent: ContextMenuEventService,
-    public Worker:WorkerService,
-    public TouchmoveEvent:TouchmoveEventService
+    public Worker: WorkerService,
+    public TouchmoveEvent: TouchmoveEventService
   ) {
     this.init(_data);
     this.get()
     this.registerInit()
-    TouchmoveEvent.register('double_page_thumbnail',{
-      LEFT:()=>{
+    TouchmoveEvent.register('double_page_thumbnail', {
+      LEFT: () => {
         this.doublePageThumbnail.close();
       },
-      RIGHT:()=>{
+      RIGHT: () => {
         this.doublePageThumbnail.close();
       },
     })
   }
-  async registerInit(){
-    const 页之前插入=await this.I18n.getTranslatedText('页之前插入')
-    const 页之后插入=await this.I18n.getTranslatedText('页之后插入')
+  async registerInit() {
+    const 页之前插入 = await this.I18n.getTranslatedText('页之前插入')
+    const 页之后插入 = await this.I18n.getTranslatedText('页之后插入')
     if (this.data.is_cache) {
       this.ContextMenuEvent.register('double_page_thumbnail_item', {
         send: ($event, data) => {
@@ -228,8 +228,9 @@ export class DoublePageThumbnailComponent {
   }
 
   async getDoublePages(pages: { id: string; width: number; height: number; src: string; }[], page_index: number) {
-    const urls=await this.Worker.workerImageCompression(pages.map(x=>x.src),200,0.7);
-    const list = pages.map((x: any,i:number) => ({
+    let urls = pages.map(x => x.src) as any;
+    if (this.data.is_cache) urls = await this.Worker.workerImageCompression(pages.map(x => x.src), 200, 0.7);
+    const list = pages.map((x: any, i: number) => ({
       id: x.id,
       width: x.width,
       height: x.height,

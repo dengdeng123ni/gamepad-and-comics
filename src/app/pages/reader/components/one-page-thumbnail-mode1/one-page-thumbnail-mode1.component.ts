@@ -108,14 +108,16 @@ export class OnePageThumbnailMode1Component {
 
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
-      const urls:any=await this.Worker.workerImageCompression(this.pages.map(x=>x.src),200,0.7);
+      let urls = this.pages.map(x => x.src) as any;
+      if (this.data.is_cache) urls = await this.Worker.workerImageCompression(this.pages.map(x => x.src), 200, 0.7);
       urls.forEach((x,i)=>{
         this.pages[i].src=x;
       })
       this.page_index = this.data.page_index;
     } else {
       this.pages = this.data.pages as any;
-      const urls:any=await this.Worker.workerImageCompression(this.pages.map(x=>x.src),200,0.7);
+      let urls = this.pages.map(x => x.src) as any;
+      if (this.data.is_cache) urls = await this.Worker.workerImageCompression(this.pages.map(x => x.src), 200, 0.7);
       urls.forEach((x,i)=>{
         this.pages[i].src=x;
       })
@@ -148,14 +150,16 @@ export class OnePageThumbnailMode1Component {
   async init2(_data?: DialogData) {
     if (_data) {
       this.pages = await this.current._getChapter(_data.chapter_id);
-      const urls:any=await this.Worker.workerImageCompression(this.pages.map(x=>x.src),200,0.7);
+      let urls = this.pages.map(x => x.src) as any;
+      if (this.data.is_cache) urls = await this.Worker.workerImageCompression(this.pages.map(x => x.src), 200, 0.7);
       urls.forEach((x,i)=>{
         this.pages[i].src=x;
       })
       this.page_index = this.data.page_index;
     } else {
       this.pages = this.data.pages as any;
-      const urls:any=await this.Worker.workerImageCompression(this.pages.map(x=>x.src),200,0.7);
+      let urls = this.pages.map(x => x.src) as any;
+      if (this.data.is_cache) urls = await this.Worker.workerImageCompression(this.pages.map(x => x.src), 200, 0.7);
       urls.forEach((x,i)=>{
         this.pages[i].src=x;
       })
