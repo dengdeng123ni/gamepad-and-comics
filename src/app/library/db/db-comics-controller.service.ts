@@ -55,10 +55,10 @@ export class DbComicsControllerService {
     if (res) {
       const currentTime = Date.now();
       const cacheDuration = currentTime - res.creation_time;
-      if(cacheDuration<options.cache_duration){
+      if (cacheDuration < options.cache_duration) {
 
         return res.data
-      }else{
+      } else {
         return await get()
       }
 
@@ -69,11 +69,13 @@ export class DbComicsControllerService {
 
   getList = async (obj: any, option?: {
     source: string,
+    cache_duration?: number,
     is_cache?: boolean,
   }): Promise<Array<Item>> => {
     try {
       if (!option.is_cache) option.is_cache = true;
       if (!option.source) option.source = this.AppData.source;
+      if (!option.cache_duration) option.cache_duration = 1000 * 60 * 30;
       const config = this.DbComicsEvent.Configs[option.source]
       let obn = JSON.parse(JSON.stringify(obj))
       delete obn['page_size'];
@@ -95,19 +97,18 @@ export class DbComicsControllerService {
               const currentTime = Date.now();
               const cacheDuration = currentTime - res_db.creation_time;
 
-              if(cacheDuration<1000*30){
-
-              }else{
-                get().then(x => {
-                  this.lists[id] = x;
-                });
+              if (cacheDuration < option.cache_duration) {
+                res = res_db.data;
+              } else {
+                const data = await get();
+                res = data;
               }
               // console.log('缓存失效');
             } else {
               // console.log('缓存有效，返回数据');
             }
 
-            res = res_db.data;
+
           } else {
             const data = await get();
             res = data;

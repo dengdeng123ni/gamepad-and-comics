@@ -3079,7 +3079,7 @@ body[source=kaobei] app-comics-list-v2 [region=comics_item]{
                   return arr
                 }
 
-                const arr= await window._gh_cache_fn('topic', fn, { cache_duration: 3000 * 60 * 24 })
+                const arr= await window._gh_cache_fn('topic', fn, { cache_duration: 3000 * 60 *60 * 24 })
                 return arr
 
 
