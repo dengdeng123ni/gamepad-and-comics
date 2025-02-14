@@ -56,6 +56,7 @@ export class DbComicsControllerService {
       const currentTime = Date.now();
       const cacheDuration = currentTime - res.creation_time;
       if(cacheDuration<options.cache_duration){
+
         return res.data
       }else{
         return await get()
@@ -93,9 +94,14 @@ export class DbComicsControllerService {
             if (res_db.creation_time) {
               const currentTime = Date.now();
               const cacheDuration = currentTime - res_db.creation_time;
-              get().then(x => {
-                this.lists[id] = x;
-              });
+
+              if(cacheDuration<1000*30){
+
+              }else{
+                get().then(x => {
+                  this.lists[id] = x;
+                });
+              }
               // console.log('缓存失效');
             } else {
               // console.log('缓存有效，返回数据');
