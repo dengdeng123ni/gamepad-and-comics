@@ -2699,7 +2699,7 @@ body[source=kaobei] app-comics-list-v2 [region=comics_item]{
           },
           {
             id: 'discover',
-            icon: 'toc',
+            icon: 'ballot',
             name: '发现',
             query: {
               type: 'choice',
@@ -3059,22 +3059,27 @@ body[source=kaobei] app-comics-list-v2 [region=comics_item]{
               type: 'choice',
               name: '漫画专题',
               updateConditions: async () => {
-                const res = await window._gh_fetch(`https://www.mangacopy.com/topic`)
-                const text = await res.text();
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(text, 'text/html');
-                const nodes = doc.querySelectorAll(".col-6")
-                let arr = [];
-                for (let index = 0; index < nodes.length; index++) {
-                  const node = nodes[index];
-                  let obj = {};
-                  const label = node.querySelector(".specialContentImage")?.textContent;
-                  const href = "https://www.mangacopy.com" + node.querySelector("a").getAttribute("href");
-                  obj["label"] = label;
+                const fn = async () => {
+                  const res = await window._gh_fetch(`https://www.mangacopy.com/topic`)
+                  const text = await res.text();
+                  var parser = new DOMParser();
+                  var doc = parser.parseFromString(text, 'text/html');
+                  const nodes = doc.querySelectorAll(".col-6")
+                  let arr = [];
+                  for (let index = 0; index < nodes.length; index++) {
+                    const node = nodes[index];
+                    let obj = {};
+                    const label = node.querySelector(".specialContentImage")?.textContent;
+                    const href = "https://www.mangacopy.com" + node.querySelector("a").getAttribute("href");
+                    obj["label"] = label;
 
-                  obj["id"] = window.btoa(encodeURIComponent(href));
-                  arr.push(obj)
+                    obj["id"] = window.btoa(encodeURIComponent(href));
+                    arr.push(obj)
+                  }
+                  return arr
                 }
+
+                const arr= await window._gh_cache_fn('topic', fn, { cache_duration: 3000 * 60 * 24 })
                 return arr
 
 

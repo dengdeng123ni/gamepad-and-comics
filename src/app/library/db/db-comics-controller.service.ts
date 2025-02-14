@@ -41,9 +41,30 @@ export class DbComicsControllerService {
     window._gh_comics_get_pages = this.getPages;
     window._gh_comics_get_image = this.getImage;
     window._gh_comics_search = this.Search;
-
+    window._gh_cache_fn = this.cache_fn;
   }
+  cache_fn = async (json: any, fn: Function, options: { cache_duration: number }) => {
+    let obn = JSON.parse(JSON.stringify(json))
+    const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
+    const res: any = await this.webDb.getByKey('data', id);
+    const get = async () => {
+      const data = await fn(json)
+      await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: data })
+      return data
+    }
+    if (res) {
+      const currentTime = Date.now();
+      const cacheDuration = currentTime - res.creation_time;
+      if(cacheDuration<options.cache_duration){
+        return res.data
+      }else{
+        return await get()
+      }
 
+    } else {
+      return await get()
+    }
+  }
 
   getList = async (obj: any, option?: {
     source: string,
@@ -721,7 +742,7 @@ export class DbComicsControllerService {
     const res: any = await this.webDb.getByKey('details', id)
     if (res) {
       await this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: res.source, data: obj })))
-    }else{
+    } else {
       await this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: obj })))
     }
   }
@@ -734,8 +755,8 @@ export class DbComicsControllerService {
     const res: any = await this.webDb.getByKey('pages', id)
     if (res) {
       await this.webDb.update('pages', { ...res, data: JSON.parse(JSON.stringify(pages)), ...obj })
-    }else{
-      await this.webDb.update('pages', { id:id, data: JSON.parse(JSON.stringify(pages)), ...obj })
+    } else {
+      await this.webDb.update('pages', { id: id, data: JSON.parse(JSON.stringify(pages)), ...obj })
     }
   }
   load = {};
