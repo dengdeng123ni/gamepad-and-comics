@@ -42,12 +42,6 @@ export class DbComicsControllerService {
     window._gh_comics_get_image = this.getImage;
     window._gh_comics_search = this.Search;
 
-   setTimeout(async ()=>{
-    const res=  (await this.webDb.getByKey('pages', "_1739533961760"))
-
-    console.log(res);
-
-   },3000)
   }
 
 

@@ -13,6 +13,7 @@ export class FavoritesPageComponent {
 
   constructor(
     public AppData:AppDataService,
+
     public webDb:IndexdbControllerService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data,
     public FavoritesPage:FavoritesPageService,
@@ -24,10 +25,13 @@ export class FavoritesPageComponent {
      this.getAll();
   }
   async getAll(){
-    this.list = await this.webDb.getAll('favorites_menu')
+    const list:any = await this.webDb.getAll('favorites_menu')
+console.log(list);
+
+    this.list=list.filter(x=>x.source==this.AppData.source)
   }
   async on(e_index){
-    this.data=this.data;
+    this.data=JSON.parse(JSON.stringify(this.data));
     for (let index = 0; index < this.data.length; index++) {
       const x = this.data[index];
       x.comics_id=x.id;
@@ -62,6 +66,8 @@ export class FavoritesPageComponent {
         source: this.AppData.source,
       }
       await this.webDb.update('favorites_menu', obj)
+      console.log(obj);
+
       this.getAll()
       setTimeout(() => {
         window._gh_menu_update()

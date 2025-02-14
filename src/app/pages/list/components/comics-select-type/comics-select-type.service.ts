@@ -26,7 +26,7 @@ export class ComicsSelectTypeService {
     position: DialogPosition
   }): Promise<string | number> {
     this.list = list;
-    this.index = index;
+    this.index = -1;
     if (this.opened == false) {
 
       this.opened = true;

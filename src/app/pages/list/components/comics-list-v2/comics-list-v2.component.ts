@@ -510,6 +510,11 @@ export class ComicsListV2Component {
 
         if(this.ListNode&&this.ListNode.nativeElement)  this.ListNode.nativeElement.style = ""
         if (this.type == "multipy") {
+          this.query.list.forEach(x=>{
+            x.tag.forEach((x,i)=>{
+              x.index=i
+            })
+          })
           this.getDatac123123();
           this.init();
         } else if (this.type == "choice") {
@@ -883,22 +888,33 @@ export class ComicsListV2Component {
     const openTargetHeight = 36;
     const x = position.left - 10;
     const y = position.bottom + 10;
+
     const ic = await this.ComicsSelectType.getType(e.tag, index, { position: { top: `${y}px`, left: `${x}px` } }) as any
-    this.query.list[index].index = ic;
-    this.getDatac123123();
-    this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
+    if(ic>-1){
+      this.query.list[index].index = ic;
+
+      this.getDatac123123();
+      this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
+    }
+
   }
 
   getDatac123123() {
     const lists = JSON.parse(JSON.stringify(this.query.list))
+
     let list = lists.map(x => {
       x.tag = x.tag[x.index]
       return x
     })
     this.query_option = {
-      menu_id: this.menu_id,
-      list
+      menu_id: this.menu_id
     };
+    this.page_num=1;
+    list.forEach(x=>{
+      this.query_option[x.key]=x.tag;
+    })
+
+
   }
 
   async put() {
