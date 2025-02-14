@@ -448,7 +448,7 @@ export class ComicsListV2Component {
 
         this.page_num = data.page_num;
         if (this.type == "multipy") {
-          this.query.list = data.query.list;
+          // this.query.list = data.query.list;
           this.getDatac123123();
           this.list = data.list;
         } else if (this.type == "choice") {
