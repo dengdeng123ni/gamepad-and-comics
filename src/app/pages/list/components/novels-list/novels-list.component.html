@@ -9,7 +9,6 @@
     <div class="list">
       <button [attr.region]="'comics_option'" mat-button *ngFor="let c of query.list;let index=index"
         class="item"
-        [attr.svg_filter]="query.default_index==index?'text_accent':'text_primary'"
         [attr._id]="c.index"
         [attr.selected]="query.default_index==index"
         [attr.current]="false"

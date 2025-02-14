@@ -41,6 +41,13 @@ export class DbComicsControllerService {
     window._gh_comics_get_pages = this.getPages;
     window._gh_comics_get_image = this.getImage;
     window._gh_comics_search = this.Search;
+
+   setTimeout(async ()=>{
+    const res=  (await this.webDb.getByKey('pages', "_1739533961760"))
+
+    console.log(res);
+
+   },3000)
   }
 
 
@@ -720,6 +727,8 @@ export class DbComicsControllerService {
     const res: any = await this.webDb.getByKey('details', id)
     if (res) {
       await this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, source: res.source, data: obj })))
+    }else{
+      await this.webDb.update('details', JSON.parse(JSON.stringify({ id: id, data: obj })))
     }
   }
   async delWebDbPages(id) {
@@ -731,6 +740,8 @@ export class DbComicsControllerService {
     const res: any = await this.webDb.getByKey('pages', id)
     if (res) {
       await this.webDb.update('pages', { ...res, data: JSON.parse(JSON.stringify(pages)), ...obj })
+    }else{
+      await this.webDb.update('pages', { id:id, data: JSON.parse(JSON.stringify(pages)), ...obj })
     }
   }
   load = {};

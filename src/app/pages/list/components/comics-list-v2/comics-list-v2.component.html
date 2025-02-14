@@ -33,9 +33,6 @@
           mat-button
           *ngFor="let c of query.list; let index = index"
           class="item"
-          [attr.svg_filter]="
-            query.default_index == index ? 'text_accent' : 'text_primary'
-          "
           [attr._id]="c.index"
           [attr.selected]="query.default_index == index"
           [attr.current]="false"
@@ -45,6 +42,56 @@
         </button>
       </div>
     </div>
+
+    <!--  -->
+    <div
+    class="double_choice"
+    *ngIf="type == 'double_choice'"
+    [attr.justify_content]="!query.name"
+  >
+    <div class="list">
+
+      <button
+      [attr.region]="'comics_option'"
+      mat-button
+      style="    text-align: left;
+      padding: 0;
+      margin-right: 8px;"
+      *ngFor="let c of query.list; let index = index"
+      class="item"
+      [attr._id]="c.index"
+      [attr.selected]="query.double_choice_index[0] == index"
+      [attr.current]="false"
+      (click)="double_choice_on(index)"
+    >
+      {{ c.label| translate }}
+    </button>
+      <mat-chip-listbox>
+        <mat-chip-option [selected]="index==query.double_choice_index[1]" (click)="double_choice_on2(index)" *ngFor="let n of query.list[query.double_choice_index[0]].options;let index=index">{{n.label}}</mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+  </div>
+
+  <div
+  class="search"
+  *ngIf="type == 'search'"
+  [attr.justify_content]="!query.name"
+>
+  <div class="list">
+
+
+  <div class="head">
+    <mat-form-field [attr.region]="'advanced_search_input'">
+      <input matInput type="text" />
+    </mat-form-field>
+
+    <button mat-button   id="search" [attr.region]="'advanced_search_input'" [attr.default]="'true'">{{'搜索' | translate}}</button>
+  </div>
+  </div>
+
+</div>
+
     <div class="multipy" *ngIf="type == 'multipy'">
       <div class="list" *ngFor="let c of query.list; let c_index = index">
         <div class="title" style="color: rgba(255, 255, 255, 0.34)">

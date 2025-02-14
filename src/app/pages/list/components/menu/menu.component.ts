@@ -366,8 +366,12 @@ export class MenuComponent {
 
                   this.router.navigate(['/query', 'choice', x, j122.id]);
                 }
+                if (j122.query.type == "double_choice") {
+                  this.router.navigate(['/query', 'double_choice', x, j122.id]);
+                }
+
                 if (j122.query.type == "search") {
-                  this.router.navigate(['/search', x, ""]);
+                  this.router.navigate(['/query', 'search', x, j122.id]);
                 }
                 if (j122.query.type == "multipy") {
                   this.router.navigate(['/query', 'multipy', x, j122.id]);

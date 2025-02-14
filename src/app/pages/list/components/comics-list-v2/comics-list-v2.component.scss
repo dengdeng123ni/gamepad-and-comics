@@ -142,8 +142,22 @@
 
 
 .head {
+  .double_choice {
+    margin: 12px 22px;
+    width: calc(100% - 44px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 0;
+    .item[selected=true] {
+      font-size: 16px;
+    }
+    .item[selected=false] {
+      opacity: 0.44;
+    }
+  }
   .choice {
     display: flex;
+
     align-items: baseline;
     margin: 12px 22px;
     width: calc(100% - 44px);
@@ -164,6 +178,7 @@
       display: flex;
       margin-right: 24px;
       width: 100%;
+      flex-wrap: wrap;
     }
 
     .item {
@@ -355,6 +370,14 @@
 
 
 :host ::ng-deep {
+  .mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic .mdc-evolution-chip__action--primary{
+    padding-left:12px;
+
+  }
+  .mat-mdc-standard-chip .mat-mdc-chip-graphic, .mat-mdc-standard-chip .mat-mdc-chip-trailing-icon{
+    display: none;
+  }
+
   app-image._image {
     height: 100%;
     width: 100%;

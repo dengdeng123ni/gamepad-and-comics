@@ -54,6 +54,7 @@ export class DbComicsEventService {
     private webDb: IndexdbControllerService,
     public _http: MessageFetchService,
   ) {
+
     window._gh_comics_register = this.comics_register;
     window._gh_set_data = this.set_data;
     window._gh_get_data = this.get_data;
@@ -84,7 +85,10 @@ export class DbComicsEventService {
         // 将 <style> 元素添加到 <head> 中
         document.head.appendChild(style);
       }
+      setTimeout(async () => {
 
+
+      }, 1000)
       // 使用示例
       const cssString =
         `
@@ -100,8 +104,11 @@ export class DbComicsEventService {
     margin: 12px 16px 0 !important
     }
 }
+body[source=kaobei] app-comics-list-v2 [region=comics_item]{
+         aspect-ratio: 157 / 239 !important
+    }
     `;
-
+      //
       loadCSSFromString(cssString);
       setTimeout(() => {
         window._gh_context_menu_register('comics_item', [
@@ -1317,7 +1324,7 @@ export class DbComicsEventService {
 
               // 解析时间
               const fullDate = new Date(`${dateStr} ${timeStr} UTC`); // 处理时区问题
-              obj["date"]=fullDate.getTime(); // 转换为 ISO 格式
+              obj["date"] = fullDate.getTime(); // 转换为 ISO 格式
             }
             arr.push(obj)
           }
@@ -2665,28 +2672,303 @@ export class DbComicsEventService {
               type: 'search',
               page_size: 30
             }
-          }
+          },
+          // {
+          //   id: 'featured',
+          //   icon: 'featured_play_list',
+          //   name: '漫画专题',
+          // },
+          {
+            id: 'discover',
+            icon: 'toc',
+            name: '发现',
+            query: {
+              type: 'choice',
+              name: '发现',
+              conditions: [
+                {
+                  "label": "编辑推荐",
+                  "value": "1"
+                },
+                {
+                  "label": "全新上架",
+                  "value": "2"
+                },
+                {
+                  "label": "热门更新",
+                  "value": "3"
+                },
+
+              ]
+            }
+          },
+          {
+            id: 'featured',
+            icon: 'featured_play_list',
+            name: '漫画专题',
+            query: {
+              type: 'choice',
+              name: '漫画专题',
+              updateConditions: async () => {
+                const res = await window._gh_fetch(`https://www.mangacopy.com/topic`)
+                const text = await res.text();
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(text, 'text/html');
+                const nodes = doc.querySelectorAll(".col-6")
+                let arr = [];
+                for (let index = 0; index < nodes.length; index++) {
+                  const node = nodes[index];
+                  let obj = {};
+                  const label = node.querySelector(".specialContentImage")?.textContent;
+                  const href = "https://www.mangacopy.com" + node.querySelector("a").getAttribute("href");
+                  obj["label"] = label;
+
+                  obj["id"] = window.btoa(encodeURIComponent(href));
+                  arr.push(obj)
+                }
+                return arr
+
+
+
+                // return []
+              },
+              conditions: [
+
+              ]
+            }
+          },
+
+          {
+            id: 'sort',
+            icon: 'sort',
+            name: '排行榜',
+            query: {
+              type: 'double_choice',
+              name: '排行榜',
+              conditions: [
+                {
+                  label: "漫画排行榜(男频)",
+                  "value": "male",
+                  "options": [
+                    {
+                      "label": "日榜(上升最快)",
+                      "value": "day"
+                    },
+                    {
+                      "label": "周榜(最近7天)",
+                      "value": "week"
+                    },
+                    {
+                      "label": "月榜(最近30天)",
+                      "value": "month"
+                    },
+                    {
+                      "label": "总榜单",
+                      "value": "total"
+                    },
+                  ]
+                },
+                {
+                  label: "漫画排行榜(女频)",
+                  "value": "female",
+                  "options": [
+                    {
+                      "label": "日榜(上升最快)",
+                      "value": "day"
+                    },
+                    {
+                      "label": "周榜(最近7天)",
+                      "value": "week"
+                    },
+                    {
+                      "label": "月榜(最近30天)",
+                      "value": "month"
+                    },
+                    {
+                      "label": "总榜单",
+                      "value": "total"
+                    },
+                  ]
+                },
+
+              ]
+            }
+          },
         ],
       }, {
-        getDetail: async (novel_id) => {
-          const res = await window._gh_get_html(decodeURIComponent(window.atob(novel_id)), {
-            "headers": {
-              "accept": "application/json, text/plain, */*",
-              "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-              "content-type": "application/json;charset=UTF-8"
-            },
-            "body": null,
-            "method": "GET"
-          });
+        getList: async (obj) => {
+          if (obj.menu_id == "sort") {
+            if (obj.page_num == 1) {
+              const res = await window._gh_execute_eval(`https://www.mangacopy.com/rank?type=${obj.value}&table=${obj.option.value}`,
+                `
+                (async function () {
+                const sleep = (duration) => {
+      return new Promise(resolve => {
+        setTimeout(resolve, duration);
+      })
+    }
+    for (let index = 0; index < 200; index++) {
+      document.querySelector("html").scrollTop = document.querySelector("html").scrollTop + 30;
+      await sleep(10)
+    }
+
+
+                const nodes = document.querySelectorAll(".col-4")
+                let arr = [];
+                for (let index = 0; index < nodes.length; index++) {
+                  const node = nodes[index];
+                  let obj = {};
+                  const cover = node.querySelector("img").src
+                  const title = node.querySelector("p")?.textContent;
+                  const subTitle = node.querySelector(".update span")?.textContent;
+                  const href=node.querySelector("a").href;
+                  obj["cover"] = cover;
+                  obj["title"] = title;
+                  obj["subTitle"] = subTitle;
+                  obj["href"] = href;
+                  obj["id"] = window.btoa(encodeURIComponent(href));
+                  arr.push(obj)
+                }
+                return arr
+              })()
+                `
+              )
+              console.log(res);
+
+              return res
+            } else {
+              return []
+            }
+
+          } else if (obj.menu_id == "featured") {
+            if (obj.page_num == 1) {
+              const res = await window._gh_fetch(
+                decodeURIComponent(window.atob(obj.id))
+              )
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".col-6")
+              let arr = [];
+              for (let index = 0; index < nodes.length; index++) {
+                const node = nodes[index];
+                let obj = {};
+                const cover = node.querySelector("img").getAttribute("data-src")
+                const title = node.querySelector("p")?.textContent;
+                const subTitle = node.querySelector("p:nth-child(4)")?.textContent;
+                const href = "https://www.mangacopy.com" + node.querySelector("a").getAttribute("href");
+                obj["cover"] = cover;
+                obj["title"] = title;
+                obj["subTitle"] = subTitle;
+                obj["href"] = href;
+                obj["id"] = window.btoa(encodeURIComponent(href));
+                arr.push(obj)
+              }
+              return arr
+            }else{
+              return []
+            }
+          } else if(obj.menu_id == "discover"){
+            if(obj.value=="1"){
+              const res = await window._gh_fetch(
+                `https://www.mangacopy.com/recommend?type=3200102&offset=${obj.page_num*60-60}&limit=60`
+              )
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".col-auto")
+              let arr = [];
+              for (let index = 0; index < nodes.length; index++) {
+                const node = nodes[index];
+                let obj = {};
+                const cover = node.querySelector("img").getAttribute("data-src")
+                const title = node.querySelector("p")?.textContent;
+                const subTitle = node.querySelector(".exemptComicItem-txt-box > div > span > a")?.textContent;
+                const href = "https://www.mangacopy.com" + node.querySelector("a").getAttribute("href");
+                obj["cover"] = cover;
+                obj["title"] = title;
+                obj["subTitle"] = subTitle;
+                obj["href"] = href;
+                obj["id"] = window.btoa(encodeURIComponent(href));
+                arr.push(obj)
+              }
+              return arr
+            }else   if(obj.value=="2"){
+              const res = await window._gh_fetch(
+                ` https://www.mangacopy.com/newest?offset=${obj.page_num*60-60}&limit=60`
+              )
+              const text = await res.text();
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(text, 'text/html');
+              const nodes = doc.querySelectorAll(".col-auto")
+              let arr = [];
+              for (let index = 0; index < nodes.length; index++) {
+                const node = nodes[index];
+                let obj = {};
+                const cover = node.querySelector("img").getAttribute("data-src")
+                const title = node.querySelector("p")?.textContent;
+                const subTitle = node.querySelector(".exemptComicItem-txt-box > div > span > a")?.textContent;
+                const href = "https://www.mangacopy.com" + node.querySelector("a").getAttribute("href");
+                obj["cover"] = cover;
+                obj["title"] = title;
+                obj["subTitle"] = subTitle;
+                obj["href"] = href;
+                obj["id"] = window.btoa(encodeURIComponent(href));
+                arr.push(obj)
+              }
+              return arr
+            }else if(obj.value=="3"){
+              // const res = await window._gh_fetch(
+              //   `https://www.mangacopy.com/comics?ordering=-datetime_updated&offset=${obj.page_num*50-50}&limit=50`
+              // )
+              const arr = await window._gh_execute_eval(`https://www.mangacopy.com/comics?ordering=-datetime_updated&offset=${obj.page_num*50-50}&limit=50`,
+            `
+(async function () {
+  const nodes = document.querySelectorAll(".col-auto")
+  let arr = [];
+  for (let index = 0; index < nodes.length; index++) {
+    const node = nodes[index];
+    let obj = {};
+    const cover = node.querySelector("img").getAttribute("data-src")
+    const title = node.querySelector("p")?.textContent;
+    const subTitle = node.querySelector(".exemptComicItem-txt > span > a")?.textContent;
+    const href = "https://www.mangacopy.com" + node.querySelector("a").getAttribute("href");
+    obj["cover"] = cover;
+    obj["title"] = title;
+    obj["subTitle"] = subTitle;
+    obj["href"] = href;
+    obj["id"] = window.btoa(encodeURIComponent(href));
+    arr.push(obj)
+  }
+  return arr
+})()
+
+
+        `)
+
+              return arr
+            }
+
+
+
+
+
+          }
+          return []
+
+        },
+        getDetail: async (comcis_id) => {
+
+          const res = await window._gh_get_html(decodeURIComponent(window.atob(comcis_id)));
           const text = await res.text();
           var parser = new DOMParser();
           var doc = parser.parseFromString(text, 'text/html');
           let obj = {
-            id: novel_id,
+            id: comcis_id,
             cover: "",
             title: "",
             author: "",
-            href: decodeURIComponent(window.atob(novel_id)),
+            href: decodeURIComponent(window.atob(comcis_id)),
             intro: "",
             category: "",
             chapters: [
@@ -2698,7 +2980,10 @@ export class DbComicsEventService {
           obj.title = doc.querySelector(".content-box h6").textContent.trim();
           obj.intro = doc.querySelector(".comicParticulars-synopsis p").textContent.trim();
           obj.author = doc.querySelector(".comicParticulars-title-right > ul > li:nth-child(3) > span:nth-child(1)").textContent.trim();
-          const nodes = doc.querySelectorAll("#default全部 > ul:nth-child(1) a");
+          console.log(doc,doc.querySelector("#default全部"));
+
+          const nodes = doc.querySelectorAll("#default全部 ul:nth-child(1) a");
+console.log(nodes);
 
           for (let index = 0; index < nodes.length; index++) {
             const node = nodes[index];
@@ -2736,6 +3021,8 @@ export class DbComicsEventService {
         UrlToDetailId: async (id) => {
           const obj = new URL(id);
           if (obj.host == "www.mangacopy.com") {
+            console.log(id);
+
             return window.btoa(encodeURIComponent(id))
           } else {
             return null

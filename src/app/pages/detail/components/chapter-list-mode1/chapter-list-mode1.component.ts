@@ -169,6 +169,8 @@ export class ChapterListMode1Component {
              await this.DbComicsController.putWebDbDetail(this.data.comics_id, detail);
              const r = await this.DbComicsController.getDetail(this.data.comics_id);
              this.data.chapters = r.chapters;
+             console.log(this.data.chapters);
+
             }
           },
         ]

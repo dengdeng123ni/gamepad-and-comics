@@ -64,6 +64,7 @@ export class ComicsListV2Component {
   query = {
     id: "",
     default_index: 0,
+    double_choice_index:[0,0],
     list: [],
     name: ""
   }
@@ -451,6 +452,11 @@ export class ComicsListV2Component {
         } else if (this.type == "choice") {
           this.query.default_index = data.query.default_index;
           this.list = data.list;
+        }else if (this.type == "double_choice") {
+          this.query.list = data.query.list;
+          this.list = data.list;
+          this.query.double_choice_index = data.query.double_choice_index;
+
         } else if (this.type == "advanced_search") {
           let obj = {};
          if(type=="custom")   this.query.list=data.query.list;
@@ -500,11 +506,15 @@ export class ComicsListV2Component {
         // this.ListNode.nativeElement.scrollTop = data.scrollTop;
 
       } else {
+        console.log(this.query.list);
+
         if(this.ListNode&&this.ListNode.nativeElement)  this.ListNode.nativeElement.style = ""
         if (this.type == "multipy") {
           this.getDatac123123();
           this.init();
         } else if (this.type == "choice") {
+          this.init();
+        }else if(this.type=="double_choice"){
           this.init();
         } else {
           this.init();
@@ -818,6 +828,53 @@ export class ComicsListV2Component {
     this.ListNode.nativeElement.scrollTop = 0;
 
     this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
+  }
+
+  async double_choice_on(index){
+
+    let option= this.query.list[this.query.double_choice_index[0]].options[this.query.double_choice_index[1]]
+    console.log(option.label);
+
+    this.query.double_choice_index[0]=index;
+
+    if(this.query.list[this.query.double_choice_index[0]].options){
+      const index=this.query.list[this.query.double_choice_index[0]].options.findIndex((x,i)=>x.label==option.label);
+      if(index>-1){
+        this.query.double_choice_index[1]=index
+      }else{
+        this.query.double_choice_index[1]=0
+      }
+    }
+
+    let obj= this.query.list[this.query.double_choice_index[0]]
+    obj.option=obj.options[this.query.double_choice_index[1]]
+    obj= JSON.parse(JSON.stringify(obj))
+    delete obj.options
+    this.query_option = {
+      menu_id: this.menu_id,
+      ...obj,
+    }
+    this.page_num = 1;
+    this.ListNode.nativeElement.scrollTop = 0;
+    this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
+  }
+
+  async double_choice_on2(index){
+    this.query.double_choice_index[1]=index;
+    let obj= this.query.list[this.query.double_choice_index[0]]
+    obj.option=obj.options[this.query.double_choice_index[1]]
+    obj= JSON.parse(JSON.stringify(obj))
+    delete obj.options
+    this.query_option = {
+      menu_id: this.menu_id,
+      ...obj,
+    }
+    this.page_num = 1;
+    this.ListNode.nativeElement.scrollTop = 0;
+    this.list = await this.ComicsListV2.init(this.key, { page_num: this.page_num });
+  }
+  async double_choice_query(){
+
   }
 
   async on2($event: any, e: any, index: any) {

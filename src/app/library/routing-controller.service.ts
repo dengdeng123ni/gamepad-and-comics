@@ -146,6 +146,7 @@ export class RoutingControllerService {
         this.DbComicsController.getDetail(comics_id, {
           source: source
         }), await this.webDb.getByKey("last_read_comics", comics_id.toString())])
+
       if (_res[1]) {
         this.router.navigate(['/comics', source, comics_id, _res[1].chapter_id])
       } else {
