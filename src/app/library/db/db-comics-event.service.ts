@@ -2664,20 +2664,40 @@ body[source=kaobei] app-comics-list-v2 [region=comics_item]{
         is_cache: true,
         is_download: true,
         menu: [
+
           {
-            id: 'search',
+            id: 'advanced_search',
             icon: 'search',
             name: '搜索',
             query: {
-              type: 'search',
-              page_size: 30
-            }
+              type: 'advanced_search',
+              conditions: [
+                {
+                  "id": "search",
+                  "type": "search"
+                },
+                {
+                  "id": "q_type",
+                  "name": "类型",
+                  "type": "select",
+                  "options": [
+                    {
+                      "label": "名称",
+                      "value": "name"
+                    },
+                    {
+                      "label": "作者",
+                      "value": "author"
+                    },
+                    {
+                      "label": "汉化组",
+                      "value": "local"
+                    },
+                  ]
+                },
+              ]
+            },
           },
-          // {
-          //   id: 'featured',
-          //   icon: 'featured_play_list',
-          //   name: '漫画专题',
-          // },
           {
             id: 'discover',
             icon: 'toc',
@@ -2951,6 +2971,25 @@ body[source=kaobei] app-comics-list-v2 [region=comics_item]{
 
 
 
+
+
+          } else if (obj.menu_id == "advanced_search") {
+            if(!obj.search) return []
+
+            const res = await window._gh_fetch(`https://www.mangacopy.com/api/kb/web/searchbc/comics?offset=${(obj.page_num - 1) * 12}&platform=2&limit=${12}&q=${obj.search}&q_type=${obj.q_type??""}`)
+            const json = await res.json();
+
+            let data = [];
+            for (let index = 0; index < json.results.list.length; index++) {
+              const x = json.results.list[index];
+              data.push({
+                id: window.btoa(encodeURIComponent(`https://www.mangacopy.com/comic/${x.path_word}`)),
+                title: x.name,
+                cover: x.cover,
+                subTitle: x.author.map(x => x.name).toString()
+              })
+            }
+            return data
 
 
           }
