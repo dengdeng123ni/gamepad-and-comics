@@ -14,6 +14,7 @@
       <div class="bg" *ngIf="data.comics_config.background_color=='frosted_glass'">
         <app-image [src]="data.details.cover" [objectFit]="'cover'"></app-image>
       </div>
+      <app-book-reader *ngIf="data.comics_config.reader_mode=='double_book_page_reader'"></app-book-reader>
       <!-- <div style="display: flex;position: fixed;bottom: 0;left: 0;filter: opacity(0.3);">
          {{data.page_index}} /  {{data.pages.length}}
       </div> -->

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReaderRoutingModule } from './reader-routing.module';
@@ -43,8 +43,10 @@ import { ReaderBackgroundSettingsComponent } from './components/reader-backgroun
 import { RepliesPageComponent } from './components/replies-page/replies-page.component';
 import { SettingsNineGridComponent } from './components/settings-nine-grid/settings-nine-grid.component';
 import { ReaderNavbarBarV2Component } from './components/reader-navbar-bar-v2/reader-navbar-bar-v2.component';
+import { BookReaderComponent } from './components/book-reader/book-reader.component';
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     IndexComponent,
     ReaderToolbarComponent,
@@ -86,6 +88,7 @@ import { ReaderNavbarBarV2Component } from './components/reader-navbar-bar-v2/re
     RepliesPageComponent,
     SettingsNineGridComponent,
     ReaderNavbarBarV2Component,
+    BookReaderComponent,
   ],
   imports: [
     CommonModule,

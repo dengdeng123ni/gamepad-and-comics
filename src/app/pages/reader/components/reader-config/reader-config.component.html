@@ -6,9 +6,11 @@
       </div>
       <div class="right">
         <mat-chip-listbox   >
+
           <mat-chip-option [attr.select]="true" [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change('double_page_reader')" [selectable]="data.comics_config.reader_mode!='double_page_reader'" [selected]="data.comics_config.reader_mode=='double_page_reader'">{{'左右翻页'|translate}} </mat-chip-option>
           <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change('up_down_page_reader')" [selectable]="data.comics_config.reader_mode!='up_down_page_reader'" [selected]="data.comics_config.reader_mode=='up_down_page_reader'">{{'上下滑动'|translate}} </mat-chip-option>
           <mat-chip-option [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change('left_right_page_reader')" [selectable]="data.comics_config.reader_mode!='left_right_page_reader'" [selected]="data.comics_config.reader_mode=='left_right_page_reader'">{{'左右滑动'|translate}} </mat-chip-option>
+          <mat-chip-option [attr.select]="true" [attr.region]="'reader_config_item'"  [attr.type]="'chip'" (selectionChange)="change('double_book_page_reader')" [selectable]="data.comics_config.reader_mode!='double_book_page_reader'" [selected]="data.comics_config.reader_mode=='double_book_page_reader'">{{'3D'|translate}} </mat-chip-option>
         </mat-chip-listbox>
       </div>
     </div>
