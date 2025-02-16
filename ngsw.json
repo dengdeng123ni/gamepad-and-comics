@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1739691140141,
+  "timestamp": 1739691544457,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -63,6 +63,7 @@
         "/assets/js/swiper-bundle.min.js",
         "/assets/loadable-js/advanced_history_query.js",
         "/assets/loadable-js/ehentai_data_source.js",
+        "/assets/loadable-js/kaobei_data_source.js",
         "/assets/loadable-js/设置语言为繁体中文.js",
         "/assets/ngsw-worker.js",
         "/assets/sound/nintendo_switch/album.wav",
@@ -112,7 +113,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/assets/config.json": "6db83bb5628ff657ff7f0b570c779389d8479e3e",
+    "/assets/config.json": "87b8a34bbe1bb19fa2ec1b3e2fed9aced28e47a7",
     "/assets/css/swiper-bundle.min.css": "49c37765384c040ab9c774104a6933f6b94c8745",
     "/assets/eval/index.js": "1760a084e18c11d2d02e3ebe111a13c1b0572f5c",
     "/assets/i18n/de.json": "f1a58226786be043dac8a08cc90835e8b58edf83",
@@ -146,6 +147,7 @@
     "/assets/js/swiper-bundle.min.js": "4ba5ea2ce5d1c20a1fcee79977ec2c2e1fd58824",
     "/assets/loadable-js/advanced_history_query.js": "e96b4cdc9e990acb3f7a599942534c31c2f36125",
     "/assets/loadable-js/ehentai_data_source.js": "7ff3bb275a7951bbcc77589ade4f94847975bfd3",
+    "/assets/loadable-js/kaobei_data_source.js": "a4308dd610f4aa1257e9120ec418e66a68807796",
     "/assets/loadable-js/设置语言为繁体中文.js": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
     "/assets/ngsw-worker.js": "443c4ec5dfd2adc382eff75f2bf719d697d80f5f",
     "/assets/sound/nintendo_switch/album.wav": "0773a49243d7614a14aaa20278073afd90ab39f4",
