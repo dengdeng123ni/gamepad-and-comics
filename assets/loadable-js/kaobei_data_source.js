@@ -819,3 +819,30 @@ return arr
     return data
   },
 });
+
+      function loadCSSFromString(cssString) {
+        // 创建 <style> 元素
+        const style = document.createElement('style');
+        style.type = 'text/css';
+
+        // 检查浏览器支持性并插入 CSS 字符串
+        if (style.styleSheet) {
+          // 针对 IE 浏览器
+          style.styleSheet.cssText = cssString;
+        } else {
+          // 针对现代浏览器
+          style.appendChild(document.createTextNode(cssString));
+        }
+
+        // 将 <style> 元素添加到 <head> 中
+        document.head.appendChild(style);
+      }
+const cssString =
+`
+body[source=kaobei] app-comics-list-v2 [region=comics_item]{
+ aspect-ratio: 157 / 239 !important
+}
+`;
+//
+loadCSSFromString(cssString);
+
