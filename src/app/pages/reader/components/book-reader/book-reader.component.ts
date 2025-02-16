@@ -162,6 +162,12 @@ export class BookReaderComponent {
     this.page_index= blobUrl.length / 2;
     this.page_max_index= blobUrl.length/2;
 
-
+    //
   }
+  ngOnDestroy() {
+    (window as any)._gh_page_data.forEach(x=>{
+      URL.revokeObjectURL(x)
+    })
+  }
+
 }
