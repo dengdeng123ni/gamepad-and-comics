@@ -41,7 +41,8 @@ window._gh_list_menu_register(
               "id": "creation_time",
               "name": "创建时间",
               "type": "time_range"
-            }
+            },
+
           ]
           let history = await window._gh_web_db.getAll('history')
           const details = await window._gh_web_db.getAll('details')
@@ -119,12 +120,11 @@ window._gh_list_menu_register(
             "id": "creation_time",
             "name": "创建时间",
             "type": "time_range"
-          }
+          },
+
         ],
         click: async (e) => {
            window._gh_navigate(['/detail', e.data.source, e.data.id])
-          // window._gh_navigate()
-
         }
       },
       getList: async (obj) => {
@@ -166,12 +166,10 @@ window._gh_list_menu_register(
           res=res.filter(x=>{
             return obj.update_time.start<x.last_read_date&&x.last_read_date<obj.update_time.end
           })
-
-
         }
         if(obj.creation_time){
           res=res.filter(x=>{
-            return obj.update_time.start<x.first_read_date&&x.first_read_date<obj.update_time.end
+            return obj.creation_time.start<x.first_read_date&&x.first_read_date<obj.creation_time.end
           })
         }
         if(obj.search){

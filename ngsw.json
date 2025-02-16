@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1735938187724,
+  "timestamp": 1739691140141,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,15 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
-        "/chunk-2IHWHX42.js",
-        "/chunk-3IWWRH6A.js",
         "/favicon.ico",
         "/index.html",
-        "/main-MI4K5UZP.js",
+        "/main-DFJOWWHC.js",
         "/manifest.webmanifest",
         "/polyfills-RT5I6R6G.js",
-        "/styles-52ZKPUQI.css",
-        "/worker-BQ2IKCSM.js"
+        "/styles-YN4GOZDV.css",
+        "/worker-S3RQYBII.js"
       ],
       "patterns": []
     },
@@ -54,6 +52,7 @@
         "/assets/icons/icon-512x512.png",
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
+        "/assets/js/book-component.es.js",
         "/assets/js/browser-image-compression.js",
         "/assets/js/jspdf.umd.min.js",
         "/assets/js/jszip.min.js",
@@ -64,6 +63,7 @@
         "/assets/js/swiper-bundle.min.js",
         "/assets/loadable-js/advanced_history_query.js",
         "/assets/loadable-js/ehentai_data_source.js",
+        "/assets/loadable-js/设置语言为繁体中文.js",
         "/assets/ngsw-worker.js",
         "/assets/sound/nintendo_switch/album.wav",
         "/assets/sound/nintendo_switch/bing.wav",
@@ -126,7 +126,7 @@
     "/assets/i18n/pt.json": "45cbb820922b3f6ad91c56295919b0986371b45e",
     "/assets/i18n/ru.json": "f8af43503c13e48cce5de6c9282a012713de1939",
     "/assets/i18n/tr.json": "394534e72edf47be148465b90e7bf9c67dbfab71",
-    "/assets/i18n/zh.json": "0c07f865005a606d1ef1947ea9b9ec70e8cb1682",
+    "/assets/i18n/zh.json": "bc42b188c2392fda9519b595cc01c5f53a65184f",
     "/assets/icons/icon-128x128.png": "d4516c0b955c313f14b94e0a3fdc6bb96363162b",
     "/assets/icons/icon-144x144.png": "4c0e0331f44e1f8a0c6033f9d20eb24617541b17",
     "/assets/icons/icon-152x152.png": "1b584aec8fcf4aac07dc8c3f7c416c5ad04f4996",
@@ -135,17 +135,19 @@
     "/assets/icons/icon-512x512.png": "8a5768205dce96c5c51a9eb711b574287ff44902",
     "/assets/icons/icon-72x72.png": "49b0862c751054f09349a1bae026809aa1f4d7a7",
     "/assets/icons/icon-96x96.png": "e925b2d5bacf08b07f2331142d23e4f20797c85c",
+    "/assets/js/book-component.es.js": "eb44484b59d3e151befbe77033a994e87161e10a",
     "/assets/js/browser-image-compression.js": "7525eb1154ab062570b1f5e57a27931863d9c7f5",
-    "/assets/js/jspdf.umd.min.js": "0205d8c89031c72d62692fe7e7be9178db35ef03",
+    "/assets/js/jspdf.umd.min.js": "50f7f0dd5884d537e69e987229dc25422ec9abc5",
     "/assets/js/jszip.min.js": "c1df5c3b3207a84b827b000941ddf671c6dd1d88",
     "/assets/js/pdf.min.js": "4e288cbd419d195e0a395a17ce43baaa8149103a",
     "/assets/js/pdf.worker.min.js": "5e14eedc578dd50cdcd740d239f25425b3ed5f29",
     "/assets/js/pptxgen.min.js": "e1c54301c51b379b9edd28dfe0eb77f904777508",
     "/assets/js/qrcode.min.js": "9d2cf64ef596ea21009f5343270bb230aca68cf6",
     "/assets/js/swiper-bundle.min.js": "4ba5ea2ce5d1c20a1fcee79977ec2c2e1fd58824",
-    "/assets/loadable-js/advanced_history_query.js": "4282955f1348802ba8bda986f98d22052ffe4f05",
+    "/assets/loadable-js/advanced_history_query.js": "e96b4cdc9e990acb3f7a599942534c31c2f36125",
     "/assets/loadable-js/ehentai_data_source.js": "7ff3bb275a7951bbcc77589ade4f94847975bfd3",
-    "/assets/ngsw-worker.js": "362729afcdd88a3b76d1f6fd0a7f71b087e37d1c",
+    "/assets/loadable-js/设置语言为繁体中文.js": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+    "/assets/ngsw-worker.js": "443c4ec5dfd2adc382eff75f2bf719d697d80f5f",
     "/assets/sound/nintendo_switch/album.wav": "0773a49243d7614a14aaa20278073afd90ab39f4",
     "/assets/sound/nintendo_switch/bing.wav": "b19bce39bcb4f597971867318fff0c3dd1a8e837",
     "/assets/sound/nintendo_switch/border.wav": "bc4bd07e24d5688ecba98ba9970f6f1aa0f09892",
@@ -177,11 +179,9 @@
     "/assets/sound/nintendo_switch/turnon.wav": "507578f7cbb8f99f7dbf3d6eb52c72a3943fa11e",
     "/assets/sound/nintendo_switch/user.wav": "504ea8b0699e21d082f20abbd87397ef9375567f",
     "/assets/zip/extended.zip": "e2e821fb47f55a01e0bf9ba300bc48cfba4bda6b",
-    "/chunk-2IHWHX42.js": "b70aad4ede642cdfc191da6fefa3546b3340e89a",
-    "/chunk-3IWWRH6A.js": "8382aa424e6cc6628bc85ac244065e340fc373c3",
     "/favicon.ico": "2ae48b5d996342712800fa187b4fabe8b9710f05",
-    "/index.html": "8af7717d7b1d545710c4049f2e0a2a125a275d4b",
-    "/main-MI4K5UZP.js": "d84f65c816df5034c08880628b8f4cadfe079f7b",
+    "/index.html": "4f66841893409ba8ff8816a73891356379a79357",
+    "/main-DFJOWWHC.js": "52f7a15ce55b57e26c97d0b35f28c78561cd4baa",
     "/manifest.webmanifest": "23c5c347e6a147561cb32b5fc61c75f637f3cb57",
     "/media/material-icons-JLIDJUWE.woff": "e4bb7c1e40d3febee58df963db276b2bf68c117b",
     "/media/material-icons-LEZCGFVT.woff2": "0bc0c675480d94ec7e8609dda6227f88c5d08d2c",
@@ -194,8 +194,8 @@
     "/media/material-icons-two-tone-LCGWGE2N.woff": "02225d888afe4eebc7312b7432878dc8aef1f50f",
     "/media/material-icons-two-tone-M5N5K6F5.woff2": "296ff0bff395a77c2e33e7e31fffe73980bd93cf",
     "/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
-    "/styles-52ZKPUQI.css": "e15d773956182b415d177d3fc621415781c34d30",
-    "/worker-BQ2IKCSM.js": "cd6ba1fa5244efe711b2b55573630910bc5f6902"
+    "/styles-YN4GOZDV.css": "e2497b5ba9abfd5c81c4f290d7b3bc3c4fa9b67d",
+    "/worker-S3RQYBII.js": "371f27c52897f076aca6b6b7c5a6a65428ea1918"
   },
   "navigationUrls": [
     {
