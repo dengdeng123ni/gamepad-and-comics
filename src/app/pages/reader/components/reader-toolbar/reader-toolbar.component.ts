@@ -221,7 +221,12 @@ export class ReaderToolbarComponent {
       type: "delete"
     }
   back() {
-    window.history.back()
+
+    if(document.referrer.includes("/comics/")){
+      this.RoutingController.navigate('list')
+    }else{
+      window.history.back()
+    }
   }
   routerList() {
     this.RoutingController.navigate('list')
