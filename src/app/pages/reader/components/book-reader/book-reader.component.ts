@@ -111,7 +111,9 @@ export class BookReaderComponent {
   async init() {
 
     //
-
+    if(document.querySelector("#book-component")){
+      window.location.replace(window.location.href);
+    }
 
     let arr = this.data.pages.map(x => x.src)
     let blobUrl = [];
@@ -151,7 +153,7 @@ export class BookReaderComponent {
     (window as any)._gh_page_data = blobUrl.reverse();
     const url = document.querySelector("base").href + 'assets/js/book-component.es.js';
     var script = document.createElement('script');
-    script.name = 'module';
+    script.setAttribute('id','book-component');
     script.type = 'module';
     script.src = url;
 
