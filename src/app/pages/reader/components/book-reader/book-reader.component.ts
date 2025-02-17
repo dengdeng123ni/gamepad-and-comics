@@ -152,6 +152,7 @@ export class BookReaderComponent {
     }
     (window as any)._gh_page_data = blobUrl.reverse();
     const url = document.querySelector("base").href + 'assets/js/book-component.es.js';
+    await fetch(url)
     var script = document.createElement('script');
     script.setAttribute('id','book-component');
     script.type = 'module';
