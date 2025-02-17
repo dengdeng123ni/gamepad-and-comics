@@ -103,9 +103,9 @@ export class DbComicsControllerService {
                 const data = await get();
                 res = data;
               }
-              // console.log('缓存失效');
             } else {
-              // console.log('缓存有效，返回数据');
+              const data = await get();
+              res = data;
             }
 
 
