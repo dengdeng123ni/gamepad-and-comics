@@ -14,6 +14,7 @@ export class BookReaderComponent {
   bool = false;
   page_index=0;
   page_max_index=0;
+  change$ = null;
   constructor(
     public current: CurrentService,
     public RoutingController: RoutingControllerService,
@@ -57,7 +58,7 @@ export class BookReaderComponent {
       },
 
     })
-    this.current.change().subscribe(async (x) => {
+    this.change$ =   this.current.change().subscribe(async (x) => {
 
       if (x.trigger == 'double_page_reader_v2') return
       if (x.type == "changePage") {
@@ -169,6 +170,7 @@ export class BookReaderComponent {
     (window as any)._gh_page_data.forEach(x=>{
       URL.revokeObjectURL(x)
     })
+    this.change$.unsubscribe();
   }
 
 }
