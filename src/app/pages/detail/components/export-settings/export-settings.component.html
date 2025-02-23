@@ -4,7 +4,7 @@
     <div class="item">
       <mat-button-toggle-group style="    width: 100%;
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;" [value]="type">
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;" [value]="type">
         <mat-button-toggle [attr.region]="'item'" value="PDF" (click)="type='PDF'" [matTooltipShowDelay]="3000"
           [matTooltip]="'PDT'">PDF</mat-button-toggle>
         <mat-button-toggle [attr.region]="'item'" value="PPT" (click)="type='PPT'" [matTooltipShowDelay]="3000"
@@ -102,7 +102,14 @@
       </div>
     </div>
     <div class="item" *ngIf="type=='MP4'">
-      <div class="name">{{'图片颜色'|translate}}</div>
+      <div class="name">{{'最后插入空白页'|translate}}</div>
+      <div class="options">
+        <mat-slide-toggle style="z-index: 2;" [matTooltip]="'最后插入空白页'|translate" [attr.type]="'slide'" [attr.region]="'item'"
+          [(ngModel)]="mp4_option.is_insert_blank_page"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="item" *ngIf="type=='MP4'">
+      <div class="name">{{'背景颜色'|translate}}</div>
       <div class="options">
         <input type="color" [(ngModel)]="mp4_option.backdropClass" id="background_input_color"
         name="body" />

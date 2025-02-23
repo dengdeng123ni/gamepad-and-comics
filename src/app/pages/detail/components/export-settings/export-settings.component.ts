@@ -30,28 +30,32 @@ export class ExportSettingsComponent {
   direction = 'down'
 
   mp4_option={
-    WIDTH:1080,
-    HEIGHT:1920,
+    WIDTH:1920,
+    HEIGHT:1080,
     fps:30,
-    backdropClass:"#ffffff"
+    backdropClass:"#000000",
+    is_insert_blank_page:true
   }
   change(e: string) {
     this.page = e;
     if(this.type=="MP4"){
        if(this.page=="one"){
         this.mp4_option={
-          WIDTH:1920,
-          HEIGHT:1080,
-          fps:30,
-          backdropClass:"#ffffff"
-        }
-       }else{
-        this.mp4_option={
           WIDTH:1080,
           HEIGHT:1920,
           fps:30,
-          backdropClass:"#ffffff"
+          backdropClass:"#000000",
+          is_insert_blank_page:true
         }
+       }else if(this.page=="double"){
+        this.mp4_option={
+          WIDTH:1920,
+          HEIGHT:1080,
+          fps:30,
+          backdropClass:"#000000",
+          is_insert_blank_page:true
+        }
+
        }
     }
   }
@@ -78,12 +82,7 @@ export class ExportSettingsComponent {
 
       } else if (this.type == "MP4") {
         const blob = await this.mp4.createMp4(pages.map((x: { src: any; }) => x.src), {pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page },
-      {
-        WIDTH:1080,
-        HEIGHT:1920,
-        fps:30,
-        backdropClass:"#ffffff"
-      }
+      this.mp4_option
       )
 
         this.download.saveAs(blob, `${this.data.details.title}_${x.title}.mp4`)
