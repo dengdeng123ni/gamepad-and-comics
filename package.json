@@ -37,6 +37,7 @@
     "@angular/router": "^17.3.0",
     "@angular/service-worker": "^17.3.0",
     "@ngx-translate/core": "^16.0.3",
+    "@webav/av-cliper": "^1.0.18",
     "crypto-js": "^4.2.0",
     "image-conversion": "^2.1.1",
     "material-icons": "^1.13.12",

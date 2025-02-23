@@ -13,6 +13,8 @@
           [matTooltipShowDelay]="3000" [matTooltip]="'EPUB'">EPUB</mat-button-toggle>
         <mat-button-toggle [attr.region]="'item'" value="ZIP" (click)="type='ZIP'" [matTooltipShowDelay]="3000"
           [matTooltip]="'ZIP'">ZIP</mat-button-toggle>
+          <mat-button-toggle [attr.region]="'item'" value="MP4" (click)="type='MP4'" [matTooltipShowDelay]="3000"
+          [matTooltip]="'MP4'">MP4</mat-button-toggle>
         <mat-button-toggle [attr.region]="'item'" value="IMAGES" (click)="type='IMAGES';onImage()"
           [matTooltipShowDelay]="3000" [matTooltip]="'IMAGES'">{{'长图片' | translate}}</mat-button-toggle>
       </mat-button-toggle-group>
@@ -80,5 +82,38 @@
     <div style="display: flex;" *ngIf="type=='IMAGES'">
       <button mat-button [disabled]="true">{{'图片数量应小于30张'|translate}}</button>
      </div>
+
+     <div class="item" *ngIf="type=='MP4'">
+      <div class="name">{{'视频宽度'|translate}}</div>
+      <div class="options">
+        <input matInput [(ngModel)]="mp4_option.WIDTH" placeholder="请输入数字" type="number" min="0">
+      </div>
+    </div>
+    <div class="item" *ngIf="type=='MP4'">
+      <div class="name">{{'视频长度'|translate}}</div>
+      <div class="options">
+        <input matInput [(ngModel)]="mp4_option.HEIGHT" placeholder="请输入数字" type="number" min="0">
+      </div>
+    </div>
+    <div class="item" *ngIf="type=='MP4'">
+      <div class="name">{{'每张图片持续时间'|translate}}</div>
+      <div class="options">
+        <input matInput [(ngModel)]="mp4_option.fps" placeholder="请输入数字" type="number" min="0">
+      </div>
+    </div>
+    <div class="item" *ngIf="type=='MP4'">
+      <div class="name">{{'图片颜色'|translate}}</div>
+      <div class="options">
+        <input type="color" [(ngModel)]="mp4_option.backdropClass" id="background_input_color"
+        name="body" />
+        <!-- <input matInput [(ngModel)]="mp4_option.WIDTH" placeholder="请输入数字" type="number" min="0"> -->
+      </div>
+    </div>
   </div>
 </div>
+<!-- mp4_option={
+  WIDTH:1080,
+  HEIGHT:1920,
+  fps:30,
+  backdropClass:"#ffffff"
+} -->

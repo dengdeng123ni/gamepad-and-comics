@@ -7,6 +7,7 @@ import { ReadRecordChapterService } from './library/read-record-chapter/read-rec
 import { bufferCount, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Platform } from '@angular/cdk/platform';
+import { Mp4Service } from './library/download/mp4.service';
 
 declare global {
   interface Window {
@@ -161,7 +162,8 @@ export class AppComponent {
     public Prompt: PromptService,
     public I18n: I18nService,
     public platform: Platform,
-    public App: AppDataService
+    public App: AppDataService,
+    public Mp4:Mp4Service,
   ) {
 
     window._gh_data = {};

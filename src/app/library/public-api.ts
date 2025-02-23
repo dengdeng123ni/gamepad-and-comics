@@ -46,6 +46,7 @@ export * from './params/params-event.service';
 export * from './params/params-controller.service';
 
 export * from './download/download.service';
+export * from './download/mp4.service';
 export * from './i18n/i18n.service';
 export * from './data/data.service';
 export * from './db/db-comics-controller.service';

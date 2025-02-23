@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ExportSettingsService } from './export-settings.service';
 import { DataService } from '../../services/data.service';
-import { DbComicsControllerService, DownloadService } from 'src/app/library/public-api';
+import { DbComicsControllerService, DownloadService, Mp4Service } from 'src/app/library/public-api';
 import { LoadingService } from '../loading/loading.service';
 import { CurrentService } from '../../services/current.service';
 
@@ -17,6 +17,7 @@ export class ExportSettingsComponent {
     public download: DownloadService,
     public data: DataService,
     public current: CurrentService,
+    public mp4: Mp4Service,
     public loading: LoadingService
   ) {
     this.pageOrder = this.data.comics_config.is_page_order;
@@ -27,8 +28,32 @@ export class ExportSettingsComponent {
   page = "double"; //  double one
   type = "PDF";
   direction = 'down'
+
+  mp4_option={
+    WIDTH:1080,
+    HEIGHT:1920,
+    fps:30,
+    backdropClass:"#ffffff"
+  }
   change(e: string) {
     this.page = e;
+    if(this.type=="MP4"){
+       if(this.page=="one"){
+        this.mp4_option={
+          WIDTH:1920,
+          HEIGHT:1080,
+          fps:30,
+          backdropClass:"#ffffff"
+        }
+       }else{
+        this.mp4_option={
+          WIDTH:1080,
+          HEIGHT:1920,
+          fps:30,
+          backdropClass:"#ffffff"
+        }
+       }
+    }
   }
   onEpub() {
     const node: any = document.querySelector("#page_double");
@@ -49,16 +74,24 @@ export class ExportSettingsComponent {
       const pages = await this.DbComicsController.getPages(x.id);
       const isFirstPageCover = this.isFirstPageCover;
       if (this.type == "IMAGES") {
-    //     if(pages.length>30) {
-    //       this.exportSettings.close();
-    // this.loading.close();
-    // // this.Notify.messageBox('图片数量应小于30张', null, { panelClass: "_chapter_prompt", duration: 1000, horizontalPosition: 'start', verticalPosition: 'top', });
-    // return
-    //     }
         await this.download.downloadTallImage(`${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), pages.map((x: { src: any; }) => x.src), this.direction)
 
+      } else if (this.type == "MP4") {
+        const blob = await this.mp4.createMp4(pages.map((x: { src: any; }) => x.src), {pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page },
+      {
+        WIDTH:1080,
+        HEIGHT:1920,
+        fps:30,
+        backdropClass:"#ffffff"
+      }
+      )
+
+        this.download.saveAs(blob, `${this.data.details.title}_${x.title}.mp4`)
+
       } else {
+
         const blob = await this.download.ImageToTypeBlob({ type: this.type, name: `${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), images: pages.map((x: { src: any; }) => x.src), pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page })
+
         this.download.saveAs(blob, `${this.data.details.title}_${x.title}`)
       }
 
