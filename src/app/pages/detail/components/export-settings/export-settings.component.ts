@@ -32,7 +32,8 @@ export class ExportSettingsComponent {
   mp4_option={
     WIDTH:1920,
     HEIGHT:1080,
-    fps:30,
+    image_duration:30,
+    image_count:1,
     backdropClass:"#000000",
     is_insert_blank_page:true
   }
@@ -43,7 +44,8 @@ export class ExportSettingsComponent {
         this.mp4_option={
           WIDTH:1080,
           HEIGHT:1920,
-          fps:30,
+          image_duration:30,
+          image_count:1,
           backdropClass:"#000000",
           is_insert_blank_page:true
         }
@@ -51,7 +53,8 @@ export class ExportSettingsComponent {
         this.mp4_option={
           WIDTH:1920,
           HEIGHT:1080,
-          fps:30,
+          image_duration:30,
+          image_count:1,
           backdropClass:"#000000",
           is_insert_blank_page:true
         }

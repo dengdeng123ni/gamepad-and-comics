@@ -96,9 +96,15 @@
       </div>
     </div>
     <div class="item" *ngIf="type=='MP4'">
-      <div class="name">{{'每张图片持续时间'|translate}}</div>
+      <div class="name">{{'每张图片的显示时间(秒)'|translate}}</div>
       <div class="options">
-        <input matInput [(ngModel)]="mp4_option.fps" placeholder="请输入数字" type="number" min="0">
+        <input matInput [(ngModel)]="mp4_option.image_duration" placeholder="请输入数字" type="number" min="0">
+      </div>
+    </div>
+    <div class="item" *ngIf="type=='MP4'">
+      <div class="name">{{'每张图片出现的次数'|translate}}</div>
+      <div class="options">
+        <input matInput [(ngModel)]="mp4_option.image_count" placeholder="请输入数字" type="number" min="0">
       </div>
     </div>
     <div class="item" *ngIf="type=='MP4'">
