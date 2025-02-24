@@ -106,34 +106,34 @@ export class DoublePageThumbnailComponent {
         },
         on: async e => {
           if (e.id == "delete") {
-            this.current._delPage(this.data.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._delPage(this.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           }
           else if (e.id == "merge_page") {
-            this.current._mergePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._mergePage(this.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else if (e.id == "separate_page") {
-            this.current._separatePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._separatePage(this.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
 
           } else if (e.id == "insertWhitePageBefore") {
-            this.current._insertWhitePage(this.data.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertWhitePage(this.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else if (e.id == "insertWhitePageAfter") {
-            this.current._insertWhitePage(this.data.chapter_id, e.data).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertWhitePage(this.chapter_id, e.data).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else if (e.id == "insertPageBefore") {
-            this.current._insertPage(this.data.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertPage(this.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else if (e.id == "insertPageAfter") {
-            this.current._insertPage(this.data.chapter_id, e.data).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertPage(this.chapter_id, e.data).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else {
             e.click(this.double_pages[parseInt(e.value)].images)
@@ -264,6 +264,7 @@ export class DoublePageThumbnailComponent {
 
     if (node) {
       node.scrollIntoView({ behavior: 'instant', block: "center", inline: "center" });
+
       (node as any).focus();
       setTimeout(() => {
         document.querySelector("#double_page_thumbnail")!.classList.remove("opacity-0");
@@ -291,12 +292,15 @@ export class DoublePageThumbnailComponent {
   }
 
 
-  on2(e) {
+  on2($event,e) {
+    console.log(123);
+    $event.stopPropagation()
     this.init({ chapter_id: e.id });
 
   }
 
   close() {
+
     this.doublePageThumbnail.close();
   }
   close2() {

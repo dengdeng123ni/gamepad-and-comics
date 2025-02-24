@@ -4,7 +4,7 @@ import { DoublePageThumbnailComponent } from './double-page-thumbnail.component'
 import { GamepadEventService } from 'src/app/library/gamepad/gamepad-event.service';
 
 interface DialogData {
-  chapter_id: any;
+  chapter_id: number;
   page_index: number
 }
 

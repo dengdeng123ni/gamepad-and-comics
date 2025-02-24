@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DoublePageThumbnailService } from './double-page-thumbnail.service';
 import { DataService } from '../../services/data.service';
 import { CurrentService } from '../../services/current.service';
-import { ContextMenuEventService, I18nService, IndexdbControllerService, TouchmoveEventService, UtilsService } from 'src/app/library/public-api';
+import { ContextMenuEventService, I18nService, IndexdbControllerService, TouchmoveEventService, UtilsService, WorkerService } from 'src/app/library/public-api';
 
 
 interface DialogData {
@@ -17,7 +17,7 @@ interface DialogData {
   styleUrls: ['./double-page-thumbnail.component.scss']
 })
 export class DoublePageThumbnailComponent {
-  KEY = 'double_page_thumbnail_detail';
+  KEY = 'double_page_thumbnail';
   pages: any = [];
   page_index = 0;
   chapter_id = "";
@@ -30,8 +30,8 @@ export class DoublePageThumbnailComponent {
 
   is_loading_free = false;
 
-  opened = true;
-  is_head_show = true;
+  opened = false;
+  is_head_show = false;
 
   is_init_free = false;
 
@@ -43,25 +43,26 @@ export class DoublePageThumbnailComponent {
     @Inject(MAT_DIALOG_DATA) public _data: DialogData,
     public doublePageThumbnail: DoublePageThumbnailService,
     public webDb: IndexdbControllerService,
-    public I18n:I18nService,
+    public I18n: I18nService,
     public ContextMenuEvent: ContextMenuEventService,
-    public TouchmoveEvent:TouchmoveEventService
+    public Worker: WorkerService,
+    public TouchmoveEvent: TouchmoveEventService
   ) {
     this.init(_data);
     this.get()
     this.registerInit()
-    TouchmoveEvent.register('double_page_thumbnail',{
-      LEFT:()=>{
+    TouchmoveEvent.register('double_page_thumbnail', {
+      LEFT: () => {
         this.doublePageThumbnail.close();
       },
-      RIGHT:()=>{
+      RIGHT: () => {
         this.doublePageThumbnail.close();
       },
     })
   }
-  async registerInit(){
-    const 页之前插入=await this.I18n.getTranslatedText('页之前插入')
-    const 页之后插入=await this.I18n.getTranslatedText('页之后插入')
+  async registerInit() {
+    const 页之前插入 = await this.I18n.getTranslatedText('页之前插入')
+    const 页之后插入 = await this.I18n.getTranslatedText('页之后插入')
     if (this.data.is_cache) {
       this.ContextMenuEvent.register('double_page_thumbnail_item', {
         send: ($event, data) => {
@@ -105,34 +106,34 @@ export class DoublePageThumbnailComponent {
         },
         on: async e => {
           if (e.id == "delete") {
-            this.current._delPage(this.data.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._delPage(this.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           }
           else if (e.id == "merge_page") {
-            this.current._mergePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._mergePage(this.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else if (e.id == "separate_page") {
-            this.current._separatePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._separatePage(this.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
 
           } else if (e.id == "insertWhitePageBefore") {
-            this.current._insertWhitePage(this.data.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertWhitePage(this.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else if (e.id == "insertWhitePageAfter") {
-            this.current._insertWhitePage(this.data.chapter_id, e.data).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertWhitePage(this.chapter_id, e.data).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else if (e.id == "insertPageBefore") {
-            this.current._insertPage(this.data.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertPage(this.chapter_id, e.data - 1).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else if (e.id == "insertPageAfter") {
-            this.current._insertPage(this.data.chapter_id, e.data).then(() => {
-              this.init2({ chapter_id: this.data.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertPage(this.chapter_id, e.data).then(() => {
+              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
             })
           } else {
             e.click(this.double_pages[parseInt(e.value)].images)
@@ -227,11 +228,13 @@ export class DoublePageThumbnailComponent {
   }
 
   async getDoublePages(pages: { id: string; width: number; height: number; src: string; }[], page_index: number) {
-    const list = pages.map((x: any) => ({
+    let urls = pages.map(x => x.src) as any;
+    if (this.data.is_cache) urls = await this.Worker.workerImageCompression(pages.map(x => x.src), 200, 0.7);
+    const list = pages.map((x: any, i: number) => ({
       id: x.id,
       width: x.width,
       height: x.height,
-      src: x.src
+      src: urls[i]
     }))
     const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.chapter_id);
 
@@ -261,6 +264,7 @@ export class DoublePageThumbnailComponent {
 
     if (node) {
       node.scrollIntoView({ behavior: 'instant', block: "center", inline: "center" });
+
       (node as any).focus();
       setTimeout(() => {
         document.querySelector("#double_page_thumbnail")!.classList.remove("opacity-0");
@@ -288,12 +292,15 @@ export class DoublePageThumbnailComponent {
   }
 
 
-  on2(e) {
+  on2($event,e) {
+    console.log(123);
+    $event.stopPropagation()
     this.init({ chapter_id: e.id });
 
   }
 
   close() {
+
     this.doublePageThumbnail.close();
   }
   close2() {

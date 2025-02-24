@@ -57,7 +57,7 @@ export class ChapterListMode2Component {
           const id = e.value
           const index = await this.current._getChapterIndex(id);
           this.doublePageThumbnail.open({
-            chapter_id: id,
+            chapter_id: id as any,
             page_index:index
           })
 
