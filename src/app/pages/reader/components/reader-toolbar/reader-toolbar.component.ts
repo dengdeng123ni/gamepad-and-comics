@@ -61,8 +61,8 @@ export class ReaderToolbarComponent {
     public ExportSettings: ExportSettingsService,
     public ContextMenuEvent: ContextMenuEventService,
     public RoutingController: RoutingControllerService,
-     public SettingsNineGrid: SettingsNineGridService,
-     public DbComicsEvent: DbComicsEventService,
+    public SettingsNineGrid: SettingsNineGridService,
+    public DbComicsEvent: DbComicsEventService,
     public RepliesPage: RepliesPageService
   ) {
 
@@ -131,7 +131,7 @@ export class ReaderToolbarComponent {
         id: "resetReading",
         name: "重置阅读进度",
         click: e => {
-         this.resetReadingProgress.isToggle()
+          this.resetReadingProgress.isToggle()
 
         }
       },
@@ -144,7 +144,7 @@ export class ReaderToolbarComponent {
           let position = {};
           position[left ? 'left' : 'right'] = left ? `${e.clientX}px` : `${(window.innerWidth - e.clientX)}px`
           position[top ? 'top' : 'bottom'] = top ? `${e.clientY}px` : `${(window.innerHeight - e.clientY)}px`
-          this.ReaderConfig.open( )
+          this.ReaderConfig.open()
         }
       },
 
@@ -180,8 +180,8 @@ export class ReaderToolbarComponent {
       }
     })
 
-    if(DbComicsEvent.Events[current.source]['getReplies']){
-      menu.splice(1,0,{
+    if (DbComicsEvent.Events[current.source]['getReplies']) {
+      menu.splice(1, 0, {
         id: "openReplies",
         name: "评价",
         click: e => {
@@ -222,9 +222,9 @@ export class ReaderToolbarComponent {
     }
   back() {
 
-    if(document.referrer.includes("/comics/")){
+    if (document.referrer.includes("/comics/")) {
       this.RoutingController.navigate('list')
-    }else{
+    } else {
       window.history.back()
     }
   }
@@ -277,18 +277,107 @@ export class ReaderToolbarComponent {
     }
 
   }
-  separatePage() {
+  async separatePage() {
+    const current_images_node=document.querySelector(".swiper-slide-active");
+    const imgs=current_images_node.querySelectorAll("img");
+    if(imgs.length==1){
+      await this.current._separatePage(this.data.chapter_id,parseInt(imgs[0].getAttribute("index")))
+      this.current._change('changePage',
+
+        {
+          chapter_id:this.data.chapter_id,
+          page_index:this.data.page_index+1,
+        }
+      )
+    }
+    setTimeout(() => this.mouseout123213(), 0)
+
+    // this.current._mergePage(this.data.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1)
+    // aw this.current._separatePage(this.data.chapter_id, this.page)
 
   }
-  mergePage() {
+  async mergePage() {
+    const current_images_node=document.querySelector(".swiper-slide-active");
+    const imgs=current_images_node.querySelectorAll("img");
+    if(imgs.length==2&&!this.data.comics_config.is_page_order){
+
+      await this.current._mergePage(this.data.chapter_id,parseInt(imgs[1].getAttribute("index")),parseInt(imgs[0].getAttribute("index")))
+
+    }else{
+      await this.current._mergePage(this.data.chapter_id,parseInt(imgs[0].getAttribute("index")),parseInt(imgs[1].getAttribute("index")))
+    }
+    this.current._change('changePage',
+
+      {
+        chapter_id:this.data.chapter_id,
+        page_index:this.data.page_index,
+      }
+    )
+    setTimeout(() => this.mouseout123213(), 0)
+
 
   }
   insertPage() {
 
   }
-  openDeleteMenu($event: MouseEvent) {
+  openDeleteMenu($event: any) {
+    this.menuObj.type = "delete"
+    const node_reader_toolbar: any = document.querySelector("#reader_toolbar_page")
+    node_reader_toolbar.style.opacity = 1;
+    this.menuObj.list = [];
+    const p = $event.target.getBoundingClientRect();
+    let node = (document.getElementById(`reader_toolbar_menu`) as any);
+    node.style.top = `${p.y}px`;
+    node.style.left = `${p.x + p.width + 4}px`;
+    const current_images_node=document.querySelector(".swiper-slide-active");
+    const nodes=current_images_node.querySelectorAll("img");
+    for (let i = 0; i < nodes.length; i++) {
+      const node: any = nodes[i];
+      const index = node.getAttribute('index')
+       if(index) this.menuObj.list.push({ name: index , id: parseInt(index) })
+    }
+    setTimeout(() => this.menu.openMenu(), 0)
+
 
   }
+  images_count=0;
+  is_merge_page=false;
+  is_separate_page=false;
+  mouseout123213(){
+    const current_images_node=document.querySelector(".swiper-slide-active");
+    const imgs:any=current_images_node.querySelectorAll("img[index]");
+    this.images_count=imgs.length;
+
+    if(imgs.length==1){
+      if(imgs[0].width<imgs[0].height){
+
+
+        this.is_separate_page=true;
+        return
+      }
+    }
+
+    this.is_separate_page=false;
+  }
+  mouseoverDeleteMenu(index) {
+    const node:any = document.querySelector(`.swiper-slide-active img[index='${index}']`);
+    if (node) node.style.opacity = "0.7";
+  }
+  mouseoutDeleteMenu(index) {
+    const node:any = document.querySelector(`.swiper-slide-active img[index='${index}']`);
+    if (node) node.style.opacity = "1";
+  }
+  async deleteImage(index){
+    await this.current._delPage(this.data.chapter_id, index)
+    this.current._change('changePage',
+
+      {
+        chapter_id:this.data.chapter_id,
+        page_index:this.data.page_index,
+      }
+    )
+  }
+
   openReplies(e) {
     if (window.innerWidth <= 480) {
       this.RepliesPage.open_bottom_sheet()

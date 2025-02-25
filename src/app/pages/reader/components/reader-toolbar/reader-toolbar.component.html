@@ -36,24 +36,24 @@
         <mat-icon>screen_rotation</mat-icon>
       </button>
     </div>
-    <!-- <div class="item mt-5" id="reader_toolbar_page" *ngIf="data.is_edit">
+    <div class="item mt-5" id="reader_toolbar_page" *ngIf="data.is_download" (mouseout)="mouseout123213()">
       <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
-        (click)="separatePage()" [matTooltipShowDelay]="333" [matTooltip]="'返回'| translate" >
+        (click)="separatePage()" [disabled]="images_count==2||is_separate_page" [matTooltipShowDelay]="333" [matTooltip]="'分页'| translate" >
         <mat-icon>call_split</mat-icon>
       </button>
       <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
-        (click)="mergePage()" [matTooltipShowDelay]="333" [matTooltip]="'返回'| translate" >
+        (click)="mergePage()" [disabled]="images_count==1" [matTooltipShowDelay]="333" [matTooltip]="'合页'| translate" >
         <mat-icon>merge</mat-icon>
       </button>
       <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
-        (click)="insertPage()" [matTooltipShowDelay]="333" [matTooltip]="'返回'| translate" >
+        (click)="insertPage()" [matTooltipShowDelay]="333" [matTooltip]="'插页'| translate" >
         <mat-icon>insert_page_break</mat-icon>
       </button>
-      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button
+      <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button [matTooltip]="'删除'| translate"
         class="icon delete" (click)="openDeleteMenu($event)">
         <mat-icon>delete</mat-icon>
       </button>
-    </div> -->
+    </div>
     <div class="item mt-5" id="reader_toolbar_section">
       <button  matTooltipPosition="right" tabIndex="-1" mat-icon-button
         (click)="openList($event)" class="icon subject" [matTooltipShowDelay]="333" [matTooltip]="'章节'| translate" >
@@ -197,12 +197,14 @@
   [matMenuTriggerData]="{data:menuObj.list,type:menuObj.type}"></div>
 <mat-menu #menu="matMenu">
   <ng-template matMenuContent let-name="data" let-type="type">
-    <!-- <div *ngIf="type=='delete'">
+    <div *ngIf="type=='delete'">
       <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
-        (mouseover)="mouseoverDeleteMenu(item.id)" (mouseout)="mouseoutDeleteMenu(item.id)" (click)="delete(item.id)">
+        (mouseover)="mouseoverDeleteMenu(item.id)" (mouseout)="mouseoutDeleteMenu(item.id)" (click)="deleteImage(item.id)"
+
+        >
         {{item.name}}
       </button>
-    </div> -->
+    </div>
     <div *ngIf="type=='list'" style="max-height: 40vh;">
       <button tabIndex="-1" *ngFor="let item of name;let index=index" mat-menu-item class="menu_item"
         (click)="onItem(item.id)" [attr._id]="'_menu_item_'+item.id" >

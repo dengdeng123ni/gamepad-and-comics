@@ -375,6 +375,7 @@ export class DbComicsControllerService {
     }
 
   }
+
   getImage = async (id: string, option?: {
     source: string,
     is_cache?: boolean
