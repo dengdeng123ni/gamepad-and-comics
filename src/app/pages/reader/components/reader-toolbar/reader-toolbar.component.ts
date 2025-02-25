@@ -317,8 +317,27 @@ export class ReaderToolbarComponent {
 
 
   }
-  insertPage() {
+  async insertPage() {
+    const current_images_node=document.querySelector(".swiper-slide-active");
+    const imgs=current_images_node.querySelectorAll("img");
+    if(imgs.length==2&&!this.data.comics_config.is_page_order){
 
+      await this.current._insertWhitePage(this.data.chapter_id,parseInt(imgs[1].getAttribute("index")) )
+
+    }else{
+      await this.current._insertWhitePage(this.data.chapter_id,parseInt(imgs[0].getAttribute("index")))
+    }
+    if(imgs.length==1){
+      await this.current._insertWhitePage(this.data.chapter_id,parseInt(imgs[0].getAttribute("index")))
+    }
+    this.current._change('changePage',
+
+      {
+        chapter_id:this.data.chapter_id,
+        page_index:this.data.page_index,
+      }
+    )
+    setTimeout(() => this.mouseout123213(), 0)
   }
   openDeleteMenu($event: any) {
     this.menuObj.type = "delete"
