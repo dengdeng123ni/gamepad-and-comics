@@ -168,6 +168,8 @@ export class PdfService {
     }
     let bolb = null;
     if (page == "double") list = await this.appWorker.workerImageCompression(list, 1240, 0.92);
+    console.log(list);
+
     if (page == "double" && pageOrder) bolb = await pageDouble(list, isFirstPageCover)
     else if (page == "double" && !pageOrder) bolb = await pageDouble_reverse(list, isFirstPageCover)
     else bolb = await pageOne(list)

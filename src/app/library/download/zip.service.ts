@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Injectable } from '@angular/core';
-import { ImageService,WorkerService } from '../public-api';
+import { ImageService, WorkerService } from '../public-api';
 declare const JSZip: any;
 declare const saveAs: any;
 @Injectable({
@@ -9,27 +9,27 @@ declare const saveAs: any;
 export class ZipService {
 
 
-  constructor(public image:ImageService,
-public Worker: WorkerService,
+  constructor(public image: ImageService,
+    public Worker: WorkerService,
 
   ) { }
   async createZip(
     list: Array<string>, {
-    isFirstPageCover = false,
-    page = "double",
-    pageOrder = false
-  }) {
-    console.log(list,{
+      isFirstPageCover = false,
+      page = "double",
+      pageOrder = false
+    }) {
+    console.log(list, {
       isFirstPageCover,
       page,
       pageOrder
     });
 
-    if(page == "one"){
+    if (page == "one") {
       let images = [];
       for (let j = 0; j < list.length; j++) {
         const src = list[j];
-        const blob=await this.image.getImageBlob(src)
+        const blob = await this.image.getImageBlob(src)
         images.push(blob)
       }
       return images
@@ -37,32 +37,39 @@ public Worker: WorkerService,
     let arr = [];
     if (pageOrder) arr = await this.pageDouble(list, isFirstPageCover)
     else arr = await this.pageDouble_reverse(list, isFirstPageCover)
-    // let images = [];
+    console.log(arr);
+    if (list[0].substring(7, 21) == "localhost:7700") {
+      return await this.Worker.workerImageCompression2(arr)
+    } else {
+      let images = [];
 
-    // for (let index = 0; index < arr.length; index++) {
-    //   const x = arr[index];
-    //   let canvas = document.createElement('canvas');
-    //   canvas.width = x.page.width;
-    //   canvas.height = x.page.height;
-    //   let context = canvas.getContext('2d');
-    //   context.rect(0, 0, canvas.width, canvas.height);
-    //   context.fillStyle = "rgb(255,255,255)";
-    //   context.fillRect(0, 0, canvas.width, canvas.height);
-    //   if (x.images.length == 1) {
-    //     var img = await this.createImage(x.images[0].img) as any;
-    //     context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
-    //   } else if (x.images.length == 2) {
-    //     var img = await this.createImage(x.images[0].img) as any;
-    //     var img1 = await this.createImage(x.images[1].img) as any;
-    //     context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
-    //     context.drawImage(img1, x.images[1].x, x.images[1].y, x.images[1].width, x.images[1].height);
-    //   }
-    //   let dataURL = canvas.toDataURL("image/webp",0.92);
-    //   const blob = this.base64ToBlob(dataURL, "jpeg");
-    //   images.push(blob);
-    // }
+      for (let index = 0; index < arr.length; index++) {
+        const x = arr[index];
+        let canvas = document.createElement('canvas');
+        canvas.width = x.page.width;
+        canvas.height = x.page.height;
+        let context = canvas.getContext('2d');
+        context.rect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "rgb(255,255,255)";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        if (x.images.length == 1) {
+          var img = await this.createImage(x.images[0].img) as any;
+          context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
+        } else if (x.images.length == 2) {
+          var img = await this.createImage(x.images[0].img) as any;
+          var img1 = await this.createImage(x.images[1].img) as any;
+          context.drawImage(img, x.images[0].x, x.images[0].y, x.images[0].width, x.images[0].height);
+          context.drawImage(img1, x.images[1].x, x.images[1].y, x.images[1].width, x.images[1].height);
+        }
+        let dataURL = canvas.toDataURL("image/webp", 0.92);
+        const blob = this.base64ToBlob(dataURL, "jpeg");
+        images.push(blob);
+      }
+      return images
+    }
 
-    return  await this.Worker.workerImageCompression2(arr)
+
+
   }
   base64ToBlob(urlData, type) {
     let arr = urlData.split(',');
@@ -114,7 +121,7 @@ public Worker: WorkerService,
         height: 0
       }
     }
-    const res=await createImageBitmap(await this.image.getImageBlob(src));
+    const res = await createImageBitmap(await this.image.getImageBlob(src));
     return {
       width: res.width,
       height: res.height,
