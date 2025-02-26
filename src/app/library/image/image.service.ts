@@ -86,6 +86,11 @@ export class ImageService {
     if (src.substring(0, 10) == "data:image") {
       return this.base64ToBlob(src)
     }
+    if (src.substring(0, 5) == "blob:") {
+      return await (await fetch(src)).blob();
+    }
+    console.log(src);
+
     const blob = await this.DbComicsController.getImage(src);
     return blob
   }
