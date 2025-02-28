@@ -7,10 +7,10 @@
   <button mat-button [disabled]="true">{{'检测到您当前未设置过语言环境。是否需要重新设置当前语言环境。'|translate}}</button>
   <button mat-button (click)="on2()" [attr.region]="'page_item'">{{'设置'|translate}}</button>
 </div>
-<div style="margin: 0 12px;" >
+<!-- <div style="margin: 0 12px;" >
   <button mat-button [disabled]="true">{{'双页漫画生成逻辑说明.'|translate}}</button>
   <button mat-button (click)="on3()" [attr.region]="'page_item'">{{'查看'|translate}}</button>
-</div>
+</div> -->
 <div style="margin: 0 12px;" *ngIf="!is_open_github">
   <button mat-button [disabled]="true">{{'如果你喜欢这个项目，请点一个 ⭐️ Star 支持我们！'|translate}}</button>
   <button mat-button (click)="on3()" [attr.region]="'page_item'">{{'GitHub'|translate}}</button>

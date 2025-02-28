@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import CryptoJS from 'crypto-js'
 import { DomSanitizer } from '@angular/platform-browser';
-import { CacheControllerService, ReplaceChannelEventService } from '../public-api';
+import { CacheControllerService, IndexdbControllerService, ReplaceChannelEventService } from '../public-api';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,13 +15,56 @@ export class MessageFetchService {
   }
   constructor(private sanitizer: DomSanitizer,
     private webCh: CacheControllerService,
+    private webDb: IndexdbControllerService,
     public ReplaceChannelEvent: ReplaceChannelEventService,
   ) {
 
     window.CryptoJS = CryptoJS;
 
+    //     setTimeout(async () => {
+    //       const text = await window._gh_execute_eval("https://translate.google.com/?sl=zh-CN&tl=en&text=你好&op=translate", `
+    //         (async function () {
+    //           const sleep = (duration) => {
+    //     return new Promise(resolve => {
+    //       setTimeout(resolve, duration);
+    //     })
+    //   }
+    //      await sleep(3000)
+    //    const text=document.querySelector("#yDmH0d > c-wiz > div > div.ToWKne > c-wiz > div.OlSOob > c-wiz > div.ccvoYb > div.AxqVh > div.OPPzxe > c-wiz > div > div.usGWQd > div > div.lRu31 > span.HwtZe > span > span").textContent
+    // return text
+    //    })()
+    //         `);
+    //       console.log(text);
+
+
+    //     }, 3000)
+
 
   }
+  cache_fn = async (json: any, fn: Function, options: { cache_duration: number }) => {
+    let obn = JSON.parse(JSON.stringify(json))
+    const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
+    const res: any = await this.webDb.getByKey('data', id);
+    const get = async () => {
+      const data = await fn(json)
+      await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: data })
+      return data
+    }
+    if (res) {
+      const currentTime = Date.now();
+      const cacheDuration = currentTime - res.creation_time;
+      if (cacheDuration < options.cache_duration) {
+
+        return res.data
+      } else {
+        return await get()
+      }
+
+    } else {
+      return await get()
+    }
+  }
+
   async init() {
     window._gh_fetch = this.fetch;
     window._gh_get_html = this.getHtml;
@@ -54,6 +97,8 @@ export class MessageFetchService {
         return res
       },
     })
+
+    //
   }
   fetch = async (url: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     if (!init) {
@@ -298,43 +343,79 @@ export class MessageFetchService {
     })
   }
 
-  execute_eval = async (url, javascript) => {
-    const id = CryptoJS.MD5(JSON.stringify({
-      type: "website_request_execute_eval",
-      target: 'background',
-      target_website: url
-    })).toString().toLowerCase()
+  execute_eval = async (url, javascript, option?: {
+    cache_duration?: number
+  }) => {
 
-    window.postMessage({
-      id: id,
-      target: 'background',
-      type: "website_request_execute_script",
-      target_website: url,
-      javascript: javascript
-    });
-    let bool = true;
-    return new Promise((r, j) => {
-      const getData = () => {
-        setTimeout(() => {
-          if (this._data_proxy_response[id]) {
-            bool = false;
-            r(this._data_proxy_response[id])
-          } else {
-            if (bool) getData()
-          }
-        }, 33)
-      }
-      getData()
+    const getdata = (url, javascript) => {
+      const id = CryptoJS.MD5(JSON.stringify({
+        type: "website_request_execute_eval",
+        target: 'background',
+        target_website: url
+      })).toString().toLowerCase()
 
-      setTimeout(() => {
-        if (bool) {
-          bool = false;
-          r(new Response())
-          j(new Response())
+      window.postMessage({
+        id: id,
+        target: 'background',
+        type: "website_request_execute_script",
+        target_website: url,
+        javascript: javascript
+      });
+      let bool = true;
+
+      return new Promise((r, j) => {
+        const getData = () => {
+          setTimeout(() => {
+            if (this._data_proxy_response[id]) {
+              bool = false;
+              r(this._data_proxy_response[id])
+            } else {
+              if (bool) getData()
+            }
+          }, 33)
         }
-        this._data_proxy_request[id] = undefined;
-      }, 40000)
-    })
+        getData()
+
+        setTimeout(() => {
+          if (bool) {
+            bool = false;
+            r(new Response())
+            j(new Response())
+          }
+          this._data_proxy_request[id] = undefined;
+        }, 40000)
+      })
+    }
+
+    if (option&&option.cache_duration) {
+      const id = CryptoJS.MD5(JSON.stringify({
+        "url": url,
+        "javascript": javascript
+      })).toString().toLowerCase();
+      const res: any = await this.webDb.getByKey('data', id);
+      const get = async () => {
+        const data = await getdata(url, javascript)
+        await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: data })
+        return data
+      }
+      if (res) {
+        const currentTime = Date.now();
+        const cacheDuration = currentTime - res.creation_time;
+        if (cacheDuration < option.cache_duration) {
+
+          return res.data
+        } else {
+          return await get()
+        }
+
+      } else {
+        return await get()
+      }
+
+    }else{
+      return await getdata(url, javascript)
+    }
+
   }
 
   async readStreamToString(stream: ReadableStream<Uint8Array>) {
