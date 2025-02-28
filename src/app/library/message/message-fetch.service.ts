@@ -45,14 +45,24 @@ export class MessageFetchService {
     const res: any = await this.webDb.getByKey('data', id);
     const get = async () => {
       const data = await fn()
-      await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: data })
+      if (data instanceof Response) {
+        const blob=await data.clone().blob()
+        await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: blob, type: 'response' })
+      } else if (data instanceof Blob) {
+        await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: data, type: 'blob' })
+      } else {
+        await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: data, type: 'json' })
+      }
+
       return data
     }
     if (res) {
       const currentTime = Date.now();
       const cacheDuration = currentTime - res.creation_time;
       if (cacheDuration < options.cache_duration) {
-
+        if(res.data&&res.data.type==='response'){
+          return new Response(res.data.data)
+        }
         return res.data
       } else {
         return await get()
@@ -98,12 +108,12 @@ export class MessageFetchService {
 
     //
   }
-  fetch = async (url: RequestInfo | URL, init?: RequestInit,option?: {
+  fetch = async (url: RequestInfo | URL, init?: RequestInit, option?: {
     cache_duration?: number
   }): Promise<Response> => {
 
 
-    const get=async (url,init): Promise<Response>=>{
+    const get = async (url, init): Promise<Response> => {
       if (!init) {
         init = {
           "headers": {
