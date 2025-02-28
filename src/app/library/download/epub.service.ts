@@ -78,7 +78,6 @@ export class EpubService {
       this.book.pageSize[1] = height;
     }
     let arr = [];
-console.log(list,this.book.pageSize[0]);
 
     list = await this.appWorker.workerImageCompression(list,  this.book.pageSize[0], 0.92);
     if (pageOrder) arr = await this.pageDouble(list, false)

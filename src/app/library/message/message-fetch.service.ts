@@ -41,12 +41,10 @@ export class MessageFetchService {
 
 
   }
-  cache_fn = async (json: any, fn: Function, options: { cache_duration: number }) => {
-    let obn = JSON.parse(JSON.stringify(json))
-    const id = CryptoJS.MD5(JSON.stringify(obn)).toString().toLowerCase();
+  cache_fn = async (id: string, fn: Function, options: { cache_duration: number }) => {
     const res: any = await this.webDb.getByKey('data', id);
     const get = async () => {
-      const data = await fn(json)
+      const data = await fn()
       await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: data })
       return data
     }
@@ -100,133 +98,153 @@ export class MessageFetchService {
 
     //
   }
-  fetch = async (url: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
-    if (!init) {
-      init = {
-        "headers": {
-        },
-        "body": null,
-        "method": "GET"
-      }
-    }
+  fetch = async (url: RequestInfo | URL, init?: RequestInit,option?: {
+    cache_duration?: number
+  }): Promise<Response> => {
 
-    const req = new Request(url, init);
-    let body = null;
-    if (req.body) body = await this.readStreamToString(req.body)
-    const b64_to_utf8 = (str: string) => {
-      return JSON.parse(decodeURIComponent(escape(window.atob(str))));
-    }
-    let id = ''
 
-    if (init && (init as any).proxy) {
-
-      id = CryptoJS.MD5(JSON.stringify({
-
-        type: "website_proxy_request",
-        target_website: (init as any).proxy,
-        target: 'background',
-        http: {
-          url: url,
-          option: {
-            "headers": init.headers,
-            "body": body,
-            "method": init.method
-          }
+    const get=async (url,init): Promise<Response>=>{
+      if (!init) {
+        init = {
+          "headers": {
+          },
+          "body": null,
+          "method": "GET"
         }
-      })).toString().toLowerCase()
-      if (!this._data_proxy_request[id]) {
-        this._data_proxy_request[id] = true;
-        const send = () => {
-          window.postMessage({
-            id: id,
-            type: "website_proxy_request",
-            target: 'background',
-            target_website: (init as any).proxy,
-            http: {
-              url: url,
-              option: {
-                "headers": init.headers,
-                "body": body,
-                "method": init.method
-              }
+      }
+
+      const req = new Request(url, init);
+      let body = null;
+      if (req.body) body = await this.readStreamToString(req.body)
+      const b64_to_utf8 = (str: string) => {
+        return JSON.parse(decodeURIComponent(escape(window.atob(str))));
+      }
+      let id = ''
+
+      if (init && (init as any).proxy) {
+
+        id = CryptoJS.MD5(JSON.stringify({
+
+          type: "website_proxy_request",
+          target_website: (init as any).proxy,
+          target: 'background',
+          http: {
+            url: url,
+            option: {
+              "headers": init.headers,
+              "body": body,
+              "method": init.method
             }
-          });
-        }
-        send();
-        setTimeout(() => {
-          if (!this._data_proxy_response[id]) {
-            send();
           }
-        }, 10000)
-        setTimeout(() => {
-          if (!this._data_proxy_response[id]) {
-            send();
-          }
-        }, 20000)
-      }
-
-    } else {
-      id = CryptoJS.MD5(JSON.stringify({
-        type: "pulg_proxy_request",
-        target: 'background',
-        http: {
-          url: url,
-          option: {
-            "headers": init.headers,
-            "body": body,
-            "method": init.method
-          }
-        }
-      })).toString().toLowerCase()
-      if (!this._data_proxy_request[id]) {
-        this._data_proxy_request[id] = true;
-        const send = () => {
-          window.postMessage({
-            id: id,
-            type: "pulg_proxy_request",
-            target: 'background',
-            http: {
-              url: url,
-              option: {
-                "headers": init.headers,
-                "body": body,
-                "method": init.method
+        })).toString().toLowerCase()
+        if (!this._data_proxy_request[id]) {
+          this._data_proxy_request[id] = true;
+          const send = () => {
+            window.postMessage({
+              id: id,
+              type: "website_proxy_request",
+              target: 'background',
+              target_website: (init as any).proxy,
+              http: {
+                url: url,
+                option: {
+                  "headers": init.headers,
+                  "body": body,
+                  "method": init.method
+                }
               }
-            }
-          });
-        }
-        send();
-        setTimeout(() => {
-          if (!this._data_proxy_response[id]) {
-            send();
+            });
           }
-        }, 20000)
-      }
+          send();
+          setTimeout(() => {
+            if (!this._data_proxy_response[id]) {
+              send();
+            }
+          }, 10000)
+          setTimeout(() => {
+            if (!this._data_proxy_response[id]) {
+              send();
+            }
+          }, 20000)
+        }
 
-    }
-    let bool = true;
-    return new Promise((r, j) => {
-      const getData = () => {
+      } else {
+        id = CryptoJS.MD5(JSON.stringify({
+          type: "pulg_proxy_request",
+          target: 'background',
+          http: {
+            url: url,
+            option: {
+              "headers": init.headers,
+              "body": body,
+              "method": init.method
+            }
+          }
+        })).toString().toLowerCase()
+        if (!this._data_proxy_request[id]) {
+          this._data_proxy_request[id] = true;
+          const send = () => {
+            window.postMessage({
+              id: id,
+              type: "pulg_proxy_request",
+              target: 'background',
+              http: {
+                url: url,
+                option: {
+                  "headers": init.headers,
+                  "body": body,
+                  "method": init.method
+                }
+              }
+            });
+          }
+          send();
+          setTimeout(() => {
+            if (!this._data_proxy_response[id]) {
+              send();
+            }
+          }, 20000)
+        }
+
+      }
+      let bool = true;
+      return new Promise((r, j) => {
+        const getData = () => {
+          setTimeout(() => {
+            if (this._data_proxy_response[id]) {
+              bool = false;
+              r(this._data_proxy_response[id].clone())
+            } else {
+              if (bool) getData()
+            }
+          }, 33)
+        }
+        getData()
+
         setTimeout(() => {
-          if (this._data_proxy_response[id]) {
+          if (bool) {
             bool = false;
-            r(this._data_proxy_response[id].clone())
-          } else {
-            if (bool) getData()
+            r(new Response())
+            j(new Response())
           }
-        }, 33)
-      }
-      getData()
+          this._data_proxy_request[id] = undefined;
+        }, 40000)
+      })
+    }
 
-      setTimeout(() => {
-        if (bool) {
-          bool = false;
-          r(new Response())
-          j(new Response())
-        }
-        this._data_proxy_request[id] = undefined;
-      }, 40000)
-    })
+    if (option && option.cache_duration) {
+      const id = CryptoJS.MD5(JSON.stringify({
+        "url": url,
+        "javascript": init
+      })).toString().toLowerCase();
+      const res: any = this.cache_fn(id, async () => await get(url, init), {
+        cache_duration: option.cache_duration
+      })
+      return res
+    } else {
+      return await get(url, init)
+    }
+
   }
 
   getHtml = async (url: RequestInfo | URL,
@@ -347,7 +365,7 @@ export class MessageFetchService {
     cache_duration?: number
   }) => {
 
-    const getdata = (url, javascript) => {
+    const get = (url, javascript) => {
       const id = CryptoJS.MD5(JSON.stringify({
         type: "website_request_execute_eval",
         target: 'background',
@@ -387,33 +405,17 @@ export class MessageFetchService {
       })
     }
 
-    if (option&&option.cache_duration) {
+    if (option && option.cache_duration) {
       const id = CryptoJS.MD5(JSON.stringify({
         "url": url,
         "javascript": javascript
       })).toString().toLowerCase();
-      const res: any = await this.webDb.getByKey('data', id);
-      const get = async () => {
-        const data = await getdata(url, javascript)
-        await this.webDb.update('data', { id: id, creation_time: new Date().getTime(), data: data })
-        return data
-      }
-      if (res) {
-        const currentTime = Date.now();
-        const cacheDuration = currentTime - res.creation_time;
-        if (cacheDuration < option.cache_duration) {
-
-          return res.data
-        } else {
-          return await get()
-        }
-
-      } else {
-        return await get()
-      }
-
-    }else{
-      return await getdata(url, javascript)
+      const res: any = this.cache_fn(id, async () => await get(url, javascript), {
+        cache_duration: option.cache_duration
+      })
+      return res
+    } else {
+      return await get(url, javascript)
     }
 
   }
