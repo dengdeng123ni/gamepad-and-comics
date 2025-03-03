@@ -63,7 +63,13 @@ export class MessageFetchService {
         if(res.data&&res.data.type==='response'){
           return new Response(res.data.data)
         }
-        return res.data
+        if(res.data.size==0){
+          return await get()
+        }else{
+          return res.data
+        }
+
+
       } else {
         return await get()
       }
@@ -423,6 +429,8 @@ export class MessageFetchService {
       const res: any = this.cache_fn(id, async () => await get(url, javascript), {
         cache_duration: option.cache_duration
       })
+
+
       return res
     } else {
       return await get(url, javascript)

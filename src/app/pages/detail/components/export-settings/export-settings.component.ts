@@ -93,8 +93,12 @@ export class ExportSettingsComponent {
       } else {
 
         const blob = await this.download.ImageToTypeBlob({ type: this.type, name: `${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), images: pages.map((x: { src: any; }) => x.src), pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page })
-
         this.download.saveAs(blob, `${this.data.details.title}_${x.title}`)
+        // if(this.type=="PPT"){
+        //   // this.download.saveAs(blob, `${this.data.details.title}_${x.title}.pptx`)
+        // }else{
+        //   this.download.saveAs(blob, `${this.data.details.title}_${x.title}`)
+        // }
       }
 
 

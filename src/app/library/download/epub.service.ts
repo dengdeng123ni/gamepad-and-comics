@@ -59,7 +59,10 @@ export class EpubService {
 
   constructor(public image: ImageService,
     public appWorker: WorkerService,
-  ) { }
+  ) {
+
+
+  }
 
 
 

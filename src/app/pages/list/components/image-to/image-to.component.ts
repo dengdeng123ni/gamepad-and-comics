@@ -253,6 +253,7 @@ export class ImageToComponent {
               quality: this.option.size ? undefined : this.option.quality,
               width: this.option.width ?? undefined
             };
+
             if (this.is_compress) blob2 = await compress(blob2, obj)
             return blob2
 
