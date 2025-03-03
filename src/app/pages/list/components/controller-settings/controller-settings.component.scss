@@ -23,7 +23,9 @@
   }
 }
 
-
+#voice_controller{
+  display: none !important;
+}
 
 :host ::ng-deep {
   @media screen and (min-width: 0px) and (max-width: 480px) {
@@ -31,6 +33,13 @@
       position: relative;
       white-space: nowrap;
       overflow: hidden;
+    }
+  }
+
+  body[pwa=true]{
+
+    #voice_controller{
+      display: flex !important;
     }
   }
 
