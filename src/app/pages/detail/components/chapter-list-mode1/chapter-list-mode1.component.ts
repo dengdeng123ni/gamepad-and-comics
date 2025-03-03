@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
-import { AppDataService, ContextMenuEventService, DbComicsControllerService, I18nService, IndexdbControllerService, NotifyService, RoutingControllerService } from 'src/app/library/public-api';
+import { AppDataService, ContextMenuEventService, DbComicsControllerService, I18nService, IndexdbControllerService, NotifyService, PromptService, RoutingControllerService } from 'src/app/library/public-api';
 import { ExportSettingsService } from '../export-settings/export-settings.service';
 import { DoublePageThumbnailService } from '../double-page-thumbnail/double-page-thumbnail.service';
 import { CurrentService } from '../../services/current.service';
@@ -42,11 +42,12 @@ export class ChapterListMode1Component {
     public exportSettings: ExportSettingsService,
     public DbComicsController: DbComicsControllerService,
     public RoutingController: RoutingControllerService,
-    public Notify:NotifyService,
+    public Notify: NotifyService,
     private _snackBar: MatSnackBar,
-    public webDb:IndexdbControllerService,
+    public webDb: IndexdbControllerService,
     public AppData: AppDataService,
-    public I18n:I18nService
+    public Prompt: PromptService,
+    public I18n: I18nService
   ) {
     //
     // 编辑
@@ -68,7 +69,7 @@ export class ChapterListMode1Component {
                 for (let index = 0; index < pages.length; index++) {
                   await this.DbComicsController.delWebDbImage(pages[index].src)
                 }
-                this.Notify.messageBox('已完成', '', {  duration: 1000 })
+                this.Notify.messageBox('已完成', '', { duration: 1000 })
               }
             }
           },
@@ -130,7 +131,7 @@ export class ChapterListMode1Component {
                 URL.revokeObjectURL(url); // 释放 URL
               }
               for (let index = 0; index < list.length; index++) {
-                const res = await this.webDb.getByKey('pages',list[index].id)
+                const res = await this.webDb.getByKey('pages', list[index].id)
                 const jsonString = JSON.stringify(res, null, 2); // 格式化 JSON
                 const blob = new Blob([jsonString], { type: "application/json" });
                 const url = URL.createObjectURL(blob);
@@ -142,6 +143,7 @@ export class ChapterListMode1Component {
               }
             }
           },
+
         ]
 
 
@@ -150,27 +152,50 @@ export class ChapterListMode1Component {
         name: "编辑", id: "edit", submenu: [
           {
             name: "合并章节", id: "delete1", click: async (list) => {
-              let arr=[];
+              let arr = [];
               for (let index = 0; index < list.length; index++) {
-                 const c= await this.DbComicsController.getPages(list[index].id);
-                 arr.push(...c)
+                const c = await this.DbComicsController.getPages(list[index].id);
+                arr.push(...c)
               }
-              const _id=`_${new Date().getTime()}`;
-              const c=await this.DbComicsController.putWebDbPages(_id,arr);
+              const _id = `_${new Date().getTime()}`;
+              const c = await this.DbComicsController.putWebDbPages(_id, arr);
               let detail = await this.DbComicsController.getDetail(this.data.comics_id, { source: this.current.source })
-              const index= detail.chapters.findIndex(x=>x.id.toString()==list[0].id.toString())
-              let obj= JSON.parse(JSON.stringify(detail.chapters[index]));
-              obj.id=_id;
-              obj.title=`${list[0].title} - ${list.at(-1).title}`;
+              const index = detail.chapters.findIndex(x => x.id.toString() == list[0].id.toString())
+              let obj = JSON.parse(JSON.stringify(detail.chapters[index]));
+              obj.id = _id;
+              obj.title = `${list[0].title} - ${list.at(-1).title}`;
               detail.chapters.splice(index, 0, obj);
               for (let index = 0; index < list.length; index++) {
-              detail.chapters=detail.chapters.filter(x=>x.id!=list[index].id)
-             }
-             await this.DbComicsController.putWebDbDetail(this.data.comics_id, detail);
-             const r = await this.DbComicsController.getDetail(this.data.comics_id);
-             this.data.chapters = r.chapters;
-             console.log(this.data.chapters);
+                detail.chapters = detail.chapters.filter(x => x.id != list[index].id)
+              }
+              await this.DbComicsController.putWebDbDetail(this.data.comics_id, detail);
+              const r = await this.DbComicsController.getDetail(this.data.comics_id);
+              this.data.chapters = r.chapters;
 
+            }
+          },
+          {
+            name: "重命名", id: "rename", click: async (list) => {
+
+
+              for (let index = 0; index < list.length; index++) {
+                console.log(list);
+
+                const name = await this.Prompt.fire('重命名', list[index].title)
+                let detail = await this.DbComicsController.getDetail(this.data.comics_id, { source: this.current.source })
+                const _index = detail.chapters.findIndex(x => x.id.toString() == list[index].id.toString())
+                detail.chapters[_index].title = name;
+                await this.DbComicsController.putWebDbDetail(this.data.comics_id, detail);
+                const r = await this.DbComicsController.getDetail(this.data.comics_id);
+                this.data.chapters = r.chapters;
+
+                const sleep = (duration) => {
+                  return new Promise(resolve => {
+                    setTimeout(resolve, duration);
+                  })
+                }
+                await sleep(100)
+              }
             }
           },
         ]
@@ -205,13 +230,13 @@ export class ChapterListMode1Component {
             const index = await this.current._getChapterIndex(id);
             this.doublePageThumbnail.open({
               chapter_id: id,
-              page_index:index
+              page_index: index
             })
           } else {
             const index = await this.current._getChapterIndex(this.data.chapter_id);
             this.doublePageThumbnail.open({
               chapter_id: this.data.chapter_id as any,
-              page_index:index
+              page_index: index
             })
           }
         }
