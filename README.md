@@ -31,6 +31,3 @@ Support the author: [Steam Store Page](https://store.steampowered.com/app/207050
 ## 📜 License
 
 This project is licensed under the GNU General Public License v3.0. See the [LICENSE](./LICENSE) file for details.
-
-学历 项目经历 就职时间 
-照片
