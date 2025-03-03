@@ -37,7 +37,8 @@ export class DownloadOptionComponent {
 
   download_path = "默认";
 
-  types = ['JPG', 'PDF', 'EPUB', 'PPT', 'ZIP','MP4'].map(x => ({ name: x, completed: false }))
+  types = ['JPG', 'PDF', 'EPUB', 'PPT', 'ZIP'].map(x => ({ name: x, completed: false }))
+  // MP4
   list = [];
   typeChange() {
     this.option.type = this.types.filter(x => x.completed).map(x => x.name)
