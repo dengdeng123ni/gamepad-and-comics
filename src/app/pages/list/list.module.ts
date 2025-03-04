@@ -52,6 +52,7 @@ import { SelectDateComponent } from './components/select-date/select-date.compon
 import { SelectTagSingleComponent } from './components/select-tag-single/select-tag-single.component';
 import { SelectTimeRangeComponent } from './components/select-time-range/select-time-range.component';
 import { SelectTimeComponent } from './components/select-time/select-time.component';
+import { FetchAddRequestHeaderComponent } from './components/fetch-add-request-header/fetch-add-request-header.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { SelectTimeComponent } from './components/select-time/select-time.compon
     SelectTagSingleComponent,
     SelectTimeRangeComponent,
     SelectTimeComponent,
+    FetchAddRequestHeaderComponent,
   ],
   imports: [
     CommonModule,

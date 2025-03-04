@@ -178,6 +178,13 @@ export class MenuComponent {
                   this.PdfToImage.to();
                 }
               },
+              {
+                id: "ope3123",
+                name: "fetch添加请求头",
+                click: () => {
+
+                }
+              },
               // {
 
               //   id: "oo1eo",
