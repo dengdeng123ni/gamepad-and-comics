@@ -1,6 +1,8 @@
 {
+  "loadable_register_script":[
+    "assets/loadable-js/设置语言为繁体中文.js"
+  ],
   "default_register_script":[
-
     "assets/loadable-js/advanced_history_query.js",
     "assets/loadable-js/ehentai_data_source.js",
     "assets/loadable-js/kaobei_data_source.js"
