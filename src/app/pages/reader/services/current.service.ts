@@ -227,7 +227,7 @@ export class CurrentService {
   }
   async _getPreviousChapterId(id?): Promise<string | null> {
     if (!id) id = this.data.chapter_id;
-    const index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
+    const index = this.data.chapters.findIndex(x => x.id == id);
     if (index == -1) return null
     const obj = this.data.chapters[index - 1];
     if (obj) {
@@ -374,18 +374,34 @@ export class CurrentService {
     let c2 = `http://localhost:7700/chapter/insert_page/${page_index}_2_${new Date().getTime()}`
     await this.DbComicsController.addImage(c1, this.base64ToBlob(dataURL1))
     await this.DbComicsController.addImage(c2, this.base64ToBlob(dataURL2))
-    pages.splice(page_index, 0, {
-      id: `${page_index}_1_${new Date().getTime()}`,
-      src: c2,
-      width: 0,
-      height: 0
-    })
-    pages.splice(page_index + 1, 0, {
-      id: `${page_index}_2_${new Date().getTime()}`,
-      src: c1,
-      width: 0,
-      height: 0
-    })
+    if(this.data.comics_config.is_page_order){
+      pages.splice(page_index, 0, {
+        id: `${page_index}_1_${new Date().getTime()}`,
+        src: c1,
+        width: (image1.width / 2),
+        height: image1.height
+      })
+      pages.splice(page_index + 1, 0, {
+        id: `${page_index}_2_${new Date().getTime()}`,
+        src: c2,
+        width: (image1.width / 2),
+        height: image1.height
+      })
+    }else{
+      pages.splice(page_index, 0, {
+        id: `${page_index}_1_${new Date().getTime()}`,
+        src: c2,
+        width: (image1.width / 2),
+        height: image1.height
+      })
+      pages.splice(page_index + 1, 0, {
+        id: `${page_index}_2_${new Date().getTime()}`,
+        src: c1,
+        width: (image1.width / 2),
+        height: image1.height
+      })
+    }
+
     pages.splice(page_index + 2, 1)
     await this.DbComicsController.putWebDbPages(chapter_id, pages)
   }

@@ -63,7 +63,7 @@ export class DoublePageThumbnailComponent {
     this.get()
     this.registerInit()
     this.data.chapters.forEach(x => {
-      x.selected=undefined;
+      x.selected = undefined;
     })
     TouchmoveEvent.register('double_page_thumbnail', {
       LEFT: () => {
@@ -119,38 +119,47 @@ export class DoublePageThumbnailComponent {
           return data
         },
         on: async e => {
+          const node = document.querySelector(`[content_menu_value=${e.value}]`);
+          const chapter_id = node.getAttribute("chapter_id");
+          const index = node.getAttribute("index");
+          let double_pages = []
+          if (this.is_multiple) {
+            double_pages = this.chapter_double_pages.find(x => x.chapter_id == chapter_id).data;
+          } else {
+            double_pages = this.double_pages;
+          }
           if (e.id == "delete") {
-            this.current._delPage(this.chapter_id, e.data - 1).then(() => {
-              this.init2(this.chapter_id)
+            this.current._delPage(chapter_id, e.data - 1).then(() => {
+              this.init2(chapter_id)
             })
           }
           else if (e.id == "merge_page") {
-            this.current._mergePage(this.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-              this.init2(this.chapter_id)
+            this.current._mergePage(chapter_id, double_pages[parseInt(index)].images[1].index - 1, double_pages[parseInt(index)].images[0].index - 1).then(() => {
+              this.init2(chapter_id)
             })
           } else if (e.id == "separate_page") {
-            this.current._separatePage(this.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-              this.init2(this.chapter_id)
+            this.current._separatePage(chapter_id, double_pages[parseInt(index)].images[0].index - 1).then(() => {
+              this.init2(chapter_id)
             })
 
           } else if (e.id == "insertWhitePageBefore") {
-            this.current._insertWhitePage(this.chapter_id, e.data - 1).then(() => {
-              this.init2(this.chapter_id)
+            this.current._insertWhitePage(chapter_id, e.data - 1).then(() => {
+              this.init2(chapter_id)
             })
           } else if (e.id == "insertWhitePageAfter") {
-            this.current._insertWhitePage(this.chapter_id, e.data).then(() => {
-              this.init2(this.chapter_id)
+            this.current._insertWhitePage(chapter_id, e.data).then(() => {
+              this.init2(chapter_id)
             })
           } else if (e.id == "insertPageBefore") {
-            this.current._insertPage(this.chapter_id, e.data - 1).then(() => {
-              this.init2(this.chapter_id)
+            this.current._insertPage(chapter_id, e.data - 1).then(() => {
+              this.init2(chapter_id)
             })
           } else if (e.id == "insertPageAfter") {
-            this.current._insertPage(this.chapter_id, e.data).then(() => {
-              this.init2(this.chapter_id)
+            this.current._insertPage(chapter_id, e.data).then(() => {
+              this.init2(chapter_id)
             })
           } else {
-            e.click(this.double_pages[parseInt(e.value)].images)
+            e.click(double_pages[parseInt(index)].images)
           }
         },
         menu: [
@@ -166,9 +175,21 @@ export class DoublePageThumbnailComponent {
     } else {
       this.ContextMenuEvent.register('double_page_thumbnail_item', {
         on: async e => {
-          e.click(this.double_pages[parseInt(e.value)].images)
+
+          const node = document.querySelector(e.value);
+          const chapter_id = node.getAttribute("chapter_id");
+          const index = node.getAttribute("index");
+
+          e.click(this.double_pages[parseInt(index)].images)
         }
       })
+    }
+  }
+  getTargetNode = (node: HTMLElement): HTMLElement => {
+    if (node.getAttribute("region")) {
+      return node
+    } else {
+      return this.getTargetNode(node.parentNode as HTMLElement)
     }
   }
   async post() {
@@ -192,6 +213,7 @@ export class DoublePageThumbnailComponent {
     const page_index = await this.current._getChapterIndex(chapter_id)
     const chapter_index = this.data.chapters.findIndex(x => x.id == chapter_id);
     const double_list = await this.getDoublePages(chapter_id, pages, page_index)
+    this.is_first_page_cover = await this.current._getChapter_IsFirstPageCover(chapter_id)
     this.chapter_id = chapter_id;
     this.chapter_title = this.data.chapters[chapter_index].title;
     this.double_pages = double_list;
@@ -222,11 +244,11 @@ export class DoublePageThumbnailComponent {
           const index = this.chapter_double_pages.findIndex(c => c.chapter_id == x.chapter_id)
           this.chapter_double_pages[index].data = x.data;
         })
-        const is_first_page_cover=await this.current._getChapter_IsFirstPageCover(id)
+        const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(id)
         this.chapter_double_pages.push({
           chapter_id: id,
           chapter_title: ids[index].title,
-          is_first_page_cover:is_first_page_cover
+          is_first_page_cover: is_first_page_cover
         })
       }
 
@@ -240,12 +262,12 @@ export class DoublePageThumbnailComponent {
   }
 
   async init2(chapter_id: string) {
-    if(this.is_multiple){
+    if (this.is_multiple) {
       this.getMultipleData(chapter_id).then(x => {
         const index = this.chapter_double_pages.findIndex(c => c.chapter_id == x.chapter_id)
         this.chapter_double_pages[index].data = x.data;
       })
-    }else{
+    } else {
       this.getData(chapter_id)
     }
 
@@ -262,16 +284,19 @@ export class DoublePageThumbnailComponent {
     }))
     const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(chapter_id);
     const double_list = await this.utils.Images.getPageDouble(list, { isFirstPageCover: is_first_page_cover, pageOrder: this.data.comics_config.is_page_order });
+
     double_list.forEach((x: any) => {
       x.images.forEach((c: any) => {
         if (!x.select) x.select = (c.index - 1) == page_index;
       })
+      x.chapter_id = chapter_id;
     })
     return double_list
   }
+  change$=null;
   ngAfterViewInit() {
     // 监听元素变化（如果列表是动态加载的）
-    this.itemElements.changes.subscribe(() => {
+      this.change$= this.itemElements.changes.subscribe(() => {
       this.focusFourthItem();
     });
 
@@ -280,9 +305,6 @@ export class DoublePageThumbnailComponent {
 
   // 聚焦第4个元素
   focusFourthItem() {
-    console.log(123);
-
-
     setTimeout(() => {
 
       const node = document.querySelector("#double_page_thumbnail button[select=true]");
@@ -294,7 +316,7 @@ export class DoublePageThumbnailComponent {
     }, 100)
   }
   ngOnDestroy() {
-
+    this.change$.unsubscribe();
     this.post();
   }
   async change(chapter_id) {
@@ -303,7 +325,7 @@ export class DoublePageThumbnailComponent {
 
   }
 
-  async change3(chapter_id,bool) {
+  async change3(chapter_id, bool) {
     await this.current._setChapterFirstPageCover(chapter_id, bool)
     this.getMultipleData(chapter_id).then(x => {
       const index = this.chapter_double_pages.findIndex(c => c.chapter_id == x.chapter_id)
@@ -334,7 +356,7 @@ export class DoublePageThumbnailComponent {
       }
     }
   }
-  on4(chapter_id,data){
+  on4(chapter_id, data) {
     if (data.images.length == 1) {
       const index = data.images[0].index;
       this.current._chapterPageChange(chapter_id, index - 1);

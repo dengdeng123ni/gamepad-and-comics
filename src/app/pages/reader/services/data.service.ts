@@ -33,7 +33,7 @@ export class DataService {
 
   comics_config = {
     reader_mode: "double_page_reader",
-    is_page_order: false,
+    is_page_order: false, // true 正常模式 false 日漫模式
     is_page_direction: true,
     is_double_page: true,
     background_color: "#303030",

@@ -82,7 +82,28 @@ export class CurrentService {
       return this.data.comics_config
     }
   }
-
+  async _getNextChapterId(id?): Promise<string | null> {
+    if (!id) id = this.data.chapter_id;
+    const index = this.data.chapters.findIndex(x => x.id == id);
+    if (index == -1) return null
+    const obj = this.data.chapters[index + 1];
+    if (obj) {
+      return obj.id
+    } else {
+      return null
+    }
+  }
+  async _getPreviousChapterId(id?): Promise<string | null> {
+    if (!id) id = this.data.chapter_id;
+    const index = this.data.chapters.findIndex(x => x.id == id);
+    if (index == -1) return null
+    const obj = this.data.chapters[index - 1];
+    if (obj) {
+      return obj.id
+    } else {
+      return null
+    }
+  }
   async _delChapter(comics_id:any,chapter_id: string) {
     let detail = await this.DbComicsController.getDetail(comics_id, { source: this.source })
     detail.chapters = detail.chapters.filter(x => x.id.toString() !== chapter_id.toString());

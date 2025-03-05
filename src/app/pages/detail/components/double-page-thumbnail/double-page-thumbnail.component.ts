@@ -1,4 +1,4 @@
-import { Component, Inject, NgZone } from '@angular/core';
+import { Component, ElementRef, Inject, NgZone, QueryList, ViewChildren } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DoublePageThumbnailService } from './double-page-thumbnail.service';
 import { DataService } from '../../services/data.service';
@@ -7,7 +7,7 @@ import { ContextMenuEventService, I18nService, IndexdbControllerService, Touchmo
 
 
 interface DialogData {
-  chapter_id: string;
+  string;
   page_index?: number
 }
 // const KEY='double_page_thumbnail';
@@ -18,22 +18,33 @@ interface DialogData {
 })
 export class DoublePageThumbnailComponent {
   KEY = 'double_page_thumbnail';
-  pages: any = [];
-  page_index = 0;
+
+  double_pages = [];
   chapter_id = "";
-  chapter_index = 0;
+  chapter_title = "";
+
+
+
+  is_multiple = false;
+
   is_first_page_cover = false;
 
-  double_pages: any = [];
 
   cover = "";
 
   is_loading_free = false;
 
-  opened = false;
+  opened = true;
   is_head_show = false;
 
   is_init_free = false;
+
+  chapter_double_pages = [] as any;
+
+
+
+  @ViewChildren('itemRef') itemElements!: QueryList<ElementRef>;
+
 
   constructor(
     public utils: UtilsService,
@@ -48,9 +59,12 @@ export class DoublePageThumbnailComponent {
     public Worker: WorkerService,
     public TouchmoveEvent: TouchmoveEventService
   ) {
-    this.init(_data);
+    this.getData(data.chapter_id);
     this.get()
     this.registerInit()
+    this.data.chapters.forEach(x => {
+      x.selected = undefined;
+    })
     TouchmoveEvent.register('double_page_thumbnail', {
       LEFT: () => {
         this.doublePageThumbnail.close();
@@ -105,38 +119,47 @@ export class DoublePageThumbnailComponent {
           return data
         },
         on: async e => {
+          const node = document.querySelector(`[content_menu_value=${e.value}]`);
+          const chapter_id = node.getAttribute("chapter_id");
+          const index = node.getAttribute("index");
+          let double_pages = []
+          if (this.is_multiple) {
+            double_pages = this.chapter_double_pages.find(x => x.chapter_id == chapter_id).data;
+          } else {
+            double_pages = this.double_pages;
+          }
           if (e.id == "delete") {
-            this.current._delPage(this.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._delPage(chapter_id, e.data - 1).then(() => {
+              this.init2(chapter_id)
             })
           }
           else if (e.id == "merge_page") {
-            this.current._mergePage(this.chapter_id, this.double_pages[parseInt(e.value)].images[1].index - 1, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._mergePage(chapter_id, double_pages[parseInt(index)].images[1].index - 1, double_pages[parseInt(index)].images[0].index - 1).then(() => {
+              this.init2(chapter_id)
             })
           } else if (e.id == "separate_page") {
-            this.current._separatePage(this.chapter_id, this.double_pages[parseInt(e.value)].images[0].index - 1).then(() => {
-              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._separatePage(chapter_id, double_pages[parseInt(index)].images[0].index - 1).then(() => {
+              this.init2(chapter_id)
             })
 
           } else if (e.id == "insertWhitePageBefore") {
-            this.current._insertWhitePage(this.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertWhitePage(chapter_id, e.data - 1).then(() => {
+              this.init2(chapter_id)
             })
           } else if (e.id == "insertWhitePageAfter") {
-            this.current._insertWhitePage(this.chapter_id, e.data).then(() => {
-              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertWhitePage(chapter_id, e.data).then(() => {
+              this.init2(chapter_id)
             })
           } else if (e.id == "insertPageBefore") {
-            this.current._insertPage(this.chapter_id, e.data - 1).then(() => {
-              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertPage(chapter_id, e.data - 1).then(() => {
+              this.init2(chapter_id)
             })
           } else if (e.id == "insertPageAfter") {
-            this.current._insertPage(this.chapter_id, e.data).then(() => {
-              this.init2({ chapter_id: this.chapter_id, page_index: this.double_pages[parseInt(e.value)].images[0].index })
+            this.current._insertPage(chapter_id, e.data).then(() => {
+              this.init2(chapter_id)
             })
           } else {
-            e.click(this.double_pages[parseInt(e.value)].images)
+            e.click(double_pages[parseInt(index)].images)
           }
         },
         menu: [
@@ -152,9 +175,21 @@ export class DoublePageThumbnailComponent {
     } else {
       this.ContextMenuEvent.register('double_page_thumbnail_item', {
         on: async e => {
-          e.click(this.double_pages[parseInt(e.value)].images)
+
+          const node = document.querySelector(e.value);
+          const chapter_id = node.getAttribute("chapter_id");
+          const index = node.getAttribute("index");
+
+          e.click(this.double_pages[parseInt(index)].images)
         }
       })
+    }
+  }
+  getTargetNode = (node: HTMLElement): HTMLElement => {
+    if (node.getAttribute("region")) {
+      return node
+    } else {
+      return this.getTargetNode(node.parentNode as HTMLElement)
     }
   }
   async post() {
@@ -173,34 +208,51 @@ export class DoublePageThumbnailComponent {
     }
     this.is_init_free = true;
   }
-  async init(_data?: DialogData) {
-    this.double_pages = [];
-    this.is_loading_free = false;
-    if (_data) {
-      this.pages = await this.current._getChapter(_data.chapter_id);
-      this.page_index = await this.current._getChapterIndex(_data.chapter_id)
-      this.chapter_id = _data.chapter_id;
-      this.chapter_index = this.data.chapters.findIndex(x => x.id == _data.chapter_id);
-    } else {
-      this.pages = this.data.pages as any;
-      this.page_index = this.data.page_index;
-      this.chapter_id = this.data.chapter_id;
-      this.chapter_index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
-    }
-
-    const double_list = await this.getDoublePages(this.pages, this.page_index)
+  async getData(chapter_id: string) {
+    const pages = await this.current._getChapter(chapter_id);
+    const page_index = await this.current._getChapterIndex(chapter_id)
+    const chapter_index = this.data.chapters.findIndex(x => x.id == chapter_id);
+    const double_list = await this.getDoublePages(chapter_id, pages, page_index)
+    this.is_first_page_cover = await this.current._getChapter_IsFirstPageCover(chapter_id)
+    this.chapter_id = chapter_id;
+    this.chapter_title = this.data.chapters[chapter_index].title;
     this.double_pages = double_list;
+  }
 
+  async getMultipleData(chapter_id: string) {
+    const pages = await this.current._getChapter(chapter_id);
+    const page_index = await this.current._getChapterIndex(chapter_id)
+    const chapter_index = this.data.chapters.findIndex(x => x.id == chapter_id);
+    const double_list = await this.getDoublePages(chapter_id, pages, page_index)
+    return {
+      chapter_id: chapter_id,
+      data: double_list
+    }
+  }
 
+  async change2() {
+    const ids = this.data.chapters.filter(x => x.selected);
+    this.chapter_double_pages = this.chapter_double_pages.filter(c => ids.find(x => x.id == c.chapter_id))
+    for (let index = 0; index < ids.length; index++) {
+      const id = ids[index].id;
+      const obj = this.chapter_double_pages.find(x => x.chapter_id == id)
+      if (obj) {
 
-    this.zone.run(() => {
-      this.complete()
-      this.is_loading_free = true;
-      setTimeout(() => {
-        this.is_loading_free = true;
-        this.complete()
-      }, 150)
-    })
+      } else {
+
+        this.getMultipleData(id).then(x => {
+          const index = this.chapter_double_pages.findIndex(c => c.chapter_id == x.chapter_id)
+          this.chapter_double_pages[index].data = x.data;
+        })
+        const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(id)
+        this.chapter_double_pages.push({
+          chapter_id: id,
+          chapter_title: ids[index].title,
+          is_first_page_cover: is_first_page_cover
+        })
+      }
+
+    }
   }
 
   sleep = (duration) => {
@@ -209,25 +261,19 @@ export class DoublePageThumbnailComponent {
     })
   }
 
-  async init2(_data?: DialogData) {
-
-    if (_data) {
-      this.pages = await this.current._getChapter(_data.chapter_id);
-      this.page_index = await this.current._getChapterIndex(_data.chapter_id)
-      this.chapter_id = _data.chapter_id;
-      this.chapter_index = this.data.chapters.findIndex(x => x.id == _data.chapter_id);
+  async init2(chapter_id: string) {
+    if (this.is_multiple) {
+      this.getMultipleData(chapter_id).then(x => {
+        const index = this.chapter_double_pages.findIndex(c => c.chapter_id == x.chapter_id)
+        this.chapter_double_pages[index].data = x.data;
+      })
     } else {
-      this.pages = this.data.pages as any;
-      this.page_index = this.data.page_index;
-      this.chapter_id = this.data.chapter_id;
-      this.chapter_index = this.data.chapters.findIndex(x => x.id == this.data.chapter_id);
+      this.getData(chapter_id)
     }
 
-    const double_list = await this.getDoublePages(this.pages, this.page_index)
-    this.double_pages = double_list;
   }
 
-  async getDoublePages(pages: { id: string; width: number; height: number; src: string; }[], page_index: number) {
+  async getDoublePages(chapter_id: string, pages: { id: string; width: number; height: number; src: string; }[], page_index: number) {
     let urls = pages.map(x => x.src) as any;
     if (this.data.is_cache) urls = await this.Worker.workerImageCompression(pages.map(x => x.src), 200, 0.7);
     const list = pages.map((x: any, i: number) => ({
@@ -236,47 +282,67 @@ export class DoublePageThumbnailComponent {
       height: x.height,
       src: urls[i]
     }))
-    const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(this.chapter_id);
-
-    this.is_first_page_cover = is_first_page_cover;
+    const is_first_page_cover = await this.current._getChapter_IsFirstPageCover(chapter_id);
     const double_list = await this.utils.Images.getPageDouble(list, { isFirstPageCover: is_first_page_cover, pageOrder: this.data.comics_config.is_page_order });
+
     double_list.forEach((x: any) => {
       x.images.forEach((c: any) => {
         if (!x.select) x.select = (c.index - 1) == page_index;
       })
+      x.chapter_id = chapter_id;
     })
     return double_list
   }
+  change$=null;
   ngAfterViewInit() {
+    // 监听元素变化（如果列表是动态加载的）
+      this.change$= this.itemElements.changes.subscribe(() => {
+      this.focusFourthItem();
+    });
 
+    // 初始渲染时尝试聚焦
+  }
+
+  // 聚焦第4个元素
+  focusFourthItem() {
+    setTimeout(() => {
+
+      const node = document.querySelector("#double_page_thumbnail button[select=true]");
+      if (node) {
+        node.scrollIntoView({ behavior: 'instant', block: "center", inline: "center" });
+        (node as any).focus();
+
+      }
+    }, 100)
   }
   ngOnDestroy() {
-
+    this.change$.unsubscribe();
     this.post();
   }
-  async change(id) {
-    await this.current._setChapterFirstPageCover(this.chapter_id, this.is_first_page_cover)
-    await this.init2({ chapter_id: this.chapter_id })
+  async change(chapter_id) {
+    await this.current._setChapterFirstPageCover(chapter_id, this.is_first_page_cover)
+    await this.getData(chapter_id)
+
+  }
+
+  async change3(chapter_id, bool) {
+    await this.current._setChapterFirstPageCover(chapter_id, bool)
+    this.getMultipleData(chapter_id).then(x => {
+      const index = this.chapter_double_pages.findIndex(c => c.chapter_id == x.chapter_id)
+      this.chapter_double_pages[index].data = x.data;
+      this.chapter_double_pages[index].is_first_page_cover = bool;
+    })
 
   }
   complete = () => {
-    const node = document.querySelector("#double_page_thumbnail button[select=true]");
 
-    if (node) {
-      node.scrollIntoView({ behavior: 'instant', block: "center", inline: "center" });
 
-      (node as any).focus();
-      setTimeout(() => {
-        document.querySelector("#double_page_thumbnail")!.classList.remove("opacity-0");
-      }, 150)
-    } else {
-      setTimeout(() => {
-        this.complete()
-      }, 5)
-    }
+
   }
 
   on(data: any) {
+    console.log(data);
+
     if (data.images.length == 1) {
       const index = data.images[0].index;
       this.current._chapterPageChange(this.chapter_id, index - 1);
@@ -290,12 +356,25 @@ export class DoublePageThumbnailComponent {
       }
     }
   }
+  on4(chapter_id, data) {
+    if (data.images.length == 1) {
+      const index = data.images[0].index;
+      this.current._chapterPageChange(chapter_id, index - 1);
+    } else {
+      if (false) {
+        const index = data.images[0].index;
+        this.current._chapterPageChange(chapter_id, index - 1);
+      } else {
+        const index = data.images[0].index;
+        this.current._chapterPageChange(chapter_id, index - 2);
+      }
+    }
 
+  }
 
-  on2($event,e) {
-    console.log(123);
+  on2($event, e) {
     $event.stopPropagation()
-    this.init({ chapter_id: e.id });
+    this.getData(e.id);
 
   }
 
@@ -308,8 +387,14 @@ export class DoublePageThumbnailComponent {
   }
 
 
-
-
+  async previous(chapter_id) {
+    const id = await this.current._getPreviousChapterId(chapter_id);
+    if (id) this.getData(id);
+  }
+  async next(chapter_id) {
+    const id = await this.current._getNextChapterId(chapter_id);
+    if (id) this.getData(id);
+  }
 
 
 

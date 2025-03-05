@@ -7,7 +7,7 @@ declare const saveAs: any;
   providedIn: 'root'
 })
 export class ZipService {
-
+ // pdf ppt epub mp4
 
   constructor(public image:ImageService) { }
   async createZip(

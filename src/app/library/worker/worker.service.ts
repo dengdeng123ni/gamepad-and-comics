@@ -155,7 +155,7 @@ export class WorkerService {
               let blobs=[];
               for (let index = 0; index < arr.length; index++) {
                 const x = arr[index];
-                const res=await caches.match(`http://localhost:7700/download/${x.md5}`)
+                const res=await this.webCh.match('image',`http://localhost:7700/download/${x.md5}`)
                 const blob=await res.blob()
                 blobs.push(blob)
               }
