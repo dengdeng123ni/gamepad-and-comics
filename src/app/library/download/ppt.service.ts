@@ -204,7 +204,6 @@ export class PptService {
     if (page == "double" && pageOrder) bolb = await pageDouble(list, isFirstPageCover)
     else if (page == "double" && !pageOrder) bolb = await pageDouble_reverse(list, isFirstPageCover)
     else bolb = await pageOne(list)
-  console.log(bolb);
 
     return new Blob([bolb], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' })
   }

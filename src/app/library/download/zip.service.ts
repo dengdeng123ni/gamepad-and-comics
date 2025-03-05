@@ -19,12 +19,6 @@ export class ZipService {
       page = "double",
       pageOrder = false
     }) {
-    console.log(list, {
-      isFirstPageCover,
-      page,
-      pageOrder
-    });
-
     if (page == "one") {
       let images = [];
       for (let j = 0; j < list.length; j++) {
