@@ -1,21 +1,33 @@
 
 
 
-<mat-drawer-container autosize style="height: 100vh;background: transparent;" *ngIf="is_init_free"  (click)="close2()" >
+<mat-drawer-container autosize style="height: 100vh;background: transparent;"     >
   <mat-drawer [opened]="opened" mode="side" style="min-width: 224px;" id="scroll" >
     <div class="menu">
-      <div class="title" >
+      <div class="title" style="justify-content: space-between;">
         {{'全部章节'|translate}}({{data.chapters.length}})
+        <mat-slide-toggle [(ngModel)]="is_multiple"></mat-slide-toggle>
       </div>
       <div class="list">
         <button [matTooltipShowDelay]="3000" [matTooltip]="n.title" [id]="'_'+n.id" (click)="on2($event,n)" class="item"
           [attr.select]="false" [attr.region]="'double_page_thumbnail_item'"
           *ngFor="let n of data.chapters;let index=index" mat-button>
-          <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==chapter_id" >
+          <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==chapter_id" style="position: relative;">
             <span> {{n.title}}</span>
             <mat-icon class="icon" *ngIf="data.is_locked&&n.is_locked">lock</mat-icon>
             <mat-icon class="icon" *ngIf="data.is_locked&&!n.is_locked">lock_open</mat-icon>
+            <mat-checkbox
+            style="position: absolute;
+            right: 0px;
+            top: -2px;"
+            *ngIf="is_multiple"
+            class="checkbox"
+            [color]="'primary'"
+            [(ngModel)]="n.selected"
+            (change)="change2()"
+          ></mat-checkbox>
           </div>
+
         </button>
       </div>
     </div>
@@ -64,80 +76,238 @@
       </div>
     </div>
 
-<div style="width: 100%;height: 100%;overflow: auto;"  [attr.is_head_show]="is_head_show" *ngIf="is_loading_free">
-  <div class="head" *ngIf="is_head_show" style=" margin: 0 24px;
-  padding: 0px;
-  font-size: 16px;
-  color: rgba(255, 255, 255, .34);
-  flex-direction: row-reverse;
-  border-radius: 4px;
-  margin-top: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;">
-        <div  >
-          {{ data.chapters[chapter_index]?.title }}
-        </div>
-        <div class="toolbar">
-          <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'double_page_thumbnail_item'" (change)="change(chapter_id)" [(ngModel)]="is_first_page_cover" style="padding-right: 12px;">{{'第一页是否封面'|translate}}</mat-checkbox>
-        </div>
-      </div>
-  <div class="warp opacity-0" id="double_page_thumbnail" (click)="close()" >
-    <div class="list"    [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
-      <button
-        mat-button
-        *ngFor="let n of double_pages; let index = index"
-        class="item"
-        [attr.region]="'double_page_thumbnail_item'"
-        [attr.select]="n.select"
-        (click)="on(n)"
-        [attr.content_menu_key]="'double_page_thumbnail_item'"
-        [attr.content_menu_value]="index"
-      >
-        <div *ngIf="n.images.length == 2" class="double">
-          <div class="img">
-            <app-image
-              [src]="n.images[0].img"
-              [width]="n.images[0].width"
-              loading="lazy"
-              [height]="n.images[0].height"
-              *ngIf="n.images[0]"
-            />
-            <div class="index">{{ n.images[0].index }}</div>
+<div style="    width: 100%;
+height: 100%;
+overflow: hidden;"  [attr.is_head_show]="is_head_show"  *ngIf="!is_multiple" >
+  <div style="    width: 100%;
+  height: 100%;
+  overflow: hidden;">
+    <div class="head"  style=" margin: 0 24px;
+    padding: 0px;
+    font-size: 16px;
+    flex-direction: row-reverse;
+    border-radius: 4px;
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;">
+          <div  style="color: rgba(255, 255, 255, .34);" >
+
+            {{ chapter_title }}
           </div>
-          <div class="img">
-            <app-image
-              [src]="n.images[1].img"
-              [width]="n.images[1].width"
-              loading="lazy"
-              [height]="n.images[1].height"
-              *ngIf="n.images[1]"
-            />
-            <div class="index">{{ n.images[1].index }}</div>
+
+          <div class="toolbar" style="display: flex;">
+            <div style="display: flex;">
+
+              <button  *ngIf="!is_multiple" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon" (click)="previous(chapter_id)" >
+                <mat-icon>chevron_left</mat-icon>
+              </button>
+              <button cdkFocusInitial *ngIf="!is_multiple"  matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+                (click)="next(chapter_id)"  nginit>
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+            </div>
+            <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'double_page_thumbnail_item'" (change)="change(chapter_id)" [(ngModel)]="is_first_page_cover" style="padding-right: 12px;">{{'第一页是否封面'|translate}}</mat-checkbox>
+            <button mat-button [attr.region]="'replace_channel_page_item'" [disabled]="true"  style="    display: flex
+            ;
+                flex-direction: row-reverse;
+                height: 40px;
+                align-items: center;
+                justify-content: center;">
+              {{'日漫' | translate}}
+              <!-- 日漫 默认 单页 -->
+              <mat-icon style="margin: 0;">expand_more</mat-icon>
+            </button>
+            <button mat-button [attr.region]="'replace_channel_page_item'" [disabled]="true"  style="  display: flex
+            ;
+                flex-direction: row-reverse;
+                height: 40px;
+                align-items: center;
+                justify-content: center;">
+              {{'从右往左' | translate}}
+              <!--  -->
+              <mat-icon style="margin: 0;">expand_more</mat-icon>
+            </button>
+
           </div>
         </div>
-        <div
-          *ngIf="n.images.length == 1"
-          class="single"
-          [attr.page]="n.images[0].width < n.images[0].height ? 'p' : 'l'"
-          [attr.first]="index == 0"
+    <div class="warp" id="double_page_thumbnail" style="    width: 100%;
+        width: 100%;
+        height: calc(100% - 64px);
+    overflow: auto;" (click)="close()" >
+      <div class="list" style="    height: auto;
+      overflow: auto;
+      max-height: 100%;"  [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
+        <button
+          mat-button
+          *ngFor="let n of double_pages; let index = index"
+          class="item"
+          [attr.region]="'double_page_thumbnail_item'"
+          [attr.select]="n.select"
+          #itemRef
+          (click)="on(n)"
+          [attr.content_menu_key]="'double_page_thumbnail_item'"
+          [attr.content_menu_value]="index"
         >
-          <div class="img">
-            <app-image
-              [src]="n.images[0].img"
-              [width]="n.images[0].width"
-              loading="lazy"
-              [height]="n.images[0].height"
-              *ngIf="n.images[0]"
-            />
-            <div class="index">{{ n.images[0].index }}</div>
+          <div *ngIf="n.images.length == 2" class="double">
+            <div class="img">
+              <app-image
+                [src]="n.images[0].img"
+                [width]="n.images[0].width"
+                loading="lazy"
+                [height]="n.images[0].height"
+                *ngIf="n.images[0]"
+              />
+              <div class="index">{{ n.images[0].index }}</div>
+            </div>
+            <div class="img">
+              <app-image
+                [src]="n.images[1].img"
+                [width]="n.images[1].width"
+                loading="lazy"
+                [height]="n.images[1].height"
+                *ngIf="n.images[1]"
+              />
+              <div class="index">{{ n.images[1].index }}</div>
+            </div>
           </div>
-        </div>
-      </button>
+          <div
+            *ngIf="n.images.length == 1"
+            class="single"
+            [attr.page]="n.images[0].width < n.images[0].height ? 'p' : 'l'"
+            [attr.first]="index == 0"
+          >
+            <div class="img">
+              <app-image
+                [src]="n.images[0].img"
+                [width]="n.images[0].width"
+                loading="lazy"
+                [height]="n.images[0].height"
+                *ngIf="n.images[0]"
+              />
+              <div class="index">{{ n.images[0].index }}</div>
+            </div>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
+
 </div>
+
+
+<div style="    width: 100%;
+height: 100%;
+overflow: auto;"  [attr.is_head_show]="is_head_show"  *ngIf="is_multiple" >
+  <div style="    width: 100%;
+  overflow: hidden;" *ngFor="let c of chapter_double_pages;let index=index" >
+    <div class="head"  style=" margin: 0 24px;
+    padding: 0px;
+    font-size: 16px;
+    flex-direction: row-reverse;
+    border-radius: 4px;
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;">
+          <div  style="color: rgba(255, 255, 255, .34);" >
+
+            {{ c.chapter_title }}
+          </div>
+
+          <div class="toolbar" style="display: flex;">
+
+            <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'double_page_thumbnail_item'" (change)="change3(c.chapter_id,c.is_first_page_cover)" [(ngModel)]="c.is_first_page_cover" style="padding-right: 12px;">{{'第一页是否封面'|translate}}</mat-checkbox>
+            <button mat-button [attr.region]="'replace_channel_page_item'" [disabled]="true"  style="    display: flex
+            ;
+                flex-direction: row-reverse;
+                height: 40px;
+                align-items: center;
+                justify-content: center;">
+              {{'日漫' | translate}}
+              <!-- 日漫 默认 单页 -->
+              <mat-icon style="margin: 0;">expand_more</mat-icon>
+            </button>
+            <button mat-button [attr.region]="'replace_channel_page_item'" [disabled]="true"  style="  display: flex
+            ;
+                flex-direction: row-reverse;
+                height: 40px;
+                align-items: center;
+                justify-content: center;">
+              {{'从右往左' | translate}}
+              <!--  -->
+              <mat-icon style="margin: 0;">expand_more</mat-icon>
+            </button>
+
+          </div>
+        </div>
+    <div class="warp" id="double_page_thumbnail" *ngIf="c.data" style="    width: 100%;
+        width: 100%;
+        height: calc(100% - 64px);
+    overflow: auto;" (click)="close()" >
+      <div class="list" style="    height: auto;
+      overflow: auto;
+      max-height: 100%;"  [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
+        <button
+          mat-button
+          *ngFor="let n of c.data;let index = index"
+          class="item"
+          [attr.region]="'double_page_thumbnail_item'"
+          [attr.select]="n.select"
+          (click)="on4(c.chapter_id,n)"
+          [attr.content_menu_key]="'double_page_thumbnail_item'"
+          [attr.content_menu_value]="index"
+        >
+          <div *ngIf="n.images.length == 2" class="double">
+            <div class="img">
+              <app-image
+                [src]="n.images[0].img"
+                [width]="n.images[0].width"
+                loading="lazy"
+                [height]="n.images[0].height"
+                *ngIf="n.images[0]"
+              />
+              <div class="index">{{ n.images[0].index }}</div>
+            </div>
+            <div class="img">
+              <app-image
+                [src]="n.images[1].img"
+                [width]="n.images[1].width"
+                loading="lazy"
+                [height]="n.images[1].height"
+                *ngIf="n.images[1]"
+              />
+              <div class="index">{{ n.images[1].index }}</div>
+            </div>
+          </div>
+          <div
+            *ngIf="n.images.length == 1"
+            class="single"
+            [attr.page]="n.images[0].width < n.images[0].height ? 'p' : 'l'"
+            [attr.first]="index == 0"
+          >
+            <div class="img">
+              <app-image
+                [src]="n.images[0].img"
+                [width]="n.images[0].width"
+                loading="lazy"
+                [height]="n.images[0].height"
+                *ngIf="n.images[0]"
+              />
+              <div class="index">{{ n.images[0].index }}</div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!--
 <div class="loading" *ngIf="!is_loading_free"  (click)="close()" style="position:absolute;
 width: 100%;
 height: 100%;
@@ -145,7 +315,7 @@ justify-content: center;
 top: 80vh;
 display: flex;"  >
   <mat-progress-bar mode="indeterminate" value="30" style="width: 33vw;"></mat-progress-bar>
-</div>
+</div> -->
 
   </div>
 </mat-drawer-container>
