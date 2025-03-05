@@ -3,7 +3,7 @@
     <div class="menu">
       <div class="title" style="justify-content: space-between;">
         {{'全部章节'|translate}}({{data.chapters.length}})
-        <mat-slide-toggle [(ngModel)]="is_multiple"></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="is_multiple" [attr.region]="'double_page_thumbnail_item'"  [attr.type]="'slide'" ></mat-slide-toggle>
       </div>
       <div class="list">
         <button [matTooltipShowDelay]="3000" [matTooltip]="n.title" [id]="'_'+n.id" (click)="on2($event,n)" class="item"
@@ -92,11 +92,11 @@ overflow: hidden;" [attr.is_head_show]="is_head_show" *ngIf="!is_multiple">
           <div class="toolbar" style="display: flex;">
             <div style="display: flex;">
 
-              <button *ngIf="!is_multiple" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
+              <button *ngIf="!is_multiple" [attr.region]="'double_page_thumbnail_item'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
                 (click)="previous(chapter_id)">
                 <mat-icon>chevron_left</mat-icon>
               </button>
-              <button cdkFocusInitial *ngIf="!is_multiple" matTooltipPosition="right" tabIndex="-1" mat-icon-button
+              <button cdkFocusInitial *ngIf="!is_multiple" [attr.region]="'double_page_thumbnail_item'" matTooltipPosition="right" tabIndex="-1" mat-icon-button
                 class="icon" (click)="next(chapter_id)" nginit>
                 <mat-icon>chevron_right</mat-icon>
               </button>
