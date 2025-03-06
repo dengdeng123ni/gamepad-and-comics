@@ -374,7 +374,13 @@ export class DoublePageThumbnailComponent {
 
   on2($event, e) {
     $event.stopPropagation()
-    this.getData(e.id);
+    if(!this.is_multiple){
+      this.getData(e.id);
+    }else{
+      // e.selected = !e.selected;
+      // this.change2();
+    }
+
 
   }
 

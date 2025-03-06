@@ -14,6 +14,8 @@ interface DialogData {
 export class DoublePageThumbnailService {
 
   opened = false;
+
+  menu_opened=true;
   constructor(
     public _dialog: MatDialog,
     public GamepadEvent:GamepadEventService

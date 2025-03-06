@@ -10,7 +10,7 @@
           [attr.select]="false" [attr.region]="'double_page_thumbnail_item'"
           *ngFor="let n of data.chapters;let index=index" mat-button>
           <div class="name" [attr.read]="!!n.read" [attr.current]="n.id==chapter_id" style="position: relative;">
-            <div *ngIf="n.id==chapter_id" style="height: 20px;
+            <div *ngIf="n.id==chapter_id&&!is_multiple" style="height: 20px;
             width: 2px;
             background: rgba(255, 255, 255, 0.34);"></div>
             <span> {{n.title}}</span>
