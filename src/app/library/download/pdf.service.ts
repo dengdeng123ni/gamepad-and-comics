@@ -174,6 +174,42 @@ export class PdfService {
     else bolb = await pageOne(list)
     return bolb
   }
+  async createPdfMany(list){
+    const createImage = async (imageUrl) => {
+      if (!imageUrl) return { width: 0, height: 0 }
+      let obj = await createImageBitmap(await this.image.getImageBlob(imageUrl))
+      // const res = await caches.match(imageUrl)
+      // const str = await res.arrayBuffer();
+      const str=await this.image.getImageBase64(imageUrl)
+
+      return {
+        width: obj.width,
+        height: obj.height,
+        src: str
+      }
+    }
+    const pageOne = async (list) => {
+      const doc = new jsPDF();
+      doc.deletePage(1);
+
+      for (let i = 0; i < list.length; i += 4) {
+        const batch = list.slice(i, i + 4);
+        const promises = await Promise.all(batch.map(x => createImage(x)));
+        for (let index = 0; index < promises.length; index++) {
+          const img: any = promises[index];
+          if (img.height < img.width) {
+            doc.addPage([img.width, img.height], "l")
+          } else {
+            doc.addPage([img.width, img.height], "p")
+          }
+          doc.addImage(img.src, 'WEBP', 0, 0, img.width, img.height)
+        }
+
+      }
+      return doc.output('blob');
+    }
+    return pageOne(list)
+  }
 
   // OPFS 文件存储
 

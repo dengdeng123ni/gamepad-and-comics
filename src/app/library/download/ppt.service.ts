@@ -250,4 +250,20 @@ export class PptService {
     if (!imageUrl) return { width: 0, height: 0 }
     return await createImageBitmap(await this.image.getImageBlob(imageUrl))
   }
+
+  createPptMany(list){
+    const pageOne = async (list) => {
+      let ppt = new PptxGenJS();
+      for (let i = 0; i < list.length; i++) {
+        const img: any = await this.getImageBase64([list[i]]);
+        let slide = ppt.addSlide();
+        slide.background = { color: "282828" };
+        const w = (img.width / (img.height * (16 / 9))) * 100;
+        const ml = (100 - w) / 2;
+        slide.addImage({ data: img.dataURL, h: "100%", w: `${w}%`, x: `${ml}%` })
+      }
+      return ppt.write()
+    }
+    return pageOne(list)
+  }
 }

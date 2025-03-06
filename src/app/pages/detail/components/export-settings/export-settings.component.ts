@@ -25,41 +25,43 @@ export class ExportSettingsComponent {
   isFirstPageCover = true;
   isFirstPageCoverEPUB = true;
   pageOrder = false;
+
+  is_merge = false;
   page = "double"; //  double one
   type = "PDF";
   direction = 'down'
 
-  mp4_option={
-    WIDTH:1920,
-    HEIGHT:1080,
-    image_duration:30,
-    image_count:1,
-    backdropClass:"#000000",
-    is_insert_blank_page:true
+  mp4_option = {
+    WIDTH: 1920,
+    HEIGHT: 1080,
+    image_duration: 30,
+    image_count: 1,
+    backdropClass: "#000000",
+    is_insert_blank_page: true
   }
   change(e: string) {
     this.page = e;
-    if(this.type=="MP4"){
-       if(this.page=="one"){
-        this.mp4_option={
-          WIDTH:1080,
-          HEIGHT:1920,
-          image_duration:30,
-          image_count:1,
-          backdropClass:"#000000",
-          is_insert_blank_page:true
+    if (this.type == "MP4") {
+      if (this.page == "one") {
+        this.mp4_option = {
+          WIDTH: 1080,
+          HEIGHT: 1920,
+          image_duration: 30,
+          image_count: 1,
+          backdropClass: "#000000",
+          is_insert_blank_page: true
         }
-       }else if(this.page=="double"){
-        this.mp4_option={
-          WIDTH:1920,
-          HEIGHT:1080,
-          image_duration:30,
-          image_count:1,
-          backdropClass:"#000000",
-          is_insert_blank_page:true
+      } else if (this.page == "double") {
+        this.mp4_option = {
+          WIDTH: 1920,
+          HEIGHT: 1080,
+          image_duration: 30,
+          image_count: 1,
+          backdropClass: "#000000",
+          is_insert_blank_page: true
         }
 
-       }
+      }
     }
   }
   onEpub() {
@@ -80,13 +82,25 @@ export class ExportSettingsComponent {
       const x = chapters[index]
       const pages = await this.DbComicsController.getPages(x.id);
       const isFirstPageCover = this.isFirstPageCover;
+      if(this.is_merge){
+        if(this.type=="MP4"){
+
+        }else if(this.type=="PDF"){
+
+        }else if(this.type=="PPT"){
+
+        }
+        return
+      }
       if (this.type == "IMAGES") {
         await this.download.downloadTallImage(`${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), pages.map((x: { src: any; }) => x.src), this.direction)
 
       } else if (this.type == "MP4") {
-        const blob = await this.mp4.createMp4(pages.map((x: { src: any; }) => x.src), {pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page },
-      this.mp4_option
-      )
+        const blob = await this.mp4.createMp4(
+          pages.map((x: { src: any; }) => x.src),
+          { pageOrder: this.pageOrder, isFirstPageCover: isFirstPageCover, page: this.page },
+          this.mp4_option
+        )
 
         this.download.saveAs(blob, `${this.data.details.title}_${x.title}.mp4`)
 
