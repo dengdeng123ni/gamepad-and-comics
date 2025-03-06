@@ -70,6 +70,7 @@ export class DownloadService {
     if (type == "EPUB") return await this.epub({ name, images, pageOrder, isFirstPageCover, page })
     if (type == "JPG") return await this.jpg({ name, images, pageOrder, isFirstPageCover, page })
   }
+
   async download({ type, name, images = [''], pageOrder = false, isFirstPageCover = false, page }) {
 
     if (type == "PDF") {

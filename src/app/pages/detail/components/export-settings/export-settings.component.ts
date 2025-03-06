@@ -26,7 +26,7 @@ export class ExportSettingsComponent {
   isFirstPageCoverEPUB = true;
   pageOrder = false;
 
-  is_merge = false;
+  // is_merge = false;
   page = "double"; //  double one
   type = "PDF";
   direction = 'down'
@@ -82,16 +82,16 @@ export class ExportSettingsComponent {
       const x = chapters[index]
       const pages = await this.DbComicsController.getPages(x.id);
       const isFirstPageCover = this.isFirstPageCover;
-      if(this.is_merge){
-        if(this.type=="MP4"){
+      // if(this.is_merge){
+      //   if(this.type=="MP4"){
 
-        }else if(this.type=="PDF"){
+      //   }else if(this.type=="PDF"){
 
-        }else if(this.type=="PPT"){
+      //   }else if(this.type=="PPT"){
 
-        }
-        return
-      }
+      //   }
+      //   return
+      // }
       if (this.type == "IMAGES") {
         await this.download.downloadTallImage(`${this.data.details.title}_${x.title}`.replace("\"", "").replace(/\s*/g, ''), pages.map((x: { src: any; }) => x.src), this.direction)
 
