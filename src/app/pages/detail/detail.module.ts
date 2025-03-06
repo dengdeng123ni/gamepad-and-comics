@@ -20,6 +20,7 @@ import { ComicsToolbarComponent } from './components/comics-toolbar/comics-toolb
 import { GamepadToolbarComponent } from './components/gamepad-toolbar/gamepad-toolbar.component';
 import { DoublePageThumbnailComponent } from './components/double-page-thumbnail/double-page-thumbnail.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { DownloadOptionsComponent } from './components/download-options/download-options.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { TranslateModule } from '@ngx-translate/core';
     KeyboardToolbarComponent,
     ComicsToolbarComponent,
     GamepadToolbarComponent,
+    DownloadOptionsComponent,
   ],
   imports: [
     CommonModule,

@@ -395,7 +395,11 @@ export class DoublePageThumbnailComponent {
 
   async previous(chapter_id) {
     const id = await this.current._getPreviousChapterId(chapter_id);
-    if (id) this.getData(id);
+    if (id) {
+      this.getData(id);
+
+    }
+
   }
   async next(chapter_id) {
     const id = await this.current._getNextChapterId(chapter_id);
@@ -405,5 +409,17 @@ export class DoublePageThumbnailComponent {
 
 
 
+
+// 'EPUB',
+  types = ['JPG', 'PDF', 'PPT', 'MP4'].map(x => ({ name: x, completed: false }))
+  type="JPG";
+  // MP4
+  list = [];
+  typeChange() {
+
+  }
+  async download() {
+
+  }
 }
 // 插页 删除 合页 分页

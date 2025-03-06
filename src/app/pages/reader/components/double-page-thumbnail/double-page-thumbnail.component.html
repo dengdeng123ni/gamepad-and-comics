@@ -3,7 +3,8 @@
     <div class="menu">
       <div class="title" style="justify-content: space-between;">
         {{'全部章节'|translate}}({{data.chapters.length}})
-        <mat-slide-toggle [(ngModel)]="is_multiple" [attr.region]="'double_page_thumbnail_item'"  [attr.type]="'slide'" ></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="is_multiple" [attr.region]="'double_page_thumbnail_item'"
+          [attr.type]="'slide'"></mat-slide-toggle>
       </div>
       <div class="list">
         <button [matTooltipShowDelay]="3000" [matTooltip]="n.title" [id]="'_'+n.id" (click)="on2($event,n)" class="item"
@@ -27,18 +28,10 @@
     </div>
   </mat-drawer>
   <!-- [svg_filter]="background_primary" -->
-  <div class="content" style="position: relative;">
+  <div class="content">
     <div class="switch_left_position">
-      <div style="
-          min-width: 32px;
-          height: 72px;
-          max-width: 32px;
-          background: transparent;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          cursor: pointer;
-        " (click)="doublePageThumbnail.menu_opened=!doublePageThumbnail.menu_opened" [attr.opened]="doublePageThumbnail.menu_opened" [matTooltipShowDelay]="300" [matTooltip]="'切换侧边栏'"
+      <div (click)="doublePageThumbnail.menu_opened=!doublePageThumbnail.menu_opened"
+        [attr.opened]="doublePageThumbnail.menu_opened" [matTooltipShowDelay]="300" [matTooltip]="'切换侧边栏'"
         [matTooltipPosition]="'right'">
         <div class="switch_left">
           <div class="left"></div>
@@ -71,36 +64,23 @@
       </div>
     </div>
 
-    <div style="    width: 100%;
-height: 100%;
-overflow: hidden;" [attr.is_head_show]="is_head_show" *ngIf="!is_multiple">
-      <div style="    width: 100%;
-  height: 100%;
-  overflow: hidden;">
-        <div class="head" style=" margin: 0 24px;
-    padding: 0px;
-    font-size: 16px;
-    flex-direction: row-reverse;
-    border-radius: 4px;
-    margin-top: 12px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;">
+    <div style="width: 100%;height: 100%;overflow: hidden;" *ngIf="!is_multiple">
+      <div style="width: 100%; height: 100%; overflow: hidden;">
+        <div class="head">
           <div style="color: rgba(255, 255, 255, .34);">
-
             {{ chapter_title }}
           </div>
 
           <div class="toolbar" style="display: flex;">
             <div style="display: flex;">
 
-              <button *ngIf="!is_multiple" [attr.region]="'double_page_thumbnail_item'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
-                (click)="previous(chapter_id)" [disabled]="chapter_id == data?.chapters[0]?.id">
+              <button [attr.region]="'double_page_thumbnail_item'" matTooltipPosition="right" tabIndex="-1"
+                mat-icon-button class="icon" (click)="previous(chapter_id)"
+                [disabled]="chapter_id == data?.chapters[0]?.id">
                 <mat-icon>chevron_left</mat-icon>
               </button>
-              <button cdkFocusInitial *ngIf="!is_multiple" [attr.region]="'double_page_thumbnail_item'" matTooltipPosition="right" tabIndex="-1" mat-icon-button
-                class="icon" (click)="next(chapter_id)" [disabled]="
+              <button cdkFocusInitial [attr.region]="'double_page_thumbnail_item'" matTooltipPosition="right"
+                tabIndex="-1" mat-icon-button class="icon" (click)="next(chapter_id)" [disabled]="
                 chapter_id ==
                 data.chapters[data.chapters.length - 1]?.id
               " nginit>
@@ -110,15 +90,6 @@ overflow: hidden;" [attr.is_head_show]="is_head_show" *ngIf="!is_multiple">
             <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'double_page_thumbnail_item'"
               (change)="change(chapter_id)" [(ngModel)]="is_first_page_cover"
               style="padding-right: 12px;">{{'第一页是否封面'|translate}}</mat-checkbox>
-            <!-- <button mat-button [attr.region]="'replace_channel_page_item'" [disabled]="true"  style="    display: flex
-            ;
-                flex-direction: row-reverse;
-                height: 40px;
-                align-items: center;
-                justify-content: center;">
-            {{(data.comics_config.is_page_order?'日漫':'普通') | translate}}
-              <mat-icon style="margin: 0;">expand_more</mat-icon>
-            </button> -->
             <button mat-button [attr.region]="'replace_channel_page_item'" [disabled]="true" style="  display: flex
             ;
                 flex-direction: row-reverse;
@@ -130,21 +101,12 @@ overflow: hidden;" [attr.is_head_show]="is_head_show" *ngIf="!is_multiple">
               <!--  -->
               <mat-icon style="margin: 0;">expand_more</mat-icon>
             </button>
-            <!-- <div style="display: flex;">
-              <button matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
-                (click)="previous(chapter_id)">
-                <mat-icon>download</mat-icon>
-              </button>
-            </div> -->
           </div>
         </div>
-        <div class="warp" id="double_page_thumbnail" style="    width: 100%;
-        width: 100%;
-        height: calc(100% - 64px);
-    overflow: auto;" (click)="close()">
-          <div class="list" style="    height: auto;
-      overflow: auto;
-      max-height: 100%;" [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
+        <div class="warp" id="double_page_thumbnail"
+          style="width: 100%; width: 100%; height: calc(100% - 64px);  overflow: auto;" (click)="close()">
+          <div class="list" style="    height: auto;  overflow: auto; max-height: 100%;"
+            [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
             <button mat-button *ngFor="let n of double_pages; let index = index" class="item"
               [attr.region]="'double_page_thumbnail_item'" [attr.select]="n.select" [attr.chapter_id]="n.chapter_id"
               #itemRef (click)="on(n)" [attr.index]="index" [attr.content_menu_key]="'double_page_thumbnail_item'"
@@ -177,33 +139,17 @@ overflow: hidden;" [attr.is_head_show]="is_head_show" *ngIf="!is_multiple">
     </div>
 
 
-    <div style="    width: 100%;
-height: 100%;
-overflow: auto;" [attr.is_head_show]="is_head_show" *ngIf="is_multiple">
-      <div style="    width: 100%;
-  overflow: hidden;" *ngFor="let c of chapter_double_pages;let index=index">
-        <div class="head" style=" margin: 0 24px;
-    padding: 0px;
-    font-size: 16px;
-    flex-direction: row-reverse;
-    border-radius: 4px;
-    margin-top: 12px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;">
+    <div style=" width: 100%;height: 100%;overflow: auto;" [attr.is_head_show]="is_head_show" *ngIf="is_multiple">
+      <div style=" width: 100%;overflow: hidden;" *ngFor="let c of chapter_double_pages;let index=index">
+        <div class="head">
           <div style="color: rgba(255, 255, 255, .34);">
-
             {{ c.chapter_title }}
           </div>
-
           <div class="toolbar" style="display: flex;">
-
             <mat-checkbox [attr.type]="'checkbox'" [attr.region]="'double_page_thumbnail_item'"
               (change)="change3(c.chapter_id,c.is_first_page_cover)" [(ngModel)]="c.is_first_page_cover"
               style="padding-right: 12px;">{{'第一页是否封面'|translate}}</mat-checkbox>
-            <button mat-button [attr.region]="'replace_channel_page_item'" [disabled]="true" style="    display: flex
-            ;
+            <button mat-button [attr.region]="'replace_channel_page_item'" [disabled]="true" style="display: flex;
                 flex-direction: row-reverse;
                 height: 40px;
                 align-items: center;
@@ -214,13 +160,10 @@ overflow: auto;" [attr.is_head_show]="is_head_show" *ngIf="is_multiple">
             </button>
           </div>
         </div>
-        <div class="warp" id="double_page_thumbnail" *ngIf="c.data" style="    width: 100%;
-        width: 100%;
-        height: calc(100% - 64px);
-    overflow: auto;" (click)="close()">
-          <div class="list" style="    height: auto;
-      overflow: auto;
-      max-height: 100%;" [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
+        <div class="warp" id="double_page_thumbnail" *ngIf="c.data"
+          style=" width: 100%; height: calc(100% - 64px);  overflow: auto;" (click)="close()">
+          <div class="list" style="    height: auto; overflow: auto; max-height: 100%;"
+            [attr.page_order]="data.comics_config.is_page_order" [attr.type]="'list'">
             <button mat-button *ngFor="let n of c.data;let index = index" class="item" [attr.chapter_id]="n.chapter_id"
               [attr.index]="index" [attr.region]="'double_page_thumbnail_item'" [attr.select]="n.select"
               (click)="on4(c.chapter_id,n)" [attr.content_menu_key]="'double_page_thumbnail_item'"
@@ -253,15 +196,35 @@ overflow: auto;" [attr.is_head_show]="is_head_show" *ngIf="is_multiple">
     </div>
 
 
-    <!--
-<div class="loading" *ngIf="!is_loading_free"  (click)="close()" style="position:absolute;
-width: 100%;
-height: 100%;
-justify-content: center;
-top: 80vh;
-display: flex;"  >
-  <mat-progress-bar mode="indeterminate" value="30" style="width: 33vw;"></mat-progress-bar>
-</div> -->
-
   </div>
+
+  <mat-drawer [opened]="doublePageThumbnail.menu_opened" *ngIf="false" [position]="'end'" mode="side" style="min-width: 224px;" id="scroll">
+    <div class="download_option" style="margin: 8px;margin-left: 0px; background: #303030;    border-radius: 4px;">
+      <div class="left">
+        <div class="title">{{'下载' | translate}}</div>
+        <mat-divider style="margin: 4px 12px;"></mat-divider>
+        <div class="list" style="overflow: hidden;">
+          <div class="item">
+            <div class="name">{{'类型' | translate}}</div>
+            <mat-radio-group [(ngModel)]="type">
+              <mat-radio-button [attr.type]="'radio'" *ngFor="let n of types;let index=index" [attr.region]="'item'" class="radio_button" value="one"
+                style="display: flex;">{{n.name}} <span
+                  style=" color: rgba(232, 230, 227, 0.56)"></span></mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <mat-divider style="margin: 4px 12px;"></mat-divider>
+        <div class="confirm">
+          <button mat-button  [attr.region]="'item'" (click)="download()">
+            <div style="display: flex ; justify-content: center; align-items: center; height: 100%;">
+              <mat-icon style="width: 18px; height: 18px; font-size: 18px; margin-right: 4px;">download</mat-icon>
+            {{'下载' | translate}}
+            </div></button>
+        </div>
+      </div>
+
+    </div>
+
+  </mat-drawer>
+
 </mat-drawer-container>
