@@ -70,7 +70,7 @@ declare global {
 // 阅读器配置
 // 单页缩略图 12345566 替换图片
 //
-
+// 下载重写
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

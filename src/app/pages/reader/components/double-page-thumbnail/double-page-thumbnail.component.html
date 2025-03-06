@@ -93,11 +93,14 @@ overflow: hidden;" [attr.is_head_show]="is_head_show" *ngIf="!is_multiple">
             <div style="display: flex;">
 
               <button *ngIf="!is_multiple" [attr.region]="'double_page_thumbnail_item'" matTooltipPosition="right" tabIndex="-1" mat-icon-button class="icon"
-                (click)="previous(chapter_id)">
+                (click)="previous(chapter_id)" [disabled]="chapter_id == data?.chapters[0]?.id">
                 <mat-icon>chevron_left</mat-icon>
               </button>
               <button cdkFocusInitial *ngIf="!is_multiple" [attr.region]="'double_page_thumbnail_item'" matTooltipPosition="right" tabIndex="-1" mat-icon-button
-                class="icon" (click)="next(chapter_id)" nginit>
+                class="icon" (click)="next(chapter_id)" [disabled]="
+                chapter_id ==
+                data.chapters[data.chapters.length - 1]?.id
+              " nginit>
                 <mat-icon>chevron_right</mat-icon>
               </button>
             </div>

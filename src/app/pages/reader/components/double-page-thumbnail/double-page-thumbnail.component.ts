@@ -377,8 +377,8 @@ export class DoublePageThumbnailComponent {
     if(!this.is_multiple){
       this.getData(e.id);
     }else{
-      e.selected = !e.selected;
-      this.change2();
+      // e.selected = !e.selected;
+      // this.change2();
     }
 
 
