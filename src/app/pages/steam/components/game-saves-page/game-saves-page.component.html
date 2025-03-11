@@ -1,12 +1,28 @@
 <div class="game-saves-page">
   <div class="title">开始阅读</div>
+  <!-- <mat-divider style="margin: 0 12px;"></mat-divider> -->
   <div class="list">
     <button mat-button *ngFor="let n of arr" class="item">
-      <div class="name">
-        7783
+      <div *ngIf="n==1" style="width: 100%;height: 100%;display: flex;justify-content: space-between;flex-direction: column;">
+        <div class="name" style="    text-align: left;margin: 12px;font-size: 14px;
+      color: rgba(255, 255, 255, 0.87);">
+          7783
+        </div>
+        <div class="size" style="font-size: 12px;
+      color: rgba(255, 255, 255, 0.34);
+      text-align: right;
+      margin: 12px;">
+          占用空间大小 1.2GB
+        </div>
       </div>
-      <div class="size">
-        1.2GB
+      <div *ngIf="n!=1" style="width: 100%;height: 100%;display: flex;justify-content: space-between;flex-direction: column;">
+
+        <div class="size" style="font-size: 12px;
+      color: rgba(255, 255, 255, 0.34);
+      text-align: right;
+      margin: 12px;">
+          (创建存档+)
+        </div>
       </div>
     </button>
   </div>

@@ -18,6 +18,6 @@ const ELEMENT_DATA = [
   styleUrl: './module-page.component.scss'
 })
 export class ModulePageComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = [ 'name', 'tag', 'count','score'];
   dataSource = ELEMENT_DATA;
 }

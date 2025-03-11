@@ -1,70 +1,118 @@
-<div>
+<div style="position: relative;">
 
-  <div>
+  <div style="position: relative;">
+
+    <div style="display: flex;margin: 16px;margin-bottom: 8px;">
+      <button mat-button>管理本地模组</button>
+      <button mat-button>上传模组</button>
+    </div>
+
+    <div class="title" style="
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    font-size: 18px;
+  height: 18px;
+  line-height: 18px;
+  padding: 16px;
+  padding-bottom: 8px;
+  color: rgba(255, 255, 255, 0.34);
+  display: flex;
+  justify-content: center;">
+      模组
+    </div>
 
   </div>
-  <div>
-    <div>
-      <mat-checkbox class="example-margin">Check me!</mat-checkbox>
-      <input type="text">
-      <mat-form-field class="select" style="   width: 100%;" [attr.region]="'advanced_search_item'"
-        [attr.type]="'select'">
-        排序
-        <mat-select>
-          <mat-option>213</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <div style="display: flex;">
+
+    <div style="width: 280px;">
+
+      <div style="height: 40px;">
+        <button mat-button style="    margin-left: 12px;" [disabled]="true">模组分类</button>
+      </div>
+      <div style="display: flex;flex-direction: column;">
+        <mat-checkbox  style="margin-left: 16px;">全部</mat-checkbox>
+        <mat-checkbox  style="margin-left: 16px;">数据</mat-checkbox>
+        <mat-checkbox  style="margin-left: 16px;">工具</mat-checkbox>
+      </div>
     </div>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <mat-divider [vertical]="true" style="width: 2px;
+      margin-bottom: 20%;"></mat-divider>
 
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
+    <div style="margin: 12px;margin-top: 0;">
+      <div style="display: flex;width: 720px;align-items: center;margin-bottom: 12px;">
+        <mat-checkbox >已订阅模组</mat-checkbox>
+        <div class="query" style="margin-left: 12px;">
+          <span style="margin-right: 6px;">搜索</span> <input type="text">
+        </div>
+        <div class="sort" style="margin-left: 12px;">
+          排序
+        </div>
+      </div>
 
-      <!-- Position Column -->
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-      </ng-container>
+      <table style="box-shadow: none;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> 名称 </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> 名称 </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef> 标签 </th>
-        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-      </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="tag">
+          <th mat-header-cell *matHeaderCellDef> 标签 </th>
+          <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
+        </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="symbol">
-        <th mat-header-cell *matHeaderCellDef> 订阅数 </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-      </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="count">
+          <th mat-header-cell *matHeaderCellDef> 订阅数 </th>
+          <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="symbol1">
-        <th mat-header-cell *matHeaderCellDef> 评分 </th>
-        <td mat-cell *matCellDef="let element"> 12 </td>
-      </ng-container>
+        <ng-container matColumnDef="score">
+          <th mat-header-cell *matHeaderCellDef> 评分 </th>
+          <td mat-cell *matCellDef="let element"> {{element.score}} </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
-  <div>
-    <img src="" alt="">
-    <div class="title">
-
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-divider  ></mat-divider>
+      <div style="margin-top: 12px;">
+        <button mat-button>上一页</button>
+        <button mat-button>下一页</button>
+      </div>
     </div>
-    <div class="defstgew">
+    <mat-divider [vertical]="true" style="width: 2px;
+      margin-top: 20%;"></mat-divider>
+    <div style="display: flex;flex-direction: column;justify-content: space-between; width: 360px;margin: 12px;">
+      <div style="display: flex;flex-direction: column;">
+        <div style="height: 200px;width: 100%;">
+          <img src="" alt="">
+        </div>
+        <div class="title" style="    font-size: 24px;
+        margin-top: 12px;
+        margin-bottom: 12px;
+        line-height: 26px;">
+          E站漫画数据源
+        </div>
 
+        <div class="details" style="    color: rgba(255, 255, 255, 0.56);
+        overflow: auto;
+        max-height: 180px;
+        display: flex
+    ;
+        flex-wrap: wrap;">
+          支持E站漫画数据源
+        </div>
+      </div>
+      <div class="save" style="display: flex;justify-content: center;">
+        <button mat-button color="primary">订阅</button>
+      </div>
     </div>
-    <div class="save">
 
-    </div>
   </div>
 
 </div>
