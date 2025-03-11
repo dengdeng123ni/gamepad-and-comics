@@ -17,6 +17,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { NovelsDetailModule } from './pages/novels-detail/novels-detail.module';
 import { NovelsRdeaderModule } from './pages/novels-reader/novels-reader.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { SteamModule } from './pages/steam/steam.module';
 
 const dbConfig: DBConfig = {
   name: 'db',
@@ -349,7 +350,8 @@ const dbConfig: DBConfig = {
       registrationStrategy: 'registerWhenStable:10777'
     }),
     NovelsDetailModule,
-    NovelsRdeaderModule
+    NovelsRdeaderModule,
+    SteamModule
   ],
   providers: [
   ],
