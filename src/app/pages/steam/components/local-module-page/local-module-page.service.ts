@@ -13,7 +13,6 @@ export class LocalModulePageService {
         public _dialog: MatDialog,
         public GamepadEvent:GamepadEventService
       ) {
-        this.open();
         GamepadEvent.registerAreaEvent('archive_page_item', {
           B: () => setTimeout(() => this.close())
         })

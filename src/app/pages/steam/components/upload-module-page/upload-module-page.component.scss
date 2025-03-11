@@ -1,0 +1,38 @@
+.item{
+  margin: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+:host ::ng-deep {
+
+
+
+  .textarea {
+    .mat-mdc-form-field-infix {
+      width: 364px;
+
+    }
+
+    .mdc-text-field--filled.mdc-text-field--no-label .mdc-text-field__input {
+      height: 96px !important;
+
+    }
+    .mat-mdc-form-field:not(.mat-form-field-no-animations) .mdc-text-field__input{
+      height: 96px !important;
+    }
+
+  }
+
+  [matformfieldlineripple] {
+    display: none;
+  }
+  .mdc-text-field--filled{
+    border-bottom-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+    width: 280px;
+  }
+  .mat-mdc-form-field-subscript-wrapper, .mat-mdc-form-field-bottom-align::before{
+    display: none;
+  }
+}
