@@ -1,6 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import { UploadModulePageService } from '../upload-module-page/upload-module-page.service';
 import { LocalModulePageService } from '../local-module-page/local-module-page.service';
+import { CreateModulePageService } from '../create-module-page/create-module-page.service';
 const ELEMENT_DATA = [
 ];
 
@@ -20,6 +21,7 @@ export class ModulePageComponent {
   constructor(
     public LocalModulePage: LocalModulePageService,
     public UploadModulePage: UploadModulePageService,
+    public CreateModulePage:CreateModulePageService,
      private zone: NgZone,
   ) {
 

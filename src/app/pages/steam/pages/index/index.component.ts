@@ -27,6 +27,16 @@ export class IndexComponent {
     this.inputField.nativeElement.focus();
   }
 
+ // 开发者模式
+ // 是否全屏 是否需要
+ // 加载模组
+ // 启动端口
+ // ----------
+ // 需要开发steam 云
+ // steam 的联网功能
+
+//
+
 
 
 
