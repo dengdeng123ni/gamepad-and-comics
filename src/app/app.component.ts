@@ -85,6 +85,7 @@ export class AppComponent {
   keydown = new Subject()
   @HostListener('window:keydown', ['$event'])
   handleKeyDown = (event: KeyboardEvent) => {
+    return true
     if (document.body.getAttribute('onkeyboard') == 'true') return true
     let key = "";
     if (event.key == "F12") return true

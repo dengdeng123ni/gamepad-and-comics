@@ -8,6 +8,7 @@ import { GameSavesPageComponent } from './components/game-saves-page/game-saves-
 import { ModulePageComponent } from './components/module-page/module-page.component';
 import { UploadModulePageComponent } from './components/upload-module-page/upload-module-page.component';
 import { LocalModulePageComponent } from './components/local-module-page/local-module-page.component';
+import { CreateModulePageComponent } from './components/create-module-page/create-module-page.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { LocalModulePageComponent } from './components/local-module-page/local-m
     ModulePageComponent,
     UploadModulePageComponent,
     LocalModulePageComponent,
+    CreateModulePageComponent,
   ],
   imports: [
     CommonModule,

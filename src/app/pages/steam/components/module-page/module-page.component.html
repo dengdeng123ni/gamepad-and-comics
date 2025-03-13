@@ -3,29 +3,26 @@
   <div style="position: relative;">
 
     <div style="display: flex;margin: 16px;margin-bottom: 8px;">
-      <button mat-button>管理本地模组</button>
-      <button mat-button>上传模组</button>
+      <button mat-button (click)="LocalModulePage.open()">管理本地模组</button>
+      <button mat-button (click)="UploadModulePage.open()">上传模组</button>
     </div>
 
     <div class="title" style="
     position: absolute;
-    top: 10px;
+    top: -10px;
     width: 100%;
     font-size: 18px;
   height: 18px;
   line-height: 18px;
   padding: 16px;
-  padding-bottom: 8px;
-  color: rgba(255, 255, 255, 0.34);
-  display: flex;
-  justify-content: center;">
+  padding-bottom: 8px; color: rgba(255, 255, 255, 0.34); display: flex; justify-content: space-around;">
       模组
     </div>
 
   </div>
   <div style="display: flex;">
 
-    <div style="width: 280px;">
+    <!-- <div style="width: 280px;">
 
       <div style="height: 40px;">
         <button mat-button style="    margin-left: 12px;" [disabled]="true">模组分类</button>
@@ -35,10 +32,10 @@
         <mat-checkbox  style="margin-left: 16px;">数据</mat-checkbox>
         <mat-checkbox  style="margin-left: 16px;">工具</mat-checkbox>
       </div>
-    </div>
+    </div> -->
 
-    <mat-divider [vertical]="true" style="width: 2px;
-      margin-bottom: 20%;"></mat-divider>
+    <!-- <mat-divider [vertical]="true" style="width: 2px;
+      margin-bottom: 20%;"></mat-divider> -->
 
     <div style="margin: 12px;margin-top: 0;">
       <div style="display: flex;width: 720px;align-items: center;margin-bottom: 12px;">
@@ -51,34 +48,39 @@
         </div>
       </div>
 
-      <table style="box-shadow: none;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+   <div style="height: 60vh;overflow: auto;">
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> 名称 </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
+    <table style="box-shadow: none;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="tag">
-          <th mat-header-cell *matHeaderCellDef> 标签 </th>
-          <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
-        </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef [attr.th]="'name'"> 名称 </th>
+        <td mat-cell *matCellDef="let element" [attr.th]="'name'"> {{element.name}} </td>
+      </ng-container>
 
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="count">
-          <th mat-header-cell *matHeaderCellDef> 订阅数 </th>
-          <td mat-cell *matCellDef="let element"> {{element.count}} </td>
-        </ng-container>
+      <!-- Weight Column -->
+      <ng-container matColumnDef="tag">
+        <th mat-header-cell *matHeaderCellDef> 标签 </th>
+        <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="score">
-          <th mat-header-cell *matHeaderCellDef> 评分 </th>
-          <td mat-cell *matCellDef="let element"> {{element.score}} </td>
-        </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="count">
+        <th mat-header-cell *matHeaderCellDef [attr.th]="'count'"> 订阅数 </th>
+        <td mat-cell *matCellDef="let element" [attr.th]="'count'"> {{element.count}} </td>
+      </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+      <!-- <ng-container matColumnDef="score"  >
+        <th mat-header-cell *matHeaderCellDef [attr.th]="'score'"> 评分 </th>
+        <td mat-cell *matCellDef="let element" [attr.th]="'score'"> {{element.score}} </td>
+      </ng-container> -->
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr (click)=" getInfo(row.index)"
+       mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+   </div>
       <mat-divider  ></mat-divider>
       <div style="margin-top: 12px;">
         <button mat-button>上一页</button>
@@ -87,30 +89,51 @@
     </div>
     <mat-divider [vertical]="true" style="width: 2px;
       margin-top: 20%;"></mat-divider>
-    <div style="display: flex;flex-direction: column;justify-content: space-between; width: 360px;margin: 12px;">
-      <div style="display: flex;flex-direction: column;">
-        <div style="height: 200px;width: 100%;">
-          <img src="" alt="">
+    <div style="display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 288px;
+    margin: 8px;
+    position: relative;">
+     <div style="
+     display: flex;
+    flex-direction: column;
+     top: -56px;
+     position: absolute;
+     height: calc(100% + 36px);
+     padding: 8px;
+     border-radius: 4px;
+     background: #303030;
+     width: calc(100% - 18px);">
+      <div *ngIf="info" class="save" style="display: flex;justify-content: start;">
+        <button mat-button color="primary" (click)="unsubscribe()" [disabled]="false" *ngIf="is_subscribe">取消订阅</button>
+        <button mat-button color="primary" (click)="subscribe()" [disabled]="false" *ngIf="!is_subscribe">订阅</button>
+      </div>
+      <mat-divider  *ngIf="info"></mat-divider>
+      <div *ngIf="info" style="display: flex;flex-direction: column;">
+        <div style="    height: 150px;
+        width: 100%;
+        display: flex;
+        justify-content: center;">
+          <img style="    height: 100%;
+          width: 100%;
+          object-position: bottom;
+          object-fit: contain;" [src]="info.previewUrl" alt="">
         </div>
-        <div class="title" style="    font-size: 24px;
-        margin-top: 12px;
-        margin-bottom: 12px;
-        line-height: 26px;">
-          E站漫画数据源
+        <div class="title" style=" font-size: 24px; margin-top: 12px; margin-bottom: 12px; line-height: 26px;">
+          {{info.title}}
         </div>
 
-        <div class="details" style="    color: rgba(255, 255, 255, 0.56);
+        <div class="details"  style=" color: rgba(255, 255, 255, 0.56);
         overflow: auto;
         max-height: 180px;
-        display: flex
-    ;
+        display: flex;
         flex-wrap: wrap;">
-          支持E站漫画数据源
+          {{info.description}}
         </div>
       </div>
-      <div class="save" style="display: flex;justify-content: center;">
-        <button mat-button color="primary">订阅</button>
-      </div>
+
+     </div>
     </div>
 
   </div>

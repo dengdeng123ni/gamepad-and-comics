@@ -66,6 +66,9 @@ export class IndexComponent {
     public SelectTimeRange:SelectTimeRangeService,
     public MenuSearch: MenuSearchService
   ) {
+    setTimeout(()=>{
+      this.router.navigate(['/steam']);
+     },100)
     // this.WebpageOffline.open();
     // this.FavoritesPage.open()
 

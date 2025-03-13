@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GamepadEventService } from 'src/app/library/public-api';
-import { LocalModulePageComponent } from '../local-module-page/local-module-page.component';
+import { UploadModulePageComponent } from './upload-module-page.component';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class UploadModulePageService {
           public _dialog: MatDialog,
           public GamepadEvent:GamepadEventService
         ) {
+          // this.open();
           GamepadEvent.registerAreaEvent('archive_page_item', {
             B: () => setTimeout(() => this.close())
           })
@@ -24,7 +25,7 @@ export class UploadModulePageService {
           if (this.opened == false) {
             this.opened = true;
 
-            const dialogRef = this._dialog.open(LocalModulePageComponent, {
+            const dialogRef = this._dialog.open(UploadModulePageComponent, {
               panelClass: "_archive_page"
             });
             document.body.setAttribute("locked_region", "archive_page")

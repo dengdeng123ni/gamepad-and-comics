@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { GameSavesPageService } from '../../components/game-saves-page/game-saves-page.service';
 import { ModulePageService } from '../../components/module-page/module-page.service';
 import { LocalModulePageService } from '../../components/local-module-page/local-module-page.service';
@@ -9,7 +9,7 @@ import { UploadModulePageService } from '../../components/upload-module-page/upl
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent {
-
+  @ViewChild('inputField') inputField!: ElementRef;
   constructor(
     public GameSavesPage:GameSavesPageService,
     public LocalModulePage:LocalModulePageService,
@@ -21,6 +21,10 @@ export class IndexComponent {
 
 
 
+  }
+
+  ngAfterViewInit() {
+    this.inputField.nativeElement.focus();
   }
 
 

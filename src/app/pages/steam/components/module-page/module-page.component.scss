@@ -1,10 +1,52 @@
 
 
 :host ::ng-deep {
-  .mat-mdc-cell{
-    border: none !important;
+  // .mat-mdc-cell{
+  //   border: none !important;
+  // }
+
+  .demo-table {
+    width: 100%;
   }
+
+  .mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .mat-mdc-row:hover .mat-mdc-cell {
+    // border-color: currentColor;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .demo-row-is-clicked {
+    font-weight: bold;
+  }
+  [th=name]{
+    white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; max-width: 400px;
+
+  }
+}
+.mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding: 0 8px 0 8px;
 }
 
 
+
+[th=name]{
+  white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; max-width: 400px;
+
+}
+
+[th=count]{
+   width: 80px;
+
+}
+[th=score]{
+  width: 80px;
+
+}
 
