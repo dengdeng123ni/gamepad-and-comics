@@ -12,6 +12,7 @@ export class ModulePageService {
     public opened=false;
     constructor(
       public _dialog: MatDialog,
+
       public GamepadEvent:GamepadEventService
     ) {
       // this.open();

@@ -3,6 +3,8 @@ import { GameSavesPageService } from '../../components/game-saves-page/game-save
 import { ModulePageService } from '../../components/module-page/module-page.service';
 import { LocalModulePageService } from '../../components/local-module-page/local-module-page.service';
 import { UploadModulePageService } from '../../components/upload-module-page/upload-module-page.service';
+import { ModuleDetailPageService } from '../../components/module-detail-page/module-detail-page.service';
+import { SteamModuleService } from '../../services/steam-module.service';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -14,6 +16,8 @@ export class IndexComponent {
     public GameSavesPage:GameSavesPageService,
     public LocalModulePage:LocalModulePageService,
     public UploadModulePage:UploadModulePageService,
+    public ModuleDetailPage:ModuleDetailPageService,
+    public SteamModule:SteamModuleService,
     public ModulePage:ModulePageService
   ) {
 

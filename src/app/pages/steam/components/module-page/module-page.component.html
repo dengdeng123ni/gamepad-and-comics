@@ -1,141 +1,215 @@
-<div style="position: relative;overflow:hidden;">
 
-  <div style="position: relative;">
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+  <mat-tab label="模组商店">
+    <div class="warp" style="display: flex;">
+      <app-advanced-search
+        [list]="query_list"
+        [change]="on_135"
 
-    <div style="display: flex;margin: 16px;margin-bottom: 8px;">
-      <button mat-button (click)="LocalModulePage.open()">管理模组</button>
-      <button mat-button (click)="CreateModulePage.open()">制作模组</button>
-    </div>
+      ></app-advanced-search>
+      <div
+        class="grid"
+        #listbox
+        [attr.size]="'middle'"
+        [attr.type]="'list'"
+        [attr.id]="'comics_list'"
+      >
+        <button
+          class="item"
+          mat-button
+          *ngFor="let n of list; let index = index"
+          [attr._id]="n.id"
+          [attr.index]="index"
+          [attr.href]="n.href"
+          [attr.region]="'comics_item'"
+          [matTooltipShowDelay]="333"
+          [matTooltip]="n.title"
+          [attr.content_menu_key]="'comics_item'"
+          [attr.content_menu_value]="n.id"
+          [attr.multiple]="n.selected"
+          (click)="on(n)"
+        >
+          <div class="img">
+            <img
+              class="_image"
+              [width]="720"
+              [height]="960"
+              [src]="n.cover"
+              style="position: absolute"
+            />
+            <div class="mezzanine"></div>
+          </div>
+          <div
+            class="name"
+            [attr.router_reader]="true"
 
-    <div class="title" style="
-    position: absolute;
-    top: -10px;
-    width: 100%;
-    font-size: 18px;
-  height: 18px;
-  line-height: 18px;
-  padding: 16px;
-  padding-bottom: 8px; color: rgba(255, 255, 255, 0.34); display: flex; justify-content: space-around;">
-      模组
-    </div>
-
-  </div>
-  <div style="display: flex;">
-   <!--  -->
-    <!-- <div style="width: 280px;">
-
-      <div style="height: 40px;">
-        <button mat-button style="    margin-left: 12px;" [disabled]="true">模组分类</button>
-      </div>
-      <div style="display: flex;flex-direction: column;">
-        <mat-checkbox  style="margin-left: 16px;">全部</mat-checkbox>
-        <mat-checkbox  style="margin-left: 16px;">数据</mat-checkbox>
-        <mat-checkbox  style="margin-left: 16px;">工具</mat-checkbox>
-      </div>
-    </div> -->
-
-    <!-- <mat-divider [vertical]="true" style="width: 2px;
-      margin-bottom: 20%;"></mat-divider> -->
-
-    <div style="margin: 12px;margin-top: 0;">
-      <div style="display: flex;width: 720px;align-items: center;margin-bottom: 12px;">
-        <mat-checkbox >已订阅模组</mat-checkbox>
-        <div class="query" style="margin-left: 12px;">
-          <span style="margin-right: 6px;">搜索</span> <input type="text">
-        </div>
-        <div class="sort" style="margin-left: 12px;">
-          排序
-        </div>
-      </div>
-
-   <div style="height: 60vh;overflow: auto;">
-
-    <table style="box-shadow: none;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef [attr.th]="'name'"> 名称 </th>
-        <td mat-cell *matCellDef="let element" [attr.th]="'name'"> {{element.name}} </td>
-      </ng-container>
-
-      <!-- Weight Column -->
-      <ng-container matColumnDef="tag">
-        <th mat-header-cell *matHeaderCellDef> 标签 </th>
-        <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
-      </ng-container>
-
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="count">
-        <th mat-header-cell *matHeaderCellDef [attr.th]="'count'"> 订阅数 </th>
-        <td mat-cell *matCellDef="let element" [attr.th]="'count'"> {{element.count}} </td>
-      </ng-container>
-
-      <!-- <ng-container matColumnDef="score"  >
-        <th mat-header-cell *matHeaderCellDef [attr.th]="'score'"> 评分 </th>
-        <td mat-cell *matCellDef="let element" [attr.th]="'score'"> {{element.score}} </td>
-      </ng-container> -->
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr (click)=" getInfo(row.index)"
-       mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    </table>
-   </div>
-      <mat-divider  ></mat-divider>
-      <div style="margin-top: 12px;">
-        <button mat-button>上一页</button>
-        <button mat-button>下一页</button>
+          >
+            {{ n.title }}
+          </div>
+          <div
+            class="progress"
+            [attr.router_reader]="true"
+          >
+            {{ n.author }}
+          </div>
+        </button>
       </div>
     </div>
-    <mat-divider [vertical]="true" style="width: 2px;
-      margin-top: 20%;"></mat-divider>
-    <div style="display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 288px;
-    margin: 8px;
-    position: relative;">
-     <div style="
-     display: flex;
-    flex-direction: column;
-     top: -56px;
-     position: absolute;
-     height: calc(100% + 36px);
-     padding: 8px;
-     border-radius: 4px;
-     background: #303030;
-     width: calc(100% - 18px);">
-      <div *ngIf="info" class="save" style="display: flex;justify-content: start;">
-        <button mat-button color="primary" (click)="unsubscribe()" [disabled]="false" *ngIf="is_subscribe">取消订阅</button>
-        <button mat-button color="primary" (click)="subscribe()" [disabled]="false" *ngIf="!is_subscribe">订阅</button>
-      </div>
-      <mat-divider  *ngIf="info"></mat-divider>
-      <div *ngIf="info" style="display: flex;flex-direction: column;">
-        <div style="    height: 150px;
-        width: 100%;
-        display: flex;
-        justify-content: center;">
-          <img style="    height: 100%;
-          width: 100%;
-          object-position: bottom;
-          object-fit: contain;" [src]="info.previewUrl" alt="">
-        </div>
-        <div class="title" style=" font-size: 24px; margin-top: 12px; margin-bottom: 12px; line-height: 26px;">
-          {{info.title}}
-        </div>
+  </mat-tab>
+  <mat-tab label="本地模组">
+    <div class="warp" style="display: flex" style=" padding: 12px; width: calc(-48px + 80vw); background: rgb(48, 48, 48); margin: 12px;    height: calc(-12px + 80vh);">
+      <div
+      class="choice"
+      style="margin: 0 12px;"
+    >
+      <div
+        class="title"
 
-        <div class="details"  style=" color: rgba(255, 255, 255, 0.56);
-        overflow: auto;
-        max-height: 180px;
-        display: flex;
-        flex-wrap: wrap;">
-          {{info.description}}
-        </div>
-      </div>
+        style="color: rgba(255, 255, 255, 0.34)"
 
-     </div>
+      >
+本地模组
+      </div>
+      <div class="list">
+        <button
+          [attr.region]="'comics_option'"
+          mat-button
+
+          class="item"
+
+          [attr.current]="false"
+
+        >
+          已启用
+        </button>
+        <button
+          [attr.region]="'comics_option'"
+          mat-button
+
+          class="item"
+
+          [attr.current]="false"
+
+        >
+          已禁用
+        </button>
+      </div>
     </div>
+      <div
+        class="grid"
+        style="padding: 0;background: transparent;"
+        #listbox
+        [attr.size]="'middle'"
+        [attr.type]="'list'"
+        [attr.id]="'comics_list'"
+      >
+        <button
+          class="item"
+          mat-button
+          *ngFor="let n of loacl_list; let index = index"
+          [attr._id]="n.id"
+          [attr.index]="index"
+          [attr.href]="n.href"
+          [attr.region]="'comics_item'"
+          [matTooltipShowDelay]="333"
+          [matTooltip]="n.title"
+          [attr.content_menu_key]="'comics_item'"
+          [attr.content_menu_value]="n.id"
+          [attr.multiple]="n.selected"
+        >
+          <div class="img">
+            <img
+              class="_image"
+              [width]="720"
+              [height]="960"
+              [src]="n.cover"
+              style="position: absolute"
+            />
+            <div class="mezzanine"></div>
+          </div>
+          <div
+            class="name"
+            [attr.router_reader]="true"
 
-  </div>
+          >
+            {{ n.title }}
+          </div>
+          <div
+            class="progress"
+            [attr.router_reader]="true"
+          >
+            {{ n.author }}
+          </div>
+        </button>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="制作模组">
+    <div class="warp" style="display: flex" style=" padding: 12px; width: calc(-48px + 80vw); background: rgb(48, 48, 48); margin: 12px;    height: calc(-12px + 80vh);">
+      <div
+      class="choice"
+      style="margin: 0;width: 100%;justify-content: end;"
+    >
 
-</div>
+    <button
+    [attr.region]="'comics_option'"
+    mat-button
+
+    class="item"
+
+    [attr.current]="false"
+
+  >
+    上传模组
+  </button>
+    </div>
+      <div
+        class="grid"
+        style="padding: 0;background: transparent;"
+        #listbox
+        [attr.size]="'middle'"
+        [attr.type]="'list'"
+        [attr.id]="'comics_list'"
+      >
+        <button
+          class="item"
+          mat-button
+          *ngFor="let n of list; let index = index"
+          [attr._id]="n.id"
+          [attr.index]="index"
+          [attr.href]="n.href"
+          [attr.region]="'comics_item'"
+          [matTooltipShowDelay]="333"
+          [matTooltip]="n.title"
+          [attr.content_menu_key]="'comics_item'"
+          [attr.content_menu_value]="n.id"
+          [attr.multiple]="n.selected"
+        >
+          <div class="img">
+            <img
+              class="_image"
+              [width]="720"
+              [height]="960"
+              [src]="n.cover"
+              style="position: absolute"
+            />
+            <div class="mezzanine"></div>
+          </div>
+          <div
+            class="name"
+            [attr.router_reader]="true"
+
+          >
+            {{ n.title }}
+          </div>
+          <div
+            class="progress"
+            [attr.router_reader]="true"
+          >
+            {{ n.author }}
+          </div>
+        </button>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

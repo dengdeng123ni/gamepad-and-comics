@@ -2,6 +2,9 @@ import { Component, NgZone } from '@angular/core';
 import { UploadModulePageService } from '../upload-module-page/upload-module-page.service';
 import { LocalModulePageService } from '../local-module-page/local-module-page.service';
 import { CreateModulePageService } from '../create-module-page/create-module-page.service';
+import { ModulePageService } from './module-page.service';
+import { SteamModuleService } from '../../services/steam-module.service';
+import { ModuleDetailPageService } from '../module-detail-page/module-detail-page.service';
 const ELEMENT_DATA = [
 ];
 
@@ -18,36 +21,74 @@ export class ModulePageComponent {
 
   is_disabled = false;
   is_subscribe = false;
+
+  list = [];
+
+  loacl_list = [];
+  query_list = [
+    {
+      "id": "text",
+      "type": "search"
+    },
+    {
+      "id": "queryType",
+      "name": "查询类型",
+      "type": "select",
+      "options": [
+        {
+          "label": "按用户投票的评分",
+          "value": 0
+        },
+        {
+          "label": "按发布时间从新到旧排序",
+          "value": 1
+        },
+        {
+          "label": "按短期热度",
+          "value": 3
+        },
+        {
+          "label": "按订阅用户数从多到少排序。",
+          "value": 12
+        },
+        {
+          "label": "按近期游玩时长增长趋势从高到低排序",
+          "value": 13
+        },
+        {
+          "label": "按总游玩时长从多到少排序",
+          "value": 14
+        },
+      ],
+      value: 3
+    }
+  ];
   constructor(
     public LocalModulePage: LocalModulePageService,
     public UploadModulePage: UploadModulePageService,
-    public CreateModulePage:CreateModulePageService,
-     private zone: NgZone,
+    public CreateModulePage: CreateModulePageService,
+    public ModulePage: ModulePageService,
+    public SteamModule: SteamModuleService,
+    public ModuleDetailPage: ModuleDetailPageService,
+    private zone: NgZone,
   ) {
 
-    (window as any).electron.receiveMessage('steam_workshop_get_module', async (event, message) => {
-      if (message.type == "get_all") {
-        const res = message.data.items.map((x, i) => ({
-          name: x.title,
-          tag: "",
-          count: Number(x.statistics.numSubscriptions),
-          index: i,
-          score: `${this.wilsonScore(x.numUpvotes, x.numDownvotes).toFixed(2)}%`
-        }));
+    this.init();
 
-        this.data = message.data.items;
-        this.dataSource = res;
+  }
+  async init(){
 
-      } else if (message.type == "state") {
+    const res:any= await this.SteamModule.getUserSubscribeItems();
+    this.loacl_list=res.items.map((x, i) => ({
 
-        this.zone.run(()=>{
-          this.is_subscribe = this.checkWorkshopItemState(message.data).is_subscribe;
-        })
-
-      }
-    })
-
-    this.getPages()
+      title: x.title,
+      tag: "",
+      author: x.title,
+      index: i,
+      cover: x.previewUrl,
+      score: `${this.wilsonScore(x.numUpvotes, x.numDownvotes).toFixed(2)}%`,
+      ...x
+    }));
   }
   displayedColumns: string[] = ['name', 'tag', 'count'];
   dataSource = ELEMENT_DATA;
@@ -75,8 +116,6 @@ export class ModulePageComponent {
     const res = this.data[index];
     this.info = res;
     this.sendMessage({ type: "state", data: { publishedFileId: res.publishedFileId } });
-
-
   }
   checkWorkshopItemState(state) {
     let obj = {
@@ -106,13 +145,38 @@ export class ModulePageComponent {
   }
 
   subscribe() {
-    this.is_subscribe=true;
+    this.is_subscribe = true;
     this.sendMessage({ type: "subscribe", data: { publishedFileId: this.info.publishedFileId } });
   }
 
-  unsubscribe(){
-    this.is_subscribe=false;
+  unsubscribe() {
+    this.is_subscribe = false;
     this.sendMessage({ type: "unsubscribe", data: { publishedFileId: this.info.publishedFileId } });
+
+  }
+
+  on_135 = async (e) => {
+
+    let res = [] as any;
+    res = await this.SteamModule.getAllItems(1, e.queryType ?? 1, {
+      cachedResponseMaxAge: 0,
+      searchText: e.text ?? undefined,
+    })
+
+    this.list = res.items.map((x, i) => ({
+
+      title: x.title,
+      tag: "",
+      author: x.title,
+      index: i,
+      cover: x.previewUrl,
+      score: `${this.wilsonScore(x.numUpvotes, x.numDownvotes).toFixed(2)}%`,
+      ...x
+    }));
+  }
+
+  on(e) {
+    this.ModuleDetailPage.open();
 
   }
 }

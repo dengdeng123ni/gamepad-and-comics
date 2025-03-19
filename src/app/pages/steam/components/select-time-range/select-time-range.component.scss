@@ -1,0 +1,29 @@
+.list,.start,.end {
+  display: flex;
+}
+.list{
+  margin-top: 12px;
+  justify-content: space-between;
+}
+
+.icon {
+  margin: 0 !important;
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.button {
+  min-height: 28px;
+  height: 28px;
+
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+.chip{
+  border-radius: 4px;
+}
