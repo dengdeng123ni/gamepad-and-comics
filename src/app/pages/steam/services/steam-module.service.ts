@@ -40,7 +40,7 @@ export class SteamModuleService {
     let bool = true;
 
     this.sendMessage({
-      type: "get_all_items",
+      type: "get_user_items",
       id:id,
       data:
         { page: page,
@@ -144,6 +144,117 @@ export class SteamModuleService {
     })
   }
 
+  subscribe(publishedFileId:any){
+    let id = new Date().getTime().toString();
+
+    let bool = true;
+
+    this.sendMessage({
+      type: "subscribe",
+      id:id,
+      data:
+        {
+          publishedFileId:publishedFileId
+        }
+    });
+
+    return new Promise((r, j) => {
+      const getData = () => {
+        setTimeout(() => {
+          if (this._data[id]) {
+
+            r(this._data[id])
+          } else {
+            if (bool) getData()
+          }
+        }, 33)
+      }
+      getData()
+
+      setTimeout(() => {
+        bool = false;
+        r([])
+        j([])
+        this._data[id] = undefined;
+      }, 40000)
+
+    })
+  }
+
+
+  unsubscribe(publishedFileId:any){
+    let id = new Date().getTime().toString();
+
+    let bool = true;
+
+    this.sendMessage({
+      type: "unsubscribe",
+      id:id,
+      data:
+        {
+          publishedFileId:publishedFileId
+        }
+    });
+
+    return new Promise((r, j) => {
+      const getData = () => {
+        setTimeout(() => {
+          if (this._data[id]) {
+
+            r(this._data[id])
+          } else {
+            if (bool) getData()
+          }
+        }, 33)
+      }
+      getData()
+
+      setTimeout(() => {
+        bool = false;
+        r([])
+        j([])
+        this._data[id] = undefined;
+      }, 40000)
+
+    })
+  }
+
+  download(publishedFileId:any){
+    let id = new Date().getTime().toString();
+
+    let bool = true;
+
+    this.sendMessage({
+      type: "download",
+      id:id,
+      data:
+        {
+          publishedFileId:publishedFileId
+        }
+    });
+
+    return new Promise((r, j) => {
+      const getData = () => {
+        setTimeout(() => {
+          if (this._data[id]) {
+
+            r(this._data[id])
+          } else {
+            if (bool) getData()
+          }
+        }, 33)
+      }
+      getData()
+
+      setTimeout(() => {
+        bool = false;
+        r([])
+        j([])
+        this._data[id] = undefined;
+      }, 40000)
+
+    })
+  }
 
 
 
