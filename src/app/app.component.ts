@@ -8,6 +8,7 @@ import { bufferCount, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Platform } from '@angular/cdk/platform';
 import { Mp4Service } from './library/download/mp4.service';
+import { GamesSavesService } from './library/games-saves.service';
 
 declare global {
   interface Window {
@@ -182,6 +183,7 @@ export class AppComponent {
     public platform: Platform,
     public App: AppDataService,
     public Mp4: Mp4Service,
+    public GamesSaves:GamesSavesService,
   ) {
 
     window._gh_data = {};
@@ -438,6 +440,7 @@ export class AppComponent {
     const obj1 = this.getAllParams(window.location.href);
     await this.configSet();
     if (!obj1["noscript"]) await this.pulg.init();
+    await this.GamesSaves.init()
 
 
 

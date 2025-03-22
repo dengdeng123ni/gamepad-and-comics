@@ -179,28 +179,6 @@ export class MenuComponent {
                 }
               },
               {
-                id: "ope3123",
-                name: "fetch添加请求头",
-                click: () => {
-
-                }
-              },
-              // {
-
-              //   id: "oo1eo",
-              //   name: "功能设置",
-              //   click: () => {
-
-              //   }
-              // },
-            ]
-          },
-          {
-
-            id: "ooeo",
-            name: "网页版",
-            submenu: [
-              {
                 id: "ope321",
                 name: "手机版下载",
                 click: () => {
@@ -236,13 +214,28 @@ export class MenuComponent {
                   window.open("https://dengdeng123ni.github.io/gamepad-and-comics/", '_blank')
                 }
               },
-              {
-                id: "ope3",
-                name: "专用浏览器扩展插件",
-                click: () => {
-                  this.PlugInInstructions.open({});
-                }
-              },
+              // {
+              //   id: "ope3",
+              //   name: "专用浏览器扩展插件",
+              //   click: () => {
+              //     this.PlugInInstructions.open({});
+              //   }
+              // },
+              // {
+              //   id: "ope3123",
+              //   name: "fetch添加请求头",
+              //   click: () => {
+
+              //   }
+              // },
+              // {
+
+              //   id: "oo1eo",
+              //   name: "功能设置",
+              //   click: () => {
+
+              //   }
+              // },
             ]
           },
           {
