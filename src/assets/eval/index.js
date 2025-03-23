@@ -63,7 +63,7 @@ class MessageFetchService {
       let browser = null;
       async function getBrowser() {
         browser = await puppeteer.launch({
-          headless: false,
+          // headless: false,
           defaultViewport: null, // 设置为 null 窗口会最大化
           args: ['--start-maximized'], // 启动时最大化窗口
         });
