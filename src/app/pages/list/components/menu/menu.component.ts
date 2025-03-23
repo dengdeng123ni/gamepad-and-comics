@@ -270,7 +270,7 @@ export class MenuComponent {
           },
           {
             id: "javasciprt",
-            name: "退出",
+            name: "返回主菜单",
             click: () => {
               Electron.close();
               Electron.openMainMenu();

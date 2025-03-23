@@ -111,19 +111,19 @@ body[source=kaobei] app-comics-list-v2 [region=comics_item]{
       //
       loadCSSFromString(cssString);
       setTimeout(() => {
-        window._gh_context_menu_register('comics_item', [
-          {
-            name: "打开网站对应链接",
-            source: "ehentai",
-            click: (e) => {
-              const b64_to_utf8 = (str) => {
-                return decodeURIComponent(window.atob(str));
-              }
-              const url = b64_to_utf8(e[0].id)
-              window.open(url)
-            }
-          }
-        ])
+        // window._gh_context_menu_register('comics_item', [
+        //   {
+        //     name: "打开网站对应链接",
+        //     source: "ehentai",
+        //     click: (e) => {
+        //       const b64_to_utf8 = (str) => {
+        //         return decodeURIComponent(window.atob(str));
+        //       }
+        //       const url = b64_to_utf8(e[0].id)
+        //       window.open(url)
+        //     }
+        //   }
+        // ])
       }, 0)
 
 
