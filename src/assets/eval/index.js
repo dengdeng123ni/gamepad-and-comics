@@ -85,5 +85,6 @@ class MessageFetchService {
   }
 }
 
+
 new MessageFetchService()
 

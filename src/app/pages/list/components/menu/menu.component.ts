@@ -24,6 +24,7 @@ import { LanguageSettingsService } from '../language-settings/language-settings.
 import { ArchivePageService } from '../archive-page/archive-page.service';
 import { PdfToImageService } from '../../services/pdf-to-image.service';
 import { WebpageOfflineService } from '../../services/webpage-offline.service';
+import { ElectronService } from 'src/app/library/electron.service';
 declare const window: any;
 @Component({
   selector: 'app-menu',
@@ -119,6 +120,7 @@ export class MenuComponent {
     public prompt: PromptService,
     public ListMenuEvent: ListMenuEventService,
     public WebpageOffline: WebpageOfflineService,
+    public Electron:ElectronService,
     private zone: NgZone
   ) {
 
@@ -144,28 +146,28 @@ export class MenuComponent {
         },
         menu: [
 
-          {
+          // {
 
-            id: "ooeo",
-            name: "离线",
-            submenu: [
-              {
-                id: "javasciprt",
-                name: "进入",
-                click: () => {
-                  this.WebpageOffline.enter()
-                }
-              },
-              {
-                id: "ope3",
-                name: "退出",
-                click: () => {
-                  this.WebpageOffline.exit();
-                }
-              },
+          //   id: "ooeo",
+          //   name: "离线",
+          //   submenu: [
+          //     {
+          //       id: "javasciprt",
+          //       name: "进入",
+          //       click: () => {
+          //         this.WebpageOffline.enter()
+          //       }
+          //     },
+          //     {
+          //       id: "ope3",
+          //       name: "退出",
+          //       click: () => {
+          //         this.WebpageOffline.exit();
+          //       }
+          //     },
 
-            ]
-          },
+          //   ]
+          // },
           {
 
             id: "ooeo",
@@ -178,42 +180,42 @@ export class MenuComponent {
                   this.PdfToImage.to();
                 }
               },
-              {
-                id: "ope321",
-                name: "手机版下载",
-                click: () => {
-                  window.open(`https://github.com/dengdeng123ni/gamepad-and-comics/releases/tag/comics`, '_blank')
-                }
-              },
-              {
-                id: "ope321",
-                name: "打开局域网连接",
-                click: () => {
-                  if (AppData.local_network_url) {
-                    window.open(`${AppData.local_network_url}`, '_blank')
-                  } else {
-                    this.Notify.messageBox("ERROR")
-                  }
-                }
-              },
-              {
-                id: "ope321",
-                name: "局域网二维码",
-                click: () => {
-                  if (AppData.local_network_url) {
-                    this.MobileWebQrcode.open();
-                  } else {
-                    this.Notify.messageBox("ERROR")
-                  }
-                }
-              },
-              {
-                id: "ope321",
-                name: "Github 在线链接",
-                click: () => {
-                  window.open("https://dengdeng123ni.github.io/gamepad-and-comics/", '_blank')
-                }
-              },
+              // {
+              //   id: "ope321",
+              //   name: "手机版下载",
+              //   click: () => {
+              //     window.open(`https://github.com/dengdeng123ni/gamepad-and-comics/releases/tag/comics`, '_blank')
+              //   }
+              // },
+              // {
+              //   id: "ope321",
+              //   name: "打开局域网连接",
+              //   click: () => {
+              //     if (AppData.local_network_url) {
+              //       window.open(`${AppData.local_network_url}`, '_blank')
+              //     } else {
+              //       this.Notify.messageBox("ERROR")
+              //     }
+              //   }
+              // },
+              // {
+              //   id: "ope321",
+              //   name: "局域网二维码",
+              //   click: () => {
+              //     if (AppData.local_network_url) {
+              //       this.MobileWebQrcode.open();
+              //     } else {
+              //       this.Notify.messageBox("ERROR")
+              //     }
+              //   }
+              // },
+              // {
+              //   id: "ope321",
+              //   name: "Github 在线链接",
+              //   click: () => {
+              //     window.open("https://dengdeng123ni.github.io/gamepad-and-comics/", '_blank')
+              //   }
+              // },
               // {
               //   id: "ope3",
               //   name: "专用浏览器扩展插件",
@@ -267,19 +269,27 @@ export class MenuComponent {
             }
           },
           {
-            id: "ope32",
-            name: "通道替换",
+            id: "javasciprt",
+            name: "退出",
             click: () => {
-              this.ReplaceChannelPage.open();
+              Electron.close();
+              Electron.openMainMenu();
             }
           },
-          {
-            id: "ope",
-            name: "关于软件",
-            click: () => {
-              AboutSoftware.open({})
-            }
-          }
+          // {
+          //   id: "ope32",
+          //   name: "通道替换",
+          //   click: () => {
+          //     this.ReplaceChannelPage.open();
+          //   }
+          // },
+          // {
+          //   id: "ope",
+          //   name: "关于软件",
+          //   click: () => {
+          //     AboutSoftware.open({})
+          //   }
+          // }
         ]
       })
     ContextMenuEvent.register('menu_item_v2',
