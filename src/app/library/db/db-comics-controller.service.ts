@@ -381,6 +381,8 @@ export class DbComicsControllerService {
     is_cache?: boolean
   }): Promise<Blob> => {
     try {
+      // console.log(id);
+
       if (!option) option = { source: this.AppData.source }
       if (!option.source) option.source = this.AppData.source;
       let config = this.DbComicsEvent.Configs[option.source]
@@ -593,6 +595,8 @@ export class DbComicsControllerService {
           blob = await getBlob()
         }
       } else {
+        console.log(option.source,this.AppData.source);
+
         blob = await this.DbComicsEvent.Events[option.source]["getImage"](id)
       }
       return blob

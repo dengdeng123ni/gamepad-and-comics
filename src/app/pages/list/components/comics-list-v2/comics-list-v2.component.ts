@@ -162,6 +162,7 @@ export class ComicsListV2Component {
         const arr=this.ListMenuEvent.Content[source]
         const obj=arr.find(x=>x.id==sid)
         this.type=obj.query.type;
+
         if (obj.query.conditions) {
           this.query.list = obj.query.conditions;
           if(obj.query.updateConditions) this.query.list = await obj.query.updateConditions();
@@ -190,7 +191,15 @@ export class ComicsListV2Component {
           }
         })
         this.source = null;
-        this.App.setsource(null)
+        if(obj&&(obj as any).source){
+          this.App.setsource((obj as any).source)
+          console.log(this.App.source);
+
+
+        }else{
+          this.App.setsource(null)
+        }
+
       }else{
         this.source = source;
         this.type = type;

@@ -16,13 +16,9 @@ export class GamesSavesService {
   }
 
   async init() {
-
     const files= await this.Electron.getLoadFiles() as any;
-    console.log(files);
-
     for (let index = 0; index < files.length; index++) {
       this.loadJS(files[index])
-
     }
   }
   loadJS(url) {

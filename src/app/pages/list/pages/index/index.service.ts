@@ -8,6 +8,7 @@ import { DownloadOptionService } from '../../components/download-option/download
 import { ImageToService } from '../../components/image-to/image-to.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SteamCloudService } from 'src/app/library/steam-cloud.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,7 @@ export class IndexService {
     public Notify:NotifyService,
     public router: Router,
     public ImageTo: ImageToService,
+    public SteamCloud:SteamCloudService,
     private _snackBar: MatSnackBar,
   ) {
     // this.ImageTo.open();
@@ -76,6 +78,17 @@ export class IndexService {
             }
           }
         },
+        {
+          name: "Steam 缓存", id: "local_cach", click: async (list) => {
+
+            for (let index = 0; index < list.length; index++) {
+              console.log(list[index]);
+
+              await this.SteamCloud.save(list[index].id,this.AppData.source);
+            }
+          }
+        },
+
         {
           name: "图像处理", id: "image_to", click: async (list) => {
             await this.ImageTo.open({

@@ -8,19 +8,23 @@ export class ElectronService {
   constructor() { }
 
   async close() {
-    await fetch("http://localhost:7701/api/win/game/close")
+    await window.fetch("http://localhost:7701/api/win/game/close")
   }
 
   async openDevTools() {
-    await fetch("http://localhost:7701/api/win/game/openDevTools")
+    await window.fetch("http://localhost:7701/api/win/game/openDevTools")
   }
 
   async openMainMenu() {
-    await fetch("http://localhost:7701/api/win/game/openMainMenu")
+    await window.fetch("http://localhost:7701/api/win/game/openMainMenu")
   }
 
   async getLoadFiles(){
-     const res=  await fetch("http://localhost:7701/api/win/game/getLoadFiles")
-     return res.json();
+    try {
+      const res=  await window.fetch("http://localhost:7701/api/win/game/getLoadFiles")
+      return res.json();
+    } catch (error) {
+       return []
+    }
   }
 }

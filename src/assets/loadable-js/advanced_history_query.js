@@ -189,8 +189,6 @@ window._gh_list_menu_register(
           }))
           ;
       },
-
     },
   ],
-
 )
