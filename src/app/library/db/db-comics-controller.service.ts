@@ -595,8 +595,6 @@ export class DbComicsControllerService {
           blob = await getBlob()
         }
       } else {
-        console.log(option.source,this.AppData.source);
-
         blob = await this.DbComicsEvent.Events[option.source]["getImage"](id)
       }
       return blob

@@ -25,6 +25,8 @@ export class WebFileService {
       this.dirHandle = await (window as any).showDirectoryPicker({ mode: "readwrite" });
       return true
     } catch (error) {
+      console.log(error);
+
       return false
     }
   }
@@ -183,7 +185,7 @@ export class WebFileService {
       return title.replace(/[\r\n]/g, "").replace(":", "").replace("|", "").replace(/  +/g, ' ').replace(/[\'\"\\\/\b\f\n\r\t]/g, '').replace(/[\@\#\$\%\^\&\*\{\}\:\"\<\>\?]/).trim()
     }
     this.addlog(`${加载中} ${comics_id}`)
-    let { chapters, title, option: config } = await this.DbComicsController.getDetail(comics_id)
+    let { chapters, title, source } = await this.DbComicsController.getDetail(comics_id)
     let detail = await this.DbComicsController.getDetail(comics_id);
     this.addlog(`${加载成功} ${title}`)
     if (option?.chapters_ids?.length) chapters = chapters.filter(x => option.chapters_ids.includes(x.id))
@@ -224,9 +226,9 @@ export class WebFileService {
                 });
                 await this.post(path, blob)
               } else if (is_offprint) {
-                await this.post(`${config.source}[${双页}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+                await this.post(`${source}[${双页}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
               } else {
-                await this.post(`${config.source}[${双页}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+                await this.post(`${source}[${双页}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
               }
             }
           } else {
@@ -251,17 +253,17 @@ export class WebFileService {
 
               } else if (blob.size > 500) {
                 if (is_offprint) {
-                  await this.post(`${config.source}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+                  await this.post(`${source}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
                 } else {
-                  await this.post(`${config.source}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+                  await this.post(`${source}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
                 }
               } else {
                 const blob = await this.DbComicsController.getImage(x2.src)
                 if (blob.size > 500) {
                   if (is_offprint) {
-                    await this.post(`${config.source}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+                    await this.post(`${source}/${toTitle(title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
                   } else {
-                    await this.post(`${config.source}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
+                    await this.post(`${source}/${toTitle(title)}/${toTitle(x.title)}/${index + 1}.${blob.type.split("/").at(-1)}`, blob)
                   }
                 }
               }
@@ -302,9 +304,9 @@ export class WebFileService {
           });
           await this.post(path, blob)
         } else if (is_offprint) {
-          await this.post(`${config.source}[${suffix_name}][${option.page == "double" ? `${双页}` : `${单页}`}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}.${suffix_name}`, blob)
+          await this.post(`${source}[${suffix_name}][${option.page == "double" ? `${双页}` : `${单页}`}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}.${suffix_name}`, blob)
         } else {
-          await this.post(`${config.source}[${suffix_name}][${option.page == "double" ? `${双页}` : `${单页}`}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${toTitle(x.title)}.${suffix_name}`, blob)
+          await this.post(`${source}[${suffix_name}][${option.page == "double" ? `${双页}` : `${单页}`}]${option.pageOrder ? "" : `[${日漫}]`}/${toTitle(title)}/${toTitle(x.title)}.${suffix_name}`, blob)
         }
         if (option.downloadChapterAtrer) option.downloadChapterAtrer(x)
       }
