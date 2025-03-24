@@ -130,11 +130,11 @@ export class LocalCachService {
       }
 
       await this.webDb.update("local_pages", { id: `7700_${x.id}`.toString(), data: pages })
-      await this.webDb.update("pages", { id: `7700_${x.id}`.toString(), data: pages })
+      // await this.webDb.update("pages", { id: `7700_${x.id}`.toString(), data: pages })
       x.id = `7700_${x.id}`.toString();
       let chapters = res.chapters.slice(0, index + 1);
       await this.webDb.update('local_comics', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, creation_time: new Date().getTime(), chapters } })))
-      await this.webDb.update('details', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, creation_time: new Date().getTime(), chapters } })))
+      // await this.webDb.update('details', JSON.parse(JSON.stringify({ id: res.id, data: { ...res, creation_time: new Date().getTime(), chapters } })))
 
 
       this.Notify.messageBox(`${res.title} ${x.title} $[缓存完成]`, '', {

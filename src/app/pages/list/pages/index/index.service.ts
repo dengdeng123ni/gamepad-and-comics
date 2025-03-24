@@ -69,7 +69,9 @@ export class IndexService {
         {
           name: "缓存", id: "local_cach", click: async (list) => {
             for (let index = 0; index < list.length; index++) {
-              await this.LocalCach.save(list[index].id,list[index].option.source);
+              console.log(list[index]);
+
+              await this.LocalCach.save(list[index].id,this.AppData.source);
             }
           }
         },

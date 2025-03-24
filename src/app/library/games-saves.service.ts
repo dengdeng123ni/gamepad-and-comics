@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ElectronService } from './electron.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -7,7 +8,7 @@ export class GamesSavesService {
 
   _data = {};
 
-  constructor() {
+  constructor(public Electron:ElectronService,) {
 
 
 
@@ -16,12 +17,18 @@ export class GamesSavesService {
 
   async init() {
 
-    this.loadJS("file:///Users/zhiangzeng/Desktop/Documents/ccc")
+    const files= await this.Electron.getLoadFiles() as any;
+    console.log(files);
+
+    for (let index = 0; index < files.length; index++) {
+      this.loadJS(files[index])
+
+    }
   }
   loadJS(url) {
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = `${url}/index.js`;
+    script.src = `${url}`;
     document.body.appendChild(script);
   }
 
