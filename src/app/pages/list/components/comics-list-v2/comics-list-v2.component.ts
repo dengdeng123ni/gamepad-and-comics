@@ -731,12 +731,6 @@ export class ComicsListV2Component {
     await this.webDb.deleteByKey('local_comics', comics_id.toString())
     this.DbComicsController.delComicsAllImages(comics_id)
   }
-  async cache() {
-    const list = this.getSelectedData();
-    for (let index = 0; index < list.length; index++) {
-      await this.LocalCach.save(list[index].id,list[index].option.source);
-    }
-  }
 
   async all() {
     const c = this.list.filter(x => x.selected == true).length

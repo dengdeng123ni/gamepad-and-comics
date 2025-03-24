@@ -121,7 +121,7 @@ export class DbComicsControllerService {
         res.forEach(x => {
           this.image_url[`${config.id}_comics_${x.id}`] = x.cover;
           x.cover = `http://localhost:7700/${config.id}/comics/${x.id}`;
-          x.option = { source: option.source }
+          x.source = option.source;
         })
 
         if (res && res.length) this.lists[id] = JSON.parse(JSON.stringify(res));
@@ -193,7 +193,7 @@ export class DbComicsControllerService {
           if (!Array.isArray(res.author)) {
             res.author = [{ name: res.author }]
           }
-          res.option = { source: option.source };
+          res.source = option.source;
           this.details[id] = JSON.parse(JSON.stringify(res));
 
           return res
@@ -634,7 +634,7 @@ export class DbComicsControllerService {
           }
 
 
-          res.option = { source: option.source };
+          res.source = option.source;
           this.replies[id] = JSON.parse(JSON.stringify(res));
 
           return res

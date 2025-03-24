@@ -68,6 +68,7 @@ export class IndexService {
         },
         {
           name: "缓存", id: "local_cach", click: async (list) => {
+
             for (let index = 0; index < list.length; index++) {
               console.log(list[index]);
 
