@@ -141,8 +141,6 @@ export class ComicsListV2Component {
         window.history.pushState({}, '', url);
       } else {
         if (this.id) {
-          console.log(123);
-
           await this.put()
         }
       }
@@ -193,7 +191,6 @@ export class ComicsListV2Component {
         this.source = null;
         if(obj&&(obj as any).source){
           this.App.setsource((obj as any).source)
-          console.log(this.App.source);
 
 
         }else{
@@ -937,7 +934,6 @@ export class ComicsListV2Component {
       page_num: this.page_num,
       scrollTop: this.ListNode.nativeElement.scrollTop
     }
-    console.log(obj);
 
     this.ComicsListV2._data[this.id] = obj
 
