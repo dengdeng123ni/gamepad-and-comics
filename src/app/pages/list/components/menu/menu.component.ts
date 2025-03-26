@@ -48,7 +48,7 @@ export class MenuComponent {
 
 
   on($event, data, parent: any = {}) {
-    this.data.currend_read_comics_id=null;
+    this.data.currend_read_comics_id = null;
     this.menu.current_menu_pid = parent.id ? `${parent.id}` : data.id;
     this.menu.current_menu_id = parent.id ? `${parent.id}_${data.id}` : data.id;
     this.menu.post();
@@ -120,7 +120,7 @@ export class MenuComponent {
     public prompt: PromptService,
     public ListMenuEvent: ListMenuEventService,
     public WebpageOffline: WebpageOfflineService,
-    public Electron:ElectronService,
+    public Electron: ElectronService,
     private zone: NgZone
   ) {
 
@@ -328,6 +328,9 @@ export class MenuComponent {
       if (x.id == "temporary_file") return
       if (x.id == "local_cache") return
       if (x.id == "temporary_data") return
+      if (x.id == "steam_cloud") return
+      //  console.log();
+
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == this.AppData.source)
       this.menu.is_init = true;
 
@@ -353,7 +356,7 @@ export class MenuComponent {
         if (x == "temporary_file") return
         if (x == "local_cache") return
         if (x == "temporary_data") return
-
+        if (x == "steam_cloud") return
         let obj = {
           id: x,
           icon: "folder_open",
@@ -436,7 +439,7 @@ export class MenuComponent {
         this.data.menu_2.push(obj)
         this.data.menu.push(obj)
       })
-      if (['local_cache', 'temporary_file', 'temporary_data'].includes(source)) {
+      if (['local_cache', 'temporary_file', 'temporary_data', 'steam_cloud'].includes(source)) {
         this.data.menu_2_obj = this.data.menu_2[0]
 
       } else {
@@ -606,7 +609,9 @@ export class MenuComponent {
                 click: () => {
                   this.menu.current_menu_pid = `${c.id}`;
                   this.menu.current_menu_id = `${c.id}_custom`
-                  this.router.navigate(['query', 'custom',x, c.id], {
+                  console.log(123123213123123);
+
+                  this.router.navigate(['query', 'custom', x, c.id], {
                     queryParams: {
                       gh_data: 'reset',
                     }
@@ -650,7 +655,11 @@ export class MenuComponent {
                 click: () => {
                   this.menu.current_menu_pid = `${c.id}`;
                   this.menu.current_menu_id = `${c.id}`
-                  this.router.navigate(['query', 'custom',x, c.id]);
+                  this.router.navigate(['query', 'custom', x, c.id], {
+                    queryParams: {
+                      gh_data: 'reset',
+                    }
+                  });
                 }
               }
             )
@@ -713,6 +722,7 @@ export class MenuComponent {
       if (x == "temporary_file") return
       if (x == "local_cache") return
       if (x == "temporary_data") return
+      if (x == "steam_cloud") return
       let obj = {
         id: x,
         name: this.DbComicsEvent.Configs[x].name
@@ -723,7 +733,7 @@ export class MenuComponent {
     let obj: any = await this.DropDownMenu.open(list);
     if (obj) {
       this.data.menu_2_obj = this.data.menu_2.find(x => x.id == obj.id)
-      this.menu.source=obj.id;
+      this.menu.source = obj.id;
       this.init(obj.id)
       this.menu.post();
 

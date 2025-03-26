@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DbComicsControllerService, DbComicsEventService } from './public-api';
+import { DbComicsControllerService, DbComicsEventService, NotifyService } from './public-api';
 import CryptoJS from 'crypto-js'
 
 declare const window: any;
@@ -17,18 +17,20 @@ export class SteamCloudService {
   }
   constructor(
     public DbComicsEvent: DbComicsEventService,
+    public Notify:NotifyService,
     public DbComicsController: DbComicsControllerService
 
   ) {
     DbComicsEvent.comics_register({
       id: "steam_cloud",
       name: "Steam云",
-      is_visible: false,
+      is_visible: true,
+
       is_download: true,
       is_cache: false
     }, {
       getList: async (obj: any) => {
-
+        return this.data.details.map(x => x.data).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);
       },
       getDetail: async (id: string) => {
         const obj = this.data.details.find(x => x.id == id)
@@ -63,19 +65,23 @@ export class SteamCloudService {
               }
             },
             getList: async (obj) => {
-              return this.data.details.map(x => x.data);
+              const res=this.data.details.map(x => x.data).slice((obj.page_num - 1) * obj.page_size, obj.page_size * obj.page_num);;
+              return res
             },
           },
         ],
       )
+
+    })
+    setTimeout(() => {
       this.init();
-    },300)
+    }, 300)
 
   }
-  init(){
-    const data= this.readFile('comics');
+  init() {
+    const data = this.readFile('comics');
 
-    this.data=JSON.parse(data);
+    this.data = JSON.parse(data);
   }
 
 
@@ -90,14 +96,14 @@ export class SteamCloudService {
 
   writeFile(name: string, content: string) {
 
-    return window._steam_cloud_writeFile(name,content)
+    return window._steam_cloud_writeFile(name, content)
   }
 
   deleteFile(name: string) {
     return window._steam_cloud_deleteFile(name)
   }
 
-  async save(id: any, source) {
+  async add(id: any, source) {
     let res = await this.DbComicsController.getDetail(id, {
       source: source,
       is_cache: true
@@ -134,13 +140,46 @@ export class SteamCloudService {
       this.data.pages.push({ id: `steam_cloud_${x.id}`.toString(), data: pages })
       let chapters = res.chapters.slice(0, index + 1);
       this.data.details = this.data.details.filter(c => c.id != `${res.id}`)
-      this.data.details.push(JSON.parse(JSON.stringify({ id: `${res.id.toString()}`, data: { ...res, creation_time: new Date().getTime(), chapters:chapters.map(x=>{
-        return {...x,id:`steam_cloud_${x.id}`}
-      }) } })))
-      await this.writeFile('comics', JSON.stringify(this.data))
+      this.data.details.push(JSON.parse(JSON.stringify({
+        id: `${res.id.toString()}`, data: {
+          ...res, creation_time: new Date().getTime(), chapters: chapters.map(x => {
+            return { ...x, id: `steam_cloud_${x.id}` }
+          })
+        }
+      })))
+      this.writeFile('comics', JSON.stringify(this.data))
+      this.Notify.messageBox(`${res.title} ${x.title} $[缓存完成]`, '', {
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom',
+      });
     }
 
 
+
+  }
+
+  async del(id: any) {
+    let obj = this.data.details.find(c => c.id = id);
+
+    let res = obj.data
+
+    this.deleteFile(res.cover)
+    for (let index = 0; index < res.chapters.length; index++) {
+      let x = res.chapters[index];
+      if (x.cover) {
+        this.deleteFile(x.cover)
+      }
+
+      let r = this.data.pages.find(c => c.id == x.id)
+      let pages = r.data;
+      for (let index = 0; index < pages.length; index++) {
+        this.deleteFile(pages[index].src)
+      }
+      this.data.pages = this.data.pages.filter(c => c.id != x.id)
+    }
+
+    this.data.details = this.data.details.filter(c => c.id != id)
+    this.writeFile('comics', JSON.stringify(this.data))
 
   }
 
@@ -151,10 +190,10 @@ export class SteamCloudService {
     const md5Hash = CryptoJS.MD5(wordArray).toString(CryptoJS.enc.Hex);
     const base64 = await this.blobtoBase64(blob);
 
-    const bool=  this.fileExists(md5Hash);
-    if(!bool){
-      await this.writeFile(md5Hash, base64)
-    }else{
+    const bool = this.fileExists(md5Hash);
+    if (!bool) {
+      this.writeFile(md5Hash, base64)
+    } else {
       console.log("数据已存在");
     }
     return md5Hash

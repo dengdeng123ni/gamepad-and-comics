@@ -24,15 +24,15 @@ export class IndexService {
     public LocalCach: LocalCachService,
     public DbComicsController: DbComicsControllerService,
     public webDb: IndexdbControllerService,
-    public Notify:NotifyService,
+    public Notify: NotifyService,
     public router: Router,
     public ImageTo: ImageToService,
-    public SteamCloud:SteamCloudService,
+    public SteamCloud: SteamCloudService,
     private _snackBar: MatSnackBar,
   ) {
     // this.ImageTo.open();
 
-    GamepadEvent.registerConfig("list", { region: ["comics_item","page_item", "comics_option", "menu_item", 'input', "menu_input", 'settings', 'novels_item', "context_menu_edit_item","chip_option","advanced_search_item","advanced_search_input","advanced_search_slider","advanced_search_restart"] })
+    GamepadEvent.registerConfig("list", { region: ["comics_item", "page_item", "comics_option", "menu_item", 'input', "menu_input", 'settings', 'novels_item', "context_menu_edit_item", "chip_option", "advanced_search_item", "advanced_search_input", "advanced_search_slider", "advanced_search_restart"] })
     GamepadEvent.registerConfig("comics_type", { region: ["comics_type_item"] })
 
     GamepadEvent.registerAreaEvent("menu", {
@@ -40,6 +40,7 @@ export class IndexService {
     })
 
     AppData.source$.subscribe((x: any) => {
+
       this.updateComicsItem(x)
 
     })
@@ -49,18 +50,17 @@ export class IndexService {
   }
 
   updateComicsItem(x) {
-   if(!x){
-    this.ContextMenuEvent.logoutMenu('comics_item', 'data')
-    this.ContextMenuEvent.logoutMenu('comics_item', 'delete')
-    this.ContextMenuEvent.logoutMenu('chapters_item', 'data')
-    this.ContextMenuEvent.logoutMenu('comics_item', 'download')
-    this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
-    this.ContextMenuEvent.logoutMenu('comics_item', 'image_to')
-   }
+    if (!x) {
+      this.ContextMenuEvent.logoutMenu('comics_item', 'data')
+      this.ContextMenuEvent.logoutMenu('comics_item', 'delete')
+      this.ContextMenuEvent.logoutMenu('chapters_item', 'data')
+      this.ContextMenuEvent.logoutMenu('comics_item', 'download')
+      this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
+      this.ContextMenuEvent.logoutMenu('comics_item', 'image_to')
+    }
 
     if (x.is_download) {
-
-      this.ContextMenuEvent.registerMenu('comics_item', [
+      let arr = [
         {
           name: "下载", id: "download",
 
@@ -72,32 +72,44 @@ export class IndexService {
           name: "缓存", id: "local_cach", click: async (list) => {
 
             for (let index = 0; index < list.length; index++) {
-              console.log(list[index]);
-
-              await this.LocalCach.save(list[index].id,this.AppData.source);
+              await this.LocalCach.save(list[index].id, this.AppData.source);
             }
           }
-        },
-        {
-          name: "Steam 缓存", id: "local_cach", click: async (list) => {
+        }
+      ];
+      if (x.id != "steam_cloud") {
+        arr.push({
+          name: "Steam 缓存", id: "steam_add", click: async (list) => {
 
             for (let index = 0; index < list.length; index++) {
-              console.log(list[index]);
 
-              await this.SteamCloud.save(list[index].id,this.AppData.source);
+              await this.SteamCloud.add(list[index].id, this.AppData.source);
             }
           }
-        },
+        })
 
-        {
-          name: "图像处理", id: "image_to", click: async (list) => {
-            await this.ImageTo.open({
-              data: list
-            });
+      }
+      arr.push({
+        name: "图像处理", id: "image_to", click: async (list) => {
+          await this.ImageTo.open({
+            data: list
+          });
+        }
+      })
+      if (x.id == "steam_cloud") {
+        arr.push({
+          name: "删除", id: "steam_del", click: async (list) => {
+
+            for (let index = 0; index < list.length; index++) {
+              let node = document.querySelector(`[_id='${list[index].id}']`)
+              if (node) node.remove();
+              await this.SteamCloud.del(list[index].id)
+            }
           }
-        },
-
-
+        })
+      }
+      this.ContextMenuEvent.registerMenu('comics_item', [
+        ...arr
       ])
       if (x.id == "local_cache") {
         this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
@@ -178,7 +190,7 @@ export class IndexService {
                   for (let index = 0; index < res.chapters.length; index++) {
                     const chapter_id = res.chapters[index].id;
                     const pages = await this.DbComicsController.getPages(chapter_id)
-                    res.chapters[index].pages=pages
+                    res.chapters[index].pages = pages
                   }
                   const jsonString = JSON.stringify(res, null, 2); // 格式化 JSON
                   const blob = new Blob([jsonString], { type: "application/json" });
@@ -190,11 +202,11 @@ export class IndexService {
                   URL.revokeObjectURL(url); // 释放 URL
                 }
                 for (let index = 0; index < list.length; index++) {
-                  let res:any = (await this.webDb.getByKey('details',list[index].id) as any).data
+                  let res: any = (await this.webDb.getByKey('details', list[index].id) as any).data
                   for (let index = 0; index < res.chapters.length; index++) {
                     const chapter_id = res.chapters[index].id;
-                    const pages = (await this.webDb.getByKey('pages',chapter_id) as any).data
-                    res.chapters[index].pages=pages
+                    const pages = (await this.webDb.getByKey('pages', chapter_id) as any).data
+                    res.chapters[index].pages = pages
                   }
                   const jsonString = JSON.stringify(res, null, 2); // 格式化 JSON
                   const blob = new Blob([jsonString], { type: "application/json" });

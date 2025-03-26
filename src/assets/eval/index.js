@@ -113,7 +113,7 @@ class MessageFetchService {
         return client.cloud.writeFile(name, content)
       }
       window._steam_cloud_deleteFile = (name) => {
-        return client.cloud.readFile(name)
+        return client.cloud.deleteFile(name)
       }
       //
 
