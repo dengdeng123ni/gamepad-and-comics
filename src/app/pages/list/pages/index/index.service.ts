@@ -111,6 +111,13 @@ export class IndexService {
       this.ContextMenuEvent.registerMenu('comics_item', [
         ...arr
       ])
+      if (x.id != "steam_cloud") {
+        this.ContextMenuEvent.logoutMenu('comics_item', 'steam_del')
+      }
+      if (x.id == "steam_cloud") {
+        this.ContextMenuEvent.logoutMenu('comics_item', 'steam_add')
+      }
+
       if (x.id == "local_cache") {
         this.ContextMenuEvent.logoutMenu('comics_item', 'local_cach')
       }
