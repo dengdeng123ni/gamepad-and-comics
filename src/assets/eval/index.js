@@ -100,6 +100,24 @@ class MessageFetchService {
         return rsponse
       };
 
+      const steamworks = require('steamworks.js')
+
+      const client = steamworks.init(2070500)
+      window._steam_cloud_fileExists = (name) => {
+        return client.cloud.fileExists(name)
+      }
+      window._steam_cloud_readFile = (name) => {
+        return client.cloud.readFile(name)
+      }
+      window._steam_cloud_writeFile = (name, content) => {
+        return client.cloud.writeFile(name, content)
+      }
+      window._steam_cloud_deleteFile = (name) => {
+        return client.cloud.readFile(name)
+      }
+      //
+
+
     }
 
   }

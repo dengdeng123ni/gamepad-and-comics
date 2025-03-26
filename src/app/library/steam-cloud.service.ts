@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DbComicsControllerService, DbComicsEventService } from './public-api';
 import CryptoJS from 'crypto-js'
+
+declare const window: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -30,11 +32,11 @@ export class SteamCloudService {
       },
       getDetail: async (id: string) => {
         const obj = this.data.details.find(x => x.id == id)
-        return obj.data
+        return JSON.parse(JSON.stringify(obj.data))
       },
       getPages: async (id: string) => {
         const obj = this.data.pages.find(x => x.id == id)
-        return obj.data
+        return JSON.parse(JSON.stringify(obj.data))
       },
       getImage: async (_id: string) => {
         const blob = await this.base64ToBlob(this.readFile(_id))
@@ -66,21 +68,33 @@ export class SteamCloudService {
           },
         ],
       )
-    })
+      this.init();
+    },300)
+
+  }
+  init(){
+    const data= this.readFile('comics');
+
+    this.data=JSON.parse(data);
   }
 
 
   readFile(name: string) {
-    return this._data[name];
+
+    return window._steam_cloud_readFile(name)
+  }
+
+  fileExists(name: string) {
+    return window._steam_cloud_fileExists(name)
   }
 
   writeFile(name: string, content: string) {
-    this._data[name] = content;
-    return name
+
+    return window._steam_cloud_writeFile(name,content)
   }
 
   deleteFile(name: string) {
-
+    return window._steam_cloud_deleteFile(name)
   }
 
   async save(id: any, source) {
@@ -136,7 +150,13 @@ export class SteamCloudService {
     const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
     const md5Hash = CryptoJS.MD5(wordArray).toString(CryptoJS.enc.Hex);
     const base64 = await this.blobtoBase64(blob);
-    await this.writeFile(md5Hash, base64)
+
+    const bool=  this.fileExists(md5Hash);
+    if(!bool){
+      await this.writeFile(md5Hash, base64)
+    }else{
+      console.log("数据已存在");
+    }
     return md5Hash
   }
 
