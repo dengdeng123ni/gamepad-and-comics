@@ -440,6 +440,7 @@ export class AppComponent {
     const obj1 = this.getAllParams(window.location.href);
     await this.configSet();
     if (!obj1["noscript"]) await this.pulg.init();
+    if (obj1["language"])  this.I18n.setDefaultLang(obj1["language"])
     await this.GamesSaves.init()
 
 
