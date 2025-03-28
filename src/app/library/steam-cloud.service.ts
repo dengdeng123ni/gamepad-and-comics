@@ -21,6 +21,7 @@ export class SteamCloudService {
     public DbComicsController: DbComicsControllerService
 
   ) {
+
     DbComicsEvent.comics_register({
       id: "steam_cloud",
       name: "Steam云",
@@ -55,11 +56,11 @@ export class SteamCloudService {
           {
             id: 'latest',
             icon: 'fiber_new',
-            name: 'Steam 云',
+            name: 'Steam云',
             source: "steam_cloud",
             query: {
               type: 'single',
-              name: 'Steam 云',
+              name: 'Steam云',
               click: async (e) => {
                 window._gh_navigate(['/detail', "steam_cloud", e.data.id])
               }

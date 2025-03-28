@@ -19,8 +19,9 @@ export class ElectronService {
 
   async getLoadFiles(){
     try {
-      const res=  await window.fetch("/api/win/game/getLoadFiles")
-      return res.json();
+      // const res=  await window.fetch("/api/win/game/getLoadFiles")
+      // return res.json();
+      return []
     } catch (error) {
        return []
     }

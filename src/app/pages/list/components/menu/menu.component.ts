@@ -249,7 +249,7 @@ export class MenuComponent {
           },
           {
             id: "ope",
-            name: "language",
+            name: "语言",
             click: () => {
               this.LanguageSettings.open()
             }
@@ -270,8 +270,9 @@ export class MenuComponent {
           },
           {
             id: "javasciprt",
-            name: "返回主菜单",
+            name: "返回",
             click: () => {
+              // 主菜单
               window.close()
               Electron.openMainMenu();
             }

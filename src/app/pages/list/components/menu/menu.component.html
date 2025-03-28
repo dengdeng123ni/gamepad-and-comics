@@ -9,7 +9,7 @@
     <button mat-button *ngIf="data.menu_2_obj" style="height: 24px;" class="item" [attr.region]="'menu_item'" [attr.default]="false"
       (click)="opensource()" [attr.content_menu_value]="data.menu_2_obj.id" >
       <div class="name" style="margin-left: 4px;color: rgba(255, 255, 255, 0.34);" >
-        {{data.menu_2_obj.name}}
+        {{data.menu_2_obj.name|translate}}
       </div>
     </button>
     <button mat-button

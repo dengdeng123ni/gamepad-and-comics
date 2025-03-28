@@ -103,6 +103,8 @@ class MessageFetchService {
       const steamworks = require('steamworks.js')
 
       const client = steamworks.init(2070500)
+
+      // client.apps.currentGameLanguage
       window._steam_cloud_fileExists = (name) => {
         return client.cloud.fileExists(name)
       }

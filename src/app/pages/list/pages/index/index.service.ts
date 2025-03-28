@@ -79,7 +79,7 @@ export class IndexService {
       ];
       if (x.id != "steam_cloud") {
         arr.push({
-          name: "Steam 缓存", id: "steam_add", click: async (list) => {
+          name: "Steam缓存", id: "steam_add", click: async (list) => {
 
             for (let index = 0; index < list.length; index++) {
 
